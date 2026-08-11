@@ -26,6 +26,7 @@ from wanxiang_domain.ids import (
     ActorId,
     BranchId,
     CommandId,
+    ComponentId,
     CorrelationId,
     EntityId,
     RelationId,
@@ -57,6 +58,7 @@ def decode_id[T: WanxiangId](cls: type[T], value: str) -> T:
 def _encode_components(components: tuple[ComponentData, ...]) -> list[dict[str, Any]]:
     return [
         {
+            "component_id": encode_id(c.component_id),
             "component_type": c.component_type,
             "schema_version": c.schema_version.value,
             "fields": dict(c.fields),
@@ -68,6 +70,7 @@ def _encode_components(components: tuple[ComponentData, ...]) -> list[dict[str, 
 def _decode_components(items: list[dict[str, Any]]) -> tuple[ComponentData, ...]:
     return tuple(
         ComponentData(
+            component_id=decode_id(ComponentId, item["component_id"]),
             component_type=item["component_type"],
             schema_version=SchemaVersion(item["schema_version"]),
             fields={str(k): v for k, v in item.get("fields", {}).items()},

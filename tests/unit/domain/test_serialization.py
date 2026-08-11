@@ -17,6 +17,7 @@ from wanxiang_domain.hierarchy import BranchAncestry, BranchRevision, EventSeq
 from wanxiang_domain.ids import (
     BranchId,
     CommandId,
+    ComponentId,
     EntityId,
     EventId,
     RelationId,
@@ -67,11 +68,25 @@ def test_delta_round_trip_with_operations() -> None:
             EntityCreate(
                 entity_id=EntityId("ent_a"),
                 entity_type="token_holder",
-                components=(ComponentData("resource", SchemaVersion(1), {"count": 5}),),
+                components=(
+                    ComponentData(
+                        component_id=ComponentId("cmp_res"),
+                        component_type="resource",
+                        schema_version=SchemaVersion(1),
+                        fields={"count": 5},
+                    ),
+                ),
             ),
             EntityUpdate(
                 entity_id=EntityId("ent_b"),
-                components=(ComponentData("resource", SchemaVersion(1), {"count": 2}),),
+                components=(
+                    ComponentData(
+                        component_id=ComponentId("cmp_res2"),
+                        component_type="resource",
+                        schema_version=SchemaVersion(1),
+                        fields={"count": 2},
+                    ),
+                ),
             ),
             RelationCreate(
                 relation_id=RelationId("rel_1"),

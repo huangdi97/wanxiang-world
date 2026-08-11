@@ -9,7 +9,7 @@ from wanxiang_domain.entity import ComponentData
 from wanxiang_domain.errors import ContractError
 from wanxiang_domain.event import CommittedEvent
 from wanxiang_domain.hierarchy import BranchRevision, EventSeq
-from wanxiang_domain.ids import BranchId, CommandId, EntityId, EventId, WorldInstanceId
+from wanxiang_domain.ids import BranchId, CommandId, ComponentId, EntityId, EventId, WorldInstanceId
 from wanxiang_domain.time import WorldTime
 from wanxiang_domain.versions import RuntimeVersion, SchemaVersion
 
@@ -42,6 +42,7 @@ def test_proposal_is_distinct_from_committed_event() -> None:
                 entity_type="token_holder",
                 components=(
                     ComponentData(
+                        component_id=ComponentId("cmp_res"),
                         component_type="resource",
                         schema_version=SchemaVersion(1),
                         fields={"count": 5},
@@ -76,6 +77,13 @@ def test_empty_delta_is_empty() -> None:
 def test_entity_update_keeps_identity() -> None:
     update = EntityUpdate(
         entity_id=EntityId("ent_a"),
-        components=(ComponentData("status", SchemaVersion(1), {"active": True}),),
+        components=(
+            ComponentData(
+                component_id=ComponentId("cmp_status"),
+                component_type="status",
+                schema_version=SchemaVersion(1),
+                fields={"active": True},
+            ),
+        ),
     )
     assert update.entity_id == EntityId("ent_a")

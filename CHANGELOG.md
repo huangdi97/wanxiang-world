@@ -33,3 +33,11 @@
   rejection; semantic hashing excluding wall-clock/audit fields.
 - `docs/architecture/CORE_CONTRACTS.md`; ADR-0003.
 - 48 tests green (unit + property).
+
+## 2026-08-12 ? GOAL_01B PASS
+
+- Commit Authority with preconditions, immutable canonical state, pure
+  apply_delta, invariant registry, append-port atomicity, audit records.
+- EventAppendPort + in-memory adapter (failure injection); ResolverRegistry seam.
+- ComponentData gains component_id; ADRs 0004-0005.
+- 63 tests green; docs/architecture/COMMIT_AUTHORITY.md.

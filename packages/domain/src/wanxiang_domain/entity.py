@@ -18,8 +18,9 @@ FieldValue = str | int | float | bool | None
 
 @dataclass(frozen=True, slots=True)
 class ComponentData:
-    """A typed component attached to an entity."""
+    """A typed component attached to an entity, with explicit identity."""
 
+    component_id: ComponentId
     component_type: str
     schema_version: SchemaVersion
     fields: Mapping[str, FieldValue] = field(default_factory=dict[str, FieldValue])

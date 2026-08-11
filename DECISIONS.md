@@ -7,6 +7,8 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0001 | Toolchain and workspace layout (M0) | accepted |
 | 0002 | Architecture guard mechanism (AST-based, no bespoke framework) | accepted |
 | 0003 | Domain contracts: dataclass value objects + manual versioned serialization (no Pydantic in domain) | accepted |
+| 0004 | Commit atomicity: append port is the commit point; state is immutable with pure apply | accepted |
+| 0005 | ComponentData carries explicit component_id (typed component identity) | accepted |
 
 ## Decision log (inline quick notes)
 
