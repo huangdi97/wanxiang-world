@@ -125,11 +125,16 @@ class CommitAuthority:
     def _enforce_preconditions(self, state: InMemoryCanonicalState, request: CommitRequest) -> None:
         if state.instance_id != request.instance_id or state.branch_id != request.branch_id:
             raise Conflict("commit request targets a different instance/branch than the state")
-        if state.revision != request.expected_revision:
+        current_revision = BranchRevision(
+            self._event_port.last_event_seq(request.instance_id, request.branch_id).value
+        )
+        if request.expected_revision != current_revision:
             raise StaleRevision(
                 "expected revision "
-                f"{request.expected_revision.value}, current {state.revision.value}"
+                f"{request.expected_revision.value}, current {current_revision.value}"
             )
+        if state.revision != request.expected_revision:
+            raise Conflict("state revision does not match the expected revision")
         if request.rule_version != self._rule_version:
             raise IncompatibleVersion(
                 "commit rule version "

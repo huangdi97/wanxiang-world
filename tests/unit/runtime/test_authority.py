@@ -23,20 +23,22 @@ from wanxiang_domain.ids import BranchId, CommandId, EntityId, WorldInstanceId
 from wanxiang_domain.time import WorldTime
 from wanxiang_domain.versions import RuntimeVersion
 from wanxiang_runtime.authority import CommitAuthority, CommitRequest
-from wanxiang_runtime.ports import InMemoryEventAppendLog
+from wanxiang_runtime.ports import InMemoryEventStore
 from wanxiang_runtime.state import InMemoryCanonicalState, apply_delta
 
 
 def _authority(
-    log: InMemoryEventAppendLog | None = None,
-) -> tuple[CommitAuthority, InMemoryEventAppendLog]:
-    log = log or InMemoryEventAppendLog()
+    log: InMemoryEventStore | None = None,
+) -> tuple[CommitAuthority, InMemoryEventStore]:
+    log = log or InMemoryEventStore()
     return CommitAuthority(log, RULES, SCHEMA), log
 
 
-def _request(expected: int = 0, delta: ProposedWorldDelta | None = None) -> CommitRequest:
+def _request(
+    expected: int = 0, delta: ProposedWorldDelta | None = None, command: str = "cmd_1"
+) -> CommitRequest:
     return CommitRequest(
-        command_id=CommandId("cmd_1"),
+        command_id=CommandId(command),
         instance_id=INSTANCE,
         branch_id=BRANCH,
         expected_revision=BranchRevision(expected),
@@ -73,11 +75,11 @@ def test_valid_commit_advances_revision_and_appends_event() -> None:
 @pytest.mark.unit
 def test_stale_revision_is_rejected_and_state_unchanged() -> None:
     authority, log = _authority()
-    state = _state(revision=1)
+    head = authority.commit(_state(), _request()).state_after
     with pytest.raises(StaleRevision):
-        authority.commit(state, _request(expected=0))
-    assert state.revision.value == 1
-    assert log.load(INSTANCE, BRANCH) == ()
+        authority.commit(head, _request(expected=0))
+    assert head.revision.value == 1
+    assert len(log.load(INSTANCE, BRANCH)) == 1
 
 
 @pytest.mark.unit
@@ -125,7 +127,7 @@ def test_invariant_violation_preserves_state_hash() -> None:
 
 @pytest.mark.unit
 def test_append_failure_leaves_canonical_state_and_log_unchanged() -> None:
-    log = InMemoryEventAppendLog()
+    log = InMemoryEventStore()
     authority, _ = _authority(log)
     log.fail_append = True
     state = _state()
@@ -137,9 +139,10 @@ def test_append_failure_leaves_canonical_state_and_log_unchanged() -> None:
 
 @pytest.mark.unit
 def test_deterministic_commit_result() -> None:
-    authority, _ = _authority()
-    first = authority.commit(_state(), _request())
-    second = authority.commit(_state(), _request())
-    # Same inputs -> same semantic state hash (event ids/timestamps differ).
+    authority_a, _ = _authority()
+    authority_b, _ = _authority()
+    first = authority_a.commit(_state(), _request(command="cmd_1"))
+    second = authority_b.commit(_state(), _request(command="cmd_1"))
+    # Same inputs on independent authorities -> same semantic state hash.
     assert first.state_after.semantic_hash() == second.state_after.semantic_hash()
     assert first.event.delta == second.event.delta

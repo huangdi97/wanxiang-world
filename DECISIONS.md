@@ -9,6 +9,7 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0003 | Domain contracts: dataclass value objects + manual versioned serialization (no Pydantic in domain) | accepted |
 | 0004 | Commit atomicity: append port is the commit point; state is immutable with pure apply | accepted |
 | 0005 | ComponentData carries explicit component_id (typed component identity) | accepted |
+| 0006 | Event store head is the concurrency authority; event_seq (not wall clock) orders history | accepted |
 
 ## Decision log (inline quick notes)
 

@@ -10,7 +10,7 @@ from wanxiang_runtime.invariants import (
     INVARIANTS,
     check_delta_invariants,
 )
-from wanxiang_runtime.ports import EventAppendPort, InMemoryEventAppendLog
+from wanxiang_runtime.ports import EventAppendPort, EventStore, InMemoryEventStore
 from wanxiang_runtime.resolver import ResolverRegistry
 from wanxiang_runtime.state import InMemoryCanonicalState, apply_delta
 
@@ -22,9 +22,10 @@ __all__ = [
     "CommitRequest",
     "CommitResult",
     "EventAppendPort",
+    "EventStore",
     "INVARIANTS",
     "InMemoryCanonicalState",
-    "InMemoryEventAppendLog",
+    "InMemoryEventStore",
     "ResolverRegistry",
     "apply_delta",
     "check_delta_invariants",

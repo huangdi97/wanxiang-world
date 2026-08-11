@@ -41,3 +41,10 @@
 - EventAppendPort + in-memory adapter (failure injection); ResolverRegistry seam.
 - ComponentData gains component_id; ADRs 0004-0005.
 - 63 tests green; docs/architecture/COMMIT_AUTHORITY.md.
+
+## 2026-08-12 ? GOAL_01C PASS
+
+- EventStore contract (append/load/idempotency/integrity) + InMemoryEventStore.
+- Optimistic concurrency via store head; stale writers raise StaleRevision.
+- Reusable contract suite (in-memory now; SQLite adapter in 01E).
+- 75 tests green; docs/architecture/EVENT_STORE.md; ADR-0006.
