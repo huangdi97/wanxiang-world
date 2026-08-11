@@ -17,16 +17,16 @@ Columns: Requirement ID | Source section | Owning Goal | Test/evidence | Current
 
 | Req ID | Source | Owning Goal | Test/evidence | Status | Last verified commit | Notes |
 |---|---|---|---|---|---|---|
-| A1 | Acceptance ?4 | GOAL_01F | valid commit changes canonical state exactly once | PASS | (01F checkpoint) | test_a1 |
-| A2 | Acceptance ?4 | GOAL_01F | invalid command does not mutate state | PASS | (01F checkpoint) | test_a2 |
-| A3 | Acceptance ?4 | GOAL_01F | duplicate command idempotency | PASS | (01F checkpoint) | test_a3 |
-| A4 | Acceptance ?4 | GOAL_01F | stale revision structured rejection | PASS | (01F checkpoint) | test_a4 |
-| A5 | Acceptance ?4 | GOAL_01F | snapshot + remaining replay equal semantic hash | PASS | (01F checkpoint) | test_a5 |
-| A6 | Acceptance ?4 | GOAL_01F | full replay from initial baseline | PASS | (01F checkpoint) | test_a6 |
-| A7 | Acceptance ?4 | GOAL_01F | branch isolation (child does not mutate parent) | PASS | (01F checkpoint) | test_a7 |
-| A8 | Acceptance ?4 | GOAL_01F | deterministic seed/version reproducibility | PASS | (01F checkpoint) | test_a8 |
-| A9 | Acceptance ?4 | GOAL_01F | corrupt stream fails explicitly | PASS | (01F checkpoint) | test_a9 |
-| A10 | Acceptance ?4 | GOAL_01F | migration compatibility with prior fixture | PASS | (01F checkpoint) | test_a10 + tests/migration |
+| A1 | Acceptance ?4 | GOAL_01F | valid commit changes canonical state exactly once | PASS | c45b64e | test_a1 |
+| A2 | Acceptance ?4 | GOAL_01F | invalid command does not mutate state | PASS | c45b64e | test_a2 |
+| A3 | Acceptance ?4 | GOAL_01F | duplicate command idempotency | PASS | c45b64e | test_a3 |
+| A4 | Acceptance ?4 | GOAL_01F | stale revision structured rejection | PASS | c45b64e | test_a4 |
+| A5 | Acceptance ?4 | GOAL_01F | snapshot + remaining replay equal semantic hash | PASS | c45b64e | test_a5 |
+| A6 | Acceptance ?4 | GOAL_01F | full replay from initial baseline | PASS | c45b64e | test_a6 |
+| A7 | Acceptance ?4 | GOAL_01F | branch isolation (child does not mutate parent) | PASS | c45b64e | test_a7 |
+| A8 | Acceptance ?4 | GOAL_01F | deterministic seed/version reproducibility | PASS | c45b64e | test_a8 |
+| A9 | Acceptance ?4 | GOAL_01F | corrupt stream fails explicitly | PASS | c45b64e | test_a9 |
+| A10 | Acceptance ?4 | GOAL_01F | migration compatibility with prior fixture | PASS | c45b64e | test_a10 + tests/migration |
 
 ## Architecture gates (02_ENGINEERING_STANDARDS.md ?16)
 
