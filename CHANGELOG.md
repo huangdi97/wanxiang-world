@@ -48,3 +48,10 @@
 - Optimistic concurrency via store head; stale writers raise StaleRevision.
 - Reusable contract suite (in-memory now; SQLite adapter in 01E).
 - 75 tests green; docs/architecture/EVENT_STORE.md; ADR-0006.
+
+## 2026-08-12 ? GOAL_01D PASS
+
+- ReplayEngine (fork-aware, contiguous seq, version checks), SnapshotStore +
+  in-memory adapter, branch fork/repository, state diff.
+- Commit Authority branch_base_revision; golden replay fixture v1 committed.
+- 93 tests green; docs/architecture/REPLAY_BRANCHING.md; ADR-0007.

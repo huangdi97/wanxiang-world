@@ -9,7 +9,7 @@ Authoritative execution order for this batch (P0 + P1). Status per Goal.
 | 3 | GOAL_01A | Core Semantic Contracts | PASS (2026-08-12) |
 | 4 | GOAL_01B | Commit Authority & Core Invariants | PASS (2026-08-12) |
 | 5 | GOAL_01C | Event Store / Ordering / Idempotency / Concurrency | PASS (2026-08-12) |
-| 6 | GOAL_01D | Snapshot / Replay / Branch / Determinism | PENDING |
+| 6 | GOAL_01D | Snapshot / Replay / Branch / Determinism | PASS (2026-08-12) |
 | 7 | GOAL_01E | Persistence / Migration / Recovery Foundation | PENDING |
 | 8 | GOAL_01F | Minimal Authoritative World Vertical Slice + M1 Qualification | PENDING |
 

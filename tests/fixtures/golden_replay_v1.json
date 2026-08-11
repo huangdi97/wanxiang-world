@@ -1,0 +1,180 @@
+{
+  "events": [
+    {
+      "actor_id": null,
+      "branch_id": "br_golden",
+      "causation_id": null,
+      "command_id": "cmd_1",
+      "commit_timestamp": null,
+      "correlation_id": null,
+      "delta": {
+        "operations": [
+          {
+            "components": [
+              {
+                "component_id": "alice_res",
+                "component_type": "resource",
+                "fields": {
+                  "count": 10
+                },
+                "schema_version": 1
+              }
+            ],
+            "entity_id": "alice",
+            "entity_type": "person",
+            "op": "entity_create"
+          }
+        ],
+        "schema_version": 1
+      },
+      "event_id": "evt_1",
+      "event_seq": 1,
+      "instance_id": "wld_golden",
+      "revision": 1,
+      "rule_version": 1,
+      "schema_version": 1,
+      "trace_id": null,
+      "world_time": 1
+    },
+    {
+      "actor_id": null,
+      "branch_id": "br_golden",
+      "causation_id": null,
+      "command_id": "cmd_2",
+      "commit_timestamp": null,
+      "correlation_id": null,
+      "delta": {
+        "operations": [
+          {
+            "components": [
+              {
+                "component_id": "bob_res",
+                "component_type": "resource",
+                "fields": {
+                  "count": 0
+                },
+                "schema_version": 1
+              }
+            ],
+            "entity_id": "bob",
+            "entity_type": "person",
+            "op": "entity_create"
+          }
+        ],
+        "schema_version": 1
+      },
+      "event_id": "evt_2",
+      "event_seq": 2,
+      "instance_id": "wld_golden",
+      "revision": 2,
+      "rule_version": 1,
+      "schema_version": 1,
+      "trace_id": null,
+      "world_time": 2
+    },
+    {
+      "actor_id": null,
+      "branch_id": "br_golden",
+      "causation_id": null,
+      "command_id": "cmd_3",
+      "commit_timestamp": null,
+      "correlation_id": null,
+      "delta": {
+        "operations": [
+          {
+            "components": [
+              {
+                "component_id": "alice_res",
+                "component_type": "resource",
+                "fields": {
+                  "count": 7
+                },
+                "schema_version": 1
+              }
+            ],
+            "entity_id": "alice",
+            "op": "entity_update"
+          }
+        ],
+        "schema_version": 1
+      },
+      "event_id": "evt_3",
+      "event_seq": 3,
+      "instance_id": "wld_golden",
+      "revision": 3,
+      "rule_version": 1,
+      "schema_version": 1,
+      "trace_id": null,
+      "world_time": 3
+    },
+    {
+      "actor_id": null,
+      "branch_id": "br_golden",
+      "causation_id": null,
+      "command_id": "cmd_4",
+      "commit_timestamp": null,
+      "correlation_id": null,
+      "delta": {
+        "operations": [
+          {
+            "components": [
+              {
+                "component_id": "bob_res",
+                "component_type": "resource",
+                "fields": {
+                  "count": 3
+                },
+                "schema_version": 1
+              }
+            ],
+            "entity_id": "bob",
+            "op": "entity_update"
+          }
+        ],
+        "schema_version": 1
+      },
+      "event_id": "evt_4",
+      "event_seq": 4,
+      "instance_id": "wld_golden",
+      "revision": 4,
+      "rule_version": 1,
+      "schema_version": 1,
+      "trace_id": null,
+      "world_time": 4
+    },
+    {
+      "actor_id": null,
+      "branch_id": "br_golden",
+      "causation_id": null,
+      "command_id": "cmd_5",
+      "commit_timestamp": null,
+      "correlation_id": null,
+      "delta": {
+        "operations": [
+          {
+            "attributes": {
+              "since": 1
+            },
+            "op": "relation_create",
+            "relation_id": "gift_1",
+            "relation_type": "gift",
+            "source_id": "alice",
+            "target_id": "bob"
+          }
+        ],
+        "schema_version": 1
+      },
+      "event_id": "evt_5",
+      "event_seq": 5,
+      "instance_id": "wld_golden",
+      "revision": 5,
+      "rule_version": 1,
+      "schema_version": 1,
+      "trace_id": null,
+      "world_time": 5
+    }
+  ],
+  "expected_semantic_hash": "7d17aba7b9b76f04174f28a05ed7139505ab1784d0377ebe1966f7ef8d69fd00",
+  "instance_id": "wld_golden",
+  "schema_version": 1
+}

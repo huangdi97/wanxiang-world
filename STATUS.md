@@ -18,7 +18,7 @@ Updated: 2026-08-11 (batch start)
 | GOAL_01A Core Semantic Contracts | PASS (2026-08-12) |
 | GOAL_01B Commit Authority & Core Invariants | PASS (2026-08-12) |
 | GOAL_01C Event Store / Ordering / Idempotency / Concurrency | PASS (2026-08-12) |
-| GOAL_01D Snapshot / Replay / Branch / Determinism | NOT STARTED |
+| GOAL_01D Snapshot / Replay / Branch / Determinism | PASS (2026-08-12) |
 | GOAL_01E Persistence / Migration / Recovery Foundation | NOT STARTED |
 | GOAL_01F Minimal World Vertical Slice + M1 Qualification | NOT STARTED |
 

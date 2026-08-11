@@ -51,6 +51,18 @@ class InMemoryCanonicalState:
     def relations(self) -> tuple[RelationState, ...]:
         return tuple(sorted(self._relations.values(), key=lambda r: r.relation_id.value))
 
+    def with_branch(self, branch_id: BranchId) -> InMemoryCanonicalState:
+        """Derive a copy of this state tagged with a different branch id."""
+        return InMemoryCanonicalState(
+            instance_id=self.instance_id,
+            branch_id=branch_id,
+            revision=self.revision,
+            schema_version=self.schema_version,
+            rule_version=self.rule_version,
+            _entities=dict(self._entities),
+            _relations=dict(self._relations),
+        )
+
     def with_revision(self, revision: BranchRevision) -> InMemoryCanonicalState:
         """Derive a copy of this state at a different branch revision."""
         return InMemoryCanonicalState(

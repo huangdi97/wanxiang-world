@@ -38,6 +38,7 @@ from wanxiang_runtime.ports import EventAppendPort
 from wanxiang_runtime.state import InMemoryCanonicalState, apply_delta
 
 DEFAULT_SCHEMA_VERSION = SchemaVersion(1)
+DEFAULT_BRANCH_BASE_REVISION = BranchRevision(0)
 
 Now = Callable[[], CommitTimestamp]
 
@@ -71,11 +72,13 @@ class CommitAuthority:
         event_port: EventAppendPort,
         rule_version: RuntimeVersion,
         schema_version: SchemaVersion = DEFAULT_SCHEMA_VERSION,
+        branch_base_revision: BranchRevision = DEFAULT_BRANCH_BASE_REVISION,
         now: Now = CommitTimestamp.now,
     ) -> None:
         self._event_port = event_port
         self._rule_version = rule_version
         self._schema_version = schema_version
+        self._branch_base_revision = branch_base_revision
         self._now = now
 
     def commit(self, state: InMemoryCanonicalState, request: CommitRequest) -> CommitResult:
@@ -126,7 +129,8 @@ class CommitAuthority:
         if state.instance_id != request.instance_id or state.branch_id != request.branch_id:
             raise Conflict("commit request targets a different instance/branch than the state")
         current_revision = BranchRevision(
-            self._event_port.last_event_seq(request.instance_id, request.branch_id).value
+            self._branch_base_revision.value
+            + self._event_port.last_event_seq(request.instance_id, request.branch_id).value
         )
         if request.expected_revision != current_revision:
             raise StaleRevision(
