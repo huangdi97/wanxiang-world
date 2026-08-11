@@ -100,16 +100,24 @@ class EventStoreContract:
         store.append(make_event(2, "cmd_2"))
         assert [e.event_seq.value for e in store.load(INSTANCE, BRANCH)] == [1, 2]
 
-    @pytest.mark.contract
-    def test_failure_injection_leaves_no_partial_append(self, store: EventStore) -> None:
-        assert isinstance(store, InMemoryEventStore)
-        store.fail_append = True  # type: ignore[attr-defined]
-        with pytest.raises(PersistenceError):
-            store.append(make_event(1, "cmd_1"))
-        assert store.last_event_seq(INSTANCE, BRANCH) == EventSeq(0)
-
 
 class TestInMemoryEventStoreContract(EventStoreContract):
     @pytest.fixture
     def store(self) -> EventStore:
         return InMemoryEventStore()
+
+    @pytest.mark.contract
+    def test_failure_injection_leaves_no_partial_append(self, store: EventStore) -> None:
+        assert isinstance(store, InMemoryEventStore)
+        store.fail_append = True
+        with pytest.raises(PersistenceError):
+            store.append(make_event(1, "cmd_1"))
+        assert store.last_event_seq(INSTANCE, BRANCH) == EventSeq(0)
+
+
+class TestSqlAlchemyEventStoreContract(EventStoreContract):
+    @pytest.fixture
+    def store(self) -> EventStore:
+        from tests.integration.conftest import sqlite_event_store_fixture
+
+        return sqlite_event_store_fixture()

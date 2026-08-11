@@ -11,6 +11,7 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0005 | ComponentData carries explicit component_id (typed component identity) | accepted |
 | 0006 | Event store head is the concurrency authority; event_seq (not wall clock) orders history | accepted |
 | 0007 | Fork semantics: child revision = fork_revision + own event count; fork-aware authority/replay | accepted |
+| 0008 | Persistence: SQLAlchemy confined to persistence package; JSON-as-text payloads for PG compatibility | accepted |
 
 ## Decision log (inline quick notes)
 

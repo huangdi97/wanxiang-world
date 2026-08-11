@@ -12,7 +12,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from wanxiang_domain.errors import ContractError
-from wanxiang_domain.ids import BranchId
+from wanxiang_domain.ids import BranchId, WorldInstanceId
 from wanxiang_domain.versions import RuntimeVersion, SchemaVersion
 
 
@@ -68,7 +68,7 @@ class BranchMetadata:
     """Immutable branch identity + ancestry + pinned versions."""
 
     branch_id: BranchId
-    instance_id: object
+    instance_id: WorldInstanceId
     ancestry: BranchAncestry
     schema_version: SchemaVersion
     rule_version: RuntimeVersion

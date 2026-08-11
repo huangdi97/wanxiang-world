@@ -55,3 +55,10 @@
   in-memory adapter, branch fork/repository, state diff.
 - Commit Authority branch_base_revision; golden replay fixture v1 committed.
 - 93 tests green; docs/architecture/REPLAY_BRANCHING.md; ADR-0007.
+
+## 2026-08-12 ? GOAL_01E PASS
+
+- SQLAlchemy adapters (event store, snapshot store, branch/instance/audit repos).
+- Alembic migrations 0001_initial + 0002_add_event_seq_index; migration tests.
+- SqlAlchemyEventStore in shared contract suite; durable replay == golden hash.
+- 111 tests green; docs/architecture/PERSISTENCE.md; ADR-0008.

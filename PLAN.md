@@ -10,7 +10,7 @@ Authoritative execution order for this batch (P0 + P1). Status per Goal.
 | 4 | GOAL_01B | Commit Authority & Core Invariants | PASS (2026-08-12) |
 | 5 | GOAL_01C | Event Store / Ordering / Idempotency / Concurrency | PASS (2026-08-12) |
 | 6 | GOAL_01D | Snapshot / Replay / Branch / Determinism | PASS (2026-08-12) |
-| 7 | GOAL_01E | Persistence / Migration / Recovery Foundation | PENDING |
+| 7 | GOAL_01E | Persistence / Migration / Recovery Foundation | PASS (2026-08-12) |
 | 8 | GOAL_01F | Minimal Authoritative World Vertical Slice + M1 Qualification | PENDING |
 
 Milestones: **M0** (after 00A+00B), **M1** (after 01F).
