@@ -27,7 +27,7 @@ class SqlAlchemyEventStore:
     """Durable event store with strict ordering, idempotency and integrity."""
 
     def __init__(self, session_factory: sessionmaker[Session]) -> None:
-        self._session_factory = session_factory
+        self.session_factory = session_factory
 
     def append(self, event: CommittedEvent) -> None:
         if self.command_result_event(event.command_id) is not None:
@@ -58,7 +58,7 @@ class SqlAlchemyEventStore:
             delta_json=json.dumps(event_to_primitive(event), sort_keys=True),
         )
         try:
-            with session_scope(self._session_factory) as session:
+            with session_scope(self.session_factory) as session:
                 session.add(record)
         except IntegrityError as exc:
             raise _map_integrity_error(exc, event) from exc
@@ -83,7 +83,7 @@ class SqlAlchemyEventStore:
             statement = statement.where(EventRecord.event_seq >= from_seq)
         if to_seq is not None:
             statement = statement.where(EventRecord.event_seq <= to_seq)
-        with session_scope(self._session_factory) as session:
+        with session_scope(self.session_factory) as session:
             records = session.scalars(statement).all()
         return tuple(_record_to_event(record) for record in records)
 
@@ -93,7 +93,7 @@ class SqlAlchemyEventStore:
 
     def command_result_event(self, command_id: CommandId) -> CommittedEvent | None:
         statement = select(EventRecord).where(EventRecord.command_id == command_id.value)
-        with session_scope(self._session_factory) as session:
+        with session_scope(self.session_factory) as session:
             record = session.scalars(statement).first()
         return _record_to_event(record) if record is not None else None
 

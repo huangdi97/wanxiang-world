@@ -1,0 +1,26 @@
+[project]
+name = "wanxiang-api"
+version = "0.1.0"
+description = "Wanxiang transport layer: thin FastAPI routes over application use cases"
+requires-python = ">=3.12"
+dependencies = [
+    "wanxiang-domain>=0.1.0",
+    "wanxiang-runtime>=0.1.0",
+    "wanxiang-application>=0.1.0",
+    "wanxiang-persistence>=0.1.0",
+    "fastapi>=0.115",
+    "uvicorn>=0.30",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/wanxiang_api"]
+
+[tool.uv.sources]
+wanxiang-domain = { workspace = true }
+wanxiang-runtime = { workspace = true }
+wanxiang-application = { workspace = true }
+wanxiang-persistence = { workspace = true }

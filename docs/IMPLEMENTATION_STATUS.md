@@ -1,0 +1,26 @@
+# Implementation Status
+
+## M0 ? Reproducible Engineering Base (PASS, 2026-08-12)
+
+- uv workspace, strict ruff/pyright/pytest, TypeScript baseline, quality gate,
+  ledgers/ADR structure, architecture guards.
+
+## M1 ? Authoritative World Exists (PASS, 2026-08-12)
+
+- Domain core contracts (`packages/domain`): ids, versions, errors, hierarchy,
+  entity/relation/component, command, delta, event, hashing, snapshot, run,
+  evidence/rights foundations, versioned serialization.
+- Runtime (`packages/runtime`): immutable canonical state + pure apply,
+  Commit Authority (preconditions, invariants, audit), EventStore contract +
+  in-memory adapter, replay engine, snapshot store, branch fork/repository,
+  state diff, resolver registry.
+- Application (`packages/application`): WorldRuntime orchestration, synthetic
+  micro-world resolvers, WorldEnvironment facade.
+- Persistence (`packages/persistence`): SQLAlchemy adapters + Alembic
+  migrations (0001, 0002), durable replay.
+- Transport (`apps/api`): thin FastAPI routes, OpenAPI, structured errors.
+- Acceptance: A1-A10 PASS; 130 tests; golden replay fixture; no LLM key.
+
+## Next dependency
+
+- G02A Spatial Topology & Access (do not start until M1 evidence is reviewed).

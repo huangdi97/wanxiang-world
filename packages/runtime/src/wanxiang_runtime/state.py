@@ -7,7 +7,9 @@ mutator, so no caller can bypass Commit Authority semantics at the state level.
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import dataclass, field
+from typing import cast
 
 from wanxiang_domain.delta import (
     EntityCreate,
@@ -16,10 +18,10 @@ from wanxiang_domain.delta import (
     ProposedWorldDelta,
     RelationCreate,
 )
-from wanxiang_domain.entity import EntityState, RelationState
+from wanxiang_domain.entity import EntityState, FieldValue, RelationState
 from wanxiang_domain.hashing import semantic_sha256
 from wanxiang_domain.hierarchy import BranchRevision
-from wanxiang_domain.ids import BranchId, EntityId, RelationId, WorldInstanceId
+from wanxiang_domain.ids import BranchId, ComponentId, EntityId, RelationId, WorldInstanceId
 from wanxiang_domain.versions import RuntimeVersion, SchemaVersion
 
 from wanxiang_runtime.invariants import check_delta_invariants
@@ -161,3 +163,116 @@ class InMemoryCanonicalState:
 def apply_delta(state: InMemoryCanonicalState, delta: ProposedWorldDelta) -> InMemoryCanonicalState:
     """Pure module-level alias for :meth:`InMemoryCanonicalState.apply`."""
     return state.apply(delta)
+
+
+def state_to_primitive(state: InMemoryCanonicalState) -> dict[str, object]:
+    """Serialize canonical state to a stable primitive (snapshot/API boundary)."""
+    return {
+        "instance_id": state.instance_id.value,
+        "branch_id": state.branch_id.value,
+        "revision": state.revision.value,
+        "schema_version": state.schema_version.value,
+        "rule_version": state.rule_version.value,
+        "entities": [
+            {
+                "id": entity.entity_id.value,
+                "type": entity.entity_type,
+                "components": [
+                    {
+                        "id": component.component_id.value,
+                        "type": component.component_type,
+                        "version": component.schema_version.value,
+                        "fields": dict(component.fields),
+                    }
+                    for component in entity.components.values()
+                ],
+            }
+            for entity in state.entities()
+        ],
+        "relations": [
+            {
+                "id": relation.relation_id.value,
+                "type": relation.relation_type,
+                "source": relation.source_id.value,
+                "target": relation.target_id.value,
+                "attributes": dict(relation.attributes),
+            }
+            for relation in state.relations()
+        ],
+    }
+
+
+def state_from_primitive(data: dict[str, object]) -> InMemoryCanonicalState:
+    """Deserialize canonical state from a primitive with validation."""
+    from wanxiang_domain.entity import ComponentData, EntityState, RelationState
+    from wanxiang_domain.errors import ContractError
+
+    def as_str(value: object, name: str) -> str:
+        if not isinstance(value, str):
+            raise ContractError(f"{name} must be a string")
+        return value
+
+    def as_int(value: object, name: str) -> int:
+        if not isinstance(value, int) or isinstance(value, bool):
+            raise ContractError(f"{name} must be an int")
+        return value
+
+    def as_mapping(value: object, name: str) -> Mapping[str, object]:
+        if not isinstance(value, Mapping):
+            raise ContractError(f"{name} must be a mapping")
+        return cast(Mapping[str, object], value)
+
+    def as_list(value: object, name: str) -> list[dict[str, object]]:
+        if not isinstance(value, list):
+            raise ContractError(f"{name} must be a list")
+        return [cast(dict[str, object], item) for item in cast(list[object], value)]
+
+    def as_field(value: object, name: str) -> FieldValue:
+        if value is None or isinstance(value, (str, int, float, bool)):
+            return value
+        raise ContractError(f"{name} must be a primitive value")
+
+    entities: dict[EntityId, EntityState] = {}
+    for item in as_list(data["entities"], "entities"):
+        entity_id = EntityId(as_str(item["id"], "entity id"))
+        components: dict[ComponentId, ComponentData] = {}
+        for component in as_list(item["components"], "components"):
+            component_id = ComponentId(as_str(component["id"], "component id"))
+            components[component_id] = ComponentData(
+                component_id=component_id,
+                component_type=as_str(component["type"], "component type"),
+                schema_version=SchemaVersion(as_int(component["version"], "component version")),
+                fields={
+                    as_str(key, "field key"): as_field(value, "field value")
+                    for key, value in as_mapping(component["fields"], "fields").items()
+                },
+            )
+        entities[entity_id] = EntityState(
+            entity_id=entity_id,
+            entity_type=as_str(item["type"], "entity type"),
+            components=components,
+        )
+
+    relations: dict[RelationId, RelationState] = {}
+    for item in as_list(data["relations"], "relations"):
+        relation_id = RelationId(as_str(item["id"], "relation id"))
+        relations[relation_id] = RelationState(
+            relation_id=relation_id,
+            relation_type=as_str(item["type"], "relation type"),
+            source_id=EntityId(as_str(item["source"], "relation source")),
+            target_id=EntityId(as_str(item["target"], "relation target")),
+            attributes={
+                as_str(key, "attribute key"): as_field(value, "attribute value")
+                for key, value in as_mapping(item["attributes"], "attributes").items()
+            },
+        )
+
+    return InMemoryCanonicalState(
+        instance_id=WorldInstanceId(as_str(data["instance_id"], "instance id")),
+        branch_id=BranchId(as_str(data["branch_id"], "branch id")),
+        revision=BranchRevision(as_int(data["revision"], "revision")),
+        schema_version=SchemaVersion(as_int(data["schema_version"], "schema version")),
+        rule_version=RuntimeVersion(as_int(data["rule_version"], "rule version")),
+        _entities=entities,
+        _relations=relations,
+    )

@@ -7,7 +7,7 @@ Updated: 2026-08-11 (batch start)
 | Milestone | Meaning | Status |
 |---|---|---|
 | M0 | Reproducible Engineering Base | PASS (2026-08-12) |
-| M1 | Authoritative World Exists | NOT STARTED |
+| M1 | Authoritative World Exists | PASS (2026-08-12) |
 
 ## Goal status
 
@@ -20,9 +20,10 @@ Updated: 2026-08-11 (batch start)
 | GOAL_01C Event Store / Ordering / Idempotency / Concurrency | PASS (2026-08-12) |
 | GOAL_01D Snapshot / Replay / Branch / Determinism | PASS (2026-08-12) |
 | GOAL_01E Persistence / Migration / Recovery Foundation | PASS (2026-08-12) |
-| GOAL_01F Minimal World Vertical Slice + M1 Qualification | NOT STARTED |
+| GOAL_01F Minimal World Vertical Slice + M1 Qualification | PASS (2026-08-12) |
 
 ## Current HEAD
 
-- Branch: main (fresh `git init`)
-- Initial commit pending (created after GOAL_00A acceptance)
+- Branch: main
+- Batch complete: M0 PASS + M1 PASS; tag `m1-authoritative-world`.
+- Stop condition met: do NOT start G02A until M1 evidence is reviewed.

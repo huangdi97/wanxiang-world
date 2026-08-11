@@ -150,6 +150,9 @@ def scan_forbidden_imports(root: pathlib.Path = ROOT) -> list[Violation]:
         for py in sorted(base.rglob("*.py")):
             if _is_skipped(py):
                 continue
+            if package_dir == "apps/api" and py.name == "app.py":
+                # app.py is the composition root: it legitimately wires adapters.
+                continue
             try:
                 tree = ast.parse(py.read_text(encoding="utf-8"))
             except SyntaxError:

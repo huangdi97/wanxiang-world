@@ -9,8 +9,8 @@ import pytest
 from alembic import command
 from alembic.config import Config
 from sqlalchemy import inspect, text
+from tests.conftest import cleanup_db_file, fresh_db_path, upgrade_db
 from tests.helpers.replay_fixture import BRANCH, INSTANCE, build_fixture_events
-from tests.integration.conftest import cleanup_db_file, fresh_db_path, upgrade_db
 from wanxiang_domain.versions import RuntimeVersion, SchemaVersion
 from wanxiang_persistence.database import create_engine_for
 from wanxiang_persistence.event_store import SqlAlchemyEventStore

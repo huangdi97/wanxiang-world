@@ -118,6 +118,6 @@ class TestInMemoryEventStoreContract(EventStoreContract):
 class TestSqlAlchemyEventStoreContract(EventStoreContract):
     @pytest.fixture
     def store(self) -> EventStore:
-        from tests.integration.conftest import sqlite_event_store_fixture
+        from tests.conftest import sqlite_event_store_fixture
 
         return sqlite_event_store_fixture()

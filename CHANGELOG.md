@@ -62,3 +62,13 @@
 - Alembic migrations 0001_initial + 0002_add_event_seq_index; migration tests.
 - SqlAlchemyEventStore in shared contract suite; durable replay == golden hash.
 - 111 tests green; docs/architecture/PERSISTENCE.md; ADR-0008.
+
+## 2026-08-12 ? GOAL_01F PASS (M1 PASS)
+
+- Application layer: WorldRuntime, synthetic micro-world resolvers,
+  WorldEnvironment facade; FastAPI thin transport with structured errors/OpenAPI.
+- M1 acceptance A1-A10 PASS on SQLite; API e2e + environment tests.
+- 130 tests green; reports/M1_AUTHORITATIVE_WORLD_ACCEPTANCE.md; acceptance
+  matrix updated; docs/IMPLEMENTATION_STATUS.md.
+- Milestone tag `m1-authoritative-world` created at M1 PASS.
+- Batch stop condition reached: do not begin G02A in this batch.
