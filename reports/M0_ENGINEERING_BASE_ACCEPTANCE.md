@@ -20,4 +20,4 @@ Proved by GOAL_00A (toolchain/reproducibility) + GOAL_00B (architecture guards).
 - `pnpm -r lint/typecheck/test/build` -> pass
 
 ## Commit
-- goal 00B checkpoint (see git log; M0 tag `m0-engineering-base` created at PASS).
+- goal 00B checkpoint: `3410300`; milestone tag `m0-engineering-base` (annotated) created at PASS.
