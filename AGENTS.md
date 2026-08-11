@@ -41,3 +41,12 @@ Non-negotiable rules for any Codex/agent/human modifying this repository.
 4. implement smallest complete architecture; 5. run quality gates; 6. write
 `reports/goal_<id>_report.md`; 7. update ledgers; 8. local commit `goal <id>: ...`
 only after PASS; 9. continue to next Goal. Stop after M1 PASS.
+
+## Architecture guards (must stay green)
+
+- Run `uv run python scripts/architecture_check.py` before any Goal checkpoint.
+- `scripts/quality.py` includes the guard automatically.
+- Forbidden-import/cycle/secret/placeholder/size rules are defined in
+  `scripts/architecture_check.py` and documented in
+  `docs/architecture/MODULE_BOUNDARIES.md`.
+- A new dependency direction requires an ADR and a guard rule + negative test.

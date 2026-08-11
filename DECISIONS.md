@@ -5,6 +5,7 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | ADR | Title | Status |
 |---|---|---|
 | 0001 | Toolchain and workspace layout (M0) | accepted |
+| 0002 | Architecture guard mechanism (AST-based, no bespoke framework) | accepted |
 
 ## Decision log (inline quick notes)
 

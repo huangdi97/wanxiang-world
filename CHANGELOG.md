@@ -15,3 +15,12 @@
 - `scripts/quality.py` stable quality gate; CI workflow; docker-compose baseline.
 - Ledgers/ADR structure/runbook created; ADR-0001 accepted.
 - Checkpoint: `goal 00A: establish reproducible engineering foundation`.
+
+## 2026-08-12 ? GOAL_00B PASS (M0 PASS)
+
+- `scripts/architecture_check.py`: forbidden imports, import cycles, file-size,
+  secret and placeholder guards; integrated into `scripts/quality.py`.
+- `docs/architecture/MODULE_BOUNDARIES.md`, `reports/ACCEPTANCE_MATRIX.md` created.
+- Architecture guard negative tests (17 tests total green).
+- Reports: `reports/goal_00B_report.md`, `reports/M0_ENGINEERING_BASE_ACCEPTANCE.md`.
+- Milestone tag `m0-engineering-base` created at M0 PASS.

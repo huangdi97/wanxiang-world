@@ -6,7 +6,7 @@ Updated: 2026-08-11 (batch start)
 
 | Milestone | Meaning | Status |
 |---|---|---|
-| M0 | Reproducible Engineering Base | IN PROGRESS (00A PASS; 00B pending) |
+| M0 | Reproducible Engineering Base | PASS (2026-08-12) |
 | M1 | Authoritative World Exists | NOT STARTED |
 
 ## Goal status
@@ -14,7 +14,7 @@ Updated: 2026-08-11 (batch start)
 | Goal | Status |
 |---|---|
 | GOAL_00A Repository & Toolchain Foundation | PASS (2026-08-11) |
-| GOAL_00B Architecture Guards & Engineering Constitution | NOT STARTED |
+| GOAL_00B Architecture Guards & Engineering Constitution | PASS (2026-08-12) |
 | GOAL_01A Core Semantic Contracts | NOT STARTED |
 | GOAL_01B Commit Authority & Core Invariants | NOT STARTED |
 | GOAL_01C Event Store / Ordering / Idempotency / Concurrency | NOT STARTED |

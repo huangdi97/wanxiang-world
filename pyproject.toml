@@ -23,6 +23,7 @@ dev = [
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-ra --strict-markers -p no:cacheprovider"
+pythonpath = ["."]
 markers = [
     "unit: fast pure unit tests",
     "property: property-based tests (hypothesis)",

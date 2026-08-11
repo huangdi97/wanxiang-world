@@ -5,7 +5,7 @@ services:
     image: postgres:16-alpine
     environment:
       POSTGRES_USER: wanxiang
-      POSTGRES_PASSWORD: wanxiang
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-wanxiang}
       POSTGRES_DB: wanxiang
     ports:
       - "5432:5432"

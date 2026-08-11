@@ -43,3 +43,6 @@ reports/*.tmp
 
 # uv cache (redirected into workspace for sandbox compatibility)
 .uv-cache/
+# Architecture-guard runtime temp (workspace-local, default ACLs)
+tests/_arch_tmp/
+.pytest-tmp/
