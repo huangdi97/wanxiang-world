@@ -1,0 +1,13 @@
+[project]
+name = "wanxiang-application"
+version = "0.1.0"
+description = "Wanxiang application layer: use cases and orchestration ports"
+requires-python = ">=3.12"
+dependencies = []
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/wanxiang_application"]

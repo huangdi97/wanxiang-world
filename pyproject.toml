@@ -1,0 +1,59 @@
+[project]
+name = "wanxiang"
+version = "0.1.0"
+description = "Wanxiang Semantic Persistent Living World OS - monorepo workspace root"
+requires-python = ">=3.12"
+dependencies = []
+
+[tool.uv]
+package = false
+
+[tool.uv.workspace]
+members = ["packages/*"]
+exclude = ["packages/sdk_ts"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "hypothesis>=6.104",
+    "ruff>=0.8",
+    "pyright>=1.1.390",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers -p no:cacheprovider"
+markers = [
+    "unit: fast pure unit tests",
+    "property: property-based tests (hypothesis)",
+    "contract: adapter/port contract tests",
+    "integration: tests requiring real adapters (sqlite)",
+    "architecture: dependency/conformance guards",
+    "migration: alembic migration tests",
+    "e2e: end-to-end transport tests",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["packages", "apps", "tests", "scripts"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "C4", "SIM", "ASYNC"]
+
+[tool.pyright]
+pythonVersion = "3.12"
+typeCheckingMode = "strict"
+include = ["packages", "apps", "tests", "scripts"]
+exclude = ["**/node_modules", "**/.venv", "**/dist"]
+venvPath = "."
+venv = ".venv"
+extraPaths = [
+    "packages/domain/src",
+    "packages/application/src",
+    "packages/runtime/src",
+    "packages/persistence/src",
+    "packages/evidence/src",
+    "packages/model_providers/src",
+    "packages/observability/src",
+]

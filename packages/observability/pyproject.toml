@@ -1,0 +1,13 @@
+[project]
+name = "wanxiang-observability"
+version = "0.1.0"
+description = "Wanxiang observability foundation: structured logging, config loading, secret redaction"
+requires-python = ">=3.12"
+dependencies = []
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/wanxiang_observability"]
