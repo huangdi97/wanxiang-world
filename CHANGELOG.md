@@ -24,3 +24,12 @@
 - Architecture guard negative tests (17 tests total green).
 - Reports: `reports/goal_00B_report.md`, `reports/M0_ENGINEERING_BASE_ACCEPTANCE.md`.
 - Milestone tag `m0-engineering-base` created at M0 PASS.
+
+## 2026-08-12 ? GOAL_01A PASS
+
+- `packages/domain` core contracts: ids, versions, time, errors, hierarchy,
+  entity, command, delta, event, hashing, state, snapshot, run, evidence, rights.
+- Versioned serialization (command/delta + history contracts) with schema-version
+  rejection; semantic hashing excluding wall-clock/audit fields.
+- `docs/architecture/CORE_CONTRACTS.md`; ADR-0003.
+- 48 tests green (unit + property).
