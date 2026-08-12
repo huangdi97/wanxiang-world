@@ -62,3 +62,7 @@
 - G03C Actor & Organization Runtime ? PASS (2026-08-13): propose-only policies,
   order lifecycle with typed transitions, actor states, organization views;
   236 tests green.
+
+- G03D Action, Affordance & Validator ? PASS (2026-08-13): versioned action
+  registry + side-effect-free validator (schema/actor/permission/reachability/
+  epistemic/resources); affordances; 244 tests green.

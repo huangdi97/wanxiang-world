@@ -63,6 +63,14 @@
 - SqlAlchemyEventStore in shared contract suite; durable replay == golden hash.
 - 111 tests green; docs/architecture/PERSISTENCE.md; ADR-0008.
 
+## 2026-08-13 ? G03D PASS (P3 phase)
+
+- `wanxiang_substrate.actions`: versioned action registry + reference actions,
+  side-effect-free ActionValidator (schema/actor/permission/reachability/
+  epistemic/resources), affordance computation.
+- 244 tests green; ADR-0021; docs/architecture/ACTION_VALIDATOR.md;
+  reports/g03d_report.md; checkpoint `goal g03d: action, affordance & validator`.
+
 ## 2026-08-13 ? G03C PASS (P3 phase)
 
 - `wanxiang_substrate.agency`: propose-only policy ports (deterministic/rule/
