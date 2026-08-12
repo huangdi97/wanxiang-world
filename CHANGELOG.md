@@ -63,6 +63,14 @@
 - SqlAlchemyEventStore in shared contract suite; durable replay == golden hash.
 - 111 tests green; docs/architecture/PERSISTENCE.md; ADR-0008.
 
+## 2026-08-13 ? G03C PASS (P3 phase)
+
+- `wanxiang_substrate.agency`: propose-only policy ports (deterministic/rule/
+  human), order lifecycle with typed transitions, actor states, organization
+  views.
+- 236 tests green; ADR-0020; docs/architecture/AGENCY_RUNTIME.md;
+  reports/g03c_report.md; checkpoint `goal g03c: actor & organization runtime`.
+
 ## 2026-08-13 ? G03B PASS (P3 phase)
 
 - `wanxiang_substrate.epistemic`: belief/memory graph with corrections

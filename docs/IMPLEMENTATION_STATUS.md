@@ -58,3 +58,7 @@
 - G03B Belief, Memory & Temporal Epistemic Graph ? PASS (2026-08-13): actor-local
   beliefs/memories with corrections (lineage), contradictions, forgetting and
   bounded compaction; actor-scoped access; 228 tests green.
+
+- G03C Actor & Organization Runtime ? PASS (2026-08-13): propose-only policies,
+  order lifecycle with typed transitions, actor states, organization views;
+  236 tests green.
