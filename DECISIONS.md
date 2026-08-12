@@ -21,6 +21,7 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0015 | Institution substrate: role/membership/permission/duty as versioned components; permission decisions carry provenance | accepted |
 | 0016 | Population/scheduler substrate: validated StateReader cache + SQL aggregate last_event_seq; deterministic autonomous scheduler | accepted |
 | 0017 | M2 milestone: integrated 72h living-world qualification test (combined synthetic world) | accepted |
+| 0018 | Observation/perspective: derived read-model with rule_refs audit; sealed payload never in observations | accepted |
 
 ## Decision log (inline quick notes)
 

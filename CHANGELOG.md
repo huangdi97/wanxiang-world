@@ -63,6 +63,15 @@
 - SqlAlchemyEventStore in shared contract suite; durable replay == golden hash.
 - 111 tests green; docs/architecture/PERSISTENCE.md; ADR-0008.
 
+## 2026-08-13 ? G03A PASS (P3 phase)
+
+- `wanxiang_substrate.observation`: PerspectiveService derives observations
+  from events + spatial/acoustic/rights; sealed payload content never leaks;
+  private/group visibility; announce action.
+- 220 tests green; ADR-0018; docs/architecture/OBSERVATION_PERSPECTIVE.md;
+  reports/g03a_report.md; checkpoint `goal g03a: observation & perspective
+  isolation`.
+
 ## 2026-08-13 ? M2 PASS (Deterministic Living World Exists)
 
 - Integrated 72h micro-town scenario passes (spatial + temporal + material +

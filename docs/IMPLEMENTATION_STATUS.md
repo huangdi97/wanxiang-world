@@ -48,3 +48,9 @@
   multi-rate autonomous scheduler (focus/lightweight/duty/aggregate), budgets,
   deterministic 72h micro-town run with no user input; validated StateReader
   cache; 211 tests green.
+
+## M3 ? Bounded Agents Can Live Inside the World (in progress)
+
+- G03A Observation & Perspective Isolation ? PASS (2026-08-13): observations
+  derived from events + spatial/acoustic/rights; sealed payload content never
+  leaks; private/group visibility; 220 tests green.
