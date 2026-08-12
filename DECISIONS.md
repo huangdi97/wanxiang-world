@@ -14,6 +14,7 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0008 | Persistence: SQLAlchemy confined to persistence package; JSON-as-text payloads for PG compatibility | accepted |
 | 0009 | State-aware deterministic resolvers; synthetic micro-world resolvers live in application (not Core) | accepted |
 | 0010 | API composition root (app.py) may wire persistence adapters; routes remain thin (guard exemption) | accepted |
+| 0011 | Spatial substrate rides on versioned entity components (no new migration); resolvers through M1 authority | accepted |
 
 ## Decision log (inline quick notes)
 

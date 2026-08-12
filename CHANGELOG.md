@@ -63,6 +63,14 @@
 - SqlAlchemyEventStore in shared contract suite; durable replay == golden hash.
 - 111 tests green; docs/architecture/PERSISTENCE.md; ADR-0008.
 
+## 2026-08-13 ? G02A PASS (M2 phase begins)
+
+- `packages/substrate` spatial substrate: model, query (topology/path/capacity/
+  access/zones), resolvers (move/set_portal_state/instantiate), house fixture.
+- Spatial state on versioned components; no new migration; M1 replay untouched.
+- 153 tests green; ADR-0011; docs/architecture/SPATIAL_SUBSTRATE.md;
+  reports/g02a_report.md; checkpoint `goal g02a: spatial topology & access`.
+
 ## 2026-08-12 ? GOAL_01F PASS (M1 PASS)
 
 - Application layer: WorldRuntime, synthetic micro-world resolvers,

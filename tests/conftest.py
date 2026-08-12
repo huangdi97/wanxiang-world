@@ -5,7 +5,7 @@ from __future__ import annotations
 import os
 import pathlib
 import uuid
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
 
 import pytest
 from alembic import command
@@ -17,7 +17,9 @@ from sqlalchemy.orm import Session, sessionmaker
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 _PERSIST_TMP = ROOT / "tests" / "_persist_tmp"
 
+from wanxiang_application.world_runtime import WorldRuntime  # noqa: E402
 from wanxiang_persistence.database import create_engine_for  # noqa: E402
+from wanxiang_runtime.resolver import ResolverRegistry  # noqa: E402
 
 settings.register_profile("wanxiang-deterministic", derandomize=True, deadline=None)
 settings.load_profile("wanxiang-deterministic")
@@ -52,8 +54,15 @@ def sqlite_event_store_fixture():
     return SqlAlchemyEventStore(factory)
 
 
-def make_world_runtime(path: pathlib.Path):
-    """Build the authoritative application runtime over a fresh upgraded SQLite DB."""
+def make_world_runtime(
+    path: pathlib.Path,
+    extra_resolvers: Callable[[ResolverRegistry], None] | None = None,
+) -> WorldRuntime:
+    """Build the authoritative application runtime over a fresh upgraded SQLite DB.
+
+    `extra_resolvers` is an optional callable(ResolverRegistry) registering
+    additional deterministic resolvers (e.g. substrate actions).
+    """
     from wanxiang_application.ports import PersistenceBundle
     from wanxiang_application.synthetic_microworld import register_synthetic_resolvers
     from wanxiang_application.world_runtime import WorldRuntime
@@ -63,7 +72,6 @@ def make_world_runtime(path: pathlib.Path):
     from wanxiang_persistence.event_store import SqlAlchemyEventStore
     from wanxiang_persistence.instance_repository import WorldInstanceRepository
     from wanxiang_persistence.snapshot_store import SqlAlchemySnapshotStore
-    from wanxiang_runtime.resolver import ResolverRegistry
 
     _engine, factory = make_sqlite_engine_and_factory(path)
     persistence = PersistenceBundle(
@@ -75,6 +83,8 @@ def make_world_runtime(path: pathlib.Path):
     )
     registry = ResolverRegistry()
     register_synthetic_resolvers(registry)
+    if extra_resolvers is not None:
+        extra_resolvers(registry)
     return WorldRuntime(persistence, RuntimeVersion(1), resolvers=registry)
 
 

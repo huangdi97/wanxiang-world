@@ -58,5 +58,6 @@ extraPaths = [
     "packages/evidence/src",
     "packages/model_providers/src",
     "packages/observability/src",
+    "packages/substrate/src",
     "apps/api/src",
 ]

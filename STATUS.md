@@ -50,8 +50,8 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 
 | Goal | Status |
 |---|---|
-| G02A Spatial Topology & Access | NEXT |
-| G02B Temporal System & Schedules | NOT_STARTED |
+| G02A Spatial Topology & Access | PASS (2026-08-13, commit goal g02a) |
+| G02B Temporal System & Schedules | NEXT |
 | G02C Material/Container/Custody/Information Payload | NOT_STARTED |
 | G02D Body & Condition Constraints | NOT_STARTED |
 | G02E Institution/Authority/Duty/Norm | NOT_STARTED |

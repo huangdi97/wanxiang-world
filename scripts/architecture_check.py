@@ -77,6 +77,16 @@ FORBIDDEN_IMPORTS: dict[str, tuple[str, ...]] = {
         "wanxiang_persistence",
     ),
     "packages/observability": ("fastapi", "sqlalchemy", "alembic"),
+    "packages/substrate": (
+        "fastapi",
+        "sqlalchemy",
+        "alembic",
+        "wanxiang_api",
+        "wanxiang_persistence",
+        "httpx",
+        "requests",
+        "openai",
+    ),
     "apps/api": ("sqlalchemy", "alembic", "wanxiang_persistence"),
 }
 

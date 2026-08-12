@@ -100,6 +100,18 @@ def test_forbidden_import_rule_detects_sqlalchemy_in_runtime() -> None:
 
 
 @pytest.mark.architecture
+def test_substrate_forbidden_import_rule() -> None:
+    tree = _write_tree(
+        {
+            "packages/substrate/src/wanxiang_substrate/__init__.py": "",
+            "packages/substrate/src/wanxiang_substrate/evil.py": "import sqlalchemy  # noqa\n",
+        },
+    )
+    violations = scan_forbidden_imports(tree)
+    assert any(v.kind == "forbidden-import" and "sqlalchemy" in v.message for v in violations)
+
+
+@pytest.mark.architecture
 def test_import_cycle_detection() -> None:
     tree = _write_tree(
         {
