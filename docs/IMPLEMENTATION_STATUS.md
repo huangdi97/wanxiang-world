@@ -54,3 +54,7 @@
 - G03A Observation & Perspective Isolation ? PASS (2026-08-13): observations
   derived from events + spatial/acoustic/rights; sealed payload content never
   leaks; private/group visibility; 220 tests green.
+
+- G03B Belief, Memory & Temporal Epistemic Graph ? PASS (2026-08-13): actor-local
+  beliefs/memories with corrections (lineage), contradictions, forgetting and
+  bounded compaction; actor-scoped access; 228 tests green.

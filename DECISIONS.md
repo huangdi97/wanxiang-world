@@ -22,6 +22,7 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0016 | Population/scheduler substrate: validated StateReader cache + SQL aggregate last_event_seq; deterministic autonomous scheduler | accepted |
 | 0017 | M2 milestone: integrated 72h living-world qualification test (combined synthetic world) | accepted |
 | 0018 | Observation/perspective: derived read-model with rule_refs audit; sealed payload never in observations | accepted |
+| 0019 | Epistemic graph: beliefs/memories as versioned components; corrections link (no silent overwrite); actor-scoped access | accepted |
 
 ## Decision log (inline quick notes)
 

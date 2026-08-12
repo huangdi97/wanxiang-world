@@ -63,6 +63,15 @@
 - SqlAlchemyEventStore in shared contract suite; durable replay == golden hash.
 - 111 tests green; docs/architecture/PERSISTENCE.md; ADR-0008.
 
+## 2026-08-13 ? G03B PASS (P3 phase)
+
+- `wanxiang_substrate.epistemic`: belief/memory graph with corrections
+  (lineage links), contradictions retained, forgetting + bounded compaction,
+  actor-scoped access grants.
+- 228 tests green; ADR-0019; docs/architecture/EPISTEMIC_GRAPH.md;
+  reports/g03b_report.md; checkpoint `goal g03b: belief, memory & temporal
+  epistemic graph`.
+
 ## 2026-08-13 ? G03A PASS (P3 phase)
 
 - `wanxiang_substrate.observation`: PerspectiveService derives observations
