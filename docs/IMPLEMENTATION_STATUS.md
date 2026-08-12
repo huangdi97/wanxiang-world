@@ -66,3 +66,7 @@
 - G03D Action, Affordance & Validator ? PASS (2026-08-13): versioned action
   registry + side-effect-free validator (schema/actor/permission/reachability/
   epistemic/resources); affordances; 244 tests green.
+
+- G03E Resolver, Adjudication & Deterministic Policies ? PASS (2026-08-13):
+  adjudicator registry by (action, version), seeded RNG, provenance +
+  uncertainty, version pinning; delta dry-run before commit; 250 tests green.

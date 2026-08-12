@@ -63,6 +63,15 @@
 - SqlAlchemyEventStore in shared contract suite; durable replay == golden hash.
 - 111 tests green; docs/architecture/PERSISTENCE.md; ADR-0008.
 
+## 2026-08-13 ? G03E PASS (P3 phase)
+
+- `wanxiang_substrate.resolution`: Adjudication + provenance + uncertainty,
+  SeededRng, adjudicator registry by (action, version), reference deterministic
+  transfer + seeded gamble, version pinning.
+- 250 tests green; ADR-0022; docs/architecture/RESOLUTION_ADJUDICATION.md;
+  reports/g03e_report.md; checkpoint `goal g03e: resolver, adjudication &
+  deterministic policies`.
+
 ## 2026-08-13 ? G03D PASS (P3 phase)
 
 - `wanxiang_substrate.actions`: versioned action registry + reference actions,

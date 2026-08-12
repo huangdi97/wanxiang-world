@@ -60,7 +60,8 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | G03B Belief/Memory/Temporal Epistemic Graph | PASS (2026-08-13, commit goal g03b) |
 | G03C Actor & Organization Runtime | PASS (2026-08-13, commit goal g03c) |
 | G03D Action/Affordance/Validator | PASS (2026-08-13, commit goal g03d) |
-| G03E..G03G Agency/Cognition/Action | NEXT (G03E) |
+| G03E Resolver/Adjudication/Deterministic Policies | PASS (2026-08-13, commit goal g03e) |
+| G03F..G03G Agency/Cognition/Action | NEXT (G03F) |
 | G04A..G04E World Definition/Evidence/Packages | NOT_STARTED |
 | G05A..G05F Host/Projection | NOT_STARTED |
 | G06A..G06C Lifecycle/Multi-client/Recovery | NOT_STARTED |
