@@ -24,3 +24,8 @@
 ## Next dependency
 
 - G02A Spatial Topology & Access (do not start until M1 evidence is reviewed).
+
+- G02B Temporal System & Schedules ? PASS (2026-08-13): monotonic world clock
+  (command-advanced, backward rejected), calendars, appointments/deadlines/
+  recurring duties with deterministic bounded expansion, schedule conflict +
+  window constraints; restart/replay stable; 168 tests green.

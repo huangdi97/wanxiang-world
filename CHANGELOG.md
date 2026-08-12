@@ -63,6 +63,16 @@
 - SqlAlchemyEventStore in shared contract suite; durable replay == golden hash.
 - 111 tests green; docs/architecture/PERSISTENCE.md; ADR-0008.
 
+## 2026-08-13 ? G02B PASS (M2 phase)
+
+- `wanxiang_substrate.temporal`: WorldClock (command-advanced, monotonic),
+  Calendar, Appointment/Deadline/RecurringEvent with deterministic bounded
+  recurrence, TemporalQuery, resolvers, calendar fixture.
+- Backward advance -> BackwardTimeError; schedule conflicts -> ScheduleConflict;
+  window violations -> TimeWindowViolation; restart keeps due events exactly once.
+- 168 tests green; ADR-0012; docs/architecture/TEMPORAL_SUBSTRATE.md;
+  reports/g02b_report.md; checkpoint `goal g02b: temporal system & schedules`.
+
 ## 2026-08-13 ? G02A PASS (M2 phase begins)
 
 - `packages/substrate` spatial substrate: model, query (topology/path/capacity/
