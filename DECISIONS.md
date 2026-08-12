@@ -19,6 +19,7 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0013 | Material substrate: custody != ownership; custody != knowledge; versioned components, no migration | accepted |
 | 0014 | Body/condition substrate: bounded facets, capability check blocks spatial movement, facet privacy | accepted |
 | 0015 | Institution substrate: role/membership/permission/duty as versioned components; permission decisions carry provenance | accepted |
+| 0016 | Population/scheduler substrate: validated StateReader cache + SQL aggregate last_event_seq; deterministic autonomous scheduler | accepted |
 
 ## Decision log (inline quick notes)
 

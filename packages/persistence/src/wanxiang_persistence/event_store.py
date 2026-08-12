@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session, sessionmaker
 from wanxiang_domain.errors import (
@@ -88,8 +88,13 @@ class SqlAlchemyEventStore:
         return tuple(_record_to_event(record) for record in records)
 
     def last_event_seq(self, instance_id: WorldInstanceId, branch_id: BranchId) -> EventSeq:
-        events = self.load(instance_id, branch_id)
-        return EventSeq(events[-1].event_seq.value) if events else EventSeq(0)
+        statement = select(func.max(EventRecord.event_seq)).where(
+            EventRecord.instance_id == instance_id.value,
+            EventRecord.branch_id == branch_id.value,
+        )
+        with session_scope(self.session_factory) as session:
+            max_seq = session.scalar(statement)
+        return EventSeq(max_seq) if max_seq is not None else EventSeq(0)
 
     def command_result_event(self, command_id: CommandId) -> CommittedEvent | None:
         statement = select(EventRecord).where(EventRecord.command_id == command_id.value)

@@ -22,6 +22,7 @@ from wanxiang_runtime.snapshot import create_snapshot_metadata
 from wanxiang_runtime.state import InMemoryCanonicalState
 
 from wanxiang_application.ports import PersistenceBundle
+from wanxiang_application.state_reader import StateReader
 
 DEFAULT_SCHEMA_VERSION = SchemaVersion(1)
 DEFAULT_WORLD_TIME = WorldTime(0)
@@ -65,6 +66,7 @@ class WorldRuntime:
         self._schema_version = schema_version
         self._resolvers = resolvers or ResolverRegistry()
         self._now = now
+        self._state_reader = StateReader(persistence, rule_version, schema_version)
 
     # -- instance / branch lifecycle ------------------------------------
 
@@ -101,7 +103,7 @@ class WorldRuntime:
         fork_revision: BranchRevision | None = None,
     ) -> BranchMetadata:
         parent = self.persistence.branches.get(parent_branch_id)
-        parent_state = self._state_at(instance_id, parent_branch_id)
+        parent_state = self._state_reader.state_at(instance_id, parent_branch_id)
         revision = fork_revision or parent_state.revision
         if revision.value > parent_state.revision.value:
             from wanxiang_domain.errors import ValidationRejected
@@ -123,7 +125,9 @@ class WorldRuntime:
         )
         self.persistence.branches.save(child)
         # Persist a snapshot of the fork baseline so restore/replay is deterministic.
-        fork_state = self._state_at(instance_id, parent_branch_id, upto_seq=fork_event_seq)
+        fork_state = self._state_reader.state_at(
+            instance_id, parent_branch_id, upto_seq=fork_event_seq
+        )
         self.persistence.snapshot_store.save(
             create_snapshot_metadata(fork_state, fork_event_seq, content_ref=snapshot_ref),
             fork_state,
@@ -135,14 +139,14 @@ class WorldRuntime:
     def submit_command(self, command: CommandEnvelope) -> SubmitCommandResult:
         prior = self.persistence.event_store.command_result_event(command.command_id)
         if prior is not None:
-            state = self._state_at(command.instance_id, command.branch_id)
+            state = self._state_reader.state_at(command.instance_id, command.branch_id)
             return SubmitCommandResult(event=prior, state=state, audit=None, duplicate=True)
 
         branch = self.persistence.branches.get(command.branch_id)
         base = (
             branch.ancestry.fork_revision.value if branch.ancestry.fork_revision is not None else 0
         )
-        state = self._state_at(command.instance_id, command.branch_id)
+        state = self._state_reader.state_at(command.instance_id, command.branch_id)
         delta = self._resolvers.resolve(command, state)
         authority = CommitAuthority(
             self.persistence.event_store,
@@ -168,18 +172,27 @@ class WorldRuntime:
         )
         if self.persistence.audit is not None:
             self.persistence.audit.record(result.audit)
+        self._state_reader.update(command.instance_id, command.branch_id, result.state_after)
         return SubmitCommandResult(event=result.event, state=result.state_after, audit=result.audit)
 
     def action_types(self) -> tuple[str, ...]:
         """Registered deterministic action types (the legal action space)."""
         return self._resolvers.action_types()
 
+    def invalidate_state_cache(self) -> None:
+        """Drop cached derived state so the next read re-derives from events.
+
+        The cache is a projection optimization; diagnostics that mutate the
+        event store directly must invalidate it before querying.
+        """
+        self._state_reader.invalidate()
+
     # -- queries --------------------------------------------------------
 
     def current_state(
         self, instance_id: WorldInstanceId, branch_id: BranchId
     ) -> InMemoryCanonicalState:
-        return self._state_at(instance_id, branch_id)
+        return self._state_reader.state_at(instance_id, branch_id)
 
     def events(
         self, instance_id: WorldInstanceId, branch_id: BranchId
@@ -189,7 +202,7 @@ class WorldRuntime:
     def create_checkpoint(
         self, instance_id: WorldInstanceId, branch_id: BranchId
     ) -> SnapshotMetadata:
-        state = self._state_at(instance_id, branch_id)
+        state = self._state_reader.state_at(instance_id, branch_id)
         seq = self.persistence.event_store.last_event_seq(instance_id, branch_id)
         metadata = create_snapshot_metadata(state, seq)
         self.persistence.snapshot_store.save(metadata, state)
@@ -212,7 +225,7 @@ class WorldRuntime:
                 return RestoreResult(state=state, used_snapshot=True)
         engine = ReplayEngine(self._rule_version, self._schema_version)
         if branch.ancestry.parent_branch_id is not None:
-            parent = self._state_at(
+            parent = self._state_reader.state_at(
                 instance_id,
                 branch.ancestry.parent_branch_id,
                 upto_seq=branch.ancestry.fork_event_seq,
@@ -228,8 +241,8 @@ class WorldRuntime:
         branch_b: BranchId,
     ) -> StateDiff:
         return diff_states(
-            self._state_at(instance_id, branch_a),
-            self._state_at(instance_id, branch_b),
+            self._state_reader.state_at(instance_id, branch_a),
+            self._state_reader.state_at(instance_id, branch_b),
         )
 
     def metrics(self, instance_id: WorldInstanceId) -> dict[str, int]:
@@ -249,34 +262,3 @@ class WorldRuntime:
         }
 
     # -- internals ------------------------------------------------------
-
-    def _state_at(
-        self,
-        instance_id: WorldInstanceId,
-        branch_id: BranchId,
-        *,
-        upto_seq: EventSeq | None = None,
-    ) -> InMemoryCanonicalState:
-        branch = self.persistence.branches.get(branch_id)
-        events = self.persistence.event_store.load(instance_id, branch_id)
-        if upto_seq is not None:
-            events = [e for e in events if e.event_seq.value <= upto_seq.value]
-        engine = ReplayEngine(self._rule_version, self._schema_version)
-        if branch.ancestry.parent_branch_id is not None:
-            parent = self._state_at(
-                instance_id,
-                branch.ancestry.parent_branch_id,
-                upto_seq=branch.ancestry.fork_event_seq,
-            )
-            state = engine.replay(events, baseline=parent)
-        elif not events:
-            state = InMemoryCanonicalState(
-                instance_id=instance_id,
-                branch_id=branch_id,
-                revision=BranchRevision(0),
-                schema_version=self._schema_version,
-                rule_version=self._rule_version,
-            )
-        else:
-            state = engine.replay(events)
-        return state.with_branch(branch_id)

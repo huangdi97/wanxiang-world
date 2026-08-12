@@ -63,6 +63,16 @@
 - SqlAlchemyEventStore in shared contract suite; durable replay == golden hash.
 - 111 tests green; docs/architecture/PERSISTENCE.md; ADR-0008.
 
+## 2026-08-13 ? G02F PASS (M2 phase)
+
+- `wanxiang_substrate.population`: multi-rate autonomous scheduler submitting
+  commands through M1 authority (deterministic ids, bounded budgets), micro-town
+  fixture; 72h run with no user input.
+- WorldRuntime validated StateReader cache + SQL aggregate last_event_seq.
+- 211 tests green; ADR-0016; docs/architecture/POPULATION_SCHEDULER.md;
+  reports/g02f_report.md; checkpoint `goal g02f: population resolution &
+  autonomous scheduler`.
+
 ## 2026-08-13 ? G02E PASS (M2 phase)
 
 - `wanxiang_substrate.institution`: roles, time-scoped memberships, delegated

@@ -192,6 +192,7 @@ def test_a9_corrupt_stream_fails_explicitly(world_runtime: WorldRuntime) -> None
             .values(delta_json='{"schema_version": 999}')
         )
         session.commit()
+    world_runtime.invalidate_state_cache()
     with pytest.raises(WanxiangError):
         world_runtime.current_state(world.instance_id, world.root_branch_id)
 

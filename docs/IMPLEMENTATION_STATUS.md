@@ -43,3 +43,8 @@
   time-scoped memberships, delegated permissions with provenance, duties and
   sanctions; restricted places require permission; expired roles cannot grant
   authority; 202 tests green.
+
+- G02F Population Resolution & Autonomous Scheduler ? PASS (2026-08-13):
+  multi-rate autonomous scheduler (focus/lightweight/duty/aggregate), budgets,
+  deterministic 72h micro-town run with no user input; validated StateReader
+  cache; 211 tests green.

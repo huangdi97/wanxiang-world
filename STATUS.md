@@ -55,7 +55,7 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | G02C Material/Container/Custody/Information Payload | PASS (2026-08-13, commit goal g02c) |
 | G02D Body & Condition Constraints | PASS (2026-08-13, commit goal g02d) |
 | G02E Institution/Authority/Duty/Norm | PASS (2026-08-13, commit goal g02e) |
-| G02F Population Resolution & Autonomous Scheduler | NEXT |
+| G02F Population Resolution & Autonomous Scheduler | PASS (2026-08-13, commit goal g02f) |
 | G03A..G03G Agency/Cognition/Action | NOT_STARTED |
 | G04A..G04E World Definition/Evidence/Packages | NOT_STARTED |
 | G05A..G05F Host/Projection | NOT_STARTED |
