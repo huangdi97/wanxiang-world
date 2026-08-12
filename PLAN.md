@@ -23,5 +23,5 @@ Substrate or any later phase in this batch.
 Continuous execution per `05_CODEX_REMAINING_PROGRAM_MASTER_PROMPT.md` and
 `06_REMAINING_GOALS_INDEX.md`: G02A -> G12H, milestone gates M2 -> M9, final
 
-Current: G02A-F PASS (2026-08-13) -> run M2 qualification next.
+Current: M2 PASS (2026-08-13, tag m2-deterministic-living-world) -> next G03A (P3).
 reports + local checkpoint. M1 verified PASS before starting. No push/deploy.

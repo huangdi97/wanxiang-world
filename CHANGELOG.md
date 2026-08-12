@@ -63,6 +63,13 @@
 - SqlAlchemyEventStore in shared contract suite; durable replay == golden hash.
 - 111 tests green; docs/architecture/PERSISTENCE.md; ADR-0008.
 
+## 2026-08-13 ? M2 PASS (Deterministic Living World Exists)
+
+- Integrated 72h micro-town scenario passes (spatial + temporal + material +
+  body + institution + population), no user input; M1 invariants green.
+- 212 tests green; reports/M2_ACCEPTANCE.md; matrix updated;
+  tag `m2-deterministic-living-world`. Next: G03A (P3).
+
 ## 2026-08-13 ? G02F PASS (M2 phase)
 
 - `wanxiang_substrate.population`: multi-rate autonomous scheduler submitting
