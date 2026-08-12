@@ -1,32 +1,24 @@
-# Wanxiang Engineering Program — README FIRST
+# Wanxiang M2→M9 Remaining Engineering Execution Pack
 
-This package is the engineering-control layer for starting formal implementation of Wanxiang v5.0-R1.
+This package continues the previously completed M0/M1 batch.
 
-## What to run tonight
+## What this pack contains
 
-Copy the whole package into the repository root (merge deliberately with existing docs rather than blindly overwriting project history), ensure the master specification is available as `docs/spec/WANXIANG_v5_MASTER_SPEC.md`, then give Codex Desktop the contents/instruction in:
+- `05_CODEX_REMAINING_PROGRAM_MASTER_PROMPT.md` — continuous controller from G02A through G12H.
+- `06_REMAINING_GOALS_INDEX.md` — exact order of all 55 remaining Goals.
+- `07_MILESTONE_GATES_M2_M9.md` — summary of M2–M9 system qualification.
+- `08_CONTINUOUS_EXECUTION_AND_RESUME_PROTOCOL.md` — recovery from context compaction/restart.
+- `09_RELEASE_AND_QUALITY_CONSTITUTION_ADDENDUM.md` — maintainability/upgrade/security rules for later phases.
+- `goals/` — 55 detailed executable Goal contracts.
+- `milestones/` — 8 integrated milestone qualification contracts.
+- `CODEX_COPY_PASTE_CONTINUE.txt` — the shortest startup message to give Codex.
+- `WANXIANG_REMAINING_M2_M9_ALL_IN_ONE.md` — merged reference copy.
+- `baseline_reference/` — copies of the earlier program standards and v5 master spec for reference; do not overwrite newer repository copies blindly.
 
-`01_CODEX_TONIGHT_MASTER_PROMPT.md`
+## How to use
 
-The tonight batch intentionally stops after **M1 Authoritative World Exists**. It is a large batch, but it does not proceed into living substrate/UI/domain reference worlds before the canonical/event/replay/branch foundation has proven itself.
+Copy/merge the new controller/index/protocol/Goal/milestone documents into the existing Wanxiang repository that already passed M1. Preserve the repository's existing ledgers, Git history and implementation.
 
-## Documents
+Then start a new Codex Desktop conversation and paste the contents of `CODEX_COPY_PASTE_CONTINUE.txt`.
 
-- `00_WANXIANG_ENGINEERING_PROGRAM_ARCHITECTURE.md` — complete program decomposition and dependency architecture.
-- `01_CODEX_TONIGHT_MASTER_PROMPT.md` — controller prompt for continuous P0+P1 execution.
-- `02_ENGINEERING_STANDARDS.md` — readability, modularity, upgradeability and code rules.
-- `03_ACCEPTANCE_TESTING_AND_EVIDENCE.md` — testing/gates/evidence standard.
-- `goals/*.md` — executable Goal contracts for the first batch.
-
-## Goal order
-
-1. 00A Repository Foundation
-2. 00B Architecture Guards
-3. 01A Core Contracts
-4. 01B Commit Authority
-5. 01C Event Store
-6. 01D Replay/Branch
-7. 01E Persistence/Migration
-8. 01F Minimal Vertical Slice + M1 Qualification
-
-Do not skip directly to 01F and do not start G02A until M1 PASS.
+Codex must verify the actual M1 repository state first, then execute continuously through M9 with local checkpoints. It must not push/deploy without a separate instruction.

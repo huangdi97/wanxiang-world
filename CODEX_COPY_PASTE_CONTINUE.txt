@@ -1,0 +1,28 @@
+继续执行万相世界正式工程，不要重新从 G0 开始。
+
+先完整阅读并执行：
+`05_CODEX_REMAINING_PROGRAM_MASTER_PROMPT.md`
+
+同时必须读取：
+- `docs/spec/WANXIANG_v5_MASTER_SPEC.md`
+- `00_WANXIANG_ENGINEERING_PROGRAM_ARCHITECTURE.md`
+- `02_ENGINEERING_STANDARDS.md`
+- `03_ACCEPTANCE_TESTING_AND_EVIDENCE.md`
+- `06_REMAINING_GOALS_INDEX.md`
+- `07_MILESTONE_GATES_M2_M9.md`
+- `08_CONTINUOUS_EXECUTION_AND_RESUME_PROTOCOL.md`
+- `09_RELEASE_AND_QUALITY_CONSTITUTION_ADDENDUM.md`
+- 当前仓库的 STATUS/PLAN/DECISIONS/BLOCKERS/KNOWN_FAILURES/CHANGELOG、reports、Git 状态与测试
+- 当前 Goal 文件
+
+用户说明 M0/M1 已经完成，但不要仅凭对话相信完成状态：先读取 `reports/M1_AUTHORITATIVE_WORLD_ACCEPTANCE.md` 与 `reports/ACCEPTANCE_MATRIX.md` 并运行 M1 快速回归。若 M1 健康，从 G02A 开始。
+
+从 G02A 连续执行到 G12H，并依次完成 M2→M9。每个 Goal PASS 后写报告、更新 ledgers、运行质量门并创建本地 checkpoint；每个 Milestone 必须运行对应 qualification，PASS 后自动继续，不需要回来询问用户。
+
+真实《红楼梦》、辽沈战役、真实家谱/馆藏或外部硬件/服务若缺少合法来源、授权、凭证或环境，只允许对应真实外部部分标记 EXTERNAL_BLOCKED。不得用模型记忆伪造资料，也不得因此停止独立的通用平台、synthetic fixture、fake adapter、Source Gate 与内部测试工作。
+
+核心原则永远不变：LLM/UI/Director/传感器/模拟器/插件/渲染器都不能直接修改 Canonical World State；所有变更必须走 Validate/Resolve/Commit/Event；所有旧 Replay/Branch/Idempotency/Migration/Architecture tests 必须持续保持通过。
+
+不要 push、不要生产部署。直到 M9 完整验收与 FINAL_PROGRAM_COMPLETION_REPORT 完成后再停止。
+
+现在开始：验证 M1 → 执行 G02A。

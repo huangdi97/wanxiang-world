@@ -17,3 +17,9 @@ Milestones: **M0** (after 00A+00B), **M1** (after 01F).
 
 Stop condition: M1 PASS with reproducible evidence; do NOT start G02/Living World
 Substrate or any later phase in this batch.
+
+## Continuation M2?M9 (2026-08-13)
+
+Continuous execution per `05_CODEX_REMAINING_PROGRAM_MASTER_PROMPT.md` and
+`06_REMAINING_GOALS_INDEX.md`: G02A -> G12H, milestone gates M2 -> M9, final
+reports + local checkpoint. M1 verified PASS before starting. No push/deploy.
