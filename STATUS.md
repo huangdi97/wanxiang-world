@@ -52,8 +52,8 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 |---|---|
 | G02A Spatial Topology & Access | PASS (2026-08-13, commit goal g02a) |
 | G02B Temporal System & Schedules | PASS (2026-08-13, commit goal g02b) |
-| G02C Material/Container/Custody/Information Payload | NEXT |
-| G02D Body & Condition Constraints | NOT_STARTED |
+| G02C Material/Container/Custody/Information Payload | PASS (2026-08-13, commit goal g02c) |
+| G02D Body & Condition Constraints | NEXT |
 | G02E Institution/Authority/Duty/Norm | NOT_STARTED |
 | G02F Population Resolution & Autonomous Scheduler | NOT_STARTED |
 | G03A..G03G Agency/Cognition/Action | NOT_STARTED |

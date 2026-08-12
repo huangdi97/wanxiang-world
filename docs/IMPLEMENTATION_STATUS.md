@@ -29,3 +29,8 @@
   (command-advanced, backward rejected), calendars, appointments/deadlines/
   recurring duties with deterministic bounded expansion, schedule conflict +
   window constraints; restart/replay stable; 168 tests green.
+
+- G02C Material, Container, Custody & Information Payload ? PASS (2026-08-13):
+  items/containers/custody/ownership/info payloads on versioned components;
+  custody != ownership and custody != knowledge; containment cycle prevention,
+  capacity, explicit consume/damage; 182 tests green.

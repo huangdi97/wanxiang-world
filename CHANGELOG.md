@@ -63,6 +63,16 @@
 - SqlAlchemyEventStore in shared contract suite; durable replay == golden hash.
 - 111 tests green; docs/architecture/PERSISTENCE.md; ADR-0008.
 
+## 2026-08-13 ? G02C PASS (M2 phase)
+
+- `wanxiang_substrate.material`: items/containers/custody/ownership/info
+  payloads on versioned components; transfer/move/consume/damage/seal/read
+  resolvers through M1 authority; sealed-letter epistemic separation.
+- Containment cycle prevention, capacity, custody conservation; no new migration.
+- 182 tests green; ADR-0013; docs/architecture/MATERIAL_SUBSTRATE.md;
+  reports/g02c_report.md; checkpoint `goal g02c: material, container, custody
+  & information payload`.
+
 ## 2026-08-13 ? G02B PASS (M2 phase)
 
 - `wanxiang_substrate.temporal`: WorldClock (command-advanced, monotonic),
