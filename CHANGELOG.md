@@ -63,6 +63,14 @@
 - SqlAlchemyEventStore in shared contract suite; durable replay == golden hash.
 - 111 tests green; docs/architecture/PERSISTENCE.md; ADR-0008.
 
+## 2026-08-13 ? G02D PASS (M2 phase)
+
+- `wanxiang_substrate.body`: bounded condition facets, mobility/fatigue
+  capability, visibility/privacy, deterministic exert/rest transitions.
+- Spatial move rejects fatigued/immobile actors (BodyConstraintViolation).
+- 192 tests green; ADR-0014; docs/architecture/BODY_SUBSTRATE.md;
+  reports/g02d_report.md; checkpoint `goal g02d: body & condition constraints`.
+
 ## 2026-08-13 ? G02C PASS (M2 phase)
 
 - `wanxiang_substrate.material`: items/containers/custody/ownership/info

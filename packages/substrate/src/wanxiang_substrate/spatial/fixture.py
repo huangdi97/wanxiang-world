@@ -101,7 +101,10 @@ FIXTURE_DELTAS: dict[str, Callable[[], ProposedWorldDelta]] = {"house": house_de
 
 
 def build_house_fixture_commands(
-    branch_id: BranchId, start_revision: int = 0, command_id: str = "cmd_house"
+    branch_id: BranchId,
+    start_revision: int = 0,
+    command_id: str = "cmd_house",
+    instance_id: WorldInstanceId | None = None,
 ) -> tuple[CommandEnvelope, ...]:
     """Return a single deterministic command that instantiates the house fixture."""
     from wanxiang_substrate.spatial.resolver import ACTION_INSTANTIATE
@@ -109,7 +112,7 @@ def build_house_fixture_commands(
     return (
         CommandEnvelope(
             command_id=CommandId(command_id),
-            instance_id=INSTANCE,
+            instance_id=instance_id or INSTANCE,
             branch_id=branch_id,
             expected_revision=BranchRevision(start_revision),
             action_type=ACTION_INSTANTIATE,

@@ -12,6 +12,8 @@ from wanxiang_domain.ids import EntityId
 from wanxiang_runtime.resolver import ResolverRegistry
 from wanxiang_runtime.state import InMemoryCanonicalState
 
+from wanxiang_substrate.body.errors import BodyConstraintViolation
+from wanxiang_substrate.body.query import BodyQuery
 from wanxiang_substrate.spatial.components import (
     PORTAL_COMPONENT,
     position_component,
@@ -56,6 +58,8 @@ def _resolve_move(
 
     query = SpatialQuery(state)
     actor_id = EntityId(command.actor_id.value) if command.actor_id else None
+    if actor_id is not None and not BodyQuery(state).can_move(actor_id):
+        raise BodyConstraintViolation(f"actor {actor_id.value} cannot move (body condition)")
     if state.entity(entity_id) is None:
         raise ValidationRejected(f"entity {entity_id.value} does not exist")
     current = query.location(entity_id)

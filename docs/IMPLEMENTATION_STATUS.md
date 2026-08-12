@@ -34,3 +34,7 @@
   items/containers/custody/ownership/info payloads on versioned components;
   custody != ownership and custody != knowledge; containment cycle prevention,
   capacity, explicit consume/damage; 182 tests green.
+
+- G02D Body & Condition Constraints ? PASS (2026-08-13): bounded condition
+  facets with deterministic transitions; capability check blocks otherwise-valid
+  spatial movement; facet privacy; 192 tests green.
