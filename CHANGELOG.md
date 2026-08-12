@@ -63,6 +63,15 @@
 - SqlAlchemyEventStore in shared contract suite; durable replay == golden hash.
 - 111 tests green; docs/architecture/PERSISTENCE.md; ADR-0008.
 
+## 2026-08-13 ? G02E PASS (M2 phase)
+
+- `wanxiang_substrate.institution`: roles, time-scoped memberships, delegated
+  permissions with provenance, duties, sanctions; restricted places require
+  permission; expired roles cannot grant authority.
+- 202 tests green; ADR-0015; docs/architecture/INSTITUTION_SUBSTRATE.md;
+  reports/g02e_report.md; checkpoint `goal g02e: institution, authority, duty
+  & norm`.
+
 ## 2026-08-13 ? G02D PASS (M2 phase)
 
 - `wanxiang_substrate.body`: bounded condition facets, mobility/fatigue

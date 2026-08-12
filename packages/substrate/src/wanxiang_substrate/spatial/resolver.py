@@ -14,6 +14,8 @@ from wanxiang_runtime.state import InMemoryCanonicalState
 
 from wanxiang_substrate.body.errors import BodyConstraintViolation
 from wanxiang_substrate.body.query import BodyQuery
+from wanxiang_substrate.institution.errors import PermissionDeniedByInstitution
+from wanxiang_substrate.institution.query import InstitutionQuery
 from wanxiang_substrate.spatial.components import (
     PORTAL_COMPONENT,
     position_component,
@@ -83,13 +85,24 @@ def _resolve_move(
                 raise PortalLocked(f"portal {portal_id.value} is locked")
         elif portal.state == "closed":
             raise PortalClosed(f"portal {portal_id.value} is closed")
-    if not query.can_enter(target_id, actor_id):
-        occupancy = query.occupancy(target_id)
-        if occupancy.is_full:
-            raise PlaceAtCapacity(
-                f"place {target_id.value} is at capacity ({occupancy.used}/{occupancy.limit})"
+    target_place = query.places().get(target_id)
+    if target_place is not None and target_place.privacy == "restricted":
+        allowed = (
+            actor_id is not None
+            and InstitutionQuery(state).check_permission(actor_id, f"enter.{target_id.value}").allow
+        )
+        if not allowed:
+            raise PermissionDeniedByInstitution(
+                f"actor cannot enter restricted place {target_id.value}"
             )
-        raise SpatialAccessDenied(f"actor cannot enter place {target_id.value}")
+    else:
+        if not query.can_enter(target_id, actor_id):
+            occupancy = query.occupancy(target_id)
+            if occupancy.is_full:
+                raise PlaceAtCapacity(
+                    f"place {target_id.value} is at capacity ({occupancy.used}/{occupancy.limit})"
+                )
+            raise SpatialAccessDenied(f"actor cannot enter place {target_id.value}")
 
     return ProposedWorldDelta(
         operations=(

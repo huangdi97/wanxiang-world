@@ -38,3 +38,8 @@
 - G02D Body & Condition Constraints ? PASS (2026-08-13): bounded condition
   facets with deterministic transitions; capability check blocks otherwise-valid
   spatial movement; facet privacy; 192 tests green.
+
+- G02E Institution, Authority, Duty & Norm ? PASS (2026-08-13): roles,
+  time-scoped memberships, delegated permissions with provenance, duties and
+  sanctions; restricted places require permission; expired roles cannot grant
+  authority; 202 tests green.
