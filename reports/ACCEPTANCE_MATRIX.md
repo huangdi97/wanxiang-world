@@ -53,6 +53,12 @@ Columns: Requirement ID | Source section | Owning Goal | Test/evidence | Current
 | M3-07 | M3 gate | GOAL_03G | Capability & learning: bounded evidence-backed capability change; skill prerequisites | PASS | goal g03g | |
 M3 verdict: PASS (2026-08-13, tag m3-bounded-agents; reports/M3_ACCEPTANCE.md).
 
+## M4 ? Worlds Can Be Authored, Reviewed, Installed and Instantiated (07_MILESTONE_GATES_M2_M9.md)
+
+| Req ID | Source | Owning Goal | Test/evidence | Status | Last verified commit | Notes |
+|---|---|---|---|---|---|---|
+| M4-01 | M4 gate | GOAL_04A | Package/schema/dependency registry: deterministic resolution, cycles/conflicts, content hash, trust, migration | PASS | goal g04a | |
+
 ## Architecture gates (02_ENGINEERING_STANDARDS.md ?16)
 
 | Req ID | Source | Owning Goal | Test/evidence | Status | Last verified commit | Notes |

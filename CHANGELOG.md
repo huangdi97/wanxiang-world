@@ -63,6 +63,16 @@
 - SqlAlchemyEventStore in shared contract suite; durable replay == golden hash.
 - 111 tests green; docs/architecture/PERSISTENCE.md; ADR-0008.
 
+## 2026-08-13 ? G04A PASS (P4 phase)
+
+- `wanxiang_substrate.packages`: PackageManifest/SemanticVersion/
+  VersionConstraint/PackageLock, deterministic DependencyResolver (cycles,
+  conflicts, missing), InMemoryPackageRegistry with content-hash verification,
+  default-deny ExecutableExtensionPolicy, manifest schema migration v1->v2,
+  compatibility matrix, synthetic town package graph.
+- 275 tests green; ADR-0025; docs/architecture/PACKAGE_REGISTRY.md;
+  reports/g04a_report.md; checkpoint `goal g04a: package, schema &
+  dependency registry`.
 ## 2026-08-13 ? M3 PASS + G03G PASS (P3 phase)
 
 - M3 qualification PASS: observation -> belief -> correction -> multi-step

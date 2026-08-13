@@ -28,6 +28,7 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0022 | Resolution/adjudication: adjudicator registry by (action, version); seeded RNG; delta dry-run before commit | accepted |
 | 0023 | Skill runtime: versioned skill registry; execution state as versioned skill.instance component | accepted |
 | 0024 | Capability & learning: bounded capability (level 0..10, mastery/confidence 0..1), evidence-backed CapabilityDelta, deterministic clamped LearningPolicy | accepted |
+| 0025 | Package registry: portable manifests, deterministic resolution, content hashes, default-deny executable trust, manifest schema migration | accepted |
 
 ## Decision log (inline quick notes)
 

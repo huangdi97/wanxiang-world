@@ -63,7 +63,8 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | G03E Resolver/Adjudication/Deterministic Policies | PASS (2026-08-13, commit goal g03e) |
 | G03F Skill Runtime | PASS (2026-08-13, commit goal g03f) |
 | G03G Capability & Learning | PASS (2026-08-13, commit goal g03g) |
-| G04A..G04E World Definition/Evidence/Packages | NEXT |
+| G04A Package, Schema & Dependency Registry | PASS (2026-08-13, commit goal g04a) |
+| G04B Source Registry & Source Gate | NEXT |
 | G05A..G05F Host/Projection | NOT_STARTED |
 | G06A..G06C Lifecycle/Multi-client/Recovery | NOT_STARTED |
 | G07A..G07E Reality/Director/Experiments | NOT_STARTED |

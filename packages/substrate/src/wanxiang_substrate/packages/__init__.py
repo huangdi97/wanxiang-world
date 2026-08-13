@@ -1,0 +1,55 @@
+"""Package, schema & dependency registry substrate (G04A)."""
+
+from wanxiang_substrate.packages.errors import (
+    DependencyConflict,
+    DependencyCycle,
+    IncompatiblePackage,
+    InvalidManifest,
+    MissingDependency,
+    PackageError,
+    PackageNotFound,
+    UntrustedExecutable,
+)
+from wanxiang_substrate.packages.fixture import build_town_packages
+from wanxiang_substrate.packages.migration import (
+    CURRENT_MANIFEST_SCHEMA,
+    compatible,
+    migrate_manifest,
+)
+from wanxiang_substrate.packages.model import (
+    MANIFEST_SCHEMA_VERSION,
+    PackageKind,
+    PackageLock,
+    PackageManifest,
+    SemanticVersion,
+    TrustClass,
+    VersionConstraint,
+)
+from wanxiang_substrate.packages.registry import InMemoryPackageRegistry
+from wanxiang_substrate.packages.resolver import DependencyResolver
+from wanxiang_substrate.packages.trust import ExecutableExtensionPolicy
+
+__all__ = [
+    "CURRENT_MANIFEST_SCHEMA",
+    "DependencyConflict",
+    "DependencyCycle",
+    "DependencyResolver",
+    "ExecutableExtensionPolicy",
+    "IncompatiblePackage",
+    "InMemoryPackageRegistry",
+    "InvalidManifest",
+    "MANIFEST_SCHEMA_VERSION",
+    "MissingDependency",
+    "PackageError",
+    "PackageKind",
+    "PackageLock",
+    "PackageManifest",
+    "PackageNotFound",
+    "SemanticVersion",
+    "TrustClass",
+    "UntrustedExecutable",
+    "VersionConstraint",
+    "build_town_packages",
+    "compatible",
+    "migrate_manifest",
+]

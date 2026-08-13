@@ -51,6 +51,10 @@
 
 ## M3 ? Bounded Agents Can Live Inside the World (PASS, 2026-08-13)
 
+## M4 ? Worlds Can Be Authored, Reviewed, Installed and Instantiated (in progress)
+
+- G04A Package, Schema & Dependency Registry ? PASS (2026-08-13): portable manifests, semantic constraints, deterministic resolver, content hashes, default-deny executable trust, manifest migration; 275 tests green.
+
 - G03A Observation & Perspective Isolation ? PASS (2026-08-13): observations
   derived from events + spatial/acoustic/rights; sealed payload content never
   leaks; private/group visibility; 220 tests green.
@@ -72,6 +76,10 @@
 - G03G Capability & Learning ? PASS (2026-08-13): bounded capability (level 0..10, mastery/confidence 0..1), practice/assessment evidence records, deterministic clamped LearningPolicy, capability resolvers through Commit Authority, skill step capability gates; 265 tests green.
 
 ## M3 ? Bounded Agents Can Live Inside the World (PASS, 2026-08-13)
+
+## M4 ? Worlds Can Be Authored, Reviewed, Installed and Instantiated (in progress)
+
+- G04A Package, Schema & Dependency Registry ? PASS (2026-08-13): portable manifests, semantic constraints, deterministic resolver, content hashes, default-deny executable trust, manifest migration; 275 tests green.
 
 - G03E Resolver, Adjudication & Deterministic Policies ? PASS (2026-08-13):
   adjudicator registry by (action, version), seeded RNG, provenance +
