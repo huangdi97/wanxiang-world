@@ -31,6 +31,7 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0025 | Package registry: portable manifests, deterministic resolution, content hashes, default-deny executable trust, manifest schema migration | accepted |
 | 0026 | Source gate: immutable sources + review stages E0..E5, rights+stage eligibility, injection default-deny, conflicting claims retained | accepted |
 | 0027 | Structured compiler: safe readers, deterministic pipeline with stable hash, provenance-bound candidates, PDF/OCR/video explicitly unsupported | accepted |
+| 0028 | Completion ledger: truth-label promotion graph, immutable review decisions, canon lock + override, rights gate, version diff | accepted |
 
 ## Decision log (inline quick notes)
 

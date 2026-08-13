@@ -63,6 +63,15 @@
 - SqlAlchemyEventStore in shared contract suite; durable replay == golden hash.
 - 111 tests green; docs/architecture/PERSISTENCE.md; ADR-0008.
 
+## 2026-08-13 ? G04D PASS (P4 phase)
+
+- `wanxiang_substrate.ledger`: truth-label taxonomy (canon/source_backed/
+  completion/model_inference/reconstruction/user_fiction) with deterministic
+  promotion graph, CompletionLedger with immutable ReviewDecision history,
+  canon lock + override, rights gate, package-version diff and audit snapshot.
+- 302 tests green; ADR-0028; docs/architecture/COMPLETION_LEDGER.md;
+  reports/g04d_report.md; checkpoint `goal g04d: completion ledger & review
+  workflow`.
 ## 2026-08-13 ? G04C PASS (P4 phase)
 
 - `wanxiang_substrate.compiler`: safe readers (json strict, restricted YAML

@@ -59,6 +59,8 @@
 
 - G04C Structured Compiler MVP ? PASS (2026-08-13): safe readers (json/yaml-subset/markdown/text), deterministic pipeline with stable hash, provenance-bound candidates, PDF/OCR/video explicitly unsupported; 293 tests green.
 
+- G04D Completion Ledger & Review Workflow ? PASS (2026-08-13): truth-label taxonomy, immutable review decisions, canon lock + override, rights gate, package-version diff; 302 tests green.
+
 - G03A Observation & Perspective Isolation ? PASS (2026-08-13): observations
   derived from events + spatial/acoustic/rights; sealed payload content never
   leaks; private/group visibility; 220 tests green.
@@ -88,6 +90,8 @@
 - G04B Source Registry & Source Gate ? PASS (2026-08-13): immutable sources + review stages E0..E5, rights envelopes, conflicting claim candidates with evidence links, audited transitions, pure SourceGate with injection detection; 283 tests green.
 
 - G04C Structured Compiler MVP ? PASS (2026-08-13): safe readers (json/yaml-subset/markdown/text), deterministic pipeline with stable hash, provenance-bound candidates, PDF/OCR/video explicitly unsupported; 293 tests green.
+
+- G04D Completion Ledger & Review Workflow ? PASS (2026-08-13): truth-label taxonomy, immutable review decisions, canon lock + override, rights gate, package-version diff; 302 tests green.
 
 - G03E Resolver, Adjudication & Deterministic Policies ? PASS (2026-08-13):
   adjudicator registry by (action, version), seeded RNG, provenance +

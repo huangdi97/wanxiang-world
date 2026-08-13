@@ -66,7 +66,8 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | G04A Package, Schema & Dependency Registry | PASS (2026-08-13, commit goal g04a) |
 | G04B Source Registry & Source Gate | PASS (2026-08-13, commit goal g04b) |
 | G04C Structured Compiler MVP | PASS (2026-08-13, commit goal g04c) |
-| G04D Completion Ledger & Review Workflow | NEXT |
+| G04D Completion Ledger & Review Workflow | PASS (2026-08-13, commit goal g04d) |
+| G04E Package Install/Export/Migration Compatibility | NEXT |
 | G05A..G05F Host/Projection | NOT_STARTED |
 | G06A..G06C Lifecycle/Multi-client/Recovery | NOT_STARTED |
 | G07A..G07E Reality/Director/Experiments | NOT_STARTED |
