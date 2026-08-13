@@ -63,6 +63,16 @@
 - SqlAlchemyEventStore in shared contract suite; durable replay == golden hash.
 - 111 tests green; docs/architecture/PERSISTENCE.md; ADR-0008.
 
+## 2026-08-13 ? G04B PASS (P4 phase)
+
+- `wanxiang_substrate.sources`: immutable SourceRecord + review stages E0..E5,
+  RightsEnvelope, ClaimCandidate/EvidenceLink (conflicting claims coexist),
+  SourceRegistry with append-only audit, pure SourceGate (rights + stage +
+  injection scan), versioned SourcePolicy, approved/rejected/conflicting/
+  malicious fixtures.
+- 283 tests green; ADR-0026; docs/architecture/SOURCE_GATE.md;
+  reports/g04b_report.md; checkpoint `goal g04b: source registry & source
+  gate`.
 ## 2026-08-13 ? G04A PASS (P4 phase)
 
 - `wanxiang_substrate.packages`: PackageManifest/SemanticVersion/

@@ -58,6 +58,7 @@ M3 verdict: PASS (2026-08-13, tag m3-bounded-agents; reports/M3_ACCEPTANCE.md).
 | Req ID | Source | Owning Goal | Test/evidence | Status | Last verified commit | Notes |
 |---|---|---|---|---|---|---|
 | M4-01 | M4 gate | GOAL_04A | Package/schema/dependency registry: deterministic resolution, cycles/conflicts, content hash, trust, migration | PASS | goal g04a | |
+| M4-02 | M4 gate | GOAL_04B | Source registry & gate: immutable sources, rights/stage eligibility, injection default-deny, conflicting claims | PASS | goal g04b | |
 
 ## Architecture gates (02_ENGINEERING_STANDARDS.md ?16)
 

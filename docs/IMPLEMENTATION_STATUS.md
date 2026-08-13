@@ -55,6 +55,8 @@
 
 - G04A Package, Schema & Dependency Registry ? PASS (2026-08-13): portable manifests, semantic constraints, deterministic resolver, content hashes, default-deny executable trust, manifest migration; 275 tests green.
 
+- G04B Source Registry & Source Gate ? PASS (2026-08-13): immutable sources + review stages E0..E5, rights envelopes, conflicting claim candidates with evidence links, audited transitions, pure SourceGate with injection detection; 283 tests green.
+
 - G03A Observation & Perspective Isolation ? PASS (2026-08-13): observations
   derived from events + spatial/acoustic/rights; sealed payload content never
   leaks; private/group visibility; 220 tests green.
@@ -80,6 +82,8 @@
 ## M4 ? Worlds Can Be Authored, Reviewed, Installed and Instantiated (in progress)
 
 - G04A Package, Schema & Dependency Registry ? PASS (2026-08-13): portable manifests, semantic constraints, deterministic resolver, content hashes, default-deny executable trust, manifest migration; 275 tests green.
+
+- G04B Source Registry & Source Gate ? PASS (2026-08-13): immutable sources + review stages E0..E5, rights envelopes, conflicting claim candidates with evidence links, audited transitions, pure SourceGate with injection detection; 283 tests green.
 
 - G03E Resolver, Adjudication & Deterministic Policies ? PASS (2026-08-13):
   adjudicator registry by (action, version), seeded RNG, provenance +
