@@ -1,0 +1,13 @@
+{
+  "forbidden_imports": [],
+  "persistence_leakage": [],
+  "commit_authority_callsites": [
+    {
+      "file": "packages\\application\\src\\wanxiang_application\\world_runtime.py",
+      "constructs_authority": true,
+      "commit_calls": 1
+    }
+  ],
+  "direct_append_calls": [],
+  "import_cycles": []
+}

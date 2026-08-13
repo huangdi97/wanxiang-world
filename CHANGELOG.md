@@ -342,3 +342,16 @@
   valid statuses, full kernel coverage, VERIFIED implementation/test ownership,
   goal mapping integrity and JSON currency.
 - Checkpoint: `g13b: design-to-implementation traceability matrix`.
+
+## 2026-08-14 ? G13C PASS (M10 phase)
+
+- Added `scripts/architecture_forensics.py` (AST dependency graph, forbidden-import,
+  persistence-leakage, CommitAuthority call-site, direct-write and cycle audits).
+- Produced `reports/ARCHITECTURE_FORENSICS.md`, `reports/DEPENDENCY_GRAPH.md`,
+  `reports/CANONICAL_MUTATION_PATHS.md`, `reports/architecture_forensics.json`,
+  `reports/G13C_REPORT.md`.
+- Added `tests/architecture/test_architecture_forensics.py` (11 tests): repository
+  clean (0 forbidden/leakage/writes/cycles, single CommitAuthority constructor),
+  detector anti-tests, projection/StateReader no-write-API, duplicate-command
+  idempotency through the event store.
+- Checkpoint: `g13c: architecture, dependency & canonical-mutation forensics`.
