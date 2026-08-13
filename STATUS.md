@@ -38,7 +38,7 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | Milestone | Meaning | Status |
 |---|---|---|
 | M2 | Deterministic Living World Exists | PASS (2026-08-13, tag m2-deterministic-living-world) |
-| M3 | Bounded Agents Can Live Inside the World | NEXT |
+| M3 | Bounded Agents Can Live Inside the World | PASS (2026-08-13, tag m3-bounded-agents) |
 | M4 | Worlds Can Be Authored, Reviewed, Installed, Instantiated | NOT_STARTED |
 | M5 | Human Can Enter a Persistent World Without Becoming Authority | NOT_STARTED |
 | M6 | World Can Be Safely Coupled to External Context and Controlled Experiments | NOT_STARTED |
@@ -62,8 +62,8 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | G03D Action/Affordance/Validator | PASS (2026-08-13, commit goal g03d) |
 | G03E Resolver/Adjudication/Deterministic Policies | PASS (2026-08-13, commit goal g03e) |
 | G03F Skill Runtime | PASS (2026-08-13, commit goal g03f) |
-| G03G Capability Learning | NEXT |
-| G04A..G04E World Definition/Evidence/Packages | NOT_STARTED |
+| G03G Capability & Learning | PASS (2026-08-13, commit goal g03g) |
+| G04A..G04E World Definition/Evidence/Packages | NEXT |
 | G05A..G05F Host/Projection | NOT_STARTED |
 | G06A..G06C Lifecycle/Multi-client/Recovery | NOT_STARTED |
 | G07A..G07E Reality/Director/Experiments | NOT_STARTED |

@@ -118,6 +118,7 @@ class SkillRuntime:
         if self._actor_field in step.payload and not step.payload[self._actor_field]:
             payload[self._actor_field] = actor_id.value
         try:
+            self._check_step_capability(actor_id, step)
             self._submit(step.action_type, payload)
         except Exception as exc:
             self._set_state(
@@ -136,6 +137,20 @@ class SkillRuntime:
             instance.current_step_index + 1,
             ",".join(completed),
         )
+
+    def _check_step_capability(self, actor_id: EntityId, step: SkillStep) -> None:
+        """Reject a step whose required capability level is not met (G03G)."""
+        if step.requires_capability is None:
+            return
+        name, sep, min_raw = step.requires_capability.partition(":")
+        min_level = int(min_raw) if sep and min_raw.isdigit() else 1
+        from wanxiang_substrate.capability.query import CapabilityQuery
+
+        state = self._runtime.current_state(self._instance_id, self._branch_id)
+        if not CapabilityQuery(state).requires(actor_id, name, min_level):
+            raise SkillPrerequisiteError(
+                f"actor lacks capability {step.requires_capability!r} (need >= {min_level})"
+            )
 
     def _set_state(
         self,

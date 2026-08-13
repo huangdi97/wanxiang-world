@@ -63,6 +63,20 @@
 - SqlAlchemyEventStore in shared contract suite; durable replay == golden hash.
 - 111 tests green; docs/architecture/PERSISTENCE.md; ADR-0008.
 
+## 2026-08-13 ? M3 PASS + G03G PASS (P3 phase)
+
+- M3 qualification PASS: observation -> belief -> correction -> multi-step
+  skill -> bounded capability change vertical with knowledge isolation
+  (`tests/integration/test_m3_qualification.py`); milestone tag
+  `m3-bounded-agents`.
+- G03G: `wanxiang_substrate.capability`: bounded CapabilityState (level 0..10,
+  mastery/confidence 0..1), PracticeRecord/AssessmentEvidence with evidence
+  refs, deterministic LearningPolicy (clamped), CapabilityQuery,
+  `capability.record_practice` / `capability.record_assessment` /
+  `capability.apply_delta` resolvers; SkillRuntime step capability gates.
+- 265 tests green; ADR-0024; docs/architecture/CAPABILITY_LEARNING.md;
+  reports/g03g_report.md + reports/M3_ACCEPTANCE.md; checkpoint
+  `goal g03g: capability & learning`.
 ## 2026-08-13 ? G03F PASS (P3 phase)
 
 - `wanxiang_substrate.skills`: versioned SkillDefinition/SkillStep/

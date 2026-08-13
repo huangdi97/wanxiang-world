@@ -49,7 +49,10 @@ Columns: Requirement ID | Source section | Owning Goal | Test/evidence | Current
 | M3-03 | M3 gate | GOAL_03C | Actor/org runtime: propose-only policies, order lifecycle, typed transitions | PASS | c7790ff | |
 | M3-04 | M3 gate | GOAL_03D | Action/affordance/validator: versioned registry, side-effect-free validation | PASS | b126b7d | |
 | M3-05 | M3 gate | GOAL_03E | Resolver/adjudication: deterministic policies, seeded RNG, provenance | PASS | edadaf3 | |
-| M3-06 | M3 gate | GOAL_03F | Skill runtime: step expansion through authoritative path, permission gate, failure handling | PASS | goal g03f | |
+| M3-06 | M3 gate | GOAL_03F | Skill runtime: step expansion through authoritative path, permission gate, failure handling | PASS | 6006fd2 | |
+| M3-07 | M3 gate | GOAL_03G | Capability & learning: bounded evidence-backed capability change; skill prerequisites | PASS | goal g03g | |
+M3 verdict: PASS (2026-08-13, tag m3-bounded-agents; reports/M3_ACCEPTANCE.md).
+
 ## Architecture gates (02_ENGINEERING_STANDARDS.md ?16)
 
 | Req ID | Source | Owning Goal | Test/evidence | Status | Last verified commit | Notes |
