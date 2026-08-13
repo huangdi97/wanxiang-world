@@ -24,3 +24,5 @@ export function makeWorldRef(instanceId: string, branchId: string): WorldRef {
 export * from "./projection.js";
 export * from "./studio.js";
 export * from "./phaser.js";
+export * from "./openapi.js";
+export * from "./projection3d.js";

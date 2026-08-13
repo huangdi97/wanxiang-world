@@ -33,6 +33,10 @@ from wanxiang_substrate.packages.model import (
 )
 from wanxiang_substrate.packages.registry import InMemoryPackageRegistry
 from wanxiang_substrate.packages.resolver import DependencyResolver
+from wanxiang_substrate.packages.sdk import (
+    PUBLIC_API_POLICY,
+    validate_manifest_for_authoring,
+)
 from wanxiang_substrate.packages.trust import ExecutableExtensionPolicy
 
 __all__ = [
@@ -47,6 +51,7 @@ __all__ = [
     "InvalidManifest",
     "MANIFEST_SCHEMA_VERSION",
     "MissingDependency",
+    "PUBLIC_API_POLICY",
     "PackageError",
     "PackageInstaller",
     "PackageKind",
@@ -62,4 +67,5 @@ __all__ = [
     "export_install",
     "install_export_hash",
     "migrate_manifest",
+    "validate_manifest_for_authoring",
 ]
