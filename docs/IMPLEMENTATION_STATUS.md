@@ -61,6 +61,9 @@
 - G05D Projection API & Filters ? PASS (2026-08-13): server-side perspective/rights filters, sealed/private redaction, debug privilege.
 - G05E Studio TS Slice ? PASS (2026-08-13): typed view models + Vitest (React render EXTERNAL_BLOCKED).
 - G05F Phaser TS Slice ? PASS (2026-08-13): map/token view models + Vitest (Phaser render EXTERNAL_BLOCKED).
+- G06A Persistent Lifecycle ? PASS (2026-08-13): 7 modes, canonical persistence, virtual clock, catch-up.
+- G06B Command Queue ? PASS (2026-08-13): bounded dedup intake, serialized drain, structured statuses.
+- G06C Crash Recovery/Checkpoint/Budget ? PASS (2026-08-13): snapshot fallback, hash-preserving restart, budgets.
 
 - G04A Package, Schema & Dependency Registry ? PASS (2026-08-13): portable manifests, semantic constraints, deterministic resolver, content hashes, default-deny executable trust, manifest migration; 275 tests green.
 
@@ -104,6 +107,9 @@
 - G05D Projection API & Filters ? PASS (2026-08-13): server-side perspective/rights filters, sealed/private redaction, debug privilege.
 - G05E Studio TS Slice ? PASS (2026-08-13): typed view models + Vitest (React render EXTERNAL_BLOCKED).
 - G05F Phaser TS Slice ? PASS (2026-08-13): map/token view models + Vitest (Phaser render EXTERNAL_BLOCKED).
+- G06A Persistent Lifecycle ? PASS (2026-08-13): 7 modes, canonical persistence, virtual clock, catch-up.
+- G06B Command Queue ? PASS (2026-08-13): bounded dedup intake, serialized drain, structured statuses.
+- G06C Crash Recovery/Checkpoint/Budget ? PASS (2026-08-13): snapshot fallback, hash-preserving restart, budgets.
 
 - G04A Package, Schema & Dependency Registry ? PASS (2026-08-13): portable manifests, semantic constraints, deterministic resolver, content hashes, default-deny executable trust, manifest migration; 275 tests green.
 

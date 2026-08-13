@@ -53,7 +53,7 @@ Columns: Requirement ID | Source section | Owning Goal | Test/evidence | Current
 | M3-07 | M3 gate | GOAL_03G | Capability & learning: bounded evidence-backed capability change; skill prerequisites | PASS | goal g03g | |
 M3 verdict: PASS (2026-08-13, tag m3-bounded-agents; reports/M3_ACCEPTANCE.md).
 M4 verdict: PASS (2026-08-13, tag m4-worlds-authored-installed; reports/M4_ACCEPTANCE.md).
-M5 verdict: PASS (2026-08-13, tag m5-human-in-world-without-authority; reports/M5_ACCEPTANCE.md).
+M5 verdict: PASS (2026-08-13, re-qualified with G06; tag m5-human-in-world-without-authority; reports/M5_ACCEPTANCE.md).
 
 ## M4 ? Worlds Can Be Authored, Reviewed, Installed and Instantiated (07_MILESTONE_GATES_M2_M9.md)
 
@@ -77,6 +77,9 @@ M5 verdict: PASS (2026-08-13, tag m5-human-in-world-without-authority; reports/M
 | M5-05 | M5 gate | GOAL_05E | Studio TS slice consumes projections; bounded commands | PASS | goal g05e | React render EXTERNAL_BLOCKED |
 | M5-06 | M5 gate | GOAL_05F | Phaser TS slice map/tokens/movement via projection API | PASS | goal g05f | Phaser render EXTERNAL_BLOCKED |
 | M5-07 | M5 gate | GOAL_05A-F | M5 vertical: lease->takeover->commit->release->disconnect->restart->reconnect hash continuity | PASS | m5 commit | test_m5_qualification |
+| M5-08 | M5 gate | GOAL_06A | Lifecycle persists independently of sessions; pause/advance/background | PASS | goal g06a | test_lifecycle + m5_g06 proofs |
+| M5-09 | M5 gate | GOAL_06B | Multi-client retries/conflicts idempotent and revision-safe | PASS | goal g06b | test_command_queue |
+| M5-10 | M5 gate | GOAL_06C | Crash/lease recovery + scheduler restoration preserve canonical hash | PASS | goal g06c | test_recovery + m5_g06 proofs |
 ## Architecture gates (02_ENGINEERING_STANDARDS.md ?16)
 
 | Req ID | Source | Owning Goal | Test/evidence | Status | Last verified commit | Notes |

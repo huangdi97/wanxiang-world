@@ -63,6 +63,18 @@
 - SqlAlchemyEventStore in shared contract suite; durable replay == golden hash.
 - 111 tests green; docs/architecture/PERSISTENCE.md; ADR-0008.
 
+## 2026-08-13 ? G06A-C PASS; M5 re-qualified with lifecycle & recovery
+
+- G06A `wanxiang_substrate.lifecycle`: 7 lifecycle modes, deterministic
+  transitions, canonical `host.lifecycle` persistence, virtual clock drivers,
+  catch-up policy.
+- G06B `wanxiang_substrate.queue`: bounded command queue with dedup,
+  serialized drain, structured statuses and backpressure.
+- G06C `wanxiang_substrate.recovery`: checkpoint validation, snapshot/event
+  replay fallback, resource budgets.
+- M5 re-qualified: lifecycle persists across restart, multi-client queue
+  idempotency/conflict, crash-restart hash continuity (335 tests); tag
+  `m5-human-in-world-without-authority` moved to this commit.
 ## 2026-08-13 ? M5 PASS + G05A-F PASS (P5 phase)
 
 - M5 qualification PASS: hosted world + Studio/Phaser sessions, embodiment

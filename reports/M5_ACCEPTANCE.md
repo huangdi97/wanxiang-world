@@ -4,9 +4,10 @@
 PASS
 
 ## Scope
-P5 (G05A?G05F) delivered on top of verified M1-M4. The mandatory hosted-world
-scenario ran over real internal paths (host + sessions + leases + handoff +
-projections + SQLite restart replay).
+P5 (G05A?G05F + G06A?G06C) delivered on top of verified M1-M4. The mandatory
+hosted-world scenario ran over real internal paths (host + sessions + leases +
+handoff + projections + lifecycle + command queue + recovery + SQLite restart
+replay).
 
 ## Mandatory scenario (tests/integration/test_m5_qualification.py)
 1. Hosted synthetic world with Studio and Phaser sessions.
@@ -31,9 +32,9 @@ projections + SQLite restart replay).
 | ShadowPolicy cannot compete for authoritative body control | PASS | ShadowCannotCommit + handoff tests |
 | Projection filters enforce knowledge/rights server-side | PASS | projection filter tests |
 | Studio/Phaser use command APIs; local state not canonical truth | PASS | TS client submit tests + design |
-| Lifecycle modes persist independently of sessions | PASS | host lifecycle test + vertical disconnect step |
-| Multi-client retries/conflicts idempotent + revision-safe | PASS | M1 idempotency/stale-revision regression + lease conflict |
-| Crash/lease recovery + scheduler restoration preserve hash | PASS | restart replay hash equality |
+| Lifecycle modes persist independently of sessions | PASS | G06A: lifecycle entity persists; test_m5_g06_proofs restart restores mode |
+| Multi-client retries/conflicts idempotent + revision-safe | PASS | G06B: command queue dedup/conflict; M1 idempotency regression |
+| Crash/lease recovery + scheduler restoration preserve hash | PASS | G06C: RecoveryService + test_m5_g06_proofs restart replay hash |
 
 ## Required regression
 | Gate | Status | Evidence |
@@ -56,7 +57,9 @@ projections + SQLite restart replay).
   renderer contract (G05E/G05F reports).
 
 ## Evidence summary
-- `uv run python scripts/quality.py` -> All quality checks passed (320 tests).
+- `uv run python scripts/quality.py` -> All quality checks passed (335 tests).
 - `packages/sdk_ts`: tsc --noEmit, eslint, vitest 14 passed.
-- Checkpoint commit: `m5: qualify milestone`
-- Milestone tag: `m5-human-in-world-without-authority`
+- G06 proofs: `tests/integration/test_m5_g06_proofs.py` (lifecycle persistence,
+  multi-client queue idempotency/conflict, crash-restart hash, budget).
+- Checkpoint commit: `m5: re-qualify with lifecycle & recovery`
+- Milestone tag: `m5-human-in-world-without-authority` (moved to final M5 commit)

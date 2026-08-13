@@ -38,6 +38,9 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0032 | Shadow/handoff: advice-only shadow; deterministic controller resumes on release | accepted |
 | 0033 | Projection: server-composed DTOs with rights/knowledge filters and debug privilege | accepted |
 | 0034 | Studio/Phaser slices: typed view models over server projections; renderers EXTERNAL_BLOCKED | accepted |
+| 0035 | Persistent lifecycle: canonical host.lifecycle entity, deterministic transitions, virtual clock drivers | accepted |
+| 0036 | Command queue: bounded dedup intake, serialized drain, structured statuses, backpressure | accepted |
+| 0037 | Recovery: committed-events crash boundary, snapshot/event-replay fallback, resource budgets | accepted |
 
 ## Decision log (inline quick notes)
 

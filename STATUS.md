@@ -74,16 +74,25 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | G05D Projection API/Perspective/Rights Filters | PASS (2026-08-13, commit goal g05d) |
 | G05E Studio Debug Vertical Slice | PASS (2026-08-13, commit goal g05e) |
 | G05F Phaser 2D Player Vertical Slice | PASS (2026-08-13, commit goal g05f) |
-| G06A..G06C Lifecycle/Multi-client/Recovery | NEXT |
+| G06A Persistent Lifecycle/Pause/Advance/Background | PASS (2026-08-13, commit goal g06a) |
+| G06B Command Queue & Idempotent Multi-client Semantics | PASS (2026-08-13, commit goal g06b) |
+| G06C Crash Recovery, Checkpoint & Resource Budget | PASS (2026-08-13, commit goal g06c) |
+| G07A..G07E Reality/Director/Experiments | NEXT |
 | G05A Minimal World Host & Authority Boundary | PASS (2026-08-13, commit goal g05a) |
 | G05B Session/Embodiment/Lease | PASS (2026-08-13, commit goal g05b) |
 | G05C Shadow/Human Policy Control Handoff | PASS (2026-08-13, commit goal g05c) |
 | G05D Projection API/Perspective/Rights Filters | PASS (2026-08-13, commit goal g05d) |
 | G05E Studio Debug Vertical Slice | PASS (2026-08-13, commit goal g05e) |
 | G05F Phaser 2D Player Vertical Slice | PASS (2026-08-13, commit goal g05f) |
-| G06A..G06C Lifecycle/Multi-client/Recovery | NEXT |
-| G06A..G06C Lifecycle/Multi-client/Recovery | NEXT |
-| G07A..G07E Reality/Director/Experiments | NOT_STARTED |
+| G06A Persistent Lifecycle/Pause/Advance/Background | PASS (2026-08-13, commit goal g06a) |
+| G06B Command Queue & Idempotent Multi-client Semantics | PASS (2026-08-13, commit goal g06b) |
+| G06C Crash Recovery, Checkpoint & Resource Budget | PASS (2026-08-13, commit goal g06c) |
+| G07A..G07E Reality/Director/Experiments | NEXT |
+| G06A Persistent Lifecycle/Pause/Advance/Background | PASS (2026-08-13, commit goal g06a) |
+| G06B Command Queue & Idempotent Multi-client Semantics | PASS (2026-08-13, commit goal g06b) |
+| G06C Crash Recovery, Checkpoint & Resource Budget | PASS (2026-08-13, commit goal g06c) |
+| G07A..G07E Reality/Director/Experiments | NEXT |
+| G07A..G07E Reality/Director/Experiments | NEXT |
 | G08A..G10D Domain Generality | NOT_STARTED |
 | G11A..G11F Co-Simulation | NOT_STARTED |
 | G12A..G12H Release | NOT_STARTED |
