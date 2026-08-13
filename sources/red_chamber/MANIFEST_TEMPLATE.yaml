@@ -1,0 +1,14 @@
+# Red Chamber Reference Slice - Manifest Template
+
+slice: red_chamber_bounded
+schema_version: 1
+executable_trust: untrusted
+required_sources:
+  - sources/red_chamber/characters.md
+  - sources/red_chamber/locations.md
+  - sources/red_chamber/events.md
+acceptance:
+  - source gate: all inputs must be approved (stage E3) with rights
+  - canon/completion labels preserved in projection
+  - no fabricated literary facts
+status: EXTERNAL_BLOCKED (no rights-cleared source corpus present)
