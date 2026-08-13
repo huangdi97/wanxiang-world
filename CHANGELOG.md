@@ -63,6 +63,19 @@
 - SqlAlchemyEventStore in shared contract suite; durable replay == golden hash.
 - 111 tests green; docs/architecture/PERSISTENCE.md; ADR-0008.
 
+## 2026-08-13 ? M4 PASS + G04E PASS (P4 phase)
+
+- M4 qualification PASS: author -> Source Gate -> compiler -> ledger canon ->
+  registry -> install (pinned) -> instantiate -> export/re-import -> publish v2
+  without mutating the v1 instance (replay-stable); milestone tag
+  `m4-worlds-authored-installed`.
+- G04E: `wanxiang_substrate.packages.install`: transactional install
+  (resolve -> hash verify -> trust -> compatibility -> InstallRecord with exact
+  pins), portable export with stable hash, explicit upgrade with fork-required
+  incompatibility detection.
+- 309 tests green; ADR-0029; docs/architecture/PACKAGE_INSTALL.md;
+  reports/g04e_report.md + reports/M4_ACCEPTANCE.md; checkpoint
+  `goal g04e: package install, export & migration compatibility`.
 ## 2026-08-13 ? G04D PASS (P4 phase)
 
 - `wanxiang_substrate.ledger`: truth-label taxonomy (canon/source_backed/

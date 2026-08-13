@@ -51,7 +51,7 @@
 
 ## M3 ? Bounded Agents Can Live Inside the World (PASS, 2026-08-13)
 
-## M4 ? Worlds Can Be Authored, Reviewed, Installed and Instantiated (in progress)
+## M4 ? Worlds Can Be Authored, Reviewed, Installed and Instantiated (PASS, 2026-08-13)
 
 - G04A Package, Schema & Dependency Registry ? PASS (2026-08-13): portable manifests, semantic constraints, deterministic resolver, content hashes, default-deny executable trust, manifest migration; 275 tests green.
 
@@ -60,6 +60,8 @@
 - G04C Structured Compiler MVP ? PASS (2026-08-13): safe readers (json/yaml-subset/markdown/text), deterministic pipeline with stable hash, provenance-bound candidates, PDF/OCR/video explicitly unsupported; 293 tests green.
 
 - G04D Completion Ledger & Review Workflow ? PASS (2026-08-13): truth-label taxonomy, immutable review decisions, canon lock + override, rights gate, package-version diff; 302 tests green.
+
+- G04E Package Install, Export & Migration Compatibility ? PASS (2026-08-13): transactional install with exact pins + lock hash, portable export with stable hash, explicit upgrade (fork on incompatible), v2 does not mutate v1-pinned instances; 309 tests green; M4 vertical PASS.
 
 - G03A Observation & Perspective Isolation ? PASS (2026-08-13): observations
   derived from events + spatial/acoustic/rights; sealed payload content never
@@ -83,7 +85,7 @@
 
 ## M3 ? Bounded Agents Can Live Inside the World (PASS, 2026-08-13)
 
-## M4 ? Worlds Can Be Authored, Reviewed, Installed and Instantiated (in progress)
+## M4 ? Worlds Can Be Authored, Reviewed, Installed and Instantiated (PASS, 2026-08-13)
 
 - G04A Package, Schema & Dependency Registry ? PASS (2026-08-13): portable manifests, semantic constraints, deterministic resolver, content hashes, default-deny executable trust, manifest migration; 275 tests green.
 
@@ -92,6 +94,8 @@
 - G04C Structured Compiler MVP ? PASS (2026-08-13): safe readers (json/yaml-subset/markdown/text), deterministic pipeline with stable hash, provenance-bound candidates, PDF/OCR/video explicitly unsupported; 293 tests green.
 
 - G04D Completion Ledger & Review Workflow ? PASS (2026-08-13): truth-label taxonomy, immutable review decisions, canon lock + override, rights gate, package-version diff; 302 tests green.
+
+- G04E Package Install, Export & Migration Compatibility ? PASS (2026-08-13): transactional install with exact pins + lock hash, portable export with stable hash, explicit upgrade (fork on incompatible), v2 does not mutate v1-pinned instances; 309 tests green; M4 vertical PASS.
 
 - G03E Resolver, Adjudication & Deterministic Policies ? PASS (2026-08-13):
   adjudicator registry by (action, version), seeded RNG, provenance +

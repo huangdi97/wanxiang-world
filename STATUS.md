@@ -39,7 +39,7 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 |---|---|---|
 | M2 | Deterministic Living World Exists | PASS (2026-08-13, tag m2-deterministic-living-world) |
 | M3 | Bounded Agents Can Live Inside the World | PASS (2026-08-13, tag m3-bounded-agents) |
-| M4 | Worlds Can Be Authored, Reviewed, Installed, Instantiated | NOT_STARTED |
+| M4 | Worlds Can Be Authored, Reviewed, Installed, Instantiated | PASS (2026-08-13, tag m4-worlds-authored-installed) |
 | M5 | Human Can Enter a Persistent World Without Becoming Authority | NOT_STARTED |
 | M6 | World Can Be Safely Coupled to External Context and Controlled Experiments | NOT_STARTED |
 | M7 | Multiple Unrelated Domains Prove Core Generality | NOT_STARTED |
@@ -67,8 +67,9 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | G04B Source Registry & Source Gate | PASS (2026-08-13, commit goal g04b) |
 | G04C Structured Compiler MVP | PASS (2026-08-13, commit goal g04c) |
 | G04D Completion Ledger & Review Workflow | PASS (2026-08-13, commit goal g04d) |
-| G04E Package Install/Export/Migration Compatibility | NEXT |
-| G05A..G05F Host/Projection | NOT_STARTED |
+| G04E Package Install/Export/Migration Compatibility | PASS (2026-08-13, commit goal g04e) |
+| G05A..G05F Host/Projection | NEXT |
+| G05A..G05F Host/Projection | NEXT |
 | G06A..G06C Lifecycle/Multi-client/Recovery | NOT_STARTED |
 | G07A..G07E Reality/Director/Experiments | NOT_STARTED |
 | G08A..G10D Domain Generality | NOT_STARTED |

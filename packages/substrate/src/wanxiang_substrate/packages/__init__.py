@@ -11,6 +11,12 @@ from wanxiang_substrate.packages.errors import (
     UntrustedExecutable,
 )
 from wanxiang_substrate.packages.fixture import build_town_packages
+from wanxiang_substrate.packages.install import (
+    InstallRecord,
+    PackageInstaller,
+    export_install,
+    install_export_hash,
+)
 from wanxiang_substrate.packages.migration import (
     CURRENT_MANIFEST_SCHEMA,
     compatible,
@@ -37,10 +43,12 @@ __all__ = [
     "ExecutableExtensionPolicy",
     "IncompatiblePackage",
     "InMemoryPackageRegistry",
+    "InstallRecord",
     "InvalidManifest",
     "MANIFEST_SCHEMA_VERSION",
     "MissingDependency",
     "PackageError",
+    "PackageInstaller",
     "PackageKind",
     "PackageLock",
     "PackageManifest",
@@ -51,5 +59,7 @@ __all__ = [
     "VersionConstraint",
     "build_town_packages",
     "compatible",
+    "export_install",
+    "install_export_hash",
     "migrate_manifest",
 ]

@@ -52,6 +52,7 @@ Columns: Requirement ID | Source section | Owning Goal | Test/evidence | Current
 | M3-06 | M3 gate | GOAL_03F | Skill runtime: step expansion through authoritative path, permission gate, failure handling | PASS | 6006fd2 | |
 | M3-07 | M3 gate | GOAL_03G | Capability & learning: bounded evidence-backed capability change; skill prerequisites | PASS | goal g03g | |
 M3 verdict: PASS (2026-08-13, tag m3-bounded-agents; reports/M3_ACCEPTANCE.md).
+M4 verdict: PASS (2026-08-13, tag m4-worlds-authored-installed; reports/M4_ACCEPTANCE.md).
 
 ## M4 ? Worlds Can Be Authored, Reviewed, Installed and Instantiated (07_MILESTONE_GATES_M2_M9.md)
 
@@ -61,6 +62,8 @@ M3 verdict: PASS (2026-08-13, tag m3-bounded-agents; reports/M3_ACCEPTANCE.md).
 | M4-02 | M4 gate | GOAL_04B | Source registry & gate: immutable sources, rights/stage eligibility, injection default-deny, conflicting claims | PASS | goal g04b | |
 | M4-03 | M4 gate | GOAL_04C | Structured compiler: safe readers, deterministic candidates with provenance, PDF/OCR/video unsupported | PASS | goal g04c | |
 | M4-04 | M4 gate | GOAL_04D | Completion ledger: truth labels, immutable review, canon lock + override, rights gate, diffs | PASS | goal g04d | |
+| M4-05 | M4 gate | GOAL_04E | Install/export/migration: transactional install, exact pins, export roundtrip, v2 does not mutate v1 | PASS | goal g04e | |
+| M4-06 | M4 gate | GOAL_04A-E | M4 vertical: author->review->install->instantiate synthetic package end-to-end | PASS | goal g04e | test_m4_qualification |
 
 ## Architecture gates (02_ENGINEERING_STANDARDS.md ?16)
 
