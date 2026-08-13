@@ -1,0 +1,726 @@
+﻿"""G13B: design-to-implementation traceability data + generator.
+
+Stable requirement IDs follow WX-<plane>-<section>-NNN. Allowed statuses:
+VERIFIED / PARTIAL / GAP / EXTERNAL_BLOCKED / NOT_APPLICABLE.
+
+Run from repository root:
+    uv run python scripts/traceability.py
+writes reports/DESIGN_IMPLEMENTATION_TRACEABILITY.md,
+reports/design_implementation_traceability.json and
+reports/KERNEL_COVERAGE_SUMMARY.md. Imported by the validator test
+tests/architecture/test_traceability.py.
+"""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+REPORTS = ROOT / "reports"
+SPEC = "docs/spec/WANXIANG_v5_MASTER_SPEC.md"
+
+ALLOWED_STATUSES = {"VERIFIED", "PARTIAL", "GAP", "EXTERNAL_BLOCKED", "NOT_APPLICABLE"}
+
+KERNELS = {
+    "canonical_state": {"name": "Canonical State Kernel (5.1)", "plane": "World Reality"},
+    "living_world_substrate": {"name": "Living World Substrate (5.2)", "plane": "World Reality"},
+    "reality_bridge": {"name": "Physical Context / Reality Bridge (5.3)", "plane": "World Reality"},
+    "cosimulation": {"name": "Co-Simulation Fabric (5.4)", "plane": "World Reality"},
+    "event_branch_temporal": {"name": "Event / Branch / Temporal Kernel (5.5)", "plane": "World Reality"},
+    "perception_belief_memory": {"name": "Perception-Belief-Memory Kernel (6.1)", "plane": "Agency & Capability"},
+    "actor_organization": {"name": "Actor / Organization Runtime (6.2)", "plane": "Agency & Capability"},
+    "skill_action_affordance": {"name": "Skill-Action-Affordance Kernel (6.3)", "plane": "Agency & Capability"},
+    "capability_learning": {"name": "Capability & Learning Kernel (6.4)", "plane": "Agency & Capability"},
+    "opportunity_challenge_event": {"name": "Opportunity-Challenge-Event Kernel (7.1)", "plane": "Orchestration & Control"},
+    "embodiment_director_experiment": {"name": "Embodiment / Director / Experiment Kernel (7.2)", "plane": "Orchestration & Control"},
+    "world_host_lifecycle": {"name": "World Host / Lifecycle / Multiplayer Kernel (8.1)", "plane": "Hosting & Experience"},
+    "projection_rendering_network": {"name": "Projection / Rendering / Network Gateway (8.2)", "plane": "Hosting & Experience"},
+    "source_evidence": {"name": "Source / Evidence Kernel (4.1)", "plane": "World Definition"},
+    "world_compiler": {"name": "World Compiler & Completion Compiler (4.2)", "plane": "World Definition"},
+    "package_registry": {"name": "Package / Schema / Dependency Registry (4.3)", "plane": "World Definition"},
+}
+
+CONCERNS = [
+    "hierarchy", "commit_authority", "event_sourcing", "replay", "branch",
+    "snapshot", "source_gate", "rights_privacy", "host_boundary",
+    "projection_filters", "cosim_boundary", "determinism", "security_ops",
+    "stability", "backup_restore", "sdk_openapi", "worldness", "domain_generality",
+]
+REQUIREMENTS: list[dict] = [
+    {
+        "id": "WX-SRC-4.1-001",
+        "source": SPEC + " 4.1",
+        "summary": "Sources are immutable, reviewed (E0..E5), rights-gated; model memory is not a source.",
+        "kernel": "source_evidence",
+        "owner": "packages/substrate sources+ledger",
+        "implementation": "wanxiang_substrate.sources.{gate,registry,model,policy}; wanxiang_substrate.ledger",
+        "test": "tests/integration/test_source_gate.py; tests/integration/test_completion_ledger.py",
+        "status": "VERIFIED",
+        "notes": "Source Gate fixtures pass; real Red Chamber/Liaoshen data EXTERNAL_BLOCKED.",
+    },
+    {
+        "id": "WX-SRC-4.1-002",
+        "summary": "Completion ledger promotes truth labels through review with immutable decisions and rights gate.",
+        "kernel": "source_evidence",
+        "owner": "packages/substrate ledger",
+        "implementation": "wanxiang_substrate.ledger.{model,fixture,resolver}",
+        "test": "tests/integration/test_completion_ledger.py",
+        "status": "VERIFIED",
+        "notes": "",
+    },
+    {
+        "id": "WX-CMP-4.2-001",
+        "summary": "Structured compiler pipeline is deterministic, provenance-bound, safe readers; PDF/OCR/video unsupported explicitly.",
+        "kernel": "world_compiler",
+        "owner": "packages/substrate compiler",
+        "implementation": "wanxiang_substrate.compiler.{compiler,readers,validate,yaml_mini,export,fixture}",
+        "test": "tests/integration/test_structured_compiler.py; tests/integration/test_package_install.py",
+        "status": "VERIFIED",
+        "notes": "",
+    },
+    {
+        "id": "WX-PKG-4.3-001",
+        "summary": "Package registry: portable manifests, deterministic resolution, content hashes, default-deny executable trust.",
+        "kernel": "package_registry",
+        "owner": "packages/substrate packages",
+        "implementation": "wanxiang_substrate.packages.*",
+        "test": "tests/integration/test_package_registry.py; tests/integration/test_package_install.py",
+        "status": "VERIFIED",
+        "notes": "",
+    },
+    {
+        "id": "WX-ST-5.1-001",
+        "summary": "Canonical World State is event-sourced, versioned, hash-bound and writable only through Commit Authority.",
+        "kernel": "canonical_state",
+        "owner": "packages/domain + packages/runtime",
+        "implementation": "wanxiang_domain.{state,entity,event,command,delta,hashing}; wanxiang_runtime.{authority,state,invariants}",
+        "test": "tests/unit/runtime/test_authority.py; tests/unit/runtime/test_state.py; tests/integration/test_m1_acceptance.py",
+        "status": "VERIFIED",
+        "notes": "",
+    },
+    {
+        "id": "WX-HIER-001",
+        "summary": "Formal hierarchy Domain Pack -> World Pack -> Scenario -> World Instance -> Branch -> Session -> Projection is distinct and enforced.",
+        "kernel": "canonical_state",
+        "owner": "packages/domain hierarchy + persistence",
+        "implementation": "wanxiang_domain.hierarchy; wanxiang_persistence.instance_repository; wanxiang_substrate.host",
+        "test": "tests/unit/runtime/test_branch.py; tests/integration/test_package_install.py",
+        "status": "VERIFIED",
+        "notes": "Cross-cutting concern: hierarchy.",
+    },
+    {
+        "id": "WX-AUTH-001",
+        "summary": "Only Commit Authority may mutate canonical state; all other actors propose commands/observations.",
+        "kernel": "canonical_state",
+        "owner": "packages/runtime authority",
+        "implementation": "wanxiang_runtime.authority.CommitAuthority",
+        "test": "tests/unit/runtime/test_authority.py; tests/integration/test_m1_acceptance.py",
+        "status": "VERIFIED",
+        "notes": "Cross-cutting concern: commit_authority.",
+    },
+    {
+        "id": "WX-LIV-5.2-001",
+        "summary": "Spatial substrate: topology, path/capacity/access queries, zones, portals, versioned components.",
+        "kernel": "living_world_substrate",
+        "owner": "packages/substrate spatial",
+        "implementation": "wanxiang_substrate.spatial.{model,query,resolver,components,fixture}",
+        "test": "tests/integration/test_spatial_movement.py; tests/unit/substrate/test_spatial_model.py",
+        "status": "VERIFIED",
+        "notes": "",
+    },
+    {
+        "id": "WX-LIV-5.2-002",
+        "summary": "Temporal substrate: monotonic world clock, calendars, appointments/deadlines/recurring events, bounded deterministic recurrence.",
+        "kernel": "living_world_substrate",
+        "owner": "packages/substrate temporal",
+        "implementation": "wanxiang_substrate.temporal.{model,query,resolver,components,fixture}",
+        "test": "tests/integration/test_temporal_advance.py; tests/unit/substrate/test_temporal_model.py",
+        "status": "VERIFIED",
+        "notes": "",
+    },
+    {
+        "id": "WX-LIV-5.2-003",
+        "summary": "Material substrate: objects, containers, custody chain, information payloads with container constraints.",
+        "kernel": "living_world_substrate",
+        "owner": "packages/substrate material",
+        "implementation": "wanxiang_substrate.material.*",
+        "test": "tests/integration/test_material_custody.py; tests/property/test_material_properties.py",
+        "status": "VERIFIED",
+        "notes": "",
+    },
+    {
+        "id": "WX-LIV-5.2-004",
+        "summary": "Body substrate: condition constraints, health/exhaustion, viability checks.",
+        "kernel": "living_world_substrate",
+        "owner": "packages/substrate body",
+        "implementation": "wanxiang_substrate.body.{model,query,resolver,components,fixture}",
+        "test": "tests/integration/test_body_condition.py; tests/property/test_body_properties.py",
+        "status": "VERIFIED",
+        "notes": "",
+    },
+    {
+        "id": "WX-LIV-5.2-005",
+        "summary": "Institution substrate: authority, duty, norms, role hierarchy.",
+        "kernel": "living_world_substrate",
+        "owner": "packages/substrate institution",
+        "implementation": "wanxiang_substrate.institution.{model,query,resolver,components,fixture}",
+        "test": "tests/integration/test_institution_authority.py; tests/property/test_institution_properties.py",
+        "status": "VERIFIED",
+        "notes": "",
+    },
+    {
+        "id": "WX-LIV-5.2-006",
+        "summary": "Population resolution and deterministic autonomous scheduler with bounded budgets.",
+        "kernel": "living_world_substrate",
+        "owner": "packages/substrate population",
+        "implementation": "wanxiang_substrate.population.{model,resolver,scheduler}",
+        "test": "tests/integration/test_autonomous_scheduler.py; tests/integration/test_g12a_stability.py",
+        "status": "VERIFIED",
+        "notes": "",
+    },
+    {
+        "id": "WX-RB-5.3-001",
+        "summary": "Reality bridge normalizes physical observations onto a bus; observations are claims/proposals, never canonical truth.",
+        "kernel": "reality_bridge",
+        "owner": "packages/substrate reality + observation",
+        "implementation": "wanxiang_substrate.reality.{bridge,fusion,model}; wanxiang_substrate.observation.*",
+        "test": "tests/integration/test_reality_bridge.py; tests/integration/test_observation_perspective.py",
+        "status": "VERIFIED",
+        "notes": "",
+    },
+    {
+        "id": "WX-RB-5.3-002",
+        "summary": "Observation fusion: dedup, conflict sets, validation, versioned policy; no silent truth mutation.",
+        "kernel": "reality_bridge",
+        "owner": "packages/substrate reality",
+        "implementation": "wanxiang_substrate.reality.fusion",
+        "test": "tests/integration/test_reality_bridge.py",
+        "status": "VERIFIED",
+        "notes": "",
+    },
+    {
+        "id": "WX-COS-5.4-001",
+        "summary": "SimulationAdapter contract; adapters propose deltas and never own commit authority; multi-rate orchestrator.",
+        "kernel": "cosimulation",
+        "owner": "packages/substrate cosim + research",
+        "implementation": "wanxiang_substrate.cosim.{adapter,orchestrator,campaign,errors}; wanxiang_substrate.research.adapters",
+        "test": "tests/integration/test_cosim.py; tests/integration/test_g12dfg_adapters.py",
+        "status": "VERIFIED",
+        "notes": "Cross-cutting concern: cosim_boundary.",
+    },
+]
+REQUIREMENTS += [
+    {
+        "id": "WX-EVT-5.5-001",
+        "summary": "Event history is append-only, ordered, idempotent; duplicate retries never duplicate effects.",
+        "kernel": "event_branch_temporal",
+        "owner": "packages/domain + packages/persistence",
+        "implementation": "wanxiang_domain.event; wanxiang_persistence.event_store",
+        "test": "tests/unit/event_store/test_event_store.py; tests/contract/test_event_store_contract.py",
+        "status": "VERIFIED",
+        "notes": "Cross-cutting concern: event_sourcing.",
+    },
+    {
+        "id": "WX-EVT-5.5-002",
+        "summary": "Snapshot is an optimization/baseline, never a replacement for event history; replay rebuilds state.",
+        "kernel": "event_branch_temporal",
+        "owner": "packages/runtime",
+        "implementation": "wanxiang_runtime.{replay,snapshot}; wanxiang_persistence.snapshot_store",
+        "test": "tests/unit/runtime/test_replay.py; tests/unit/runtime/test_snapshot.py; tests/unit/runtime/test_golden_replay.py",
+        "status": "VERIFIED",
+        "notes": "Cross-cutting concern: replay, snapshot.",
+    },
+    {
+        "id": "WX-EVT-5.5-003",
+        "summary": "Branch isolation: child branches never mutate parent history; stale revisions rejected with typed conflict.",
+        "kernel": "event_branch_temporal",
+        "owner": "packages/runtime branch",
+        "implementation": "wanxiang_runtime.branch",
+        "test": "tests/unit/runtime/test_branch.py; tests/unit/runtime/test_diff.py",
+        "status": "VERIFIED",
+        "notes": "Cross-cutting concern: branch.",
+    },
+    {
+        "id": "WX-EVT-5.5-004",
+        "summary": "Deterministic replay across runs (seeded RNG, stable hashing, golden fixtures).",
+        "kernel": "event_branch_temporal",
+        "owner": "packages/runtime replay",
+        "implementation": "wanxiang_runtime.replay; wanxiang_domain.hashing",
+        "test": "tests/unit/runtime/test_golden_replay.py; tests/property/test_replay_properties.py",
+        "status": "VERIFIED",
+        "notes": "Cross-cutting concern: replay, determinism.",
+    },
+    {
+        "id": "WX-PER-6.1-001",
+        "summary": "Observation and perspective isolation: derived read-models with rule_refs audit; sealed payloads never in observations.",
+        "kernel": "perception_belief_memory",
+        "owner": "packages/substrate observation + epistemic",
+        "implementation": "wanxiang_substrate.observation.*; wanxiang_substrate.epistemic.*",
+        "test": "tests/integration/test_observation_perspective.py; tests/unit/substrate/test_observation_model.py",
+        "status": "VERIFIED",
+        "notes": "",
+    },
+    {
+        "id": "WX-PER-6.1-002",
+        "summary": "Belief/memory temporal epistemic graph: versioned components, corrections link without silent overwrite, actor-scoped access.",
+        "kernel": "perception_belief_memory",
+        "owner": "packages/substrate epistemic",
+        "implementation": "wanxiang_substrate.epistemic.{model,components,query,resolver,fixture}",
+        "test": "tests/integration/test_epistemic_belief.py; tests/unit/substrate/test_epistemic_model.py",
+        "status": "VERIFIED",
+        "notes": "",
+    },
+    {
+        "id": "WX-ACT-6.2-001",
+        "summary": "Actor and organization runtime: propose-only policies, typed lifecycle, bounded agency.",
+        "kernel": "actor_organization",
+        "owner": "packages/substrate agency",
+        "implementation": "wanxiang_substrate.agency.{model,policy,resolver,query,fixture,components}",
+        "test": "tests/integration/test_agency_runtime.py; tests/unit/substrate/test_agency_model.py",
+        "status": "VERIFIED",
+        "notes": "",
+    },
+    {
+        "id": "WX-SKL-6.3-001",
+        "summary": "Action/affordance/validator: versioned action registry, side-effect-free validator.",
+        "kernel": "skill_action_affordance",
+        "owner": "packages/substrate actions",
+        "implementation": "wanxiang_substrate.actions.{model,registry,validator,affordance}",
+        "test": "tests/integration/test_actions_affordance.py; tests/unit/substrate/test_actions_validator.py",
+        "status": "VERIFIED",
+        "notes": "",
+    },
+    {
+        "id": "WX-SKL-6.3-002",
+        "summary": "Skill runtime: versioned skill registry, deterministic execution state as versioned component.",
+        "kernel": "skill_action_affordance",
+        "owner": "packages/substrate skills",
+        "implementation": "wanxiang_substrate.skills.{registry,runtime,resolver,model,components}",
+        "test": "tests/integration/test_skill_runtime.py",
+        "status": "VERIFIED",
+        "notes": "",
+    },
+    {
+        "id": "WX-CAP-6.4-001",
+        "summary": "Capability & learning: bounded capability, evidence-backed deltas, deterministic clamped policy.",
+        "kernel": "capability_learning",
+        "owner": "packages/substrate capability",
+        "implementation": "wanxiang_substrate.capability.{model,policy,query,resolver,components}",
+        "test": "tests/integration/test_capability_learning.py",
+        "status": "VERIFIED",
+        "notes": "",
+    },
+    {
+        "id": "WX-OCE-7.1-001",
+        "summary": "Opportunity/challenge/event compiler: executable specs with prerequisites, safety, rights, evidence, outcomes.",
+        "kernel": "opportunity_challenge_event",
+        "owner": "packages/substrate reality",
+        "implementation": "wanxiang_substrate.reality.challenge",
+        "test": "tests/integration/test_challenge_director_experiment.py",
+        "status": "VERIFIED",
+        "notes": "",
+    },
+    {
+        "id": "WX-EMB-7.2-001",
+        "summary": "Session/embodiment/lease: one primary embodiment controller per actor; sessions never duplicate actor state.",
+        "kernel": "embodiment_director_experiment",
+        "owner": "packages/substrate session",
+        "implementation": "wanxiang_substrate.session.{model,control,service}",
+        "test": "tests/integration/test_host_session.py; tests/integration/test_m5_g06_proofs.py",
+        "status": "VERIFIED",
+        "notes": "",
+    },
+    {
+        "id": "WX-EMB-7.2-002",
+        "summary": "Shadow/human policy control handoff: advice-only shadow; deterministic controller resumes on release.",
+        "kernel": "embodiment_director_experiment",
+        "owner": "packages/substrate session",
+        "implementation": "wanxiang_substrate.session.control",
+        "test": "tests/integration/test_m5_g06_proofs.py",
+        "status": "VERIFIED",
+        "notes": "",
+    },
+    {
+        "id": "WX-EMB-7.2-003",
+        "summary": "Director runtime: proposals only; experiment runtime with deterministic multi-seed runs, findings, validity envelope.",
+        "kernel": "embodiment_director_experiment",
+        "owner": "packages/substrate reality",
+        "implementation": "wanxiang_substrate.reality.{director,experiment}",
+        "test": "tests/integration/test_challenge_director_experiment.py; tests/integration/test_m6_qualification.py",
+        "status": "VERIFIED",
+        "notes": "",
+    },
+    {
+        "id": "WX-HST-8.1-001",
+        "summary": "World host is an orchestration boundary, not a second Commit Authority; lifecycle modes gate commands.",
+        "kernel": "world_host_lifecycle",
+        "owner": "packages/substrate host + lifecycle",
+        "implementation": "wanxiang_substrate.host.{host,model}; wanxiang_substrate.lifecycle.*",
+        "test": "tests/integration/test_host_session.py; tests/integration/test_lifecycle.py",
+        "status": "VERIFIED",
+        "notes": "Cross-cutting concern: host_boundary.",
+    },
+    {
+        "id": "WX-HST-8.1-002",
+        "summary": "Command queue: bounded dedup intake, serialized drain, structured statuses, backpressure; idempotent multi-client semantics.",
+        "kernel": "world_host_lifecycle",
+        "owner": "packages/substrate queue",
+        "implementation": "wanxiang_substrate.queue.{queue,model}",
+        "test": "tests/integration/test_command_queue.py; tests/integration/test_m5_g06_proofs.py",
+        "status": "VERIFIED",
+        "notes": "",
+    },
+    {
+        "id": "WX-HST-8.1-003",
+        "summary": "Crash recovery/checkpoint/resource budgets: committed-events boundary, snapshot/event-replay fallback.",
+        "kernel": "world_host_lifecycle",
+        "owner": "packages/substrate recovery",
+        "implementation": "wanxiang_substrate.recovery.{recovery,checkpoint,budget}",
+        "test": "tests/integration/test_recovery.py; tests/integration/test_m5_g06_proofs.py",
+        "status": "VERIFIED",
+        "notes": "",
+    },
+    {
+        "id": "WX-PRJ-8.2-001",
+        "summary": "Projection API/perspective/rights filters: server-composed DTOs with rights/knowledge filters; projection state discardable.",
+        "kernel": "projection_rendering_network",
+        "owner": "packages/substrate projection + apps/api",
+        "implementation": "wanxiang_substrate.projection.{service,model}; apps/api routes",
+        "test": "tests/integration/test_projection_filters.py; tests/api/test_api.py",
+        "status": "VERIFIED",
+        "notes": "Cross-cutting concern: projection_filters.",
+    },
+    {
+        "id": "WX-PRJ-8.2-002",
+        "summary": "Network gateway/transport: FastAPI thin transport with structured errors and OpenAPI; typed TS SDK over stable document.",
+        "kernel": "projection_rendering_network",
+        "owner": "apps/api + packages/sdk_ts",
+        "implementation": "apps/api/src/wanxiang_api; packages/sdk_ts/src",
+        "test": "tests/api/test_api.py; packages/sdk_ts vitest (21)",
+        "status": "VERIFIED",
+        "notes": "Cross-cutting concern: sdk_openapi.",
+    },
+    {
+        "id": "WX-PRJ-8.2-003",
+        "summary": "Renderers (Phaser/Godot/Babylon) and digital-human/XR presence are non-authoritative clients; contracts exist, renderers EXTERNAL_BLOCKED.",
+        "kernel": "projection_rendering_network",
+        "owner": "packages/sdk_ts + packages/substrate gateway",
+        "implementation": "packages/sdk_ts/src/{phaser,projection3d}.ts; wanxiang_substrate.gateway.gateway",
+        "test": "packages/sdk_ts phaser/projection3d tests; tests/integration/test_g12dfg_adapters.py",
+        "status": "EXTERNAL_BLOCKED",
+        "notes": "Interfaces, fakes, negative gates complete; real renderers unavailable in environment.",
+    },
+]
+REQUIREMENTS += [
+    {
+        "id": "WX-RGT-001",
+        "summary": "Rights and privacy are server-enforced end-to-end: rights gate, projection filters, gateway asset/voice/face rights.",
+        "kernel": "source_evidence",
+        "owner": "packages/domain rights + projection + gateway",
+        "implementation": "wanxiang_domain.rights; wanxiang_substrate.projection.service; wanxiang_substrate.gateway.gateway",
+        "test": "tests/integration/test_projection_filters.py; tests/integration/test_g12h_security.py; tests/integration/test_g12dfg_adapters.py",
+        "status": "VERIFIED",
+        "notes": "Cross-cutting concern: rights_privacy.",
+    },
+    {
+        "id": "WX-DET-001",
+        "summary": "Deterministic core tests run without paid external APIs or LLM keys.",
+        "kernel": "canonical_state",
+        "owner": "repository-wide",
+        "implementation": "no LLM SDK required by core tests; model_providers package empty",
+        "test": "full pytest suite (385) runs offline",
+        "status": "VERIFIED",
+        "notes": "Cross-cutting concern: determinism.",
+    },
+    {
+        "id": "WX-SEC-001",
+        "summary": "Security: secrets redaction, upload/source injection rejection, admin/debug access control, append-only audit.",
+        "kernel": "world_host_lifecycle",
+        "owner": "packages/observability + apps/api",
+        "implementation": "wanxiang_observability.{secrets,config,logging}; apps/api errors/routes",
+        "test": "tests/integration/test_g12h_security.py; tests/unit/test_config_redaction.py",
+        "status": "VERIFIED",
+        "notes": "Cross-cutting concern: security_ops.",
+    },
+    {
+        "id": "WX-STB-001",
+        "summary": "Long-run stability: 30 in-world days + 1000+ commit/scheduler cycles with bounded growth.",
+        "kernel": "world_host_lifecycle",
+        "owner": "packages/substrate population/host",
+        "implementation": "wanxiang_substrate.population.scheduler; wanxiang_substrate.host.host",
+        "test": "tests/integration/test_g12a_stability.py",
+        "status": "VERIFIED",
+        "notes": "Cross-cutting concern: stability.",
+    },
+    {
+        "id": "WX-BKP-001",
+        "summary": "Backup/restore/migration: backup restores into clean env reproducing canonical hashes; migrations replay.",
+        "kernel": "event_branch_temporal",
+        "owner": "packages/persistence + migrations",
+        "implementation": "wanxiang_persistence.database/event_store; migrations/versions",
+        "test": "tests/integration/test_g12b_backup.py; tests/migration/test_migrations.py",
+        "status": "VERIFIED",
+        "notes": "Cross-cutting concern: backup_restore.",
+    },
+    {
+        "id": "WX-WOR-001",
+        "summary": "Worldness criteria: persistence, spatiotemporal/material/body/social/cognitive/causal continuity, replay, projection independence.",
+        "kernel": "canonical_state",
+        "owner": "repository-wide",
+        "implementation": "all substrate planes + runtime",
+        "test": "tests/integration/test_m2_qualification.py; tests/integration/test_m5_g06_proofs.py; tests/integration/test_m7_qualification.py",
+        "status": "VERIFIED",
+        "notes": "Cross-cutting concern: worldness.",
+    },
+    {
+        "id": "WX-DOM-001",
+        "summary": "Domain generality: unrelated domains (mansion, red chamber, genealogy, heritage, campaign) prove Core generality without Core hacks.",
+        "kernel": "living_world_substrate",
+        "owner": "packages/substrate domain packs",
+        "implementation": "wanxiang_substrate.{genealogy,heritage,cosim.campaign}; domain fixtures",
+        "test": "tests/integration/test_m7_mansion.py; tests/integration/test_genealogy.py; tests/integration/test_heritage.py; tests/integration/test_m8_qualification.py",
+        "status": "VERIFIED",
+        "notes": "Cross-cutting concern: domain_generality.",
+    },
+    {
+        "id": "WX-SRC-EXTERNAL-001",
+        "summary": "Real Red Chamber/Liaoshen/family/heritage source data, real IIIF endpoints, real renderers: source/rights gated.",
+        "kernel": "source_evidence",
+        "owner": "EXTERNAL",
+        "implementation": "generic contracts + synthetic fixtures + source-gate tests only",
+        "test": "tests/integration/test_source_gate.py; tests/integration/test_m7_mansion.py",
+        "status": "EXTERNAL_BLOCKED",
+        "notes": "Real corpora unavailable; generic capability complete.",
+    },
+]
+
+GOALS: dict[str, list[str]] = {
+    "G00A": ["WX-HIER-001", "WX-DET-001"],
+    "G00B": ["WX-AUTH-001", "WX-DET-001", "WX-SEC-001"],
+    "G01A": ["WX-ST-5.1-001", "WX-HIER-001"],
+    "G01B": ["WX-AUTH-001", "WX-ST-5.1-001"],
+    "G01C": ["WX-EVT-5.5-001", "WX-EVT-5.5-002"],
+    "G01D": ["WX-EVT-5.5-002", "WX-EVT-5.5-003", "WX-EVT-5.5-004"],
+    "G01E": ["WX-BKP-001", "WX-EVT-5.5-001"],
+    "G01F": ["WX-PRJ-8.2-001", "WX-PRJ-8.2-002", "WX-WOR-001"],
+    "G02A": ["WX-LIV-5.2-001"],
+    "G02B": ["WX-LIV-5.2-002"],
+    "G02C": ["WX-LIV-5.2-003"],
+    "G02D": ["WX-LIV-5.2-004"],
+    "G02E": ["WX-LIV-5.2-005"],
+    "G02F": ["WX-LIV-5.2-006"],
+    "G03A": ["WX-PER-6.1-001"],
+    "G03B": ["WX-PER-6.1-002"],
+    "G03C": ["WX-ACT-6.2-001"],
+    "G03D": ["WX-SKL-6.3-001"],
+    "G03E": ["WX-ST-5.1-001", "WX-EVT-5.5-004"],
+    "G03F": ["WX-SKL-6.3-002"],
+    "G03G": ["WX-CAP-6.4-001"],
+    "G04A": ["WX-PKG-4.3-001"],
+    "G04B": ["WX-SRC-4.1-001"],
+    "G04C": ["WX-CMP-4.2-001"],
+    "G04D": ["WX-SRC-4.1-002"],
+    "G04E": ["WX-PKG-4.3-001", "WX-BKP-001"],
+    "G05A": ["WX-HST-8.1-001"],
+    "G05B": ["WX-EMB-7.2-001"],
+    "G05C": ["WX-EMB-7.2-002"],
+    "G05D": ["WX-PRJ-8.2-001", "WX-RGT-001"],
+    "G05E": ["WX-PRJ-8.2-002"],
+    "G05F": ["WX-PRJ-8.2-003"],
+    "G06A": ["WX-HST-8.1-001"],
+    "G06B": ["WX-HST-8.1-002"],
+    "G06C": ["WX-HST-8.1-003"],
+    "G07A": ["WX-RB-5.3-001"],
+    "G07B": ["WX-RB-5.3-002"],
+    "G07C": ["WX-OCE-7.1-001"],
+    "G07D": ["WX-EMB-7.2-003"],
+    "G07E": ["WX-EMB-7.2-003"],
+    "G08A": ["WX-DOM-001"],
+    "G08B": ["WX-SRC-EXTERNAL-001"],
+    "G09A": ["WX-DOM-001"],
+    "G09B": ["WX-DOM-001", "WX-RGT-001"],
+    "G09C": ["WX-RGT-001"],
+    "G10A": ["WX-DOM-001", "WX-SRC-EXTERNAL-001"],
+    "G10B": ["WX-DOM-001"],
+    "G10C": ["WX-DOM-001"],
+    "G10D": ["WX-DOM-001"],
+    "G11A": ["WX-COS-5.4-001"],
+    "G11B": ["WX-COS-5.4-001"],
+    "G11C": ["WX-DOM-001"],
+    "G11D": ["WX-DOM-001"],
+    "G11E": ["WX-EMB-7.2-003"],
+    "G11F": ["WX-SRC-EXTERNAL-001"],
+    "G12A": ["WX-STB-001"],
+    "G12B": ["WX-BKP-001"],
+    "G12C": ["WX-PRJ-8.2-002"],
+    "G12D": ["WX-COS-5.4-001"],
+    "G12E": ["WX-PRJ-8.2-003"],
+    "G12F": ["WX-PRJ-8.2-003", "WX-RGT-001"],
+    "G12G": ["WX-PRJ-8.2-003", "WX-RGT-001"],
+    "G12H": ["WX-SEC-001", "WX-RGT-001"],
+}
+
+def build() -> dict:
+    return {
+        "schema_version": "1.0",
+        "source_document": SPEC,
+        "kernels": KERNELS,
+        "concerns": CONCERNS,
+        "requirements": REQUIREMENTS,
+        "goals": GOALS,
+    }
+
+
+def validate(data: dict | None = None) -> list[str]:
+    data = data or build()
+    errors: list[str] = []
+    ids = [r["id"] for r in data["requirements"]]
+    if len(ids) != len(set(ids)):
+        errors.append("duplicate requirement ids")
+    for r in data["requirements"]:
+        if r["status"] not in ALLOWED_STATUSES:
+            errors.append(f"{r['id']}: invalid status {r['status']}")
+        if r["kernel"] not in data["kernels"]:
+            errors.append(f"{r['id']}: unknown kernel {r['kernel']}")
+        if r["status"] == "VERIFIED" and (not r["implementation"] or not r["test"]):
+            errors.append(f"{r['id']}: VERIFIED row needs implementation and test")
+    for kernel in data["kernels"]:
+        if not any(r["kernel"] == kernel for r in data["requirements"]):
+            errors.append(f"kernel {kernel}: no requirement row")
+    for goal, reqs in data["goals"].items():
+        if not reqs:
+            errors.append(f"goal {goal}: empty requirement mapping")
+        for req in reqs:
+            if req not in ids:
+                errors.append(f"goal {goal}: unknown requirement {req}")
+    return errors
+
+
+def coverage_summary(data: dict) -> dict:
+    by_kernel: dict[str, dict] = {}
+    for k, meta in data["kernels"].items():
+        rows = [r for r in data["requirements"] if r["kernel"] == k]
+        by_kernel[k] = {
+            "name": meta["name"],
+            "plane": meta["plane"],
+            "rows": len(rows),
+            "statuses": {s: sum(1 for r in rows if r["status"] == s) for s in ALLOWED_STATUSES},
+        }
+    by_concern: dict[str, list[str]] = {}
+    for r in data["requirements"]:
+        note = r.get("notes", "")
+        for c in CONCERNS:
+            if c in note:
+                by_concern.setdefault(c, []).append(r["id"])
+    return {"kernels": by_kernel, "concerns": by_concern}
+
+
+def render_markdown(data: dict, summary: dict) -> str:
+    lines = [
+        "# Design-to-Implementation Traceability (G13B)",
+        "",
+        f"- Source document: `{data['source_document']}`",
+        f"- Requirement rows: {len(data['requirements'])}",
+        f"- Goals mapped (G00A-G12H): {len(data['goals'])}",
+        "",
+        "Statuses: VERIFIED / PARTIAL / GAP / EXTERNAL_BLOCKED / NOT_APPLICABLE.",
+        "",
+        "## Kernel coverage",
+        "",
+        "| Kernel | Plane | Rows | VERIFIED | PARTIAL | GAP | EXTERNAL_BLOCKED | N/A |",
+        "|---|---|---|---|---|---|---|---|",
+    ]
+    for k, s in summary["kernels"].items():
+        lines.append(
+            f"| {s['name']} | {s['plane']} | {s['rows']} | {s['statuses']['VERIFIED']} "
+            f"| {s['statuses']['PARTIAL']} | {s['statuses']['GAP']} "
+            f"| {s['statuses']['EXTERNAL_BLOCKED']} | {s['statuses']['NOT_APPLICABLE']} |"
+        )
+    lines += [
+        "",
+        "## Requirement matrix",
+        "",
+        "| ID | Summary | Kernel | Owner | Implementation | Test | Status |",
+        "|---|---|---|---|---|---|---|",
+    ]
+    for r in sorted(data["requirements"], key=lambda x: x["id"]):
+        lines.append(
+            f"| {r['id']} | {r['summary']} | {r['kernel']} | {r['owner']} "
+            f"| {r['implementation']} | {r['test']} | {r['status']} |"
+        )
+    lines += [
+        "",
+        "## Goal-to-requirement mapping (G00A-G12H)",
+        "",
+        "| Goal | Requirement IDs |",
+        "|---|---|",
+    ]
+    for goal in sorted(data["goals"]):
+        lines.append(f"| {goal} | {', '.join(data['goals'][goal])} |")
+    lines += [
+        "",
+        "Machine-readable copy: `reports/design_implementation_traceability.json`.",
+        "",
+    ]
+    return "\n".join(lines)
+
+
+def render_kernel_summary_md(summary: dict) -> str:
+    lines = [
+        "# Kernel Coverage Summary (G13B)",
+        "",
+        "## 16 logical kernels",
+        "",
+        "| Kernel | Plane | Rows | Statuses |",
+        "|---|---|---|---|",
+    ]
+    for k, s in summary["kernels"].items():
+        statuses = " ".join(f"{name}={n}" for name, n in s["statuses"].items() if n)
+        lines.append(f"| {s['name']} | {s['plane']} | {s['rows']} | {statuses} |")
+    lines += [
+        "",
+        "## Cross-cutting concerns",
+        "",
+        "| Concern | Requirement IDs |",
+        "|---|---|",
+    ]
+    for c in CONCERNS:
+        lines.append(f"| {c} | {', '.join(summary['concerns'].get(c, [])) or 'n/a'} |")
+    lines += [
+        "",
+        "All 16 kernels have at least one requirement row with implementation and test ownership.",
+        "",
+    ]
+    return "\n".join(lines)
+
+
+def main() -> int:
+    data = build()
+    errors = validate(data)
+    if errors:
+        print("VALIDATION ERRORS:")
+        for e in errors:
+            print(" -", e)
+        return 1
+    summary = coverage_summary(data)
+    REPORTS.mkdir(exist_ok=True)
+    (REPORTS / "design_implementation_traceability.json").write_text(
+        json.dumps({"traceability": data, "coverage": summary}, indent=2, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    (REPORTS / "DESIGN_IMPLEMENTATION_TRACEABILITY.md").write_text(
+        render_markdown(data, summary), encoding="utf-8"
+    )
+    (REPORTS / "KERNEL_COVERAGE_SUMMARY.md").write_text(
+        render_kernel_summary_md(summary), encoding="utf-8"
+    )
+    print(
+        f"wrote {len(data['requirements'])} requirements, {len(data['goals'])} goals, "
+        f"{len(data['kernels'])} kernels; validation clean"
+    )
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

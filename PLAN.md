@@ -35,3 +35,4 @@ certification and local checkpoint. No push/deploy.
 | # | Goal | Scope | Status |
 |---|---|---|---|
 | 1 | G13A | Post-M9 Baseline Freeze & Independent Evidence Capture | PASS (2026-08-14) |
+| 2 | G13B | Design-to-Implementation Traceability Matrix | PASS (2026-08-14) |

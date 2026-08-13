@@ -330,3 +330,15 @@
   `reports/POST_M9_COMMAND_MATRIX.md`, `reports/G13A_REPORT.md`.
 - Disposable clean bootstrap: Alembic 0001 -> 0002 (head) on a fresh SQLite DB PASS.
 - Checkpoint: `g13a: post-m9 baseline freeze & independent evidence capture`.
+
+## 2026-08-14 ? G13B PASS (M10 phase)
+
+- Added `scripts/traceability.py` (stable WX-<plane>-<section>-NNN IDs, 16 kernels,
+  44 requirements, 63-goal mapping) with validator and markdown/JSON generators.
+- Produced `reports/DESIGN_IMPLEMENTATION_TRACEABILITY.md`,
+  `reports/design_implementation_traceability.json`,
+  `reports/KERNEL_COVERAGE_SUMMARY.md`, `reports/G13B_REPORT.md`.
+- Added `tests/architecture/test_traceability.py` (7 tests) enforcing unique IDs,
+  valid statuses, full kernel coverage, VERIFIED implementation/test ownership,
+  goal mapping integrity and JSON currency.
+- Checkpoint: `g13b: design-to-implementation traceability matrix`.
