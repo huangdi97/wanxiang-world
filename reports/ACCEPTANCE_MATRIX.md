@@ -55,6 +55,7 @@ M3 verdict: PASS (2026-08-13, tag m3-bounded-agents; reports/M3_ACCEPTANCE.md).
 M4 verdict: PASS (2026-08-13, tag m4-worlds-authored-installed; reports/M4_ACCEPTANCE.md).
 M5 verdict: PASS (2026-08-13, re-qualified with G06; tag m5-human-in-world-without-authority; reports/M5_ACCEPTANCE.md).
 M6 verdict: PASS (2026-08-13, tag m6-reality-experiments; reports/M6_ACCEPTANCE.md).
+M7 verdict: PASS (2026-08-13, tag m7-domain-generality; reports/M7_ACCEPTANCE.md).
 
 ## M4 ? Worlds Can Be Authored, Reviewed, Installed and Instantiated (07_MILESTONE_GATES_M2_M9.md)
 
@@ -91,6 +92,20 @@ M6 verdict: PASS (2026-08-13, tag m6-reality-experiments; reports/M6_ACCEPTANCE.
 | M6-04 | M6 gate | GOAL_07D | Director proposes; cannot commit or rewrite actors without review | PASS | goal g07d | |
 | M6-05 | M6 gate | GOAL_07E | Experiment: multi-seed deterministic runs, metrics, validity envelope | PASS | goal g07e | |
 | M6-06 | M6 gate | GOAL_07A-E | M6 vertical: observations->fusion->challenge->director->experiment | PASS | m6 commit | test_m6_qualification |
+## M7 ? Multiple Unrelated Domains Prove Core Generality (07_MILESTONE_GATES_M2_M9.md)
+
+| Req ID | Source | Owning Goal | Test/evidence | Status | Last verified commit | Notes |
+|---|---|---|---|---|---|---|
+| M7-01 | M7 gate | GOAL_08A | Mansion 7-day persistence/control/knowledge/material/branch | PASS | goal g08a | |
+| M7-02 | M7 gate | GOAL_08B | Red Chamber Source Gate positive/negative; real data EXTERNAL_BLOCKED | PASS | goal g08b | |
+| M7-03 | M7 gate | GOAL_09A | GEDCOM round-trip + sources + extension preservation | PASS | goal g09a | |
+| M7-04 | M7 gate | GOAL_09B | Family conflicting claims + lineage | PASS | goal g09b | |
+| M7-05 | M7 gate | GOAL_09C | Living privacy/consent/revocation + persona modes | PASS | goal g09c | |
+| M7-06 | M7 gate | GOAL_10A | IIIF manifest ingest (real endpoints EXTERNAL_BLOCKED) | PASS | goal g10a | |
+| M7-07 | M7 gate | GOAL_10B | Linked Art / CIDOC mapping profile | PASS | goal g10b | |
+| M7-08 | M7 gate | GOAL_10C | Semantic twin distinct identities + conservation history | PASS | goal g10c | |
+| M7-09 | M7 gate | GOAL_10D | Museum biography labels + curator gate | PASS | goal g10d | |
+| M7-10 | M7 gate | GOAL_08A-10D | M7 mandatory: 3 domain families on one core | PASS | m7 commit | qualification + mansion tests |
 ## Architecture gates (02_ENGINEERING_STANDARDS.md ?16)
 
 | Req ID | Source | Owning Goal | Test/evidence | Status | Last verified commit | Notes |

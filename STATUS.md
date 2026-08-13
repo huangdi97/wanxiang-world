@@ -42,7 +42,7 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | M4 | Worlds Can Be Authored, Reviewed, Installed, Instantiated | PASS (2026-08-13, tag m4-worlds-authored-installed) |
 | M5 | Human Can Enter a Persistent World Without Becoming Authority | PASS (2026-08-13, tag m5-human-in-world-without-authority) |
 | M6 | World Can Be Safely Coupled to External Context and Controlled Experiments | PASS (2026-08-13, tag m6-reality-experiments) |
-| M7 | Multiple Unrelated Domains Prove Core Generality | NOT_STARTED |
+| M7 | Multiple Unrelated Domains Prove Core Generality | PASS (2026-08-13, tag m7-domain-generality) |
 | M8 | Mechanistic External Models Participate Without Owning Canonical State | NOT_STARTED |
 | M9 | Release-qualified Wanxiang Platform Foundation | NOT_STARTED |
 
@@ -82,7 +82,16 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | G07C Opportunity/Challenge/Event Compiler | PASS (2026-08-13, commit goal g07c) |
 | G07D Director Runtime | PASS (2026-08-13, commit goal g07d) |
 | G07E Experiment Runtime/Multi-run/ValidityEnvelope | PASS (2026-08-13, commit goal g07e) |
-| G08A..G10D Domain Generality | NEXT |
+| G08A Synthetic Mansion Living-world | PASS (2026-08-13, commit goal g08a) |
+| G08B Red Chamber Source-gated Slice | PASS (2026-08-13, commit goal g08b; real data EXTERNAL_BLOCKED) |
+| G09A GEDCOM/GEDZIP Interop | PASS (2026-08-13, commit goal g09a) |
+| G09B Family Semantic World & Conflicting Claims | PASS (2026-08-13, commit goal g09b) |
+| G09C Family Privacy/Living Archive/Digital Persona | PASS (2026-08-13, commit goal g09c) |
+| G10A IIIF Ingest | PASS (2026-08-13, commit goal g10a) |
+| G10B Linked Art/CIDOC CRM Interop | PASS (2026-08-13, commit goal g10b) |
+| G10C Heritage Object Semantic Twin | PASS (2026-08-13, commit goal g10c) |
+| G10D Museum Biography & Reconstruction | PASS (2026-08-13, commit goal g10d) |
+| G11A..G11F Co-Simulation | NEXT |
 | G05A Minimal World Host & Authority Boundary | PASS (2026-08-13, commit goal g05a) |
 | G05B Session/Embodiment/Lease | PASS (2026-08-13, commit goal g05b) |
 | G05C Shadow/Human Policy Control Handoff | PASS (2026-08-13, commit goal g05c) |
@@ -97,7 +106,16 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | G07C Opportunity/Challenge/Event Compiler | PASS (2026-08-13, commit goal g07c) |
 | G07D Director Runtime | PASS (2026-08-13, commit goal g07d) |
 | G07E Experiment Runtime/Multi-run/ValidityEnvelope | PASS (2026-08-13, commit goal g07e) |
-| G08A..G10D Domain Generality | NEXT |
+| G08A Synthetic Mansion Living-world | PASS (2026-08-13, commit goal g08a) |
+| G08B Red Chamber Source-gated Slice | PASS (2026-08-13, commit goal g08b; real data EXTERNAL_BLOCKED) |
+| G09A GEDCOM/GEDZIP Interop | PASS (2026-08-13, commit goal g09a) |
+| G09B Family Semantic World & Conflicting Claims | PASS (2026-08-13, commit goal g09b) |
+| G09C Family Privacy/Living Archive/Digital Persona | PASS (2026-08-13, commit goal g09c) |
+| G10A IIIF Ingest | PASS (2026-08-13, commit goal g10a) |
+| G10B Linked Art/CIDOC CRM Interop | PASS (2026-08-13, commit goal g10b) |
+| G10C Heritage Object Semantic Twin | PASS (2026-08-13, commit goal g10c) |
+| G10D Museum Biography & Reconstruction | PASS (2026-08-13, commit goal g10d) |
+| G11A..G11F Co-Simulation | NEXT |
 | G06A Persistent Lifecycle/Pause/Advance/Background | PASS (2026-08-13, commit goal g06a) |
 | G06B Command Queue & Idempotent Multi-client Semantics | PASS (2026-08-13, commit goal g06b) |
 | G06C Crash Recovery, Checkpoint & Resource Budget | PASS (2026-08-13, commit goal g06c) |
@@ -106,13 +124,40 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | G07C Opportunity/Challenge/Event Compiler | PASS (2026-08-13, commit goal g07c) |
 | G07D Director Runtime | PASS (2026-08-13, commit goal g07d) |
 | G07E Experiment Runtime/Multi-run/ValidityEnvelope | PASS (2026-08-13, commit goal g07e) |
-| G08A..G10D Domain Generality | NEXT |
+| G08A Synthetic Mansion Living-world | PASS (2026-08-13, commit goal g08a) |
+| G08B Red Chamber Source-gated Slice | PASS (2026-08-13, commit goal g08b; real data EXTERNAL_BLOCKED) |
+| G09A GEDCOM/GEDZIP Interop | PASS (2026-08-13, commit goal g09a) |
+| G09B Family Semantic World & Conflicting Claims | PASS (2026-08-13, commit goal g09b) |
+| G09C Family Privacy/Living Archive/Digital Persona | PASS (2026-08-13, commit goal g09c) |
+| G10A IIIF Ingest | PASS (2026-08-13, commit goal g10a) |
+| G10B Linked Art/CIDOC CRM Interop | PASS (2026-08-13, commit goal g10b) |
+| G10C Heritage Object Semantic Twin | PASS (2026-08-13, commit goal g10c) |
+| G10D Museum Biography & Reconstruction | PASS (2026-08-13, commit goal g10d) |
+| G11A..G11F Co-Simulation | NEXT |
 | G07A PhysicalObservation & Reality Bridge | PASS (2026-08-13, commit goal g07a) |
 | G07B Observation Fusion & Validation | PASS (2026-08-13, commit goal g07b) |
 | G07C Opportunity/Challenge/Event Compiler | PASS (2026-08-13, commit goal g07c) |
 | G07D Director Runtime | PASS (2026-08-13, commit goal g07d) |
 | G07E Experiment Runtime/Multi-run/ValidityEnvelope | PASS (2026-08-13, commit goal g07e) |
-| G08A..G10D Domain Generality | NEXT |
-| G08A..G10D Domain Generality | NEXT |
-| G11A..G11F Co-Simulation | NOT_STARTED |
+| G08A Synthetic Mansion Living-world | PASS (2026-08-13, commit goal g08a) |
+| G08B Red Chamber Source-gated Slice | PASS (2026-08-13, commit goal g08b; real data EXTERNAL_BLOCKED) |
+| G09A GEDCOM/GEDZIP Interop | PASS (2026-08-13, commit goal g09a) |
+| G09B Family Semantic World & Conflicting Claims | PASS (2026-08-13, commit goal g09b) |
+| G09C Family Privacy/Living Archive/Digital Persona | PASS (2026-08-13, commit goal g09c) |
+| G10A IIIF Ingest | PASS (2026-08-13, commit goal g10a) |
+| G10B Linked Art/CIDOC CRM Interop | PASS (2026-08-13, commit goal g10b) |
+| G10C Heritage Object Semantic Twin | PASS (2026-08-13, commit goal g10c) |
+| G10D Museum Biography & Reconstruction | PASS (2026-08-13, commit goal g10d) |
+| G11A..G11F Co-Simulation | NEXT |
+| G08A Synthetic Mansion Living-world | PASS (2026-08-13, commit goal g08a) |
+| G08B Red Chamber Source-gated Slice | PASS (2026-08-13, commit goal g08b; real data EXTERNAL_BLOCKED) |
+| G09A GEDCOM/GEDZIP Interop | PASS (2026-08-13, commit goal g09a) |
+| G09B Family Semantic World & Conflicting Claims | PASS (2026-08-13, commit goal g09b) |
+| G09C Family Privacy/Living Archive/Digital Persona | PASS (2026-08-13, commit goal g09c) |
+| G10A IIIF Ingest | PASS (2026-08-13, commit goal g10a) |
+| G10B Linked Art/CIDOC CRM Interop | PASS (2026-08-13, commit goal g10b) |
+| G10C Heritage Object Semantic Twin | PASS (2026-08-13, commit goal g10c) |
+| G10D Museum Biography & Reconstruction | PASS (2026-08-13, commit goal g10d) |
+| G11A..G11F Co-Simulation | NEXT |
+| G11A..G11F Co-Simulation | NEXT |
 | G12A..G12H Release | NOT_STARTED |

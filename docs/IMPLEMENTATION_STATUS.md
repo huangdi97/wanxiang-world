@@ -57,6 +57,13 @@
 
 ## M6 ? Reality-Coupled Context and Controlled Experiments Work Safely (PASS, 2026-08-13)
 
+## M7 ? Multiple Unrelated Domains Prove Core Generality (PASS, 2026-08-13)
+
+- G08A Mansion 7-day living world ? PASS.
+- G08B Red Chamber source gate (real data EXTERNAL_BLOCKED) ? PASS.
+- G09A GEDCOM interop / G09B family world / G09C privacy-persona ? PASS.
+- G10A IIIF / G10B Linked Art / G10C semantic twin / G10D museum biography ? PASS.
+
 - G07A Reality Bridge ? PASS (2026-08-13): physical observations normalized + bus delivery, never canonical truth.
 - G07B Observation Fusion ? PASS (2026-08-13): dedup/conflict sets/proposals only, versioned policy.
 - G07C Challenge Compiler ? PASS (2026-08-13): opportunities -> executable specs with prerequisites/outcomes.
@@ -110,6 +117,13 @@
 ## M5 ? Human Can Enter a Persistent World Without Becoming the Authority (PASS, 2026-08-13)
 
 ## M6 ? Reality-Coupled Context and Controlled Experiments Work Safely (PASS, 2026-08-13)
+
+## M7 ? Multiple Unrelated Domains Prove Core Generality (PASS, 2026-08-13)
+
+- G08A Mansion 7-day living world ? PASS.
+- G08B Red Chamber source gate (real data EXTERNAL_BLOCKED) ? PASS.
+- G09A GEDCOM interop / G09B family world / G09C privacy-persona ? PASS.
+- G10A IIIF / G10B Linked Art / G10C semantic twin / G10D museum biography ? PASS.
 
 - G07A Reality Bridge ? PASS (2026-08-13): physical observations normalized + bus delivery, never canonical truth.
 - G07B Observation Fusion ? PASS (2026-08-13): dedup/conflict sets/proposals only, versioned policy.

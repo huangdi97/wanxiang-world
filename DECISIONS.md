@@ -46,6 +46,10 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0040 | Challenge compiler: executable specs with prerequisites/safety/rights/evidence/outcomes | accepted |
 | 0041 | Director runtime: proposals only; persona changes need actor-logic review | accepted |
 | 0042 | Experiment runtime: deterministic multi-seed runs, findings + validity envelope | accepted |
+| 0043 | Mansion qualification: unrelated domain on the same core, no Core hacks | accepted |
+| 0044 | Red Chamber slice: real data EXTERNAL_BLOCKED; Source Gate fixtures PASS | accepted |
+| 0045 | Genealogy: GEDCOM subset, claims-not-truth, privacy/persona modes | accepted |
+| 0046 | Heritage: IIIF/Linked Art adapters, distinct twin identities, replayable biography | accepted |
 
 ## Decision log (inline quick notes)
 

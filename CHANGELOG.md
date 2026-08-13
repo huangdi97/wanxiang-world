@@ -63,6 +63,15 @@
 - SqlAlchemyEventStore in shared contract suite; durable replay == golden hash.
 - 111 tests green; docs/architecture/PERSISTENCE.md; ADR-0008.
 
+## 2026-08-13 ? M7 PASS + G08A-G10D PASS (P7 phase)
+
+- M7 qualification PASS: mansion 7-day living world, Red Chamber source gate
+  (real data EXTERNAL_BLOCKED), family GEDCOM/claims/privacy, heritage
+  IIIF/Linked Art/twin/biography (366 tests); tag `m7-domain-generality`.
+- G08A mansion; G08B red chamber slice; G09A GEDCOM; G09B family world; G09C
+  privacy/persona; G10A IIIF; G10B Linked Art; G10C semantic twin; G10D museum
+  biography.
+- ADRs 0043-0046; checkpoint `m7: qualify milestone`.
 ## 2026-08-13 ? M6 PASS + G07A-E PASS (P6 phase)
 
 - M6 qualification PASS: fake physical observations (duplicates/conflicts) ->
