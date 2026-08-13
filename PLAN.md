@@ -23,5 +23,5 @@ Substrate or any later phase in this batch.
 Continuous execution per `05_CODEX_REMAINING_PROGRAM_MASTER_PROMPT.md` and
 `06_REMAINING_GOALS_INDEX.md`: G02A -> G12H, milestone gates M2 -> M9, final
 
-Current: M2-M8 PASS (2026-08-13) -> next G12A (P9).
+Current: M2-M9 PASS + FINAL REPORTS (2026-08-13). Program complete; no push/deploy.
 reports + local checkpoint. M1 verified PASS before starting. No push/deploy.

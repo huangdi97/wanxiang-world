@@ -106,6 +106,12 @@ class CampaignDomain:
     def unit(self, unit_id: str) -> Unit | None:
         return self._units.get(unit_id)
 
+    def unit_ids(self) -> tuple[str, ...]:
+        return tuple(sorted(self._units))
+
+    def region_ids(self) -> tuple[str, ...]:
+        return tuple(sorted(self._regions))
+
     def location(self, unit_id: str) -> str | None:
         unit = self._units.get(unit_id)
         return unit.region if unit is not None else None

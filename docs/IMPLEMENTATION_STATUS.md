@@ -61,6 +61,11 @@
 
 ## M8 ? Mechanistic External Models Participate Without Owning Canonical State (PASS, 2026-08-13)
 
+## M9 ? Release-qualified Wanxiang Platform Foundation (PASS, 2026-08-13)
+
+- G12A Stability / G12B Backup / G12C SDK / G12D Research / G12E 3D / G12F Foundry / G12G Gateway / G12H Security ? PASS.
+- Final reports written; RELEASE_READINESS documented; 385 Python + 21 TS tests.
+
 - G11A SimulationAdapter + FakeSimulator ? PASS.
 - G11B Multi-rate Co-Sim Orchestrator ? PASS.
 - G11C/D Synthetic Campaign + Logistics/Fog-of-war ? PASS.
@@ -129,6 +134,11 @@
 ## M7 ? Multiple Unrelated Domains Prove Core Generality (PASS, 2026-08-13)
 
 ## M8 ? Mechanistic External Models Participate Without Owning Canonical State (PASS, 2026-08-13)
+
+## M9 ? Release-qualified Wanxiang Platform Foundation (PASS, 2026-08-13)
+
+- G12A Stability / G12B Backup / G12C SDK / G12D Research / G12E 3D / G12F Foundry / G12G Gateway / G12H Security ? PASS.
+- Final reports written; RELEASE_READINESS documented; 385 Python + 21 TS tests.
 
 - G11A SimulationAdapter + FakeSimulator ? PASS.
 - G11B Multi-rate Co-Sim Orchestrator ? PASS.

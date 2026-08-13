@@ -63,6 +63,18 @@
 - SqlAlchemyEventStore in shared contract suite; durable replay == golden hash.
 - 111 tests green; docs/architecture/PERSISTENCE.md; ADR-0008.
 
+## 2026-08-13 ? M9 PASS + G12A-H PASS (P9 phase) + FINAL RELEASE REPORT
+
+- M9 qualification PASS: 30-day/1000+ tick stability, backup/restore/migration,
+  OpenAPI/TS SDK, research/3D/foundry/gateway adapters, security checks
+  (385 Python + 21 TS tests); tag `m9-release-qualified`.
+- G12A stability; G12B backup; G12C SDK/OpenAPI; G12D research adapters; G12E
+  projection3d contracts; G12F asset foundry; G12G digital-human gateway; G12H
+  security.
+- Final reports: FINAL_PROGRAM_COMPLETION_REPORT, ARCHITECTURE_CONFORMANCE_FINAL,
+  MIGRATION_REPLAY_COMPATIBILITY_FINAL, SECURITY_RIGHTS_FINAL,
+  LONG_RUN_STABILITY_FINAL, docs/RELEASE_READINESS.
+- Program complete: M1?M9 PASS, 55 goals, local checkpoints only; no push/deploy.
 ## 2026-08-13 ? M8 PASS + G11A-F PASS (P8 phase)
 
 - M8 qualification PASS: two fake simulators at different rates, deterministic

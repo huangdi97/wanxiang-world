@@ -44,7 +44,7 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | M6 | World Can Be Safely Coupled to External Context and Controlled Experiments | PASS (2026-08-13, tag m6-reality-experiments) |
 | M7 | Multiple Unrelated Domains Prove Core Generality | PASS (2026-08-13, tag m7-domain-generality) |
 | M8 | Mechanistic External Models Participate Without Owning Canonical State | PASS (2026-08-13, tag m8-cosimulation-strategy) |
-| M9 | Release-qualified Wanxiang Platform Foundation | NOT_STARTED |
+| M9 | Release-qualified Wanxiang Platform Foundation | PASS (2026-08-13, tag m9-release-qualified) |
 
 ### Goals (55)
 
@@ -97,7 +97,15 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | G11D Command/Logistics/Movement/Fog-of-war | PASS (2026-08-13, commit goal g11d) |
 | G11E Batch Experiment & Strategy Evaluation | PASS (2026-08-13, commit goal g11e) |
 | G11F Liaoshen Source-gated Pack | PASS (2026-08-13, commit goal g11f; real data EXTERNAL_BLOCKED) |
-| G12A..G12H Release | NEXT |
+| G12A 30-day/1000+ tick Stability | PASS (2026-08-13, commit goal g12a) |
+| G12B Backup/Restore/Migration | PASS (2026-08-13, commit goal g12b) |
+| G12C Package SDK + OpenAPI/TS SDK | PASS (2026-08-13, commit goal g12c) |
+| G12D Gymnasium/PettingZoo Adapters | PASS (2026-08-13, commit goal g12d) |
+| G12E Godot/Babylon Projection Contracts | PASS (2026-08-13, commit goal g12e) |
+| G12F World Asset Foundry Seam | PASS (2026-08-13, commit goal g12f) |
+| G12G Digital Human/XR Gateway Contracts | PASS (2026-08-13, commit goal g12g) |
+| G12H Deployment/Security/Private Install | PASS (2026-08-13, commit goal g12h) |
+| FINAL RELEASE REPORT | PASS (2026-08-13, commit m9: qualify milestone) |
 | G05A Minimal World Host & Authority Boundary | PASS (2026-08-13, commit goal g05a) |
 | G05B Session/Embodiment/Lease | PASS (2026-08-13, commit goal g05b) |
 | G05C Shadow/Human Policy Control Handoff | PASS (2026-08-13, commit goal g05c) |
@@ -127,7 +135,15 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | G11D Command/Logistics/Movement/Fog-of-war | PASS (2026-08-13, commit goal g11d) |
 | G11E Batch Experiment & Strategy Evaluation | PASS (2026-08-13, commit goal g11e) |
 | G11F Liaoshen Source-gated Pack | PASS (2026-08-13, commit goal g11f; real data EXTERNAL_BLOCKED) |
-| G12A..G12H Release | NEXT |
+| G12A 30-day/1000+ tick Stability | PASS (2026-08-13, commit goal g12a) |
+| G12B Backup/Restore/Migration | PASS (2026-08-13, commit goal g12b) |
+| G12C Package SDK + OpenAPI/TS SDK | PASS (2026-08-13, commit goal g12c) |
+| G12D Gymnasium/PettingZoo Adapters | PASS (2026-08-13, commit goal g12d) |
+| G12E Godot/Babylon Projection Contracts | PASS (2026-08-13, commit goal g12e) |
+| G12F World Asset Foundry Seam | PASS (2026-08-13, commit goal g12f) |
+| G12G Digital Human/XR Gateway Contracts | PASS (2026-08-13, commit goal g12g) |
+| G12H Deployment/Security/Private Install | PASS (2026-08-13, commit goal g12h) |
+| FINAL RELEASE REPORT | PASS (2026-08-13, commit m9: qualify milestone) |
 | G06A Persistent Lifecycle/Pause/Advance/Background | PASS (2026-08-13, commit goal g06a) |
 | G06B Command Queue & Idempotent Multi-client Semantics | PASS (2026-08-13, commit goal g06b) |
 | G06C Crash Recovery, Checkpoint & Resource Budget | PASS (2026-08-13, commit goal g06c) |
@@ -151,7 +167,15 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | G11D Command/Logistics/Movement/Fog-of-war | PASS (2026-08-13, commit goal g11d) |
 | G11E Batch Experiment & Strategy Evaluation | PASS (2026-08-13, commit goal g11e) |
 | G11F Liaoshen Source-gated Pack | PASS (2026-08-13, commit goal g11f; real data EXTERNAL_BLOCKED) |
-| G12A..G12H Release | NEXT |
+| G12A 30-day/1000+ tick Stability | PASS (2026-08-13, commit goal g12a) |
+| G12B Backup/Restore/Migration | PASS (2026-08-13, commit goal g12b) |
+| G12C Package SDK + OpenAPI/TS SDK | PASS (2026-08-13, commit goal g12c) |
+| G12D Gymnasium/PettingZoo Adapters | PASS (2026-08-13, commit goal g12d) |
+| G12E Godot/Babylon Projection Contracts | PASS (2026-08-13, commit goal g12e) |
+| G12F World Asset Foundry Seam | PASS (2026-08-13, commit goal g12f) |
+| G12G Digital Human/XR Gateway Contracts | PASS (2026-08-13, commit goal g12g) |
+| G12H Deployment/Security/Private Install | PASS (2026-08-13, commit goal g12h) |
+| FINAL RELEASE REPORT | PASS (2026-08-13, commit m9: qualify milestone) |
 | G07A PhysicalObservation & Reality Bridge | PASS (2026-08-13, commit goal g07a) |
 | G07B Observation Fusion & Validation | PASS (2026-08-13, commit goal g07b) |
 | G07C Opportunity/Challenge/Event Compiler | PASS (2026-08-13, commit goal g07c) |
@@ -172,7 +196,15 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | G11D Command/Logistics/Movement/Fog-of-war | PASS (2026-08-13, commit goal g11d) |
 | G11E Batch Experiment & Strategy Evaluation | PASS (2026-08-13, commit goal g11e) |
 | G11F Liaoshen Source-gated Pack | PASS (2026-08-13, commit goal g11f; real data EXTERNAL_BLOCKED) |
-| G12A..G12H Release | NEXT |
+| G12A 30-day/1000+ tick Stability | PASS (2026-08-13, commit goal g12a) |
+| G12B Backup/Restore/Migration | PASS (2026-08-13, commit goal g12b) |
+| G12C Package SDK + OpenAPI/TS SDK | PASS (2026-08-13, commit goal g12c) |
+| G12D Gymnasium/PettingZoo Adapters | PASS (2026-08-13, commit goal g12d) |
+| G12E Godot/Babylon Projection Contracts | PASS (2026-08-13, commit goal g12e) |
+| G12F World Asset Foundry Seam | PASS (2026-08-13, commit goal g12f) |
+| G12G Digital Human/XR Gateway Contracts | PASS (2026-08-13, commit goal g12g) |
+| G12H Deployment/Security/Private Install | PASS (2026-08-13, commit goal g12h) |
+| FINAL RELEASE REPORT | PASS (2026-08-13, commit m9: qualify milestone) |
 | G08A Synthetic Mansion Living-world | PASS (2026-08-13, commit goal g08a) |
 | G08B Red Chamber Source-gated Slice | PASS (2026-08-13, commit goal g08b; real data EXTERNAL_BLOCKED) |
 | G09A GEDCOM/GEDZIP Interop | PASS (2026-08-13, commit goal g09a) |
@@ -188,12 +220,36 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | G11D Command/Logistics/Movement/Fog-of-war | PASS (2026-08-13, commit goal g11d) |
 | G11E Batch Experiment & Strategy Evaluation | PASS (2026-08-13, commit goal g11e) |
 | G11F Liaoshen Source-gated Pack | PASS (2026-08-13, commit goal g11f; real data EXTERNAL_BLOCKED) |
-| G12A..G12H Release | NEXT |
+| G12A 30-day/1000+ tick Stability | PASS (2026-08-13, commit goal g12a) |
+| G12B Backup/Restore/Migration | PASS (2026-08-13, commit goal g12b) |
+| G12C Package SDK + OpenAPI/TS SDK | PASS (2026-08-13, commit goal g12c) |
+| G12D Gymnasium/PettingZoo Adapters | PASS (2026-08-13, commit goal g12d) |
+| G12E Godot/Babylon Projection Contracts | PASS (2026-08-13, commit goal g12e) |
+| G12F World Asset Foundry Seam | PASS (2026-08-13, commit goal g12f) |
+| G12G Digital Human/XR Gateway Contracts | PASS (2026-08-13, commit goal g12g) |
+| G12H Deployment/Security/Private Install | PASS (2026-08-13, commit goal g12h) |
+| FINAL RELEASE REPORT | PASS (2026-08-13, commit m9: qualify milestone) |
 | G11A SimulationAdapter & Fake Simulator | PASS (2026-08-13, commit goal g11a) |
 | G11B Multi-rate Co-Sim Orchestrator | PASS (2026-08-13, commit goal g11b) |
 | G11C Synthetic Campaign Domain | PASS (2026-08-13, commit goal g11c) |
 | G11D Command/Logistics/Movement/Fog-of-war | PASS (2026-08-13, commit goal g11d) |
 | G11E Batch Experiment & Strategy Evaluation | PASS (2026-08-13, commit goal g11e) |
 | G11F Liaoshen Source-gated Pack | PASS (2026-08-13, commit goal g11f; real data EXTERNAL_BLOCKED) |
-| G12A..G12H Release | NEXT |
-| G12A..G12H Release | NEXT |
+| G12A 30-day/1000+ tick Stability | PASS (2026-08-13, commit goal g12a) |
+| G12B Backup/Restore/Migration | PASS (2026-08-13, commit goal g12b) |
+| G12C Package SDK + OpenAPI/TS SDK | PASS (2026-08-13, commit goal g12c) |
+| G12D Gymnasium/PettingZoo Adapters | PASS (2026-08-13, commit goal g12d) |
+| G12E Godot/Babylon Projection Contracts | PASS (2026-08-13, commit goal g12e) |
+| G12F World Asset Foundry Seam | PASS (2026-08-13, commit goal g12f) |
+| G12G Digital Human/XR Gateway Contracts | PASS (2026-08-13, commit goal g12g) |
+| G12H Deployment/Security/Private Install | PASS (2026-08-13, commit goal g12h) |
+| FINAL RELEASE REPORT | PASS (2026-08-13, commit m9: qualify milestone) |
+| G12A 30-day/1000+ tick Stability | PASS (2026-08-13, commit goal g12a) |
+| G12B Backup/Restore/Migration | PASS (2026-08-13, commit goal g12b) |
+| G12C Package SDK + OpenAPI/TS SDK | PASS (2026-08-13, commit goal g12c) |
+| G12D Gymnasium/PettingZoo Adapters | PASS (2026-08-13, commit goal g12d) |
+| G12E Godot/Babylon Projection Contracts | PASS (2026-08-13, commit goal g12e) |
+| G12F World Asset Foundry Seam | PASS (2026-08-13, commit goal g12f) |
+| G12G Digital Human/XR Gateway Contracts | PASS (2026-08-13, commit goal g12g) |
+| G12H Deployment/Security/Private Install | PASS (2026-08-13, commit goal g12h) |
+| FINAL RELEASE REPORT | PASS (2026-08-13, commit m9: qualify milestone) |

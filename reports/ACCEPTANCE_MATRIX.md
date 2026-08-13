@@ -57,6 +57,8 @@ M5 verdict: PASS (2026-08-13, re-qualified with G06; tag m5-human-in-world-witho
 M6 verdict: PASS (2026-08-13, tag m6-reality-experiments; reports/M6_ACCEPTANCE.md).
 M7 verdict: PASS (2026-08-13, tag m7-domain-generality; reports/M7_ACCEPTANCE.md).
 M8 verdict: PASS (2026-08-13, tag m8-cosimulation-strategy; reports/M8_ACCEPTANCE.md).
+M9 verdict: PASS (2026-08-13, tag m9-release-qualified; reports/M9_ACCEPTANCE.md).
+PROGRAM verdict: PASS (M1-M9; reports/FINAL_PROGRAM_COMPLETION_REPORT.md).
 
 ## M4 ? Worlds Can Be Authored, Reviewed, Installed and Instantiated (07_MILESTONE_GATES_M2_M9.md)
 
@@ -118,6 +120,19 @@ M8 verdict: PASS (2026-08-13, tag m8-cosimulation-strategy; reports/M8_ACCEPTANC
 | M8-05 | M8 gate | GOAL_11E | Batch results as distributions with ValidityEnvelope | PASS | goal g11e | |
 | M8-06 | M8 gate | GOAL_11F | Liaoshen real pack EXTERNAL_BLOCKED; generic M8 not blocked | PASS | goal g11f | |
 | M8-07 | M8 gate | GOAL_11A-F | M8 vertical: campaign + 2 simulators + batch experiments | PASS | m8 commit | test_m8_qualification |
+## M9 ? Release-qualified Wanxiang Platform Foundation (07_MILESTONE_GATES_M2_M9.md)
+
+| Req ID | Source | Owning Goal | Test/evidence | Status | Last verified commit | Notes |
+|---|---|---|---|---|---|---|
+| M9-01 | M9 gate | GOAL_12A | 30 in-world days + 1000+ cycles, bounded growth | PASS | goal g12a | |
+| M9-02 | M9 gate | GOAL_12B | Backup restore reproduces canonical hash; migrations replay | PASS | goal g12b | |
+| M9-03 | M9 gate | GOAL_12C | OpenAPI/TS SDK reproducible; version policy documented | PASS | goal g12c | |
+| M9-04 | M9 gate | GOAL_12D | Gym/PettingZoo adapters preserve authority + epistemic filters | PASS | goal g12d | |
+| M9-05 | M9 gate | GOAL_12E | Godot/Babylon projection contracts non-authoritative | PASS | goal g12e | |
+| M9-06 | M9 gate | GOAL_12F | Asset Foundry non-authoritative with geometry validation | PASS | goal g12f | |
+| M9-07 | M9 gate | GOAL_12G | Digital Human/XR gateway rights gate | PASS | goal g12g | |
+| M9-08 | M9 gate | GOAL_12H | Security: secrets/uploads/access/audit | PASS | goal g12h | |
+| M9-09 | M9 gate | GOAL_12A-H | Full M1-M8 regression matrix green; final reports | PASS | m9 commit | 385 + 21 tests |
 ## Architecture gates (02_ENGINEERING_STANDARDS.md ?16)
 
 | Req ID | Source | Owning Goal | Test/evidence | Status | Last verified commit | Notes |
