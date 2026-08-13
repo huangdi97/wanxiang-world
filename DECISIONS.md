@@ -30,6 +30,7 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0024 | Capability & learning: bounded capability (level 0..10, mastery/confidence 0..1), evidence-backed CapabilityDelta, deterministic clamped LearningPolicy | accepted |
 | 0025 | Package registry: portable manifests, deterministic resolution, content hashes, default-deny executable trust, manifest schema migration | accepted |
 | 0026 | Source gate: immutable sources + review stages E0..E5, rights+stage eligibility, injection default-deny, conflicting claims retained | accepted |
+| 0027 | Structured compiler: safe readers, deterministic pipeline with stable hash, provenance-bound candidates, PDF/OCR/video explicitly unsupported | accepted |
 
 ## Decision log (inline quick notes)
 

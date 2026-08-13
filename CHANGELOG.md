@@ -63,6 +63,15 @@
 - SqlAlchemyEventStore in shared contract suite; durable replay == golden hash.
 - 111 tests green; docs/architecture/PERSISTENCE.md; ADR-0008.
 
+## 2026-08-13 ? G04C PASS (P4 phase)
+
+- `wanxiang_substrate.compiler`: safe readers (json strict, restricted YAML
+  subset, markdown explicit sections, text facts), deterministic
+  StructuredCompiler (read -> validate -> compile -> emit) with stable result
+  hash, provenance-bound CandidateObjects, structured diagnostics, review
+  export; PDF/OCR/video explicitly unsupported (not faked).
+- 293 tests green; ADR-0027; docs/architecture/STRUCTURED_COMPILER.md;
+  reports/g04c_report.md; checkpoint `goal g04c: structured compiler mvp`.
 ## 2026-08-13 ? G04B PASS (P4 phase)
 
 - `wanxiang_substrate.sources`: immutable SourceRecord + review stages E0..E5,

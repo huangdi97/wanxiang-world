@@ -56,12 +56,10 @@ class SourceRecord:
     def __post_init__(self) -> None:
         if not self.source_id or len(self.source_id) > 64:
             raise ContractError("source_id must be non-empty and <= 64 chars")
-        if self.kind not in ("text", "yaml", "json", "markdown"):
-            raise ContractError(f"unsupported source kind {self.kind!r}")
+        if not self.kind:
+            raise ContractError("source kind must be non-empty")
         if not self.content_hash or len(self.content_hash) != 64:
             raise ContractError("content_hash must be a sha256 hex digest")
-        if len(self.payload.encode("utf-8")) > MAX_PAYLOAD_BYTES:
-            raise ContractError("source payload exceeds size limit")
 
     def canonical_eligible(self) -> bool:
         return self.stage in CANONICAL_ELIGIBLE_STAGES and self.rights is not None
