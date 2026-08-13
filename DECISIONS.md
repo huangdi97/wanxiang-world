@@ -33,6 +33,11 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0027 | Structured compiler: safe readers, deterministic pipeline with stable hash, provenance-bound candidates, PDF/OCR/video explicitly unsupported | accepted |
 | 0028 | Completion ledger: truth-label promotion graph, immutable review decisions, canon lock + override, rights gate, version diff | accepted |
 | 0029 | Package install: transactional install with exact pins, portable export, explicit upgrade (fork on incompatible), v2 never mutates v1 instances | accepted |
+| 0030 | World host: orchestration boundary, not a second Commit Authority; lifecycle modes gate commands | accepted |
+| 0031 | Session/lease: one primary embodiment controller per actor; sessions never duplicate actor state | accepted |
+| 0032 | Shadow/handoff: advice-only shadow; deterministic controller resumes on release | accepted |
+| 0033 | Projection: server-composed DTOs with rights/knowledge filters and debug privilege | accepted |
+| 0034 | Studio/Phaser slices: typed view models over server projections; renderers EXTERNAL_BLOCKED | accepted |
 
 ## Decision log (inline quick notes)
 

@@ -63,6 +63,19 @@
 - SqlAlchemyEventStore in shared contract suite; durable replay == golden hash.
 - 111 tests green; docs/architecture/PERSISTENCE.md; ADR-0008.
 
+## 2026-08-13 ? M5 PASS + G05A-F PASS (P5 phase)
+
+- M5 qualification PASS: hosted world + Studio/Phaser sessions, embodiment
+  lease (one primary controller), human commits, shadow advice-only, release +
+  deterministic resume, clients disconnect while world continues, process
+  restart preserves canonical semantic hash, reconnect rebuilds projection;
+  tag `m5-human-in-world-without-authority`.
+- G05A world host (orchestration boundary, not commit authority); G05B
+  session/embodiment lease; G05C shadow/human control handoff; G05D projection
+  API with server-side rights/knowledge filters; G05E Studio TS slice; G05F
+  Phaser TS slice (React/Phaser rendering EXTERNAL_BLOCKED).
+- 320 Python tests + 14 TS tests green; ADRs 0030-0034; checkpoint
+  `m5: qualify milestone`.
 ## 2026-08-13 ? M4 PASS + G04E PASS (P4 phase)
 
 - M4 qualification PASS: author -> Source Gate -> compiler -> ledger canon ->

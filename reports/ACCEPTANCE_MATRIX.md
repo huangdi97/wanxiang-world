@@ -53,6 +53,7 @@ Columns: Requirement ID | Source section | Owning Goal | Test/evidence | Current
 | M3-07 | M3 gate | GOAL_03G | Capability & learning: bounded evidence-backed capability change; skill prerequisites | PASS | goal g03g | |
 M3 verdict: PASS (2026-08-13, tag m3-bounded-agents; reports/M3_ACCEPTANCE.md).
 M4 verdict: PASS (2026-08-13, tag m4-worlds-authored-installed; reports/M4_ACCEPTANCE.md).
+M5 verdict: PASS (2026-08-13, tag m5-human-in-world-without-authority; reports/M5_ACCEPTANCE.md).
 
 ## M4 ? Worlds Can Be Authored, Reviewed, Installed and Instantiated (07_MILESTONE_GATES_M2_M9.md)
 
@@ -65,6 +66,17 @@ M4 verdict: PASS (2026-08-13, tag m4-worlds-authored-installed; reports/M4_ACCEP
 | M4-05 | M4 gate | GOAL_04E | Install/export/migration: transactional install, exact pins, export roundtrip, v2 does not mutate v1 | PASS | goal g04e | |
 | M4-06 | M4 gate | GOAL_04A-E | M4 vertical: author->review->install->instantiate synthetic package end-to-end | PASS | goal g04e | test_m4_qualification |
 
+## M5 ? Human Can Enter a Persistent World Without Becoming the Authority (07_MILESTONE_GATES_M2_M9.md)
+
+| Req ID | Source | Owning Goal | Test/evidence | Status | Last verified commit | Notes |
+|---|---|---|---|---|---|---|
+| M5-01 | M5 gate | GOAL_05A | WorldHost orchestration boundary; lifecycle modes; not a commit authority | PASS | goal g05a | |
+| M5-02 | M5 gate | GOAL_05B | One primary embodiment controller per actor; lease lifecycle | PASS | goal g05b | |
+| M5-03 | M5 gate | GOAL_05C | Shadow cannot commit; handoff resumes deterministic controller | PASS | goal g05c | |
+| M5-04 | M5 gate | GOAL_05D | Projection server-side rights/knowledge filters; debug privilege | PASS | goal g05d | |
+| M5-05 | M5 gate | GOAL_05E | Studio TS slice consumes projections; bounded commands | PASS | goal g05e | React render EXTERNAL_BLOCKED |
+| M5-06 | M5 gate | GOAL_05F | Phaser TS slice map/tokens/movement via projection API | PASS | goal g05f | Phaser render EXTERNAL_BLOCKED |
+| M5-07 | M5 gate | GOAL_05A-F | M5 vertical: lease->takeover->commit->release->disconnect->restart->reconnect hash continuity | PASS | m5 commit | test_m5_qualification |
 ## Architecture gates (02_ENGINEERING_STANDARDS.md ?16)
 
 | Req ID | Source | Owning Goal | Test/evidence | Status | Last verified commit | Notes |

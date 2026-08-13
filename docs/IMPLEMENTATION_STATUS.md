@@ -53,6 +53,15 @@
 
 ## M4 ? Worlds Can Be Authored, Reviewed, Installed and Instantiated (PASS, 2026-08-13)
 
+## M5 ? Human Can Enter a Persistent World Without Becoming the Authority (PASS, 2026-08-13)
+
+- G05A World Host ? PASS (2026-08-13): orchestration boundary, lifecycle modes, host registry.
+- G05B Session/Embodiment/Lease ? PASS (2026-08-13): one primary controller per actor, lease lifecycle.
+- G05C Shadow/Human Control Handoff ? PASS (2026-08-13): handoff state machine, advice-only shadow.
+- G05D Projection API & Filters ? PASS (2026-08-13): server-side perspective/rights filters, sealed/private redaction, debug privilege.
+- G05E Studio TS Slice ? PASS (2026-08-13): typed view models + Vitest (React render EXTERNAL_BLOCKED).
+- G05F Phaser TS Slice ? PASS (2026-08-13): map/token view models + Vitest (Phaser render EXTERNAL_BLOCKED).
+
 - G04A Package, Schema & Dependency Registry ? PASS (2026-08-13): portable manifests, semantic constraints, deterministic resolver, content hashes, default-deny executable trust, manifest migration; 275 tests green.
 
 - G04B Source Registry & Source Gate ? PASS (2026-08-13): immutable sources + review stages E0..E5, rights envelopes, conflicting claim candidates with evidence links, audited transitions, pure SourceGate with injection detection; 283 tests green.
@@ -86,6 +95,15 @@
 ## M3 ? Bounded Agents Can Live Inside the World (PASS, 2026-08-13)
 
 ## M4 ? Worlds Can Be Authored, Reviewed, Installed and Instantiated (PASS, 2026-08-13)
+
+## M5 ? Human Can Enter a Persistent World Without Becoming the Authority (PASS, 2026-08-13)
+
+- G05A World Host ? PASS (2026-08-13): orchestration boundary, lifecycle modes, host registry.
+- G05B Session/Embodiment/Lease ? PASS (2026-08-13): one primary controller per actor, lease lifecycle.
+- G05C Shadow/Human Control Handoff ? PASS (2026-08-13): handoff state machine, advice-only shadow.
+- G05D Projection API & Filters ? PASS (2026-08-13): server-side perspective/rights filters, sealed/private redaction, debug privilege.
+- G05E Studio TS Slice ? PASS (2026-08-13): typed view models + Vitest (React render EXTERNAL_BLOCKED).
+- G05F Phaser TS Slice ? PASS (2026-08-13): map/token view models + Vitest (Phaser render EXTERNAL_BLOCKED).
 
 - G04A Package, Schema & Dependency Registry ? PASS (2026-08-13): portable manifests, semantic constraints, deterministic resolver, content hashes, default-deny executable trust, manifest migration; 275 tests green.
 

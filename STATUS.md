@@ -40,7 +40,7 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | M2 | Deterministic Living World Exists | PASS (2026-08-13, tag m2-deterministic-living-world) |
 | M3 | Bounded Agents Can Live Inside the World | PASS (2026-08-13, tag m3-bounded-agents) |
 | M4 | Worlds Can Be Authored, Reviewed, Installed, Instantiated | PASS (2026-08-13, tag m4-worlds-authored-installed) |
-| M5 | Human Can Enter a Persistent World Without Becoming Authority | NOT_STARTED |
+| M5 | Human Can Enter a Persistent World Without Becoming Authority | PASS (2026-08-13, tag m5-human-in-world-without-authority) |
 | M6 | World Can Be Safely Coupled to External Context and Controlled Experiments | NOT_STARTED |
 | M7 | Multiple Unrelated Domains Prove Core Generality | NOT_STARTED |
 | M8 | Mechanistic External Models Participate Without Owning Canonical State | NOT_STARTED |
@@ -68,9 +68,21 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | G04C Structured Compiler MVP | PASS (2026-08-13, commit goal g04c) |
 | G04D Completion Ledger & Review Workflow | PASS (2026-08-13, commit goal g04d) |
 | G04E Package Install/Export/Migration Compatibility | PASS (2026-08-13, commit goal g04e) |
-| G05A..G05F Host/Projection | NEXT |
-| G05A..G05F Host/Projection | NEXT |
-| G06A..G06C Lifecycle/Multi-client/Recovery | NOT_STARTED |
+| G05A Minimal World Host & Authority Boundary | PASS (2026-08-13, commit goal g05a) |
+| G05B Session/Embodiment/Lease | PASS (2026-08-13, commit goal g05b) |
+| G05C Shadow/Human Policy Control Handoff | PASS (2026-08-13, commit goal g05c) |
+| G05D Projection API/Perspective/Rights Filters | PASS (2026-08-13, commit goal g05d) |
+| G05E Studio Debug Vertical Slice | PASS (2026-08-13, commit goal g05e) |
+| G05F Phaser 2D Player Vertical Slice | PASS (2026-08-13, commit goal g05f) |
+| G06A..G06C Lifecycle/Multi-client/Recovery | NEXT |
+| G05A Minimal World Host & Authority Boundary | PASS (2026-08-13, commit goal g05a) |
+| G05B Session/Embodiment/Lease | PASS (2026-08-13, commit goal g05b) |
+| G05C Shadow/Human Policy Control Handoff | PASS (2026-08-13, commit goal g05c) |
+| G05D Projection API/Perspective/Rights Filters | PASS (2026-08-13, commit goal g05d) |
+| G05E Studio Debug Vertical Slice | PASS (2026-08-13, commit goal g05e) |
+| G05F Phaser 2D Player Vertical Slice | PASS (2026-08-13, commit goal g05f) |
+| G06A..G06C Lifecycle/Multi-client/Recovery | NEXT |
+| G06A..G06C Lifecycle/Multi-client/Recovery | NEXT |
 | G07A..G07E Reality/Director/Experiments | NOT_STARTED |
 | G08A..G10D Domain Generality | NOT_STARTED |
 | G11A..G11F Co-Simulation | NOT_STARTED |
