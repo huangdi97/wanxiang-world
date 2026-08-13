@@ -54,6 +54,7 @@ Columns: Requirement ID | Source section | Owning Goal | Test/evidence | Current
 M3 verdict: PASS (2026-08-13, tag m3-bounded-agents; reports/M3_ACCEPTANCE.md).
 M4 verdict: PASS (2026-08-13, tag m4-worlds-authored-installed; reports/M4_ACCEPTANCE.md).
 M5 verdict: PASS (2026-08-13, re-qualified with G06; tag m5-human-in-world-without-authority; reports/M5_ACCEPTANCE.md).
+M6 verdict: PASS (2026-08-13, tag m6-reality-experiments; reports/M6_ACCEPTANCE.md).
 
 ## M4 ? Worlds Can Be Authored, Reviewed, Installed and Instantiated (07_MILESTONE_GATES_M2_M9.md)
 
@@ -80,6 +81,16 @@ M5 verdict: PASS (2026-08-13, re-qualified with G06; tag m5-human-in-world-witho
 | M5-08 | M5 gate | GOAL_06A | Lifecycle persists independently of sessions; pause/advance/background | PASS | goal g06a | test_lifecycle + m5_g06 proofs |
 | M5-09 | M5 gate | GOAL_06B | Multi-client retries/conflicts idempotent and revision-safe | PASS | goal g06b | test_command_queue |
 | M5-10 | M5 gate | GOAL_06C | Crash/lease recovery + scheduler restoration preserve canonical hash | PASS | goal g06c | test_recovery + m5_g06 proofs |
+## M6 ? Reality-Coupled Context and Controlled Experiments Work Safely (07_MILESTONE_GATES_M2_M9.md)
+
+| Req ID | Source | Owning Goal | Test/evidence | Status | Last verified commit | Notes |
+|---|---|---|---|---|---|---|
+| M6-01 | M6 gate | GOAL_07A | PhysicalObservation + Reality Bridge: normalize/validate/poll; never canonical truth | PASS | goal g07a | |
+| M6-02 | M6 gate | GOAL_07B | Fusion: dedup, conflict sets preserved, claims/proposals only | PASS | goal g07b | |
+| M6-03 | M6 gate | GOAL_07C | ChallengeSpec with prerequisites/safety/rights/evidence/outcomes | PASS | goal g07c | |
+| M6-04 | M6 gate | GOAL_07D | Director proposes; cannot commit or rewrite actors without review | PASS | goal g07d | |
+| M6-05 | M6 gate | GOAL_07E | Experiment: multi-seed deterministic runs, metrics, validity envelope | PASS | goal g07e | |
+| M6-06 | M6 gate | GOAL_07A-E | M6 vertical: observations->fusion->challenge->director->experiment | PASS | m6 commit | test_m6_qualification |
 ## Architecture gates (02_ENGINEERING_STANDARDS.md ?16)
 
 | Req ID | Source | Owning Goal | Test/evidence | Status | Last verified commit | Notes |

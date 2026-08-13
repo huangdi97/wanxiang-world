@@ -41,6 +41,11 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0035 | Persistent lifecycle: canonical host.lifecycle entity, deterministic transitions, virtual clock drivers | accepted |
 | 0036 | Command queue: bounded dedup intake, serialized drain, structured statuses, backpressure | accepted |
 | 0037 | Recovery: committed-events crash boundary, snapshot/event-replay fallback, resource budgets | accepted |
+| 0038 | Reality bridge: normalized observations on a bus, never canonical truth | accepted |
+| 0039 | Observation fusion: dedup + conflict sets, claims/proposals only, versioned policy | accepted |
+| 0040 | Challenge compiler: executable specs with prerequisites/safety/rights/evidence/outcomes | accepted |
+| 0041 | Director runtime: proposals only; persona changes need actor-logic review | accepted |
+| 0042 | Experiment runtime: deterministic multi-seed runs, findings + validity envelope | accepted |
 
 ## Decision log (inline quick notes)
 

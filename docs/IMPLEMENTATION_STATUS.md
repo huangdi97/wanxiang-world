@@ -55,6 +55,14 @@
 
 ## M5 ? Human Can Enter a Persistent World Without Becoming the Authority (PASS, 2026-08-13)
 
+## M6 ? Reality-Coupled Context and Controlled Experiments Work Safely (PASS, 2026-08-13)
+
+- G07A Reality Bridge ? PASS (2026-08-13): physical observations normalized + bus delivery, never canonical truth.
+- G07B Observation Fusion ? PASS (2026-08-13): dedup/conflict sets/proposals only, versioned policy.
+- G07C Challenge Compiler ? PASS (2026-08-13): opportunities -> executable specs with prerequisites/outcomes.
+- G07D Director Runtime ? PASS (2026-08-13): proposals only, persona review gate, projection-only directives.
+- G07E Experiment Runtime ? PASS (2026-08-13): multi-seed deterministic runs, findings + validity envelope.
+
 - G05A World Host ? PASS (2026-08-13): orchestration boundary, lifecycle modes, host registry.
 - G05B Session/Embodiment/Lease ? PASS (2026-08-13): one primary controller per actor, lease lifecycle.
 - G05C Shadow/Human Control Handoff ? PASS (2026-08-13): handoff state machine, advice-only shadow.
@@ -100,6 +108,14 @@
 ## M4 ? Worlds Can Be Authored, Reviewed, Installed and Instantiated (PASS, 2026-08-13)
 
 ## M5 ? Human Can Enter a Persistent World Without Becoming the Authority (PASS, 2026-08-13)
+
+## M6 ? Reality-Coupled Context and Controlled Experiments Work Safely (PASS, 2026-08-13)
+
+- G07A Reality Bridge ? PASS (2026-08-13): physical observations normalized + bus delivery, never canonical truth.
+- G07B Observation Fusion ? PASS (2026-08-13): dedup/conflict sets/proposals only, versioned policy.
+- G07C Challenge Compiler ? PASS (2026-08-13): opportunities -> executable specs with prerequisites/outcomes.
+- G07D Director Runtime ? PASS (2026-08-13): proposals only, persona review gate, projection-only directives.
+- G07E Experiment Runtime ? PASS (2026-08-13): multi-seed deterministic runs, findings + validity envelope.
 
 - G05A World Host ? PASS (2026-08-13): orchestration boundary, lifecycle modes, host registry.
 - G05B Session/Embodiment/Lease ? PASS (2026-08-13): one primary controller per actor, lease lifecycle.

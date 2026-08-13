@@ -41,7 +41,7 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | M3 | Bounded Agents Can Live Inside the World | PASS (2026-08-13, tag m3-bounded-agents) |
 | M4 | Worlds Can Be Authored, Reviewed, Installed, Instantiated | PASS (2026-08-13, tag m4-worlds-authored-installed) |
 | M5 | Human Can Enter a Persistent World Without Becoming Authority | PASS (2026-08-13, tag m5-human-in-world-without-authority) |
-| M6 | World Can Be Safely Coupled to External Context and Controlled Experiments | NOT_STARTED |
+| M6 | World Can Be Safely Coupled to External Context and Controlled Experiments | PASS (2026-08-13, tag m6-reality-experiments) |
 | M7 | Multiple Unrelated Domains Prove Core Generality | NOT_STARTED |
 | M8 | Mechanistic External Models Participate Without Owning Canonical State | NOT_STARTED |
 | M9 | Release-qualified Wanxiang Platform Foundation | NOT_STARTED |
@@ -77,7 +77,12 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | G06A Persistent Lifecycle/Pause/Advance/Background | PASS (2026-08-13, commit goal g06a) |
 | G06B Command Queue & Idempotent Multi-client Semantics | PASS (2026-08-13, commit goal g06b) |
 | G06C Crash Recovery, Checkpoint & Resource Budget | PASS (2026-08-13, commit goal g06c) |
-| G07A..G07E Reality/Director/Experiments | NEXT |
+| G07A PhysicalObservation & Reality Bridge | PASS (2026-08-13, commit goal g07a) |
+| G07B Observation Fusion & Validation | PASS (2026-08-13, commit goal g07b) |
+| G07C Opportunity/Challenge/Event Compiler | PASS (2026-08-13, commit goal g07c) |
+| G07D Director Runtime | PASS (2026-08-13, commit goal g07d) |
+| G07E Experiment Runtime/Multi-run/ValidityEnvelope | PASS (2026-08-13, commit goal g07e) |
+| G08A..G10D Domain Generality | NEXT |
 | G05A Minimal World Host & Authority Boundary | PASS (2026-08-13, commit goal g05a) |
 | G05B Session/Embodiment/Lease | PASS (2026-08-13, commit goal g05b) |
 | G05C Shadow/Human Policy Control Handoff | PASS (2026-08-13, commit goal g05c) |
@@ -87,12 +92,27 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | G06A Persistent Lifecycle/Pause/Advance/Background | PASS (2026-08-13, commit goal g06a) |
 | G06B Command Queue & Idempotent Multi-client Semantics | PASS (2026-08-13, commit goal g06b) |
 | G06C Crash Recovery, Checkpoint & Resource Budget | PASS (2026-08-13, commit goal g06c) |
-| G07A..G07E Reality/Director/Experiments | NEXT |
+| G07A PhysicalObservation & Reality Bridge | PASS (2026-08-13, commit goal g07a) |
+| G07B Observation Fusion & Validation | PASS (2026-08-13, commit goal g07b) |
+| G07C Opportunity/Challenge/Event Compiler | PASS (2026-08-13, commit goal g07c) |
+| G07D Director Runtime | PASS (2026-08-13, commit goal g07d) |
+| G07E Experiment Runtime/Multi-run/ValidityEnvelope | PASS (2026-08-13, commit goal g07e) |
+| G08A..G10D Domain Generality | NEXT |
 | G06A Persistent Lifecycle/Pause/Advance/Background | PASS (2026-08-13, commit goal g06a) |
 | G06B Command Queue & Idempotent Multi-client Semantics | PASS (2026-08-13, commit goal g06b) |
 | G06C Crash Recovery, Checkpoint & Resource Budget | PASS (2026-08-13, commit goal g06c) |
-| G07A..G07E Reality/Director/Experiments | NEXT |
-| G07A..G07E Reality/Director/Experiments | NEXT |
-| G08A..G10D Domain Generality | NOT_STARTED |
+| G07A PhysicalObservation & Reality Bridge | PASS (2026-08-13, commit goal g07a) |
+| G07B Observation Fusion & Validation | PASS (2026-08-13, commit goal g07b) |
+| G07C Opportunity/Challenge/Event Compiler | PASS (2026-08-13, commit goal g07c) |
+| G07D Director Runtime | PASS (2026-08-13, commit goal g07d) |
+| G07E Experiment Runtime/Multi-run/ValidityEnvelope | PASS (2026-08-13, commit goal g07e) |
+| G08A..G10D Domain Generality | NEXT |
+| G07A PhysicalObservation & Reality Bridge | PASS (2026-08-13, commit goal g07a) |
+| G07B Observation Fusion & Validation | PASS (2026-08-13, commit goal g07b) |
+| G07C Opportunity/Challenge/Event Compiler | PASS (2026-08-13, commit goal g07c) |
+| G07D Director Runtime | PASS (2026-08-13, commit goal g07d) |
+| G07E Experiment Runtime/Multi-run/ValidityEnvelope | PASS (2026-08-13, commit goal g07e) |
+| G08A..G10D Domain Generality | NEXT |
+| G08A..G10D Domain Generality | NEXT |
 | G11A..G11F Co-Simulation | NOT_STARTED |
 | G12A..G12H Release | NOT_STARTED |

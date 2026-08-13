@@ -63,6 +63,15 @@
 - SqlAlchemyEventStore in shared contract suite; durable replay == golden hash.
 - 111 tests green; docs/architecture/PERSISTENCE.md; ADR-0008.
 
+## 2026-08-13 ? M6 PASS + G07A-E PASS (P6 phase)
+
+- M6 qualification PASS: fake physical observations (duplicates/conflicts) ->
+  bridge -> fusion -> opportunity/challenge -> director proposal through
+  normal commit -> multi-seed experiment from fixed baseline (349 tests); tag
+  `m6-reality-experiments`.
+- G07A reality bridge; G07B observation fusion; G07C challenge compiler; G07D
+  director runtime; G07E experiment runtime/validity envelope.
+- ADRs 0038-0042; checkpoint `m6: qualify milestone`.
 ## 2026-08-13 ? G06A-C PASS; M5 re-qualified with lifecycle & recovery
 
 - G06A `wanxiang_substrate.lifecycle`: 7 lifecycle modes, deterministic
