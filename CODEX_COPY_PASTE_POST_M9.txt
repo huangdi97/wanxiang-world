@@ -1,0 +1,11 @@
+Continue the Wanxiang project after the claimed M0-M9 completion. Do not restart G0 and do not trust prior PASS claims blindly.
+
+First read `11_CODEX_POST_M9_MASTER_PROMPT.md`, then all normative files it references, current repository ledgers/reports/Git state, and verify the M9 checkpoint.
+
+Then execute `12_POST_M9_GOALS_INDEX.md` continuously from G13A through G20E, running each `milestones/M10_QUALIFICATION.md` through `M17_QUALIFICATION.md` gate in order.
+
+Do not stop for routine confirmation between milestones. Keep all existing architecture invariants, tests, migrations, replay/branch compatibility, rights/source gates and code-quality rules. Real external data/provider/hardware may narrowly become EXTERNAL_BLOCKED, but internal generic capability and deterministic tests must continue.
+
+M16 research must remain experimental/feature-flagged and cannot destabilize stable defaults.
+
+Do not push or deploy externally unless separately authorized. Stop only after M17 final certification and local checkpoint, then report exact PASS/FAIL/EXTERNAL_BLOCKED evidence, remaining limitations and research promotion decisions.
