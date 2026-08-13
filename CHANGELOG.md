@@ -316,3 +316,17 @@
   matrix updated; docs/IMPLEMENTATION_STATUS.md.
 - Milestone tag `m1-authoritative-world` created at M1 PASS.
 - Batch stop condition reached: do not begin G02A in this batch.
+
+## 2026-08-14 ? G13A PASS (M10 phase)
+
+- Independently verified the claimed M9 checkpoint: `uv run python scripts/quality.py`
+  -> ruff / pyright / 385 pytest / architecture PASS; TS SDK 21 tests PASS
+  (initial `EPERM: spawn` was sandbox-only, passed outside sandbox).
+- Integrated the Post-M9 execution pack (10-23, goals G13A-G20E, milestone gates
+  M10-M17) per `23_POST_M9_HANDOFF_PROTOCOL.md`; PACK_MANIFEST.md updated;
+  94/94 SHA-256 entries verified against files.
+- Added reproducible baseline capture `scripts/capture_post_m9_baseline.py` and
+  `reports/POST_M9_BASELINE.md`, `reports/post_m9_baseline.json`,
+  `reports/POST_M9_COMMAND_MATRIX.md`, `reports/G13A_REPORT.md`.
+- Disposable clean bootstrap: Alembic 0001 -> 0002 (head) on a fresh SQLite DB PASS.
+- Checkpoint: `g13a: post-m9 baseline freeze & independent evidence capture`.

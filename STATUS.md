@@ -253,3 +253,29 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | G12G Digital Human/XR Gateway Contracts | PASS (2026-08-13, commit goal g12g) |
 | G12H Deployment/Security/Private Install | PASS (2026-08-13, commit goal g12h) |
 | FINAL RELEASE REPORT | PASS (2026-08-13, commit m9: qualify milestone) |
+
+## Post-M9 (M10-M17) (2026-08-14)
+
+M9 verified independently on this tree: `uv run python scripts/quality.py` -> PASS
+(ruff/pyright, 385 pytest, architecture PASS); TS SDK tsc/eslint clean, 21 Vitest
+PASS; migration head `0002_add_event_seq_index`; disposable clean bootstrap PASS;
+HEAD `91f0b1f` = tag `m9-release-qualified`. Post-M9 pack integrated; 94/94 hashes verified.
+
+### Milestones
+
+| Milestone | Meaning | Status |
+|---|---|---|
+| M10 | Independent Verification & Gap Closure | IN PROGRESS |
+| M11 | Adversarial / Failure Qualification | pending |
+| M12 | Reference World & Worldness Certification | pending |
+| M13 | Productionization & Operations | pending |
+| M14 | SDK / Ecosystem Qualification | pending |
+| M15 | Product Surface Qualification | pending |
+| M16 | Research Expansion Qualification | pending |
+| M17 | Final Independent Certification | pending |
+
+### Goals (post-M9)
+
+| Goal | Status |
+|---|---|
+| G13A Post-M9 Baseline Freeze & Independent Evidence Capture | PASS (2026-08-14, commit g13a) |

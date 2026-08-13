@@ -25,3 +25,13 @@ Continuous execution per `05_CODEX_REMAINING_PROGRAM_MASTER_PROMPT.md` and
 
 Current: M2-M9 PASS + FINAL REPORTS (2026-08-13). Program complete; no push/deploy.
 reports + local checkpoint. M1 verified PASS before starting. No push/deploy.
+
+## Post-M9 (M10-M17) (2026-08-14)
+
+Continuous execution per `11_CODEX_POST_M9_MASTER_PROMPT.md` and
+`12_POST_M9_GOALS_INDEX.md`: G13A -> G20E, milestone gates M10 -> M17, final
+certification and local checkpoint. No push/deploy.
+
+| # | Goal | Scope | Status |
+|---|---|---|---|
+| 1 | G13A | Post-M9 Baseline Freeze & Independent Evidence Capture | PASS (2026-08-14) |
