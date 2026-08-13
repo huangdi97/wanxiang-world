@@ -1,0 +1,14 @@
+# Liaoshen Reference Pack - Manifest Template
+
+pack: liaoshen_reference
+schema_version: 1
+executable_trust: untrusted
+required_sources:
+  - sources/liaoshen/campaign_events.md
+  - sources/liaoshen/organizations.md
+  - sources/liaoshen/places.md
+acceptance:
+  - Source Gate approval required
+  - historical vs counterfactual labels preserved
+  - no fabricated campaign history
+status: EXTERNAL_BLOCKED (no rights-cleared source corpus present)
