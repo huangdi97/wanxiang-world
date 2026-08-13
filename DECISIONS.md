@@ -50,6 +50,9 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0044 | Red Chamber slice: real data EXTERNAL_BLOCKED; Source Gate fixtures PASS | accepted |
 | 0045 | Genealogy: GEDCOM subset, claims-not-truth, privacy/persona modes | accepted |
 | 0046 | Heritage: IIIF/Linked Art adapters, distinct twin identities, replayable biography | accepted |
+| 0047 | Co-sim: SimulationAdapter contract; adapters never own commit authority | accepted |
+| 0048 | Campaign: synthetic factions/units/regions/orders with fog-of-war | accepted |
+| 0049 | Liaoshen pack: real data EXTERNAL_BLOCKED; generic M8 not blocked | accepted |
 
 ## Decision log (inline quick notes)
 

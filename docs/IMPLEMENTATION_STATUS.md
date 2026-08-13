@@ -59,6 +59,14 @@
 
 ## M7 ? Multiple Unrelated Domains Prove Core Generality (PASS, 2026-08-13)
 
+## M8 ? Mechanistic External Models Participate Without Owning Canonical State (PASS, 2026-08-13)
+
+- G11A SimulationAdapter + FakeSimulator ? PASS.
+- G11B Multi-rate Co-Sim Orchestrator ? PASS.
+- G11C/D Synthetic Campaign + Logistics/Fog-of-war ? PASS.
+- G11E Batch Experiment/Strategy Evaluation ? PASS.
+- G11F Liaoshen pack (real data EXTERNAL_BLOCKED) ? PASS.
+
 - G08A Mansion 7-day living world ? PASS.
 - G08B Red Chamber source gate (real data EXTERNAL_BLOCKED) ? PASS.
 - G09A GEDCOM interop / G09B family world / G09C privacy-persona ? PASS.
@@ -119,6 +127,14 @@
 ## M6 ? Reality-Coupled Context and Controlled Experiments Work Safely (PASS, 2026-08-13)
 
 ## M7 ? Multiple Unrelated Domains Prove Core Generality (PASS, 2026-08-13)
+
+## M8 ? Mechanistic External Models Participate Without Owning Canonical State (PASS, 2026-08-13)
+
+- G11A SimulationAdapter + FakeSimulator ? PASS.
+- G11B Multi-rate Co-Sim Orchestrator ? PASS.
+- G11C/D Synthetic Campaign + Logistics/Fog-of-war ? PASS.
+- G11E Batch Experiment/Strategy Evaluation ? PASS.
+- G11F Liaoshen pack (real data EXTERNAL_BLOCKED) ? PASS.
 
 - G08A Mansion 7-day living world ? PASS.
 - G08B Red Chamber source gate (real data EXTERNAL_BLOCKED) ? PASS.

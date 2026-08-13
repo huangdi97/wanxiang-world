@@ -56,6 +56,7 @@ M4 verdict: PASS (2026-08-13, tag m4-worlds-authored-installed; reports/M4_ACCEP
 M5 verdict: PASS (2026-08-13, re-qualified with G06; tag m5-human-in-world-without-authority; reports/M5_ACCEPTANCE.md).
 M6 verdict: PASS (2026-08-13, tag m6-reality-experiments; reports/M6_ACCEPTANCE.md).
 M7 verdict: PASS (2026-08-13, tag m7-domain-generality; reports/M7_ACCEPTANCE.md).
+M8 verdict: PASS (2026-08-13, tag m8-cosimulation-strategy; reports/M8_ACCEPTANCE.md).
 
 ## M4 ? Worlds Can Be Authored, Reviewed, Installed and Instantiated (07_MILESTONE_GATES_M2_M9.md)
 
@@ -106,6 +107,17 @@ M7 verdict: PASS (2026-08-13, tag m7-domain-generality; reports/M7_ACCEPTANCE.md
 | M7-08 | M7 gate | GOAL_10C | Semantic twin distinct identities + conservation history | PASS | goal g10c | |
 | M7-09 | M7 gate | GOAL_10D | Museum biography labels + curator gate | PASS | goal g10d | |
 | M7-10 | M7 gate | GOAL_08A-10D | M7 mandatory: 3 domain families on one core | PASS | m7 commit | qualification + mansion tests |
+## M8 ? Mechanistic External Models Participate Without Owning Canonical State (07_MILESTONE_GATES_M2_M9.md)
+
+| Req ID | Source | Owning Goal | Test/evidence | Status | Last verified commit | Notes |
+|---|---|---|---|---|---|---|
+| M8-01 | M8 gate | GOAL_11A | SimulationAdapter full contract + fake simulator; no commit authority | PASS | goal g11a | |
+| M8-02 | M8 gate | GOAL_11B | Multi-rate orchestrator deterministic + restartable; explicit arbitration | PASS | goal g11b | |
+| M8-03 | M8 gate | GOAL_11C | Synthetic campaign domain (factions/units/terrain/resources/orders) | PASS | goal g11c | |
+| M8-04 | M8 gate | GOAL_11D | Logistics/resource flow, movement constraints, fog-of-war | PASS | goal g11d | |
+| M8-05 | M8 gate | GOAL_11E | Batch results as distributions with ValidityEnvelope | PASS | goal g11e | |
+| M8-06 | M8 gate | GOAL_11F | Liaoshen real pack EXTERNAL_BLOCKED; generic M8 not blocked | PASS | goal g11f | |
+| M8-07 | M8 gate | GOAL_11A-F | M8 vertical: campaign + 2 simulators + batch experiments | PASS | m8 commit | test_m8_qualification |
 ## Architecture gates (02_ENGINEERING_STANDARDS.md ?16)
 
 | Req ID | Source | Owning Goal | Test/evidence | Status | Last verified commit | Notes |

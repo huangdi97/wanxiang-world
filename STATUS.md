@@ -43,7 +43,7 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | M5 | Human Can Enter a Persistent World Without Becoming Authority | PASS (2026-08-13, tag m5-human-in-world-without-authority) |
 | M6 | World Can Be Safely Coupled to External Context and Controlled Experiments | PASS (2026-08-13, tag m6-reality-experiments) |
 | M7 | Multiple Unrelated Domains Prove Core Generality | PASS (2026-08-13, tag m7-domain-generality) |
-| M8 | Mechanistic External Models Participate Without Owning Canonical State | NOT_STARTED |
+| M8 | Mechanistic External Models Participate Without Owning Canonical State | PASS (2026-08-13, tag m8-cosimulation-strategy) |
 | M9 | Release-qualified Wanxiang Platform Foundation | NOT_STARTED |
 
 ### Goals (55)
@@ -91,7 +91,13 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | G10B Linked Art/CIDOC CRM Interop | PASS (2026-08-13, commit goal g10b) |
 | G10C Heritage Object Semantic Twin | PASS (2026-08-13, commit goal g10c) |
 | G10D Museum Biography & Reconstruction | PASS (2026-08-13, commit goal g10d) |
-| G11A..G11F Co-Simulation | NEXT |
+| G11A SimulationAdapter & Fake Simulator | PASS (2026-08-13, commit goal g11a) |
+| G11B Multi-rate Co-Sim Orchestrator | PASS (2026-08-13, commit goal g11b) |
+| G11C Synthetic Campaign Domain | PASS (2026-08-13, commit goal g11c) |
+| G11D Command/Logistics/Movement/Fog-of-war | PASS (2026-08-13, commit goal g11d) |
+| G11E Batch Experiment & Strategy Evaluation | PASS (2026-08-13, commit goal g11e) |
+| G11F Liaoshen Source-gated Pack | PASS (2026-08-13, commit goal g11f; real data EXTERNAL_BLOCKED) |
+| G12A..G12H Release | NEXT |
 | G05A Minimal World Host & Authority Boundary | PASS (2026-08-13, commit goal g05a) |
 | G05B Session/Embodiment/Lease | PASS (2026-08-13, commit goal g05b) |
 | G05C Shadow/Human Policy Control Handoff | PASS (2026-08-13, commit goal g05c) |
@@ -115,7 +121,13 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | G10B Linked Art/CIDOC CRM Interop | PASS (2026-08-13, commit goal g10b) |
 | G10C Heritage Object Semantic Twin | PASS (2026-08-13, commit goal g10c) |
 | G10D Museum Biography & Reconstruction | PASS (2026-08-13, commit goal g10d) |
-| G11A..G11F Co-Simulation | NEXT |
+| G11A SimulationAdapter & Fake Simulator | PASS (2026-08-13, commit goal g11a) |
+| G11B Multi-rate Co-Sim Orchestrator | PASS (2026-08-13, commit goal g11b) |
+| G11C Synthetic Campaign Domain | PASS (2026-08-13, commit goal g11c) |
+| G11D Command/Logistics/Movement/Fog-of-war | PASS (2026-08-13, commit goal g11d) |
+| G11E Batch Experiment & Strategy Evaluation | PASS (2026-08-13, commit goal g11e) |
+| G11F Liaoshen Source-gated Pack | PASS (2026-08-13, commit goal g11f; real data EXTERNAL_BLOCKED) |
+| G12A..G12H Release | NEXT |
 | G06A Persistent Lifecycle/Pause/Advance/Background | PASS (2026-08-13, commit goal g06a) |
 | G06B Command Queue & Idempotent Multi-client Semantics | PASS (2026-08-13, commit goal g06b) |
 | G06C Crash Recovery, Checkpoint & Resource Budget | PASS (2026-08-13, commit goal g06c) |
@@ -133,7 +145,13 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | G10B Linked Art/CIDOC CRM Interop | PASS (2026-08-13, commit goal g10b) |
 | G10C Heritage Object Semantic Twin | PASS (2026-08-13, commit goal g10c) |
 | G10D Museum Biography & Reconstruction | PASS (2026-08-13, commit goal g10d) |
-| G11A..G11F Co-Simulation | NEXT |
+| G11A SimulationAdapter & Fake Simulator | PASS (2026-08-13, commit goal g11a) |
+| G11B Multi-rate Co-Sim Orchestrator | PASS (2026-08-13, commit goal g11b) |
+| G11C Synthetic Campaign Domain | PASS (2026-08-13, commit goal g11c) |
+| G11D Command/Logistics/Movement/Fog-of-war | PASS (2026-08-13, commit goal g11d) |
+| G11E Batch Experiment & Strategy Evaluation | PASS (2026-08-13, commit goal g11e) |
+| G11F Liaoshen Source-gated Pack | PASS (2026-08-13, commit goal g11f; real data EXTERNAL_BLOCKED) |
+| G12A..G12H Release | NEXT |
 | G07A PhysicalObservation & Reality Bridge | PASS (2026-08-13, commit goal g07a) |
 | G07B Observation Fusion & Validation | PASS (2026-08-13, commit goal g07b) |
 | G07C Opportunity/Challenge/Event Compiler | PASS (2026-08-13, commit goal g07c) |
@@ -148,7 +166,13 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | G10B Linked Art/CIDOC CRM Interop | PASS (2026-08-13, commit goal g10b) |
 | G10C Heritage Object Semantic Twin | PASS (2026-08-13, commit goal g10c) |
 | G10D Museum Biography & Reconstruction | PASS (2026-08-13, commit goal g10d) |
-| G11A..G11F Co-Simulation | NEXT |
+| G11A SimulationAdapter & Fake Simulator | PASS (2026-08-13, commit goal g11a) |
+| G11B Multi-rate Co-Sim Orchestrator | PASS (2026-08-13, commit goal g11b) |
+| G11C Synthetic Campaign Domain | PASS (2026-08-13, commit goal g11c) |
+| G11D Command/Logistics/Movement/Fog-of-war | PASS (2026-08-13, commit goal g11d) |
+| G11E Batch Experiment & Strategy Evaluation | PASS (2026-08-13, commit goal g11e) |
+| G11F Liaoshen Source-gated Pack | PASS (2026-08-13, commit goal g11f; real data EXTERNAL_BLOCKED) |
+| G12A..G12H Release | NEXT |
 | G08A Synthetic Mansion Living-world | PASS (2026-08-13, commit goal g08a) |
 | G08B Red Chamber Source-gated Slice | PASS (2026-08-13, commit goal g08b; real data EXTERNAL_BLOCKED) |
 | G09A GEDCOM/GEDZIP Interop | PASS (2026-08-13, commit goal g09a) |
@@ -158,6 +182,18 @@ A1?A10 PASS at commit c45b64e. M0/M1 are NOT being re-implemented.
 | G10B Linked Art/CIDOC CRM Interop | PASS (2026-08-13, commit goal g10b) |
 | G10C Heritage Object Semantic Twin | PASS (2026-08-13, commit goal g10c) |
 | G10D Museum Biography & Reconstruction | PASS (2026-08-13, commit goal g10d) |
-| G11A..G11F Co-Simulation | NEXT |
-| G11A..G11F Co-Simulation | NEXT |
-| G12A..G12H Release | NOT_STARTED |
+| G11A SimulationAdapter & Fake Simulator | PASS (2026-08-13, commit goal g11a) |
+| G11B Multi-rate Co-Sim Orchestrator | PASS (2026-08-13, commit goal g11b) |
+| G11C Synthetic Campaign Domain | PASS (2026-08-13, commit goal g11c) |
+| G11D Command/Logistics/Movement/Fog-of-war | PASS (2026-08-13, commit goal g11d) |
+| G11E Batch Experiment & Strategy Evaluation | PASS (2026-08-13, commit goal g11e) |
+| G11F Liaoshen Source-gated Pack | PASS (2026-08-13, commit goal g11f; real data EXTERNAL_BLOCKED) |
+| G12A..G12H Release | NEXT |
+| G11A SimulationAdapter & Fake Simulator | PASS (2026-08-13, commit goal g11a) |
+| G11B Multi-rate Co-Sim Orchestrator | PASS (2026-08-13, commit goal g11b) |
+| G11C Synthetic Campaign Domain | PASS (2026-08-13, commit goal g11c) |
+| G11D Command/Logistics/Movement/Fog-of-war | PASS (2026-08-13, commit goal g11d) |
+| G11E Batch Experiment & Strategy Evaluation | PASS (2026-08-13, commit goal g11e) |
+| G11F Liaoshen Source-gated Pack | PASS (2026-08-13, commit goal g11f; real data EXTERNAL_BLOCKED) |
+| G12A..G12H Release | NEXT |
+| G12A..G12H Release | NEXT |

@@ -63,6 +63,15 @@
 - SqlAlchemyEventStore in shared contract suite; durable replay == golden hash.
 - 111 tests green; docs/architecture/PERSISTENCE.md; ADR-0008.
 
+## 2026-08-13 ? M8 PASS + G11A-F PASS (P8 phase)
+
+- M8 qualification PASS: two fake simulators at different rates, deterministic
+  multi-rate orchestrator, explicit proposal arbitration, campaign
+  logistics/movement/fog-of-war, batch experiments with distributions and
+  ValidityEnvelope (372 tests); tag `m8-cosimulation-strategy`.
+- G11A adapter; G11B orchestrator; G11C/D campaign; G11E batch evaluation; G11F
+  Liaoshen template (real data EXTERNAL_BLOCKED).
+- ADRs 0047-0049; checkpoint `m8: qualify milestone`.
 ## 2026-08-13 ? M7 PASS + G08A-G10D PASS (P7 phase)
 
 - M7 qualification PASS: mansion 7-day living world, Red Chamber source gate
