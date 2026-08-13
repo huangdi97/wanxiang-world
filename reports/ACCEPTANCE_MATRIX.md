@@ -40,6 +40,16 @@ Columns: Requirement ID | Source section | Owning Goal | Test/evidence | Current
 | M2-06 | M2 gate | GOAL_02F | Autonomous multi-rate scheduler, deterministic, bounded | PASS | aa2f99f | |
 | M2-07 | M2 gate | GOAL_02A-F | 72h integrated living-world scenario | PASS | (m2 commit) | test_m2_qualification |
 
+## M3 ? Bounded Agents Can Live Inside the World (07_MILESTONE_GATES_M2_M9.md)
+
+| Req ID | Source | Owning Goal | Test/evidence | Status | Last verified commit | Notes |
+|---|---|---|---|---|---|---|
+| M3-01 | M3 gate | GOAL_03A | Observation/perspective isolation: derived read-model, sealed payload, private/group visibility | PASS | 7238461 | |
+| M3-02 | M3 gate | GOAL_03B | Belief/memory/epistemic graph: corrections, contradictions, forgetting, actor-scoped access | PASS | 00419ef | |
+| M3-03 | M3 gate | GOAL_03C | Actor/org runtime: propose-only policies, order lifecycle, typed transitions | PASS | c7790ff | |
+| M3-04 | M3 gate | GOAL_03D | Action/affordance/validator: versioned registry, side-effect-free validation | PASS | b126b7d | |
+| M3-05 | M3 gate | GOAL_03E | Resolver/adjudication: deterministic policies, seeded RNG, provenance | PASS | edadaf3 | |
+| M3-06 | M3 gate | GOAL_03F | Skill runtime: step expansion through authoritative path, permission gate, failure handling | PASS | goal g03f | |
 ## Architecture gates (02_ENGINEERING_STANDARDS.md ?16)
 
 | Req ID | Source | Owning Goal | Test/evidence | Status | Last verified commit | Notes |

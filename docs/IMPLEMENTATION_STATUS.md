@@ -67,6 +67,8 @@
   registry + side-effect-free validator (schema/actor/permission/reachability/
   epistemic/resources); affordances; 244 tests green.
 
+- G03F Skill Runtime ? PASS (2026-08-13): versioned skills (definition/step/instance), registry with reference skills, SkillRuntime executing every step through the authoritative path, permission gate at start, failure marks instance failed; 255 tests green.
+
 - G03E Resolver, Adjudication & Deterministic Policies ? PASS (2026-08-13):
   adjudicator registry by (action, version), seeded RNG, provenance +
   uncertainty, version pinning; delta dry-run before commit; 250 tests green.

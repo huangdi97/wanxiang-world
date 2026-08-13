@@ -63,6 +63,16 @@
 - SqlAlchemyEventStore in shared contract suite; durable replay == golden hash.
 - 111 tests green; docs/architecture/PERSISTENCE.md; ADR-0008.
 
+## 2026-08-13 ? G03F PASS (P3 phase)
+
+- `wanxiang_substrate.skills`: versioned SkillDefinition/SkillStep/
+  SkillInstance, SkillRegistry with deliver-letter (3 steps) and inspect-object
+  reference skills, `skill.start` / `skill.set_state` resolvers, and
+  SkillRuntime (execute/pause/resume/cancel). Every step is submitted through
+  WorldRuntime (validate -> resolve -> commit); skill state persists as a
+  versioned `skill.instance` component.
+- 255 tests green; ADR-0023; docs/architecture/SKILL_RUNTIME.md;
+  reports/g03f_report.md; checkpoint `goal g03f: skill runtime`.
 ## 2026-08-13 ? G03E PASS (P3 phase)
 
 - `wanxiang_substrate.resolution`: Adjudication + provenance + uncertainty,

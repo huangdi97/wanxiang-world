@@ -26,6 +26,7 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0020 | Agency runtime: propose-only policies; order lifecycle with typed transitions | accepted |
 | 0021 | Action/affordance/validator: versioned action registry + side-effect-free validator | accepted |
 | 0022 | Resolution/adjudication: adjudicator registry by (action, version); seeded RNG; delta dry-run before commit | accepted |
+| 0023 | Skill runtime: versioned skill registry; execution state as versioned skill.instance component | accepted |
 
 ## Decision log (inline quick notes)
 
