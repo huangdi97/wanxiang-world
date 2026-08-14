@@ -320,3 +320,4 @@ HEAD `91f0b1f` = tag `m9-release-qualified`. Post-M9 pack integrated; 94/94 hash
 | G16I Performance, Capacity, Cost & Resource-budget Qualification | PASS (2026-08-14, commit g16i) |
 | G16J Private/Staging Deployment, Operator Runbooks & M13 Production Qualification | PASS (2026-08-14, commit g16j) |
 | M13 | Productionization & Operations | PASS (2026-08-14, reports/M13_ACCEPTANCE.md) |
+| G17A Public SDK Contract, Semantic Versioning & Compatibility Policy | PASS (2026-08-14, commit g17a) |
