@@ -114,4 +114,5 @@ checkpoint. No push/deploy.
 |---|---|---|---|
 | 1 | G21A | v5.0/M17 Baseline Freeze & Repository Inventory | PASS (2026-08-14) |
 | 2 | G21B | v5.1 Delta Traceability & Existing-code Classification | PASS (2026-08-14) |
-| 3 | G21C | Duplicate Abstraction, Registry, State & Manager Forensics | pending |
+| 3 | G21C | Duplicate Abstraction, Registry, State & Manager Forensics | PASS (2026-08-14) |
+| 4 | G21D | Dependency Graph & Physical Package Simplification Plan | pending |

@@ -53,3 +53,5 @@ Consolidation candidates to evaluate in G21C/G21F: overlapping registries (Packa
 | Goal | Additions (files/LOC) | Deletions (files/LOC) | Net LOC | Notes |
 |---|---|---|---|---|
 | G21B | +1 test (+~70 LOC), +1 report | 0 | +~70 | documentation + test only |
+| G21C | scripts/v51_forensics.py | deterministic duplicate-abstraction scanner for minimality audits | KEEP |
+| G21C | +1 script (+~150 LOC), +1 report, +1 test (+~60 LOC) | 0 | +~210 | forensics only, no production change |

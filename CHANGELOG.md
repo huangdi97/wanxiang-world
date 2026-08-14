@@ -804,3 +804,10 @@
 - Added `tests/architecture/test_v51_traceability.py` (4 completeness checks) -> 4 passed.
 - Key decisions: RuntimeControlTransaction is ADD-only (never a World Commit); Ontology/Law commits are ADAPT through the single authority pipeline; evidence/model_providers stub packages are DELETE candidates; M16 research stays EXPERIMENTAL.
 - Checkpoint: `v5.1 g21b: v5.1 delta traceability & existing-code classification`.
+
+## 2026-08-14 - V5.1 G21C PASS (M18 phase)
+
+- Added `scripts/v51_forensics.py` (deterministic AST scan) + `reports/V5_1_DUPLICATE_FORENSICS.md` (10 registries, 18 state models, 16 stores, 15 services, 2 engines, 23 ports, 0 oversized modules, 1 commit path) + dispositions.
+- Confirmed exactly one CommitAuthority commit path; capability `_apply_delta` produces proposals only.
+- Strong MERGE candidate found: duplicate SnapshotStore/InMemorySnapshotStore in runtime vs recovery.checkpoint (consolidate in G21F/G21G).
+- Checkpoint: `v5.1 g21c: duplicate abstraction, registry, state & manager forensics`.

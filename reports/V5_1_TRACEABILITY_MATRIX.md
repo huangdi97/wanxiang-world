@@ -1,4 +1,4 @@
-﻿# V5.1 Traceability Matrix
+# V5.1 Traceability Matrix
 
 > Spec requirement -> current owner -> current evidence -> action. One row per material
 > v5.1 delta. Classification: KEEP_AS_IS | KEEP | MERGE | ADAPT | DELETE | REPLACE | EXPERIMENTAL.
