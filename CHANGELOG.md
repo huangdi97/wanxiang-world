@@ -656,3 +656,9 @@
 - Added `tests/integration/test_g17h_ecosystem.py` (2 tests) + ecosystem qualification + M14 acceptance reports.
 - M14 gate PASS: G17A-H suites (22 passed), full gate 554 passed + 1 EXTERNAL_BLOCKED skip.
 - Checkpoint: `g17h: ecosystem documentation, certification & m14 qualification`. M15 begins next.
+
+## 2026-08-14 ? G18A PASS (M15 phase)
+
+- Added `docs/PRODUCT_SURFACE_ARCHITECTURE.md`, `scripts/product_surface_audit.py`,
+  `tests/integration/test_g18a_product_surfaces.py` (3 tests) + reports.
+- Checkpoint: `g18a: product surface information architecture & server-truth contract`.
