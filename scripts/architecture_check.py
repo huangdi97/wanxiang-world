@@ -44,14 +44,6 @@ FORBIDDEN_IMPORTS: dict[str, tuple[str, ...]] = {
         "openai",
         "pydantic",
     ),
-    "packages/evidence": (
-        "fastapi",
-        "sqlalchemy",
-        "alembic",
-        "wanxiang_persistence",
-        "httpx",
-        "requests",
-    ),
     "packages/application": (
         "fastapi",
         "sqlalchemy",
@@ -70,12 +62,6 @@ FORBIDDEN_IMPORTS: dict[str, tuple[str, ...]] = {
         "requests",
     ),
     "packages/persistence": ("fastapi", "wanxiang_api"),
-    "packages/model_providers": (
-        "fastapi",
-        "sqlalchemy",
-        "alembic",
-        "wanxiang_persistence",
-    ),
     "packages/observability": ("fastapi", "sqlalchemy", "alembic"),
     "packages/substrate": (
         "fastapi",

@@ -9,8 +9,6 @@ import pytest
 PACKAGES = [
     "wanxiang_application",
     "wanxiang_domain",
-    "wanxiang_evidence",
-    "wanxiang_model_providers",
     "wanxiang_observability",
     "wanxiang_persistence",
     "wanxiang_runtime",

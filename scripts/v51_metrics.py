@@ -13,9 +13,19 @@ from __future__ import annotations
 
 import ast
 import pathlib
+from typing import TypedDict
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SCAN_DIRS = [ROOT / "packages", ROOT / "apps"]
+
+
+class PkgStats(TypedDict):
+    files: int
+    loc: int
+    classes: int
+    functions: int
+    public_names: list[str]
+    flag_names: list[str]
 
 
 def package_label(path: pathlib.Path) -> str:
@@ -28,8 +38,19 @@ def package_label(path: pathlib.Path) -> str:
     return str(rel)
 
 
+def _empty_stats() -> PkgStats:
+    return PkgStats(
+        files=0,
+        loc=0,
+        classes=0,
+        functions=0,
+        public_names=[],
+        flag_names=[],
+    )
+
+
 def main() -> int:
-    per_pkg: dict[str, dict] = {}
+    per_pkg: dict[str, PkgStats] = {}
     for base in SCAN_DIRS:
         if not base.exists():
             continue
@@ -37,40 +58,36 @@ def main() -> int:
             if "__pycache__" in py.parts:
                 continue
             label = package_label(py)
-            pkg = per_pkg.setdefault(
-                label,
-                {
-                    "files": 0,
-                    "loc": 0,
-                    "classes": 0,
-                    "functions": 0,
-                    "public_names": [],
-                    "flag_names": [],
-                },
-            )
+            pkg = per_pkg.setdefault(label, _empty_stats())
             pkg["files"] += 1
             try:
-                tree = ast.parse(py.read_text(encoding="utf-8"))
-            except SyntaxError:
+                text = py.read_text(encoding="utf-8")
+                tree = ast.parse(text)
+            except (OSError, SyntaxError):
                 continue
-            pkg["loc"] += len(py.read_text(encoding="utf-8").splitlines())
+            pkg["loc"] += len(text.splitlines())
             for node in tree.body:
                 if isinstance(node, (ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef)):
                     name = node.name
                     if name.startswith("_"):
                         continue
-                    pkg["classes" if isinstance(node, ast.ClassDef) else "functions"] += 1
+                    if isinstance(node, ast.ClassDef):
+                        pkg["classes"] += 1
+                    else:
+                        pkg["functions"] += 1
                     pkg["public_names"].append(name)
                     low = name.lower()
                     if any(k in low for k in ("registry", "manager", "service", "engine")):
                         pkg["flag_names"].append(name)
 
-    total = {"files": 0, "loc": 0, "classes": 0, "functions": 0}
-    rows = []
+    total: dict[str, int] = {"files": 0, "loc": 0, "classes": 0, "functions": 0}
+    rows: list[tuple[str, int, int, int, int, int, int]] = []
     for label in sorted(per_pkg):
         p = per_pkg[label]
-        for k in total:
-            total[k] += p[k]
+        total["files"] += p["files"]
+        total["loc"] += p["loc"]
+        total["classes"] += p["classes"]
+        total["functions"] += p["functions"]
         rows.append(
             (
                 label,
@@ -95,7 +112,9 @@ def main() -> int:
         f"{total['classes']:>6} {total['functions']:>5}"
     )
     print(tot_line)
-    flag_rows = [(label, n) for label, p in per_pkg.items() for n in p["flag_names"]]
+    flag_rows: list[tuple[str, str]] = [
+        (label, n) for label, p in per_pkg.items() for n in p["flag_names"]
+    ]
     print("\nFlagged names (registry/manager/service/engine):")
     for label, n in sorted(flag_rows):
         print(f"  {label}: {n}")

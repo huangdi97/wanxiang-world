@@ -1,0 +1,28 @@
+继续当前万相世界仓库，不要重开项目，不要从零重写。
+
+首先完整阅读：
+`README_FIRST_V5_2_CN.md`
+`docs/spec/WANXIANG_v5_2_MASTER_SPEC.md`
+`00_V5_2_代码处置与复用矩阵.md`
+`01_V5_2_全量工程程序架构.md`
+`02_CODEX_V5_2_今晚连续执行总指令.md`
+`03_最小代码工程宪法.md`
+`04_V5_2_架构裁决与歧义消解.md`
+`05_M0_M25到V5_2迁移映射.md`
+`06_M26_M34_GOAL总索引.md`
+`07_M26_M34_Milestone验收门.md`
+`08_连续执行与中断恢复协议.md`
+`09_红楼梦SourceGate与实例验收标准.md`
+`10_V5_2最终验收证据标准.md`
+全部 `goals/`、`milestones/`，以及仓库当前 AGENTS/PLAN/STATUS/DECISIONS/BLOCKERS/KNOWN_FAILURES/CHANGELOG、reports、Git、源码、测试和 migrations。
+
+然后严格按 `02_CODEX_V5_2_今晚连续执行总指令.md` 连续执行：
+G29A → G37G。
+每个 Goal PASS 后本地 commit 并自动继续；每个 Milestone Gate PASS 后自动继续。
+不要询问是否继续，不要自动 push/deploy，不要自行开始 v5.3。
+
+核心原则：优先 KEEP/MERGE/ADAPT 旧代码，禁止因 v5.2 名词重造第二套 Commit/Event/Branch/Worldline/Registry/Engine。Reality Root 是语义基岩，World Semantic ISA 是薄归约层，Branch 与 Worldline 共享历史语义，Promotion 复用 Distillation/Snapshot/Package/Invariant，红楼梦永远是 World/Domain/Experience 内容而非 Core。
+
+真实《红楼梦》必须过 Source Gate；不得凭模型记忆编 Canon。能够取得合法可追溯来源时必须把真实最小实例编译、运行并完成七日验收。若真实来源客观不可得，只能明确 EXTERNAL_BLOCKED，禁止假装完成。
+
+最终只有 `10_V5_2最终验收证据标准.md` 全部满足时才允许 M34 PASS，然后生成最终认证、本地 checkpoint 并停止。

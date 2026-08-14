@@ -60,8 +60,6 @@ extraPaths = [
     "packages/application/src",
     "packages/runtime/src",
     "packages/persistence/src",
-    "packages/evidence/src",
-    "packages/model_providers/src",
     "packages/observability/src",
     "packages/substrate/src",
     "packages/research/src",

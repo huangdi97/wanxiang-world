@@ -1,0 +1,63 @@
+{
+  "expected_semantic_hash": "7d17aba7b9b76f04174f28a05ed7139505ab1784d0377ebe1966f7ef8d69fd00",
+  "metadata": {
+    "branch_id": "br_golden",
+    "content_ref": "fixture://v5_2_baseline/snapshot.json",
+    "created_world_time": 5,
+    "event_seq": 5,
+    "instance_id": "wld_golden",
+    "revision": 5,
+    "rule_version": 1,
+    "schema_version": 1,
+    "snapshot_id": "snap_golden_v52"
+  },
+  "schema_version": 1,
+  "state": {
+    "branch_id": "br_golden",
+    "entities": [
+      {
+        "components": [
+          {
+            "fields": {
+              "count": 7
+            },
+            "id": "alice_res",
+            "type": "resource",
+            "version": 1
+          }
+        ],
+        "id": "alice",
+        "type": "person"
+      },
+      {
+        "components": [
+          {
+            "fields": {
+              "count": 3
+            },
+            "id": "bob_res",
+            "type": "resource",
+            "version": 1
+          }
+        ],
+        "id": "bob",
+        "type": "person"
+      }
+    ],
+    "instance_id": "wld_golden",
+    "relations": [
+      {
+        "attributes": {
+          "since": 1
+        },
+        "id": "gift_1",
+        "source": "alice",
+        "target": "bob",
+        "type": "gift"
+      }
+    ],
+    "revision": 5,
+    "rule_version": 1,
+    "schema_version": 1
+  }
+}

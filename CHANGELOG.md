@@ -818,3 +818,13 @@
 - Topology verified acyclic: domain -> runtime -> application/persistence -> substrate -> apps/api; no cycles; forbidden imports already enforced.
 - P2 finding: five substrate modules import application.WorldRuntime (substrate->application inversion); planned minimal fix via WorldRuntimePort (G21F/G25B).
 - Checkpoint: `v5.1 g21d: dependency graph & physical package simplification plan`.
+
+
+## 2026-08-14 - V5.2 G29A PASS (M26 phase)
+
+- Committed the v5.2-R1 program pack (README_FIRST_V5_2_CN, program docs 00-10, docs/spec/WANXIANG_v5_2_MASTER_SPEC.md, goals/G29A..G37G, milestones/M26..M34, ALL_IN_ONE ??) as part of the baseline checkpoint for single-commit reproducibility.
+- M25 real state verified: `uv run python scripts/quality.py` -> ruff/format/pyright/architecture PASS, 649 passed + 1 EXTERNAL_BLOCKED skip (live PostgreSQL). Pre-existing failures fixed: BOM ruff panic (test_v51_forensics.py), v51_metrics.py pyright strict, corrupted guard scripts from the v5.2 prep edit.
+- Deleted empty stub packages `packages/evidence` + `packages/model_providers` (zero call sites; v5.1 G21B/G21D DELETE disposition) and removed all references (pyproject, guards, golden edges, bootstrap, uv.lock).
+- Frozen deterministic golden fixtures `tests/fixtures/v5_2_baseline/` (events/snapshot/branch/worldpack/api/manifest; combined hash `f27b77249f14c6ef5b8b1b10689e69659e9405d6ccf6f0c75d3f4be952c47ecf`) + generator script + 6-test reproducibility guard.
+- Baseline audit: 263 files / 21,822 LOC; 11 registries, 0 managers, 15 services, 3 engines; migration head 0002 unchanged.
+- Checkpoint: `g29a: ???????? M25 ????`.

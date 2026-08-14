@@ -117,3 +117,38 @@ checkpoint. No push/deploy.
 | 3 | G21C | Duplicate Abstraction, Registry, State & Manager Forensics | PASS (2026-08-14) |
 | 4 | G21D | Dependency Graph & Physical Package Simplification Plan | PASS (2026-08-14) |
 | 5 | G21E | Dead, Fake, Placeholder & Shadow-path Removal | pending |
+
+
+## V5.2 (M26-M34) continuation (2026-08-14)
+
+Continuous execution per `02_CODEX_V5_2_?????????.md` and
+`06_M26_M34_GOAL???.md`: G29A -> G37G, milestone gates M26 -> M34, final
+v5.2 certification reports and local checkpoint. No push/deploy.
+
+| # | Goal | Scope | Status |
+|---|---|---|---|
+| 1 | G29A | ???????? M25 ???? | PASS (2026-08-14) |
+| 2 | G29B | ?????????? | pending |
+| 3 | G29C | ???? Registry ? Manager | pending |
+| 4 | G29D | ?? State Event Audit ???? | pending |
+| 5 | G29E | ??????? | pending |
+| 6 | G29F | ?? Fake Placeholder ?????? | pending |
+| 7 | G29G | ??????????? | pending |
+| 8 | G29H | M26 ?????? | pending |
+| 9 | M26 Gate | ?????????????? Milestone | pending |
+| 10 | G30A..G30I | Reality Root / Constitution / ISA (M27) | pending |
+| 11 | M27 Gate | Root Constitution ISA ???? | pending |
+| 12 | G31A..G31H | Worldline / Lineage / Hypervisor (M28) | pending |
+| 13 | M28 Gate | Lineage Hypervisor ???? | pending |
+| 14 | G32A..G32H | Evolution Policy / ?????? (M29) | pending |
+| 15 | M29 Gate | ?????????? | pending |
+| 16 | G33A..G33G | Promotion / Cross-world Distillation (M30) | pending |
+| 17 | M30 Gate | Promotion Cross-world ???? | pending |
+| 18 | G34A..G34G | Kernel/Runtime/Forge/Experiences ?? + ?? (M31) | pending |
+| 19 | M31 Gate | ????????? | pending |
+| 20 | G35A..G35I | ??? Source Gate ??? (M32) | pending |
+| 21 | M32 Gate | ???????????? | pending |
+| 22 | G36A..G36H | ????????? (M33) | pending |
+| 23 | M33 Gate | ????????? | pending |
+| 24 | G37A..G37G | ???? / ???? / Promotion / ???? (M34) | pending |
+| 25 | M34 Gate | ????? + Lineage/Promotion + v5.2 ???? | pending |

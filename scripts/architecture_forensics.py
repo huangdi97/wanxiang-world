@@ -35,14 +35,6 @@ FORBIDDEN: dict[str, tuple[str, ...]] = {
         "pydantic",
         "wanxiang_persistence",
     ),
-    "packages/evidence": (
-        "fastapi",
-        "sqlalchemy",
-        "alembic",
-        "wanxiang_persistence",
-        "httpx",
-        "requests",
-    ),
     "packages/application": (
         "fastapi",
         "sqlalchemy",
@@ -61,7 +53,6 @@ FORBIDDEN: dict[str, tuple[str, ...]] = {
         "requests",
     ),
     "packages/persistence": ("fastapi", "wanxiang_api"),
-    "packages/model_providers": ("fastapi", "sqlalchemy", "alembic", "wanxiang_persistence"),
     "packages/observability": ("fastapi", "sqlalchemy", "alembic"),
     "packages/substrate": (
         "fastapi",

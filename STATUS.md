@@ -365,3 +365,36 @@ reproducibly (640 pytest + 1 EXTERNAL_BLOCKED skip; ruff/pyright/architecture PA
 | Milestone | Meaning | Status |
 |---|---|---|
 | M18 | Minimal-Core Consolidation Baseline | in progress (G21A-G21D PASS) |
+
+
+## V5.2 (M26-M34) continuation (2026-08-14)
+
+Started the v5.2-R1 program per `README_FIRST_V5_2_CN.md` and
+`02_CODEX_V5_2_?????????.md`. M25 real state re-verified on this tree:
+`uv run python scripts/quality.py` -> PASS (649 pytest + 1 EXTERNAL_BLOCKED skip;
+ruff/format/pyright/architecture PASS). Old baseline frozen with deterministic
+golden fixtures (`tests/fixtures/v5_2_baseline/`, combined hash
+`f27b77249f14c6ef5b8b1b10689e69659e9405d6ccf6f0c75d3f4be952c47ecf`).
+
+### Milestones
+
+| Milestone | Meaning | Status |
+|---|---|---|
+| M26 | ?????????????? | in progress (G29A PASS) |
+| M27 | Reality Root / Constitution / ISA | pending |
+| M28 | Worldline / Lineage / Hypervisor | pending |
+| M29 | ?????? | pending |
+| M30 | Promotion / Cross-world Distillation | pending |
+| M31 | Kernel/Runtime/Forge/Experiences ?? + ????? | pending |
+| M32 | ??? Source Gate ??? | pending |
+| M33 | ????????? | pending |
+| M34 | ????? + Lineage/Promotion + v5.2 ???? | pending |
+
+### Goals (v5.2)
+
+| Goal | Status |
+|---|---|
+| G29A ???????? M25 ???? | PASS (2026-08-14, commit g29a) |
+| G29B?G37G | pending (see reports/V5_2_FINAL_ACCEPTANCE_MATRIX.md) |
+
+Current HEAD: master @ f53cf82 (v5.1 g21d) -> next commit `g29a`.

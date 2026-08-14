@@ -1,9 +1,10 @@
-﻿"""G21C: duplicate-abstraction forensics acceptance.
+"""G21C: duplicate-abstraction forensics acceptance.
 
 Re-runs the deterministic forensic scanner and asserts the invariants that make
 the consolidation safe: exactly one commit path, a bounded set of registries,
 and that every duplicate candidate in the report has a disposition.
 """
+
 from __future__ import annotations
 
 import pathlib

@@ -1,0 +1,14 @@
+{
+  "combined_semantic_hash": "f27b77249f14c6ef5b8b1b10689e69659e9405d6ccf6f0c75d3f4be952c47ecf",
+  "files": {
+    "api.json": "941af04d313d2f6e9deb2b97683d9b05eea44b9e659b576696dd65dce82a31c3",
+    "branch.json": "11f7b17957f30bd415e343f709875f358051f04977623e5b0ae953f29a448bff",
+    "events.json": "e9fcc53f587f11df963100cfab1767c59b67e49e11041cea93aba59ca657a006",
+    "snapshot.json": "1f5d54ac51dabda39e5592184122d65796cdf5d9b29e8f8b5dc134b9cedd876e",
+    "worldpack.json": "a970136b8a02b9f1fca4c88256aae69d42ebf2f07f84cc3f7f92ab0122df380f"
+  },
+  "git_branch": "master",
+  "git_head": "f53cf8279d2fc0b30ac376b86ba17422d15bfc67",
+  "kind": "V5_2_BASELINE_MANIFEST",
+  "python_version": "3.12.7"
+}

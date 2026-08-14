@@ -1,0 +1,59 @@
+{
+  "info": {
+    "title": "Wanxiang World API",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/healthz": {
+      "get": {
+        "operationId": "healthz_healthz_get"
+      }
+    },
+    "/worlds": {
+      "post": {
+        "operationId": "create_world_worlds_post"
+      }
+    },
+    "/worlds/{instance_id}": {
+      "get": {
+        "operationId": "get_world_worlds__instance_id__get"
+      }
+    },
+    "/worlds/{instance_id}/actions": {
+      "post": {
+        "operationId": "submit_action_worlds__instance_id__actions_post"
+      }
+    },
+    "/worlds/{instance_id}/branches": {
+      "post": {
+        "operationId": "create_branch_worlds__instance_id__branches_post"
+      }
+    },
+    "/worlds/{instance_id}/branches/compare": {
+      "post": {
+        "operationId": "compare_worlds__instance_id__branches_compare_post"
+      }
+    },
+    "/worlds/{instance_id}/checkpoint": {
+      "post": {
+        "operationId": "checkpoint_worlds__instance_id__checkpoint_post"
+      }
+    },
+    "/worlds/{instance_id}/events": {
+      "get": {
+        "operationId": "get_events_worlds__instance_id__events_get"
+      }
+    },
+    "/worlds/{instance_id}/replay": {
+      "post": {
+        "operationId": "replay_worlds__instance_id__replay_post"
+      }
+    },
+    "/worlds/{instance_id}/state": {
+      "get": {
+        "operationId": "get_state_worlds__instance_id__state_get"
+      }
+    }
+  }
+}

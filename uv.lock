@@ -8,8 +8,6 @@ members = [
     "wanxiang-api",
     "wanxiang-application",
     "wanxiang-domain",
-    "wanxiang-evidence",
-    "wanxiang-model-providers",
     "wanxiang-observability",
     "wanxiang-persistence",
     "wanxiang-research",
@@ -702,16 +700,6 @@ requires-dist = [
 name = "wanxiang-domain"
 version = "0.1.0"
 source = { editable = "packages/domain" }
-
-[[package]]
-name = "wanxiang-evidence"
-version = "0.1.0"
-source = { editable = "packages/evidence" }
-
-[[package]]
-name = "wanxiang-model-providers"
-version = "0.1.0"
-source = { editable = "packages/model_providers" }
 
 [[package]]
 name = "wanxiang-observability"

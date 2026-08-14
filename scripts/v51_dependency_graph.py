@@ -18,8 +18,6 @@ TARGETS: dict[str, str] = {
     "packages/runtime": "core",
     "packages/application": "application (orchestration facade)",
     "packages/substrate": "definition+runtime+agency+experience (modular monolith substrate)",
-    "packages/evidence": "definition (evidence/rights) - EMPTY STUB",
-    "packages/model_providers": "infrastructure (LLM providers) - EMPTY STUB",
     "packages/persistence": "infrastructure (persistence)",
     "packages/observability": "infrastructure (telemetry)",
     "packages/research": "EXPERIMENTAL (research namespace)",

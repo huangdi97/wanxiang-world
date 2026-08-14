@@ -31,10 +31,7 @@ PLACEHOLDER_RE = re.compile(
 
 # Documented allowlisted exceptions for the placeholder scan (fixture/readme-like
 # markers that are intentional and non-production-critical).
-ALLOWLIST = (
-    "packages/model_providers/src/wanxiang_model_providers/__init__.py",
-    "packages/evidence/src/wanxiang_evidence/__init__.py",
-)
+ALLOWLIST: tuple[str, ...] = ()
 
 
 def iter_prod_py(root: Path) -> list[Path]:

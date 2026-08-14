@@ -28,8 +28,6 @@ GOLDEN_EDGES: dict[str, tuple[str, ...]] = {
     ),
     "packages/application": ("packages/domain", "packages/runtime"),
     "packages/domain": (),
-    "packages/evidence": (),
-    "packages/model_providers": (),
     "packages/observability": (),
     "packages/persistence": ("packages/domain", "packages/runtime"),
     "packages/research": ("packages/domain",),

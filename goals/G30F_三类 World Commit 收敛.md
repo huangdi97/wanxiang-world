@@ -1,0 +1,125 @@
+# G30F — 三类 World Commit 收敛
+
+> **Milestone**：M27  
+> **执行顺序**：按 `06_M26_M34_GOAL总索引.md`  
+> **完成状态**：仅允许 `PASS / FAIL / EXTERNAL_BLOCKED / NOT_APPLICABLE`
+
+## 1. 目标
+
+一个 CommitAuthority 支持 State/Ontology/Law 三类 payload，并彻底消除 CapabilityCommit 歧义。
+
+## 2. 范围
+
+- 统一 CommitRequest kind。
+- Ontology/Law delta 各自版本化。
+- Runtime control 变化使用 RuntimeControlTransaction。
+- 保证失败原子性。
+
+## 3. 非目标
+
+- 不重写与本 Goal 无语义冲突且已通过回归的稳定代码。
+- 不提前实现后续 Goal 的完整功能。
+- 不通过降低测试、跳过迁移或引入硬编码来快速“完成”。
+
+## 4. 必读
+
+- `docs/spec/WANXIANG_v5_2_MASTER_SPEC.md`
+- `00_V5_2_代码处置与复用矩阵.md`
+- `01_V5_2_全量工程程序架构.md`
+- `02_CODEX_V5_2_今晚连续执行总指令.md`
+- `03_最小代码工程宪法.md`
+- `04_V5_2_架构裁决与歧义消解.md`
+- `05_M0_M25到V5_2迁移映射.md`
+- `06_M26_M34_GOAL总索引.md`
+- `07_M26_M34_Milestone验收门.md`
+- `08_连续执行与中断恢复协议.md`
+- `09_红楼梦SourceGate与实例验收标准.md`
+- `10_V5_2最终验收证据标准.md`
+- 仓库现有 `AGENTS.md / PLAN.md / STATUS.md / DECISIONS.md / BLOCKERS.md / KNOWN_FAILURES.md / CHANGELOG.md`
+- 现有 `reports/`、Git 历史、迁移、测试和 M17/M25 最终认证报告（若存在）
+
+并读取：
+- 当前 Goal 之前所有同 Milestone Goal 的报告；
+- 与本 Goal 直接相关的现有源码、tests、migrations、ADR；
+- `git status` 与最近至少 20 条 commit。
+
+## 5. 架构硬约束
+
+- 现有已通过测试的 M0–M25 能力默认 KEEP/ADAPT；除非有可复现证据证明语义冲突，不得重写。
+- 唯一 Canonical Mutation Boundary 保持不变；LLM、Agent、UI、Compiler、Sensor、Simulator、Provider 都不得直接写权威状态。
+- Reality Root 是语义基岩，不创建第二套状态内核、第二套事件存储或第二套 CommitAuthority。
+- World Semantic ISA 是语义归约层，不允许演化成巨型解释器或平行数据库 API。
+- Branch 与 Worldline 复用同一历史隔离机制；不得复制出第二套分支系统。
+- World Definition/World Pack 是版本化出生定义；运行历史只进入 Instance/Worldline，不静默写回母本。
+- Runtime Capability 变化写 Runtime Control Ledger，不创造 CapabilityCommit 作为第四类 World Commit。
+- World Policy 与 Platform Policy 严格隔离；任何世界实例不得修改 Reality Root 或平台宪法。
+- 模块化单体优先；逻辑 Kernel 不等于微服务。
+- 默认生产源文件目标 ≤300 行；超出必须拆分或在 DECISIONS 中留下具体理由。
+- 不得以 TODO、placeholder、mock-only、静态 JSON、硬编码成功路径冒充完成。
+- 核心测试、Replay、Branch、Source Gate、红楼梦七日验收不得依赖外部 LLM key。
+
+## 6. 交付物
+
+- `reports/G30F_REPORT.md`
+- 实现代码、测试、必要 migration/fixture、更新后的工程 ledgers
+
+## 7. 实施任务
+
+1. 统一 CommitRequest kind。
+2. Ontology/Law delta 各自版本化。
+3. Runtime control 变化使用 RuntimeControlTransaction。
+4. 保证失败原子性。
+
+实现时必须先复用现有能力；若发现两个以上等价实现，优先合并，不得再新增第三个 abstraction。任何删除都必须先有测试/调用关系证据。
+
+## 8. 测试
+
+- State/Ontology/Law 正向与负向测试。
+- Capability provider activate 不产生 WorldCommit。
+
+此外必须运行所有适用的：
+- 与本模块相关的 unit / property / contract / integration / E2E；
+- architecture conformance；
+- replay / branch / determinism regression；
+- migration compatibility；
+- Ruff + format + typecheck；
+- 前端存在改动时 lint + typecheck + unit + build + Playwright；
+- 任何失败不得通过 skip、删除断言或改成 expected failure 掩盖。
+
+## 9. 验收标准
+
+- 本 Goal 的所有 Scope 已有真实实现或合法 `EXTERNAL_BLOCKED` 证据。
+- 所有列出的 Tests 有可复现 PASS 证据。
+- 不存在影响本 Goal 的 TODO/FIXME/placeholder/mock-only production path。
+- 没有新增绕过 Commit Boundary 的写路径。
+- 没有无理由增加重复 Registry/Manager/Engine/State/Event/Branch 系统。
+- persisted schema 变化已有 migration/compatibility。
+- 相关公开 API/类型有明确 schema/version。
+- `reports/G30F_REPORT.md` 明确列出变更文件、命令、结果、风险、未完成项。
+- `PLAN.md / STATUS.md / DECISIONS.md / BLOCKERS.md / KNOWN_FAILURES.md / CHANGELOG.md` 已更新。
+
+## 10. 失败与阻塞处理
+
+内部工程问题（实现、测试、类型、迁移、性能、依赖、架构）必须继续修复，不得标为 EXTERNAL_BLOCKED。
+
+只有真实外部资料、授权、凭证、硬件或不可取得服务才可 `EXTERNAL_BLOCKED`。出现外部阻塞时，仍需完成所有可本地完成的 contract、fake、synthetic fixture、tests、docs，并继续下一个不依赖 Goal。
+
+## 11. 文档更新
+
+至少更新：
+- `STATUS.md`
+- `PLAN.md`
+- `DECISIONS.md`（如有新架构裁决）
+- `BLOCKERS.md`
+- `KNOWN_FAILURES.md`
+- `CHANGELOG.md`
+- `reports/V5_2_FINAL_ACCEPTANCE_MATRIX.md`
+- `reports/V5_2_CODE_MINIMALITY_LEDGER.md`（若涉及新增/删除 abstraction）
+
+## 12. Git 与检查点要求
+
+仅当本 Goal Acceptance 全部 PASS 后创建本地 commit：
+
+`g30f: 三类 World Commit 收敛`
+
+禁止自动 push、force-push、rebase 用户历史或生产部署。

@@ -1,0 +1,55 @@
+{
+  "expected_hashes": {
+    "sf-domain": "c2a592ba032f9f18f33e07f3818e6a03f11efd81336d62adb3b57b3c9fa6bed6",
+    "sf-scenario": "53bcd2bc171ac4c1b8f22b7868c6bba677bc324f13021b22be5dfab13a6ec05f",
+    "sf-world": "d8b994e45c4b67317e3dc264f4eff4d62b9994ca97c6771537f58fef2a99ace3"
+  },
+  "manifests": [
+    {
+      "compat": [],
+      "dependencies": [],
+      "executable_trust": "untrusted",
+      "kind": "domain",
+      "name": "Synthetic Full Domain",
+      "package_id": "sf-domain",
+      "schema_version": 1,
+      "version": "1.0.0"
+    },
+    {
+      "compat": [],
+      "dependencies": [
+        {
+          "constraint": "==1.0.0",
+          "package": "sf-domain"
+        }
+      ],
+      "executable_trust": "untrusted",
+      "kind": "world",
+      "name": "Synthetic Full World",
+      "package_id": "sf-world",
+      "schema_version": 1,
+      "version": "1.0.0"
+    },
+    {
+      "compat": [],
+      "dependencies": [
+        {
+          "constraint": "==1.0.0",
+          "package": "sf-domain"
+        },
+        {
+          "constraint": "==1.0.0",
+          "package": "sf-world"
+        }
+      ],
+      "executable_trust": "untrusted",
+      "kind": "scenario",
+      "name": "Synthetic Full Scenario",
+      "package_id": "sf-scenario",
+      "schema_version": 1,
+      "version": "1.0.0"
+    }
+  ],
+  "source": "reference_worlds/synthetic_full/synthetic_full.py",
+  "source_sha256": "01168cf31e0733453f822e6eaedde36f77590e4059ac374bd6c82edce26db26a"
+}
