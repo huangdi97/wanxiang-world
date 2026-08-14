@@ -77,3 +77,10 @@ DEFAULT_FLAGS.register(
         promote_criteria="interruption/latency SLA + identity rights audit on real provider",
     )
 )
+DEFAULT_FLAGS.register(
+    ResearchFlag(
+        "multi_simulator_federation",
+        "v6",
+        promote_criteria="federation determinism + explicit conflict parity",
+    )
+)

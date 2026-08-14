@@ -746,3 +746,8 @@
 
 - Added `wanxiang_research/digital_human.py` (AvatarIdentity, Utterance, PresenceGateway, DeterministicTextAvatar, LatencyProbe; rights-first presence routing, provider outage fallback, interruption, latency/ordering measurement, command-payload utterances), `tests/integration/test_g19g_digital_human.py` (7 tests) + research report. Decision: KEEP_EXPERIMENTAL.
 - Checkpoint: `g19g: advanced digital human / xr presence research`.
+
+## 2026-08-14 - G19H PASS (M16 phase)
+
+- Added `wanxiang_research/sim_federation.py` (SimulatorAdapter Port, deterministic Tick/Precise/Flaky simulators, FederationScheduler with checkpoint/restore, ConflictResolver with explicit precedence, FederationCoordinator/CommitProposal), `tests/integration/test_g19h_sim_federation.py` (7 tests) + research report. Decision: KEEP_EXPERIMENTAL.
+- Checkpoint: `g19h: multi-simulator federation & co-simulation research`.
