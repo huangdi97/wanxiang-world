@@ -324,3 +324,4 @@ HEAD `91f0b1f` = tag `m9-release-qualified`. Post-M9 pack integrated; 94/94 hash
 | G17B Package Authoring CLI, Scaffolder & Schema Validation | PASS (2026-08-14, commit g17b) |
 | G17C External Author Documentation & Reference Templates | PASS (2026-08-14, commit g17c) |
 | G17D Third-party Package Conformance & Certification Harness | PASS (2026-08-14, commit g17d) |
+| G17E Plugin Trust, Signing, Capability Permissions & Isolation Policy | PASS (2026-08-14, commit g17e) |

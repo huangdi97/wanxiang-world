@@ -632,3 +632,9 @@
 - Added `wxpack.py certify` (static + forbidden-import + runtime dry-run with versioned report),
   `tests/integration/test_g17d_certification.py` (2 tests) + harness doc/report.
 - Checkpoint: `g17d: third-party package conformance & certification harness`.
+
+## 2026-08-14 ? G17E PASS (M14 phase)
+
+- Added `packages/trust_model.py` (signing seam, capabilities, CapabilityGate, audit),
+  `tests/integration/test_g17e_plugin_trust.py` (4 tests), trust model doc + reports.
+- Checkpoint: `g17e: plugin trust, signing, capability permissions & isolation policy`.
