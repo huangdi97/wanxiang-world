@@ -730,3 +730,9 @@
 - Added `wanxiang_research/cognitive_lod.py` (tiered LOD + event wakeups),
   `tests/integration/test_g19d_cognitive_lod.py` (3 tests) + research report. Decision: KEEP_EXPERIMENTAL.
 - Checkpoint: `g19d: cognitive lod & large-population scheduling research`.
+
+## 2026-08-14 ? G19E PASS (M16 phase)
+
+- Added `wanxiang_research/planner.py` (Planner Port, HeuristicPlanner, validate/rollout),
+  `tests/integration/test_g19e_planner.py` (3 tests) + research report. Decision: KEEP_EXPERIMENTAL.
+- Checkpoint: `g19e: world-model / planner proposal engine research`.
