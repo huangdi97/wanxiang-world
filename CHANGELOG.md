@@ -402,3 +402,10 @@
   boundaries; 0 files over 300 lines; 0 cycles.
 - Quality gate: ruff/pyright clean, 428 pytest PASS, architecture PASS.
 - Checkpoint: `g13g: maintainability, complexity, test quality & upgradeability audit`.
+
+## 2026-08-14 ? G13H PASS (M10 phase)
+
+- Documented all three internally actionable P0 gaps found by G13A-G13G (child-branch replay corruption,
+  placeholder-guard blind spot, OpenAPI/SDK drift) as CLOSED with root cause, fix commit and regression tests.
+- P0 open count = 0; P0-focused regression set 36 passed; full gate PASS (428 tests).
+- Checkpoint: `g13h: p0 gap closure wave`.
