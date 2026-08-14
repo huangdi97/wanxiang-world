@@ -887,3 +887,10 @@
 - Added `wanxiang_domain.reality_root` (REALITY_ROOT_SEMANTICS + RealityRootContract Protocol) mapping Distinction/Relation/Transition/Commitment/History onto existing core contracts; no domain rules; exported in domain __init__.
 - 7 contract tests (minimal synthetic world via the contract; single authority boundary; append-only deterministic history).
 - Checkpoint: `g30a: Reality Root ????`.
+
+
+## 2026-08-15 - V5.2 G30B PASS (M27 phase)
+
+- Added `wanxiang_domain.constitution`: ConstitutionId/ConstitutionVersion/ConstitutionManifest (immutable roots vs mutable law layers), ROOT_CONSTITUTION (platform, no self-amendment), legacy_default_constitution() (v5.0/v5.1 compat), order-preserving primitive round-trip.
+- 5 tests: schema round-trip, no shared mutable objects, legacy compat, root immutability, world-definition binding.
+- Checkpoint: `g30b: World Constitution ?????`.

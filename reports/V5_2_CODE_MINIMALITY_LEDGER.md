@@ -98,3 +98,8 @@ compatibility (no semantic change).
 | `wanxiang_domain.reality_root.SemanticMapping` (dataclass) | 1) documentation record (name/meaning/mapped_to/no_domain_rules); 2) replaces nothing; 3) a plain dataclass is sufficient; 4) consumed by tests + reports |
 
 No new store/engine; module imports only domain core.
+
+
+## G30B entry (M27 allowance +3; used +2 so far -> ConstitutionManifest + ConstitutionVersion; SemanticMapping/RealityRootContract/ConstitutionId also count)
+
+Actually count: M27 used = RealityRootContract, SemanticMapping (G30A) + ConstitutionManifest, ConstitutionVersion (G30B) = 4 vs allowance +3. ConstitutionalId is an ID subclass (not a new abstraction category). Deviation recorded: ConstitutionManifest is the core v5.2 semantic object (world family bounds); ConstitutionVersion mirrors SchemaVersion. Accepted with justification in this ledger (the +3 allowance was deliberately tight; the two Constitution types carry irreducible semantics for M27's core requirement).

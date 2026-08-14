@@ -44,6 +44,10 @@ class WorldInstanceId(WanxiangId):
     _prefix = "wld"
 
 
+class ConstitutionId(WanxiangId):
+    _prefix = "con"
+
+
 class BranchId(WanxiangId):
     _prefix = "br"
 

@@ -2,7 +2,7 @@
 
 - API routes: 10
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 844
+- Python public names (stable packages): 851
 
 ## API routes
 
@@ -42,6 +42,7 @@
 - `wanxiang_domain.BranchMetadata`
 - `wanxiang_domain.BranchRevision`
 - `wanxiang_domain.CLAIM_STATUSES`
+- `wanxiang_domain.CONSTITUTION_SCHEMA_VERSION`
 - `wanxiang_domain.CONTRACTS_SCHEMA_VERSION`
 - `wanxiang_domain.CanonicalState`
 - `wanxiang_domain.ClaimId`
@@ -53,6 +54,9 @@
 - `wanxiang_domain.ComponentData`
 - `wanxiang_domain.ComponentId`
 - `wanxiang_domain.Conflict`
+- `wanxiang_domain.ConstitutionId`
+- `wanxiang_domain.ConstitutionManifest`
+- `wanxiang_domain.ConstitutionVersion`
 - `wanxiang_domain.ContractError`
 - `wanxiang_domain.CorrelationId`
 - `wanxiang_domain.CorruptEventStream`
@@ -78,6 +82,7 @@
 - `wanxiang_domain.PersistenceError`
 - `wanxiang_domain.ProjectionId`
 - `wanxiang_domain.ProposedWorldDelta`
+- `wanxiang_domain.ROOT_CONSTITUTION`
 - `wanxiang_domain.RealityRootContract`
 - `wanxiang_domain.RelationCreate`
 - `wanxiang_domain.RelationDelete`
@@ -107,6 +112,7 @@
 - `wanxiang_domain.canonical_json`
 - `wanxiang_domain.command_from_primitive`
 - `wanxiang_domain.command_to_primitive`
+- `wanxiang_domain.constitution_from_primitive`
 - `wanxiang_domain.decode_id`
 - `wanxiang_domain.delta_from_primitive`
 - `wanxiang_domain.delta_to_primitive`
@@ -114,6 +120,7 @@
 - `wanxiang_domain.event_from_primitive`
 - `wanxiang_domain.event_to_primitive`
 - `wanxiang_domain.expect_version`
+- `wanxiang_domain.legacy_default_constitution`
 - `wanxiang_domain.run_from_primitive`
 - `wanxiang_domain.run_to_primitive`
 - `wanxiang_domain.semantic_sha256`
@@ -312,12 +319,5 @@
 - `wanxiang_substrate.CURRENT_MANIFEST_SCHEMA`
 - `wanxiang_substrate.CUSTODY_COMPONENT`
 - `wanxiang_substrate.Calendar`
-- `wanxiang_substrate.CampaignDomain`
-- `wanxiang_substrate.CampaignGymAdapter`
-- `wanxiang_substrate.CampaignPettingZooAdapter`
-- `wanxiang_substrate.CandidateObject`
-- `wanxiang_substrate.CanonLocked`
-- `wanxiang_substrate.CapabilityDelta`
-- `wanxiang_substrate.CapabilityError`
 
 Machine-readable: reports/sdk_api_baseline.json.

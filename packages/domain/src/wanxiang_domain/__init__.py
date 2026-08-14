@@ -5,6 +5,13 @@ Framework-independent. No FastAPI/SQLAlchemy/Alembic/LLM imports are allowed
 """
 
 from wanxiang_domain.command import CommandEnvelope
+from wanxiang_domain.constitution import (
+    ROOT_CONSTITUTION,
+    ConstitutionManifest,
+    ConstitutionVersion,
+    constitution_from_primitive,
+    legacy_default_constitution,
+)
 from wanxiang_domain.delta import (
     EntityCreate,
     EntityDelete,
@@ -115,6 +122,11 @@ __all__ = [
     "ReplayError",
     "REALITY_ROOT_SEMANTICS",
     "RealityRootContract",
+    "ROOT_CONSTITUTION",
+    "ConstitutionManifest",
+    "ConstitutionVersion",
+    "constitution_from_primitive",
+    "legacy_default_constitution",
     "RightsDenied",
     "RuntimeVersion",
     "RightsEnvelope",
