@@ -929,3 +929,10 @@
 - Added FactScopePolicy (canonical/public/org/actor/hypothesis/reconstruction) with write-authority partition, commit-required canonical promotion, and projection visibility filtering; ProjectionService filters ledger.fact entities by scope/rights.
 - 5 tests (no belief->canonical by scope edit; no cross-role leak; admin override).
 - Checkpoint: `g30g: Fact Scope ? Authority Partition`.
+
+
+## 2026-08-15 - V5.2 G30H PASS (M27 phase)
+
+- Added version_context module: VersionContext (constitution/semantic/law/domain/runtime), immutable revision log, legacy adapter for v5.0/v5.1 events, SnapshotVersionContext freeze. Golden v5.1 replay hash unchanged; replay deterministic across Law/Ontology evolution.
+- 6 tests.
+- Checkpoint: `g30h: Event Snapshot ???????`.

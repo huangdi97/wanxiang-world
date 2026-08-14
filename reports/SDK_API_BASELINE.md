@@ -2,7 +2,7 @@
 
 - API routes: 10
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 870
+- Python public names (stable packages): 877
 
 ## API routes
 
@@ -103,9 +103,13 @@
 - `wanxiang_domain.SessionId`
 - `wanxiang_domain.SnapshotId`
 - `wanxiang_domain.SnapshotMetadata`
+- `wanxiang_domain.SnapshotVersionContext`
 - `wanxiang_domain.StaleRevision`
 - `wanxiang_domain.TraceId`
+- `wanxiang_domain.VERSION_CONTEXT_SCHEMA_VERSION`
 - `wanxiang_domain.ValidationRejected`
+- `wanxiang_domain.VersionContext`
+- `wanxiang_domain.VersionContextEntry`
 - `wanxiang_domain.WanxiangError`
 - `wanxiang_domain.WanxiangId`
 - `wanxiang_domain.WorldCommitKind`
@@ -126,9 +130,12 @@
 - `wanxiang_domain.event_from_primitive`
 - `wanxiang_domain.event_to_primitive`
 - `wanxiang_domain.expect_version`
+- `wanxiang_domain.extend`
 - `wanxiang_domain.isa_op_from_primitive`
 - `wanxiang_domain.legacy_default_constitution`
+- `wanxiang_domain.legacy_version_context`
 - `wanxiang_domain.reduce_isa_to_delta`
+- `wanxiang_domain.resolve_context`
 - `wanxiang_domain.run_from_primitive`
 - `wanxiang_domain.run_to_primitive`
 - `wanxiang_domain.semantic_sha256`
@@ -312,12 +319,5 @@
 - `wanxiang_substrate.BodyQuery`
 - `wanxiang_substrate.BudgetExceeded`
 - `wanxiang_substrate.BudgetTracker`
-- `wanxiang_substrate.CANONICAL_ELIGIBLE_STAGES`
-- `wanxiang_substrate.CAPABILITIES`
-- `wanxiang_substrate.CAPABILITY_MAX_LEVEL`
-- `wanxiang_substrate.CAPABILITY_MIN_LEVEL`
-- `wanxiang_substrate.CAPABILITY_SCHEMA_VERSION`
-- `wanxiang_substrate.CAPABILITY_STATE_COMPONENT`
-- `wanxiang_substrate.CLOCK_COMPONENT`
 
 Machine-readable: reports/sdk_api_baseline.json.

@@ -73,6 +73,14 @@ from wanxiang_domain.run import RunMetadata
 from wanxiang_domain.snapshot import SnapshotMetadata
 from wanxiang_domain.state import CanonicalState
 from wanxiang_domain.time import CommitTimestamp, WorldTime
+from wanxiang_domain.version_context import (
+    SnapshotVersionContext,
+    VersionContext,
+    VersionContextEntry,
+    extend,
+    legacy_version_context,
+    resolve_context,
+)
 from wanxiang_domain.versions import PackageVersion, RuntimeVersion, SchemaVersion
 from wanxiang_domain.world_commit import (
     DELTA_SCHEMA_VERSION,
@@ -151,6 +159,12 @@ __all__ = [
     "WORLD_COMMIT_KINDS",
     "WorldCommitKind",
     "validate_world_commit_kind",
+    "SnapshotVersionContext",
+    "VersionContext",
+    "VersionContextEntry",
+    "extend",
+    "legacy_version_context",
+    "resolve_context",
     "isa_op_from_primitive",
     "reduce_isa_to_delta",
     "RightsDenied",

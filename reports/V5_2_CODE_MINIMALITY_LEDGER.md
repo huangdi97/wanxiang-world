@@ -136,3 +136,10 @@ CommitRequest/AuditRecord extended with defaulted fields (backward compatible).
 New abstraction: `FactScopePolicy` (pure policy class, stateless static methods).
 Justification: irreducible scope/rights partition semantics; no store/engine.
 ProjectionService gained one entity-type branch (ledger.fact), no new service.
+
+
+## G30H entry
+New abstractions: VersionContext, VersionContextEntry, SnapshotVersionContext
+(frozen records) + extend/resolve_context (pure functions). Justification:
+minimized history-interpretation metadata; no store/engine; legacy adapter
+reuses existing golden fixtures (unchanged hash).
