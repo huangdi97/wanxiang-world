@@ -836,3 +836,11 @@
 - Confirmed exactly one commit path; no unused port; no world-specific leakage into domain/runtime Core.
 - DELETE stubs (evidence/model_providers) already removed in G29A; single MERGE candidate identified: substrate recovery snapshot store -> runtime SnapshotStore port (G29C).
 - Checkpoint: `g29b: ??????????`.
+
+
+## 2026-08-14 - V5.2 G29C PASS (M26 phase)
+
+- Merged duplicate recovery snapshot store into the single runtime SnapshotStore port (`CheckpointStore` adapter + deprecated `InMemorySnapshotStore` alias; removed recovery-local `SnapshotStore` Protocol). store_classes 16->15, ports 23->22, commit_paths stays 1.
+- Confirmed no global service locator exists; no new global mutable registry; no Manager duplicates (0 Managers).
+- Added adapter-semantics + deprecation-alias tests; 32-test targeted regression green.
+- Checkpoint: `g29c: ???? Registry ? Manager`.

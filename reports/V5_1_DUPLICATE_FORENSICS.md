@@ -40,7 +40,7 @@
 | packages/substrate/src/wanxiang_substrate/spatial/errors.py | InvalidSpatialState | 34 |
 | packages/substrate/src/wanxiang_substrate/spatial/model.py | SpatialSnapshot | 91 |
 
-## store_classes (16)
+## store_classes (15)
 
 | path | name | line |
 |---|---|---|
@@ -58,8 +58,7 @@
 | packages/substrate/src/wanxiang_substrate/assets/storage.py | ObjectStore | 35 |
 | packages/substrate/src/wanxiang_substrate/assets/storage.py | LocalObjectStore | 44 |
 | packages/substrate/src/wanxiang_substrate/ledger/ledger.py | CompletionLedger | 30 |
-| packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | SnapshotStore | 13 |
-| packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | InMemorySnapshotStore | 29 |
+| packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | CheckpointStore | 30 |
 
 ## service_classes (15)
 
@@ -68,7 +67,7 @@
 | packages/substrate/src/wanxiang_substrate/lifecycle/service.py | LifecycleService | 19 |
 | packages/substrate/src/wanxiang_substrate/observation/query.py | PerspectiveService | 29 |
 | packages/substrate/src/wanxiang_substrate/projection/service.py | ProjectionService | 29 |
-| packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | CheckpointService | 53 |
+| packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | CheckpointService | 84 |
 | packages/substrate/src/wanxiang_substrate/recovery/recovery.py | RecoveryService | 31 |
 | packages/substrate/src/wanxiang_substrate/resolution/service.py | AdjudicationService | 14 |
 | packages/substrate/src/wanxiang_substrate/session/service.py | SessionService | 16 |
@@ -88,7 +87,7 @@
 | packages/research/src/wanxiang_research/planner.py | PlannerEngine | 47 |
 | packages/runtime/src/wanxiang_runtime/replay.py | ReplayEngine | 21 |
 
-## ports (23)
+## ports (22)
 
 | path | name | line |
 |---|---|---|
@@ -114,7 +113,6 @@
 | packages/substrate/src/wanxiang_substrate/packages/registry.py | PackageRegistry | 15 |
 | packages/substrate/src/wanxiang_substrate/reality/bridge.py | ObservationAdapter | 21 |
 | packages/substrate/src/wanxiang_substrate/reality/challenge.py | OpportunityDetector | 49 |
-| packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | SnapshotStore | 13 |
 
 ## oversized_modules (0)
 

@@ -26,3 +26,18 @@ No production abstraction added or removed in G29B (analysis + report only).
 Recorded dispositions: 11 registries KEEP (domain-local / single problem);
 CanonicalState vs InMemoryCanonicalState = ADAPT (contract vs impl); recovery
 snapshot store flagged MERGE (G29C) with consumer evidence.
+
+
+## G29C entry
+
+### Merged abstraction
+| Item | Type | Evidence |
+|---|---|---|
+| `wanxiang_substrate.recovery.checkpoint.SnapshotStore` Protocol + `InMemorySnapshotStore` (own state dict) | MERGE (deleted duplicate implementation) | consumers: only recovery/__init__ re-export + tests/integration/test_recovery.py (2 constructions); runtime `SnapshotStore` port is production owner (world_runtime, persistence, application) |
+| `CheckpointStore` adapter | ADAPT (new thin adapter over the single snapshot port) | carries recovery-specific latest-per-instance + snapshot-id indexes only; snapshot state stored once in runtime store; public `CheckpointService` API unchanged |
+
+### Four-question review for `CheckpointStore`
+1. irreducible semantics: recovery checkpoint query model (latest per instance, load by snapshot id) distinct from runtime per-branch store queries.
+2. replaces/merges: replaces the duplicate recovery InMemorySnapshotStore implementation.
+3. why function/type insufficient: needs a small stateful index over the shared store; a bare function would need an external index object anyway.
+4. consumers: CheckpointService + RecoveryService + recovery tests (2+ consumers).

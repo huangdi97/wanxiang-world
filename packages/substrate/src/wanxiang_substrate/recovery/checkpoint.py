@@ -1,21 +1,22 @@
-"""Checkpoint save/restore with rotation and validation (G06C)."""
+"""Checkpoint save/restore with rotation and validation (G06C).
+
+Checkpointing reuses the single runtime SnapshotStore port (production owner):
+snapshot state lives only in wanxiang_runtime.snapshot. `CheckpointStore` is a
+thin adapter that keeps the recovery-specific latest-per-instance and
+snapshot-id indexes on top of that one store, so there is no second snapshot
+state implementation.
+"""
 
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Protocol
 
+from wanxiang_domain.hierarchy import BranchRevision, EventSeq
+from wanxiang_domain.ids import BranchId, SnapshotId, WorldInstanceId
+from wanxiang_runtime.snapshot import SnapshotStore, create_snapshot_metadata
 from wanxiang_runtime.state import InMemoryCanonicalState
 
 from wanxiang_substrate.recovery.errors import CorruptSnapshot, NoSnapshot
-
-
-class SnapshotStore(Protocol):
-    """Port for snapshot persistence."""
-
-    def save(self, metadata: CheckpointMeta, state: InMemoryCanonicalState) -> CheckpointMeta: ...
-    def latest(self, instance_id: str) -> tuple[int, str] | None: ...
-    def load(self, snapshot_id: str) -> InMemoryCanonicalState: ...
 
 
 @dataclass(frozen=True, slots=True)
@@ -26,15 +27,34 @@ class CheckpointMeta:
     snapshot_id: str
 
 
-class InMemorySnapshotStore:
-    """Deterministic in-memory snapshot store for tests."""
+class CheckpointStore:
+    """Checkpoint store backed by the single runtime SnapshotStore port.
 
-    def __init__(self) -> None:
-        self._snapshots: dict[str, InMemoryCanonicalState] = {}
+    The canonical snapshot state is stored exactly once (runtime store); this
+    adapter only keeps the recovery-specific indexes (latest per instance,
+    snapshot-id -> location). API-compatible with the pre-v5.2 recovery store.
+    """
+
+    def __init__(self, store: SnapshotStore | None = None) -> None:
+        from wanxiang_runtime.snapshot import InMemorySnapshotStore
+
+        self._store = store or InMemorySnapshotStore()
         self._latest: dict[str, tuple[int, str]] = {}
+        self._by_snapshot: dict[str, tuple[str, str, int]] = {}
 
     def save(self, metadata: CheckpointMeta, state: InMemoryCanonicalState) -> CheckpointMeta:
-        self._snapshots[metadata.snapshot_id] = state
+        snapshot_meta = create_snapshot_metadata(
+            state,
+            EventSeq(state.revision.value),
+            snapshot_id=SnapshotId(metadata.snapshot_id),
+            content_ref=f"checkpoint://{metadata.snapshot_id}",
+        )
+        self._store.save(snapshot_meta, state)
+        self._by_snapshot[metadata.snapshot_id] = (
+            state.instance_id.value,
+            state.branch_id.value,
+            state.revision.value,
+        )
         current = self._latest.get(metadata.instance_id)
         if current is None or metadata.revision > current[0]:
             self._latest[metadata.instance_id] = (metadata.revision, metadata.snapshot_id)
@@ -44,16 +64,27 @@ class InMemorySnapshotStore:
         return self._latest.get(instance_id)
 
     def load(self, snapshot_id: str) -> InMemoryCanonicalState:
-        state = self._snapshots.get(snapshot_id)
-        if state is None:
+        location = self._by_snapshot.get(snapshot_id)
+        if location is None:
             raise NoSnapshot(f"snapshot {snapshot_id!r} not found")
-        return state
+        stored = self._store.load(
+            WorldInstanceId(location[0]),
+            BranchId(location[1]),
+            BranchRevision(location[2]),
+        )
+        if stored is None:
+            raise NoSnapshot(f"snapshot {snapshot_id!r} not found in store")
+        return stored.state
+
+
+# Deprecated alias kept for API compatibility (pre-v5.2 name).
+InMemorySnapshotStore = CheckpointStore
 
 
 class CheckpointService:
     """Validated checkpoint save/restore (corrupt snapshots fail explicitly)."""
 
-    def __init__(self, store: SnapshotStore) -> None:
+    def __init__(self, store: CheckpointStore) -> None:
         self._store = store
 
     def save(

@@ -4,8 +4,8 @@ from wanxiang_substrate.recovery.budget import BudgetTracker, ResourceBudget
 from wanxiang_substrate.recovery.checkpoint import (
     CheckpointMeta,
     CheckpointService,
+    CheckpointStore,
     InMemorySnapshotStore,
-    SnapshotStore,
 )
 from wanxiang_substrate.recovery.errors import (
     BudgetExceeded,
@@ -20,6 +20,7 @@ __all__ = [
     "BudgetTracker",
     "CheckpointMeta",
     "CheckpointService",
+    "CheckpointStore",
     "CorruptSnapshot",
     "InMemorySnapshotStore",
     "NoSnapshot",
@@ -27,5 +28,4 @@ __all__ = [
     "RecoveryReport",
     "RecoveryService",
     "ResourceBudget",
-    "SnapshotStore",
 ]
