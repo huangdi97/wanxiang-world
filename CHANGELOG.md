@@ -432,3 +432,9 @@
   checkpoint, retry classification, lifecycle restart) and `reports/CRASH_ATOMICITY_MATRIX.md`.
 - Recovery policy documented: events authoritative; snapshots/caches discardable; idempotent exactly-once retries.
 - Checkpoint: `g14b: crash, atomicity & mid-commit recovery qualification`.
+
+## 2026-08-14 ? G14C PASS (M11 phase)
+
+- Added `tests/integration/test_g14c_fault_injection.py` (FaultyEventStore + 4 tests: fail-closed append,
+  load-fault recovery, bounded retry storm, API 500 during fault) and `reports/DEPENDENCY_FAULT_INJECTION.md`.
+- Checkpoint: `g14c: database, storage, network & dependency fault injection`.

@@ -45,3 +45,4 @@ certification and local checkpoint. No push/deploy.
 | 9 | G13I | P1/P2 Gap Closure & M10 Independent Requalification | PASS (2026-08-14) |
 | 10 | G14A | Concurrency, Race, Idempotency & Lost-update Adversarial Qualification | PASS (2026-08-14) |
 | 11 | G14B | Crash, Atomicity & Mid-Commit Recovery Qualification | PASS (2026-08-14) |
+| 12 | G14C | Database, Storage, Network & Dependency Fault Injection | PASS (2026-08-14) |
