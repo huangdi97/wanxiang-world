@@ -741,3 +741,8 @@
 
 - Added `wanxiang_research/generative_assets.py` (AssetManifest, AssetFoundryPipeline, SceneProjector; semantic binding to entity/package/revision + rights/provenance; regeneration versions instead of overwriting; explicit fallback markers), `tests/integration/test_g19f_generative_assets.py` (5 tests) + research report. Decision: KEEP_EXPERIMENTAL.
 - Checkpoint: `g19f: generative asset / scene pipeline & semantic binding research`.
+
+## 2026-08-14 - G19G PASS (M16 phase)
+
+- Added `wanxiang_research/digital_human.py` (AvatarIdentity, Utterance, PresenceGateway, DeterministicTextAvatar, LatencyProbe; rights-first presence routing, provider outage fallback, interruption, latency/ordering measurement, command-payload utterances), `tests/integration/test_g19g_digital_human.py` (7 tests) + research report. Decision: KEEP_EXPERIMENTAL.
+- Checkpoint: `g19g: advanced digital human / xr presence research`.

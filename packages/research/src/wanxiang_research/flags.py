@@ -70,3 +70,10 @@ DEFAULT_FLAGS.register(
         promote_criteria="generator parity + rights/provenance audit on real assets",
     )
 )
+DEFAULT_FLAGS.register(
+    ResearchFlag(
+        "digital_human_xr",
+        "v5.1",
+        promote_criteria="interruption/latency SLA + identity rights audit on real provider",
+    )
+)
