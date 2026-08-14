@@ -484,3 +484,10 @@
   `snapshot_policy.py` to keep world_runtime <= 300 lines.
 - M11 gate PASS: G14A-H adversarial suites (45 tests) + full gate 473 pytest + ruff/pyright/arch.
 - Checkpoint: `g14i: resource exhaustion, fuzz, long-run chaos & m11 qualification`. M12 begins next.
+
+## 2026-08-14 ? G15A PASS (M12 phase)
+
+- Added `docs/REFERENCE_WORLD_CONTRACT.md`, `scripts/reference_world_conformance.py`,
+  `tests/integration/test_g15a_reference_world_contract.py` (3 tests), acceptance reports.
+- Black-box world pack contract: build/install without Core changes; harness catches missing metadata.
+- Checkpoint: `g15a: reference world contract & external pack boundary`.
