@@ -391,3 +391,14 @@
 - No P0/P1 rights/source/security bypass found; all enforcement server-side; secrets scan clean.
 - Quality gate: ruff/pyright clean, 422 pytest PASS, architecture PASS.
 - Checkpoint: `g13f: security, rights, provenance, privacy & source-gate forensics`.
+
+## 2026-08-14 ? G13G PASS (M10 phase)
+
+- Added `scripts/maintainability_audit.py` and reports (MAINTAINABILITY_AUDIT, TEST_QUALITY_AUDIT,
+  UPGRADEABILITY_AUDIT) + `tests/integration/test_g13g_maintainability.py` (6 tests).
+- Fixed silent exception swallow in `population/scheduler.py`: rejected scheduler actions are now counted
+  and surfaced as `SchedulerRunResult.rejected_events` (deterministic; additive contract).
+- 5 complexity hotspots classified as tracked P2 closure candidates; 9 `Any` params justified at external
+  boundaries; 0 files over 300 lines; 0 cycles.
+- Quality gate: ruff/pyright clean, 428 pytest PASS, architecture PASS.
+- Checkpoint: `g13g: maintainability, complexity, test quality & upgradeability audit`.

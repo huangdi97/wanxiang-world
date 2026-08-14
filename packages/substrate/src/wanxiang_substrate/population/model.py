@@ -65,3 +65,4 @@ class SchedulerRunResult:
     final_hash: str
     ticks_advanced: int
     queue_stats: dict[str, int]
+    rejected_events: int = 0

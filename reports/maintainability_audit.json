@@ -1,0 +1,1975 @@
+{
+  "files": [
+    {
+      "file": "apps/api/src/wanxiang_api/__init__.py",
+      "lines": 7,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "apps/api/src/wanxiang_api/app.py",
+      "lines": 57,
+      "functions": 2,
+      "classes": 0,
+      "max_complexity": 1,
+      "max_func_len": 24
+    },
+    {
+      "file": "apps/api/src/wanxiang_api/errors.py",
+      "lines": 33,
+      "functions": 3,
+      "classes": 0,
+      "max_complexity": 4,
+      "max_func_len": 8
+    },
+    {
+      "file": "apps/api/src/wanxiang_api/routes.py",
+      "lines": 196,
+      "functions": 12,
+      "classes": 0,
+      "max_complexity": 5,
+      "max_func_len": 30
+    },
+    {
+      "file": "apps/api/src/wanxiang_api/schemas.py",
+      "lines": 98,
+      "functions": 0,
+      "classes": 14,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/application/src/wanxiang_application/__init__.py",
+      "lines": 33,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/application/src/wanxiang_application/environment.py",
+      "lines": 86,
+      "functions": 10,
+      "classes": 1,
+      "max_complexity": 2,
+      "max_func_len": 24
+    },
+    {
+      "file": "packages/application/src/wanxiang_application/ports.py",
+      "lines": 49,
+      "functions": 4,
+      "classes": 3,
+      "max_complexity": 1,
+      "max_func_len": 13
+    },
+    {
+      "file": "packages/application/src/wanxiang_application/state_reader.py",
+      "lines": 84,
+      "functions": 4,
+      "classes": 1,
+      "max_complexity": 9,
+      "max_func_len": 46
+    },
+    {
+      "file": "packages/application/src/wanxiang_application/synthetic_microworld.py",
+      "lines": 148,
+      "functions": 8,
+      "classes": 0,
+      "max_complexity": 12,
+      "max_func_len": 44
+    },
+    {
+      "file": "packages/application/src/wanxiang_application/world_runtime.py",
+      "lines": 264,
+      "functions": 12,
+      "classes": 4,
+      "max_complexity": 5,
+      "max_func_len": 38
+    },
+    {
+      "file": "packages/domain/src/wanxiang_domain/__init__.py",
+      "lines": 134,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/domain/src/wanxiang_domain/command.py",
+      "lines": 36,
+      "functions": 1,
+      "classes": 1,
+      "max_complexity": 2,
+      "max_func_len": 3
+    },
+    {
+      "file": "packages/domain/src/wanxiang_domain/delta.py",
+      "lines": 59,
+      "functions": 1,
+      "classes": 6,
+      "max_complexity": 1,
+      "max_func_len": 2
+    },
+    {
+      "file": "packages/domain/src/wanxiang_domain/entity.py",
+      "lines": 60,
+      "functions": 3,
+      "classes": 3,
+      "max_complexity": 2,
+      "max_func_len": 3
+    },
+    {
+      "file": "packages/domain/src/wanxiang_domain/errors.py",
+      "lines": 78,
+      "functions": 2,
+      "classes": 15,
+      "max_complexity": 2,
+      "max_func_len": 4
+    },
+    {
+      "file": "packages/domain/src/wanxiang_domain/event.py",
+      "lines": 44,
+      "functions": 0,
+      "classes": 1,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/domain/src/wanxiang_domain/evidence.py",
+      "lines": 38,
+      "functions": 1,
+      "classes": 2,
+      "max_complexity": 2,
+      "max_func_len": 5
+    },
+    {
+      "file": "packages/domain/src/wanxiang_domain/hashing.py",
+      "lines": 52,
+      "functions": 3,
+      "classes": 0,
+      "max_complexity": 3,
+      "max_func_len": 12
+    },
+    {
+      "file": "packages/domain/src/wanxiang_domain/hierarchy.py",
+      "lines": 75,
+      "functions": 6,
+      "classes": 4,
+      "max_complexity": 3,
+      "max_func_len": 9
+    },
+    {
+      "file": "packages/domain/src/wanxiang_domain/ids.py",
+      "lines": 104,
+      "functions": 4,
+      "classes": 17,
+      "max_complexity": 3,
+      "max_func_len": 3
+    },
+    {
+      "file": "packages/domain/src/wanxiang_domain/rights.py",
+      "lines": 24,
+      "functions": 0,
+      "classes": 1,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/domain/src/wanxiang_domain/run.py",
+      "lines": 19,
+      "functions": 0,
+      "classes": 1,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/domain/src/wanxiang_domain/serialization.py",
+      "lines": 196,
+      "functions": 9,
+      "classes": 0,
+      "max_complexity": 7,
+      "max_func_len": 39
+    },
+    {
+      "file": "packages/domain/src/wanxiang_domain/serialization_history.py",
+      "lines": 171,
+      "functions": 8,
+      "classes": 0,
+      "max_complexity": 6,
+      "max_func_len": 26
+    },
+    {
+      "file": "packages/domain/src/wanxiang_domain/snapshot.py",
+      "lines": 27,
+      "functions": 0,
+      "classes": 1,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/domain/src/wanxiang_domain/state.py",
+      "lines": 23,
+      "functions": 3,
+      "classes": 1,
+      "max_complexity": 1,
+      "max_func_len": 1
+    },
+    {
+      "file": "packages/domain/src/wanxiang_domain/time.py",
+      "lines": 50,
+      "functions": 6,
+      "classes": 2,
+      "max_complexity": 3,
+      "max_func_len": 3
+    },
+    {
+      "file": "packages/domain/src/wanxiang_domain/versions.py",
+      "lines": 49,
+      "functions": 5,
+      "classes": 3,
+      "max_complexity": 3,
+      "max_func_len": 3
+    },
+    {
+      "file": "packages/evidence/src/wanxiang_evidence/__init__.py",
+      "lines": 5,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/model_providers/src/wanxiang_model_providers/__init__.py",
+      "lines": 5,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/observability/src/wanxiang_observability/__init__.py",
+      "lines": 22,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/observability/src/wanxiang_observability/config.py",
+      "lines": 50,
+      "functions": 3,
+      "classes": 1,
+      "max_complexity": 2,
+      "max_func_len": 9
+    },
+    {
+      "file": "packages/observability/src/wanxiang_observability/logging.py",
+      "lines": 87,
+      "functions": 4,
+      "classes": 2,
+      "max_complexity": 4,
+      "max_func_len": 11
+    },
+    {
+      "file": "packages/observability/src/wanxiang_observability/secrets.py",
+      "lines": 32,
+      "functions": 3,
+      "classes": 0,
+      "max_complexity": 3,
+      "max_func_len": 7
+    },
+    {
+      "file": "packages/persistence/src/wanxiang_persistence/__init__.py",
+      "lines": 25,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/persistence/src/wanxiang_persistence/audit_repository.py",
+      "lines": 33,
+      "functions": 2,
+      "classes": 1,
+      "max_complexity": 5,
+      "max_func_len": 18
+    },
+    {
+      "file": "packages/persistence/src/wanxiang_persistence/branch_repository.py",
+      "lines": 81,
+      "functions": 5,
+      "classes": 1,
+      "max_complexity": 5,
+      "max_func_len": 22
+    },
+    {
+      "file": "packages/persistence/src/wanxiang_persistence/database.py",
+      "lines": 37,
+      "functions": 3,
+      "classes": 0,
+      "max_complexity": 3,
+      "max_func_len": 11
+    },
+    {
+      "file": "packages/persistence/src/wanxiang_persistence/event_store.py",
+      "lines": 134,
+      "functions": 9,
+      "classes": 1,
+      "max_complexity": 11,
+      "max_func_len": 33
+    },
+    {
+      "file": "packages/persistence/src/wanxiang_persistence/instance_repository.py",
+      "lines": 48,
+      "functions": 3,
+      "classes": 1,
+      "max_complexity": 3,
+      "max_func_len": 15
+    },
+    {
+      "file": "packages/persistence/src/wanxiang_persistence/models.py",
+      "lines": 100,
+      "functions": 0,
+      "classes": 6,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/persistence/src/wanxiang_persistence/snapshot_store.py",
+      "lines": 90,
+      "functions": 5,
+      "classes": 1,
+      "max_complexity": 4,
+      "max_func_len": 20
+    },
+    {
+      "file": "packages/persistence/src/wanxiang_persistence/state_codec.py",
+      "lines": 11,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/runtime/src/wanxiang_runtime/__init__.py",
+      "lines": 50,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/runtime/src/wanxiang_runtime/audit.py",
+      "lines": 37,
+      "functions": 0,
+      "classes": 1,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/runtime/src/wanxiang_runtime/authority.py",
+      "lines": 148,
+      "functions": 3,
+      "classes": 3,
+      "max_complexity": 7,
+      "max_func_len": 43
+    },
+    {
+      "file": "packages/runtime/src/wanxiang_runtime/branch.py",
+      "lines": 75,
+      "functions": 8,
+      "classes": 2,
+      "max_complexity": 3,
+      "max_func_len": 31
+    },
+    {
+      "file": "packages/runtime/src/wanxiang_runtime/diff.py",
+      "lines": 51,
+      "functions": 2,
+      "classes": 1,
+      "max_complexity": 2,
+      "max_func_len": 22
+    },
+    {
+      "file": "packages/runtime/src/wanxiang_runtime/invariants.py",
+      "lines": 74,
+      "functions": 7,
+      "classes": 0,
+      "max_complexity": 4,
+      "max_func_len": 6
+    },
+    {
+      "file": "packages/runtime/src/wanxiang_runtime/ports.py",
+      "lines": 126,
+      "functions": 17,
+      "classes": 3,
+      "max_complexity": 5,
+      "max_func_len": 16
+    },
+    {
+      "file": "packages/runtime/src/wanxiang_runtime/replay.py",
+      "lines": 95,
+      "functions": 3,
+      "classes": 1,
+      "max_complexity": 7,
+      "max_func_len": 35
+    },
+    {
+      "file": "packages/runtime/src/wanxiang_runtime/resolver.py",
+      "lines": 49,
+      "functions": 5,
+      "classes": 2,
+      "max_complexity": 2,
+      "max_func_len": 9
+    },
+    {
+      "file": "packages/runtime/src/wanxiang_runtime/snapshot.py",
+      "lines": 100,
+      "functions": 7,
+      "classes": 3,
+      "max_complexity": 4,
+      "max_func_len": 23
+    },
+    {
+      "file": "packages/runtime/src/wanxiang_runtime/state.py",
+      "lines": 278,
+      "functions": 16,
+      "classes": 1,
+      "max_complexity": 11,
+      "max_func_len": 74
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/__init__.py",
+      "lines": 15,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/actions/__init__.py",
+      "lines": 23,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/actions/affordance.py",
+      "lines": 60,
+      "functions": 1,
+      "classes": 1,
+      "max_complexity": 5,
+      "max_func_len": 36
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/actions/model.py",
+      "lines": 69,
+      "functions": 6,
+      "classes": 4,
+      "max_complexity": 3,
+      "max_func_len": 5
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/actions/registry.py",
+      "lines": 82,
+      "functions": 5,
+      "classes": 1,
+      "max_complexity": 1,
+      "max_func_len": 59
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/actions/validator.py",
+      "lines": 161,
+      "functions": 10,
+      "classes": 1,
+      "max_complexity": 8,
+      "max_func_len": 22
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/agency/__init__.py",
+      "lines": 45,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/agency/components.py",
+      "lines": 54,
+      "functions": 2,
+      "classes": 0,
+      "max_complexity": 1,
+      "max_func_len": 23
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/agency/errors.py",
+      "lines": 19,
+      "functions": 0,
+      "classes": 3,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/agency/fixture.py",
+      "lines": 104,
+      "functions": 2,
+      "classes": 0,
+      "max_complexity": 2,
+      "max_func_len": 51
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/agency/model.py",
+      "lines": 69,
+      "functions": 4,
+      "classes": 3,
+      "max_complexity": 3,
+      "max_func_len": 10
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/agency/policy.py",
+      "lines": 92,
+      "functions": 12,
+      "classes": 5,
+      "max_complexity": 2,
+      "max_func_len": 11
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/agency/query.py",
+      "lines": 127,
+      "functions": 11,
+      "classes": 1,
+      "max_complexity": 9,
+      "max_func_len": 17
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/agency/resolver.py",
+      "lines": 201,
+      "functions": 9,
+      "classes": 0,
+      "max_complexity": 8,
+      "max_func_len": 36
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/assets/__init__.py",
+      "lines": 19,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/assets/foundry.py",
+      "lines": 87,
+      "functions": 6,
+      "classes": 5,
+      "max_complexity": 5,
+      "max_func_len": 10
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/body/__init__.py",
+      "lines": 35,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/body/components.py",
+      "lines": 59,
+      "functions": 3,
+      "classes": 0,
+      "max_complexity": 1,
+      "max_func_len": 19
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/body/errors.py",
+      "lines": 19,
+      "functions": 0,
+      "classes": 3,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/body/fixture.py",
+      "lines": 71,
+      "functions": 2,
+      "classes": 0,
+      "max_complexity": 2,
+      "max_func_len": 21
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/body/model.py",
+      "lines": 62,
+      "functions": 6,
+      "classes": 1,
+      "max_complexity": 4,
+      "max_func_len": 9
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/body/query.py",
+      "lines": 72,
+      "functions": 8,
+      "classes": 1,
+      "max_complexity": 6,
+      "max_func_len": 17
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/body/resolver.py",
+      "lines": 166,
+      "functions": 10,
+      "classes": 0,
+      "max_complexity": 5,
+      "max_func_len": 15
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/capability/__init__.py",
+      "lines": 56,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/capability/components.py",
+      "lines": 88,
+      "functions": 3,
+      "classes": 0,
+      "max_complexity": 1,
+      "max_func_len": 23
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/capability/errors.py",
+      "lines": 23,
+      "functions": 0,
+      "classes": 4,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/capability/model.py",
+      "lines": 125,
+      "functions": 6,
+      "classes": 5,
+      "max_complexity": 4,
+      "max_func_len": 11
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/capability/policy.py",
+      "lines": 85,
+      "functions": 3,
+      "classes": 1,
+      "max_complexity": 6,
+      "max_func_len": 22
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/capability/query.py",
+      "lines": 168,
+      "functions": 12,
+      "classes": 1,
+      "max_complexity": 7,
+      "max_func_len": 26
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/capability/resolver.py",
+      "lines": 213,
+      "functions": 9,
+      "classes": 0,
+      "max_complexity": 6,
+      "max_func_len": 36
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/compiler/__init__.py",
+      "lines": 52,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/compiler/compiler.py",
+      "lines": 143,
+      "functions": 4,
+      "classes": 1,
+      "max_complexity": 8,
+      "max_func_len": 34
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/compiler/errors.py",
+      "lines": 27,
+      "functions": 0,
+      "classes": 5,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/compiler/export.py",
+      "lines": 16,
+      "functions": 1,
+      "classes": 0,
+      "max_complexity": 1,
+      "max_func_len": 9
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/compiler/fixture.py",
+      "lines": 133,
+      "functions": 8,
+      "classes": 0,
+      "max_complexity": 1,
+      "max_func_len": 26
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/compiler/model.py",
+      "lines": 89,
+      "functions": 5,
+      "classes": 4,
+      "max_complexity": 1,
+      "max_func_len": 11
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/compiler/readers.py",
+      "lines": 89,
+      "functions": 6,
+      "classes": 0,
+      "max_complexity": 7,
+      "max_func_len": 27
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/compiler/validate.py",
+      "lines": 48,
+      "functions": 2,
+      "classes": 0,
+      "max_complexity": 9,
+      "max_func_len": 37
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/compiler/yaml_mini.py",
+      "lines": 61,
+      "functions": 2,
+      "classes": 0,
+      "max_complexity": 10,
+      "max_func_len": 29
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/cosim/__init__.py",
+      "lines": 36,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/cosim/adapter.py",
+      "lines": 125,
+      "functions": 21,
+      "classes": 3,
+      "max_complexity": 4,
+      "max_func_len": 18
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/cosim/campaign.py",
+      "lines": 138,
+      "functions": 13,
+      "classes": 4,
+      "max_complexity": 8,
+      "max_func_len": 34
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/cosim/errors.py",
+      "lines": 23,
+      "functions": 0,
+      "classes": 4,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/cosim/orchestrator.py",
+      "lines": 98,
+      "functions": 8,
+      "classes": 3,
+      "max_complexity": 5,
+      "max_func_len": 15
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/epistemic/__init__.py",
+      "lines": 37,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/epistemic/components.py",
+      "lines": 78,
+      "functions": 3,
+      "classes": 0,
+      "max_complexity": 3,
+      "max_func_len": 27
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/epistemic/errors.py",
+      "lines": 19,
+      "functions": 0,
+      "classes": 3,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/epistemic/fixture.py",
+      "lines": 96,
+      "functions": 2,
+      "classes": 0,
+      "max_complexity": 2,
+      "max_func_len": 43
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/epistemic/model.py",
+      "lines": 57,
+      "functions": 2,
+      "classes": 2,
+      "max_complexity": 4,
+      "max_func_len": 7
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/epistemic/query.py",
+      "lines": 167,
+      "functions": 15,
+      "classes": 1,
+      "max_complexity": 10,
+      "max_func_len": 19
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/epistemic/resolver.py",
+      "lines": 278,
+      "functions": 11,
+      "classes": 0,
+      "max_complexity": 6,
+      "max_func_len": 53
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/gateway/__init__.py",
+      "lines": 17,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/gateway/gateway.py",
+      "lines": 81,
+      "functions": 5,
+      "classes": 5,
+      "max_complexity": 4,
+      "max_func_len": 21
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/genealogy/__init__.py",
+      "lines": 57,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/genealogy/errors.py",
+      "lines": 23,
+      "functions": 0,
+      "classes": 4,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/genealogy/family.py",
+      "lines": 140,
+      "functions": 11,
+      "classes": 5,
+      "max_complexity": 5,
+      "max_func_len": 13
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/genealogy/gedcom.py",
+      "lines": 253,
+      "functions": 13,
+      "classes": 3,
+      "max_complexity": 25,
+      "max_func_len": 71
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/genealogy/model.py",
+      "lines": 68,
+      "functions": 3,
+      "classes": 4,
+      "max_complexity": 3,
+      "max_func_len": 5
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/genealogy/privacy.py",
+      "lines": 76,
+      "functions": 7,
+      "classes": 2,
+      "max_complexity": 7,
+      "max_func_len": 12
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/heritage/__init__.py",
+      "lines": 45,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/heritage/errors.py",
+      "lines": 23,
+      "functions": 0,
+      "classes": 4,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/heritage/iiif.py",
+      "lines": 130,
+      "functions": 6,
+      "classes": 3,
+      "max_complexity": 19,
+      "max_func_len": 56
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/heritage/linkedart.py",
+      "lines": 70,
+      "functions": 5,
+      "classes": 3,
+      "max_complexity": 2,
+      "max_func_len": 14
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/heritage/museum.py",
+      "lines": 75,
+      "functions": 7,
+      "classes": 3,
+      "max_complexity": 4,
+      "max_func_len": 16
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/heritage/twin.py",
+      "lines": 81,
+      "functions": 9,
+      "classes": 3,
+      "max_complexity": 2,
+      "max_func_len": 13
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/host/__init__.py",
+      "lines": 22,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/host/errors.py",
+      "lines": 23,
+      "functions": 0,
+      "classes": 4,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/host/host.py",
+      "lines": 129,
+      "functions": 17,
+      "classes": 3,
+      "max_complexity": 3,
+      "max_func_len": 16
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/host/model.py",
+      "lines": 30,
+      "functions": 1,
+      "classes": 1,
+      "max_complexity": 1,
+      "max_func_len": 2
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/institution/__init__.py",
+      "lines": 41,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/institution/components.py",
+      "lines": 109,
+      "functions": 5,
+      "classes": 0,
+      "max_complexity": 1,
+      "max_func_len": 23
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/institution/errors.py",
+      "lines": 19,
+      "functions": 0,
+      "classes": 3,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/institution/fixture.py",
+      "lines": 118,
+      "functions": 2,
+      "classes": 0,
+      "max_complexity": 2,
+      "max_func_len": 56
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/institution/model.py",
+      "lines": 83,
+      "functions": 6,
+      "classes": 5,
+      "max_complexity": 4,
+      "max_func_len": 5
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/institution/query.py",
+      "lines": 203,
+      "functions": 15,
+      "classes": 1,
+      "max_complexity": 16,
+      "max_func_len": 35
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/institution/resolver.py",
+      "lines": 218,
+      "functions": 10,
+      "classes": 0,
+      "max_complexity": 6,
+      "max_func_len": 29
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/ledger/__init__.py",
+      "lines": 47,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/ledger/errors.py",
+      "lines": 31,
+      "functions": 0,
+      "classes": 6,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/ledger/fixture.py",
+      "lines": 57,
+      "functions": 4,
+      "classes": 0,
+      "max_complexity": 1,
+      "max_func_len": 13
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/ledger/ledger.py",
+      "lines": 123,
+      "functions": 9,
+      "classes": 1,
+      "max_complexity": 12,
+      "max_func_len": 34
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/ledger/model.py",
+      "lines": 111,
+      "functions": 5,
+      "classes": 3,
+      "max_complexity": 5,
+      "max_func_len": 7
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/lifecycle/__init__.py",
+      "lines": 33,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/lifecycle/errors.py",
+      "lines": 15,
+      "functions": 0,
+      "classes": 2,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/lifecycle/model.py",
+      "lines": 97,
+      "functions": 3,
+      "classes": 1,
+      "max_complexity": 1,
+      "max_func_len": 3
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/lifecycle/resolver.py",
+      "lines": 88,
+      "functions": 5,
+      "classes": 0,
+      "max_complexity": 7,
+      "max_func_len": 37
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/lifecycle/service.py",
+      "lines": 98,
+      "functions": 5,
+      "classes": 1,
+      "max_complexity": 8,
+      "max_func_len": 23
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/material/__init__.py",
+      "lines": 55,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/material/components.py",
+      "lines": 83,
+      "functions": 6,
+      "classes": 0,
+      "max_complexity": 1,
+      "max_func_len": 14
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/material/errors.py",
+      "lines": 31,
+      "functions": 0,
+      "classes": 6,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/material/fixture.py",
+      "lines": 77,
+      "functions": 2,
+      "classes": 0,
+      "max_complexity": 1,
+      "max_func_len": 23
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/material/model.py",
+      "lines": 72,
+      "functions": 4,
+      "classes": 6,
+      "max_complexity": 3,
+      "max_func_len": 5
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/material/query.py",
+      "lines": 177,
+      "functions": 14,
+      "classes": 1,
+      "max_complexity": 19,
+      "max_func_len": 57
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/material/resolver.py",
+      "lines": 199,
+      "functions": 9,
+      "classes": 0,
+      "max_complexity": 8,
+      "max_func_len": 31
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/material/resolver_ops.py",
+      "lines": 153,
+      "functions": 6,
+      "classes": 0,
+      "max_complexity": 9,
+      "max_func_len": 39
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/observation/__init__.py",
+      "lines": 31,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/observation/components.py",
+      "lines": 43,
+      "functions": 2,
+      "classes": 0,
+      "max_complexity": 2,
+      "max_func_len": 14
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/observation/errors.py",
+      "lines": 15,
+      "functions": 0,
+      "classes": 2,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/observation/fixture.py",
+      "lines": 119,
+      "functions": 2,
+      "classes": 0,
+      "max_complexity": 2,
+      "max_func_len": 55
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/observation/model.py",
+      "lines": 69,
+      "functions": 4,
+      "classes": 3,
+      "max_complexity": 4,
+      "max_func_len": 5
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/observation/query.py",
+      "lines": 207,
+      "functions": 13,
+      "classes": 1,
+      "max_complexity": 8,
+      "max_func_len": 25
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/observation/resolver.py",
+      "lines": 95,
+      "functions": 5,
+      "classes": 0,
+      "max_complexity": 6,
+      "max_func_len": 21
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/packages/__init__.py",
+      "lines": 71,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/packages/errors.py",
+      "lines": 39,
+      "functions": 0,
+      "classes": 8,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/packages/fixture.py",
+      "lines": 55,
+      "functions": 2,
+      "classes": 0,
+      "max_complexity": 1,
+      "max_func_len": 31
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/packages/install.py",
+      "lines": 178,
+      "functions": 8,
+      "classes": 2,
+      "max_complexity": 5,
+      "max_func_len": 39
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/packages/migration.py",
+      "lines": 72,
+      "functions": 3,
+      "classes": 0,
+      "max_complexity": 4,
+      "max_func_len": 15
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/packages/model.py",
+      "lines": 205,
+      "functions": 15,
+      "classes": 4,
+      "max_complexity": 9,
+      "max_func_len": 19
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/packages/registry.py",
+      "lines": 61,
+      "functions": 11,
+      "classes": 2,
+      "max_complexity": 3,
+      "max_func_len": 7
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/packages/resolver.py",
+      "lines": 111,
+      "functions": 7,
+      "classes": 1,
+      "max_complexity": 10,
+      "max_func_len": 49
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/packages/sdk.py",
+      "lines": 28,
+      "functions": 1,
+      "classes": 0,
+      "max_complexity": 6,
+      "max_func_len": 13
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/packages/trust.py",
+      "lines": 30,
+      "functions": 2,
+      "classes": 1,
+      "max_complexity": 2,
+      "max_func_len": 5
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/population/__init__.py",
+      "lines": 34,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/population/components.py",
+      "lines": 37,
+      "functions": 2,
+      "classes": 0,
+      "max_complexity": 1,
+      "max_func_len": 14
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/population/errors.py",
+      "lines": 15,
+      "functions": 0,
+      "classes": 2,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/population/fixture.py",
+      "lines": 94,
+      "functions": 2,
+      "classes": 0,
+      "max_complexity": 2,
+      "max_func_len": 39
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/population/model.py",
+      "lines": 68,
+      "functions": 2,
+      "classes": 3,
+      "max_complexity": 3,
+      "max_func_len": 14
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/population/policy.py",
+      "lines": 45,
+      "functions": 2,
+      "classes": 1,
+      "max_complexity": 3,
+      "max_func_len": 22
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/population/query.py",
+      "lines": 96,
+      "functions": 9,
+      "classes": 1,
+      "max_complexity": 7,
+      "max_func_len": 20
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/population/resolver.py",
+      "lines": 99,
+      "functions": 6,
+      "classes": 0,
+      "max_complexity": 3,
+      "max_func_len": 19
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/population/scheduler.py",
+      "lines": 222,
+      "functions": 6,
+      "classes": 1,
+      "max_complexity": 14,
+      "max_func_len": 116
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/projection/__init__.py",
+      "lines": 24,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/projection/errors.py",
+      "lines": 15,
+      "functions": 0,
+      "classes": 2,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/projection/model.py",
+      "lines": 56,
+      "functions": 2,
+      "classes": 3,
+      "max_complexity": 3,
+      "max_func_len": 5
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/projection/service.py",
+      "lines": 138,
+      "functions": 10,
+      "classes": 1,
+      "max_complexity": 9,
+      "max_func_len": 22
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/queue/__init__.py",
+      "lines": 19,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/queue/errors.py",
+      "lines": 19,
+      "functions": 0,
+      "classes": 3,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/queue/model.py",
+      "lines": 26,
+      "functions": 0,
+      "classes": 2,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/queue/queue.py",
+      "lines": 105,
+      "functions": 8,
+      "classes": 1,
+      "max_complexity": 6,
+      "max_func_len": 36
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/reality/__init__.py",
+      "lines": 83,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/reality/bridge.py",
+      "lines": 118,
+      "functions": 12,
+      "classes": 4,
+      "max_complexity": 6,
+      "max_func_len": 15
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/reality/challenge.py",
+      "lines": 107,
+      "functions": 7,
+      "classes": 5,
+      "max_complexity": 3,
+      "max_func_len": 25
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/reality/director.py",
+      "lines": 111,
+      "functions": 12,
+      "classes": 6,
+      "max_complexity": 2,
+      "max_func_len": 11
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/reality/errors.py",
+      "lines": 31,
+      "functions": 0,
+      "classes": 6,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/reality/experiment.py",
+      "lines": 133,
+      "functions": 6,
+      "classes": 5,
+      "max_complexity": 4,
+      "max_func_len": 22
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/reality/fusion.py",
+      "lines": 134,
+      "functions": 8,
+      "classes": 3,
+      "max_complexity": 6,
+      "max_func_len": 26
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/reality/model.py",
+      "lines": 65,
+      "functions": 1,
+      "classes": 2,
+      "max_complexity": 8,
+      "max_func_len": 13
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/recovery/__init__.py",
+      "lines": 31,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/recovery/budget.py",
+      "lines": 60,
+      "functions": 5,
+      "classes": 2,
+      "max_complexity": 4,
+      "max_func_len": 17
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py",
+      "lines": 86,
+      "functions": 10,
+      "classes": 4,
+      "max_complexity": 3,
+      "max_func_len": 19
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/recovery/errors.py",
+      "lines": 23,
+      "functions": 0,
+      "classes": 4,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/recovery/recovery.py",
+      "lines": 82,
+      "functions": 3,
+      "classes": 2,
+      "max_complexity": 5,
+      "max_func_len": 26
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/research/__init__.py",
+      "lines": 23,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/research/adapters.py",
+      "lines": 168,
+      "functions": 16,
+      "classes": 4,
+      "max_complexity": 6,
+      "max_func_len": 23
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/research/errors.py",
+      "lines": 19,
+      "functions": 0,
+      "classes": 3,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/resolution/__init__.py",
+      "lines": 29,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/resolution/adjudicators.py",
+      "lines": 131,
+      "functions": 6,
+      "classes": 2,
+      "max_complexity": 7,
+      "max_func_len": 42
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/resolution/errors.py",
+      "lines": 15,
+      "functions": 0,
+      "classes": 2,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/resolution/model.py",
+      "lines": 42,
+      "functions": 2,
+      "classes": 2,
+      "max_complexity": 3,
+      "max_func_len": 5
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/resolution/registry.py",
+      "lines": 28,
+      "functions": 4,
+      "classes": 1,
+      "max_complexity": 1,
+      "max_func_len": 2
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/resolution/rng.py",
+      "lines": 27,
+      "functions": 3,
+      "classes": 1,
+      "max_complexity": 1,
+      "max_func_len": 5
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/resolution/service.py",
+      "lines": 53,
+      "functions": 4,
+      "classes": 1,
+      "max_complexity": 3,
+      "max_func_len": 17
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/session/__init__.py",
+      "lines": 39,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/session/control.py",
+      "lines": 117,
+      "functions": 11,
+      "classes": 2,
+      "max_complexity": 2,
+      "max_func_len": 21
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/session/errors.py",
+      "lines": 35,
+      "functions": 0,
+      "classes": 7,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/session/model.py",
+      "lines": 70,
+      "functions": 4,
+      "classes": 3,
+      "max_complexity": 1,
+      "max_func_len": 8
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/session/service.py",
+      "lines": 141,
+      "functions": 11,
+      "classes": 2,
+      "max_complexity": 4,
+      "max_func_len": 24
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/skills/__init__.py",
+      "lines": 32,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/skills/components.py",
+      "lines": 34,
+      "functions": 1,
+      "classes": 0,
+      "max_complexity": 1,
+      "max_func_len": 21
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/skills/errors.py",
+      "lines": 19,
+      "functions": 0,
+      "classes": 3,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/skills/model.py",
+      "lines": 62,
+      "functions": 4,
+      "classes": 3,
+      "max_complexity": 4,
+      "max_func_len": 5
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/skills/registry.py",
+      "lines": 77,
+      "functions": 4,
+      "classes": 1,
+      "max_complexity": 1,
+      "max_func_len": 52
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/skills/resolver.py",
+      "lines": 94,
+      "functions": 5,
+      "classes": 0,
+      "max_complexity": 5,
+      "max_func_len": 32
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/skills/runtime.py",
+      "lines": 218,
+      "functions": 12,
+      "classes": 1,
+      "max_complexity": 7,
+      "max_func_len": 31
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/sources/__init__.py",
+      "lines": 53,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/sources/errors.py",
+      "lines": 35,
+      "functions": 0,
+      "classes": 7,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/sources/fixture.py",
+      "lines": 101,
+      "functions": 5,
+      "classes": 0,
+      "max_complexity": 1,
+      "max_func_len": 26
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/sources/gate.py",
+      "lines": 83,
+      "functions": 6,
+      "classes": 2,
+      "max_complexity": 6,
+      "max_func_len": 27
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/sources/model.py",
+      "lines": 135,
+      "functions": 9,
+      "classes": 4,
+      "max_complexity": 6,
+      "max_func_len": 16
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/sources/policy.py",
+      "lines": 34,
+      "functions": 1,
+      "classes": 1,
+      "max_complexity": 3,
+      "max_func_len": 5
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/sources/registry.py",
+      "lines": 99,
+      "functions": 7,
+      "classes": 2,
+      "max_complexity": 4,
+      "max_func_len": 30
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/spatial/__init__.py",
+      "lines": 45,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/spatial/components.py",
+      "lines": 97,
+      "functions": 6,
+      "classes": 0,
+      "max_complexity": 2,
+      "max_func_len": 19
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/spatial/errors.py",
+      "lines": 35,
+      "functions": 0,
+      "classes": 7,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/spatial/fixture.py",
+      "lines": 122,
+      "functions": 2,
+      "classes": 0,
+      "max_complexity": 2,
+      "max_func_len": 60
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/spatial/model.py",
+      "lines": 140,
+      "functions": 9,
+      "classes": 9,
+      "max_complexity": 4,
+      "max_func_len": 8
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/spatial/query.py",
+      "lines": 219,
+      "functions": 17,
+      "classes": 1,
+      "max_complexity": 9,
+      "max_func_len": 20
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/spatial/resolver.py",
+      "lines": 166,
+      "functions": 5,
+      "classes": 0,
+      "max_complexity": 21,
+      "max_func_len": 63
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/temporal/__init__.py",
+      "lines": 47,
+      "functions": 0,
+      "classes": 0,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/temporal/components.py",
+      "lines": 89,
+      "functions": 4,
+      "classes": 0,
+      "max_complexity": 1,
+      "max_func_len": 25
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/temporal/errors.py",
+      "lines": 27,
+      "functions": 0,
+      "classes": 5,
+      "max_complexity": 0,
+      "max_func_len": 0
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/temporal/fixture.py",
+      "lines": 96,
+      "functions": 2,
+      "classes": 0,
+      "max_complexity": 1,
+      "max_func_len": 40
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/temporal/model.py",
+      "lines": 134,
+      "functions": 12,
+      "classes": 6,
+      "max_complexity": 6,
+      "max_func_len": 10
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/temporal/query.py",
+      "lines": 189,
+      "functions": 19,
+      "classes": 1,
+      "max_complexity": 11,
+      "max_func_len": 21
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/temporal/resolver.py",
+      "lines": 248,
+      "functions": 12,
+      "classes": 0,
+      "max_complexity": 11,
+      "max_func_len": 53
+    }
+  ],
+  "over_threshold": [],
+  "high_complexity": [
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/genealogy/gedcom.py",
+      "lines": 253,
+      "functions": 13,
+      "classes": 3,
+      "max_complexity": 25,
+      "max_func_len": 71
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/spatial/resolver.py",
+      "lines": 166,
+      "functions": 5,
+      "classes": 0,
+      "max_complexity": 21,
+      "max_func_len": 63
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/heritage/iiif.py",
+      "lines": 130,
+      "functions": 6,
+      "classes": 3,
+      "max_complexity": 19,
+      "max_func_len": 56
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/material/query.py",
+      "lines": 177,
+      "functions": 14,
+      "classes": 1,
+      "max_complexity": 19,
+      "max_func_len": 57
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/institution/query.py",
+      "lines": 203,
+      "functions": 15,
+      "classes": 1,
+      "max_complexity": 16,
+      "max_func_len": 35
+    }
+  ],
+  "long_functions": [],
+  "import_cycles": [],
+  "any_swallow": {
+    "any_signatures": [
+      "packages/domain/src/wanxiang_domain/serialization.py:42:expect_version",
+      "packages/domain/src/wanxiang_domain/serialization.py:70:_decode_components",
+      "packages/domain/src/wanxiang_domain/serialization.py:123:delta_from_primitive",
+      "packages/domain/src/wanxiang_domain/serialization.py:178:command_from_primitive",
+      "packages/domain/src/wanxiang_domain/serialization_history.py:71:event_from_primitive",
+      "packages/domain/src/wanxiang_domain/serialization_history.py:113:snapshot_from_primitive",
+      "packages/domain/src/wanxiang_domain/serialization_history.py:139:run_from_primitive",
+      "packages/domain/src/wanxiang_domain/serialization_history.py:162:ancestry_from_primitive",
+      "packages/persistence/src/wanxiang_persistence/database.py:20:_enable_sqlite_foreign_keys"
+    ],
+    "exception_swallows": []
+  }
+}

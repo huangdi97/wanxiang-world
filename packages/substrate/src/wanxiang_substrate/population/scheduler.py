@@ -67,6 +67,7 @@ class AutonomousScheduler:
         pending_duties = _initial_duties(state)
         completed_duties: set[str] = set()
         submitted = 0
+        rejected = 0
         seq = 0
         tick_counts: dict[int, int] = {}
 
@@ -118,7 +119,10 @@ class AutonomousScheduler:
                     if isinstance(duty_id, str):
                         completed_duties.add(duty_id)
             except WanxiangError:
-                pass
+                # A proposed scheduler action that the world rejects is not an
+                # error in the world: it simply does not commit. Track it so
+                # rejections are observable instead of silently dropped.
+                rejected += 1
             seq += 1
 
             if event.action == "scheduler.rest":
@@ -135,6 +139,8 @@ class AutonomousScheduler:
                 )
 
         # Record the scheduler run as committed canonical state (deterministic restore).
+        # Best-effort by design: the run result is returned regardless; this marker
+        # must never block the deterministic run from completing.
         with suppress(WanxiangError):
             self._submit(
                 instance_id,
@@ -158,6 +164,7 @@ class AutonomousScheduler:
             final_hash=final.semantic_hash(),
             ticks_advanced=now,
             queue_stats={"peak_tick_events": max(tick_counts.values()) if tick_counts else 0},
+            rejected_events=rejected,
         )
 
     def _submit(
