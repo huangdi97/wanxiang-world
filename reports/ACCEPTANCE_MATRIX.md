@@ -220,3 +220,18 @@ PROGRAM verdict: PASS (M1-M9; reports/FINAL_PROGRAM_COMPLETION_REPORT.md).
 | M15-06 | M15 gate | G18F | Heritage / Museum Workbench | PASS | g18f | |
 | M15-07 | M15 gate | G18G | Learn / Challenge Experience | PASS | g18g | |
 | M15-08 | M15 gate | G18H | Operator/Admin console + M15 | PASS | g18h | 579 tests + 1 skip |
+## M16 gate (2026-08-14)
+
+| Req ID | Source | Owning Goal | Test/evidence | Status | Last verified commit | Notes |
+|---|---|---|---|---|---|---|
+| M16-01 | M16 gate | G19A | Research namespace/flags/promotion rules | PASS | g19a | flags OFF |
+| M16-02 | M16 gate | G19B | AI-assisted world compiler extraction | PASS | g19b | KEEP_EXPERIMENTAL |
+| M16-03 | M16 gate | G19C | Persona memory & drift evaluation | PASS | g19c | KEEP_EXPERIMENTAL |
+| M16-04 | M16 gate | G19D | Cognitive LOD / population scheduling | PASS | g19d | KEEP_EXPERIMENTAL |
+| M16-05 | M16 gate | G19E | World-model / planner proposals | PASS | g19e | KEEP_EXPERIMENTAL |
+| M16-06 | M16 gate | G19F | Generative asset/scene pipeline | PASS | g19f | KEEP_EXPERIMENTAL |
+| M16-07 | M16 gate | G19G | Digital human / XR presence | PASS | g19g | KEEP_EXPERIMENTAL |
+| M16-08 | M16 gate | G19H | Multi-simulator federation | PASS | g19h | KEEP_EXPERIMENTAL |
+| M16-09 | M16 gate | G19I | Reality/digital-twin streaming | PASS | g19i | KEEP_EXPERIMENTAL |
+| M16-10 | M16 gate | G19J | Distributed host/sharding experiment | PASS | g19j | REJECT promotion |
+| M16-11 | M16 gate | G19J | M16 research qualification | PASS | g19j | 628 tests + 1 skip |

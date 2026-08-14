@@ -9,7 +9,11 @@
 |---|---|---|
 | ai_compiler | v5.1 | benchmark parity + clean-room build |
 | persona_memory | v5.1 | drift < threshold over 90d run |
-| distributed_host | v6 | shard consistency + replay parity |
+| generative_assets | v5.1 | generator parity + rights/provenance audit on real assets |
+| digital_human_xr | v5.1 | interruption/latency SLA + identity rights audit on real provider |
+| multi_simulator_federation | v6 | federation determinism + explicit conflict parity |
+| reality_digital_twin | v6 | fusion parity + privacy audit on real authorized feed |
+| distributed_host | v6 | shard consistency + replay parity (G19J: REJECT promotion; overhead 2.2x) |
 
 ## Experiment registry
 - `ExperimentResult` (track, seed, decision, evidence, runtime/schema versions) with manifest hash;

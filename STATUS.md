@@ -271,7 +271,7 @@ HEAD `91f0b1f` = tag `m9-release-qualified`. Post-M9 pack integrated; 94/94 hash
 | M13 | Productionization & Operations | pending |
 | M14 | SDK / Ecosystem Qualification | pending |
 | M15 | Product Surface Qualification | pending |
-| M16 | Research Expansion Qualification | pending |
+| M16 | Research Expansion Qualification | PASS (2026-08-14, reports/M16_ACCEPTANCE.md) |
 | M17 | Final Independent Certification | pending |
 
 ### Goals (post-M9)
@@ -347,3 +347,4 @@ HEAD `91f0b1f` = tag `m9-release-qualified`. Post-M9 pack integrated; 94/94 hash
 | G19G Advanced Digital Human / XR Presence Research | PASS (2026-08-14, commit g19g; KEEP_EXPERIMENTAL) |
 | G19H Multi-simulator Federation & Co-simulation Research | PASS (2026-08-14, commit g19h; KEEP_EXPERIMENTAL) |
 | G19I Reality/Digital-twin Streaming & Observation Fusion Research | PASS (2026-08-14, commit g19i; KEEP_EXPERIMENTAL) |
+| G19J Distributed World Host / Sharding Experiment & M16 Research Qualification | PASS (2026-08-14, commit g19j; REJECT promotion) |

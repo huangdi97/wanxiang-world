@@ -756,3 +756,9 @@
 
 - Added `wanxiang_research/reality_stream.py` (SensorReading, SyntheticSensorStream, StreamIngestor with dedupe/skew/staleness, ObservationLog, ObservationFusion, RealityReplay), `tests/integration/test_g19i_reality_stream.py` (8 tests) + research report. Decision: KEEP_EXPERIMENTAL.
 - Checkpoint: `g19i: reality/digital-twin streaming & observation fusion research`.
+
+## 2026-08-14 - G19J + M16 PASS (research expansion)
+
+- Added `wanxiang_research/distributed_host.py` (partition_for, LeaseRegistry/LeaderElection single-writer leases, OrderedChannel idempotent delivery, PartitionCache, HostBenchmark), `tests/integration/test_g19j_distributed_host.py` (6 tests) + research/milestone reports (M16_ACCEPTANCE, M16_RESEARCH_EXPANSION_QUALIFICATION).
+- M16 gate PASS: 628 pytest + 1 EXTERNAL_BLOCKED skip, ruff/pyright/architecture PASS. Decision: 9 tracks KEEP_EXPERIMENTAL; distributed hosting REJECTED for promotion (2.2x overhead, no correctness gain) - modular monolith stays stable default. ADR 0055.
+- Checkpoint: `g19j: distributed world host / sharding experiment & m16 research qualification`; tag `m16-research-expansion`.
