@@ -16,8 +16,8 @@
 | Opportunity-Challenge-Event Kernel (7.1) | Orchestration & Control | 1 | VERIFIED=1 |
 | Embodiment / Director / Experiment Kernel (7.2) | Orchestration & Control | 3 | VERIFIED=3 |
 | World Host / Lifecycle / Multiplayer Kernel (8.1) | Hosting & Experience | 5 | VERIFIED=5 |
-| Projection / Rendering / Network Gateway (8.2) | Hosting & Experience | 3 | EXTERNAL_BLOCKED=1 VERIFIED=2 |
-| Source / Evidence Kernel (4.1) | World Definition | 4 | EXTERNAL_BLOCKED=1 VERIFIED=3 |
+| Projection / Rendering / Network Gateway (8.2) | Hosting & Experience | 3 | VERIFIED=2 EXTERNAL_BLOCKED=1 |
+| Source / Evidence Kernel (4.1) | World Definition | 4 | VERIFIED=3 EXTERNAL_BLOCKED=1 |
 | World Compiler & Completion Compiler (4.2) | World Definition | 1 | VERIFIED=1 |
 | Package / Schema / Dependency Registry (4.3) | World Definition | 1 | VERIFIED=1 |
 

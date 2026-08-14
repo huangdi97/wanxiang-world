@@ -762,3 +762,8 @@
 - Added `wanxiang_research/distributed_host.py` (partition_for, LeaseRegistry/LeaderElection single-writer leases, OrderedChannel idempotent delivery, PartitionCache, HostBenchmark), `tests/integration/test_g19j_distributed_host.py` (6 tests) + research/milestone reports (M16_ACCEPTANCE, M16_RESEARCH_EXPANSION_QUALIFICATION).
 - M16 gate PASS: 628 pytest + 1 EXTERNAL_BLOCKED skip, ruff/pyright/architecture PASS. Decision: 9 tracks KEEP_EXPERIMENTAL; distributed hosting REJECTED for promotion (2.2x overhead, no correctness gain) - modular monolith stays stable default. ADR 0055.
 - Checkpoint: `g19j: distributed world host / sharding experiment & m16 research qualification`; tag `m16-research-expansion`.
+
+## 2026-08-14 - G20A PASS (M17 phase)
+
+- Regenerated design traceability from source; added `reports/FINAL_DESIGN_TRACEABILITY.md` + `reports/final_design_traceability.json`. Closure: 44 requirements (42 VERIFIED, 2 EXTERNAL_BLOCKED, 0 GAP), 16 kernels, 63 goals. External blockers narrow (real renderers/XR; real licensed source data). M16 research tracks remain experimental, not v5.0 requirements.
+- Checkpoint: `g20a: final mother-spec traceability & requirement closure`.

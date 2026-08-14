@@ -749,11 +749,11 @@
         "plane": "World Reality",
         "rows": 5,
         "statuses": {
-          "NOT_APPLICABLE": 0,
-          "EXTERNAL_BLOCKED": 0,
-          "GAP": 0,
+          "VERIFIED": 5,
           "PARTIAL": 0,
-          "VERIFIED": 5
+          "GAP": 0,
+          "NOT_APPLICABLE": 0,
+          "EXTERNAL_BLOCKED": 0
         }
       },
       "living_world_substrate": {
@@ -761,11 +761,11 @@
         "plane": "World Reality",
         "rows": 7,
         "statuses": {
-          "NOT_APPLICABLE": 0,
-          "EXTERNAL_BLOCKED": 0,
-          "GAP": 0,
+          "VERIFIED": 7,
           "PARTIAL": 0,
-          "VERIFIED": 7
+          "GAP": 0,
+          "NOT_APPLICABLE": 0,
+          "EXTERNAL_BLOCKED": 0
         }
       },
       "reality_bridge": {
@@ -773,11 +773,11 @@
         "plane": "World Reality",
         "rows": 2,
         "statuses": {
-          "NOT_APPLICABLE": 0,
-          "EXTERNAL_BLOCKED": 0,
-          "GAP": 0,
+          "VERIFIED": 2,
           "PARTIAL": 0,
-          "VERIFIED": 2
+          "GAP": 0,
+          "NOT_APPLICABLE": 0,
+          "EXTERNAL_BLOCKED": 0
         }
       },
       "cosimulation": {
@@ -785,11 +785,11 @@
         "plane": "World Reality",
         "rows": 1,
         "statuses": {
-          "NOT_APPLICABLE": 0,
-          "EXTERNAL_BLOCKED": 0,
-          "GAP": 0,
+          "VERIFIED": 1,
           "PARTIAL": 0,
-          "VERIFIED": 1
+          "GAP": 0,
+          "NOT_APPLICABLE": 0,
+          "EXTERNAL_BLOCKED": 0
         }
       },
       "event_branch_temporal": {
@@ -797,11 +797,11 @@
         "plane": "World Reality",
         "rows": 5,
         "statuses": {
-          "NOT_APPLICABLE": 0,
-          "EXTERNAL_BLOCKED": 0,
-          "GAP": 0,
+          "VERIFIED": 5,
           "PARTIAL": 0,
-          "VERIFIED": 5
+          "GAP": 0,
+          "NOT_APPLICABLE": 0,
+          "EXTERNAL_BLOCKED": 0
         }
       },
       "perception_belief_memory": {
@@ -809,11 +809,11 @@
         "plane": "Agency & Capability",
         "rows": 2,
         "statuses": {
-          "NOT_APPLICABLE": 0,
-          "EXTERNAL_BLOCKED": 0,
-          "GAP": 0,
+          "VERIFIED": 2,
           "PARTIAL": 0,
-          "VERIFIED": 2
+          "GAP": 0,
+          "NOT_APPLICABLE": 0,
+          "EXTERNAL_BLOCKED": 0
         }
       },
       "actor_organization": {
@@ -821,11 +821,11 @@
         "plane": "Agency & Capability",
         "rows": 1,
         "statuses": {
-          "NOT_APPLICABLE": 0,
-          "EXTERNAL_BLOCKED": 0,
-          "GAP": 0,
+          "VERIFIED": 1,
           "PARTIAL": 0,
-          "VERIFIED": 1
+          "GAP": 0,
+          "NOT_APPLICABLE": 0,
+          "EXTERNAL_BLOCKED": 0
         }
       },
       "skill_action_affordance": {
@@ -833,11 +833,11 @@
         "plane": "Agency & Capability",
         "rows": 2,
         "statuses": {
-          "NOT_APPLICABLE": 0,
-          "EXTERNAL_BLOCKED": 0,
-          "GAP": 0,
+          "VERIFIED": 2,
           "PARTIAL": 0,
-          "VERIFIED": 2
+          "GAP": 0,
+          "NOT_APPLICABLE": 0,
+          "EXTERNAL_BLOCKED": 0
         }
       },
       "capability_learning": {
@@ -845,11 +845,11 @@
         "plane": "Agency & Capability",
         "rows": 1,
         "statuses": {
-          "NOT_APPLICABLE": 0,
-          "EXTERNAL_BLOCKED": 0,
-          "GAP": 0,
+          "VERIFIED": 1,
           "PARTIAL": 0,
-          "VERIFIED": 1
+          "GAP": 0,
+          "NOT_APPLICABLE": 0,
+          "EXTERNAL_BLOCKED": 0
         }
       },
       "opportunity_challenge_event": {
@@ -857,11 +857,11 @@
         "plane": "Orchestration & Control",
         "rows": 1,
         "statuses": {
-          "NOT_APPLICABLE": 0,
-          "EXTERNAL_BLOCKED": 0,
-          "GAP": 0,
+          "VERIFIED": 1,
           "PARTIAL": 0,
-          "VERIFIED": 1
+          "GAP": 0,
+          "NOT_APPLICABLE": 0,
+          "EXTERNAL_BLOCKED": 0
         }
       },
       "embodiment_director_experiment": {
@@ -869,11 +869,11 @@
         "plane": "Orchestration & Control",
         "rows": 3,
         "statuses": {
-          "NOT_APPLICABLE": 0,
-          "EXTERNAL_BLOCKED": 0,
-          "GAP": 0,
+          "VERIFIED": 3,
           "PARTIAL": 0,
-          "VERIFIED": 3
+          "GAP": 0,
+          "NOT_APPLICABLE": 0,
+          "EXTERNAL_BLOCKED": 0
         }
       },
       "world_host_lifecycle": {
@@ -881,11 +881,11 @@
         "plane": "Hosting & Experience",
         "rows": 5,
         "statuses": {
-          "NOT_APPLICABLE": 0,
-          "EXTERNAL_BLOCKED": 0,
-          "GAP": 0,
+          "VERIFIED": 5,
           "PARTIAL": 0,
-          "VERIFIED": 5
+          "GAP": 0,
+          "NOT_APPLICABLE": 0,
+          "EXTERNAL_BLOCKED": 0
         }
       },
       "projection_rendering_network": {
@@ -893,11 +893,11 @@
         "plane": "Hosting & Experience",
         "rows": 3,
         "statuses": {
-          "NOT_APPLICABLE": 0,
-          "EXTERNAL_BLOCKED": 1,
-          "GAP": 0,
+          "VERIFIED": 2,
           "PARTIAL": 0,
-          "VERIFIED": 2
+          "GAP": 0,
+          "NOT_APPLICABLE": 0,
+          "EXTERNAL_BLOCKED": 1
         }
       },
       "source_evidence": {
@@ -905,11 +905,11 @@
         "plane": "World Definition",
         "rows": 4,
         "statuses": {
-          "NOT_APPLICABLE": 0,
-          "EXTERNAL_BLOCKED": 1,
-          "GAP": 0,
+          "VERIFIED": 3,
           "PARTIAL": 0,
-          "VERIFIED": 3
+          "GAP": 0,
+          "NOT_APPLICABLE": 0,
+          "EXTERNAL_BLOCKED": 1
         }
       },
       "world_compiler": {
@@ -917,11 +917,11 @@
         "plane": "World Definition",
         "rows": 1,
         "statuses": {
-          "NOT_APPLICABLE": 0,
-          "EXTERNAL_BLOCKED": 0,
-          "GAP": 0,
+          "VERIFIED": 1,
           "PARTIAL": 0,
-          "VERIFIED": 1
+          "GAP": 0,
+          "NOT_APPLICABLE": 0,
+          "EXTERNAL_BLOCKED": 0
         }
       },
       "package_registry": {
@@ -929,11 +929,11 @@
         "plane": "World Definition",
         "rows": 1,
         "statuses": {
-          "NOT_APPLICABLE": 0,
-          "EXTERNAL_BLOCKED": 0,
-          "GAP": 0,
+          "VERIFIED": 1,
           "PARTIAL": 0,
-          "VERIFIED": 1
+          "GAP": 0,
+          "NOT_APPLICABLE": 0,
+          "EXTERNAL_BLOCKED": 0
         }
       }
     },
