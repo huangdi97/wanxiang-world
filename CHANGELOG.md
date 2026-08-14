@@ -950,3 +950,10 @@
 - Added worldline identity model: WorldDefinition (read-only versioned), WorldlineIdentity, InstanceIdentity (definition/genesis/constitution/runtime refs), WorldlineFork (branch fork == worldline fork over BranchAncestry).
 - 4 tests (definition immutable; WorldPack unchanged by running; fork round-trip; instance identity).
 - Checkpoint: `g31a: World Definition ? Worldline ????`.
+
+
+## 2026-08-15 - V5.2 G31B PASS (M28 phase)
+
+- Added lineage package: LineageNode/LineageEdge/LineageGraph (DAG with cycle rejection, ancestors/descendants/common-ancestors, versions/rights/provenance refs; no history copies).
+- 5 tests (tree/DAG fixtures, cycle + duplicate rejection).
+- Checkpoint: `g31b: World Lineage Graph ????`.

@@ -147,7 +147,8 @@ v5.2 certification reports and local checkpoint. No push/deploy.
 | 10i | G30I | M27 Root Constitution ISA ???? | PASS (2026-08-15) |
 | 11 | M27 Gate | Root Constitution ISA ???? | PASS (2026-08-15, reports/M27_QUALIFICATION.md) |
 | 12 | G31A | World Definition ? Worldline ???? | PASS (2026-08-15) |
-| 12b | G31B..G31H | Lineage Graph / Repository / Hypervisor / Identity / Genesis / API (M28) | pending |
+| 12b | G31B | World Lineage Graph ???? | PASS (2026-08-15) |
+| 12c | G31C..G31H | Repository / Hypervisor / Identity / Genesis / API (M28) | pending |
 | 13 | M28 Gate | Lineage Hypervisor ???? | pending |
 | 14 | G32A..G32H | Evolution Policy / ?????? (M29) | pending |
 | 15 | M29 Gate | ?????????? | pending |

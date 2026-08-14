@@ -154,3 +154,9 @@ abstraction delta in the budget (ports 23 -> 24 = RealityRootContract).
 New abstractions: WorldDefinition, WorldlineIdentity, InstanceIdentity,
 WorldlineFork (frozen records) + 2 ID types. Justification: formal identity
 model for lineage (M28 core); no store/engine; fork reuses BranchAncestry.
+
+
+## G31B entry
+New abstractions: LineageNode, LineageEdge (frozen records) + LineageGraph
+(thin in-memory DAG). Justification: lineage DAG storage/query is M28 core;
+no manager god object (plain class), no history copy.
