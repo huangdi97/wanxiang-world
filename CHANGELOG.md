@@ -650,3 +650,9 @@
 - Added `scripts/blackbox_sample.py` (clean-room external sample), `tests/integration/test_g17g_blackbox_sample.py`
   (2 tests) + reports.
 - Checkpoint: `g17g: black-box external sample pack built outside core repository internals`.
+
+## 2026-08-14 ? G17H PASS + M14 PASS (M14 gate)
+
+- Added `tests/integration/test_g17h_ecosystem.py` (2 tests) + ecosystem qualification + M14 acceptance reports.
+- M14 gate PASS: G17A-H suites (22 passed), full gate 554 passed + 1 EXTERNAL_BLOCKED skip.
+- Checkpoint: `g17h: ecosystem documentation, certification & m14 qualification`. M15 begins next.

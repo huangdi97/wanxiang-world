@@ -327,3 +327,5 @@ HEAD `91f0b1f` = tag `m9-release-qualified`. Post-M9 pack integrated; 94/94 hash
 | G17E Plugin Trust, Signing, Capability Permissions & Isolation Policy | PASS (2026-08-14, commit g17e) |
 | G17F Registry Publish, Install, Upgrade, Deprecation & Dependency Resolution | PASS (2026-08-14, commit g17f; resolver pin fixed) |
 | G17G Black-box External Sample Pack Built Outside Core Repository Internals | PASS (2026-08-14, commit g17g) |
+| G17H Ecosystem Documentation, Certification & M14 Qualification | PASS (2026-08-14, commit g17h) |
+| M14 | SDK / Ecosystem Qualification | PASS (2026-08-14, reports/M14_ACCEPTANCE.md) |

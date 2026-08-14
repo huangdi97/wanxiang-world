@@ -196,3 +196,15 @@ PROGRAM verdict: PASS (M1-M9; reports/FINAL_PROGRAM_COMPLETION_REPORT.md).
 | M13-08 | M13 gate | G16H | CI/CD/release artifacts/rollback | PASS | g16h | |
 | M13-09 | M13 gate | G16I | Performance/capacity/cost/budgets | PASS | g16i | measured envelope |
 | M13-10 | M13 gate | G16J | Private/staging deploy + M13 | PASS | g16j | 532 tests + 1 skip |
+## M14 gate (2026-08-14)
+
+| Req ID | Source | Owning Goal | Test/evidence | Status | Last verified commit | Notes |
+|---|---|---|---|---|---|---|
+| M14-01 | M14 gate | G17A | SDK contract + semver/compat | PASS | g17a | baseline snapshot |
+| M14-02 | M14 gate | G17B | Authoring CLI + validation | PASS | g17b | |
+| M14-03 | M14 gate | G17C | External author docs | PASS | g17c | |
+| M14-04 | M14 gate | G17D | Conformance/certification harness | PASS | g17d | |
+| M14-05 | M14 gate | G17E | Plugin trust/signing/capabilities | PASS | g17e | |
+| M14-06 | M14 gate | G17F | Registry lifecycle | PASS | g17f | resolver pin fixed |
+| M14-07 | M14 gate | G17G | Black-box external sample pack | PASS | g17g | |
+| M14-08 | M14 gate | G17H | Ecosystem qualification + M14 | PASS | g17h | 554 tests + 1 skip |
