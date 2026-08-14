@@ -2,7 +2,7 @@
 
 - API routes: 10
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 832
+- Python public names (stable packages): 842
 
 ## API routes
 
@@ -289,6 +289,7 @@
 - `wanxiang_substrate.BudgetExceeded`
 - `wanxiang_substrate.BudgetTracker`
 - `wanxiang_substrate.CANONICAL_ELIGIBLE_STAGES`
+- `wanxiang_substrate.CAPABILITIES`
 - `wanxiang_substrate.CAPABILITY_MAX_LEVEL`
 - `wanxiang_substrate.CAPABILITY_MIN_LEVEL`
 - `wanxiang_substrate.CAPABILITY_SCHEMA_VERSION`
@@ -316,8 +317,7 @@
 - `wanxiang_substrate.CanonLocked`
 - `wanxiang_substrate.CapabilityDelta`
 - `wanxiang_substrate.CapabilityError`
+- `wanxiang_substrate.CapabilityGate`
 - `wanxiang_substrate.CapabilityPrerequisiteError`
-- `wanxiang_substrate.CapabilityQuery`
-- `wanxiang_substrate.CapabilityState`
 
 Machine-readable: reports/sdk_api_baseline.json.

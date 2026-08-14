@@ -81,3 +81,9 @@ static-success paths are documented no-ops/unsupported branches.
 ### Refactor
 `scripts/v51_metrics.compute_metrics()` extracted (behavior identical; main()
 output unchanged) so the budget script reuses it.
+
+
+## G29H/M26 entry
+No new production abstraction. Restored `SnapshotStore` deprecated alias in
+recovery (API compat) and renamed a port parameter for pyright protocol
+compatibility (no semantic change).

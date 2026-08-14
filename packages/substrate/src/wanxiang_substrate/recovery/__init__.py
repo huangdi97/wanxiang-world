@@ -6,6 +6,7 @@ from wanxiang_substrate.recovery.checkpoint import (
     CheckpointService,
     CheckpointStore,
     InMemorySnapshotStore,
+    SnapshotStore,
 )
 from wanxiang_substrate.recovery.errors import (
     BudgetExceeded,
@@ -28,4 +29,5 @@ __all__ = [
     "RecoveryReport",
     "RecoveryService",
     "ResourceBudget",
+    "SnapshotStore",
 ]

@@ -13,7 +13,8 @@ from dataclasses import dataclass
 
 from wanxiang_domain.hierarchy import BranchRevision, EventSeq
 from wanxiang_domain.ids import BranchId, SnapshotId, WorldInstanceId
-from wanxiang_runtime.snapshot import SnapshotStore, create_snapshot_metadata
+from wanxiang_runtime.snapshot import SnapshotStore as RuntimeSnapshotStore
+from wanxiang_runtime.snapshot import create_snapshot_metadata
 from wanxiang_runtime.state import InMemoryCanonicalState
 
 from wanxiang_substrate.recovery.errors import CorruptSnapshot, NoSnapshot
@@ -35,7 +36,7 @@ class CheckpointStore:
     snapshot-id -> location). API-compatible with the pre-v5.2 recovery store.
     """
 
-    def __init__(self, store: SnapshotStore | None = None) -> None:
+    def __init__(self, store: RuntimeSnapshotStore | None = None) -> None:
         from wanxiang_runtime.snapshot import InMemorySnapshotStore
 
         self._store = store or InMemorySnapshotStore()
@@ -77,8 +78,9 @@ class CheckpointStore:
         return stored.state
 
 
-# Deprecated alias kept for API compatibility (pre-v5.2 name).
+# Deprecated aliases kept for API compatibility (pre-v5.2 names).
 InMemorySnapshotStore = CheckpointStore
+SnapshotStore = CheckpointStore
 
 
 class CheckpointService:

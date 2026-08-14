@@ -14,8 +14,8 @@
 | G29E ??????? | PASS (2026-08-14, commit g29e) |
 | G29F ?? Fake Placeholder ?????? | PASS (2026-08-14, commit g29f) |
 | G29G ??????????? | PASS (2026-08-15, commit g29g) |
-| G29H M26 ?????? | pending |
-| **M26 Milestone Gate** | pending |
+| G29H M26 ?????? | PASS (2026-08-15, commit g29h) |
+| **M26 Milestone Gate** | **PASS (2026-08-15, reports/M26_QUALIFICATION.md)** |
 
 ## M27 ? Reality Root / Constitution / ISA
 

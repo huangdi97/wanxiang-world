@@ -58,7 +58,7 @@
 | packages/substrate/src/wanxiang_substrate/assets/storage.py | ObjectStore | 35 |
 | packages/substrate/src/wanxiang_substrate/assets/storage.py | LocalObjectStore | 44 |
 | packages/substrate/src/wanxiang_substrate/ledger/ledger.py | CompletionLedger | 30 |
-| packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | CheckpointStore | 30 |
+| packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | CheckpointStore | 31 |
 
 ## service_classes (15)
 
@@ -67,7 +67,7 @@
 | packages/substrate/src/wanxiang_substrate/lifecycle/service.py | LifecycleService | 19 |
 | packages/substrate/src/wanxiang_substrate/observation/query.py | PerspectiveService | 29 |
 | packages/substrate/src/wanxiang_substrate/projection/service.py | ProjectionService | 29 |
-| packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | CheckpointService | 84 |
+| packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | CheckpointService | 86 |
 | packages/substrate/src/wanxiang_substrate/recovery/recovery.py | RecoveryService | 31 |
 | packages/substrate/src/wanxiang_substrate/resolution/service.py | AdjudicationService | 14 |
 | packages/substrate/src/wanxiang_substrate/session/service.py | SessionService | 16 |

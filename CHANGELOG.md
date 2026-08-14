@@ -873,3 +873,10 @@
 - Refactored `scripts/v51_metrics.py` to expose reusable `compute_metrics()` (behavior unchanged).
 - Added 3 reproducibility tests. M26 snapshot: 264 files / 21,901 LOC / 10 registries / 0 managers / 15 services / 2 engines / 23 ports / 0 cycles / 1 commit path.
 - Checkpoint: `g29g: ???????????`.
+
+
+## 2026-08-15 - V5.2 G29H PASS + M26 GATE PASS
+
+- Ran the full M26 milestone gate: `uv run python scripts/quality.py` -> 664 passed + 1 EXTERNAL_BLOCKED skip; ruff/format/pyright/architecture PASS.
+- Fixed gate FAILs: WorldRuntimePort.submit_command param renamed for pyright protocol match; SnapshotStore deprecated alias restored (API compat); SDK baseline regenerated (non-breaking additions).
+- M26 = PASS (reports/M26_QUALIFICATION.md). Architecture map + baseline hash frozen (f27b7724...). Commit: `g29h: M26 ??????`.
