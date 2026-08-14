@@ -454,3 +454,10 @@
   ordering/idempotency, slow-client backpressure, lease uniqueness/recovery) and
   `reports/HOST_MULTIPLAYER_CHAOS.md`.
 - Checkpoint: `g14e: world host, multiplayer, reconnect, ordering & backpressure chaos`.
+
+## 2026-08-14 ? G14F PASS (M11 phase)
+
+- Added `tests/integration/test_g14f_hostile_input.py` (6 tests: opaque identifiers, content-hash rejection,
+  default-deny executable policy, dependency-conflict rollback, prompt-injection-as-data, size/format limits)
+  and `reports/HOSTILE_PACKAGE_SOURCE_QUALIFICATION.md` (trust model + limitation).
+- Checkpoint: `g14f: hostile package, plugin & source input qualification`.
