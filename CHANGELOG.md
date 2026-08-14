@@ -475,3 +475,12 @@
 - Added `tests/integration/test_g14h_byzantine.py` (5 tests: proposals never commit, deterministic arbitration,
   fail-fast timeout, checkpoint mismatch detection, byzantine observation rejection/conflict) and reports.
 - Checkpoint: `g14h: simulationadapter & external-system byzantine behavior qualification`.
+
+## 2026-08-14 ? G14I PASS + M11 PASS (M11 gate)
+
+- Added `tests/integration/test_g14i_resource_fuzz.py` (4 tests) + reports (RESOURCE_EXHAUSTION_CHAOS,
+  M11_ADVERSARIAL_QUALIFICATION, M11_ACCEPTANCE).
+- Restored no-swallow invariant by refactoring snapshot fallback to a flag-based path; split
+  `snapshot_policy.py` to keep world_runtime <= 300 lines.
+- M11 gate PASS: G14A-H adversarial suites (45 tests) + full gate 473 pytest + ruff/pyright/arch.
+- Checkpoint: `g14i: resource exhaustion, fuzz, long-run chaos & m11 qualification`. M12 begins next.

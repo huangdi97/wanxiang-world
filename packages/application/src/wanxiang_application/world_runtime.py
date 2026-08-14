@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Any
 
 from wanxiang_domain.command import CommandEnvelope
 from wanxiang_domain.errors import WanxiangError
@@ -24,6 +23,7 @@ from wanxiang_runtime.snapshot import create_snapshot_metadata
 from wanxiang_runtime.state import InMemoryCanonicalState
 
 from wanxiang_application.ports import PersistenceBundle
+from wanxiang_application.snapshot_policy import snapshot_is_valid
 from wanxiang_application.state_reader import StateReader
 
 DEFAULT_SCHEMA_VERSION = SchemaVersion(1)
@@ -217,58 +217,49 @@ class WorldRuntime:
         branch = self.persistence.branches.get(branch_id)
         events = self.persistence.event_store.load(instance_id, branch_id)
         if branch.ancestry.parent_branch_id is None:
+            latest = None
             try:
                 latest = self.persistence.snapshot_store.latest(instance_id, branch_id)
             except WanxiangError:
                 latest = None  # unreadable snapshot store: fall back to events
+            usable = False
             if latest is not None:
                 try:
-                    if self._snapshot_is_valid(latest, events):
-                        remaining = [
-                            e for e in events if e.event_seq.value > latest.metadata.event_seq.value
-                        ]
-                        state = ReplayEngine(self._rule_version, self._schema_version).replay(
-                            remaining, baseline=latest.state
-                        )
-                        return RestoreResult(state=state, used_snapshot=True)
+                    usable = snapshot_is_valid(
+                        latest,
+                        events,
+                        rule_version=self._rule_version,
+                        schema_version=self._schema_version,
+                    )
                 except WanxiangError:
-                    pass  # snapshot decode/validation failed: fall back to events
-                # Corrupt/incompatible/unreadable snapshot: fall back to
-                # authoritative events (observable via snapshot_rejected=True).
-                engine = ReplayEngine(self._rule_version, self._schema_version)
-                return RestoreResult(
-                    state=engine.replay(events), used_snapshot=False, snapshot_rejected=True
+                    usable = False  # decode/validation failed: fall back to events
+            if usable:
+                assert latest is not None
+                remaining = [
+                    e for e in events if e.event_seq.value > latest.metadata.event_seq.value
+                ]
+                state = ReplayEngine(self._rule_version, self._schema_version).replay(
+                    remaining, baseline=latest.state
                 )
-        engine = ReplayEngine(self._rule_version, self._schema_version)
-        if branch.ancestry.parent_branch_id is not None:
-            parent = self._state_reader.state_at(
-                instance_id,
-                branch.ancestry.parent_branch_id,
-                upto_seq=branch.ancestry.fork_event_seq,
+                return RestoreResult(state=state, used_snapshot=True)
+            # Corrupt/incompatible/unreadable snapshot: fall back to authoritative
+            # events (observable via snapshot_rejected when a snapshot existed).
+            engine = ReplayEngine(self._rule_version, self._schema_version)
+            return RestoreResult(
+                state=engine.replay(events),
+                used_snapshot=False,
+                snapshot_rejected=latest is not None,
             )
-            state = engine.replay(events, baseline=parent, start_seq=1)
-            return RestoreResult(state=state, used_snapshot=False)
-        return RestoreResult(state=engine.replay(events), used_snapshot=False)
-
-    def _snapshot_is_valid(self, latest: Any, events: tuple[CommittedEvent, ...]) -> bool:
-        """Validate a snapshot baseline against the authoritative event history.
-
-        A snapshot is usable only if (a) its schema/rule versions match the
-        runtime, and (b) replaying the events up to the snapshot's event_seq
-        reproduces the snapshot state's semantic hash. Otherwise it is rejected
-        and restore falls back to full event replay (events are authoritative).
-        """
-        meta = latest.metadata
-        if meta.schema_version != self._schema_version or meta.rule_version != self._rule_version:
-            return False
-        upto = [e for e in events if e.event_seq.value <= meta.event_seq.value]
-        if not upto:
-            return False
-        try:
-            check = ReplayEngine(self._rule_version, self._schema_version).replay(upto)
-        except Exception:
-            return False
-        return check.semantic_hash() == latest.state.semantic_hash()
+        # Child branch: replay the branch's own events over the parent state at
+        # the fork point (parent_branch_id is non-None here by construction).
+        engine = ReplayEngine(self._rule_version, self._schema_version)
+        parent = self._state_reader.state_at(
+            instance_id,
+            branch.ancestry.parent_branch_id,
+            upto_seq=branch.ancestry.fork_event_seq,
+        )
+        state = engine.replay(events, baseline=parent, start_seq=1)
+        return RestoreResult(state=state, used_snapshot=False)
 
     def diff(
         self,

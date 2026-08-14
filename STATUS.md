@@ -296,3 +296,5 @@ HEAD `91f0b1f` = tag `m9-release-qualified`. Post-M9 pack integrated; 94/94 hash
 | G14F Hostile Package, Plugin & Source Input Qualification | PASS (2026-08-14, commit g14f) |
 | G14G Authorization, Rights, Privacy & Data-leak Adversarial Qualification | PASS (2026-08-14, commit g14g) |
 | G14H SimulationAdapter & External-system Byzantine Behavior Qualification | PASS (2026-08-14, commit g14h; orchestrator checkpoint fixed) |
+| G14I Resource Exhaustion, Fuzz, Long-run Chaos & M11 Qualification | PASS (2026-08-14, commit g14i) |
+| M11 | Adversarial / Failure Qualification | PASS (2026-08-14, reports/M11_ACCEPTANCE.md) |

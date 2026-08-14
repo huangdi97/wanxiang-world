@@ -155,3 +155,16 @@ PROGRAM verdict: PASS (M1-M9; reports/FINAL_PROGRAM_COMPLETION_REPORT.md).
 | M10-07 | M10 gate | G13G | Maintainability/complexity/test-quality/upgradeability audit | PASS | g13g | 0 over-threshold; swallow fixed |
 | M10-08 | M10 gate | G13H | P0 gap closure wave | PASS | g13h | P0 open = 0 |
 | M10-09 | M10 gate | G13I | P1/P2 closure + M10 independent requalification | PASS | g13i | full gate 428 tests |
+## M11 gate (2026-08-14)
+
+| Req ID | Source | Owning Goal | Test/evidence | Status | Last verified commit | Notes |
+|---|---|---|---|---|---|---|
+| M11-01 | M11 gate | G14A | Concurrency/race/idempotency/lost-update | PASS | g14a | |
+| M11-02 | M11 gate | G14B | Crash/atomicity/mid-commit recovery | PASS | g14b | |
+| M11-03 | M11 gate | G14C | DB/storage/network fault injection | PASS | g14c | |
+| M11-04 | M11 gate | G14D | History corruption adversarial (snapshot validation fixed) | PASS | g14d | |
+| M11-05 | M11 gate | G14E | Host/multiplayer/reconnect/backpressure | PASS | g14e | |
+| M11-06 | M11 gate | G14F | Hostile package/plugin/source input | PASS | g14f | |
+| M11-07 | M11 gate | G14G | Authorization/rights/privacy/data-leak | PASS | g14g | |
+| M11-08 | M11 gate | G14H | SimulationAdapter byzantine (orchestrator checkpoint fixed) | PASS | g14h | |
+| M11-09 | M11 gate | G14I | Resource/fuzz/long-run chaos + M11 qualification | PASS | g14i | 473 tests total |

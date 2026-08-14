@@ -51,3 +51,4 @@ certification and local checkpoint. No push/deploy.
 | 15 | G14F | Hostile Package, Plugin & Source Input Qualification | PASS (2026-08-14) |
 | 16 | G14G | Authorization, Rights, Privacy & Data-leak Adversarial Qualification | PASS (2026-08-14) |
 | 17 | G14H | SimulationAdapter & External-system Byzantine Behavior Qualification | PASS (2026-08-14) |
+| 18 | G14I | Resource Exhaustion, Fuzz, Long-run Chaos & M11 Qualification | PASS (2026-08-14) |
