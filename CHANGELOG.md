@@ -615,3 +615,9 @@
 - Added `docs/SDK_COMPATIBILITY_POLICY.md`, `scripts/sdk_baseline.py` + SDK_API_BASELINE + sdk_api_baseline.json
   (10 routes / 5 TS / 832 Python names), `tests/integration/test_g17a_sdk_contract.py` (3 tests).
 - Checkpoint: `g17a: public sdk contract, semantic versioning & compatibility policy`.
+
+## 2026-08-14 ? G17B PASS (M14 phase)
+
+- Added `scripts/wxpack.py` (scaffold/validate/build CLI), `tests/integration/test_g17b_authoring_cli.py`
+  (3 tests), CLI doc + reports.
+- Checkpoint: `g17b: package authoring cli, scaffolder & schema validation`.

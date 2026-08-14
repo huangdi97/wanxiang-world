@@ -73,3 +73,4 @@ certification and local checkpoint. No push/deploy.
 | 37 | G16I | Performance, Capacity, Cost & Resource-budget Qualification | PASS (2026-08-14) |
 | 38 | G16J | Private/Staging Deployment, Operator Runbooks & M13 Production Qualification | PASS (2026-08-14) |
 | 39 | G17A | Public SDK Contract, Semantic Versioning & Compatibility Policy | PASS (2026-08-14) |
+| 40 | G17B | Package Authoring CLI, Scaffolder & Schema Validation | PASS (2026-08-14) |
