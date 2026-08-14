@@ -680,3 +680,9 @@
 - Added `wanxiang_api/strategy_workbench_service.py` (deterministic experiment runs + arbitration),
   `tests/integration/test_g18d_strategy_workbench.py` (3 tests) + reports.
 - Checkpoint: `g18d: strategy / experiment workbench completion`.
+
+## 2026-08-14 ? G18E PASS (M15 phase)
+
+- Added `wanxiang_api/family_portal_service.py` (rights-filtered family views + GEDCOM export),
+  `tests/integration/test_g18e_family_portal.py` (3 tests) + reports.
+- Checkpoint: `g18e: family portal completion`.
