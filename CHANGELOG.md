@@ -662,3 +662,9 @@
 - Added `docs/PRODUCT_SURFACE_ARCHITECTURE.md`, `scripts/product_surface_audit.py`,
   `tests/integration/test_g18a_product_surfaces.py` (3 tests) + reports.
 - Checkpoint: `g18a: product surface information architecture & server-truth contract`.
+
+## 2026-08-14 ? G18B PASS (M15 phase)
+
+- Added `wanxiang_api/studio_service.py` (diagnose/replay/diff/admin-gated debug + audit),
+  `tests/integration/test_g18b_studio_ide.py` (3 tests) + reports.
+- Checkpoint: `g18b: studio / world ide completion`.

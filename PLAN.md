@@ -81,3 +81,4 @@ certification and local checkpoint. No push/deploy.
 | 45 | G17G | Black-box External Sample Pack Built Outside Core Repository Internals | PASS (2026-08-14) |
 | 46 | G17H | Ecosystem Documentation, Certification & M14 Qualification | PASS (2026-08-14) |
 | 47 | G18A | Product Surface Information Architecture & Server-truth Contract | PASS (2026-08-14) |
+| 48 | G18B | Studio / World IDE Completion | PASS (2026-08-14) |

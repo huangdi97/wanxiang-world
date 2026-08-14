@@ -330,3 +330,4 @@ HEAD `91f0b1f` = tag `m9-release-qualified`. Post-M9 pack integrated; 94/94 hash
 | G17H Ecosystem Documentation, Certification & M14 Qualification | PASS (2026-08-14, commit g17h) |
 | M14 | SDK / Ecosystem Qualification | PASS (2026-08-14, reports/M14_ACCEPTANCE.md) |
 | G18A Product Surface Information Architecture & Server-truth Contract | PASS (2026-08-14, commit g18a) |
+| G18B Studio / World IDE Completion | PASS (2026-08-14, commit g18b) |
