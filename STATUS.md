@@ -364,4 +364,4 @@ reproducibly (640 pytest + 1 EXTERNAL_BLOCKED skip; ruff/pyright/architecture PA
 
 | Milestone | Meaning | Status |
 |---|---|---|
-| M18 | Minimal-Core Consolidation Baseline | in progress (G21A-G21C PASS) |
+| M18 | Minimal-Core Consolidation Baseline | in progress (G21A-G21D PASS) |

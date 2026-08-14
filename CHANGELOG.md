@@ -811,3 +811,10 @@
 - Confirmed exactly one CommitAuthority commit path; capability `_apply_delta` produces proposals only.
 - Strong MERGE candidate found: duplicate SnapshotStore/InMemorySnapshotStore in runtime vs recovery.checkpoint (consolidate in G21F/G21G).
 - Checkpoint: `v5.1 g21c: duplicate abstraction, registry, state & manager forensics`.
+
+## 2026-08-14 - V5.1 G21D PASS (M18 phase)
+
+- Added `scripts/v51_dependency_graph.py` + `reports/V5_1_PACKAGE_DEPENDENCY_GRAPH.md` + `docs/architecture/V5_1_PHYSICAL_PACKAGE_MAPPING.md` (16-kernel -> physical-package mapping) + `tests/architecture/test_v51_dependency_topology.py` (golden edge set pinned).
+- Topology verified acyclic: domain -> runtime -> application/persistence -> substrate -> apps/api; no cycles; forbidden imports already enforced.
+- P2 finding: five substrate modules import application.WorldRuntime (substrate->application inversion); planned minimal fix via WorldRuntimePort (G21F/G25B).
+- Checkpoint: `v5.1 g21d: dependency graph & physical package simplification plan`.

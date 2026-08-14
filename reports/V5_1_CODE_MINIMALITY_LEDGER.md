@@ -55,3 +55,5 @@ Consolidation candidates to evaluate in G21C/G21F: overlapping registries (Packa
 | G21B | +1 test (+~70 LOC), +1 report | 0 | +~70 | documentation + test only |
 | G21C | scripts/v51_forensics.py | deterministic duplicate-abstraction scanner for minimality audits | KEEP |
 | G21C | +1 script (+~150 LOC), +1 report, +1 test (+~60 LOC) | 0 | +~210 | forensics only, no production change |
+| G21D | scripts/v51_dependency_graph.py | deterministic package dependency topology pinning | KEEP |
+| G21D | +1 script (+~90 LOC), +2 docs, +1 test (+~90 LOC) | 0 | +~180 | plan only, no production change |
