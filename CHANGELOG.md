@@ -782,3 +782,11 @@
 
 - Added `scripts/blackbox_final_acceptance.py` (4-persona black-box acceptance: author, operator, end user, surfaces) + `reports/BLACKBOX_FINAL_ACCEPTANCE.md` + `tests/integration/test_g20d_blackbox_acceptance.py` (4 tests). All personas PASS via public SDK/API only; no internal imports or DB edits.
 - Checkpoint: `g20d: black-box external author + reference world final acceptance`.
+
+## 2026-08-14 - G20E PASS + M17 (final certification; program complete)
+
+- Added `docs/RELEASE_READINESS.md`, `docs/POST_V5_ROADMAP.md`, `reports/FINAL_PROGRAM_COMPLETION_REPORT.md`, `reports/M17_FINAL_CERTIFICATION.md`, `reports/G20E_REPORT.md`.
+- Final gate: 640 pytest + 1 EXTERNAL_BLOCKED skip; ruff/pyright/architecture PASS; TS SDK 22 tests; PACK_MANIFEST 94/94 verified.
+- Fixed release-blocking regression: pytest collected clean-room scratch files (tests/_arch_tmp) - added pytest `norecursedirs` + best-effort cleanup in scripts/clean_room_certify.py.
+- Version freeze proposal `v5.0-R1-rc1`; release tag NOT created (awaits user authorization); nothing pushed/deployed. Local checkpoint tag `m17-final-certification`.
+- Checkpoint: `g20e: final release readiness, version freeze & post-v5 roadmap`.

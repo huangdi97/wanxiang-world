@@ -27,6 +27,7 @@ dev = [
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+norecursedirs = ["tests/_arch_tmp", "tests/_persist_tmp", ".uv-cache", ".git", "__pycache__"]
 addopts = "-ra --strict-markers -p no:cacheprovider"
 pythonpath = ["."]
 markers = [

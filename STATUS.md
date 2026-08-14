@@ -272,7 +272,7 @@ HEAD `91f0b1f` = tag `m9-release-qualified`. Post-M9 pack integrated; 94/94 hash
 | M14 | SDK / Ecosystem Qualification | pending |
 | M15 | Product Surface Qualification | pending |
 | M16 | Research Expansion Qualification | PASS (2026-08-14, reports/M16_ACCEPTANCE.md) |
-| M17 | Final Independent Certification | pending |
+| M17 | Final Independent Certification | PASS (2026-08-14, reports/M17_FINAL_CERTIFICATION.md) |
 
 ### Goals (post-M9)
 
@@ -352,3 +352,4 @@ HEAD `91f0b1f` = tag `m9-release-qualified`. Post-M9 pack integrated; 94/94 hash
 | G20B Clean-room Build, Install, Upgrade, Restore & Replay Certification | PASS (2026-08-14, commit g20b) |
 | G20C Final Independent Security, Reliability & Chaos Re-run | PASS (2026-08-14, commit g20c) |
 | G20D Black-box External Author + Reference World Final Acceptance | PASS (2026-08-14, commit g20d) |
+| G20E Final Release Readiness, Version Freeze & Post-v5 Roadmap | PASS (2026-08-14, commit g20e) |

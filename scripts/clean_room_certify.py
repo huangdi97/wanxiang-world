@@ -207,12 +207,16 @@ def backup_restore_replay() -> dict[str, Any]:
 
 
 def external_sample_pack() -> dict[str, Any]:
+    import shutil
+
     from scripts.wxpack import scaffold, validate
 
     target = SCRATCH / "samplepack" / uuid.uuid4().hex
     target.mkdir(parents=True, exist_ok=True)
     scaffold(target, "sample-domain", "domain", "Sample Domain")
     errors = validate(target, "sample-domain")
+    # Remove the scratch scaffold so pytest never collects generated test files.
+    shutil.rmtree(target, ignore_errors=True)
     return {"scaffolded": True, "validation_errors": errors, "ok": not errors}
 
 
