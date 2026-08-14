@@ -42,3 +42,14 @@ Consolidation candidates to evaluate in G21C/G21F: overlapping registries (Packa
 | Goal | Additions (files/LOC) | Deletions (files/LOC) | Net LOC | Notes |
 |---|---|---|---|---|
 | G21A | +1 script (+~60 LOC), +4 reports | 0 | +~60 | no production code change |
+
+## New long-lived abstractions introduced (per Goal)
+
+| Goal | Abstraction | Justification | Status |
+|---|---|---|---|
+| G21A | scripts/v51_metrics.py | reusable deterministic metrics for minimality ledger | KEEP |
+| G21B | tests/architecture/test_v51_traceability.py | reproducible traceability completeness check | KEEP |
+
+| Goal | Additions (files/LOC) | Deletions (files/LOC) | Net LOC | Notes |
+|---|---|---|---|---|
+| G21B | +1 test (+~70 LOC), +1 report | 0 | +~70 | documentation + test only |

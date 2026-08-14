@@ -797,3 +797,10 @@
 - Added `scripts/v51_metrics.py` (deterministic code-minimality metrics), `reports/V5_1_PRE_MIGRATION_BASELINE.md` (freeze: HEAD 436ee3d, 640+1 quality gate, golden replay hash 7d17aba7..., fixture sha256 C158F47D..., migration head 0002), `reports/V5_1_CODE_MINIMALITY_LEDGER.md`, `reports/V5_1_TRACEABILITY_MATRIX.md`.
 - M17 baseline re-verified reproducibly: `uv run python scripts/quality.py` -> ruff/pyright/architecture PASS, 640 passed + 1 EXTERNAL_BLOCKED skip; golden replay narrow regression 26 passed. No production code changed.
 - Checkpoint: `v5.1 g21a: v5.0/m17 baseline freeze & repository inventory`.
+
+## 2026-08-14 - V5.1 G21B PASS (M18 phase)
+
+- Built `reports/V5_1_TRACEABILITY_MATRIX.md`: 37 v5.1 deltas classified (D01-D37) with owner/evidence/action; no REPLACE without ADR; MERGE only for runtime registries (forensics first).
+- Added `tests/architecture/test_v51_traceability.py` (4 completeness checks) -> 4 passed.
+- Key decisions: RuntimeControlTransaction is ADD-only (never a World Commit); Ontology/Law commits are ADAPT through the single authority pipeline; evidence/model_providers stub packages are DELETE candidates; M16 research stays EXPERIMENTAL.
+- Checkpoint: `v5.1 g21b: v5.1 delta traceability & existing-code classification`.
