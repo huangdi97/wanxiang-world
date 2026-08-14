@@ -692,3 +692,9 @@
 - Added `wanxiang_api/heritage_workbench_service.py` (object view, curator-gated export, conservation history),
   `tests/integration/test_g18f_heritage_workbench.py` (3 tests) + reports.
 - Checkpoint: `g18f: heritage / museum workbench completion`.
+
+## 2026-08-14 ? G18G PASS (M15 phase)
+
+- Added `wanxiang_api/learn_service.py` (challenge discovery, evidence-backed capability deltas, biography),
+  `tests/integration/test_g18g_learn_challenge.py` (3 tests) + reports.
+- Checkpoint: `g18g: learn / challenge experience completion`.

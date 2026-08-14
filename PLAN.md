@@ -86,3 +86,4 @@ certification and local checkpoint. No push/deploy.
 | 50 | G18D | Strategy / Experiment Workbench Completion | PASS (2026-08-14) |
 | 51 | G18E | Family Portal Completion | PASS (2026-08-14) |
 | 52 | G18F | Heritage / Museum Workbench Completion | PASS (2026-08-14) |
+| 53 | G18G | Learn / Challenge Experience Completion | PASS (2026-08-14) |
