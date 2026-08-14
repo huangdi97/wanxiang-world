@@ -668,3 +668,9 @@
 - Added `wanxiang_api/studio_service.py` (diagnose/replay/diff/admin-gated debug + audit),
   `tests/integration/test_g18b_studio_ide.py` (3 tests) + reports.
 - Checkpoint: `g18b: studio / world ide completion`.
+
+## 2026-08-14 ? G18C PASS (M15 phase)
+
+- Added `wanxiang_api/experience_player_service.py` (session/projection/revision-aware act/resync),
+  `tests/integration/test_g18c_experience_player.py` (4 tests) + reports.
+- Checkpoint: `g18c: experience player web/2d continuity completion`.
