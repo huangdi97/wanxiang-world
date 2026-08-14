@@ -1,0 +1,32 @@
+Continue the existing Wanxiang repository into the v5.1-R1 Minimal-Core Consolidation & Migration Program.
+
+Do NOT restart M0–M17 and do NOT greenfield-rewrite healthy code.
+
+First read, in order:
+
+1. `README_FIRST_V5_1.md`
+2. `docs/spec/WANXIANG_v5_1_R1_MASTER_SPEC.md`
+3. `01_V5_1_MINIMAL_CORE_PROGRAM_ARCHITECTURE.md`
+4. `02_CODEX_V5_1_MASTER_PROMPT.md`
+5. `03_MINIMAL_CORE_CODE_CONSTITUTION.md`
+6. `04_V5_1_DESIGN_CONFLICT_RESOLUTIONS.md`
+7. `05_M0_M17_TO_V5_1_MIGRATION_MAP.md`
+8. `06_V5_1_GOALS_INDEX.md`
+9. `07_MILESTONE_GATES_M18_M25.md`
+10. `08_CONTINUOUS_EXECUTION_RESUME_PROTOCOL.md`
+11. `09_FINAL_ACCEPTANCE_AND_EVIDENCE_STANDARD.md`
+12. current repository STATUS/PLAN/DECISIONS/BLOCKERS/KNOWN_FAILURES/CHANGELOG, M17 reports, Git history, tests and migrations.
+
+Then verify the M17 baseline and execute every Goal from `G21A` through `G28I` in the exact index order, running milestone gates `M18 → M25`.
+
+Core mission: use the least durable code necessary to fully implement the v5.1 design. Prefer KEEP/MERGE/ADAPT/DELETE over REPLACE/ADD. Do not create one Engine/Manager/Registry/Package per design noun. Preserve one Commit Authority, one authoritative committed history, one branch model, one package system, one runtime composition root/catalog and one narrow Stable World ABI.
+
+World reality has exactly three World Commit kinds: STATE, ONTOLOGY, LAW. Runtime provider changes are RuntimeControlTransaction, not CapabilityCommit.
+
+Never let LLM, UI, Director, Sensor, Simulator, Compiler, Agent Harness, provider or plugin directly mutate Canonical World State.
+
+Each Goal must implement/delete/consolidate, test, update traceability + code-minimality ledgers, write a Goal report, update engineering ledgers and create a local Git checkpoint only after PASS. Each milestone must PASS before the next. Do not ask for routine confirmation; continue automatically.
+
+Do not push or deploy externally.
+
+Stop only after M25 PASS and the required final v5.1 certification reports are generated. Do not invent G29.

@@ -103,3 +103,14 @@ certification and local checkpoint. No push/deploy.
 | 67 | G20C | Final Independent Security, Reliability & Chaos Re-run | PASS (2026-08-14) |
 | 68 | G20D | Black-box External Author + Reference World Final Acceptance | PASS (2026-08-14) |
 | 69 | G20E | Final Release Readiness, Version Freeze & Post-v5 Roadmap | PASS (2026-08-14) |
+
+## V5.1 (M18-M25) continuation (2026-08-14)
+
+Continuous execution per `02_CODEX_V5_1_MASTER_PROMPT.md` and `06_V5_1_GOALS_INDEX.md`:
+G21A -> G28I, milestone gates M18 -> M25, final v5.1 certification reports and local
+checkpoint. No push/deploy.
+
+| # | Goal | Scope | Status |
+|---|---|---|---|
+| 1 | G21A | v5.0/M17 Baseline Freeze & Repository Inventory | PASS (2026-08-14) |
+| 2 | G21B | v5.1 Delta Traceability & Existing-code Classification | pending |

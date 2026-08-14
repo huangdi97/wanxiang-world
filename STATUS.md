@@ -353,3 +353,15 @@ HEAD `91f0b1f` = tag `m9-release-qualified`. Post-M9 pack integrated; 94/94 hash
 | G20C Final Independent Security, Reliability & Chaos Re-run | PASS (2026-08-14, commit g20c) |
 | G20D Black-box External Author + Reference World Final Acceptance | PASS (2026-08-14, commit g20d) |
 | G20E Final Release Readiness, Version Freeze & Post-v5 Roadmap | PASS (2026-08-14, commit g20e) |
+
+## V5.1 (M18-M25) continuation (2026-08-14)
+
+Started the v5.1-R1 Minimal-Core Consolidation & Migration Program per
+`README_FIRST_V5_1.md` and `02_CODEX_V5_1_MASTER_PROMPT.md`. M17 baseline re-verified
+reproducibly (640 pytest + 1 EXTERNAL_BLOCKED skip; ruff/pyright/architecture PASS).
+
+### Milestones
+
+| Milestone | Meaning | Status |
+|---|---|---|
+| M18 | Minimal-Core Consolidation Baseline | in progress (G21A PASS) |

@@ -790,3 +790,10 @@
 - Fixed release-blocking regression: pytest collected clean-room scratch files (tests/_arch_tmp) - added pytest `norecursedirs` + best-effort cleanup in scripts/clean_room_certify.py.
 - Version freeze proposal `v5.0-R1-rc1`; release tag NOT created (awaits user authorization); nothing pushed/deployed. Local checkpoint tag `m17-final-certification`.
 - Checkpoint: `g20e: final release readiness, version freeze & post-v5 roadmap`.
+
+## 2026-08-14 - V5.1 G21A PASS (M18 phase)
+
+- Committed the v5.1-R1 program pack (README_FIRST_V5_1, program docs 00-09, docs/spec/WANXIANG_v5_1_R1_MASTER_SPEC.md, goals/GOAL_G21A..G28I, milestones/M18..M25) as part of the baseline checkpoint so the program is reproducible from a single commit.
+- Added `scripts/v51_metrics.py` (deterministic code-minimality metrics), `reports/V5_1_PRE_MIGRATION_BASELINE.md` (freeze: HEAD 436ee3d, 640+1 quality gate, golden replay hash 7d17aba7..., fixture sha256 C158F47D..., migration head 0002), `reports/V5_1_CODE_MINIMALITY_LEDGER.md`, `reports/V5_1_TRACEABILITY_MATRIX.md`.
+- M17 baseline re-verified reproducibly: `uv run python scripts/quality.py` -> ruff/pyright/architecture PASS, 640 passed + 1 EXTERNAL_BLOCKED skip; golden replay narrow regression 26 passed. No production code changed.
+- Checkpoint: `v5.1 g21a: v5.0/m17 baseline freeze & repository inventory`.
