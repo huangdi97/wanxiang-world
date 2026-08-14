@@ -644,3 +644,9 @@
 - Added `packages/lifecycle.py` (publish/deprecate/yank/upgrade_candidate/pin install) and fixed the resolver
   root-version pin (P1). Added `tests/integration/test_g17f_registry_lifecycle.py` (4 tests) + reports.
 - Checkpoint: `g17f: registry publish, install, upgrade, deprecation & dependency resolution`.
+
+## 2026-08-14 ? G17G PASS (M14 phase)
+
+- Added `scripts/blackbox_sample.py` (clean-room external sample), `tests/integration/test_g17g_blackbox_sample.py`
+  (2 tests) + reports.
+- Checkpoint: `g17g: black-box external sample pack built outside core repository internals`.

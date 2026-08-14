@@ -78,3 +78,4 @@ certification and local checkpoint. No push/deploy.
 | 42 | G17D | Third-party Package Conformance & Certification Harness | PASS (2026-08-14) |
 | 43 | G17E | Plugin Trust, Signing, Capability Permissions & Isolation Policy | PASS (2026-08-14) |
 | 44 | G17F | Registry Publish, Install, Upgrade, Deprecation & Dependency Resolution | PASS (2026-08-14) |
+| 45 | G17G | Black-box External Sample Pack Built Outside Core Repository Internals | PASS (2026-08-14) |
