@@ -447,3 +447,10 @@
 - Added `scripts/history_diagnostics.py` (read-only corruption scan) and
   `tests/integration/test_g14d_corruption.py` (7 tests) + reports.
 - Checkpoint: `g14d: event, snapshot, branch & history corruption adversarial qualification`.
+
+## 2026-08-14 ? G14E PASS (M11 phase)
+
+- Added `tests/integration/test_g14e_host_multiplayer.py` (4 tests: reconnect resync, multi-client queue
+  ordering/idempotency, slow-client backpressure, lease uniqueness/recovery) and
+  `reports/HOST_MULTIPLAYER_CHAOS.md`.
+- Checkpoint: `g14e: world host, multiplayer, reconnect, ordering & backpressure chaos`.

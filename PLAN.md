@@ -47,3 +47,4 @@ certification and local checkpoint. No push/deploy.
 | 11 | G14B | Crash, Atomicity & Mid-Commit Recovery Qualification | PASS (2026-08-14) |
 | 12 | G14C | Database, Storage, Network & Dependency Fault Injection | PASS (2026-08-14) |
 | 13 | G14D | Event, Snapshot, Branch & History Corruption Adversarial Qualification | PASS (2026-08-14) |
+| 14 | G14E | World Host, Multiplayer, Reconnect, Ordering & Backpressure Chaos | PASS (2026-08-14) |
