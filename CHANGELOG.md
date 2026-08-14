@@ -590,3 +590,9 @@
 - Added `scripts/backup_restore.py` (backup + restore with integrity manifest), `tests/integration/test_g16g_backup_restore.py`
   (3 tests), runbook + game-day report.
 - Checkpoint: `g16g: backup, restore, pitr-like recovery & disaster game day`.
+
+## 2026-08-14 ? G16H PASS (M13 phase)
+
+- Added `scripts/release_build.py` (reproducible release manifest + migration preflight),
+  `tests/integration/test_g16h_release.py` (3 tests), release process doc + reports.
+- Checkpoint: `g16h: ci/cd, release artifacts, rolling migration & rollback qualification`.

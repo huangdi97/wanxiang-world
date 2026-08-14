@@ -69,3 +69,4 @@ certification and local checkpoint. No push/deploy.
 | 33 | G16E | OpenTelemetry Observability, SLOs & Operational Diagnostics | PASS (2026-08-14) |
 | 34 | G16F | Production Security Hardening, AuthN/AuthZ, Rate Limits & Supply-chain Controls | PASS (2026-08-14) |
 | 35 | G16G | Backup, Restore, PITR-like Recovery & Disaster Game Day | PASS (2026-08-14) |
+| 36 | G16H | CI/CD, Release Artifacts, Rolling Migration & Rollback Qualification | PASS (2026-08-14) |
