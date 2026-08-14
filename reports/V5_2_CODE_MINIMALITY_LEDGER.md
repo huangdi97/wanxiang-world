@@ -221,3 +221,9 @@ actor evolution separation core; reuses CapabilityDelta.
 New abstractions: BehaviorRecord, CandidateEnvelope (frozen records) +
 SocialPatternDistiller (thin class). Justification: M29 distillation core;
 candidate-only output (never Canon).
+
+
+## G32E entry
+New abstractions: InstitutionCandidate (frozen record) + InstitutionPromotionChain
+(thin chain over CommitAuthority). Justification: M29 institution promotion
+core; reuse single authority for LawCommits.

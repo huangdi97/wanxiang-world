@@ -1028,3 +1028,10 @@
 - Added SocialPatternDistiller: windowed relation/group/norm pattern detection -> CandidateEnvelope (threshold-gated, origin/provenance); never writes Canon.
 - 4 tests.
 - Checkpoint: `g32d: Relation Group Social Pattern Distillation`.
+
+
+## 2026-08-15 - V5.2 G32E PASS (M29 phase)
+
+- Added InstitutionPromotionChain: candidate evidence -> stability validation -> human/policy approval -> LawCommit (kind=law); unapproved candidates never change Gamma; LawCommits replayable.
+- 4 tests.
+- Checkpoint: `g32e: Institution Organization Rule ??`.

@@ -11,6 +11,11 @@ from wanxiang_substrate.evolution.distillation import (
     CandidateEnvelope,
     SocialPatternDistiller,
 )
+from wanxiang_substrate.evolution.institution_promotion import (
+    MIN_STABILITY,
+    InstitutionCandidate,
+    InstitutionPromotionChain,
+)
 from wanxiang_substrate.evolution.policy_stack import (
     EvolutionPolicyStack,
     PlatformPolicy,
@@ -32,6 +37,9 @@ __all__ = [
     "EvolutionCadence",
     "EvolutionPolicyStack",
     "EvolutionScheduler",
+    "InstitutionCandidate",
+    "InstitutionPromotionChain",
+    "MIN_STABILITY",
     "PersonaDelta",
     "PlatformPolicy",
     "SocialPatternDistiller",

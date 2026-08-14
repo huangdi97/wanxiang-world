@@ -98,3 +98,4 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0086 | G32B: multi-scale evolution scheduler = modular cadence activation (linear growth, no full scans); deterministic per seed/cadence; thin layer over population runtime | accepted |
 | 0087 | G32C: capability and persona evolve through separate channels; skill gain never rewrites persona (explicit PersonaDelta only); trajectory provenance recorded per change | accepted |
 | 0088 | G32D: social pattern distillation is windowed + threshold-gated; candidates never write Canon; provenance = window refs + origin | accepted |
+| 0089 | G32E: institution promotion = controlled chain (evidence -> validate -> approve -> LawCommit); unapproved candidates never change Gamma; LawCommits replayable | accepted |

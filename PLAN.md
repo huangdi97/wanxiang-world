@@ -159,7 +159,8 @@ v5.2 certification reports and local checkpoint. No push/deploy.
 | 14b | G32B | ??????? | PASS (2026-08-15) |
 | 14c | G32C | Actor Capability ? Persona ???? | PASS (2026-08-15) |
 | 14d | G32D | Relation Group Social Pattern Distillation | PASS (2026-08-15) |
-| 14e | G32E..G32H | Institution / Ontology / Telemetry (M29) | pending |
+| 14e | G32E | Institution Organization Rule ?? | PASS (2026-08-15) |
+| 14f | G32F..G32H | Ontology / Telemetry / M29 ?? (M29) | pending |
 | 15 | M29 Gate | ?????????? | pending |
 | 16 | G33A..G33G | Promotion / Cross-world Distillation (M30) | pending |
 | 17 | M30 Gate | Promotion Cross-world ???? | pending |
