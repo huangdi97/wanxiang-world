@@ -100,3 +100,4 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0088 | G32D: social pattern distillation is windowed + threshold-gated; candidates never write Canon; provenance = window refs + origin | accepted |
 | 0089 | G32E: institution promotion = controlled chain (evidence -> validate -> approve -> LawCommit); unapproved candidates never change Gamma; LawCommits replayable | accepted |
 | 0090 | G32F: ontology/law candidates validated against constitution mutable layers + policy (no escalation); branch-local evolution never pollutes parent | accepted |
+| 0091 | G32G: telemetry is opt-in; trajectories require explicit rights + retention; unauthorized data never enters the cross-world dataset; revocation supported | accepted |

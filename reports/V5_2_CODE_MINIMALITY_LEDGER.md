@@ -233,3 +233,9 @@ core; reuse single authority for LawCommits.
 New abstractions: OntologyCandidate, LawCandidate (frozen records) +
 OntologyLawEvolution (stateless validator). Justification: M29 ontology/law
 evolution core; pure validation, no engine.
+
+
+## G32G entry
+New abstractions: TelemetryEnvelope (frozen record) + TelemetryPolicy (stateless)
++ CrossWorldDataset (thin store). Justification: M29 telemetry/privacy core;
+opt-in + revocable; no sensitive collection by default.

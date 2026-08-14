@@ -32,6 +32,11 @@ from wanxiang_substrate.evolution.scheduler import (
     EvolutionCadence,
     EvolutionScheduler,
 )
+from wanxiang_substrate.evolution.telemetry import (
+    CrossWorldDataset,
+    TelemetryEnvelope,
+    TelemetryPolicy,
+)
 
 __all__ = [
     "EVOLUTION_SCALES",
@@ -39,6 +44,9 @@ __all__ = [
     "ActorEvolutionTracker",
     "BehaviorRecord",
     "CandidateEnvelope",
+    "CrossWorldDataset",
+    "TelemetryEnvelope",
+    "TelemetryPolicy",
     "EvolutionCadence",
     "EvolutionPolicyStack",
     "EvolutionScheduler",

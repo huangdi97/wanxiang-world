@@ -1042,3 +1042,10 @@
 - Added OntologyCandidate/LawCandidate + OntologyLawEvolution validation against constitution mutable layers and policy (no permission escalation); branch-local ontology/law never pollutes parent.
 - 3 tests.
 - Checkpoint: `g32f: Ontology Law ?????`.
+
+
+## 2026-08-15 - V5.2 G32G PASS (M29 phase)
+
+- Added telemetry envelope + policy (opt-in consent, trajectory rights/retention) + revocable cross-world dataset.
+- 3 tests.
+- Checkpoint: `g32g: Evolution Telemetry ?????`.
