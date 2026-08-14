@@ -1,0 +1,123 @@
+{
+  "secret_findings": 0,
+  "gate_probes": {
+    "approved": {
+      "decide_ok": true,
+      "require_compile": "allowed"
+    },
+    "rejected_rights": {
+      "decide_ok": false,
+      "require_compile": "blocked"
+    },
+    "malicious": {
+      "decide_ok": false,
+      "require_compile": "blocked"
+    },
+    "conflicting_pair": {
+      "a_ok": true,
+      "b_ok": true
+    }
+  },
+  "threats": [
+    {
+      "id": "T1",
+      "name": "Prompt/source injection into canonical facts",
+      "mitigation": "SourceGate flags instruction markers; payloads are read as data only; compiler emits candidates, never executes source text.",
+      "evidence": "test_source_gate (malicious), test_g13f_security::test_prompt_injection_source_remains_data",
+      "status": "MITIGATED"
+    },
+    {
+      "id": "T2",
+      "name": "Unapproved/rights-denied source reaches canonical state",
+      "mitigation": "SourceGate.decide/require_compile blocks non-E3/rights-denied sources before compilation.",
+      "evidence": "test_source_gate, test_g13f_security::test_unapproved_sources_cannot_enter_canonical_compiled_facts",
+      "status": "MITIGATED"
+    },
+    {
+      "id": "T3",
+      "name": "Private knowledge/projection leakage",
+      "mitigation": "Server-composed projections filter beliefs/memories/sealed payloads/restricted places by actor; debug requires admin.",
+      "evidence": "test_projection_filters, test_g13f_security::test_denied_rights_block_projection_and_export",
+      "status": "MITIGATED"
+    },
+    {
+      "id": "T4",
+      "name": "Unauthorized media/voice/face generation (digital human)",
+      "mitigation": "DigitalHumanGateway.require_permission rejects missing permission with GatewayRightsDenied; outputs are proposals.",
+      "evidence": "test_g12h_security::test_unauthorized_voice_face_generation_rejected, test_g13f_security",
+      "status": "MITIGATED"
+    },
+    {
+      "id": "T5",
+      "name": "Secrets/privacy leaked into logs, config or backups",
+      "mitigation": "Settings public dict redacts secret-named values; log pipeline redacts known secrets; architecture secret scan is clean.",
+      "evidence": "test_config_redaction, test_g12h_security, test_g13f_security::test_secret_scan_and_privacy_logs",
+      "status": "MITIGATED"
+    },
+    {
+      "id": "T6",
+      "name": "Audit/history tampering or deletion",
+      "mitigation": "Audit records append-only (no mutation/clear API); event history append-only; corrections via new events/branches.",
+      "evidence": "test_g12h_security::test_audit_protection_append_only, G13E forensics",
+      "status": "MITIGATED"
+    },
+    {
+      "id": "T7",
+      "name": "Conflicting claims silently resolved without provenance",
+      "mitigation": "Ledger keeps claims with source_refs; promotions require review; no silent overwrite.",
+      "evidence": "test_completion_ledger, test_g13f_security::test_conflicting_claims_coexist_with_provenance",
+      "status": "MITIGATED"
+    },
+    {
+      "id": "T8",
+      "name": "Authn/authz bypass through transport",
+      "mitigation": "Thin FastAPI routes call application use-cases; debug/private access is server-enforced; rights checks never UI-only.",
+      "evidence": "test_api, test_g12h_security",
+      "status": "MITIGATED"
+    }
+  ],
+  "rights_matrix": [
+    {
+      "right": "Source rights approval",
+      "decision_point": "SourceGate.decide/require_compile (rights.approved)",
+      "enforcement": "packages/substrate sources/gate.py",
+      "test": "test_source_gate::test_rights_denied_source_blocked; test_g13f_security",
+      "status": "ENFORCED"
+    },
+    {
+      "right": "Canonical compilation eligibility (stage)",
+      "decision_point": "SourceRecord.canonical_eligible (E3)",
+      "enforcement": "packages/substrate sources/model.py",
+      "test": "test_source_gate::test_unapproved_stage_blocked",
+      "status": "ENFORCED"
+    },
+    {
+      "right": "Projection visibility (beliefs/memories/sealed/places)",
+      "decision_point": "ProjectionService._project_entity (actor + admin)",
+      "enforcement": "packages/substrate projection/service.py",
+      "test": "test_projection_filters; test_g13f_security",
+      "status": "ENFORCED"
+    },
+    {
+      "right": "Media generation (tts/lipsync/expression/face)",
+      "decision_point": "DigitalHumanGateway.require_permission",
+      "enforcement": "packages/substrate gateway/gateway.py",
+      "test": "test_g12h_security; test_g13f_security",
+      "status": "ENFORCED"
+    },
+    {
+      "right": "Debug projection (privileged)",
+      "decision_point": "ProjectionService.compose mode=debug requires admin",
+      "enforcement": "packages/substrate projection/service.py",
+      "test": "test_g12h_security::test_admin_debug_private_export_access",
+      "status": "ENFORCED"
+    },
+    {
+      "right": "Audit append-only",
+      "decision_point": "no mutation/clear API on audit/history",
+      "enforcement": "SourceRegistry.audit_history; AuditTraceRepository",
+      "test": "test_g12h_security::test_audit_protection_append_only",
+      "status": "ENFORCED"
+    }
+  ]
+}

@@ -381,3 +381,13 @@
   migration hash preservation, corruption guard).
 - Quality gate: ruff/pyright clean, 417 pytest PASS, architecture PASS.
 - Checkpoint: `g13e: event, replay, branch, migration & version forensics`.
+
+## 2026-08-14 ? G13F PASS (M10 phase)
+
+- Added `scripts/security_forensics.py` and reports (THREAT_MODEL_POST_M9, RIGHTS_ENFORCEMENT_MATRIX,
+  SECURITY_RIGHTS_SOURCE_FORENSICS) + `tests/integration/test_g13f_security.py` (5 adversarial tests:
+  unapproved-source gating, conflicting-claim provenance, denied-rights projection/export, prompt-injection
+  isolation, secret scan + log redaction).
+- No P0/P1 rights/source/security bypass found; all enforcement server-side; secrets scan clean.
+- Quality gate: ruff/pyright clean, 422 pytest PASS, architecture PASS.
+- Checkpoint: `g13f: security, rights, provenance, privacy & source-gate forensics`.
