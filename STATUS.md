@@ -300,3 +300,4 @@ HEAD `91f0b1f` = tag `m9-release-qualified`. Post-M9 pack integrated; 94/94 hash
 | M11 | Adversarial / Failure Qualification | PASS (2026-08-14, reports/M11_ACCEPTANCE.md) |
 | G15A Reference World Contract & External Pack Boundary | PASS (2026-08-14, commit g15a) |
 | G15B Comprehensive Synthetic Reference World Package | PASS (2026-08-14, commit g15b) |
+| G15C Seven-day Autonomous Living-world Qualification | PASS (2026-08-14, commit g15c) |

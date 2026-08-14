@@ -498,3 +498,9 @@
   beliefs, scenario seeds) built/installed/instantiated via the public path.
 - Added `tests/integration/test_g15b_synthetic_world.py` (4 tests) + build report.
 - Checkpoint: `g15b: comprehensive synthetic reference world package`.
+
+## 2026-08-14 ? G15C PASS (M12 phase)
+
+- Added `tests/integration/test_g15c_seven_day.py` (7-day autonomous run on the synthetic full world,
+  periodic hashes/checkpoints, replay verification, emergent events, no-starvation, no-leak) + reports.
+- Checkpoint: `g15c: seven-day autonomous living-world qualification`.
