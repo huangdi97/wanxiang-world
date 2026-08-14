@@ -59,7 +59,7 @@ def benchmark_commits(n: int = 200) -> dict[str, Any]:
         )
     elapsed = time.perf_counter() - start
     try:
-        getattr(runtime.persistence.event_store, "session_factory").kw["bind"].dispose()
+        runtime.persistence.event_store.session_factory.kw["bind"].dispose()  # type: ignore[attr-defined]
         path.unlink()
     except Exception:
         pass
@@ -89,7 +89,7 @@ def benchmark_replay(n: int = 1200) -> dict[str, Any]:
     ReplayEngine(RuntimeVersion(1), SchemaVersion(1)).replay(events)
     elapsed = time.perf_counter() - start
     try:
-        getattr(runtime.persistence.event_store, "session_factory").kw["bind"].dispose()
+        runtime.persistence.event_store.session_factory.kw["bind"].dispose()  # type: ignore[attr-defined]
         path.unlink()
     except Exception:
         pass

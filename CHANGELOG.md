@@ -602,3 +602,10 @@
 - Added `scripts/benchmarks.py` (repeatable commit/replay benchmarks with environment capture),
   `tests/integration/test_g16i_performance.py` (3 tests), capacity/cost report + benchmark JSON.
 - Checkpoint: `g16i: performance, capacity, cost & resource-budget qualification`.
+
+## 2026-08-14 ? G16J PASS + M13 PASS (M13 gate)
+
+- Added `scripts/ops_deploy.py`, `tests/integration/test_g16j_deploy_ops.py` (4 tests), ops index +
+  production qualification + M13 acceptance reports.
+- M13 gate PASS: G16A-J suites (35 passed + 1 EXTERNAL_BLOCKED skip), full gate 532 passed + 1 skip.
+- Checkpoint: `g16j: private/staging deployment, operator runbooks & m13 production qualification`. M14 begins next.

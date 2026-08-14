@@ -182,3 +182,17 @@ PROGRAM verdict: PASS (M1-M9; reports/FINAL_PROGRAM_COMPLETION_REPORT.md).
 | M12-08 | M12 gate | G15H | Red Chamber source-gated slice | PASS | g15h | real data EXTERNAL_BLOCKED |
 | M12-09 | M12 gate | G15I | Family/heritage/campaign suites | PASS | g15i | real data EXTERNAL_BLOCKED |
 | M12-10 | M12 gate | G15J | Cross-domain worldness certification + M12 | PASS | g15j | 12/12 worldness criteria; 497 tests |
+## M13 gate (2026-08-14)
+
+| Req ID | Source | Owning Goal | Test/evidence | Status | Last verified commit | Notes |
+|---|---|---|---|---|---|---|
+| M13-01 | M13 gate | G16A | Production topology/config/secret foundation | PASS | g16a | fail-fast prod config |
+| M13-02 | M13 gate | G16B | PostgreSQL persistence/migration | PASS | g16b | live PG EXTERNAL_BLOCKED |
+| M13-03 | M13 gate | G16C | Background queue/scheduler reliability | PASS | g16c | |
+| M13-04 | M13 gate | G16D | Asset/object storage + media rights | PASS | g16d | content-addressed |
+| M13-05 | M13 gate | G16E | OTel observability/SLOs | PASS | g16e | |
+| M13-06 | M13 gate | G16F | Security hardening/authz/rate limits/SBOM | PASS | g16f | 429/413 + SBOM |
+| M13-07 | M13 gate | G16G | Backup/restore/PITR/game day | PASS | g16g | |
+| M13-08 | M13 gate | G16H | CI/CD/release artifacts/rollback | PASS | g16h | |
+| M13-09 | M13 gate | G16I | Performance/capacity/cost/budgets | PASS | g16i | measured envelope |
+| M13-10 | M13 gate | G16J | Private/staging deploy + M13 | PASS | g16j | 532 tests + 1 skip |

@@ -19,7 +19,7 @@ ARTIFACTS = ROOT / "artifacts"
 def python_packages() -> list[dict[str, str]]:
     text = (ROOT / "uv.lock").read_text(encoding="utf-8")
     data = tomllib.loads(text)
-    out = []
+    out: list[dict[str, str]] = []
     for pkg in data.get("package", []):
         out.append({"name": pkg.get("name", ""), "version": pkg.get("version", "")})
     return sorted(out, key=lambda p: (p["name"], p["version"]))
@@ -29,19 +29,21 @@ def js_packages() -> list[dict[str, str]]:
     import re
 
     text = (ROOT / "pnpm-lock.yaml").read_text(encoding="utf-8")
-    out = []
+    out: list[dict[str, str]] = []
     for line in text.splitlines():
         m = re.match(r"^  (?:@[^/]+/)?([^/]+)@(\d+\.\d+\.\d+):", line)
         if m:
-            out.append({"name": m.group(1), "version": m.group(2)})
+            name = m.group(1) or ""
+            version = m.group(2) or ""
+            out.append({"name": name, "version": version})
     # dedupe
-    seen = set()
-    unique = []
-    for p in out:
-        key = (p["name"], p["version"])
+    seen: set[tuple[str, str]] = set()
+    unique: list[dict[str, str]] = []
+    for pkg in out:
+        key = (pkg["name"], pkg["version"])
         if key not in seen:
             seen.add(key)
-            unique.append(p)
+            unique.append(pkg)
     return unique
 
 
