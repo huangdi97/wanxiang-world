@@ -160,3 +160,10 @@ model for lineage (M28 core); no store/engine; fork reuses BranchAncestry.
 New abstractions: LineageNode, LineageEdge (frozen records) + LineageGraph
 (thin in-memory DAG). Justification: lineage DAG storage/query is M28 core;
 no manager god object (plain class), no history copy.
+
+
+## G31C entry
+New abstractions: LineageRepository (SQLAlchemy repository over 2 minimal
+tables) + 2 ORM records. Justification: lineage persistence is M28 core;
+branch lineage reuses the branches table (branch_lineage_from_branches is a
+view function, not a duplicate store).

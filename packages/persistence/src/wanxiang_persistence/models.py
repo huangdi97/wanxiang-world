@@ -98,3 +98,33 @@ class AuditTraceRecord(Base):
     actor_id: Mapped[str | None] = mapped_column(String(128), nullable=True)
     correlation_id: Mapped[str | None] = mapped_column(String(128), nullable=True)
     commit_timestamp: Mapped[str | None] = mapped_column(Text, nullable=True)
+
+
+class LineageNodeRecord(Base):
+    __tablename__ = "lineage_nodes"
+
+    node_id: Mapped[str] = mapped_column(String(128), primary_key=True)
+    kind: Mapped[str] = mapped_column(String(32), nullable=False)
+    definition_ref: Mapped[str] = mapped_column(String(256), nullable=False, default="")
+    inherited_history_ref: Mapped[str | None] = mapped_column(String(256), nullable=True)
+    constitution_version: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
+    domain_version: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
+    runtime_version: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
+    evolution_policy: Mapped[str] = mapped_column(
+        String(64), nullable=False, default="canonical_replay"
+    )
+    rights_ref: Mapped[str] = mapped_column(String(256), nullable=False, default="platform-default")
+    provenance_json: Mapped[str] = mapped_column(Text, nullable=False, default="[]")
+
+
+class LineageEdgeRecord(Base):
+    __tablename__ = "lineage_edges"
+
+    parent_node_id: Mapped[str] = mapped_column(
+        String(128), ForeignKey("lineage_nodes.node_id"), primary_key=True
+    )
+    child_node_id: Mapped[str] = mapped_column(
+        String(128), ForeignKey("lineage_nodes.node_id"), primary_key=True
+    )
+    edge_kind: Mapped[str] = mapped_column(String(16), nullable=False, default="fork")
+    origin_ref: Mapped[str | None] = mapped_column(String(256), nullable=True)

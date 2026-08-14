@@ -2,7 +2,7 @@
 
 - API routes: 10
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 888
+- Python public names (stable packages): 892
 
 ## API routes
 
@@ -169,12 +169,16 @@
 - `wanxiang_persistence.Base`
 - `wanxiang_persistence.BranchRecord`
 - `wanxiang_persistence.EventRecord`
+- `wanxiang_persistence.LineageEdgeRecord`
+- `wanxiang_persistence.LineageNodeRecord`
+- `wanxiang_persistence.LineageRepository`
 - `wanxiang_persistence.SnapshotRecord`
 - `wanxiang_persistence.SqlAlchemyBranchRepository`
 - `wanxiang_persistence.SqlAlchemyEventStore`
 - `wanxiang_persistence.SqlAlchemySnapshotStore`
 - `wanxiang_persistence.WorldInstanceRecord`
 - `wanxiang_persistence.WorldInstanceRepository`
+- `wanxiang_persistence.branch_lineage_from_branches`
 - `wanxiang_persistence.create_engine_for`
 - `wanxiang_persistence.session_scope`
 - `wanxiang_runtime.AuditRecord`
@@ -315,9 +319,5 @@
 - `wanxiang_substrate.BODY_CONDITION_COMPONENT`
 - `wanxiang_substrate.BODY_SCHEMA_VERSION`
 - `wanxiang_substrate.BackwardTimeError`
-- `wanxiang_substrate.BeliefAssertion`
-- `wanxiang_substrate.BeliefError`
-- `wanxiang_substrate.BeliefStatus`
-- `wanxiang_substrate.BiographyEntry`
 
 Machine-readable: reports/sdk_api_baseline.json.

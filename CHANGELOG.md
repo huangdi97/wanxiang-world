@@ -957,3 +957,10 @@
 - Added lineage package: LineageNode/LineageEdge/LineageGraph (DAG with cycle rejection, ancestors/descendants/common-ancestors, versions/rights/provenance refs; no history copies).
 - 5 tests (tree/DAG fixtures, cycle + duplicate rejection).
 - Checkpoint: `g31b: World Lineage Graph ????`.
+
+
+## 2026-08-15 - V5.2 G31C PASS (M28 phase)
+
+- Migration 0003_add_lineage (lineage_nodes/edges, downgrade-safe); LineageRepository (save/load graph); branch lineage derived from the existing branches table (no duplication).
+- 5 migration tests (fresh upgrade, old-DB upgrade keeps replay hash, downgrade, repository round-trip, branch-lineage derivation).
+- Checkpoint: `g31c: Lineage Repository ???`.
