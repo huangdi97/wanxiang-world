@@ -418,3 +418,10 @@
 - Added M10_ACCEPTANCE.md, M10_INDEPENDENT_REQUALIFICATION.md, P1_P2_GAP_BACKLOG.md,
   DESIGN_IMPLEMENTATION_TRACEABILITY_FINAL_M10.md; ACCEPTANCE_MATRIX M10 rows.
 - Checkpoint: `g13i: p1/p2 gap closure & m10 independent requalification`. M11 begins next.
+
+## 2026-08-14 ? G14A PASS (M11 phase)
+
+- Added `tests/integration/test_g14a_concurrency.py` (5 deterministic adversarial tests: lost-update,
+  duplicate-across-restart idempotency, out-of-order delivery, instance isolation, burst validity) and
+  `reports/CONCURRENCY_ADVERSARIAL.md`.
+- Checkpoint: `g14a: concurrency, race, idempotency & lost-update adversarial qualification`.
