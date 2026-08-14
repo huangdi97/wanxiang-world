@@ -510,3 +510,9 @@
 - Added `tests/integration/test_g15d_embodiment.py` (embodiment lease takeover, human command, shadow advice,
   conflicting takeover rejected, exit + autonomous advance, handoff resume, re-entry perspective) + reports.
 - Checkpoint: `g15d: human embodiment, exit, re-entry & control continuity qualification`.
+
+## 2026-08-14 ? G15E PASS (M12 phase)
+
+- Added `tests/integration/test_g15e_material_info.py` (3 tests: exclusive containers, custody!=knowledge,
+  causal read path, branch divergence + replay) + reports.
+- Checkpoint: `g15e: material custody, information propagation & social continuity qualification`.
