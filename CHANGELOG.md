@@ -565,3 +565,9 @@
 - Added `tests/integration/test_g16c_background_queue.py` (3 tests: idempotent at-least-once, failed-job
   retry, queue-pressure safety) + reports.
 - Checkpoint: `g16c: background execution, work queue & scheduler reliability`.
+
+## 2026-08-14 ? G16D PASS (M13 phase)
+
+- Added content-addressed `assets/storage.py` (AssetRef + ObjectStore Port + LocalObjectStore + rights check),
+  `assets/errors.py`, and `tests/integration/test_g16d_asset_storage.py` (4 tests) + reports.
+- Checkpoint: `g16d: asset/object storage, media rights & durable artifact handling`.
