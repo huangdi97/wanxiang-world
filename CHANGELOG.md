@@ -527,3 +527,9 @@
 
 - Added `tests/integration/test_g15g_ninety_day.py` (90-day run, LOD, sampled replay spot checks) + reports.
 - Checkpoint: `g15g: extended 90-day virtual run & population-lod qualification`.
+
+## 2026-08-14 ? G15H PASS (M12 phase)
+
+- Added `tests/integration/test_g15h_red_chamber.py` (3 tests: source-gate canonical gating, label
+  distinguishability, provenance retention) + reports. Real corpus EXTERNAL_BLOCKED with exact needs.
+- Checkpoint: `g15h: red chamber source-gated qualified reference slice`.
