@@ -309,3 +309,4 @@ HEAD `91f0b1f` = tag `m9-release-qualified`. Post-M9 pack integrated; 94/94 hash
 | G15I Family, Heritage & Campaign Source-gated Reference Suites | PASS (2026-08-14, commit g15i) |
 | G15J Cross-domain Worldness Certification & M12 Qualification | PASS (2026-08-14, commit g15j) |
 | M12 | Reference World & Worldness Certification | PASS (2026-08-14, reports/M12_ACCEPTANCE.md) |
+| G16A Production Topology, Configuration & Secret-management Foundation | PASS (2026-08-14, commit g16a) |

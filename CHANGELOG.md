@@ -546,3 +546,10 @@
   (WORLDNESS_CERTIFICATION, M12_REFERENCE_WORLD_QUALIFICATION, M12_ACCEPTANCE).
 - M12 gate PASS: worldness 12/12, black-box scenario, 24 M12 suites, full gate 497 tests.
 - Checkpoint: `g15j: cross-domain worldness certification & m12 qualification`. M13 begins next.
+
+## 2026-08-14 ? G16A PASS (M13 phase)
+
+- Added `docs/PRODUCTION_TOPOLOGY.md`, production-profile validation in `wanxiang_observability/config.py`
+  (fail-fast ConfigError for missing required production config), `tests/integration/test_g16a_config_secrets.py`
+  (5 tests) + reports.
+- Checkpoint: `g16a: production topology, configuration & secret-management foundation`.

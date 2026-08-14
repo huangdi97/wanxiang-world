@@ -62,3 +62,4 @@ certification and local checkpoint. No push/deploy.
 | 26 | G15H | Red Chamber Source-gated Qualified Reference Slice | PASS (2026-08-14) |
 | 27 | G15I | Family, Heritage & Campaign Source-gated Reference Suites | PASS (2026-08-14) |
 | 28 | G15J | Cross-domain Worldness Certification & M12 Qualification | PASS (2026-08-14) |
+| 29 | G16A | Production Topology, Configuration & Secret-management Foundation | PASS (2026-08-14) |
