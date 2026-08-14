@@ -698,3 +698,10 @@
 - Added `wanxiang_api/learn_service.py` (challenge discovery, evidence-backed capability deltas, biography),
   `tests/integration/test_g18g_learn_challenge.py` (3 tests) + reports.
 - Checkpoint: `g18g: learn / challenge experience completion`.
+
+## 2026-08-14 ? G18H PASS + M15 PASS (M15 gate)
+
+- Added `wanxiang_api/operator_console_service.py` + `tests/integration/test_g18h_operator_console.py` (3 tests)
+  + product-surface qualification + M15 acceptance reports.
+- M15 gate PASS: G18A-H suites (25 passed), full gate 579 passed + 1 EXTERNAL_BLOCKED skip.
+- Checkpoint: `g18h: operator/admin/source/rights/evaluation console & m15 qualification`. M16 begins next.

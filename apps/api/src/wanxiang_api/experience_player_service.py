@@ -61,9 +61,7 @@ class ExperiencePlayerService:
                 command_id=CommandId(command_id or f"player_{expected_revision}"),
                 instance_id=instance_id,
                 branch_id=branch_id,
-                expected_revision=self._runtime._state_reader.state_at(
-                    instance_id, branch_id
-                ).revision,
+                expected_revision=self._runtime.current_state(instance_id, branch_id).revision,
                 action_type=action_type,
                 payload=payload,
                 world_time=WorldTime(state.revision.value + 1),

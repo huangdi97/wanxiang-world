@@ -208,3 +208,15 @@ PROGRAM verdict: PASS (M1-M9; reports/FINAL_PROGRAM_COMPLETION_REPORT.md).
 | M14-06 | M14 gate | G17F | Registry lifecycle | PASS | g17f | resolver pin fixed |
 | M14-07 | M14 gate | G17G | Black-box external sample pack | PASS | g17g | |
 | M14-08 | M14 gate | G17H | Ecosystem qualification + M14 | PASS | g17h | 554 tests + 1 skip |
+## M15 gate (2026-08-14)
+
+| Req ID | Source | Owning Goal | Test/evidence | Status | Last verified commit | Notes |
+|---|---|---|---|---|---|---|
+| M15-01 | M15 gate | G18A | IA + server-truth contract | PASS | g18a | |
+| M15-02 | M15 gate | G18B | Studio / World IDE | PASS | g18b | |
+| M15-03 | M15 gate | G18C | Experience Player continuity | PASS | g18c | |
+| M15-04 | M15 gate | G18D | Strategy / Experiment Workbench | PASS | g18d | |
+| M15-05 | M15 gate | G18E | Family Portal | PASS | g18e | |
+| M15-06 | M15 gate | G18F | Heritage / Museum Workbench | PASS | g18f | |
+| M15-07 | M15 gate | G18G | Learn / Challenge Experience | PASS | g18g | |
+| M15-08 | M15 gate | G18H | Operator/Admin console + M15 | PASS | g18h | 579 tests + 1 skip |
