@@ -674,3 +674,9 @@
 - Added `wanxiang_api/experience_player_service.py` (session/projection/revision-aware act/resync),
   `tests/integration/test_g18c_experience_player.py` (4 tests) + reports.
 - Checkpoint: `g18c: experience player web/2d continuity completion`.
+
+## 2026-08-14 ? G18D PASS (M15 phase)
+
+- Added `wanxiang_api/strategy_workbench_service.py` (deterministic experiment runs + arbitration),
+  `tests/integration/test_g18d_strategy_workbench.py` (3 tests) + reports.
+- Checkpoint: `g18d: strategy / experiment workbench completion`.

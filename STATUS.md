@@ -332,3 +332,4 @@ HEAD `91f0b1f` = tag `m9-release-qualified`. Post-M9 pack integrated; 94/94 hash
 | G18A Product Surface Information Architecture & Server-truth Contract | PASS (2026-08-14, commit g18a) |
 | G18B Studio / World IDE Completion | PASS (2026-08-14, commit g18b) |
 | G18C Experience Player Web/2D Continuity Completion | PASS (2026-08-14, commit g18c) |
+| G18D Strategy / Experiment Workbench Completion | PASS (2026-08-14, commit g18d) |
