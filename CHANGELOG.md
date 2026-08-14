@@ -461,3 +461,10 @@
   default-deny executable policy, dependency-conflict rollback, prompt-injection-as-data, size/format limits)
   and `reports/HOSTILE_PACKAGE_SOURCE_QUALIFICATION.md` (trust model + limitation).
 - Checkpoint: `g14f: hostile package, plugin & source input qualification`.
+
+## 2026-08-14 ? G14G PASS (M11 phase)
+
+- Added `tests/integration/test_g14g_auth_privacy.py` (5 tests: cross-branch isolation, perspective filters,
+  debug privilege, revocation of media/source rights, append-only audit) and
+  `reports/AUTH_RIGHTS_PRIVACY_ADVERSARIAL.md`.
+- Checkpoint: `g14g: authorization, rights, privacy & data-leak adversarial qualification`.
