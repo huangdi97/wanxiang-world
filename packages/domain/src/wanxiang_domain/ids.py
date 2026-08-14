@@ -48,6 +48,14 @@ class ConstitutionId(WanxiangId):
     _prefix = "con"
 
 
+class WorldDefinitionId(WanxiangId):
+    _prefix = "wd"
+
+
+class WorldlineId(WanxiangId):
+    _prefix = "wl"
+
+
 class BranchId(WanxiangId):
     _prefix = "br"
 

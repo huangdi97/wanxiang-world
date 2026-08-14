@@ -86,3 +86,4 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0074 | G30G: FactScopePolicy partitions write authority (canonical=commit authority only, actor=actor-owned); scope-only elevation to canonical rejected; canonical promotion requires Commit; projection filters ledger.fact by scope/rights | accepted |
 | 0075 | G30H: VersionContext (constitution/semantic/law/domain/runtime) is history metadata resolved via an immutable revision log with legacy fallback; snapshots freeze the context; never part of semantic hash (replay deterministic) | accepted |
 | 0076 | G30I/M27: full gate PASS (714+1); mutation-path search confirms single CommitAuthority path; resolution dry-run is pure; M27=PASS ? v5.2 lineage work (M28) can start | accepted |
+| 0077 | G31A: WorldDefinition read-only versioned; Branch fork == Worldline fork (reuses BranchAncestry, no second history object); InstanceIdentity records definition/genesis/constitution/runtime refs | accepted |

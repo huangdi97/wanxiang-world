@@ -36,7 +36,7 @@
 
 | Goal | Status |
 |---|---|
-| G31A World Definition ? Worldline ???? | pending |
+| G31A World Definition ? Worldline ???? | PASS (2026-08-15, commit g31a) |
 | G31B World Lineage Graph ???? | pending |
 | G31C Lineage Repository ??? | pending |
 | G31D World Hypervisor ????? | pending |

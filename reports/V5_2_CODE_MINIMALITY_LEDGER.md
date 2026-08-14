@@ -148,3 +148,9 @@ reuses existing golden fixtures (unchanged hash).
 ## G30I/M27 entry
 No new production abstraction (verification + gate fixes only). Recorded M27
 abstraction delta in the budget (ports 23 -> 24 = RealityRootContract).
+
+
+## G31A entry
+New abstractions: WorldDefinition, WorldlineIdentity, InstanceIdentity,
+WorldlineFork (frozen records) + 2 ID types. Justification: formal identity
+model for lineage (M28 core); no store/engine; fork reuses BranchAncestry.

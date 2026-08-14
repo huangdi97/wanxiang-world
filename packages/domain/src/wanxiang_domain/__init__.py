@@ -96,6 +96,12 @@ from wanxiang_domain.world_isa import (
     isa_op_from_primitive,
     reduce_isa_to_delta,
 )
+from wanxiang_domain.worldline import (
+    InstanceIdentity,
+    WorldDefinition,
+    WorldlineFork,
+    WorldlineIdentity,
+)
 
 __version__ = "0.1.0"
 
@@ -158,6 +164,10 @@ __all__ = [
     "DELTA_SCHEMA_VERSION",
     "WORLD_COMMIT_KINDS",
     "WorldCommitKind",
+    "InstanceIdentity",
+    "WorldDefinition",
+    "WorldlineFork",
+    "WorldlineIdentity",
     "validate_world_commit_kind",
     "SnapshotVersionContext",
     "VersionContext",
