@@ -142,3 +142,16 @@ PROGRAM verdict: PASS (M1-M9; reports/FINAL_PROGRAM_COMPLETION_REPORT.md).
 | ARCH-03 | Standards ?16 | GOAL_00B | plugin/model provider -> persistence internals detected | PASS | 3410300 | |
 | ARCH-04 | Standards ?16 | GOAL_00B | import cycles detected | PASS | 3410300 | |
 | ARCH-05 | Standards ?16 | GOAL_00B | substrate package guard (fastapi/sqlalchemy/persistence) | PASS | 8c0c7cf | |
+## M10 gate (2026-08-14)
+
+| Req ID | Source | Owning Goal | Test/evidence | Status | Last verified commit | Notes |
+|---|---|---|---|---|---|---|
+| M10-01 | M10 gate | G13A | Post-M9 baseline freeze + independent evidence capture | PASS | g13a | hashes, command matrix, clean bootstrap |
+| M10-02 | M10 gate | G13B | Design-to-implementation traceability (16 kernels, 44 rows) | PASS | g13b | validator tests |
+| M10-03 | M10 gate | G13C | Architecture/dependency/canonical-mutation forensics | PASS | g13c | 0 bypass, single CommitAuthority |
+| M10-04 | M10 gate | G13D | Placeholder/fake/dead-path/surface/drift audit (guard bug + SDK drift fixed) | PASS | g13d | drift aligned 10/10 |
+| M10-05 | M10 gate | G13E | Event/replay/branch/migration/version forensics (P0 child replay fixed) | PASS | g13e | corpus + version matrix |
+| M10-06 | M10 gate | G13F | Security/rights/provenance/privacy/source-gate forensics | PASS | g13f | 8 threats mitigated, 6 rights enforced |
+| M10-07 | M10 gate | G13G | Maintainability/complexity/test-quality/upgradeability audit | PASS | g13g | 0 over-threshold; swallow fixed |
+| M10-08 | M10 gate | G13H | P0 gap closure wave | PASS | g13h | P0 open = 0 |
+| M10-09 | M10 gate | G13I | P1/P2 closure + M10 independent requalification | PASS | g13i | full gate 428 tests |

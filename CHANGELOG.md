@@ -409,3 +409,12 @@
   placeholder-guard blind spot, OpenAPI/SDK drift) as CLOSED with root cause, fix commit and regression tests.
 - P0 open count = 0; P0-focused regression set 36 passed; full gate PASS (428 tests).
 - Checkpoint: `g13h: p0 gap closure wave`.
+
+## 2026-08-14 ? G13I PASS + M10 PASS (M10 gate)
+
+- P1 open = 0 (SDK drift closed G13D; P0s closed G13D/E); P2 tracked (7 items with rationale).
+- M10 independent requalification PASS: clean bootstrap, M1-M9 milestone set (21), replay corpus,
+  security probes, forensics, full quality gate (428 pytest + ruff + pyright + architecture).
+- Added M10_ACCEPTANCE.md, M10_INDEPENDENT_REQUALIFICATION.md, P1_P2_GAP_BACKLOG.md,
+  DESIGN_IMPLEMENTATION_TRACEABILITY_FINAL_M10.md; ACCEPTANCE_MATRIX M10 rows.
+- Checkpoint: `g13i: p1/p2 gap closure & m10 independent requalification`. M11 begins next.
