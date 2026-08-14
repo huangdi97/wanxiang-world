@@ -522,3 +522,8 @@
 - Added `tests/integration/test_g15f_worldlines.py` (baseline + two intervention worldlines, ancestry,
   parent-unchanged, per-worldline replay, semantic diff, historical read) + reports.
 - Checkpoint: `g15f: branch, time-travel & counterfactual worldline comparison qualification`.
+
+## 2026-08-14 ? G15G PASS (M12 phase)
+
+- Added `tests/integration/test_g15g_ninety_day.py` (90-day run, LOD, sampled replay spot checks) + reports.
+- Checkpoint: `g15g: extended 90-day virtual run & population-lod qualification`.

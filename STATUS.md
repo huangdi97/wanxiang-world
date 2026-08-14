@@ -304,3 +304,4 @@ HEAD `91f0b1f` = tag `m9-release-qualified`. Post-M9 pack integrated; 94/94 hash
 | G15D Human Embodiment, Exit, Re-entry & Control Continuity Qualification | PASS (2026-08-14, commit g15d) |
 | G15E Material Custody, Information Propagation & Social Continuity Qualification | PASS (2026-08-14, commit g15e) |
 | G15F Branch, Time-travel & Counterfactual Worldline Comparison Qualification | PASS (2026-08-14, commit g15f) |
+| G15G Extended 90-day Virtual Run & Population-LOD Qualification | PASS (2026-08-14, commit g15g) |
