@@ -2,7 +2,7 @@
 
 - API routes: 10
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 860
+- Python public names (stable packages): 863
 
 ## API routes
 
@@ -175,8 +175,10 @@
 - `wanxiang_runtime.InMemoryCanonicalState`
 - `wanxiang_runtime.InMemoryEventStore`
 - `wanxiang_runtime.InMemorySnapshotStore`
+- `wanxiang_runtime.IsaExecutionResult`
 - `wanxiang_runtime.Now`
 - `wanxiang_runtime.PLATFORM_PROTECTED_ENTITY_PREFIX`
+- `wanxiang_runtime.PromotionUseCase`
 - `wanxiang_runtime.ReplayEngine`
 - `wanxiang_runtime.Resolver`
 - `wanxiang_runtime.ResolverRegistry`
@@ -195,6 +197,7 @@
 - `wanxiang_runtime.check_relation_references_exist`
 - `wanxiang_runtime.create_snapshot_metadata`
 - `wanxiang_runtime.diff_states`
+- `wanxiang_runtime.execute_isa`
 - `wanxiang_runtime.fork_branch`
 - `wanxiang_runtime.state_from_primitive`
 - `wanxiang_runtime.state_to_primitive`
@@ -316,8 +319,5 @@
 - `wanxiang_substrate.CLOCK_ENTITY`
 - `wanxiang_substrate.CLUB`
 - `wanxiang_substrate.COMMANDER`
-- `wanxiang_substrate.COMPILER_VERSION`
-- `wanxiang_substrate.CONDITION_VISIBILITY_COMPONENT`
-- `wanxiang_substrate.CONFIDENCE_GAIN_PASS`
 
 Machine-readable: reports/sdk_api_baseline.json.

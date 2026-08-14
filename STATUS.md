@@ -381,7 +381,7 @@ golden fixtures (`tests/fixtures/v5_2_baseline/`, combined hash
 | Milestone | Meaning | Status |
 |---|---|---|
 | M26 | ?????????????? | PASS (2026-08-15, reports/M26_QUALIFICATION.md) |
-| M27 | Reality Root / Constitution / ISA | in progress (G30A-G30D PASS) |
+| M27 | Reality Root / Constitution / ISA | in progress (G30A-G30E PASS) |
 | M28 | Worldline / Lineage / Hypervisor | pending |
 | M29 | ?????? | pending |
 | M30 | Promotion / Cross-world Distillation | pending |

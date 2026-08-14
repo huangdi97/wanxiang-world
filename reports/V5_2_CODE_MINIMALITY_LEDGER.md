@@ -115,3 +115,10 @@ existing INVARIANTS tuple (not new classes). No new engine/store/boundary.
 New abstraction: `WorldIsaOp` (discriminated payload) + `WorldIsaInstruction`
 (Literal alias). reduce_isa_to_delta is a function. No engine/bus/store.
 ISA is intentionally a thin reduction layer (per ADR 0068/0071).
+
+
+## G30E entry
+New abstractions: `execute_isa` (function adapter), `IsaExecutionResult` +
+`PromotionUseCase` (small frozen result records). Justification: thin mapping
+over existing pipeline; no new engine/bus/store; PROMOTE record is the future
+promotion use-case envelope (G33).

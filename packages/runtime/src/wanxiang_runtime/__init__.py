@@ -12,6 +12,7 @@ from wanxiang_runtime.invariants import (
     INVARIANTS,
     check_delta_invariants,
 )
+from wanxiang_runtime.isa_pipeline import IsaExecutionResult, PromotionUseCase, execute_isa
 from wanxiang_runtime.ports import EventAppendPort, EventStore, InMemoryEventStore
 from wanxiang_runtime.replay import ReplayEngine
 from wanxiang_runtime.resolver import ResolverRegistry
@@ -37,7 +38,10 @@ __all__ = [
     "InMemoryCanonicalState",
     "InMemoryEventStore",
     "InMemorySnapshotStore",
+    "IsaExecutionResult",
+    "PromotionUseCase",
     "ReplayEngine",
+    "execute_isa",
     "ResolverRegistry",
     "SnapshotStore",
     "StateDiff",

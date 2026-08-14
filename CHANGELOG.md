@@ -908,3 +908,9 @@
 - Added `wanxiang_domain.world_isa`: 8-instruction typed ISA (WorldIsaOp) with version/schema round-trip; DECLARE/ASSERT/RETRACT/PROPOSE reduce to existing deltas; VALIDATE/COMMIT/FORK/PROMOTE map to use cases; no DB write; business actions stay upper.
 - 10 tests (unknown version/instruction fail; reductions; no DB import).
 - Checkpoint: `g30d: World Semantic ISA ????`.
+
+
+## 2026-08-15 - V5.2 G30E PASS (M27 phase)
+
+- Added `wanxiang_runtime.isa_pipeline.execute_isa`: ISA instructions execute through the existing CommitAuthority/fork_branch/validation pipeline; PROMOTE emits PromotionUseCase only (parent untouched). 5 tests incl. ISA-vs-business-action semantic parity and no-second-stream.
+- Checkpoint: `g30e: ISA ?????? Commit ????`.

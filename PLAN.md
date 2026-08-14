@@ -140,7 +140,8 @@ v5.2 certification reports and local checkpoint. No push/deploy.
 | 10b | G30B | World Constitution ????? | PASS (2026-08-15) |
 | 10c | G30C | Constitution ??????? | PASS (2026-08-15) |
 | 10d | G30D | World Semantic ISA ???? | PASS (2026-08-15) |
-| 10e | G30E..G30I | ISA ???? / ?? Commit / Fact Scope / ????? (M27) | pending |
+| 10e | G30E | ISA ?????? Commit ???? | PASS (2026-08-15) |
+| 10f | G30F..G30I | ?? Commit / Fact Scope / ????? (M27) | pending |
 | 11 | M27 Gate | Root Constitution ISA ???? | pending |
 | 12 | G31A..G31H | Worldline / Lineage / Hypervisor (M28) | pending |
 | 13 | M28 Gate | Lineage Hypervisor ???? | pending |
