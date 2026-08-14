@@ -1,5 +1,11 @@
 """Evolution substrate (M29)."""
 
+from wanxiang_substrate.evolution.actor_evolution import (
+    ActorEvolutionState,
+    ActorEvolutionTracker,
+    PersonaDelta,
+    TrajectoryEntry,
+)
 from wanxiang_substrate.evolution.policy_stack import (
     EvolutionPolicyStack,
     PlatformPolicy,
@@ -14,10 +20,14 @@ from wanxiang_substrate.evolution.scheduler import (
 
 __all__ = [
     "EVOLUTION_SCALES",
+    "ActorEvolutionState",
+    "ActorEvolutionTracker",
     "EvolutionCadence",
     "EvolutionPolicyStack",
     "EvolutionScheduler",
+    "PersonaDelta",
     "PlatformPolicy",
+    "TrajectoryEntry",
     "WorldPolicy",
     "reject_world_platform_mutation",
 ]

@@ -209,3 +209,9 @@ evolution policy core; policies are config, not a new runtime.
 New abstractions: EvolutionCadence (frozen record) + EvolutionScheduler (thin
 class). Justification: M29 multi-scale scheduling core; deterministic modular
 activation; no engine/registry.
+
+
+## G32C entry
+New abstractions: PersonaDelta, TrajectoryEntry, ActorEvolutionState (frozen
+records) + ActorEvolutionTracker (thin stateful class). Justification: M29
+actor evolution separation core; reuses CapabilityDelta.

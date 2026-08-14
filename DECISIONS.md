@@ -96,3 +96,4 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0084 | G31H/M28: full gate PASS (747+1); lineage model moved to domain to keep persistence->substrate direction clean; migration head 0003 constants updated; M28=PASS ? M29 evolution work can start | accepted |
 | 0085 | G32A: EvolutionPolicyStack = versioned World/Platform policies; world policy can never mutate platform (structural guard + explicit rejection) | accepted |
 | 0086 | G32B: multi-scale evolution scheduler = modular cadence activation (linear growth, no full scans); deterministic per seed/cadence; thin layer over population runtime | accepted |
+| 0087 | G32C: capability and persona evolve through separate channels; skill gain never rewrites persona (explicit PersonaDelta only); trajectory provenance recorded per change | accepted |

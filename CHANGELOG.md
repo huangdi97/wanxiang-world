@@ -1014,3 +1014,10 @@
 - Added multi-scale evolution scheduler (actor/relation/group/institution/world cadences; modular activation, no full scans, linear long-run growth, deterministic).
 - 4 tests.
 - Checkpoint: `g32b: ???????`.
+
+
+## 2026-08-15 - V5.2 G32C PASS (M29 phase)
+
+- Added ActorEvolutionTracker with separated capability (reuses CapabilityDelta) and persona (explicit PersonaDelta) channels + trajectory provenance; skill gain never changes persona hash.
+- 4 tests.
+- Checkpoint: `g32c: Actor Capability ? Persona ????`.

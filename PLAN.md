@@ -157,7 +157,8 @@ v5.2 certification reports and local checkpoint. No push/deploy.
 | 13 | M28 Gate | Lineage Hypervisor ???? | PASS (2026-08-15, reports/M28_QUALIFICATION.md) |
 | 14 | G32A | Evolution Policy Stack | PASS (2026-08-15) |
 | 14b | G32B | ??????? | PASS (2026-08-15) |
-| 14c | G32C..G32H | Capability / Social / Institution / Ontology / Telemetry (M29) | pending |
+| 14c | G32C | Actor Capability ? Persona ???? | PASS (2026-08-15) |
+| 14d | G32D..G32H | Social / Institution / Ontology / Telemetry (M29) | pending |
 | 15 | M29 Gate | ?????????? | pending |
 | 16 | G33A..G33G | Promotion / Cross-world Distillation (M30) | pending |
 | 17 | M30 Gate | Promotion Cross-world ???? | pending |
