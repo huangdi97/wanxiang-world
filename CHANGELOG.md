@@ -621,3 +621,8 @@
 - Added `scripts/wxpack.py` (scaffold/validate/build CLI), `tests/integration/test_g17b_authoring_cli.py`
   (3 tests), CLI doc + reports.
 - Checkpoint: `g17b: package authoring cli, scaffolder & schema validation`.
+
+## 2026-08-14 ? G17C PASS (M14 phase)
+
+- Added `docs/sdk/EXTERNAL_AUTHOR_GUIDE.md`, `tests/integration/test_g17c_author_docs.py` (2 tests).
+- Checkpoint: `g17c: external author documentation & reference templates`.
