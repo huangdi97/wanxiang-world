@@ -314,3 +314,4 @@ HEAD `91f0b1f` = tag `m9-release-qualified`. Post-M9 pack integrated; 94/94 hash
 | G16C Background Execution, Work Queue & Scheduler Reliability | PASS (2026-08-14, commit g16c) |
 | G16D Asset/Object Storage, Media Rights & Durable Artifact Handling | PASS (2026-08-14, commit g16d) |
 | G16E OpenTelemetry Observability, SLOs & Operational Diagnostics | PASS (2026-08-14, commit g16e) |
+| G16F Production Security Hardening, AuthN/AuthZ, Rate Limits & Supply-chain Controls | PASS (2026-08-14, commit g16f) |

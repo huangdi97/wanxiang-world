@@ -577,3 +577,10 @@
 - Added `wanxiang_observability/tracing.py` (OTel-compatible facade: spans + metrics + in-memory exporter),
   `tests/integration/test_g16e_observability.py` (3 tests), runbook + reports.
 - Checkpoint: `g16e: opentelemetry observability, slos & operational diagnostics`.
+
+## 2026-08-14 ? G16F PASS (M13 phase)
+
+- Added API rate limiter + payload guard (`wanxiang_api/limits.py`), 413 handler, SBOM generator
+  (`scripts/generate_sbom.py` -> artifacts/SBOM_INFO.md + sbom.json), `tests/integration/test_g16f_security_hardening.py`
+  (4 tests) + reports.
+- Checkpoint: `g16f: production security hardening, authn/authz, rate limits & supply-chain controls`.

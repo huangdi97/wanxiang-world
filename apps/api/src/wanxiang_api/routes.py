@@ -2,15 +2,23 @@
 
 from __future__ import annotations
 
-from fastapi import APIRouter, Request
-from wanxiang_application.world_runtime import WorldRuntime
-from wanxiang_domain.errors import NotFound
-from wanxiang_domain.hierarchy import BranchRevision
-from wanxiang_domain.ids import BranchId, CommandId, WorldInstanceId
-from wanxiang_domain.time import WorldTime
-from wanxiang_runtime.state import state_to_primitive
+from fastapi import APIRouter, HTTPException, Request
 
-from wanxiang_api.schemas import (
+from wanxiang_api.limits import (
+    RateLimited,
+    RateLimiter,
+    check_payload_size,
+)
+
+_ACTION_LIMITER = RateLimiter(limit=10, window_seconds=60.0)
+from wanxiang_application.world_runtime import WorldRuntime  # noqa: E402
+from wanxiang_domain.errors import NotFound  # noqa: E402
+from wanxiang_domain.hierarchy import BranchRevision  # noqa: E402
+from wanxiang_domain.ids import BranchId, CommandId, WorldInstanceId  # noqa: E402
+from wanxiang_domain.time import WorldTime  # noqa: E402
+from wanxiang_runtime.state import state_to_primitive  # noqa: E402
+
+from wanxiang_api.schemas import (  # noqa: E402
     ActionResponse,
     BranchResponse,
     CheckpointResponse,
@@ -89,6 +97,12 @@ def submit_action(
     instance_id: str, payload: SubmitActionRequest, request: Request
 ) -> ActionResponse:
     runtime = _runtime(request)
+    check_payload_size(payload.payload)
+    client_key = request.client.host if request.client is not None else "unknown"
+    try:
+        _ACTION_LIMITER.check(client_key)
+    except RateLimited as exc:
+        raise HTTPException(status_code=429, detail=str(exc)) from exc
     from wanxiang_domain.command import CommandEnvelope
 
     command = CommandEnvelope(

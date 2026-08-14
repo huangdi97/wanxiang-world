@@ -67,3 +67,4 @@ certification and local checkpoint. No push/deploy.
 | 31 | G16C | Background Execution, Work Queue & Scheduler Reliability | PASS (2026-08-14) |
 | 32 | G16D | Asset/Object Storage, Media Rights & Durable Artifact Handling | PASS (2026-08-14) |
 | 33 | G16E | OpenTelemetry Observability, SLOs & Operational Diagnostics | PASS (2026-08-14) |
+| 34 | G16F | Production Security Hardening, AuthN/AuthZ, Rate Limits & Supply-chain Controls | PASS (2026-08-14) |

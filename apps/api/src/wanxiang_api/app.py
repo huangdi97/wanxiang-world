@@ -17,6 +17,7 @@ from wanxiang_persistence.snapshot_store import SqlAlchemySnapshotStore
 from wanxiang_runtime.resolver import ResolverRegistry
 
 from wanxiang_api.errors import install_error_handler
+from wanxiang_api.limits import PayloadTooLarge
 from wanxiang_api.routes import router
 
 API_TITLE = "Wanxiang World API"
@@ -53,5 +54,19 @@ def create_app(runtime: WorldRuntime | None = None) -> FastAPI:
     app = FastAPI(title=API_TITLE, version=API_VERSION)
     app.state.runtime = runtime
     install_error_handler(app)
+
+    @app.exception_handler(PayloadTooLarge)
+    async def _payload_too_large(_request, exc: PayloadTooLarge):
+        from fastapi.responses import JSONResponse
+
+        return JSONResponse(
+            status_code=413,
+            content={
+                "code": "payload_too_large",
+                "message": f"payload {exc.size} bytes exceeds limit {exc.limit}",
+                "details": {},
+            },
+        )
+
     app.include_router(router)
     return app
