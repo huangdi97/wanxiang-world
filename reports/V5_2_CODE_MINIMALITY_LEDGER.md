@@ -215,3 +215,9 @@ activation; no engine/registry.
 New abstractions: PersonaDelta, TrajectoryEntry, ActorEvolutionState (frozen
 records) + ActorEvolutionTracker (thin stateful class). Justification: M29
 actor evolution separation core; reuses CapabilityDelta.
+
+
+## G32D entry
+New abstractions: BehaviorRecord, CandidateEnvelope (frozen records) +
+SocialPatternDistiller (thin class). Justification: M29 distillation core;
+candidate-only output (never Canon).

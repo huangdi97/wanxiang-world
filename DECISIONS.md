@@ -97,3 +97,4 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0085 | G32A: EvolutionPolicyStack = versioned World/Platform policies; world policy can never mutate platform (structural guard + explicit rejection) | accepted |
 | 0086 | G32B: multi-scale evolution scheduler = modular cadence activation (linear growth, no full scans); deterministic per seed/cadence; thin layer over population runtime | accepted |
 | 0087 | G32C: capability and persona evolve through separate channels; skill gain never rewrites persona (explicit PersonaDelta only); trajectory provenance recorded per change | accepted |
+| 0088 | G32D: social pattern distillation is windowed + threshold-gated; candidates never write Canon; provenance = window refs + origin | accepted |

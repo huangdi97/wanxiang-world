@@ -53,7 +53,7 @@
 | G32A Evolution Policy Stack | PASS (2026-08-15, commit g32a) |
 | G32B ??????? | PASS (2026-08-15, commit g32b) |
 | G32C Actor Capability ? Persona ???? | PASS (2026-08-15, commit g32c) |
-| G32D Relation Group Social Pattern Distillation | pending |
+| G32D Relation Group Social Pattern Distillation | PASS (2026-08-15, commit g32d) |
 | G32E Institution Organization Rule ?? | pending |
 | G32F Ontology Law ????? | pending |
 | G32G Evolution Telemetry ????? | pending |

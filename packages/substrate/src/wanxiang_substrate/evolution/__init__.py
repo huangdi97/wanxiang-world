@@ -6,6 +6,11 @@ from wanxiang_substrate.evolution.actor_evolution import (
     PersonaDelta,
     TrajectoryEntry,
 )
+from wanxiang_substrate.evolution.distillation import (
+    BehaviorRecord,
+    CandidateEnvelope,
+    SocialPatternDistiller,
+)
 from wanxiang_substrate.evolution.policy_stack import (
     EvolutionPolicyStack,
     PlatformPolicy,
@@ -22,11 +27,14 @@ __all__ = [
     "EVOLUTION_SCALES",
     "ActorEvolutionState",
     "ActorEvolutionTracker",
+    "BehaviorRecord",
+    "CandidateEnvelope",
     "EvolutionCadence",
     "EvolutionPolicyStack",
     "EvolutionScheduler",
     "PersonaDelta",
     "PlatformPolicy",
+    "SocialPatternDistiller",
     "TrajectoryEntry",
     "WorldPolicy",
     "reject_world_platform_mutation",

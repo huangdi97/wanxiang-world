@@ -1021,3 +1021,10 @@
 - Added ActorEvolutionTracker with separated capability (reuses CapabilityDelta) and persona (explicit PersonaDelta) channels + trajectory provenance; skill gain never changes persona hash.
 - 4 tests.
 - Checkpoint: `g32c: Actor Capability ? Persona ????`.
+
+
+## 2026-08-15 - V5.2 G32D PASS (M29 phase)
+
+- Added SocialPatternDistiller: windowed relation/group/norm pattern detection -> CandidateEnvelope (threshold-gated, origin/provenance); never writes Canon.
+- 4 tests.
+- Checkpoint: `g32d: Relation Group Social Pattern Distillation`.
