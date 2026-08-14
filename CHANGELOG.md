@@ -355,3 +355,16 @@
   detector anti-tests, projection/StateReader no-write-API, duplicate-command
   idempotency through the event store.
 - Checkpoint: `g13c: architecture, dependency & canonical-mutation forensics`.
+
+## 2026-08-14 ? G13D PASS (M10 phase)
+
+- Fixed architecture-guard placeholder bug: `scan_placeholders` only ever checked the first
+  pattern (TODO); now scans all marker patterns (regression test covers every marker).
+- Fixed OpenAPI/SDK schema drift: FastAPI app is now the single source of truth;
+  `scripts/export_openapi.py` exports `packages/sdk_ts/src/openapi-contract.json`
+  (10 ops); TS SDK test consumes the real contract; Python drift test detects manual edits.
+- Added `scripts/false_completion_scan.py` and reports (FALSE_COMPLETION_AUDIT,
+  SURFACE_INTEGRATION_MAP, SCHEMA_DRIFT_AUDIT) + `tests/architecture/test_false_completion.py`
+  (7 tests). Dead code = 0; hardcoded candidates classified as legitimate literals.
+- Quality gate: ruff/pyright clean, 410 pytest PASS, TS 22 tests PASS.
+- Checkpoint: `g13d: placeholder, fake, dead-path & surface integration audit`.

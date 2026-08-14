@@ -1,4 +1,5 @@
-﻿"""Capture the reproducible post-M9 audit baseline (G13A). (fixed heads + ANSI parsing)"""
+"""Capture the reproducible post-M9 audit baseline (G13A). (fixed heads + ANSI parsing)"""
+
 from __future__ import annotations
 
 import datetime as _dt
@@ -7,18 +8,33 @@ import json
 import platform
 import re
 import subprocess
-import sys
 from pathlib import Path
+from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
 REPORTS = ROOT / "reports"
 REPORTS.mkdir(exist_ok=True)
 
 SKIP_DIR_NAMES = {
-    ".git", ".venv", "node_modules", ".uv-cache", ".pytest_cache", "dist",
-    "reports", "data", ".hypothesis", ".probe_cache", ".probe_dir",
-    ".pycache_probe", "pytest-cache-abc", "__pycache__", ".cache",
-    ".ruff_cache", "_arch_tmp", "_persist_tmp", ".pytest_tmp",
+    ".git",
+    ".venv",
+    "node_modules",
+    ".uv-cache",
+    ".pytest_cache",
+    "dist",
+    "reports",
+    "data",
+    ".hypothesis",
+    ".probe_cache",
+    ".probe_dir",
+    ".pycache_probe",
+    "pytest-cache-abc",
+    "__pycache__",
+    ".cache",
+    ".ruff_cache",
+    "_arch_tmp",
+    "_persist_tmp",
+    ".pytest_tmp",
 }
 SKIP_EXTENSIONS = {".pyc", ".pyo", ".db", ".sqlite", ".sqlite3", ".lock"}
 
@@ -51,7 +67,13 @@ def sha256(path: Path) -> str:
 def run(cmd: list[str], cwd: Path = ROOT) -> tuple[int, str]:
     try:
         proc = subprocess.run(
-            cmd, cwd=cwd, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=600
+            cmd,
+            cwd=cwd,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=600,
         )
         return proc.returncode, ANSI_RE.sub("", (proc.stdout or "") + (proc.stderr or ""))
     except FileNotFoundError:
@@ -81,12 +103,14 @@ MARKER_PATTERNS = {
     "placeholder": re.compile(r"\bplaceholder\b", re.IGNORECASE),
     "stub": re.compile(r"\bstub\b", re.IGNORECASE),
     "mock-only": re.compile(r"\bmock[- ]only\b", re.IGNORECASE),
-    "static-fake": re.compile(r"\b(static[ _-]?fake|canned[ _-]?json|hardcod(?:ed)?\s+fixture)\b", re.IGNORECASE),
+    "static-fake": re.compile(
+        r"\b(static[ _-]?fake|canned[ _-]?json|hardcod(?:ed)?\s+fixture)\b", re.IGNORECASE
+    ),
 }
 
 
-def scan_markers() -> dict:
-    counts = {name: 0 for name in MARKER_PATTERNS}
+def scan_markers() -> dict[str, Any]:
+    counts: dict[str, int] = dict.fromkeys(MARKER_PATTERNS, 0)
     hits: dict[str, list[str]] = {name: [] for name in MARKER_PATTERNS}
     for p in iter_repo_files():
         try:
@@ -102,9 +126,9 @@ def scan_markers() -> dict:
     return {"counts": counts, "sample_paths": hits}
 
 
-def migration_inventory() -> dict:
+def migration_inventory() -> dict[str, Any]:
     versions = ROOT / "migrations" / "versions"
-    entries: list[dict] = []
+    entries: list[dict[str, Any]] = []
     if versions.is_dir():
         for py in sorted(versions.glob("*.py")):
             text = py.read_text(encoding="utf-8", errors="replace")
@@ -144,7 +168,7 @@ def main() -> int:
         else:
             tracked_modified.append(path)
 
-    env = {
+    env: dict[str, str] = {
         "os": platform.system(),
         "platform": platform.platform(),
         "python": platform.python_version(),
@@ -156,7 +180,7 @@ def main() -> int:
     spec_path = ROOT / "docs/spec/WANXIANG_v5_MASTER_SPEC.md"
     spec_hash = sha256(spec_path) if spec_path.exists() else None
 
-    key_hashes = {}
+    key_hashes: dict[str, str | None] = {}
     for rel in KEY_FILES:
         p = ROOT / rel
         key_hashes[rel] = sha256(p) if p.exists() else None
@@ -173,8 +197,8 @@ def main() -> int:
     markers = scan_markers()
     migrations = migration_inventory()
 
-    captured_at = _dt.datetime.now(_dt.timezone.utc).isoformat(timespec="seconds")
-    baseline = {
+    captured_at = _dt.datetime.now(_dt.UTC).isoformat(timespec="seconds")
+    baseline: dict[str, Any] = {
         "schema_version": "1.0",
         "captured_at": captured_at,
         "repository": {
@@ -202,7 +226,9 @@ def main() -> int:
                 "id": "pytest_collect",
                 "command": "uv run pytest --collect-only -q",
                 "exit_code": pytest_rc,
-                "evidence": f"{pytest_collected} tests collected" if pytest_collected else pytest_out[-200:],
+                "evidence": f"{pytest_collected} tests collected"
+                if pytest_collected
+                else pytest_out[-200:],
             },
             {
                 "id": "ts_sdk_test",
@@ -250,7 +276,9 @@ def main() -> int:
         "",
     ]
     for e in migrations["files"]:
-        lines.append(f"- `{e['file']}` revision={e['revision']} down_revision={e['down_revision']} sha256={e['sha256'][:16]}")
+        lines.append(
+            f"- `{e['file']}` revision={e['revision']} down_revision={e['down_revision']} sha256={e['sha256'][:16]}"  # noqa: E501
+        )
     lines += ["", f"- Heads: {migrations['heads']}  Roots: {migrations['roots']}", ""]
     lines += ["## Test inventory", ""]
     lines.append(f"- Python collected: {pytest_collected}")
@@ -281,15 +309,15 @@ def main() -> int:
         "",
         "| Command | Exit | Evidence | Reproducible |",
         "|---|---|---|---|",
-        "| `uv run python scripts/quality.py` | 0 | ruff, pyright, 385 pytest, architecture PASS | yes |",
+        "| `uv run python scripts/quality.py` | 0 | ruff, pyright, 385 pytest, architecture PASS | yes |",  # noqa: E501
         "| `npm run typecheck` (packages/sdk_ts) | 0 | tsc --noEmit clean | yes |",
         "| `npm run lint` (packages/sdk_ts) | 0 | eslint clean | yes |",
         "| `npm test` (packages/sdk_ts) | 0 | 21 tests passed | yes |",
         "| `uv run pytest --collect-only -q` | 0 | 385 tests collected, no skips | yes |",
-        "| migration head | n/a | head 0002_add_event_seq_index derived offline from files | yes (offline) |",
-        "| `git status --porcelain` | 0 | PACK_MANIFEST.md modified; post-M9 pack untracked | yes |",
+        "| migration head | n/a | head 0002_add_event_seq_index derived offline from files | yes (offline) |",  # noqa: E501
+        "| `git status --porcelain` | 0 | PACK_MANIFEST.md modified; post-M9 pack untracked | yes |",  # noqa: E501
         "",
-        "Notes: `npm test` initially hit `EPERM: spawn` inside the sandbox; rerun outside the sandbox passed (environment boundary, not a product failure).",
+        "Notes: `npm test` initially hit `EPERM: spawn` inside the sandbox; rerun outside the sandbox passed (environment boundary, not a product failure).",  # noqa: E501
         "",
     ]
     (REPORTS / "POST_M9_COMMAND_MATRIX.md").write_text("\n".join(cmd_lines), encoding="utf-8")

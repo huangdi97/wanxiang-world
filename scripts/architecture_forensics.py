@@ -1,4 +1,4 @@
-﻿"""G13C: architecture, dependency and canonical-mutation forensics.
+"""G13C: architecture, dependency and canonical-mutation forensics.
 
 Read-mostly audit tool. Generates:
   reports/DEPENDENCY_GRAPH.md       - import edges between production packages
@@ -18,26 +18,60 @@ import json
 import re
 import sys
 from pathlib import Path
+from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
 REPORTS = ROOT / "reports"
 
 FORBIDDEN: dict[str, tuple[str, ...]] = {
     "packages/domain": (
-        "fastapi", "sqlalchemy", "alembic", "wanxiang_api", "httpx", "requests",
-        "openai", "pydantic", "wanxiang_persistence",
+        "fastapi",
+        "sqlalchemy",
+        "alembic",
+        "wanxiang_api",
+        "httpx",
+        "requests",
+        "openai",
+        "pydantic",
+        "wanxiang_persistence",
     ),
-    "packages/evidence": ("fastapi", "sqlalchemy", "alembic", "wanxiang_persistence", "httpx", "requests"),
-    "packages/application": ("fastapi", "sqlalchemy", "alembic", "wanxiang_api", "httpx", "requests"),
+    "packages/evidence": (
+        "fastapi",
+        "sqlalchemy",
+        "alembic",
+        "wanxiang_persistence",
+        "httpx",
+        "requests",
+    ),
+    "packages/application": (
+        "fastapi",
+        "sqlalchemy",
+        "alembic",
+        "wanxiang_api",
+        "httpx",
+        "requests",
+    ),
     "packages/runtime": (
-        "fastapi", "sqlalchemy", "alembic", "wanxiang_api", "wanxiang_persistence", "httpx", "requests",
+        "fastapi",
+        "sqlalchemy",
+        "alembic",
+        "wanxiang_api",
+        "wanxiang_persistence",
+        "httpx",
+        "requests",
     ),
     "packages/persistence": ("fastapi", "wanxiang_api"),
     "packages/model_providers": ("fastapi", "sqlalchemy", "alembic", "wanxiang_persistence"),
     "packages/observability": ("fastapi", "sqlalchemy", "alembic"),
     "packages/substrate": (
-        "fastapi", "sqlalchemy", "alembic", "wanxiang_api", "wanxiang_persistence",
-        "httpx", "requests", "openai",
+        "fastapi",
+        "sqlalchemy",
+        "alembic",
+        "wanxiang_api",
+        "wanxiang_persistence",
+        "httpx",
+        "requests",
+        "openai",
     ),
     "apps/api": ("sqlalchemy", "alembic", "wanxiang_persistence"),
 }
@@ -110,8 +144,8 @@ def import_edges(root: Path) -> dict[str, set[str]]:
     return edges
 
 
-def forbidden_violations(root: Path) -> list[dict]:
-    findings: list[dict] = []
+def forbidden_violations(root: Path) -> list[dict[str, Any]]:
+    findings: list[dict[str, Any]] = []
     for pkg_dir, forbidden in FORBIDDEN.items():
         base = root / pkg_dir
         if not base.is_dir():
@@ -131,7 +165,11 @@ def forbidden_violations(root: Path) -> list[dict]:
                         top = alias.name.split(".")[0]
                         if top in forbidden:
                             findings.append(
-                                {"file": str(py.relative_to(root)), "line": node.lineno, "import": top}
+                                {
+                                    "file": str(py.relative_to(root)),
+                                    "line": node.lineno,
+                                    "import": top,
+                                }
                             )
                 elif isinstance(node, ast.ImportFrom) and node.module:
                     top = node.module.split(".")[0]
@@ -142,9 +180,9 @@ def forbidden_violations(root: Path) -> list[dict]:
     return findings
 
 
-def persistence_leakage(root: Path) -> list[dict]:
+def persistence_leakage(root: Path) -> list[dict[str, Any]]:
     """Direct sqlalchemy/persistence usage outside the persistence package/api composition root."""
-    findings: list[dict] = []
+    findings: list[dict[str, Any]] = []
     for py in iter_py(root):
         pkg = package_of(py, root)
         if pkg in PERSISTENCE_OWNERS:
@@ -160,9 +198,9 @@ def persistence_leakage(root: Path) -> list[dict]:
     return findings
 
 
-def commit_authority_callsites(root: Path) -> list[dict]:
+def commit_authority_callsites(root: Path) -> list[dict[str, Any]]:
     """Files that construct CommitAuthority or call .commit() on one."""
-    findings: list[dict] = []
+    findings: list[dict[str, Any]] = []
     for py in iter_py(root):
         try:
             tree = ast.parse(py.read_text(encoding="utf-8"))
@@ -178,18 +216,23 @@ def commit_authority_callsites(root: Path) -> list[dict]:
                     constructs = True
                 if isinstance(func, ast.Attribute) and func.attr == "commit":
                     recv = func.value
-                    if isinstance(recv, ast.Name) and recv.id == "authority":
-                        commits += 1
-                    elif isinstance(recv, ast.Attribute) and recv.attr == "authority":
+                    if (
+                        isinstance(recv, ast.Name)
+                        and recv.id == "authority"
+                        or isinstance(recv, ast.Attribute)
+                        and recv.attr == "authority"
+                    ):
                         commits += 1
         if constructs or commits:
-            findings.append({"file": rel, "constructs_authority": constructs, "commit_calls": commits})
+            findings.append(
+                {"file": rel, "constructs_authority": constructs, "commit_calls": commits}
+            )
     return findings
 
 
-def direct_append_calls(root: Path) -> list[dict]:
+def direct_append_calls(root: Path) -> list[dict[str, Any]]:
     """Attribute .append( / .save( calls on persistence-looking objects outside approved layers."""
-    findings: list[dict] = []
+    findings: list[dict[str, Any]] = []
     for py in iter_py(root):
         pkg = package_of(py, root)
         rel = str(py.relative_to(root))
@@ -207,16 +250,20 @@ def direct_append_calls(root: Path) -> list[dict]:
             r".*_store|.*_repo|.*repository|.*_port|store|repo)$"
         )
         for node in ast.walk(tree):
-            if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute):
-                if node.func.attr in ("append", "save", "record") and isinstance(node.func.value, ast.Name):
-                    if persist_receiver.match(node.func.value.id):
-                        calls.append(node.lineno)
+            if not isinstance(node, ast.Call) or not isinstance(node.func, ast.Attribute):
+                continue
+            if (
+                node.func.attr in ("append", "save", "record")
+                and isinstance(node.func.value, ast.Name)
+                and persist_receiver.match(node.func.value.id)
+            ):
+                calls.append(node.lineno)
         if calls:
             findings.append({"file": rel, "lines": calls})
     return findings
 
 
-def canonical_mutation_paths(root: Path) -> dict:
+def canonical_mutation_paths(root: Path) -> dict[str, Any]:
     return {
         "authority": "wanxiang_runtime.authority.CommitAuthority.commit",
         "enforcement": [
@@ -229,30 +276,28 @@ def canonical_mutation_paths(root: Path) -> dict:
         "persistence_write_owners": sorted(PERSISTENCE_OWNERS),
     }
 
+
 def detect_cycles(edges: dict[str, set[str]]) -> list[str]:
     """Return unique import cycles as 'a -> b -> a' strings."""
     cycles: list[str] = []
+
+    def dfs(node: str, stack: list[str], visited: set[str]) -> None:
+        if node in stack:
+            i = stack.index(node)
+            joined = " -> ".join(stack[i:] + [node])
+            if joined not in cycles:
+                cycles.append(joined)
+            return
+        if node in visited:
+            return
+        visited.add(node)
+        stack.append(node)
+        for nxt in sorted(edges.get(node, set())):
+            dfs(nxt, stack, visited)
+        stack.pop()
+
     for start in sorted(edges):
-        visited: set[str] = set()
-        stack: list[str] = []
-
-        def dfs(node: str) -> None:
-            if node in stack:
-                i = stack.index(node)
-                cycle = stack[i:] + [node]
-                joined = " -> ".join(cycle)
-                if joined not in cycles:
-                    cycles.append(joined)
-                return
-            if node in visited:
-                return
-            visited.add(node)
-            stack.append(node)
-            for nxt in sorted(edges.get(node, set())):
-                dfs(nxt)
-            stack.pop()
-
-        dfs(start)
+        dfs(start, [], set())
     return cycles
 
 
@@ -299,7 +344,11 @@ def render_architecture_forensics(root: Path, fail_on_findings: bool) -> int:
             lines.append(f"- `{f['file']}:{f['line']}` imports `{f['import']}`")
     else:
         lines.append("None.")
-    lines += ["", "## Persistence leakage (sqlalchemy/alembic/wanxiang_persistence outside persistence/api)", ""]
+    lines += [
+        "",
+        "## Persistence leakage (sqlalchemy/alembic/wanxiang_persistence outside persistence/api)",
+        "",
+    ]
     if leakage:
         for f in leakage:
             lines.append(f"- `{f['file']}` imports {', '.join(f['imports'])}")
@@ -307,7 +356,9 @@ def render_architecture_forensics(root: Path, fail_on_findings: bool) -> int:
         lines.append("None.")
     lines += ["", "## CommitAuthority call sites", ""]
     for c in callsites:
-        lines.append(f"- `{c['file']}` constructs_authority={c['constructs_authority']} commit_calls={c['commit_calls']}")
+        lines.append(
+            f"- `{c['file']}` constructs_authority={c['constructs_authority']} commit_calls={c['commit_calls']}"  # noqa: E501
+        )
     lines += ["", "## Direct append/save/record calls outside approved layers", ""]
     if appends:
         for a in appends:
@@ -324,7 +375,7 @@ def render_architecture_forensics(root: Path, fail_on_findings: bool) -> int:
         "",
         "## Interpretation",
         "",
-        "- Canonical mutations flow only through CommitAuthority (see CANONICAL_MUTATION_PATHS.md).",
+        "- Canonical mutations flow only through CommitAuthority (see CANONICAL_MUTATION_PATHS.md).",  # noqa: E501
         "- Any finding above is a P0/P1 gap candidate for G13H/G13I, not a silent pass.",
         "",
     ]
@@ -339,7 +390,7 @@ def render_architecture_forensics(root: Path, fail_on_findings: bool) -> int:
         "",
         "```text",
         "CommandEnvelope -> resolver/adjudication -> ProposedWorldDelta -> CommitRequest",
-        "  -> CommitAuthority.commit (preconditions -> apply_delta -> atomic append -> revision advance)",
+        "  -> CommitAuthority.commit (preconditions -> apply_delta -> atomic append -> revision advance)",  # noqa: E501
         "  -> CommittedEvent -> canonical state projection -> audit record",
         "```",
         "",
@@ -376,8 +427,10 @@ def render_architecture_forensics(root: Path, fail_on_findings: bool) -> int:
     )
 
     total_findings = len(forbidden) + len(leakage) + len(appends) + len(cycles)
-    print(f"architecture forensics: forbidden={len(forbidden)} leakage={len(leakage)} "
-          f"callsites={len(callsites)} appends={len(appends)} cycles={len(cycles)}")
+    print(
+        f"architecture forensics: forbidden={len(forbidden)} leakage={len(leakage)} "
+        f"callsites={len(callsites)} appends={len(appends)} cycles={len(cycles)}"
+    )
     if fail_on_findings and total_findings:
         return 1
     return 0

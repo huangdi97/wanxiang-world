@@ -1,0 +1,73 @@
+{
+  "placeholders": [],
+  "dead_modules": [],
+  "hardcoded_state": [
+    {
+      "file": "packages/domain/src/wanxiang_domain/serialization.py",
+      "line": 163,
+      "kind": "large-dict-literal",
+      "keys": 11
+    },
+    {
+      "file": "packages/domain/src/wanxiang_domain/serialization_history.py",
+      "line": 50,
+      "kind": "large-dict-literal",
+      "keys": 15
+    },
+    {
+      "file": "packages/domain/src/wanxiang_domain/serialization_history.py",
+      "line": 100,
+      "kind": "large-dict-literal",
+      "keys": 9
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/epistemic/components.py",
+      "line": 30,
+      "kind": "large-dict-literal",
+      "keys": 8
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/epistemic/components.py",
+      "line": 58,
+      "kind": "large-dict-literal",
+      "keys": 9
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/genealogy/gedcom.py",
+      "line": 164,
+      "kind": "large-dict-literal",
+      "keys": 9
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/packages/install.py",
+      "line": 160,
+      "kind": "large-dict-literal",
+      "keys": 11
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/packages/model.py",
+      "line": 151,
+      "kind": "large-dict-literal",
+      "keys": 8
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/sources/model.py",
+      "line": 123,
+      "kind": "large-dict-literal",
+      "keys": 8
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/temporal/components.py",
+      "line": 42,
+      "kind": "large-dict-literal",
+      "keys": 8
+    }
+  ],
+  "schema_drift": {
+    "server_operation_count": 10,
+    "sdk_contract_operation_count": 10,
+    "server_only": [],
+    "sdk_only": [],
+    "aligned": true
+  }
+}

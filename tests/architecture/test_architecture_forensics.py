@@ -1,4 +1,4 @@
-﻿"""G13C: architecture forensics + canonical-mutation-bypass tests.
+"""G13C: architecture forensics + canonical-mutation-bypass tests.
 
 Static detectors run over the real repository and must be clean; the same
 detectors are exercised against adversarial fixtures (workspace-local temp,
@@ -8,48 +8,43 @@ CommitAuthority: projections/readers expose no write API, and the event store
 rejects duplicate-command retries (idempotency).
 """
 
-from __future__ import annotations
+from __future__ import annotations  # noqa: I001
 
-import importlib.util
 import inspect
 import pathlib
 import uuid
+import contextlib
+from collections.abc import Iterator
 
 import pytest
+from scripts.architecture_forensics import (
+    commit_authority_callsites,
+    detect_cycles,
+    direct_append_calls,
+    forbidden_violations,
+    import_edges,
+    persistence_leakage,
+)
+from wanxiang_application.state_reader import StateReader
+from wanxiang_application.world_runtime import WorldRuntime
+from wanxiang_substrate.projection.service import ProjectionService
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent.parent
 ARCH_TMP = ROOT / "tests" / "_arch_tmp"
 
 
-def _load(name: str, path: pathlib.Path):
-    spec = importlib.util.spec_from_file_location(name, path)
-    assert spec is not None and spec.loader is not None
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module
-
-
-@pytest.fixture(scope="module")
-def forensics():
-    return _load("architecture_forensics", ROOT / "scripts" / "architecture_forensics.py")
-
-
 @pytest.fixture
-def arch_tmp() -> pathlib.Path:
+def arch_tmp() -> Iterator[pathlib.Path]:
     ARCH_TMP.mkdir(parents=True, exist_ok=True)
     d = ARCH_TMP / uuid.uuid4().hex
     d.mkdir(parents=True, exist_ok=True)
     yield d
     for p in d.rglob("*"):
         if p.is_file():
-            try:
+            with contextlib.suppress(OSError):
                 p.unlink()
-            except OSError:
-                pass
-    try:
+    with contextlib.suppress(OSError):
         d.rmdir()
-    except OSError:
-        pass
 
 
 def _write(root: pathlib.Path, rel: str, content: str) -> None:
@@ -58,68 +53,68 @@ def _write(root: pathlib.Path, rel: str, content: str) -> None:
     p.write_text(content, encoding="utf-8")
 
 
-def test_repository_has_no_forbidden_imports(forensics) -> None:
-    assert forensics.forbidden_violations(ROOT) == []
+def test_repository_has_no_forbidden_imports() -> None:
+    assert forbidden_violations(ROOT) == []
 
 
-def test_repository_has_no_persistence_leakage(forensics) -> None:
-    assert forensics.persistence_leakage(ROOT) == []
+def test_repository_has_no_persistence_leakage() -> None:
+    assert persistence_leakage(ROOT) == []
 
 
-def test_repository_has_no_direct_persistence_writes(forensics) -> None:
-    assert forensics.direct_append_calls(ROOT) == []
+def test_repository_has_no_direct_persistence_writes() -> None:
+    assert direct_append_calls(ROOT) == []
 
 
-def test_repository_has_no_import_cycles(forensics) -> None:
-    edges = forensics.import_edges(ROOT)
-    assert forensics.detect_cycles(edges) == []
+def test_repository_has_no_import_cycles() -> None:
+    edges = import_edges(ROOT)
+    assert detect_cycles(edges) == []
 
 
-def test_single_commit_authority_entry_point(forensics) -> None:
-    sites = forensics.commit_authority_callsites(ROOT)
+def test_single_commit_authority_entry_point() -> None:
+    sites = commit_authority_callsites(ROOT)
     constructors = [s for s in sites if s["constructs_authority"]]
-    assert len(constructors) == 1, f"expected exactly one CommitAuthority constructor, got {constructors}"
-    assert "world_runtime.py" in constructors[0]["file"]
+    assert len(constructors) == 1, (
+        f"expected exactly one CommitAuthority constructor, got {constructors}"
+    )
+    assert any("world_runtime.py" in str(s.get("file", "")) for s in constructors)
 
 
-def test_detector_catches_forbidden_import(forensics, arch_tmp: pathlib.Path) -> None:
+def test_detector_catches_forbidden_import(arch_tmp: pathlib.Path) -> None:
     _write(
         arch_tmp,
         "packages/domain/src/wanxiang_domain/evil.py",
         "import sqlalchemy\n",
     )
-    findings = forensics.forbidden_violations(arch_tmp)
-    assert any("sqlalchemy" in f["import"] for f in findings)
+    findings = forbidden_violations(arch_tmp)
+    assert any("sqlalchemy" in str(f.get("import", "")) for f in findings)
 
 
-def test_detector_catches_persistence_write_outside_owners(forensics, arch_tmp: pathlib.Path) -> None:
+def test_detector_catches_persistence_write_outside_owners(arch_tmp: pathlib.Path) -> None:
     _write(
         arch_tmp,
         "packages/substrate/src/wanxiang_substrate/evil.py",
         "def boom(event_store):\n    event_store.append('x')\n",
     )
-    findings = forensics.direct_append_calls(arch_tmp)
+    findings = direct_append_calls(arch_tmp)
     assert len(findings) == 1 and findings[0]["lines"]
 
 
-def test_detector_catches_import_cycle(forensics, arch_tmp: pathlib.Path) -> None:
+def test_detector_catches_import_cycle(arch_tmp: pathlib.Path) -> None:
     _write(arch_tmp, "packages/a/src/wanxiang_a/mod.py", "import wanxiang_b\n")
     _write(arch_tmp, "packages/b/src/wanxiang_b/mod.py", "import wanxiang_a\n")
-    edges = forensics.import_edges(arch_tmp)
-    assert forensics.detect_cycles(edges)
+    edges = import_edges(arch_tmp)
+    assert detect_cycles(edges)
 
 
 def test_projection_service_has_no_write_api() -> None:
-    from wanxiang_substrate.projection.service import ProjectionService
-
     write_names = {"append", "save", "record", "commit", "write", "mutate", "update", "submit"}
     members = {name for name, _ in inspect.getmembers(ProjectionService, inspect.isfunction)}
-    assert not (members & write_names), f"projection must not expose write API: {members & write_names}"
+    assert not (members & write_names), (
+        f"projection must not expose write API: {members & write_names}"
+    )
 
 
 def test_state_reader_has_no_write_api() -> None:
-    from wanxiang_application.state_reader import StateReader
-
     # update/invalidate only manage the discardable read cache; they never
     # append/save/commit canonical state or touch persistence.
     write_names = {"append", "save", "record", "commit", "submit"}
@@ -128,7 +123,7 @@ def test_state_reader_has_no_write_api() -> None:
 
 
 def test_canonical_mutation_only_through_commit_authority(
-    persist_db_path: pathlib.Path, world_runtime
+    persist_db_path: pathlib.Path, world_runtime: WorldRuntime
 ) -> None:
     from wanxiang_domain.command import CommandEnvelope
     from wanxiang_domain.errors import DuplicateCommandConflict

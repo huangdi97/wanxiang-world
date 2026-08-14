@@ -37,3 +37,4 @@ certification and local checkpoint. No push/deploy.
 | 1 | G13A | Post-M9 Baseline Freeze & Independent Evidence Capture | PASS (2026-08-14) |
 | 2 | G13B | Design-to-Implementation Traceability Matrix | PASS (2026-08-14) |
 | 3 | G13C | Architecture, Dependency & Canonical-Mutation Forensics | PASS (2026-08-14) |
+| 4 | G13D | Placeholder, Fake, Dead-path & Surface Integration Audit | PASS (2026-08-14) |

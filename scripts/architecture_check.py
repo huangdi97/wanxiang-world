@@ -311,7 +311,21 @@ def scan_placeholders(root: pathlib.Path = ROOT) -> list[Violation]:
     for py in _iter_python_files(src_dirs):
         text = py.read_text(encoding="utf-8")
         for idx, line in enumerate(text.splitlines(), start=1):
-            matched = next((pattern.search(line) for pattern in PLACEHOLDER_PATTERNS), None)
+            # `return NotImplemented` is the standard rich-comparison idiom
+            # (__lt__/__le__/__gt__/__ge__ signalling "not comparable") and is
+            # not a placeholder; everything else is scanned across ALL marker
+            # patterns (first non-None match), not only the first pattern.
+            if line.strip() == "return NotImplemented":
+                continue
+            matched = next(
+                (
+                    m
+                    for pattern in PLACEHOLDER_PATTERNS
+                    for m in [pattern.search(line)]
+                    if m is not None
+                ),
+                None,
+            )
             if matched is not None:
                 violations.append(
                     Violation(
