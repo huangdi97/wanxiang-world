@@ -1,6 +1,9 @@
 {
   "api_routes": [
     "GET /healthz",
+    "GET /lineage/nodes/{node_id}/ancestors",
+    "GET /lineage/nodes/{node_id}/descendants",
+    "GET /lineage/nodes/{node_id}/promotion-origin",
     "GET /worlds/{instance_id}",
     "GET /worlds/{instance_id}/events",
     "GET /worlds/{instance_id}/state",

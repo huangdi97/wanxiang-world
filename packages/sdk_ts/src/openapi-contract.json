@@ -10,6 +10,21 @@
         "operationId": "healthz_healthz_get"
       }
     },
+    "/lineage/nodes/{node_id}/ancestors": {
+      "get": {
+        "operationId": "ancestors_lineage_nodes__node_id__ancestors_get"
+      }
+    },
+    "/lineage/nodes/{node_id}/descendants": {
+      "get": {
+        "operationId": "descendants_lineage_nodes__node_id__descendants_get"
+      }
+    },
+    "/lineage/nodes/{node_id}/promotion-origin": {
+      "get": {
+        "operationId": "promotion_origin_lineage_nodes__node_id__promotion_origin_get"
+      }
+    },
     "/worlds": {
       "post": {
         "operationId": "create_world_worlds_post"

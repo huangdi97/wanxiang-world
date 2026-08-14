@@ -16,9 +16,11 @@ from wanxiang_persistence.event_store import SqlAlchemyEventStore
 from wanxiang_persistence.instance_repository import WorldInstanceRepository
 from wanxiang_persistence.snapshot_store import SqlAlchemySnapshotStore
 from wanxiang_runtime.resolver import ResolverRegistry
+from wanxiang_substrate.lineage import LineageGraph
 
 from wanxiang_api.errors import install_error_handler
 from wanxiang_api.limits import PayloadTooLarge
+from wanxiang_api.lineage_routes import router as lineage_router
 from wanxiang_api.routes import router
 
 API_TITLE = "Wanxiang World API"
@@ -51,9 +53,13 @@ def build_runtime(
     )
 
 
-def create_app(runtime: WorldRuntime | None = None) -> FastAPI:
+def create_app(
+    runtime: WorldRuntime | None = None,
+    lineage_graph: LineageGraph | None = None,
+) -> FastAPI:
     app = FastAPI(title=API_TITLE, version=API_VERSION)
     app.state.runtime = runtime
+    app.state.lineage_graph = lineage_graph or LineageGraph()
     install_error_handler(app)
 
     @app.exception_handler(PayloadTooLarge)
@@ -69,4 +75,5 @@ def create_app(runtime: WorldRuntime | None = None) -> FastAPI:
         )
 
     app.include_router(router)
+    app.include_router(lineage_router)
     return app

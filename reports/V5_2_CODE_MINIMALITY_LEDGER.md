@@ -185,3 +185,9 @@ policies prevent dual-write; no engine/store beyond the thin registry.
 New abstractions: GenesisCheck, HybridGenesisReport (frozen records) +
 analyze_hybrid_genesis (pure function). Justification: M28 hybrid-genesis
 safety core; pure analysis, no merge engine, no parent mutation.
+
+
+## G31G entry
+New abstractions: lineage_routes router (3 GET endpoints) + Studio read-only
+projection method. Justification: M28 lineage exposure; routes are thin
+transports over the shared LineageGraph; no new store/engine.

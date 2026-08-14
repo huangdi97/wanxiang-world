@@ -12,6 +12,7 @@ from typing import Any
 
 from wanxiang_application.world_runtime import WorldRuntime
 from wanxiang_domain.ids import BranchId, WorldInstanceId
+from wanxiang_substrate.lineage import LineageGraph
 from wanxiang_substrate.projection.model import ProjectionRequest
 from wanxiang_substrate.projection.service import ProjectionService
 
@@ -76,6 +77,23 @@ class StudioService:
         )
         self._record("debug_projection", branch_id.value)
         return snap
+
+    def lineage_projection(self, graph: LineageGraph, node_id: str) -> dict[str, Any]:
+        """Read-only lineage debug view (Studio never holds authority)."""
+        ancestors = graph.ancestors(node_id)
+        descendants = graph.descendants(node_id)
+        promotion_origin = None
+        for edge in graph.edges():
+            if edge.child_node_id == node_id and edge.edge_kind == "promotion":
+                promotion_origin = edge.origin_ref
+                break
+        self._record("lineage_projection", node_id)
+        return {
+            "node_id": node_id,
+            "ancestors": list(ancestors),
+            "descendants": list(descendants),
+            "promotion_origin": promotion_origin,
+        }
 
     def audit_log(self) -> tuple[dict[str, str], ...]:
         return tuple(self._audit)

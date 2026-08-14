@@ -92,3 +92,4 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0080 | G31D: WorldHypervisor composes WorldHost/HostRegistry (no second host); explicit instance/worldline routing + per-instance budget/profile; wrong-route commands rejected | accepted |
 | 0081 | G31E: interworld presence = OriginIdentity + PresenceRef with explicit translation/sync policies; no implicit write-back; identity conflicts rejected unless mapped | accepted |
 | 0082 | G31F: hybrid genesis = semantic compatibility analysis (constitution/identity/ontology/law/rights/history) producing candidate or rejection; never fakes Git merge; never rewrites parent histories | accepted |
+| 0083 | G31G: lineage exposed via GET-only API (ancestors/descendants/promotion-origin), OpenAPI-regenerated SDK contract (13 routes), Studio read-only projection; UI never holds authority | accepted |

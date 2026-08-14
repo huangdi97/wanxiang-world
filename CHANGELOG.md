@@ -985,3 +985,10 @@
 - Added hybrid-genesis compatibility analysis: 6 semantic checks, MergePlan candidate or rejection (no fake git-merge, no auto-resolve); parent histories never rewritten.
 - 5 tests.
 - Checkpoint: `g31f: Hybrid Genesis ??????????`.
+
+
+## 2026-08-15 - V5.2 G31G PASS (M28 phase)
+
+- Added GET-only lineage API (ancestors/descendants/promotion-origin), regenerated OpenAPI SDK contract (13 routes, drift green), Studio read-only lineage projection.
+- 2 API contract tests (queries + read-only surface).
+- Checkpoint: `g31g: Lineage API SDK Studio ????`.
