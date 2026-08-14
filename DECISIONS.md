@@ -90,3 +90,4 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0078 | G31B: LineageGraph is a thin DAG store (node/edge + ancestor/descendant queries, cycle rejection); stores derivation refs only, never history | accepted |
 | 0079 | G31C: lineage persisted via minimal lineage_nodes/edges (migration 0003, downgrade-safe); branch lineage derived from existing branches table (no second system); Event history never copied | accepted |
 | 0080 | G31D: WorldHypervisor composes WorldHost/HostRegistry (no second host); explicit instance/worldline routing + per-instance budget/profile; wrong-route commands rejected | accepted |
+| 0081 | G31E: interworld presence = OriginIdentity + PresenceRef with explicit translation/sync policies; no implicit write-back; identity conflicts rejected unless mapped | accepted |

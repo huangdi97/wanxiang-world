@@ -382,7 +382,7 @@ golden fixtures (`tests/fixtures/v5_2_baseline/`, combined hash
 |---|---|---|
 | M26 | ?????????????? | PASS (2026-08-15, reports/M26_QUALIFICATION.md) |
 | M27 | Reality Root / Constitution / ISA | PASS (2026-08-15, reports/M27_QUALIFICATION.md) |
-| M28 | Worldline / Lineage / Hypervisor | in progress (G31A-G31D PASS) |
+| M28 | Worldline / Lineage / Hypervisor | in progress (G31A-G31E PASS) |
 | M29 | ?????? | pending |
 | M30 | Promotion / Cross-world Distillation | pending |
 | M31 | Kernel/Runtime/Forge/Experiences ?? + ????? | pending |

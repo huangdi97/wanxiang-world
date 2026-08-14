@@ -971,3 +971,10 @@
 - Added WorldHypervisor over the existing WorldHost/HostRegistry: instance/worldline routing, per-instance ResourceBudget + RuntimeProfile binding, route verification on every command.
 - 3 integration tests (same-ID isolation, interleaved routing, budget enforcement).
 - Checkpoint: `g31d: World Hypervisor ?????`.
+
+
+## 2026-08-15 - V5.2 G31E PASS (M28 phase)
+
+- Added OriginIdentity/PresenceRef/PresenceRegistry: explicit presence + translation/sync policies; no implicit cross-world write-back; identity conflicts rejected unless mapped.
+- 4 tests.
+- Checkpoint: `g31e: Interworld Identity ? Presence`.

@@ -173,3 +173,9 @@ view function, not a duplicate store).
 New abstractions: WorldHypervisor (composer over existing WorldHost/HostRegistry)
 + RuntimeProfile (frozen record). Justification: M28 multi-instance isolation
 core; no second host; routing/budget are thin additions over existing pieces.
+
+
+## G31E entry
+New abstractions: OriginIdentity, PresenceRef (frozen records) + PresenceRegistry
+(thin registry). Justification: M28 interworld identity/presence core; explicit
+policies prevent dual-write; no engine/store beyond the thin registry.

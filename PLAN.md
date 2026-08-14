@@ -150,7 +150,8 @@ v5.2 certification reports and local checkpoint. No push/deploy.
 | 12b | G31B | World Lineage Graph ???? | PASS (2026-08-15) |
 | 12c | G31C | Lineage Repository ??? | PASS (2026-08-15) |
 | 12d | G31D | World Hypervisor ????? | PASS (2026-08-15) |
-| 12e | G31E..G31H | Interworld Identity / Genesis / API (M28) | pending |
+| 12e | G31E | Interworld Identity ? Presence | PASS (2026-08-15) |
+| 12f | G31F..G31H | Hybrid Genesis / Lineage API (M28) | pending |
 | 13 | M28 Gate | Lineage Hypervisor ???? | pending |
 | 14 | G32A..G32H | Evolution Policy / ?????? (M29) | pending |
 | 15 | M29 Gate | ?????????? | pending |

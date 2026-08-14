@@ -5,5 +5,17 @@ from wanxiang_substrate.lineage.graph import (
     LineageGraph,
     LineageNode,
 )
+from wanxiang_substrate.lineage.presence import (
+    OriginIdentity,
+    PresenceRef,
+    PresenceRegistry,
+)
 
-__all__ = ["LineageEdge", "LineageGraph", "LineageNode"]
+__all__ = [
+    "LineageEdge",
+    "LineageGraph",
+    "LineageNode",
+    "OriginIdentity",
+    "PresenceRef",
+    "PresenceRegistry",
+]
