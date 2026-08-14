@@ -41,3 +41,8 @@ snapshot store flagged MERGE (G29C) with consumer evidence.
 2. replaces/merges: replaces the duplicate recovery InMemorySnapshotStore implementation.
 3. why function/type insufficient: needs a small stateful index over the shared store; a bare function would need an external index object anyway.
 4. consumers: CheckpointService + RecoveryService + recovery tests (2+ consumers).
+
+
+## G29D entry
+No new production abstraction (verification + tests only). Confirmed the
+single-authority derivation model; no second State/Event/Audit mechanism exists.

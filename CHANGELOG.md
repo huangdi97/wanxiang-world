@@ -844,3 +844,10 @@
 - Confirmed no global service locator exists; no new global mutable registry; no Manager duplicates (0 Managers).
 - Added adapter-semantics + deprecation-alias tests; 32-test targeted regression green.
 - Checkpoint: `g29c: ???? Registry ? Manager`.
+
+
+## 2026-08-14 - V5.2 G29D PASS (M26 phase)
+
+- Verified State/Event/Audit derivation: events authoritative, snapshots cache, audit reference view; no second state table; no route/provider ORM writes (guard-enforced).
+- Added 2 integration tests: drop-all-derived-state rebuild (same semantic hash) and audit-references-events (no delta duplication, deleting audit doesn't change replay hash).
+- Checkpoint: `g29d: ?? State Event Audit ????`.
