@@ -468,3 +468,10 @@
   debug privilege, revocation of media/source rights, append-only audit) and
   `reports/AUTH_RIGHTS_PRIVACY_ADVERSARIAL.md`.
 - Checkpoint: `g14g: authorization, rights, privacy & data-leak adversarial qualification`.
+
+## 2026-08-14 ? G14H PASS (M11 phase)
+
+- Fixed P1: CoSimOrchestrator checkpoint omitted the clock, breaking restore+continue; clock now part of checkpoint.
+- Added `tests/integration/test_g14h_byzantine.py` (5 tests: proposals never commit, deterministic arbitration,
+  fail-fast timeout, checkpoint mismatch detection, byzantine observation rejection/conflict) and reports.
+- Checkpoint: `g14h: simulationadapter & external-system byzantine behavior qualification`.

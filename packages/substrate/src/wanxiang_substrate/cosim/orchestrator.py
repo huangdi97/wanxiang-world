@@ -74,15 +74,23 @@ class CoSimOrchestrator:
         return self.step_to(target)
 
     def checkpoint(self) -> tuple[object, ...]:
-        snap = tuple(self.simulators[name].checkpoint() for name in sorted(self.simulators))
+        # The orchestrator clock is part of the checkpoint so restore+continue
+        # realigns barriers instead of stepping backwards or mis-stepping.
+        snap = (self._now,) + tuple(
+            self.simulators[name].checkpoint() for name in sorted(self.simulators)
+        )
         self._checkpoint_log.append(snap)
         return snap
 
     def restore(self, checkpoint: tuple[object, ...]) -> None:
         names = sorted(self.simulators)
-        if len(checkpoint) != len(names):
+        if len(checkpoint) != len(names) + 1:
             raise OrchestrationError("checkpoint length mismatch")
-        for name, payload in zip(names, checkpoint, strict=True):
+        now = checkpoint[0]
+        if not isinstance(now, int):
+            raise OrchestrationError("checkpoint clock must be an integer")
+        self._now = now
+        for name, payload in zip(names, checkpoint[1:], strict=True):
             self.simulators[name].restore(payload)
 
     def arbitrate(self, proposals: dict[str, object]) -> ArbitrationResult:
