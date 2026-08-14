@@ -571,3 +571,9 @@
 - Added content-addressed `assets/storage.py` (AssetRef + ObjectStore Port + LocalObjectStore + rights check),
   `assets/errors.py`, and `tests/integration/test_g16d_asset_storage.py` (4 tests) + reports.
 - Checkpoint: `g16d: asset/object storage, media rights & durable artifact handling`.
+
+## 2026-08-14 ? G16E PASS (M13 phase)
+
+- Added `wanxiang_observability/tracing.py` (OTel-compatible facade: spans + metrics + in-memory exporter),
+  `tests/integration/test_g16e_observability.py` (3 tests), runbook + reports.
+- Checkpoint: `g16e: opentelemetry observability, slos & operational diagnostics`.
