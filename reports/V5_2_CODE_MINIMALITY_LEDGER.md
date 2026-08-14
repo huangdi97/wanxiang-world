@@ -203,3 +203,9 @@ no new abstraction in this Goal (fixture generator + tests only).
 New abstractions: WorldPolicy, PlatformPolicy, EvolutionPolicyStack (frozen
 records) + reject_world_platform_mutation (function). Justification: M29
 evolution policy core; policies are config, not a new runtime.
+
+
+## G32B entry
+New abstractions: EvolutionCadence (frozen record) + EvolutionScheduler (thin
+class). Justification: M29 multi-scale scheduling core; deterministic modular
+activation; no engine/registry.

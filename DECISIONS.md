@@ -95,3 +95,4 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0083 | G31G: lineage exposed via GET-only API (ancestors/descendants/promotion-origin), OpenAPI-regenerated SDK contract (13 routes), Studio read-only projection; UI never holds authority | accepted |
 | 0084 | G31H/M28: full gate PASS (747+1); lineage model moved to domain to keep persistence->substrate direction clean; migration head 0003 constants updated; M28=PASS ? M29 evolution work can start | accepted |
 | 0085 | G32A: EvolutionPolicyStack = versioned World/Platform policies; world policy can never mutate platform (structural guard + explicit rejection) | accepted |
+| 0086 | G32B: multi-scale evolution scheduler = modular cadence activation (linear growth, no full scans); deterministic per seed/cadence; thin layer over population runtime | accepted |

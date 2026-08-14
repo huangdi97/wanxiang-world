@@ -1007,3 +1007,10 @@
 - Added evolution policy stack: versioned WorldPolicy (actor/capability/social/institution/ontology/law/promotion) + PlatformPolicy (model/plugin/domain/runtime/constitution) with independent permissions and traceable versions.
 - 3 tests.
 - Checkpoint: `g32a: Evolution Policy Stack`.
+
+
+## 2026-08-15 - V5.2 G32B PASS (M29 phase)
+
+- Added multi-scale evolution scheduler (actor/relation/group/institution/world cadences; modular activation, no full scans, linear long-run growth, deterministic).
+- 4 tests.
+- Checkpoint: `g32b: ???????`.
