@@ -53,3 +53,4 @@ certification and local checkpoint. No push/deploy.
 | 17 | G14H | SimulationAdapter & External-system Byzantine Behavior Qualification | PASS (2026-08-14) |
 | 18 | G14I | Resource Exhaustion, Fuzz, Long-run Chaos & M11 Qualification | PASS (2026-08-14) |
 | 19 | G15A | Reference World Contract & External Pack Boundary | PASS (2026-08-14) |
+| 20 | G15B | Comprehensive Synthetic Reference World Package | PASS (2026-08-14) |

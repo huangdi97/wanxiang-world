@@ -491,3 +491,10 @@
   `tests/integration/test_g15a_reference_world_contract.py` (3 tests), acceptance reports.
 - Black-box world pack contract: build/install without Core changes; harness catches missing metadata.
 - Checkpoint: `g15a: reference world contract & external pack boundary`.
+
+## 2026-08-14 ? G15B PASS (M12 phase)
+
+- Added `reference_worlds/synthetic_full/` (synthetic full world: 5 places, 4 people, guild, objects,
+  beliefs, scenario seeds) built/installed/instantiated via the public path.
+- Added `tests/integration/test_g15b_synthetic_world.py` (4 tests) + build report.
+- Checkpoint: `g15b: comprehensive synthetic reference world package`.
