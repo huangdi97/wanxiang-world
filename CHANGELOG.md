@@ -504,3 +504,9 @@
 - Added `tests/integration/test_g15c_seven_day.py` (7-day autonomous run on the synthetic full world,
   periodic hashes/checkpoints, replay verification, emergent events, no-starvation, no-leak) + reports.
 - Checkpoint: `g15c: seven-day autonomous living-world qualification`.
+
+## 2026-08-14 ? G15D PASS (M12 phase)
+
+- Added `tests/integration/test_g15d_embodiment.py` (embodiment lease takeover, human command, shadow advice,
+  conflicting takeover rejected, exit + autonomous advance, handoff resume, re-entry perspective) + reports.
+- Checkpoint: `g15d: human embodiment, exit, re-entry & control continuity qualification`.
