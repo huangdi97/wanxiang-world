@@ -767,3 +767,8 @@
 
 - Regenerated design traceability from source; added `reports/FINAL_DESIGN_TRACEABILITY.md` + `reports/final_design_traceability.json`. Closure: 44 requirements (42 VERIFIED, 2 EXTERNAL_BLOCKED, 0 GAP), 16 kernels, 63 goals. External blockers narrow (real renderers/XR; real licensed source data). M16 research tracks remain experimental, not v5.0 requirements.
 - Checkpoint: `g20a: final mother-spec traceability & requirement closure`.
+
+## 2026-08-14 - G20B PASS (M17 phase)
+
+- Added `scripts/clean_room_certify.py` (automated 7-step clean-room certification) + `reports/CLEAN_ROOM_CERTIFICATION.md` + `tests/integration/test_g20b_clean_room.py` (5 tests). All steps PASS: clean tree, reproducible release manifest (sha==HEAD), 0001->head migration, golden replay hash, backup/restore round-trip, external sample pack, reference world install+instantiate.
+- Checkpoint: `g20b: clean-room build, install, upgrade, restore & replay certification`.

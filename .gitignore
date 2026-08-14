@@ -48,3 +48,6 @@ tests/_arch_tmp/
 .pytest-tmp/
 # Persistence integration temp DBs (workspace-local, default ACLs)
 tests/_persist_tmp/
+
+# Local cache (workspace sandbox artifact)
+.cache/
