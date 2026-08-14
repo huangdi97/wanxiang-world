@@ -50,7 +50,7 @@
 
 | Goal | Status |
 |---|---|
-| G32A Evolution Policy Stack | pending |
+| G32A Evolution Policy Stack | PASS (2026-08-15, commit g32a) |
 | G32B ??????? | pending |
 | G32C Actor Capability ? Persona ???? | pending |
 | G32D Relation Group Social Pattern Distillation | pending |

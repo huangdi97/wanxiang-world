@@ -1000,3 +1000,10 @@
 - Fixed persistence->substrate inversion by moving lineage graph to domain (substrate re-exports); updated migration-head constants (0003) across release_build/clean_room_certify/tests; budget anchor registries 11.
 - Generated deterministic lineage fixture + mermaid visualization; added parent-isolation + multi-instance replay tests.
 - M28 = PASS (reports/M28_QUALIFICATION.md). Commit: `g31h: M28 Lineage Hypervisor ????`.
+
+
+## 2026-08-15 - V5.2 G32A PASS (M29 phase)
+
+- Added evolution policy stack: versioned WorldPolicy (actor/capability/social/institution/ontology/law/promotion) + PlatformPolicy (model/plugin/domain/runtime/constitution) with independent permissions and traceable versions.
+- 3 tests.
+- Checkpoint: `g32a: Evolution Policy Stack`.

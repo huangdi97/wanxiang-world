@@ -197,3 +197,9 @@ transports over the shared LineageGraph; no new store/engine.
 Moved LineageNode/LineageEdge/LineageGraph to `wanxiang_domain.lineage`
 (substrate graph.py = thin re-export) to keep persistence->domain direction;
 no new abstraction in this Goal (fixture generator + tests only).
+
+
+## G32A entry
+New abstractions: WorldPolicy, PlatformPolicy, EvolutionPolicyStack (frozen
+records) + reject_world_platform_mutation (function). Justification: M29
+evolution policy core; policies are config, not a new runtime.
