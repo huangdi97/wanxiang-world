@@ -626,3 +626,9 @@
 
 - Added `docs/sdk/EXTERNAL_AUTHOR_GUIDE.md`, `tests/integration/test_g17c_author_docs.py` (2 tests).
 - Checkpoint: `g17c: external author documentation & reference templates`.
+
+## 2026-08-14 ? G17D PASS (M14 phase)
+
+- Added `wxpack.py certify` (static + forbidden-import + runtime dry-run with versioned report),
+  `tests/integration/test_g17d_certification.py` (2 tests) + harness doc/report.
+- Checkpoint: `g17d: third-party package conformance & certification harness`.

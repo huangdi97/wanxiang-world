@@ -75,3 +75,4 @@ certification and local checkpoint. No push/deploy.
 | 39 | G17A | Public SDK Contract, Semantic Versioning & Compatibility Policy | PASS (2026-08-14) |
 | 40 | G17B | Package Authoring CLI, Scaffolder & Schema Validation | PASS (2026-08-14) |
 | 41 | G17C | External Author Documentation & Reference Templates | PASS (2026-08-14) |
+| 42 | G17D | Third-party Package Conformance & Certification Harness | PASS (2026-08-14) |

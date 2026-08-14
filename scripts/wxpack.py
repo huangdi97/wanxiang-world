@@ -117,6 +117,74 @@ def dry_run_build(target: pathlib.Path, package_id: str) -> dict[str, Any]:
     return {"lock_hash": record.lock_hash, "package_id": package_id}
 
 
+def certify(target: pathlib.Path, package_id: str) -> dict[str, Any]:
+    """Certify a package: static validation + dry-run build + forbidden-import scan."""
+    import platform
+
+    from wanxiang_domain.versions import RuntimeVersion, SchemaVersion
+
+    report: dict[str, Any] = {
+        "package_id": package_id,
+        "runtime_version": RuntimeVersion(1).value,
+        "schema_version": SchemaVersion(1).value,
+        "platform": platform.platform(),
+        "checks": [],
+        "ok": True,
+    }
+    errors = validate(target, package_id)
+    for e in errors:
+        report["checks"].append({"name": "static_validation", "ok": False, "detail": e})
+        report["ok"] = False
+    if not errors:
+        report["checks"].append({"name": "static_validation", "ok": True, "detail": "schema valid"})
+
+    # Forbidden-import scan: only public SDK surfaces.
+    module = package_id.replace("-", "_")
+    mod_path = target / package_id / f"{module}.py"
+    if mod_path.exists():
+        import ast
+
+        tree = ast.parse(mod_path.read_text(encoding="utf-8"))
+        for node in ast.walk(tree):
+            tops: list[str] = []
+            if isinstance(node, ast.Import):
+                tops = [alias.name.split(".")[0] for alias in node.names]
+            elif isinstance(node, ast.ImportFrom) and node.module:
+                tops = [node.module.split(".")[0]]
+            for top in tops:
+                if top.startswith("wanxiang_") and top not in (
+                    "wanxiang_domain",
+                    "wanxiang_substrate",
+                ):
+                    report["checks"].append(
+                        {
+                            "name": "forbidden_imports",
+                            "ok": False,
+                            "detail": f"internal module {top}",
+                        }
+                    )
+                    report["ok"] = False
+        if all(c["name"] != "forbidden_imports" for c in report["checks"]):
+            report["checks"].append(
+                {"name": "forbidden_imports", "ok": True, "detail": "public SDK only"}
+            )
+
+    # Runtime black-box: dry-run install.
+    try:
+        build_result = dry_run_build(target, package_id)
+        report["checks"].append(
+            {
+                "name": "runtime_install",
+                "ok": True,
+                "detail": f"lock_hash={build_result['lock_hash']}",
+            }
+        )
+    except Exception as exc:  # noqa: BLE001 - certification reports the failure
+        report["checks"].append({"name": "runtime_install", "ok": False, "detail": str(exc)})
+        report["ok"] = False
+    return report
+
+
 def main(argv: list[str] | None = None) -> int:
     sys.path.insert(0, str(ROOT))
     parser = argparse.ArgumentParser(prog="wxpack")
@@ -132,6 +200,9 @@ def main(argv: list[str] | None = None) -> int:
     b = sub.add_parser("build")
     b.add_argument("target", type=pathlib.Path)
     b.add_argument("package_id")
+    c = sub.add_parser("certify")
+    c.add_argument("target", type=pathlib.Path)
+    c.add_argument("package_id")
     args = parser.parse_args(argv)
     if args.command == "scaffold":
         name = args.name or args.package_id
@@ -145,6 +216,12 @@ def main(argv: list[str] | None = None) -> int:
         print("valid")
     elif args.command == "build":
         print(dry_run_build(args.target, args.package_id))
+    elif args.command == "certify":
+        report = certify(args.target, args.package_id)
+        import json
+
+        print(json.dumps(report, indent=2))
+        return 0 if report["ok"] else 1
     return 0
 
 
