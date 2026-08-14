@@ -865,3 +865,11 @@
 - Extended false_completion_scan with empty-body + static-success AST scans; scan clean: placeholders=0 dead=0 empty=0 static=2 (documented) hardcoded=10 (schema maps).
 - Classified all fake-named production classes as deterministic reference implementations (KEEP); research flags all OFF, distributed_host marked REJECTED (ADR 0055).
 - Checkpoint: `g29f: ?? Fake Placeholder ??????`.
+
+
+## 2026-08-15 - V5.2 G29G PASS (M26 phase)
+
+- Added `scripts/v52_minimality_budget.py` (repeatable budget: LOC/files/classes/functions, registries/managers/services/engines/ports/stores/schema models, cycles, commit paths) + `reports/V5_2_MINIMALITY_BUDGET.md` + JSON; M27-M34 incremental budget table (no absolute LOC cap).
+- Refactored `scripts/v51_metrics.py` to expose reusable `compute_metrics()` (behavior unchanged).
+- Added 3 reproducibility tests. M26 snapshot: 264 files / 21,901 LOC / 10 registries / 0 managers / 15 services / 2 engines / 23 ports / 0 cycles / 1 commit path.
+- Checkpoint: `g29g: ???????????`.

@@ -6,7 +6,8 @@ Computes coarse metrics for the minimal-core ledger:
 - names matching registry/manager/service/engine (potential consolidation targets)
 - total files
 Deterministic and reusable across Goals; results are recorded manually in
-reports/V5_1_CODE_MINIMALITY_LEDGER.md.
+reports/V5_1_CODE_MINIMALITY_LEDGER.md and consumed by
+scripts/v52_minimality_budget.py.
 """
 
 from __future__ import annotations
@@ -16,7 +17,6 @@ import pathlib
 from typing import TypedDict
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-SCAN_DIRS = [ROOT / "packages", ROOT / "apps"]
 
 
 class PkgStats(TypedDict):
@@ -26,6 +26,13 @@ class PkgStats(TypedDict):
     functions: int
     public_names: list[str]
     flag_names: list[str]
+
+
+class Metrics(TypedDict):
+    per_pkg: dict[str, PkgStats]
+    rows: list[tuple[str, int, int, int, int, int, int]]
+    total: dict[str, int]
+    flag_rows: list[tuple[str, str]]
 
 
 def package_label(path: pathlib.Path) -> str:
@@ -49,9 +56,10 @@ def _empty_stats() -> PkgStats:
     )
 
 
-def main() -> int:
+def compute_metrics(root: pathlib.Path) -> Metrics:
+    """Compute the deterministic code-minimality metrics (reusable)."""
     per_pkg: dict[str, PkgStats] = {}
-    for base in SCAN_DIRS:
+    for base in (root / "packages", root / "apps"):
         if not base.exists():
             continue
         for py in sorted(base.rglob("*.py")):
@@ -83,22 +91,31 @@ def main() -> int:
     total: dict[str, int] = {"files": 0, "loc": 0, "classes": 0, "functions": 0}
     rows: list[tuple[str, int, int, int, int, int, int]] = []
     for label in sorted(per_pkg):
-        p = per_pkg[label]
-        total["files"] += p["files"]
-        total["loc"] += p["loc"]
-        total["classes"] += p["classes"]
-        total["functions"] += p["functions"]
+        pkg = per_pkg[label]
+        total["files"] += pkg["files"]
+        total["loc"] += pkg["loc"]
+        total["classes"] += pkg["classes"]
+        total["functions"] += pkg["functions"]
         rows.append(
             (
                 label,
-                p["files"],
-                p["loc"],
-                p["classes"],
-                p["functions"],
-                len(p["public_names"]),
-                len(p["flag_names"]),
+                pkg["files"],
+                pkg["loc"],
+                pkg["classes"],
+                pkg["functions"],
+                len(pkg["public_names"]),
+                len(pkg["flag_names"]),
             )
         )
+    flag_rows = [(label, name) for label, pkg in per_pkg.items() for name in pkg["flag_names"]]
+    return {"per_pkg": per_pkg, "rows": rows, "total": total, "flag_rows": flag_rows}
+
+
+def main() -> int:
+    metrics = compute_metrics(ROOT)
+    rows = metrics["rows"]
+    total = metrics["total"]
+    flag_rows = metrics["flag_rows"]
     header = (
         f"{'package':<20} {'files':>4} {'loc':>5} "
         f"{'classes':>6} {'funcs':>5} {'pub':>4} {'flags':>4}"
@@ -112,12 +129,9 @@ def main() -> int:
         f"{total['classes']:>6} {total['functions']:>5}"
     )
     print(tot_line)
-    flag_rows: list[tuple[str, str]] = [
-        (label, n) for label, p in per_pkg.items() for n in p["flag_names"]
-    ]
     print("\nFlagged names (registry/manager/service/engine):")
-    for label, n in sorted(flag_rows):
-        print(f"  {label}: {n}")
+    for label, name in sorted(flag_rows):
+        print(f"  {label}: {name}")
     return 0
 
 

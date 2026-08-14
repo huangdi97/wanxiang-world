@@ -1,0 +1,93 @@
+{
+  "commit_paths": 1,
+  "engine_classes": 2,
+  "hard_invariants_ok": true,
+  "import_cycles": 0,
+  "manager_classes": 0,
+  "milestone": "M26",
+  "milestone_budgets": {
+    "M26": {
+      "hard_constraints": [
+        "0 cycles",
+        "1 commit path",
+        "no second Event/Branch/Registry/State"
+      ],
+      "new_abstractions_allowance": 0,
+      "note": "Baseline freeze + convergence; no net new abstractions (dedupe only)."
+    },
+    "M27": {
+      "hard_constraints": [
+        "no RealityRootEngine/SemanticISAEngine god objects",
+        "no second commit pipeline"
+      ],
+      "new_abstractions_allowance": 3,
+      "note": "Reality Root / Constitution / ISA are thin semantic layers over existing contracts; allow minimal value types + ISA verbs mapped to the existing pipeline."
+    },
+    "M28": {
+      "hard_constraints": [
+        "no second branch system",
+        "no WorldLineageManager god object"
+      ],
+      "new_abstractions_allowance": 4,
+      "note": "Worldline / Lineage Graph / Hypervisor; lineage must reuse branch history semantics."
+    },
+    "M29": {
+      "hard_constraints": [
+        "no third runtime for canon modes",
+        "no per-distiller pipeline"
+      ],
+      "new_abstractions_allowance": 3,
+      "note": "Evolution Policy Stack as configuration over one runtime; scheduler + distillations are functions."
+    },
+    "M30": {
+      "hard_constraints": [
+        "no World Merge as git-merge",
+        "no auto platform promotion"
+      ],
+      "new_abstractions_allowance": 3,
+      "note": "Promotion pipeline + cross-world distillation reuse Candidate/Invariant machinery."
+    },
+    "M31": {
+      "hard_constraints": [
+        "migrations have rollback/compat",
+        "no new API namespace copy"
+      ],
+      "new_abstractions_allowance": 2,
+      "note": "Compatibility migrations + thin API extensions only."
+    },
+    "M32": {
+      "hard_constraints": [
+        "no Core special-casing for red_chamber",
+        "no model-memory Canon"
+      ],
+      "new_abstractions_allowance": 1,
+      "note": "Red Chamber content (World/Domain/Experience) must NOT add Core abstractions."
+    },
+    "M33": {
+      "hard_constraints": [
+        "no second Runtime",
+        "no Core hack for RC-001"
+      ],
+      "new_abstractions_allowance": 1,
+      "note": "Red Chamber instance runtime; reuse Living World substrate."
+    },
+    "M34": {
+      "hard_constraints": [
+        "working tree clean or explained",
+        "no failed-test skips"
+      ],
+      "new_abstractions_allowance": 0,
+      "note": "Final acceptance: verification + evidence only; no new abstractions."
+    }
+  },
+  "oversized_modules": 0,
+  "ports": 23,
+  "production_files": 264,
+  "production_loc": 21901,
+  "public_classes": 525,
+  "public_functions": 186,
+  "registry_classes": 10,
+  "service_classes": 15,
+  "state_schema_models": 18,
+  "store_classes": 15
+}

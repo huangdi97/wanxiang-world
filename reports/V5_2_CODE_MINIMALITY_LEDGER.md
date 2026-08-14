@@ -67,3 +67,17 @@ substrate -> application (5 module imports removed; verified zero remaining).
 No production abstraction added or removed (scanner extension + tests + flag
 metadata only). Verified zero empty-body production functions/classes; the two
 static-success paths are documented no-ops/unsupported branches.
+
+
+## G29G entry
+
+### New abstraction review ? `scripts/v52_minimality_budget.py` (tooling, not Core)
+1. irreducible semantics: continuous minimality metric + per-milestone budgets.
+2. replaces/merges: reuses v51_metrics.compute_metrics + v51_forensics.collect +
+   architecture_check cycle check (no third scanner).
+3. why function/type insufficient: a script + JSON budget is the right unit.
+4. consumers: CI quality gate + M27-M34 acceptance checks + this test file.
+
+### Refactor
+`scripts/v51_metrics.compute_metrics()` extracted (behavior identical; main()
+output unchanged) so the budget script reuses it.
