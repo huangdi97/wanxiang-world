@@ -8,7 +8,7 @@ documented scripts (`release_build`, `backup_restore`, `wxpack`,`reference_world
 
 | Step | Result | Evidence |
 |---|---|---|
-| clean_tree | PASS | tracked modifications=0; caches=[]; documented out-of-scope docs=94 |
+| clean_tree | PASS | tracked modifications=0; caches=[]; documented out-of-scope docs=92 |
 | release_manifest | PASS | version=0.1.0; sha==HEAD=True; reproducible=True; head=0002_add_event_seq_index |
 | migration_upgrade | PASS | 0001->head: 0001_initial -> 0002_add_event_seq_index |
 | golden_replay | PASS | 5 events; hash match=True |
@@ -18,7 +18,7 @@ documented scripts (`release_build`, `backup_restore`, `wxpack`,`reference_world
 
 ## Verdict
 
-**PASS** - clean-room build/install/upgrade/restore/replay certified for commit 4ff7eac35254dcdf7359e9041b6ee38947ebceec.
+**PASS** - clean-room build/install/upgrade/restore/replay certified for commit 72a8c0f6085efbb2b008ad56b09017966e05836f.
 
 ## Evidence commands
 
