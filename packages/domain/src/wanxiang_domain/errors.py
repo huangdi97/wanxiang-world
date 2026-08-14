@@ -30,6 +30,11 @@ class ValidationRejected(WanxiangError):
     code = "validation_rejected"
 
 
+
+
+class ConstitutionViolation(ValidationRejected):
+    """A delta violates the world/root constitution (G30C)."""
+
 class PermissionDenied(WanxiangError):
     code = "permission_denied"
 

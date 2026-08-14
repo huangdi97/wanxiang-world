@@ -23,6 +23,7 @@ from wanxiang_domain.delta import (
 from wanxiang_domain.entity import ComponentData, EntityState, FieldValue, RelationState
 from wanxiang_domain.errors import (
     Conflict,
+    ConstitutionViolation,
     ContractError,
     CorruptEventStream,
     DuplicateCommandConflict,

@@ -894,3 +894,10 @@
 - Added `wanxiang_domain.constitution`: ConstitutionId/ConstitutionVersion/ConstitutionManifest (immutable roots vs mutable law layers), ROOT_CONSTITUTION (platform, no self-amendment), legacy_default_constitution() (v5.0/v5.1 compat), order-preserving primitive round-trip.
 - 5 tests: schema round-trip, no shared mutable objects, legacy compat, root immutability, world-definition binding.
 - Checkpoint: `g30b: World Constitution ?????`.
+
+
+## 2026-08-15 - V5.2 G30C PASS (M27 phase)
+
+- Wired constitution enforcement into the runtime Invariant Registry: protected platform identities (sys_reality_root/sys_commit_boundary/sys_commit_authority/sys_constitution) cannot be mutated or related to by world deltas; kernel invariants always run (priority) and cannot be overridden.
+- Added ConstitutionViolation error + 7 tests (rejection with no state mutation; kernel priority; normal deltas not blocked).
+- Checkpoint: `g30c: Constitution ???????`.
