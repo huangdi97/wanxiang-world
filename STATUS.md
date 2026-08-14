@@ -306,3 +306,4 @@ HEAD `91f0b1f` = tag `m9-release-qualified`. Post-M9 pack integrated; 94/94 hash
 | G15F Branch, Time-travel & Counterfactual Worldline Comparison Qualification | PASS (2026-08-14, commit g15f) |
 | G15G Extended 90-day Virtual Run & Population-LOD Qualification | PASS (2026-08-14, commit g15g) |
 | G15H Red Chamber Source-gated Qualified Reference Slice | PASS (2026-08-14, commit g15h; real data EXTERNAL_BLOCKED) |
+| G15I Family, Heritage & Campaign Source-gated Reference Suites | PASS (2026-08-14, commit g15i) |

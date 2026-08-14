@@ -60,3 +60,4 @@ certification and local checkpoint. No push/deploy.
 | 24 | G15F | Branch, Time-travel & Counterfactual Worldline Comparison Qualification | PASS (2026-08-14) |
 | 25 | G15G | Extended 90-day Virtual Run & Population-LOD Qualification | PASS (2026-08-14) |
 | 26 | G15H | Red Chamber Source-gated Qualified Reference Slice | PASS (2026-08-14) |
+| 27 | G15I | Family, Heritage & Campaign Source-gated Reference Suites | PASS (2026-08-14) |

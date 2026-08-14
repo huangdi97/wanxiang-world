@@ -533,3 +533,9 @@
 - Added `tests/integration/test_g15h_red_chamber.py` (3 tests: source-gate canonical gating, label
   distinguishability, provenance retention) + reports. Real corpus EXTERNAL_BLOCKED with exact needs.
 - Checkpoint: `g15h: red chamber source-gated qualified reference slice`.
+
+## 2026-08-14 ? G15I PASS (M12 phase)
+
+- Added `tests/integration/test_g15i_multidomain.py` (4 tests: genealogy, heritage, campaign, public-interface
+  only) + reports. Real slices EXTERNAL_BLOCKED.
+- Checkpoint: `g15i: family, heritage & campaign source-gated reference suites`.
