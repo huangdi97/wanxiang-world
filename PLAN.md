@@ -136,7 +136,8 @@ v5.2 certification reports and local checkpoint. No push/deploy.
 | 7 | G29G | ??????????? | PASS (2026-08-15) |
 | 8 | G29H | M26 ?????? | PASS (2026-08-15) |
 | 9 | M26 Gate | ?????????????? Milestone | PASS (2026-08-15, reports/M26_QUALIFICATION.md) |
-| 10 | G30A..G30I | Reality Root / Constitution / ISA (M27) | pending |
+| 10 | G30A | Reality Root ???? | PASS (2026-08-15) |
+| 10b | G30B..G30I | Constitution / ISA / ?? Commit / Fact Scope / ????? (M27) | pending |
 | 11 | M27 Gate | Root Constitution ISA ???? | pending |
 | 12 | G31A..G31H | Worldline / Lineage / Hypervisor (M28) | pending |
 | 13 | M28 Gate | Lineage Hypervisor ???? | pending |

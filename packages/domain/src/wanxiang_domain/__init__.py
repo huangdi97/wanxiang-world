@@ -59,6 +59,7 @@ from wanxiang_domain.ids import (
     WanxiangId,
     WorldInstanceId,
 )
+from wanxiang_domain.reality_root import REALITY_ROOT_SEMANTICS, RealityRootContract
 from wanxiang_domain.rights import RightsDecision, RightsEnvelope
 from wanxiang_domain.run import RunMetadata
 from wanxiang_domain.snapshot import SnapshotMetadata
@@ -112,6 +113,8 @@ __all__ = [
     "RelationId",
     "RelationState",
     "ReplayError",
+    "REALITY_ROOT_SEMANTICS",
+    "RealityRootContract",
     "RightsDenied",
     "RuntimeVersion",
     "RightsEnvelope",

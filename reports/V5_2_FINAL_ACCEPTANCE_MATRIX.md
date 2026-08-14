@@ -21,7 +21,7 @@
 
 | Goal | Status |
 |---|---|
-| G30A Reality Root ???? | pending |
+| G30A Reality Root ???? | PASS (2026-08-15, commit g30a) |
 | G30B World Constitution ????? | pending |
 | G30C Constitution ??????? | pending |
 | G30D World Semantic ISA ???? | pending |

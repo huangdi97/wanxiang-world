@@ -880,3 +880,10 @@
 - Ran the full M26 milestone gate: `uv run python scripts/quality.py` -> 664 passed + 1 EXTERNAL_BLOCKED skip; ruff/format/pyright/architecture PASS.
 - Fixed gate FAILs: WorldRuntimePort.submit_command param renamed for pyright protocol match; SnapshotStore deprecated alias restored (API compat); SDK baseline regenerated (non-breaking additions).
 - M26 = PASS (reports/M26_QUALIFICATION.md). Architecture map + baseline hash frozen (f27b7724...). Commit: `g29h: M26 ??????`.
+
+
+## 2026-08-15 - V5.2 G30A PASS (M27 phase)
+
+- Added `wanxiang_domain.reality_root` (REALITY_ROOT_SEMANTICS + RealityRootContract Protocol) mapping Distinction/Relation/Transition/Commitment/History onto existing core contracts; no domain rules; exported in domain __init__.
+- 7 contract tests (minimal synthetic world via the contract; single authority boundary; append-only deterministic history).
+- Checkpoint: `g30a: Reality Root ????`.

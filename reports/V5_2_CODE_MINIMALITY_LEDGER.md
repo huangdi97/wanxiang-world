@@ -87,3 +87,14 @@ output unchanged) so the budget script reuses it.
 No new production abstraction. Restored `SnapshotStore` deprecated alias in
 recovery (API compat) and renamed a port parameter for pyright protocol
 compatibility (no semantic change).
+
+
+## G30A entry (M27, allowance +3, used +2)
+
+### New abstractions
+| Item | 4-question review |
+|---|---|
+| `wanxiang_domain.reality_root.RealityRootContract` (Protocol) | 1) documents the five Reality Root primitives on existing types; 2) replaces nothing (new vocabulary); 3) a Protocol is the minimal documentation-level unit; 4) consumers: G30A tests + M27 ISA mapping + world runtimes (documentation boundary) |
+| `wanxiang_domain.reality_root.SemanticMapping` (dataclass) | 1) documentation record (name/meaning/mapped_to/no_domain_rules); 2) replaces nothing; 3) a plain dataclass is sufficient; 4) consumed by tests + reports |
+
+No new store/engine; module imports only domain core.

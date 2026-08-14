@@ -2,7 +2,7 @@
 
 - API routes: 10
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 842
+- Python public names (stable packages): 844
 
 ## API routes
 
@@ -78,6 +78,7 @@
 - `wanxiang_domain.PersistenceError`
 - `wanxiang_domain.ProjectionId`
 - `wanxiang_domain.ProposedWorldDelta`
+- `wanxiang_domain.RealityRootContract`
 - `wanxiang_domain.RelationCreate`
 - `wanxiang_domain.RelationDelete`
 - `wanxiang_domain.RelationId`
@@ -90,6 +91,7 @@
 - `wanxiang_domain.RunMetadata`
 - `wanxiang_domain.RuntimeVersion`
 - `wanxiang_domain.SchemaVersion`
+- `wanxiang_domain.SemanticMapping`
 - `wanxiang_domain.SessionId`
 - `wanxiang_domain.SnapshotId`
 - `wanxiang_domain.SnapshotMetadata`
@@ -317,7 +319,5 @@
 - `wanxiang_substrate.CanonLocked`
 - `wanxiang_substrate.CapabilityDelta`
 - `wanxiang_substrate.CapabilityError`
-- `wanxiang_substrate.CapabilityGate`
-- `wanxiang_substrate.CapabilityPrerequisiteError`
 
 Machine-readable: reports/sdk_api_baseline.json.
