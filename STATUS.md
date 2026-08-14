@@ -334,3 +334,4 @@ HEAD `91f0b1f` = tag `m9-release-qualified`. Post-M9 pack integrated; 94/94 hash
 | G18C Experience Player Web/2D Continuity Completion | PASS (2026-08-14, commit g18c) |
 | G18D Strategy / Experiment Workbench Completion | PASS (2026-08-14, commit g18d) |
 | G18E Family Portal Completion | PASS (2026-08-14, commit g18e) |
+| G18F Heritage / Museum Workbench Completion | PASS (2026-08-14, commit g18f) |

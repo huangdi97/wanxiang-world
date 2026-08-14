@@ -686,3 +686,9 @@
 - Added `wanxiang_api/family_portal_service.py` (rights-filtered family views + GEDCOM export),
   `tests/integration/test_g18e_family_portal.py` (3 tests) + reports.
 - Checkpoint: `g18e: family portal completion`.
+
+## 2026-08-14 ? G18F PASS (M15 phase)
+
+- Added `wanxiang_api/heritage_workbench_service.py` (object view, curator-gated export, conservation history),
+  `tests/integration/test_g18f_heritage_workbench.py` (3 tests) + reports.
+- Checkpoint: `g18f: heritage / museum workbench completion`.

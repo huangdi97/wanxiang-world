@@ -85,3 +85,4 @@ certification and local checkpoint. No push/deploy.
 | 49 | G18C | Experience Player Web/2D Continuity Completion | PASS (2026-08-14) |
 | 50 | G18D | Strategy / Experiment Workbench Completion | PASS (2026-08-14) |
 | 51 | G18E | Family Portal Completion | PASS (2026-08-14) |
+| 52 | G18F | Heritage / Museum Workbench Completion | PASS (2026-08-14) |
