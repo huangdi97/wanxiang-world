@@ -772,3 +772,8 @@
 
 - Added `scripts/clean_room_certify.py` (automated 7-step clean-room certification) + `reports/CLEAN_ROOM_CERTIFICATION.md` + `tests/integration/test_g20b_clean_room.py` (5 tests). All steps PASS: clean tree, reproducible release manifest (sha==HEAD), 0001->head migration, golden replay hash, backup/restore round-trip, external sample pack, reference world install+instantiate.
 - Checkpoint: `g20b: clean-room build, install, upgrade, restore & replay certification`.
+
+## 2026-08-14 - G20C PASS (M17 phase)
+
+- Added `scripts/security_reliability_certify.py` (curated security/chaos re-run + all-flags-ON stable check) + `reports/FINAL_SECURITY_RELIABILITY_CERTIFICATION.md` + `tests/integration/test_g20c_security_reliability.py` (3 tests). Curated suite: 65 passed, 0 failed, 0 skipped; golden replay hash identical with all 7 research flags enabled.
+- Checkpoint: `g20c: final independent security, reliability & chaos re-run`.
