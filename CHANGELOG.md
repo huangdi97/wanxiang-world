@@ -1056,3 +1056,10 @@
 - Full M29 gate: 774 passed + 1 EXTERNAL_BLOCKED skip; ruff/format/pyright/architecture PASS.
 - Added synthetic society long-run test (habit->norm->institution controlled chain; no auto gate-crossing; replay/branch deterministic); documented the structural static-success guard; M28 test switched to set comparison.
 - M29 = PASS (reports/M29_QUALIFICATION.md). Commit: `g32h: M29 ??????????`.
+
+
+## 2026-08-15 - V5.2 G33A PASS (M30 phase)
+
+- Added promotion ladder (L0-L8): level requirements (evidence/stability/cross-scenario/approval), one-step-at-a-time, L7/L8 explicit approval, versioned policy.
+- 4 tests.
+- Checkpoint: `g33a: ?? Abstraction Ladder`.

@@ -27,6 +27,15 @@ from wanxiang_substrate.evolution.policy_stack import (
     WorldPolicy,
     reject_world_platform_mutation,
 )
+from wanxiang_substrate.evolution.promotion import (
+    APPROVAL_LEVELS,
+    PROMOTION_LEVELS,
+    LevelRequirement,
+    PromotionEvidence,
+    PromotionLevel,
+    PromotionPolicy,
+    validate_promotion,
+)
 from wanxiang_substrate.evolution.scheduler import (
     EVOLUTION_SCALES,
     EvolutionCadence,
@@ -41,6 +50,13 @@ from wanxiang_substrate.evolution.telemetry import (
 __all__ = [
     "EVOLUTION_SCALES",
     "ActorEvolutionState",
+    "APPROVAL_LEVELS",
+    "PROMOTION_LEVELS",
+    "LevelRequirement",
+    "PromotionEvidence",
+    "PromotionLevel",
+    "PromotionPolicy",
+    "validate_promotion",
     "ActorEvolutionTracker",
     "BehaviorRecord",
     "CandidateEnvelope",

@@ -244,3 +244,9 @@ opt-in + revocable; no sensitive collection by default.
 ## G32H/M29 entry
 No new production abstraction (verification + synthetic-society test only).
 M29 abstraction delta recorded in the budget (evolution package).
+
+
+## G33A entry
+New abstractions: LevelRequirement, PromotionEvidence (frozen records) +
+PromotionPolicy (versioned table) + validate_promotion (function). Justification:
+M30 promotion ladder core; pure validation.

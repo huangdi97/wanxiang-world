@@ -102,3 +102,4 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0090 | G32F: ontology/law candidates validated against constitution mutable layers + policy (no escalation); branch-local evolution never pollutes parent | accepted |
 | 0091 | G32G: telemetry is opt-in; trajectories require explicit rights + retention; unauthorized data never enters the cross-world dataset; revocation supported | accepted |
 | 0092 | G32H/M29: full gate PASS (774+1); synthetic society habit->norm->institution chain is controlled (validate/approve -> LawCommit); platform power isolated; M29=PASS ? M30 promotion work can start | accepted |
+| 0093 | G33A: abstraction ladder L0-L8 with per-level evidence/stability/cross-scenario/approval; one step at a time; L7/L8 explicit approval; policy versioned | accepted |
