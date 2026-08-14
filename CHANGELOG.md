@@ -718,3 +718,9 @@
   SemanticExtractor + review_diff), `tests/integration/test_g19b_ai_compiler.py` (4 tests) + research report.
 - Decision: KEEP_EXPERIMENTAL.
 - Checkpoint: `g19b: ai-assisted world compiler semantic extraction research`.
+
+## 2026-08-14 ? G19C PASS (M16 phase)
+
+- Added `wanxiang_research/persona_memory.py` (MemoryStore, compaction, PersonaDrift),
+  `tests/integration/test_g19c_persona_memory.py` (3 tests) + research report. Decision: KEEP_EXPERIMENTAL.
+- Checkpoint: `g19c: long-horizon persona, memory metabolism & drift evaluation research`.
