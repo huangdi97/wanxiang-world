@@ -36,4 +36,4 @@ awaits user authorization; nothing was pushed or deployed.
 ## Final checkpoint
 - commit: `g20e: final release readiness, version freeze & post-v5 roadmap` (final SHA recorded below
   after the commit; local tag `m17-final-certification`).
-- Final commit SHA: __FINAL_SHA__
+- Final commit SHA: 03928a39eb548be409df343da2a86b1217e023af
