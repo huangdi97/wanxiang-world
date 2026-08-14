@@ -777,3 +777,8 @@
 
 - Added `scripts/security_reliability_certify.py` (curated security/chaos re-run + all-flags-ON stable check) + `reports/FINAL_SECURITY_RELIABILITY_CERTIFICATION.md` + `tests/integration/test_g20c_security_reliability.py` (3 tests). Curated suite: 65 passed, 0 failed, 0 skipped; golden replay hash identical with all 7 research flags enabled.
 - Checkpoint: `g20c: final independent security, reliability & chaos re-run`.
+
+## 2026-08-14 - G20D PASS (M17 phase)
+
+- Added `scripts/blackbox_final_acceptance.py` (4-persona black-box acceptance: author, operator, end user, surfaces) + `reports/BLACKBOX_FINAL_ACCEPTANCE.md` + `tests/integration/test_g20d_blackbox_acceptance.py` (4 tests). All personas PASS via public SDK/API only; no internal imports or DB edits.
+- Checkpoint: `g20d: black-box external author + reference world final acceptance`.
