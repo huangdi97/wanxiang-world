@@ -1,0 +1,17 @@
+{
+  "environment": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.7",
+    "machine": "AMD64"
+  },
+  "profile": "small_ci",
+  "commits": {
+    "events": 200,
+    "seconds": 4.505460799999128,
+    "events_per_second": 44.39057598726388
+  },
+  "replay": {
+    "events": 1200,
+    "replay_seconds": 0.016212499998800922
+  }
+}

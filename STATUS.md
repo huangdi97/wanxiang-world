@@ -317,3 +317,4 @@ HEAD `91f0b1f` = tag `m9-release-qualified`. Post-M9 pack integrated; 94/94 hash
 | G16F Production Security Hardening, AuthN/AuthZ, Rate Limits & Supply-chain Controls | PASS (2026-08-14, commit g16f) |
 | G16G Backup, Restore, PITR-like Recovery & Disaster Game Day | PASS (2026-08-14, commit g16g) |
 | G16H CI/CD, Release Artifacts, Rolling Migration & Rollback Qualification | PASS (2026-08-14, commit g16h) |
+| G16I Performance, Capacity, Cost & Resource-budget Qualification | PASS (2026-08-14, commit g16i) |

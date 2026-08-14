@@ -596,3 +596,9 @@
 - Added `scripts/release_build.py` (reproducible release manifest + migration preflight),
   `tests/integration/test_g16h_release.py` (3 tests), release process doc + reports.
 - Checkpoint: `g16h: ci/cd, release artifacts, rolling migration & rollback qualification`.
+
+## 2026-08-14 ? G16I PASS (M13 phase)
+
+- Added `scripts/benchmarks.py` (repeatable commit/replay benchmarks with environment capture),
+  `tests/integration/test_g16i_performance.py` (3 tests), capacity/cost report + benchmark JSON.
+- Checkpoint: `g16i: performance, capacity, cost & resource-budget qualification`.
