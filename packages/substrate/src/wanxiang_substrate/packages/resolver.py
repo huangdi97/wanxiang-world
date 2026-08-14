@@ -31,6 +31,12 @@ class DependencyResolver:
         pinned: dict[str, SemanticVersion] = {}
         visiting: set[str] = set()
         visited: set[str] = set()
+        if root_version is not None:
+            # Honor an explicit root version: pin it before traversal so the
+            # latest version is never selected for the root by accident.
+            if self._manifest(root_id, root_version) is None:
+                raise MissingDependency(f"package {root_id!r}@{root_version} is not registered")
+            pinned[root_id] = root_version
 
         def visit(package_id: str, constraint: str | None) -> None:
             if package_id in visiting:

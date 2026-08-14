@@ -638,3 +638,9 @@
 - Added `packages/trust_model.py` (signing seam, capabilities, CapabilityGate, audit),
   `tests/integration/test_g17e_plugin_trust.py` (4 tests), trust model doc + reports.
 - Checkpoint: `g17e: plugin trust, signing, capability permissions & isolation policy`.
+
+## 2026-08-14 ? G17F PASS (M14 phase)
+
+- Added `packages/lifecycle.py` (publish/deprecate/yank/upgrade_candidate/pin install) and fixed the resolver
+  root-version pin (P1). Added `tests/integration/test_g17f_registry_lifecycle.py` (4 tests) + reports.
+- Checkpoint: `g17f: registry publish, install, upgrade, deprecation & dependency resolution`.

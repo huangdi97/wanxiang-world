@@ -63,3 +63,4 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0051 | G13E: ReplayEngine checks event_seq and revision independently; child branches pass start_seq=1 (branch-local seq restarts, revision continues from fork); snapshot continuation uses baseline.revision+1 | accepted |
 | 0052 | G14D: restore_and_replay validates snapshot baselines against event history (semantic hash + versions); invalid/unreadable snapshots fall back to authoritative replay with snapshot_rejected observable | accepted |
 | 0053 | G14H: CoSimOrchestrator checkpoint includes the orchestrator clock so restore+continue realigns barriers; mismatched checkpoints are explicit errors | accepted |
+| 0054 | G17F: package resolver honors explicit root_version pins (seed before traversal); yank blocks new installs but preserves metadata | accepted |
