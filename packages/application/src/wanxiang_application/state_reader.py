@@ -59,7 +59,7 @@ class StateReader:
                 branch.ancestry.parent_branch_id,
                 upto_seq=branch.ancestry.fork_event_seq,
             )
-            state = engine.replay(events, baseline=parent)
+            state = engine.replay(events, baseline=parent, start_seq=1)
         elif not events:
             state = InMemoryCanonicalState(
                 instance_id=instance_id,

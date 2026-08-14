@@ -1,0 +1,90 @@
+{
+  "corpus": {
+    "golden": {
+      "events": 5,
+      "final_revision": 5,
+      "semantic_hash": "7d17aba7b9b76f04174f28a05ed7139505ab1784d0377ebe1966f7ef8d69fd00",
+      "fixture_expected_hash": "7d17aba7b9b76f04174f28a05ed7139505ab1784d0377ebe1966f7ef8d69fd00",
+      "hash_matches_fixture": true
+    },
+    "synthetic_microworld": {
+      "events": 3,
+      "final_revision": 3,
+      "semantic_hash_replayed": "0964e48a7d03fe52bc227395d8332b24a18798e3c0c1a293f63231d88941aed5",
+      "semantic_hash_at_commit": "0964e48a7d03fe52bc227395d8332b24a18798e3c0c1a293f63231d88941aed5",
+      "hash_stable_across_replay": true
+    }
+  },
+  "matrix": {
+    "schema_version_current": 1,
+    "runtime_version_current": 1,
+    "supported_event_versions": [
+      1
+    ],
+    "unsupported_event_versions": [
+      0,
+      2,
+      99
+    ],
+    "supported_rule_versions": [
+      1
+    ],
+    "unsupported_rule_versions": [
+      0,
+      2,
+      99
+    ],
+    "migrations": [
+      [
+        "0001_initial",
+        null
+      ],
+      [
+        "0002_add_event_seq_index",
+        "0001_initial"
+      ]
+    ],
+    "migration_head": "0002_add_event_seq_index",
+    "package_versioning": "SemanticVersion pins; publishing never mutates a pinned install; incompatible package upgrades fork.",
+    "snapshot_policy": "Snapshot is an optimization/baseline; replay from events remains authoritative.",
+    "correction_policy": "Historical truth is corrected with new events/branches or explicit migration; never silent mutation."
+  },
+  "forensics": {
+    "event_schema": {
+      "carrier": "CommittedEvent",
+      "version_field": "schema_version",
+      "rule_version_field": "rule_version",
+      "replay_version_checks": "ReplayEngine._check_event raises IncompatibleVersion on schema/rule mismatch",
+      "commit_version_checks": "CommitAuthority._enforce_preconditions raises IncompatibleVersion on rule mismatch",
+      "serialization": "wanxiang_domain.serialization_history (versioned; expect_version)"
+    },
+    "snapshot_schema": {
+      "carrier": "SnapshotMetadata",
+      "version_field": "schema_version",
+      "content_ref": "opaque reference; state rebuilt via replay"
+    },
+    "database": {
+      "migrations": [
+        [
+          "0001_initial",
+          null
+        ],
+        [
+          "0002_add_event_seq_index",
+          "0001_initial"
+        ]
+      ],
+      "head": "0002_add_event_seq_index",
+      "tables": [
+        "world_instances",
+        "branches",
+        "events",
+        "snapshots",
+        "audit_traces"
+      ]
+    },
+    "package_versioning": "Exact pins + schema_pins; incompatible upgrade forks; vN never mutates vN-1 installs.",
+    "correction_policy": "New events/branches or explicit migration semantics only; no silent overwrite of canonical history.",
+    "silent_defaulting_scan": "No unknown-field defaulting that changes semantic meaning (serialization is explicit; unknown keys rejected by expect_version)."
+  }
+}

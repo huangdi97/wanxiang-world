@@ -368,3 +368,16 @@
   (7 tests). Dead code = 0; hardcoded candidates classified as legitimate literals.
 - Quality gate: ruff/pyright clean, 410 pytest PASS, TS 22 tests PASS.
 - Checkpoint: `g13d: placeholder, fake, dead-path & surface integration audit`.
+
+## 2026-08-14 ? G13E PASS (M10 phase)
+
+- Fixed P0: child-branch cold replay / restore_and_replay failed (CorruptEventStream) because
+  ReplayEngine conflated branch-local event_seq with global revision. Replay now checks the two
+  counters independently with an explicit start_seq (child branches pass 1; snapshot continuation
+  defaults to baseline.revision+1). StateReader and WorldRuntime wired accordingly.
+- Added `scripts/history_forensics.py` and reports (REPLAY_GOLDEN_CORPUS, VERSION_COMPATIBILITY_MATRIX,
+  HISTORY_COMPATIBILITY_FORENSICS) + `tests/integration/test_g13e_history.py` (7 tests: golden corpus,
+  unsupported versions fail explicitly, version-pinned drift rejection, child cold replay/restore,
+  migration hash preservation, corruption guard).
+- Quality gate: ruff/pyright clean, 417 pytest PASS, architecture PASS.
+- Checkpoint: `g13e: event, replay, branch, migration & version forensics`.

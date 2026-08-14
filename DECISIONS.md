@@ -60,3 +60,4 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 - 2026-08-11: Repository begins as a fresh `git init` on `main`; the batch control
   documents shipped in the workspace are committed as the initial baseline, then
   Goal checkpoints follow the `goal <id>: ...` convention.
+| 0051 | G13E: ReplayEngine checks event_seq and revision independently; child branches pass start_seq=1 (branch-local seq restarts, revision continues from fork); snapshot continuation uses baseline.revision+1 | accepted |

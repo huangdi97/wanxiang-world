@@ -33,6 +33,8 @@ class ReplayEngine:
         self,
         events: Sequence[CommittedEvent],
         baseline: InMemoryCanonicalState | None = None,
+        *,
+        start_seq: int | None = None,
     ) -> InMemoryCanonicalState:
         if not events:
             if baseline is None:
@@ -47,11 +49,20 @@ class ReplayEngine:
             schema_version=self._schema_version,
             rule_version=self._rule_version,
         )
-        expected_seq = state.revision.value + 1
+        # Branch-local stream sequence and revision are independent counters:
+        # - a fresh/root stream starts at seq 1;
+        # - a child branch restarts its own local seq at 1 while revision
+        #   continues from the fork baseline (callers pass start_seq=1);
+        # - replaying events after a snapshot baseline continues the same
+        #   branch's local seq (default: baseline.revision + 1, which equals
+        #   the next seq for root branches where seq == revision).
+        expected_seq = start_seq if start_seq is not None else state.revision.value + 1
+        expected_revision = state.revision.value + 1
         for event in events:
-            self._check_event(event, instance_id, branch_id, expected_seq)
+            self._check_event(event, instance_id, branch_id, expected_seq, expected_revision)
             state = state.apply(event.delta).with_revision(event.revision)
             expected_seq += 1
+            expected_revision += 1
         return state
 
     def _check_event(
@@ -60,6 +71,7 @@ class ReplayEngine:
         instance_id: WorldInstanceId,
         branch_id: BranchId,
         expected_seq: int,
+        expected_revision: int,
     ) -> None:
         if event.instance_id != instance_id or event.branch_id != branch_id:
             raise CorruptEventStream("event instance/branch does not match the stream")
@@ -67,9 +79,9 @@ class ReplayEngine:
             raise CorruptEventStream(
                 f"expected event seq {expected_seq}, got {event.event_seq.value}"
             )
-        if event.revision.value != expected_seq:
+        if event.revision.value != expected_revision:
             raise CorruptEventStream(
-                f"event revision {event.revision.value} does not match expected {expected_seq}"
+                f"event revision {event.revision.value} does not match expected {expected_revision}"
             )
         if event.schema_version != self._schema_version:
             raise IncompatibleVersion(

@@ -230,7 +230,7 @@ class WorldRuntime:
                 branch.ancestry.parent_branch_id,
                 upto_seq=branch.ancestry.fork_event_seq,
             )
-            state = engine.replay(events, baseline=parent)
+            state = engine.replay(events, baseline=parent, start_seq=1)
             return RestoreResult(state=state, used_snapshot=False)
         return RestoreResult(state=engine.replay(events), used_snapshot=False)
 
