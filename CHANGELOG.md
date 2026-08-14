@@ -751,3 +751,8 @@
 
 - Added `wanxiang_research/sim_federation.py` (SimulatorAdapter Port, deterministic Tick/Precise/Flaky simulators, FederationScheduler with checkpoint/restore, ConflictResolver with explicit precedence, FederationCoordinator/CommitProposal), `tests/integration/test_g19h_sim_federation.py` (7 tests) + research report. Decision: KEEP_EXPERIMENTAL.
 - Checkpoint: `g19h: multi-simulator federation & co-simulation research`.
+
+## 2026-08-14 - G19I PASS (M16 phase)
+
+- Added `wanxiang_research/reality_stream.py` (SensorReading, SyntheticSensorStream, StreamIngestor with dedupe/skew/staleness, ObservationLog, ObservationFusion, RealityReplay), `tests/integration/test_g19i_reality_stream.py` (8 tests) + research report. Decision: KEEP_EXPERIMENTAL.
+- Checkpoint: `g19i: reality/digital-twin streaming & observation fusion research`.

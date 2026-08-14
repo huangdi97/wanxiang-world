@@ -84,3 +84,10 @@ DEFAULT_FLAGS.register(
         promote_criteria="federation determinism + explicit conflict parity",
     )
 )
+DEFAULT_FLAGS.register(
+    ResearchFlag(
+        "reality_digital_twin",
+        "v6",
+        promote_criteria="fusion parity + privacy audit on real authorized feed",
+    )
+)
