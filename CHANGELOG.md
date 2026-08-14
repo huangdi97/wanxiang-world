@@ -964,3 +964,10 @@
 - Migration 0003_add_lineage (lineage_nodes/edges, downgrade-safe); LineageRepository (save/load graph); branch lineage derived from the existing branches table (no duplication).
 - 5 migration tests (fresh upgrade, old-DB upgrade keeps replay hash, downgrade, repository round-trip, branch-lineage derivation).
 - Checkpoint: `g31c: Lineage Repository ???`.
+
+
+## 2026-08-15 - V5.2 G31D PASS (M28 phase)
+
+- Added WorldHypervisor over the existing WorldHost/HostRegistry: instance/worldline routing, per-instance ResourceBudget + RuntimeProfile binding, route verification on every command.
+- 3 integration tests (same-ID isolation, interleaved routing, budget enforcement).
+- Checkpoint: `g31d: World Hypervisor ?????`.

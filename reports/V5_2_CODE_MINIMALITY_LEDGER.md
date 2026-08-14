@@ -167,3 +167,9 @@ New abstractions: LineageRepository (SQLAlchemy repository over 2 minimal
 tables) + 2 ORM records. Justification: lineage persistence is M28 core;
 branch lineage reuses the branches table (branch_lineage_from_branches is a
 view function, not a duplicate store).
+
+
+## G31D entry
+New abstractions: WorldHypervisor (composer over existing WorldHost/HostRegistry)
++ RuntimeProfile (frozen record). Justification: M28 multi-instance isolation
+core; no second host; routing/budget are thin additions over existing pieces.

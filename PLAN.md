@@ -149,7 +149,8 @@ v5.2 certification reports and local checkpoint. No push/deploy.
 | 12 | G31A | World Definition ? Worldline ???? | PASS (2026-08-15) |
 | 12b | G31B | World Lineage Graph ???? | PASS (2026-08-15) |
 | 12c | G31C | Lineage Repository ??? | PASS (2026-08-15) |
-| 12d | G31D..G31H | Hypervisor / Identity / Genesis / API (M28) | pending |
+| 12d | G31D | World Hypervisor ????? | PASS (2026-08-15) |
+| 12e | G31E..G31H | Interworld Identity / Genesis / API (M28) | pending |
 | 13 | M28 Gate | Lineage Hypervisor ???? | pending |
 | 14 | G32A..G32H | Evolution Policy / ?????? (M29) | pending |
 | 15 | M29 Gate | ?????????? | pending |

@@ -89,3 +89,4 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0077 | G31A: WorldDefinition read-only versioned; Branch fork == Worldline fork (reuses BranchAncestry, no second history object); InstanceIdentity records definition/genesis/constitution/runtime refs | accepted |
 | 0078 | G31B: LineageGraph is a thin DAG store (node/edge + ancestor/descendant queries, cycle rejection); stores derivation refs only, never history | accepted |
 | 0079 | G31C: lineage persisted via minimal lineage_nodes/edges (migration 0003, downgrade-safe); branch lineage derived from existing branches table (no second system); Event history never copied | accepted |
+| 0080 | G31D: WorldHypervisor composes WorldHost/HostRegistry (no second host); explicit instance/worldline routing + per-instance budget/profile; wrong-route commands rejected | accepted |

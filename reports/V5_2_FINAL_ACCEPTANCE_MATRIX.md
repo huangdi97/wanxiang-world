@@ -39,7 +39,7 @@
 | G31A World Definition ? Worldline ???? | PASS (2026-08-15, commit g31a) |
 | G31B World Lineage Graph ???? | PASS (2026-08-15, commit g31b) |
 | G31C Lineage Repository ??? | PASS (2026-08-15, commit g31c) |
-| G31D World Hypervisor ????? | pending |
+| G31D World Hypervisor ????? | PASS (2026-08-15, commit g31d) |
 | G31E Interworld Identity ? Presence | pending |
 | G31F Hybrid Genesis ?????????? | pending |
 | G31G Lineage API SDK Studio ???? | pending |
