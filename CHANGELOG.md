@@ -553,3 +553,9 @@
   (fail-fast ConfigError for missing required production config), `tests/integration/test_g16a_config_secrets.py`
   (5 tests) + reports.
 - Checkpoint: `g16a: production topology, configuration & secret-management foundation`.
+
+## 2026-08-14 ? G16B PASS (M13 phase)
+
+- Added `tests/integration/test_g16b_postgres.py` (offline Postgres DDL compile, portable-path check,
+  storage-independent hash, live profile gated by env) + reports. Live Postgres EXTERNAL_BLOCKED + runbook.
+- Checkpoint: `g16b: postgresql production persistence & migration qualification`.
