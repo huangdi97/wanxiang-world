@@ -122,3 +122,11 @@ New abstractions: `execute_isa` (function adapter), `IsaExecutionResult` +
 `PromotionUseCase` (small frozen result records). Justification: thin mapping
 over existing pipeline; no new engine/bus/store; PROMOTE record is the future
 promotion use-case envelope (G33).
+
+
+## G30F entry
+New abstractions: WorldCommitKind (Literal alias), RuntimeControlTransaction +
+RuntimeControlLedger (substrate capability). Justification: kind is the unified
+commit discriminator (no third pipeline); RuntimeControlLedger is the append-only
+Runtime Control Ledger per the triple-ledger spec (never a World Commit).
+CommitRequest/AuditRecord extended with defaulted fields (backward compatible).

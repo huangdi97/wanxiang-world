@@ -32,6 +32,11 @@ from wanxiang_domain.ids import (
 )
 from wanxiang_domain.time import CommitTimestamp, WorldTime
 from wanxiang_domain.versions import RuntimeVersion, SchemaVersion
+from wanxiang_domain.world_commit import (
+    DELTA_SCHEMA_VERSION,
+    WorldCommitKind,
+    validate_world_commit_kind,
+)
 
 from wanxiang_runtime.audit import AuditRecord
 from wanxiang_runtime.ports import EventAppendPort
@@ -55,6 +60,8 @@ class CommitRequest:
     actor_id: ActorId | None = None
     causation_id: CommandId | None = None
     correlation_id: CorrelationId | None = None
+    kind: WorldCommitKind = "state"
+    delta_schema_version: int = DELTA_SCHEMA_VERSION
 
 
 @dataclass(frozen=True, slots=True)
@@ -82,6 +89,7 @@ class CommitAuthority:
         self._now = now
 
     def commit(self, state: InMemoryCanonicalState, request: CommitRequest) -> CommitResult:
+        request_kind = validate_world_commit_kind(request.kind)
         self._enforce_preconditions(state, request)
         # apply_delta validates invariants and returns a pure new state.
         applied = apply_delta(state, request.delta)
@@ -122,6 +130,8 @@ class CommitAuthority:
             actor_id=request.actor_id,
             correlation_id=request.correlation_id,
             commit_timestamp=event.commit_timestamp,
+            kind=request_kind,
+            delta_schema_version=request.delta_schema_version,
         )
         return CommitResult(event=event, state_after=state_after, audit=audit)
 

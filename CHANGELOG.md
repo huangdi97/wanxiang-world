@@ -914,3 +914,11 @@
 
 - Added `wanxiang_runtime.isa_pipeline.execute_isa`: ISA instructions execute through the existing CommitAuthority/fork_branch/validation pipeline; PROMOTE emits PromotionUseCase only (parent untouched). 5 tests incl. ISA-vs-business-action semantic parity and no-second-stream.
 - Checkpoint: `g30e: ISA ?????? Commit ????`.
+
+
+## 2026-08-15 - V5.2 G30F PASS (M27 phase)
+
+- Unified World Commit kinds (state/ontology/law) on CommitRequest with delta_schema_version; kind validated before commit and recorded on AuditRecord; "capability" rejected.
+- Added RuntimeControlTransaction + RuntimeControlLedger (substrate capability): runtime control changes are NOT World Commits (never enter event stream).
+- 5 tests; 67-test regression green.
+- Checkpoint: `g30f: ?? World Commit ??`.

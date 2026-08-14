@@ -2,7 +2,7 @@
 
 - API routes: 10
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 863
+- Python public names (stable packages): 868
 
 ## API routes
 
@@ -61,6 +61,7 @@
 - `wanxiang_domain.ContractError`
 - `wanxiang_domain.CorrelationId`
 - `wanxiang_domain.CorruptEventStream`
+- `wanxiang_domain.DELTA_SCHEMA_VERSION`
 - `wanxiang_domain.DeltaOperation`
 - `wanxiang_domain.DuplicateCommandConflict`
 - `wanxiang_domain.EntityCreate`
@@ -107,6 +108,7 @@
 - `wanxiang_domain.ValidationRejected`
 - `wanxiang_domain.WanxiangError`
 - `wanxiang_domain.WanxiangId`
+- `wanxiang_domain.WorldCommitKind`
 - `wanxiang_domain.WorldInstanceId`
 - `wanxiang_domain.WorldIsaInstruction`
 - `wanxiang_domain.WorldIsaOp`
@@ -133,6 +135,7 @@
 - `wanxiang_domain.snapshot_from_primitive`
 - `wanxiang_domain.snapshot_to_primitive`
 - `wanxiang_domain.validate_id`
+- `wanxiang_domain.validate_world_commit_kind`
 - `wanxiang_observability.ConfigError`
 - `wanxiang_observability.JsonFormatter`
 - `wanxiang_observability.KeyValueFormatter`
@@ -316,8 +319,5 @@
 - `wanxiang_substrate.CAPABILITY_SCHEMA_VERSION`
 - `wanxiang_substrate.CAPABILITY_STATE_COMPONENT`
 - `wanxiang_substrate.CLOCK_COMPONENT`
-- `wanxiang_substrate.CLOCK_ENTITY`
-- `wanxiang_substrate.CLUB`
-- `wanxiang_substrate.COMMANDER`
 
 Machine-readable: reports/sdk_api_baseline.json.

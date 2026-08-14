@@ -20,6 +20,7 @@ from wanxiang_domain.ids import (
 )
 from wanxiang_domain.time import CommitTimestamp, WorldTime
 from wanxiang_domain.versions import RuntimeVersion
+from wanxiang_domain.world_commit import DELTA_SCHEMA_VERSION, WorldCommitKind
 
 
 @dataclass(frozen=True, slots=True)
@@ -35,3 +36,5 @@ class AuditRecord:
     actor_id: ActorId | None = None
     correlation_id: CorrelationId | None = None
     commit_timestamp: CommitTimestamp | None = None
+    kind: WorldCommitKind = "state"
+    delta_schema_version: int = DELTA_SCHEMA_VERSION

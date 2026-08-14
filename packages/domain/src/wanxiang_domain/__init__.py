@@ -74,6 +74,12 @@ from wanxiang_domain.snapshot import SnapshotMetadata
 from wanxiang_domain.state import CanonicalState
 from wanxiang_domain.time import CommitTimestamp, WorldTime
 from wanxiang_domain.versions import PackageVersion, RuntimeVersion, SchemaVersion
+from wanxiang_domain.world_commit import (
+    DELTA_SCHEMA_VERSION,
+    WORLD_COMMIT_KINDS,
+    WorldCommitKind,
+    validate_world_commit_kind,
+)
 from wanxiang_domain.world_isa import (
     ISA_INSTRUCTIONS,
     ISA_SUPPORTED_VERSIONS,
@@ -141,6 +147,10 @@ __all__ = [
     "ISA_SUPPORTED_VERSIONS",
     "ISA_VERSION",
     "WorldIsaOp",
+    "DELTA_SCHEMA_VERSION",
+    "WORLD_COMMIT_KINDS",
+    "WorldCommitKind",
+    "validate_world_commit_kind",
     "isa_op_from_primitive",
     "reduce_isa_to_delta",
     "RightsDenied",
