@@ -27,7 +27,7 @@
 | G30D World Semantic ISA ???? | PASS (2026-08-15, commit g30d) |
 | G30E ISA ?????? Commit ???? | PASS (2026-08-15, commit g30e) |
 | G30F ?? World Commit ?? | PASS (2026-08-15, commit g30f) |
-| G30G Fact Scope ? Authority Partition | pending |
+| G30G Fact Scope ? Authority Partition | PASS (2026-08-15, commit g30g) |
 | G30H Event Snapshot ??????? | pending |
 | G30I M27 Root Constitution ISA ???? | pending |
 | **M27 Milestone Gate** | pending |

@@ -419,6 +419,8 @@
     "wanxiang_substrate.ExperimentSpec",
     "wanxiang_substrate.FATIGUE_THRESHOLD",
     "wanxiang_substrate.Facet",
+    "wanxiang_substrate.FactScope",
+    "wanxiang_substrate.FactScopePolicy",
     "wanxiang_substrate.FakeSensorAdapter",
     "wanxiang_substrate.FakeSimulator",
     "wanxiang_substrate.FakeSimulatorState",

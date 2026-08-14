@@ -8,6 +8,12 @@ from wanxiang_substrate.ledger.errors import (
     ReviewRequired,
     RightsBlocked,
 )
+from wanxiang_substrate.ledger.fact_scope import (
+    FACT_SCOPE_WRITERS,
+    FACT_SCOPES,
+    FactScope,
+    FactScopePolicy,
+)
 from wanxiang_substrate.ledger.fixture import (
     canon_item,
     inference_item,
@@ -26,6 +32,10 @@ from wanxiang_substrate.ledger.model import (
 )
 
 __all__ = [
+    "FACT_SCOPES",
+    "FACT_SCOPE_WRITERS",
+    "FactScope",
+    "FactScopePolicy",
     "TRUTH_LABELS",
     "CanonLocked",
     "CompletionLedger",

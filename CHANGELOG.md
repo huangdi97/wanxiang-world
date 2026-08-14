@@ -922,3 +922,10 @@
 - Added RuntimeControlTransaction + RuntimeControlLedger (substrate capability): runtime control changes are NOT World Commits (never enter event stream).
 - 5 tests; 67-test regression green.
 - Checkpoint: `g30f: ?? World Commit ??`.
+
+
+## 2026-08-15 - V5.2 G30G PASS (M27 phase)
+
+- Added FactScopePolicy (canonical/public/org/actor/hypothesis/reconstruction) with write-authority partition, commit-required canonical promotion, and projection visibility filtering; ProjectionService filters ledger.fact entities by scope/rights.
+- 5 tests (no belief->canonical by scope edit; no cross-role leak; admin override).
+- Checkpoint: `g30g: Fact Scope ? Authority Partition`.

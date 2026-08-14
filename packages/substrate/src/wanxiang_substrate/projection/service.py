@@ -12,6 +12,7 @@ from wanxiang_domain.ids import EntityId
 from wanxiang_runtime.state import InMemoryCanonicalState
 
 from wanxiang_substrate.institution.query import InstitutionQuery
+from wanxiang_substrate.ledger.fact_scope import FactScope, FactScopePolicy
 from wanxiang_substrate.projection.errors import UnauthorizedProjection
 from wanxiang_substrate.projection.model import (
     ProjectionItem,
@@ -24,6 +25,8 @@ _BELIEF = "epistemic.belief"
 _MEMORY = "epistemic.memory"
 _PAYLOAD = "material.info_payload"
 _PLACE = "spatial.place"
+_FACT = "ledger.fact"
+_SCOPE_FIELD = "scope"
 
 
 class ProjectionService:
@@ -75,6 +78,8 @@ class ProjectionService:
             return self._item(entity, "reconstruction")
         if entity.entity_type == _PLACE:
             return self._project_place(entity, actor)
+        if entity.entity_type == _FACT:
+            return self._project_fact(entity, actor)
         return self._item(entity, "canon")
 
     def _project_place(self, entity: EntityState, actor: EntityId) -> ProjectionItem:
@@ -88,6 +93,23 @@ class ProjectionService:
                 redaction_reason="restricted_place",
             )
         return self._item(entity, "canon")
+
+    def _project_fact(self, entity: EntityState, actor: EntityId) -> ProjectionItem | None:
+        raw_scope = entity_field(entity, _SCOPE_FIELD)
+        if raw_scope in ("", "canonical", "public"):
+            return self._item(entity, "canon")
+        if raw_scope not in ("actor", "org", "hypothesis", "reconstruction"):
+            return self._item(entity, "completion")
+        scope: FactScope = raw_scope  # type: ignore[assignment]
+        if raw_scope == "actor":
+            owner = entity_field(entity, "owner")
+            if owner and owner != actor.value and not self._admin:
+                return None  # another actor's private belief never leaks
+            return self._item(entity, "actor")
+        viewer = f"actor:{actor.value}"
+        if not FactScopePolicy.can_view(scope, viewer) and not self._admin:
+            return None  # scope/rights filter: never leaks to unauthorized viewers
+        return self._item(entity, raw_scope)
 
     @staticmethod
     def _item(entity: EntityState, label: str) -> ProjectionItem:

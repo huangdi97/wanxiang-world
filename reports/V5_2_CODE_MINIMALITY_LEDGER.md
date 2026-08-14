@@ -130,3 +130,9 @@ RuntimeControlLedger (substrate capability). Justification: kind is the unified
 commit discriminator (no third pipeline); RuntimeControlLedger is the append-only
 Runtime Control Ledger per the triple-ledger spec (never a World Commit).
 CommitRequest/AuditRecord extended with defaulted fields (backward compatible).
+
+
+## G30G entry
+New abstraction: `FactScopePolicy` (pure policy class, stateless static methods).
+Justification: irreducible scope/rights partition semantics; no store/engine.
+ProjectionService gained one entity-type branch (ledger.fact), no new service.
