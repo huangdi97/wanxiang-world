@@ -711,3 +711,10 @@
 - Added `packages/research/` (wanxiang_research experimental namespace, feature flags OFF, experiment registry),
   `docs/RESEARCH_GOVERNANCE.md`, `tests/integration/test_g19a_research_flags.py` (3 tests), M16 baseline + reports.
 - Checkpoint: `g19a: research namespace, feature flags, benchmarks & promotion rules`.
+
+## 2026-08-14 ? G19B PASS (M16 phase)
+
+- Added `wanxiang_research/ai_compiler.py` (extraction schema, provider Port, deterministic fixture,
+  SemanticExtractor + review_diff), `tests/integration/test_g19b_ai_compiler.py` (4 tests) + research report.
+- Decision: KEEP_EXPERIMENTAL.
+- Checkpoint: `g19b: ai-assisted world compiler semantic extraction research`.
