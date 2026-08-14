@@ -179,3 +179,9 @@ core; no second host; routing/budget are thin additions over existing pieces.
 New abstractions: OriginIdentity, PresenceRef (frozen records) + PresenceRegistry
 (thin registry). Justification: M28 interworld identity/presence core; explicit
 policies prevent dual-write; no engine/store beyond the thin registry.
+
+
+## G31F entry
+New abstractions: GenesisCheck, HybridGenesisReport (frozen records) +
+analyze_hybrid_genesis (pure function). Justification: M28 hybrid-genesis
+safety core; pure analysis, no merge engine, no parent mutation.

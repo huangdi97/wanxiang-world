@@ -5,6 +5,11 @@ from wanxiang_substrate.lineage.graph import (
     LineageGraph,
     LineageNode,
 )
+from wanxiang_substrate.lineage.hybrid_genesis import (
+    GenesisCheck,
+    HybridGenesisReport,
+    analyze_hybrid_genesis,
+)
 from wanxiang_substrate.lineage.presence import (
     OriginIdentity,
     PresenceRef,
@@ -12,10 +17,13 @@ from wanxiang_substrate.lineage.presence import (
 )
 
 __all__ = [
+    "GenesisCheck",
+    "HybridGenesisReport",
     "LineageEdge",
     "LineageGraph",
     "LineageNode",
     "OriginIdentity",
     "PresenceRef",
     "PresenceRegistry",
+    "analyze_hybrid_genesis",
 ]

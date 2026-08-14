@@ -978,3 +978,10 @@
 - Added OriginIdentity/PresenceRef/PresenceRegistry: explicit presence + translation/sync policies; no implicit cross-world write-back; identity conflicts rejected unless mapped.
 - 4 tests.
 - Checkpoint: `g31e: Interworld Identity ? Presence`.
+
+
+## 2026-08-15 - V5.2 G31F PASS (M28 phase)
+
+- Added hybrid-genesis compatibility analysis: 6 semantic checks, MergePlan candidate or rejection (no fake git-merge, no auto-resolve); parent histories never rewritten.
+- 5 tests.
+- Checkpoint: `g31f: Hybrid Genesis ??????????`.
