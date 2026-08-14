@@ -44,3 +44,4 @@ certification and local checkpoint. No push/deploy.
 | 8 | G13H | P0 Gap Closure Wave | PASS (2026-08-14) |
 | 9 | G13I | P1/P2 Gap Closure & M10 Independent Requalification | PASS (2026-08-14) |
 | 10 | G14A | Concurrency, Race, Idempotency & Lost-update Adversarial Qualification | PASS (2026-08-14) |
+| 11 | G14B | Crash, Atomicity & Mid-Commit Recovery Qualification | PASS (2026-08-14) |

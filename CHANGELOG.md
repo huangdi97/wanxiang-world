@@ -425,3 +425,10 @@
   duplicate-across-restart idempotency, out-of-order delivery, instance isolation, burst validity) and
   `reports/CONCURRENCY_ADVERSARIAL.md`.
 - Checkpoint: `g14a: concurrency, race, idempotency & lost-update adversarial qualification`.
+
+## 2026-08-14 ? G14B PASS (M11 phase)
+
+- Added `tests/integration/test_g14b_crash_atomicity.py` (5 tests: before-append, after-append restart,
+  checkpoint, retry classification, lifecycle restart) and `reports/CRASH_ATOMICITY_MATRIX.md`.
+- Recovery policy documented: events authoritative; snapshots/caches discardable; idempotent exactly-once retries.
+- Checkpoint: `g14b: crash, atomicity & mid-commit recovery qualification`.

@@ -289,3 +289,4 @@ HEAD `91f0b1f` = tag `m9-release-qualified`. Post-M9 pack integrated; 94/94 hash
 | G13I P1/P2 Gap Closure & M10 Independent Requalification | PASS (2026-08-14, commit g13i) |
 | M10 | Independent Verification & Gap Closure | PASS (2026-08-14, reports/M10_ACCEPTANCE.md) |
 | G14A Concurrency, Race, Idempotency & Lost-update Adversarial Qualification | PASS (2026-08-14, commit g14a) |
+| G14B Crash, Atomicity & Mid-Commit Recovery Qualification | PASS (2026-08-14, commit g14b) |
