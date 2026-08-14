@@ -162,8 +162,8 @@ v5.2 certification reports and local checkpoint. No push/deploy.
 | 14e | G32E | Institution Organization Rule ?? | PASS (2026-08-15) |
 | 14f | G32F | Ontology Law ????? | PASS (2026-08-15) |
 | 14g | G32G | Evolution Telemetry ????? | PASS (2026-08-15) |
-| 14h | G32H | M29 ?????????? | pending |
-| 15 | M29 Gate | ?????????? | pending |
+| 14h | G32H | M29 ?????????? | PASS (2026-08-15) |
+| 15 | M29 Gate | ?????????? | PASS (2026-08-15, reports/M29_QUALIFICATION.md) |
 | 16 | G33A..G33G | Promotion / Cross-world Distillation (M30) | pending |
 | 17 | M30 Gate | Promotion Cross-world ???? | pending |
 | 18 | G34A..G34G | Kernel/Runtime/Forge/Experiences ?? + ?? (M31) | pending |

@@ -18,7 +18,7 @@
 | packages/substrate/src/wanxiang_substrate/skills/registry.py | SkillRegistry | 13 |
 | packages/substrate/src/wanxiang_substrate/sources/registry.py | SourceRegistry | 31 |
 
-## state_classes (18)
+## state_classes (19)
 
 | path | name | line |
 |---|---|---|
@@ -30,6 +30,7 @@
 | packages/substrate/src/wanxiang_substrate/capability/model.py | CapabilityState | 32 |
 | packages/substrate/src/wanxiang_substrate/capability/model.py | LearnerState | 112 |
 | packages/substrate/src/wanxiang_substrate/cosim/adapter.py | FakeSimulatorState | 34 |
+| packages/substrate/src/wanxiang_substrate/evolution/actor_evolution.py | ActorEvolutionState | 56 |
 | packages/substrate/src/wanxiang_substrate/genealogy/privacy.py | ConsentState | 19 |
 | packages/substrate/src/wanxiang_substrate/lifecycle/model.py | LifecycleState | 87 |
 | packages/substrate/src/wanxiang_substrate/material/errors.py | InvalidMaterialState | 26 |

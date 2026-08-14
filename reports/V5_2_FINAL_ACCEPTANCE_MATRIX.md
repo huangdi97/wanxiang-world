@@ -57,8 +57,8 @@
 | G32E Institution Organization Rule ?? | PASS (2026-08-15, commit g32e) |
 | G32F Ontology Law ????? | PASS (2026-08-15, commit g32f) |
 | G32G Evolution Telemetry ????? | PASS (2026-08-15, commit g32g) |
-| G32H M29 ?????????? | pending |
-| **M29 Milestone Gate** | pending |
+| G32H M29 ?????????? | PASS (2026-08-15, commit g32h) |
+| **M29 Milestone Gate** | **PASS (2026-08-15, reports/M29_QUALIFICATION.md)** |
 
 ## M30 ? Promotion / Cross-world
 

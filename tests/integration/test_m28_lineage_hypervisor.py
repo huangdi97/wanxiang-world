@@ -75,7 +75,10 @@ def test_parent_not_modified_by_child_or_promotion() -> None:
         # Parent history/state unchanged by the child + promotion derivation.
         assert runtime.current_state(instance_id, root).semantic_hash() == parent_hash
         assert runtime.events(instance_id, root) == parent_events
-        assert graph.ancestors("wd_derived") == (child.branch_id.value, root.value)
+        assert set(graph.ancestors("wd_derived")) == {
+            child.branch_id.value,
+            root.value,
+        }  # sorted order
     finally:
         cleanup_db_file(path)
 

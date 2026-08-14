@@ -65,6 +65,11 @@ def test_static_success_candidates_are_documented_only() -> None:
     documented = {
         ("packages/application/src/wanxiang_application/environment.py", "close"),
         ("packages/research/src/wanxiang_research/digital_human.py", "interrupt"),
+        # G32A structural guard: world policy holds no platform mutation handle.
+        (
+            "packages/substrate/src/wanxiang_substrate/evolution/policy_stack.py",
+            "assert_world_cannot_mutate_platform",
+        ),
     }
     actual = {(f["file"], f["text"].removeprefix("def ")) for f in findings}
     assert actual == documented, f"unexpected static-success paths: {actual - documented}"

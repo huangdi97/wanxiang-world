@@ -1049,3 +1049,10 @@
 - Added telemetry envelope + policy (opt-in consent, trajectory rights/retention) + revocable cross-world dataset.
 - 3 tests.
 - Checkpoint: `g32g: Evolution Telemetry ?????`.
+
+
+## 2026-08-15 - V5.2 G32H PASS + M29 GATE PASS
+
+- Full M29 gate: 774 passed + 1 EXTERNAL_BLOCKED skip; ruff/format/pyright/architecture PASS.
+- Added synthetic society long-run test (habit->norm->institution controlled chain; no auto gate-crossing; replay/branch deterministic); documented the structural static-success guard; M28 test switched to set comparison.
+- M29 = PASS (reports/M29_QUALIFICATION.md). Commit: `g32h: M29 ??????????`.

@@ -239,3 +239,8 @@ evolution core; pure validation, no engine.
 New abstractions: TelemetryEnvelope (frozen record) + TelemetryPolicy (stateless)
 + CrossWorldDataset (thin store). Justification: M29 telemetry/privacy core;
 opt-in + revocable; no sensitive collection by default.
+
+
+## G32H/M29 entry
+No new production abstraction (verification + synthetic-society test only).
+M29 abstraction delta recorded in the budget (evolution package).
