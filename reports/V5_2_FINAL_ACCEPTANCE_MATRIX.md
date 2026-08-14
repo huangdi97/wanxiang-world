@@ -55,7 +55,7 @@
 | G32C Actor Capability ? Persona ???? | PASS (2026-08-15, commit g32c) |
 | G32D Relation Group Social Pattern Distillation | PASS (2026-08-15, commit g32d) |
 | G32E Institution Organization Rule ?? | PASS (2026-08-15, commit g32e) |
-| G32F Ontology Law ????? | pending |
+| G32F Ontology Law ????? | PASS (2026-08-15, commit g32f) |
 | G32G Evolution Telemetry ????? | pending |
 | G32H M29 ?????????? | pending |
 | **M29 Milestone Gate** | pending |

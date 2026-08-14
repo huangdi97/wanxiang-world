@@ -227,3 +227,9 @@ candidate-only output (never Canon).
 New abstractions: InstitutionCandidate (frozen record) + InstitutionPromotionChain
 (thin chain over CommitAuthority). Justification: M29 institution promotion
 core; reuse single authority for LawCommits.
+
+
+## G32F entry
+New abstractions: OntologyCandidate, LawCandidate (frozen records) +
+OntologyLawEvolution (stateless validator). Justification: M29 ontology/law
+evolution core; pure validation, no engine.

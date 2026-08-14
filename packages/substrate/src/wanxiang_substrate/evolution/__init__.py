@@ -16,6 +16,11 @@ from wanxiang_substrate.evolution.institution_promotion import (
     InstitutionCandidate,
     InstitutionPromotionChain,
 )
+from wanxiang_substrate.evolution.ontology_law import (
+    LawCandidate,
+    OntologyCandidate,
+    OntologyLawEvolution,
+)
 from wanxiang_substrate.evolution.policy_stack import (
     EvolutionPolicyStack,
     PlatformPolicy,
@@ -40,6 +45,9 @@ __all__ = [
     "InstitutionCandidate",
     "InstitutionPromotionChain",
     "MIN_STABILITY",
+    "LawCandidate",
+    "OntologyCandidate",
+    "OntologyLawEvolution",
     "PersonaDelta",
     "PlatformPolicy",
     "SocialPatternDistiller",

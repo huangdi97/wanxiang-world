@@ -1035,3 +1035,10 @@
 - Added InstitutionPromotionChain: candidate evidence -> stability validation -> human/policy approval -> LawCommit (kind=law); unapproved candidates never change Gamma; LawCommits replayable.
 - 4 tests.
 - Checkpoint: `g32e: Institution Organization Rule ??`.
+
+
+## 2026-08-15 - V5.2 G32F PASS (M29 phase)
+
+- Added OntologyCandidate/LawCandidate + OntologyLawEvolution validation against constitution mutable layers and policy (no permission escalation); branch-local ontology/law never pollutes parent.
+- 3 tests.
+- Checkpoint: `g32f: Ontology Law ?????`.
