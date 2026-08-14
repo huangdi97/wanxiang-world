@@ -584,3 +584,9 @@
   (`scripts/generate_sbom.py` -> artifacts/SBOM_INFO.md + sbom.json), `tests/integration/test_g16f_security_hardening.py`
   (4 tests) + reports.
 - Checkpoint: `g16f: production security hardening, authn/authz, rate limits & supply-chain controls`.
+
+## 2026-08-14 ? G16G PASS (M13 phase)
+
+- Added `scripts/backup_restore.py` (backup + restore with integrity manifest), `tests/integration/test_g16g_backup_restore.py`
+  (3 tests), runbook + game-day report.
+- Checkpoint: `g16g: backup, restore, pitr-like recovery & disaster game day`.
