@@ -858,3 +858,10 @@
 - ADR 0064: v5.2 dependency direction (domain -> runtime -> application/persistence -> substrate -> apps/api; Kernel never depends on Runtime/Forge/Web/ORM; World content never in Kernel).
 - Resolved the P2 substrate->application inversion: new consumer-owned `wanxiang_substrate.runtime_port.WorldRuntimePort` (current_state/submit_command/events); five substrate modules (host/queue/scheduler/skills/lifecycle) now use the port; zero `wanxiang_application` imports left in substrate; golden topology + graph + forensics regenerated.
 - Checkpoint: `g29e: ???????`.
+
+
+## 2026-08-14/15 - V5.2 G29F PASS (M26 phase)
+
+- Extended false_completion_scan with empty-body + static-success AST scans; scan clean: placeholders=0 dead=0 empty=0 static=2 (documented) hardcoded=10 (schema maps).
+- Classified all fake-named production classes as deterministic reference implementations (KEEP); research flags all OFF, distributed_host marked REJECTED (ADR 0055).
+- Checkpoint: `g29f: ?? Fake Placeholder ??????`.

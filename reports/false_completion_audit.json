@@ -63,6 +63,19 @@
       "keys": 8
     }
   ],
+  "empty_body": [],
+  "static_success": [
+    {
+      "file": "packages/application/src/wanxiang_application/environment.py",
+      "line": 84,
+      "text": "def close"
+    },
+    {
+      "file": "packages/research/src/wanxiang_research/digital_human.py",
+      "line": 78,
+      "text": "def interrupt"
+    }
+  ],
   "schema_drift": {
     "server_operation_count": 10,
     "sdk_contract_operation_count": 10,

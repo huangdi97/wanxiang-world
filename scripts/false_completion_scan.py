@@ -281,15 +281,87 @@ def schema_drift(root: Path) -> dict[str, Any]:
     }
 
 
+def _is_docstring(node: ast.AST) -> bool:
+    return (
+        isinstance(node, ast.Expr)
+        and isinstance(node.value, ast.Constant)
+        and isinstance(node.value.value, str)
+    )
+
+
+def empty_body_scan(root: Path) -> list[dict[str, Any]]:
+    """AST scan for pass-only production bodies (excluding documented markers).
+
+    Documented allowlist: exception-marker classes (`class X(Exception): pass`)
+    and the SQLAlchemy declarative base (`class Base(DeclarativeBase): pass`).
+    """
+    findings: list[dict[str, Any]] = []
+    for py in iter_prod_py(root):
+        rel = str(py.relative_to(root)).replace("\\", "/")
+        try:
+            tree = ast.parse(py.read_text(encoding="utf-8"))
+        except (SyntaxError, OSError):
+            continue
+        for node in ast.walk(tree):
+            if isinstance(node, ast.ClassDef):
+                body = [n for n in node.body if not _is_docstring(n)]
+                if len(body) == 1 and isinstance(body[0], ast.Pass):
+                    bases = {ast.unparse(b) for b in node.bases}
+                    if bases & {"Exception", "DeclarativeBase"}:
+                        continue
+                    findings.append(
+                        {"file": rel, "line": node.lineno, "text": f"class {node.name}"}
+                    )
+            elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                body = [n for n in node.body if not _is_docstring(n)]
+                if len(body) == 1 and isinstance(body[0], ast.Pass):
+                    findings.append({"file": rel, "line": node.lineno, "text": f"def {node.name}"})
+    return findings
+
+
+def static_success_scan(root: Path) -> list[dict[str, Any]]:
+    """Functions whose body is only `return <literal-or-None>` (candidates).
+
+    These are not necessarily defects (documented no-ops / unsupported-branch
+    providers exist); the goal is to make every such path visible and pinned.
+    """
+    findings: list[dict[str, Any]] = []
+    for py in iter_prod_py(root):
+        rel = str(py.relative_to(root)).replace("\\", "/")
+        try:
+            tree = ast.parse(py.read_text(encoding="utf-8"))
+        except (SyntaxError, OSError):
+            continue
+        for node in ast.walk(tree):
+            if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                continue
+            body = [n for n in node.body if not _is_docstring(n)]
+            if len(body) != 1 or not isinstance(body[0], ast.Return):
+                continue
+            value = body[0].value
+            if value is None or (
+                isinstance(value, ast.Constant) and not isinstance(value.value, (str, bytes))
+            ):
+                findings.append({"file": rel, "line": node.lineno, "text": f"def {node.name}"})
+    return findings
+
+
 def render_false_completion(
-    root: Path, placeholders: list[dict[str, Any]], dead: list[str], hardcoded: list[dict[str, Any]]
+    root: Path,
+    placeholders: list[dict[str, Any]],
+    dead: list[str],
+    hardcoded: list[dict[str, Any]],
+    empty: list[dict[str, Any]],
+    static: list[dict[str, Any]],
 ) -> str:
     lines = [
-        "# False-Completion Audit (G13D)",
+        "# False-Completion Audit (G13D/G29F)",
         "",
         f"- Production placeholder findings: {len(placeholders)}",
         f"- Dead production modules (never imported): {len(dead)}",
         f"- Hardcoded-state candidates: {len(hardcoded)}",
+        f"- Empty-body (pass-only) findings: {len(empty)}",
+        f"- Static-success candidates: {len(static)}",
         "",
         "## Production placeholders",
         "",
@@ -313,6 +385,22 @@ def render_false_completion(
         lines.append(
             "None. `synthetic_microworld.py` is an explicit deterministic fixture, not production truth."  # noqa: E501
         )
+    lines += ["", "## Empty-body (pass-only) findings", ""]
+    if empty:
+        for f in empty:
+            lines.append(f"- `{f['file']}:{f['line']}` {f['text']}")
+    else:
+        lines.append(
+            "None. Exception markers and the SQLAlchemy declarative base are documented allowlist."
+        )
+    lines += ["", "## Static-success candidates", ""]
+    if static:
+        for f in static:
+            lines.append(
+                f"- `{f['file']}:{f['line']}` {f['text']} (documented no-op / unsupported branch)"
+            )
+    else:
+        lines.append("None.")
     lines += [
         "",
         "## Classification",
@@ -330,10 +418,13 @@ def main() -> int:
     placeholders = placeholder_scan(ROOT)
     dead = dead_code_scan(ROOT)
     hardcoded = hardcoded_state_scan(ROOT)
+    empty = empty_body_scan(ROOT)
+    static = static_success_scan(ROOT)
     drift = schema_drift(ROOT)
 
     (REPORTS / "FALSE_COMPLETION_AUDIT.md").write_text(
-        render_false_completion(ROOT, placeholders, dead, hardcoded), encoding="utf-8"
+        render_false_completion(ROOT, placeholders, dead, hardcoded, empty, static),
+        encoding="utf-8",
     )
     (REPORTS / "SURFACE_INTEGRATION_MAP.md").write_text(
         surface_integration_map(ROOT), encoding="utf-8"
@@ -375,6 +466,8 @@ def main() -> int:
                 "placeholders": placeholders,
                 "dead_modules": dead,
                 "hardcoded_state": hardcoded,
+                "empty_body": empty,
+                "static_success": static,
                 "schema_drift": drift,
             },
             indent=2,
@@ -385,6 +478,7 @@ def main() -> int:
 
     print(
         f"false-completion scan: placeholders={len(placeholders)} dead={len(dead)} "
+        f"empty={len(empty)} static={len(static)} "
         f"hardcoded={len(hardcoded)} drift_aligned={drift['aligned']} "
         f"server_ops={drift['server_operation_count']} sdk_ops={drift['sdk_contract_operation_count']}"  # noqa: E501
     )

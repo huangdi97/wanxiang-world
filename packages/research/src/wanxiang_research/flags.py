@@ -61,7 +61,15 @@ DEFAULT_FLAGS.register(
     ResearchFlag("persona_memory", "v5.1", promote_criteria="drift < threshold over 90d run")
 )
 DEFAULT_FLAGS.register(
-    ResearchFlag("distributed_host", "v6", promote_criteria="shard consistency + replay parity")
+    ResearchFlag(
+        "distributed_host",
+        "v6",
+        promote_criteria=(
+            "REJECTED for promotion (ADR 0055: 2.2x coordination overhead, no "
+            "correctness gain; modular monolith is the stable default); kept OFF "
+            "for isolated experiments only"
+        ),
+    )
 )
 DEFAULT_FLAGS.register(
     ResearchFlag(

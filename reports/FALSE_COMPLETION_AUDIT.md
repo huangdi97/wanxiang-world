@@ -1,8 +1,10 @@
-# False-Completion Audit (G13D)
+# False-Completion Audit (G13D/G29F)
 
 - Production placeholder findings: 0
 - Dead production modules (never imported): 0
 - Hardcoded-state candidates: 10
+- Empty-body (pass-only) findings: 0
+- Static-success candidates: 2
 
 ## Production placeholders
 
@@ -24,6 +26,15 @@ None.
 - `packages/substrate/src/wanxiang_substrate/packages/model.py:151` large-dict-literal (8 keys)
 - `packages/substrate/src/wanxiang_substrate/sources/model.py:123` large-dict-literal (8 keys)
 - `packages/substrate/src/wanxiang_substrate/temporal/components.py:42` large-dict-literal (8 keys)
+
+## Empty-body (pass-only) findings
+
+None. Exception markers and the SQLAlchemy declarative base are documented allowlist.
+
+## Static-success candidates
+
+- `packages/application/src/wanxiang_application/environment.py:84` def close (documented no-op / unsupported branch)
+- `packages/research/src/wanxiang_research/digital_human.py:78` def interrupt (documented no-op / unsupported branch)
 
 ## Classification
 

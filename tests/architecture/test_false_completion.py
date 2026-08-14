@@ -20,7 +20,12 @@ from typing import Any
 import pytest
 from scripts.architecture_check import scan_placeholders
 from scripts.export_openapi import build_contract
-from scripts.false_completion_scan import dead_code_scan, placeholder_scan
+from scripts.false_completion_scan import (
+    dead_code_scan,
+    empty_body_scan,
+    placeholder_scan,
+    static_success_scan,
+)
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent.parent
 ARCH_TMP = ROOT / "tests" / "_arch_tmp"
@@ -47,6 +52,22 @@ def test_production_placeholder_scan_clean() -> None:
 
 def test_no_dead_production_modules() -> None:
     assert dead_code_scan(ROOT) == []
+
+
+def test_no_empty_body_production_modules() -> None:
+    """G29F: no pass-only production function/class bodies beyond documented markers."""
+    assert empty_body_scan(ROOT) == []
+
+
+def test_static_success_candidates_are_documented_only() -> None:
+    """G29F: every static-success path is pinned and documented (no new ones)."""
+    findings = static_success_scan(ROOT)
+    documented = {
+        ("packages/application/src/wanxiang_application/environment.py", "close"),
+        ("packages/research/src/wanxiang_research/digital_human.py", "interrupt"),
+    }
+    actual = {(f["file"], f["text"].removeprefix("def ")) for f in findings}
+    assert actual == documented, f"unexpected static-success paths: {actual - documented}"
 
 
 def test_placeholder_guard_catches_every_marker(arch_tmp: pathlib.Path) -> None:

@@ -61,3 +61,9 @@ single-authority derivation model; no second State/Event/Audit mechanism exists.
 
 ### Removed dependency edge
 substrate -> application (5 module imports removed; verified zero remaining).
+
+
+## G29F entry
+No production abstraction added or removed (scanner extension + tests + flag
+metadata only). Verified zero empty-body production functions/classes; the two
+static-success paths are documented no-ops/unsupported branches.
