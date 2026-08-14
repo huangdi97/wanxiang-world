@@ -736,3 +736,8 @@
 - Added `wanxiang_research/planner.py` (Planner Port, HeuristicPlanner, validate/rollout),
   `tests/integration/test_g19e_planner.py` (3 tests) + research report. Decision: KEEP_EXPERIMENTAL.
 - Checkpoint: `g19e: world-model / planner proposal engine research`.
+
+## 2026-08-14 - G19F PASS (M16 phase)
+
+- Added `wanxiang_research/generative_assets.py` (AssetManifest, AssetFoundryPipeline, SceneProjector; semantic binding to entity/package/revision + rights/provenance; regeneration versions instead of overwriting; explicit fallback markers), `tests/integration/test_g19f_generative_assets.py` (5 tests) + research report. Decision: KEEP_EXPERIMENTAL.
+- Checkpoint: `g19f: generative asset / scene pipeline & semantic binding research`.

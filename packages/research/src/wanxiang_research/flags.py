@@ -63,3 +63,10 @@ DEFAULT_FLAGS.register(
 DEFAULT_FLAGS.register(
     ResearchFlag("distributed_host", "v6", promote_criteria="shard consistency + replay parity")
 )
+DEFAULT_FLAGS.register(
+    ResearchFlag(
+        "generative_assets",
+        "v5.1",
+        promote_criteria="generator parity + rights/provenance audit on real assets",
+    )
+)

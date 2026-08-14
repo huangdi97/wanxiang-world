@@ -93,3 +93,4 @@ certification and local checkpoint. No push/deploy.
 | 57 | G19C | Long-horizon Persona, Memory Metabolism & Drift Evaluation Research | PASS (2026-08-14) |
 | 58 | G19D | Cognitive LOD & Large-population Scheduling Research | PASS (2026-08-14) |
 | 59 | G19E | World-model / Planner Proposal Engine Research | PASS (2026-08-14) |
+| 60 | G19F | Generative Asset / Scene Pipeline & Semantic Binding Research | PASS (2026-08-14) |

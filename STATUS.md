@@ -343,3 +343,4 @@ HEAD `91f0b1f` = tag `m9-release-qualified`. Post-M9 pack integrated; 94/94 hash
 | G19C Long-horizon Persona, Memory Metabolism & Drift Evaluation Research | PASS (2026-08-14, commit g19c; KEEP_EXPERIMENTAL) |
 | G19D Cognitive LOD & Large-population Scheduling Research | PASS (2026-08-14, commit g19d; KEEP_EXPERIMENTAL) |
 | G19E World-model / Planner Proposal Engine Research | PASS (2026-08-14, commit g19e; KEEP_EXPERIMENTAL) |
+| G19F Generative Asset / Scene Pipeline & Semantic Binding Research | PASS (2026-08-14, commit g19f; KEEP_EXPERIMENTAL) |
