@@ -559,3 +559,9 @@
 - Added `tests/integration/test_g16b_postgres.py` (offline Postgres DDL compile, portable-path check,
   storage-independent hash, live profile gated by env) + reports. Live Postgres EXTERNAL_BLOCKED + runbook.
 - Checkpoint: `g16b: postgresql production persistence & migration qualification`.
+
+## 2026-08-14 ? G16C PASS (M13 phase)
+
+- Added `tests/integration/test_g16c_background_queue.py` (3 tests: idempotent at-least-once, failed-job
+  retry, queue-pressure safety) + reports.
+- Checkpoint: `g16c: background execution, work queue & scheduler reliability`.

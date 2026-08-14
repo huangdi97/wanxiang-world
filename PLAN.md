@@ -64,3 +64,4 @@ certification and local checkpoint. No push/deploy.
 | 28 | G15J | Cross-domain Worldness Certification & M12 Qualification | PASS (2026-08-14) |
 | 29 | G16A | Production Topology, Configuration & Secret-management Foundation | PASS (2026-08-14) |
 | 30 | G16B | PostgreSQL Production Persistence & Migration Qualification | PASS (2026-08-14) |
+| 31 | G16C | Background Execution, Work Queue & Scheduler Reliability | PASS (2026-08-14) |
