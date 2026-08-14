@@ -724,3 +724,9 @@
 - Added `wanxiang_research/persona_memory.py` (MemoryStore, compaction, PersonaDrift),
   `tests/integration/test_g19c_persona_memory.py` (3 tests) + research report. Decision: KEEP_EXPERIMENTAL.
 - Checkpoint: `g19c: long-horizon persona, memory metabolism & drift evaluation research`.
+
+## 2026-08-14 ? G19D PASS (M16 phase)
+
+- Added `wanxiang_research/cognitive_lod.py` (tiered LOD + event wakeups),
+  `tests/integration/test_g19d_cognitive_lod.py` (3 tests) + research report. Decision: KEEP_EXPERIMENTAL.
+- Checkpoint: `g19d: cognitive lod & large-population scheduling research`.

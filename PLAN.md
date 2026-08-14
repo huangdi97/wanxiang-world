@@ -91,3 +91,4 @@ certification and local checkpoint. No push/deploy.
 | 55 | G19A | Research Namespace, Feature Flags, Benchmarks & Promotion Rules | PASS (2026-08-14) |
 | 56 | G19B | AI-assisted World Compiler Semantic Extraction Research | PASS (2026-08-14) |
 | 57 | G19C | Long-horizon Persona, Memory Metabolism & Drift Evaluation Research | PASS (2026-08-14) |
+| 58 | G19D | Cognitive LOD & Large-population Scheduling Research | PASS (2026-08-14) |
