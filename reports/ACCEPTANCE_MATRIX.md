@@ -235,3 +235,13 @@ PROGRAM verdict: PASS (M1-M9; reports/FINAL_PROGRAM_COMPLETION_REPORT.md).
 | M16-09 | M16 gate | G19I | Reality/digital-twin streaming | PASS | g19i | KEEP_EXPERIMENTAL |
 | M16-10 | M16 gate | G19J | Distributed host/sharding experiment | PASS | g19j | REJECT promotion |
 | M16-11 | M16 gate | G19J | M16 research qualification | PASS | g19j | 628 tests + 1 skip |
+## M17 gate (2026-08-14)
+
+| Req ID | Source | Owning Goal | Test/evidence | Status | Last verified commit | Notes |
+|---|---|---|---|---|---|---|
+| M17-01 | M17 gate | G20A | Final mother-spec traceability & requirement closure | PASS | g20a | 44 rows, 0 GAP, 2 EXTERNAL_BLOCKED |
+| M17-02 | M17 gate | G20B | Clean-room build/install/upgrade/restore/replay | PASS | g20b | 7/7 steps |
+| M17-03 | M17 gate | G20C | Final security/reliability/chaos re-run | PASS | g20c | 65 curated tests |
+| M17-04 | M17 gate | G20D | Black-box external author + reference world acceptance | PASS | g20d | 4 personas |
+| M17-05 | M17 gate | G20E | Release readiness + version freeze + post-v5 roadmap | PASS | g20e | rc proposed; no push |
+| M17-06 | M17 gate | G20E | M17 final certification | PASS | m17-final-certification | 640 tests + 1 skip |
