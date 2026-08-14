@@ -53,7 +53,8 @@ def test_budget_counts_are_stable() -> None:
     assert budget["registry_classes"] == 10
     assert budget["service_classes"] == 15
     assert budget["engine_classes"] == 2
-    assert budget["ports"] == 23
+    # 23 at M26 + RealityRootContract Protocol (M27) = 24
+    assert budget["ports"] == 24
     loc = budget["production_loc"]
     files = budget["production_files"]
     assert isinstance(loc, int) and loc > 0

@@ -10,7 +10,7 @@ from __future__ import annotations
 import pytest
 from tests.helpers.replay_fixture import BRANCH, INSTANCE, RULES, SCHEMA
 from wanxiang_domain.delta import EntityCreate, ProposedWorldDelta, RelationCreate
-from wanxiang_domain.errors import ConstitutionViolation, ValidationRejected
+from wanxiang_domain.errors import Conflict, ConstitutionViolation, ValidationRejected
 from wanxiang_domain.hierarchy import BranchRevision
 from wanxiang_domain.ids import CommandId, EntityId, RelationId
 from wanxiang_domain.time import WorldTime
@@ -149,7 +149,7 @@ def test_kernel_invariants_cannot_be_overridden_by_world_delta() -> None:
             operations=(EntityCreate(entity_id=EntityId("alice"), entity_type="person"),)
         ),
     )
-    with pytest.raises(Exception):
+    with pytest.raises(Conflict):
         check_delta_invariants(
             state,
             ProposedWorldDelta(

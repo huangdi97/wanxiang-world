@@ -144,8 +144,8 @@ v5.2 certification reports and local checkpoint. No push/deploy.
 | 10f | G30F | ?? World Commit ?? | PASS (2026-08-15) |
 | 10g | G30G | Fact Scope ? Authority Partition | PASS (2026-08-15) |
 | 10h | G30H | Event Snapshot ??????? | PASS (2026-08-15) |
-| 10i | G30I | M27 Root Constitution ISA ???? | pending |
-| 11 | M27 Gate | Root Constitution ISA ???? | pending |
+| 10i | G30I | M27 Root Constitution ISA ???? | PASS (2026-08-15) |
+| 11 | M27 Gate | Root Constitution ISA ???? | PASS (2026-08-15, reports/M27_QUALIFICATION.md) |
 | 12 | G31A..G31H | Worldline / Lineage / Hypervisor (M28) | pending |
 | 13 | M28 Gate | Lineage Hypervisor ???? | pending |
 | 14 | G32A..G32H | Evolution Policy / ?????? (M29) | pending |

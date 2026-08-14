@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from dataclasses import FrozenInstanceError
+
 import pytest
 from wanxiang_domain.constitution import (
     ROOT_CONSTITUTION,
@@ -61,7 +63,7 @@ def test_different_constitutions_share_no_mutable_objects() -> None:
         isinstance(getattr(a, f), (dict, list)) for f in ("root_constraints", "mutable_law_layers")
     )
     # Mutation of the manifest type is impossible at the type level (frozen).
-    with pytest.raises(Exception):
+    with pytest.raises(FrozenInstanceError):
         a.root_constraints = ("hacked",)  # type: ignore[misc]
 
 
@@ -87,7 +89,7 @@ def test_root_constitution_is_immutable_and_isolated() -> None:
     assert "no_self_amendment" in ROOT_CONSTITUTION.root_constraints
     assert "world_policy_cannot_modify_platform" in ROOT_CONSTITUTION.root_constraints
     # A world instance has no API to mutate the root manifest.
-    with pytest.raises(Exception):
+    with pytest.raises(FrozenInstanceError):
         ROOT_CONSTITUTION.root_constraints = ()  # type: ignore[misc]
 
 

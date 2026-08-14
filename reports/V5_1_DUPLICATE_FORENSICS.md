@@ -40,12 +40,12 @@
 | packages/substrate/src/wanxiang_substrate/spatial/errors.py | InvalidSpatialState | 34 |
 | packages/substrate/src/wanxiang_substrate/spatial/model.py | SpatialSnapshot | 91 |
 
-## store_classes (15)
+## store_classes (16)
 
 | path | name | line |
 |---|---|---|
 | packages/application/src/wanxiang_application/ports.py | WorldInstanceStore | 16 |
-| packages/domain/src/wanxiang_domain/errors.py | CorruptEventStream | 65 |
+| packages/domain/src/wanxiang_domain/errors.py | CorruptEventStream | 69 |
 | packages/persistence/src/wanxiang_persistence/event_store.py | SqlAlchemyEventStore | 26 |
 | packages/persistence/src/wanxiang_persistence/snapshot_store.py | SqlAlchemySnapshotStore | 22 |
 | packages/research/src/wanxiang_research/persona_memory.py | MemoryStore | 24 |
@@ -57,6 +57,7 @@
 | packages/runtime/src/wanxiang_runtime/snapshot.py | InMemorySnapshotStore | 66 |
 | packages/substrate/src/wanxiang_substrate/assets/storage.py | ObjectStore | 35 |
 | packages/substrate/src/wanxiang_substrate/assets/storage.py | LocalObjectStore | 44 |
+| packages/substrate/src/wanxiang_substrate/capability/runtime_control.py | RuntimeControlLedger | 33 |
 | packages/substrate/src/wanxiang_substrate/ledger/ledger.py | CompletionLedger | 30 |
 | packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | CheckpointStore | 31 |
 
@@ -66,7 +67,7 @@
 |---|---|---|
 | packages/substrate/src/wanxiang_substrate/lifecycle/service.py | LifecycleService | 19 |
 | packages/substrate/src/wanxiang_substrate/observation/query.py | PerspectiveService | 29 |
-| packages/substrate/src/wanxiang_substrate/projection/service.py | ProjectionService | 29 |
+| packages/substrate/src/wanxiang_substrate/projection/service.py | ProjectionService | 32 |
 | packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | CheckpointService | 86 |
 | packages/substrate/src/wanxiang_substrate/recovery/recovery.py | RecoveryService | 31 |
 | packages/substrate/src/wanxiang_substrate/resolution/service.py | AdjudicationService | 14 |
@@ -87,12 +88,13 @@
 | packages/research/src/wanxiang_research/planner.py | PlannerEngine | 47 |
 | packages/runtime/src/wanxiang_runtime/replay.py | ReplayEngine | 21 |
 
-## ports (23)
+## ports (24)
 
 | path | name | line |
 |---|---|---|
 | packages/application/src/wanxiang_application/ports.py | WorldInstanceStore | 16 |
 | packages/application/src/wanxiang_application/ports.py | AuditSink | 30 |
+| packages/domain/src/wanxiang_domain/reality_root.py | RealityRootContract | 79 |
 | packages/domain/src/wanxiang_domain/state.py | CanonicalState | 16 |
 | packages/research/src/wanxiang_research/ai_compiler.py | ExtractionProvider | 25 |
 | packages/research/src/wanxiang_research/digital_human.py | AvatarProvider | 52 |
@@ -123,4 +125,4 @@
 
 | path | name | line |
 |---|---|---|
-| packages/runtime/src/wanxiang_runtime/authority.py | commit | 84 |
+| packages/runtime/src/wanxiang_runtime/authority.py | commit | 91 |

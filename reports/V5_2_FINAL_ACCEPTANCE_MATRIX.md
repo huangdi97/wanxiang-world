@@ -29,8 +29,8 @@
 | G30F ?? World Commit ?? | PASS (2026-08-15, commit g30f) |
 | G30G Fact Scope ? Authority Partition | PASS (2026-08-15, commit g30g) |
 | G30H Event Snapshot ??????? | PASS (2026-08-15, commit g30h) |
-| G30I M27 Root Constitution ISA ???? | pending |
-| **M27 Milestone Gate** | pending |
+| G30I M27 Root Constitution ISA ???? | PASS (2026-08-15, commit g30i) |
+| **M27 Milestone Gate** | **PASS (2026-08-15, reports/M27_QUALIFICATION.md)** |
 
 ## M28 ? Worldline / Lineage / Hypervisor
 

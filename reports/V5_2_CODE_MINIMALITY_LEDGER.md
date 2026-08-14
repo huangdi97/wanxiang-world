@@ -143,3 +143,8 @@ New abstractions: VersionContext, VersionContextEntry, SnapshotVersionContext
 (frozen records) + extend/resolve_context (pure functions). Justification:
 minimized history-interpretation metadata; no store/engine; legacy adapter
 reuses existing golden fixtures (unchanged hash).
+
+
+## G30I/M27 entry
+No new production abstraction (verification + gate fixes only). Recorded M27
+abstraction delta in the budget (ports 23 -> 24 = RealityRootContract).

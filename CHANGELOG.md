@@ -936,3 +936,10 @@
 - Added version_context module: VersionContext (constitution/semantic/law/domain/runtime), immutable revision log, legacy adapter for v5.0/v5.1 events, SnapshotVersionContext freeze. Golden v5.1 replay hash unchanged; replay deterministic across Law/Ontology evolution.
 - 6 tests.
 - Checkpoint: `g30h: Event Snapshot ???????`.
+
+
+## 2026-08-15 - V5.2 G30I PASS + M27 GATE PASS
+
+- Full M27 gate: 714 passed + 1 EXTERNAL_BLOCKED skip; ruff/format/pyright/architecture PASS; commit_paths 1; old replay hash unchanged.
+- Fixed 3 M27-test quality nits (B017 blind exception asserts, errors.py blank lines) surfaced by full regression; budget anchor updated (ports 24).
+- M27 = PASS (reports/M27_QUALIFICATION.md). Commit: `g30i: M27 Root Constitution ISA ????`.
