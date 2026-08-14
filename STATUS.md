@@ -380,7 +380,7 @@ golden fixtures (`tests/fixtures/v5_2_baseline/`, combined hash
 
 | Milestone | Meaning | Status |
 |---|---|---|
-| M26 | ?????????????? | in progress (G29A PASS) |
+| M26 | ?????????????? | in progress (G29A+G29B PASS) |
 | M27 | Reality Root / Constitution / ISA | pending |
 | M28 | Worldline / Lineage / Hypervisor | pending |
 | M29 | ?????? | pending |
@@ -395,6 +395,7 @@ golden fixtures (`tests/fixtures/v5_2_baseline/`, combined hash
 | Goal | Status |
 |---|---|
 | G29A ???????? M25 ???? | PASS (2026-08-14, commit g29a) |
-| G29B?G37G | pending (see reports/V5_2_FINAL_ACCEPTANCE_MATRIX.md) |
+| G29B ?????????? | PASS (2026-08-14, commit g29b) |
+| G29C?G37G | pending (see reports/V5_2_FINAL_ACCEPTANCE_MATRIX.md) |
 
 Current HEAD: master @ f53cf82 (v5.1 g21d) -> next commit `g29a`.

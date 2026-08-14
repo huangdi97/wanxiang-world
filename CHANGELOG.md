@@ -828,3 +828,11 @@
 - Frozen deterministic golden fixtures `tests/fixtures/v5_2_baseline/` (events/snapshot/branch/worldpack/api/manifest; combined hash `f27b77249f14c6ef5b8b1b10689e69659e9405d6ccf6f0c75d3f4be952c47ecf`) + generator script + 6-test reproducibility guard.
 - Baseline audit: 263 files / 21,822 LOC; 11 registries, 0 managers, 15 services, 3 engines; migration head 0002 unchanged.
 - Checkpoint: `g29a: ???????? M25 ????`.
+
+
+## 2026-08-14 - V5.2 G29B PASS (M26 phase)
+
+- Produced `reports/V5_2_CODE_DISPOSITION_ACTUAL.md`: actual inventory of 8 packages + apps/api + 2 migrations + 164 test files + 29 scripts; all duplicates classified with call-site evidence (11 registries KEEP, 18 state models, 16 stores, 15 services, 3 engines, 23 ports).
+- Confirmed exactly one commit path; no unused port; no world-specific leakage into domain/runtime Core.
+- DELETE stubs (evidence/model_providers) already removed in G29A; single MERGE candidate identified: substrate recovery snapshot store -> runtime SnapshotStore port (G29C).
+- Checkpoint: `g29b: ??????????`.

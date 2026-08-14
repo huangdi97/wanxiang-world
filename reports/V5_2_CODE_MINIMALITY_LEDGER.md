@@ -19,3 +19,10 @@
 | `tests/architecture/test_v52_baseline_fixtures.py` | Reproducibility guard (reload + same semantic hash) | N/A (test) | N/A | Runs in full quality gate |
 
 No production Core class/protocol/service/registry/manager was added in G29A.
+
+
+## G29B entry
+No production abstraction added or removed in G29B (analysis + report only).
+Recorded dispositions: 11 registries KEEP (domain-local / single problem);
+CanonicalState vs InMemoryCanonicalState = ADAPT (contract vs impl); recovery
+snapshot store flagged MERGE (G29C) with consumer evidence.
