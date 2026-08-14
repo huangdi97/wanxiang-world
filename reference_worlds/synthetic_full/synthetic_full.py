@@ -19,7 +19,6 @@ from wanxiang_domain.delta import EntityCreate, ProposedWorldDelta
 from wanxiang_domain.hierarchy import BranchRevision
 from wanxiang_domain.ids import BranchId, CommandId, EntityId, WorldInstanceId
 from wanxiang_domain.time import WorldTime
-
 from wanxiang_substrate.body.components import condition_component
 from wanxiang_substrate.epistemic.components import belief_component
 from wanxiang_substrate.institution.components import (
@@ -247,9 +246,7 @@ def instantiate_delta() -> ProposedWorldDelta:
             entity_id=PUBLIC_BELIEF,
             entity_type="epistemic.belief",
             components=(
-                belief_component(
-                    PUBLIC_BELIEF, MAYOR, "the market opens at dawn", 0.9, at_ticks=0
-                ),
+                belief_component(PUBLIC_BELIEF, MAYOR, "the market opens at dawn", 0.9, at_ticks=0),
             ),
         ),
         EntityCreate(

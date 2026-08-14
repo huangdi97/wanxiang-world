@@ -539,3 +539,10 @@
 - Added `tests/integration/test_g15i_multidomain.py` (4 tests: genealogy, heritage, campaign, public-interface
   only) + reports. Real slices EXTERNAL_BLOCKED.
 - Checkpoint: `g15i: family, heritage & campaign source-gated reference suites`.
+
+## 2026-08-14 ? G15J PASS + M12 PASS (M12 gate)
+
+- Added `tests/integration/test_g15j_worldness_certification.py` (3 tests) + reports
+  (WORLDNESS_CERTIFICATION, M12_REFERENCE_WORLD_QUALIFICATION, M12_ACCEPTANCE).
+- M12 gate PASS: worldness 12/12, black-box scenario, 24 M12 suites, full gate 497 tests.
+- Checkpoint: `g15j: cross-domain worldness certification & m12 qualification`. M13 begins next.

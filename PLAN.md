@@ -61,3 +61,4 @@ certification and local checkpoint. No push/deploy.
 | 25 | G15G | Extended 90-day Virtual Run & Population-LOD Qualification | PASS (2026-08-14) |
 | 26 | G15H | Red Chamber Source-gated Qualified Reference Slice | PASS (2026-08-14) |
 | 27 | G15I | Family, Heritage & Campaign Source-gated Reference Suites | PASS (2026-08-14) |
+| 28 | G15J | Cross-domain Worldness Certification & M12 Qualification | PASS (2026-08-14) |
