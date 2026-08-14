@@ -74,6 +74,14 @@ from wanxiang_domain.snapshot import SnapshotMetadata
 from wanxiang_domain.state import CanonicalState
 from wanxiang_domain.time import CommitTimestamp, WorldTime
 from wanxiang_domain.versions import PackageVersion, RuntimeVersion, SchemaVersion
+from wanxiang_domain.world_isa import (
+    ISA_INSTRUCTIONS,
+    ISA_SUPPORTED_VERSIONS,
+    ISA_VERSION,
+    WorldIsaOp,
+    isa_op_from_primitive,
+    reduce_isa_to_delta,
+)
 
 __version__ = "0.1.0"
 
@@ -93,6 +101,7 @@ __all__ = [
     "ComponentData",
     "ComponentId",
     "Conflict",
+    "ConstitutionViolation",
     "ContractError",
     "CorrelationId",
     "CorruptEventStream",
@@ -128,6 +137,12 @@ __all__ = [
     "ConstitutionVersion",
     "constitution_from_primitive",
     "legacy_default_constitution",
+    "ISA_INSTRUCTIONS",
+    "ISA_SUPPORTED_VERSIONS",
+    "ISA_VERSION",
+    "WorldIsaOp",
+    "isa_op_from_primitive",
+    "reduce_isa_to_delta",
     "RightsDenied",
     "RuntimeVersion",
     "RightsEnvelope",

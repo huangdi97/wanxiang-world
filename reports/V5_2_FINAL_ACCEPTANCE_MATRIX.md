@@ -24,7 +24,7 @@
 | G30A Reality Root ???? | PASS (2026-08-15, commit g30a) |
 | G30B World Constitution ????? | PASS (2026-08-15, commit g30b) |
 | G30C Constitution ??????? | PASS (2026-08-15, commit g30c) |
-| G30D World Semantic ISA ???? | pending |
+| G30D World Semantic ISA ???? | PASS (2026-08-15, commit g30d) |
 | G30E ISA ?????? Commit ???? | pending |
 | G30F ?? World Commit ?? | pending |
 | G30G Fact Scope ? Authority Partition | pending |

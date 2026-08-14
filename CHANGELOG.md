@@ -901,3 +901,10 @@
 - Wired constitution enforcement into the runtime Invariant Registry: protected platform identities (sys_reality_root/sys_commit_boundary/sys_commit_authority/sys_constitution) cannot be mutated or related to by world deltas; kernel invariants always run (priority) and cannot be overridden.
 - Added ConstitutionViolation error + 7 tests (rejection with no state mutation; kernel priority; normal deltas not blocked).
 - Checkpoint: `g30c: Constitution ???????`.
+
+
+## 2026-08-15 - V5.2 G30D PASS (M27 phase)
+
+- Added `wanxiang_domain.world_isa`: 8-instruction typed ISA (WorldIsaOp) with version/schema round-trip; DECLARE/ASSERT/RETRACT/PROPOSE reduce to existing deltas; VALIDATE/COMMIT/FORK/PROMOTE map to use cases; no DB write; business actions stay upper.
+- 10 tests (unknown version/instruction fail; reductions; no DB import).
+- Checkpoint: `g30d: World Semantic ISA ????`.

@@ -109,3 +109,9 @@ Actually count: M27 used = RealityRootContract, SemanticMapping (G30A) + Constit
 New abstraction: `ConstitutionViolation` error type (typed failure category,
 subclass of ValidationRejected). Two invariant check FUNCTIONS added to the
 existing INVARIANTS tuple (not new classes). No new engine/store/boundary.
+
+
+## G30D entry
+New abstraction: `WorldIsaOp` (discriminated payload) + `WorldIsaInstruction`
+(Literal alias). reduce_isa_to_delta is a function. No engine/bus/store.
+ISA is intentionally a thin reduction layer (per ADR 0068/0071).
