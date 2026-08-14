@@ -32,7 +32,7 @@ class RateLimiter:
 
     limit: int
     window_seconds: float = 60.0
-    _buckets: dict[str, list[float]] = field(default_factory=dict)
+    _buckets: dict[str, list[float]] = field(default_factory=dict[str, list[float]])
 
     def allow(self, key: str, now: float | None = None) -> bool:
         now = now if now is not None else time.monotonic()

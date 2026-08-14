@@ -30,8 +30,8 @@ class Span:
 class Metrics:
     """Simple counters/gauges for failure and saturation signals."""
 
-    counters: dict[str, int] = field(default_factory=dict)
-    gauges: dict[str, int] = field(default_factory=dict)
+    counters: dict[str, int] = field(default_factory=dict[str, int])
+    gauges: dict[str, int] = field(default_factory=dict[str, int])
 
     def increment(self, name: str, by: int = 1) -> None:
         self.counters[name] = self.counters.get(name, 0) + by

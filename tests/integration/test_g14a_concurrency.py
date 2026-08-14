@@ -125,9 +125,7 @@ def test_burst_of_conflicting_and_non_conflicting_commands(persist_db_path: path
     w = runtime.create_world()
     iid, branch = w.instance_id, w.root_branch_id
     for i in range(20):
-        runtime.submit_command(
-            _cmd(iid, branch, i, f"ent_{i}", count=i, command_id=f"burst_{i}")
-        )
+        runtime.submit_command(_cmd(iid, branch, i, f"ent_{i}", count=i, command_id=f"burst_{i}"))
     events = runtime.persistence.event_store.load(iid, branch)
     assert [e.event_seq.value for e in events] == list(range(1, 21))
     assert len({e.command_id.value for e in events}) == 20

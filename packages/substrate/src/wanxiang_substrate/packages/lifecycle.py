@@ -20,8 +20,8 @@ class RegistryLifecycle:
     """High-level registry operations over the public registry."""
 
     registry: InMemoryPackageRegistry
-    _deprecations: dict[tuple[str, str], str] = field(default_factory=dict)
-    _yanked: set[tuple[str, str]] = field(default_factory=set)
+    _deprecations: dict[tuple[str, str], str] = field(default_factory=dict[tuple[str, str], str])
+    _yanked: set[tuple[str, str]] = field(default_factory=set[tuple[str, str]])
 
     def publish(self, manifest: PackageManifest) -> None:
         self.registry.register(manifest)

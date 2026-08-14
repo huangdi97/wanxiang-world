@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
 from sqlalchemy.orm import sessionmaker
 from wanxiang_application.ports import PersistenceBundle
 from wanxiang_application.synthetic_microworld import register_synthetic_resolvers
@@ -56,9 +57,8 @@ def create_app(runtime: WorldRuntime | None = None) -> FastAPI:
     install_error_handler(app)
 
     @app.exception_handler(PayloadTooLarge)
-    async def _payload_too_large(_request, exc: PayloadTooLarge):
-        from fastapi.responses import JSONResponse
-
+    async def _payload_too_large(request: Request, exc: PayloadTooLarge) -> JSONResponse:  # pyright: ignore[reportUnusedFunction]
+        _ = request
         return JSONResponse(
             status_code=413,
             content={
