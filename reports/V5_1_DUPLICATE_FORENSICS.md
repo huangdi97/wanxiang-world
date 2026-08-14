@@ -2,7 +2,7 @@
 
 > Deterministic AST scan. Groups: registry/catalog, state models, stores,
 > services/managers, engines, ports, oversized modules, commit paths.
-## registry_classes (10)
+## registry_classes (11)
 
 | path | name | line |
 |---|---|---|
@@ -11,6 +11,7 @@
 | packages/runtime/src/wanxiang_runtime/resolver.py | ResolverRegistry | 29 |
 | packages/substrate/src/wanxiang_substrate/actions/registry.py | ActionRegistry | 8 |
 | packages/substrate/src/wanxiang_substrate/host/host.py | HostRegistry | 107 |
+| packages/substrate/src/wanxiang_substrate/lineage/presence.py | PresenceRegistry | 71 |
 | packages/substrate/src/wanxiang_substrate/packages/registry.py | PackageRegistry | 15 |
 | packages/substrate/src/wanxiang_substrate/packages/registry.py | InMemoryPackageRegistry | 24 |
 | packages/substrate/src/wanxiang_substrate/resolution/registry.py | AdjudicatorRegistry | 15 |
@@ -79,7 +80,7 @@
 | apps/api/src/wanxiang_api/learn_service.py | LearnService | 23 |
 | apps/api/src/wanxiang_api/operator_console_service.py | OperatorConsoleService | 22 |
 | apps/api/src/wanxiang_api/strategy_workbench_service.py | StrategyWorkbenchService | 44 |
-| apps/api/src/wanxiang_api/studio_service.py | StudioService | 23 |
+| apps/api/src/wanxiang_api/studio_service.py | StudioService | 24 |
 
 ## engine_classes (2)
 

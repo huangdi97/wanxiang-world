@@ -18,7 +18,7 @@ import time
 from typing import Any
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-EXPECTED_MIGRATION_HEAD = "0002_add_event_seq_index"
+EXPECTED_MIGRATION_HEAD = "0003_add_lineage"
 RELEASE_VERSION = "0.1.0"
 
 _BUILD_INPUTS = (

@@ -1,0 +1,79 @@
+{
+  "common_ancestors": {
+    "wd_rc_derived": [
+      "wd_sf_root"
+    ]
+  },
+  "edges": [
+    {
+      "child_node_id": "wl_rc_001",
+      "edge_kind": "fork",
+      "origin_ref": null,
+      "parent_node_id": "wd_sf_root"
+    },
+    {
+      "child_node_id": "wl_rc_001_exp",
+      "edge_kind": "fork",
+      "origin_ref": null,
+      "parent_node_id": "wl_rc_001"
+    },
+    {
+      "child_node_id": "wd_rc_derived",
+      "edge_kind": "promotion",
+      "origin_ref": "cand_rc_001",
+      "parent_node_id": "wl_rc_001_exp"
+    }
+  ],
+  "hash": "8113dc1d7179de2991ae3da33bc0dbd2eaa9e498cbc5e8aec87f8a12812e8d16",
+  "kind": "V5_2_LINEAGE_GRAPH_FIXTURE",
+  "nodes": [
+    {
+      "constitution_version": 1,
+      "definition_ref": "pack://redchamber-derived@1.0.0",
+      "domain_version": 1,
+      "evolution_policy": "canonical_replay",
+      "inherited_history_ref": "wl_rc_001_exp:240",
+      "kind": "derived_world",
+      "node_id": "wd_rc_derived",
+      "provenance": [],
+      "rights_ref": "rights:cc0",
+      "runtime_version": 1
+    },
+    {
+      "constitution_version": 1,
+      "definition_ref": "pack://sf-world@1.0.0",
+      "domain_version": 1,
+      "evolution_policy": "canonical_replay",
+      "inherited_history_ref": null,
+      "kind": "definition",
+      "node_id": "wd_sf_root",
+      "provenance": [],
+      "rights_ref": "platform-default",
+      "runtime_version": 1
+    },
+    {
+      "constitution_version": 2,
+      "definition_ref": "pack://redchamber@1.0.0",
+      "domain_version": 1,
+      "evolution_policy": "canonical_replay",
+      "inherited_history_ref": null,
+      "kind": "worldline",
+      "node_id": "wl_rc_001",
+      "provenance": [],
+      "rights_ref": "platform-default",
+      "runtime_version": 1
+    },
+    {
+      "constitution_version": 1,
+      "definition_ref": "pack://redchamber@1.0.0",
+      "domain_version": 1,
+      "evolution_policy": "living_open",
+      "inherited_history_ref": "wl_rc_001:120",
+      "kind": "worldline",
+      "node_id": "wl_rc_001_exp",
+      "provenance": [],
+      "rights_ref": "platform-default",
+      "runtime_version": 1
+    }
+  ]
+}

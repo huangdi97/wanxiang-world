@@ -13,7 +13,7 @@ import json
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session, sessionmaker
-from wanxiang_substrate.lineage import LineageEdge, LineageGraph, LineageNode
+from wanxiang_domain.lineage import LineageEdge, LineageGraph, LineageNode
 
 from wanxiang_persistence.database import session_scope
 from wanxiang_persistence.models import LineageEdgeRecord, LineageNodeRecord

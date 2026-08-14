@@ -25,7 +25,7 @@ def test_manifest_is_reproducible_and_traceable() -> None:
     assert m1["release_hash"] == m2["release_hash"]
     assert m1["git_sha"] == git_sha()
     assert m1["version"] == "0.1.0"
-    assert m1["migration_head"] == "0002_add_event_seq_index"
+    assert m1["migration_head"] == "0003_add_lineage"
     assert len(m1["build_inputs"]) >= 5
     # Declared build inputs are all present.
     for name in ("uv.lock", "pnpm-lock.yaml", "pyproject.toml"):
@@ -37,7 +37,7 @@ def test_migration_preflight_blocks_incompatible_deployment() -> None:
     upgrade_db(path)
     url = f"sqlite:///{path.as_posix()}"
     # A DB at the expected head passes.
-    assert preflight_migration(url) == "0002_add_event_seq_index"
+    assert preflight_migration(url) == "0003_add_lineage"
     # A future/unreachable head blocks deployment.
     import sqlite3
 

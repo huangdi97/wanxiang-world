@@ -91,12 +91,11 @@ class PresenceRegistry:
         """
         if presence_id in self._presences:
             raise ContractError(f"presence {presence_id!r} already exists")
-        if existing_local:
-            if translation_policy != "mapped":
-                raise ContractError(
-                    "identity conflict: host world already has this id; "
-                    "a mapped translation policy is required"
-                )
+        if existing_local and translation_policy != "mapped":
+            raise ContractError(
+                "identity conflict: host world already has this id; "
+                "a mapped translation policy is required"
+            )
         mapped_local = None
         if translation_policy == "mapped":
             mapped_local = EntityId(f"{origin.entity_id.value}_{host_worldline_id.value}")

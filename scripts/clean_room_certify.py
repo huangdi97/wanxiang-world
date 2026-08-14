@@ -30,7 +30,7 @@ sys.path.insert(0, str(ROOT))
 SCRATCH = ROOT / "tests" / "_arch_tmp" / "cleanroom"
 REPORT = ROOT / "reports" / "CLEAN_ROOM_CERTIFICATION.md"
 GOLDEN = ROOT / "tests" / "fixtures" / "golden_replay_v1.json"
-MIGRATION_HEAD = "0002_add_event_seq_index"
+MIGRATION_HEAD = "0003_add_lineage"
 FIXED_TS = "2026-08-14T00:00:00Z"
 
 

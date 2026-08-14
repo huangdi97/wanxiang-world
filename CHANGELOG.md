@@ -992,3 +992,11 @@
 - Added GET-only lineage API (ancestors/descendants/promotion-origin), regenerated OpenAPI SDK contract (13 routes, drift green), Studio read-only lineage projection.
 - 2 API contract tests (queries + read-only surface).
 - Checkpoint: `g31g: Lineage API SDK Studio ????`.
+
+
+## 2026-08-15 - V5.2 G31H PASS + M28 GATE PASS
+
+- Full M28 gate: 747 passed + 1 EXTERNAL_BLOCKED skip; ruff/format/pyright/architecture PASS.
+- Fixed persistence->substrate inversion by moving lineage graph to domain (substrate re-exports); updated migration-head constants (0003) across release_build/clean_room_certify/tests; budget anchor registries 11.
+- Generated deterministic lineage fixture + mermaid visualization; added parent-isolation + multi-instance replay tests.
+- M28 = PASS (reports/M28_QUALIFICATION.md). Commit: `g31h: M28 Lineage Hypervisor ????`.

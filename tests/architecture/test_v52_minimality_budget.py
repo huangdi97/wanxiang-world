@@ -50,7 +50,8 @@ def test_budget_counts_are_stable() -> None:
     _run()
     budget = _load()
     # M26 baseline anchors (verified by G29A/G29B/G29C/G29E):
-    assert budget["registry_classes"] == 10
+    # 10 at M26 + PresenceRegistry (M28) = 11
+    assert budget["registry_classes"] == 11
     assert budget["service_classes"] == 15
     assert budget["engine_classes"] == 2
     # 23 at M26 + RealityRootContract Protocol (M27) = 24

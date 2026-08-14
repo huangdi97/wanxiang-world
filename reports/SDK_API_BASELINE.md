@@ -82,6 +82,11 @@
 - `wanxiang_domain.ISA_VERSION`
 - `wanxiang_domain.IncompatibleVersion`
 - `wanxiang_domain.InstanceIdentity`
+- `wanxiang_domain.LineageEdge`
+- `wanxiang_domain.LineageEdgeKind`
+- `wanxiang_domain.LineageGraph`
+- `wanxiang_domain.LineageNode`
+- `wanxiang_domain.LineageNodeKind`
 - `wanxiang_domain.NON_SEMANTIC_KEYS`
 - `wanxiang_domain.NotFound`
 - `wanxiang_domain.PackageVersion`
@@ -317,10 +322,5 @@
 - `wanxiang_substrate.AuditEntry`
 - `wanxiang_substrate.AutonomousScheduler`
 - `wanxiang_substrate.BELIEF_COMPONENT`
-- `wanxiang_substrate.BELIEF_RUMOR`
-- `wanxiang_substrate.BOB`
-- `wanxiang_substrate.BODY_CONDITION_COMPONENT`
-- `wanxiang_substrate.BODY_SCHEMA_VERSION`
-- `wanxiang_substrate.BackwardTimeError`
 
 Machine-readable: reports/sdk_api_baseline.json.

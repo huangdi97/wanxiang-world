@@ -191,3 +191,9 @@ safety core; pure analysis, no merge engine, no parent mutation.
 New abstractions: lineage_routes router (3 GET endpoints) + Studio read-only
 projection method. Justification: M28 lineage exposure; routes are thin
 transports over the shared LineageGraph; no new store/engine.
+
+
+## G31H/M28 entry
+Moved LineageNode/LineageEdge/LineageGraph to `wanxiang_domain.lineage`
+(substrate graph.py = thin re-export) to keep persistence->domain direction;
+no new abstraction in this Goal (fixture generator + tests only).

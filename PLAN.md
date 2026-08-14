@@ -153,8 +153,8 @@ v5.2 certification reports and local checkpoint. No push/deploy.
 | 12e | G31E | Interworld Identity ? Presence | PASS (2026-08-15) |
 | 12f | G31F | Hybrid Genesis ?????????? | PASS (2026-08-15) |
 | 12g | G31G | Lineage API SDK Studio ???? | PASS (2026-08-15) |
-| 12h | G31H | M28 Lineage Hypervisor ???? | pending |
-| 13 | M28 Gate | Lineage Hypervisor ???? | pending |
+| 12h | G31H | M28 Lineage Hypervisor ???? | PASS (2026-08-15) |
+| 13 | M28 Gate | Lineage Hypervisor ???? | PASS (2026-08-15, reports/M28_QUALIFICATION.md) |
 | 14 | G32A..G32H | Evolution Policy / ?????? (M29) | pending |
 | 15 | M29 Gate | ?????????? | pending |
 | 16 | G33A..G33G | Promotion / Cross-world Distillation (M30) | pending |

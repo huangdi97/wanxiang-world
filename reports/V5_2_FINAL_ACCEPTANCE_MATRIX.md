@@ -43,8 +43,8 @@
 | G31E Interworld Identity ? Presence | PASS (2026-08-15, commit g31e) |
 | G31F Hybrid Genesis ?????????? | PASS (2026-08-15, commit g31f) |
 | G31G Lineage API SDK Studio ???? | PASS (2026-08-15, commit g31g) |
-| G31H M28 Lineage Hypervisor ???? | pending |
-| **M28 Milestone Gate** | pending |
+| G31H M28 Lineage Hypervisor ???? | PASS (2026-08-15, commit g31h) |
+| **M28 Milestone Gate** | **PASS (2026-08-15, reports/M28_QUALIFICATION.md)** |
 
 ## M29 ? ??????
 
