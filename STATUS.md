@@ -338,3 +338,4 @@ HEAD `91f0b1f` = tag `m9-release-qualified`. Post-M9 pack integrated; 94/94 hash
 | G18G Learn / Challenge Experience Completion | PASS (2026-08-14, commit g18g) |
 | G18H Operator/Admin/Source/Rights/Evaluation Console & M15 Qualification | PASS (2026-08-14, commit g18h) |
 | M15 | Product Surface Qualification | PASS (2026-08-14, reports/M15_ACCEPTANCE.md) |
+| G19A Research Namespace, Feature Flags, Benchmarks & Promotion Rules | PASS (2026-08-14, commit g19a) |

@@ -12,6 +12,7 @@ members = [
     "wanxiang-model-providers",
     "wanxiang-observability",
     "wanxiang-persistence",
+    "wanxiang-research",
     "wanxiang-runtime",
     "wanxiang-substrate",
 ]
@@ -735,6 +736,17 @@ requires-dist = [
     { name = "wanxiang-domain", editable = "packages/domain" },
     { name = "wanxiang-runtime", editable = "packages/runtime" },
 ]
+
+[[package]]
+name = "wanxiang-research"
+version = "0.1.0"
+source = { editable = "packages/research" }
+dependencies = [
+    { name = "wanxiang-domain" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "wanxiang-domain", editable = "packages/domain" }]
 
 [[package]]
 name = "wanxiang-runtime"

@@ -88,3 +88,4 @@ certification and local checkpoint. No push/deploy.
 | 52 | G18F | Heritage / Museum Workbench Completion | PASS (2026-08-14) |
 | 53 | G18G | Learn / Challenge Experience Completion | PASS (2026-08-14) |
 | 54 | G18H | Operator/Admin/Source/Rights/Evaluation Console & M15 Qualification | PASS (2026-08-14) |
+| 55 | G19A | Research Namespace, Feature Flags, Benchmarks & Promotion Rules | PASS (2026-08-14) |

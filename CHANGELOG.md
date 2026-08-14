@@ -705,3 +705,9 @@
   + product-surface qualification + M15 acceptance reports.
 - M15 gate PASS: G18A-H suites (25 passed), full gate 579 passed + 1 EXTERNAL_BLOCKED skip.
 - Checkpoint: `g18h: operator/admin/source/rights/evaluation console & m15 qualification`. M16 begins next.
+
+## 2026-08-14 ? G19A PASS (M16 phase)
+
+- Added `packages/research/` (wanxiang_research experimental namespace, feature flags OFF, experiment registry),
+  `docs/RESEARCH_GOVERNANCE.md`, `tests/integration/test_g19a_research_flags.py` (3 tests), M16 baseline + reports.
+- Checkpoint: `g19a: research namespace, feature flags, benchmarks & promotion rules`.

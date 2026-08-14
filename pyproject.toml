@@ -12,6 +12,10 @@ package = false
 members = ["packages/*", "apps/*"]
 exclude = ["packages/sdk_ts"]
 
+[tool.uv.sources]
+wanxiang-research = { workspace = true }
+wanxiang-domain = { workspace = true }
+
 [dependency-groups]
 dev = [
     "pytest>=8.3",
@@ -59,5 +63,6 @@ extraPaths = [
     "packages/model_providers/src",
     "packages/observability/src",
     "packages/substrate/src",
+    "packages/research/src",
     "apps/api/src",
 ]
