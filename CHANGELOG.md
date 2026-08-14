@@ -516,3 +516,9 @@
 - Added `tests/integration/test_g15e_material_info.py` (3 tests: exclusive containers, custody!=knowledge,
   causal read path, branch divergence + replay) + reports.
 - Checkpoint: `g15e: material custody, information propagation & social continuity qualification`.
+
+## 2026-08-14 ? G15F PASS (M12 phase)
+
+- Added `tests/integration/test_g15f_worldlines.py` (baseline + two intervention worldlines, ancestry,
+  parent-unchanged, per-worldline replay, semantic diff, historical read) + reports.
+- Checkpoint: `g15f: branch, time-travel & counterfactual worldline comparison qualification`.

@@ -57,3 +57,4 @@ certification and local checkpoint. No push/deploy.
 | 21 | G15C | Seven-day Autonomous Living-world Qualification | PASS (2026-08-14) |
 | 22 | G15D | Human Embodiment, Exit, Re-entry & Control Continuity Qualification | PASS (2026-08-14) |
 | 23 | G15E | Material Custody, Information Propagation & Social Continuity Qualification | PASS (2026-08-14) |
+| 24 | G15F | Branch, Time-travel & Counterfactual Worldline Comparison Qualification | PASS (2026-08-14) |
