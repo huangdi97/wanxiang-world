@@ -291,3 +291,4 @@ HEAD `91f0b1f` = tag `m9-release-qualified`. Post-M9 pack integrated; 94/94 hash
 | G14A Concurrency, Race, Idempotency & Lost-update Adversarial Qualification | PASS (2026-08-14, commit g14a) |
 | G14B Crash, Atomicity & Mid-Commit Recovery Qualification | PASS (2026-08-14, commit g14b) |
 | G14C Database, Storage, Network & Dependency Fault Injection | PASS (2026-08-14, commit g14c) |
+| G14D Event, Snapshot, Branch & History Corruption Adversarial Qualification | PASS (2026-08-14, commit g14d; snapshot validation fixed) |

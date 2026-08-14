@@ -438,3 +438,12 @@
 - Added `tests/integration/test_g14c_fault_injection.py` (FaultyEventStore + 4 tests: fail-closed append,
   load-fault recovery, bounded retry storm, API 500 during fault) and `reports/DEPENDENCY_FAULT_INJECTION.md`.
 - Checkpoint: `g14c: database, storage, network & dependency fault injection`.
+
+## 2026-08-14 ? G14D PASS (M11 phase)
+
+- Fixed P1: restore_and_replay silently accepted corrupted snapshot baselines (wrong hash, no error).
+  Snapshots are now validated against event history and rejected with fallback to authoritative replay
+  (snapshot_rejected observable).
+- Added `scripts/history_diagnostics.py` (read-only corruption scan) and
+  `tests/integration/test_g14d_corruption.py` (7 tests) + reports.
+- Checkpoint: `g14d: event, snapshot, branch & history corruption adversarial qualification`.

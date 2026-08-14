@@ -61,3 +61,4 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
   documents shipped in the workspace are committed as the initial baseline, then
   Goal checkpoints follow the `goal <id>: ...` convention.
 | 0051 | G13E: ReplayEngine checks event_seq and revision independently; child branches pass start_seq=1 (branch-local seq restarts, revision continues from fork); snapshot continuation uses baseline.revision+1 | accepted |
+| 0052 | G14D: restore_and_replay validates snapshot baselines against event history (semantic hash + versions); invalid/unreadable snapshots fall back to authoritative replay with snapshot_rejected observable | accepted |
