@@ -87,7 +87,7 @@
 | packages/research/src/wanxiang_research/planner.py | PlannerEngine | 47 |
 | packages/runtime/src/wanxiang_runtime/replay.py | ReplayEngine | 21 |
 
-## ports (22)
+## ports (23)
 
 | path | name | line |
 |---|---|---|
@@ -113,6 +113,7 @@
 | packages/substrate/src/wanxiang_substrate/packages/registry.py | PackageRegistry | 15 |
 | packages/substrate/src/wanxiang_substrate/reality/bridge.py | ObservationAdapter | 21 |
 | packages/substrate/src/wanxiang_substrate/reality/challenge.py | OpportunityDetector | 49 |
+| packages/substrate/src/wanxiang_substrate/runtime_port.py | WorldRuntimePort | 29 |
 
 ## oversized_modules (0)
 

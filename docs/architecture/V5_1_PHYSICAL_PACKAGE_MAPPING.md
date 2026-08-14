@@ -10,7 +10,7 @@
 | packages/domain | core (identity/fact/transition/commit contracts) | (none) | bottom |
 | packages/runtime | core (authority/replay/branch/state/ports) | domain | upward |
 | packages/application | application orchestration facade | domain, runtime | upward |
-| packages/substrate | definition+runtime+agency+experience (modular monolith substrate) | application, domain, runtime | upward (INVERSION below) |
+| packages/substrate | definition+runtime+agency+experience (modular monolith substrate) | domain, runtime | upward (clean; inversion resolved in G29E) |
 | packages/persistence | infrastructure (SQLAlchemy adapters) | domain, runtime | upward |
 | packages/observability | infrastructure (telemetry) | (none) | - |
 | packages/evidence | definition (evidence/rights) — EMPTY STUB | (none) | DELETE candidate |
@@ -22,23 +22,14 @@
 No import cycles exist (architecture_check detects and passes). Domain is framework-free
 (fastapi/sqlalchemy/alembic/pydantic/httpx/requests/openai forbidden and enforced).
 
-## 2. Layering inversion found (P2, planned minimal move)
+## 2. Layering inversion (RESOLVED in G29E)
 
-Five substrate modules import `wanxiang_application.world_runtime.WorldRuntime`:
-
-- substrate/lifecycle/service.py
-- substrate/skills/runtime.py
-- substrate/population/scheduler.py
-- substrate/host/host.py
-- substrate/queue/queue.py
-
-This is substrate -> application (a lower semantic layer depending on the orchestration
-facade). It is NOT a cycle, but it violates the target dependency direction.
-
-Planned minimal fix (executed in a later consolidation Goal, G21F/G25B, with call-site
-evidence): define a narrow `WorldRuntimePort` Protocol (runtime or substrate) that those five
-modules consume; application's `WorldRuntime` implements it. This breaks substrate->application
-and centralizes the runtime boundary at one composition root.
+The P2 substrate -> application inversion (five modules importing
+`wanxiang_application.world_runtime.WorldRuntime`) is resolved: a consumer-owned
+`wanxiang_substrate.runtime_port.WorldRuntimePort` Protocol now declares the narrow
+slice substrate needs (current_state / submit_command / events); the application's
+`WorldRuntime` satisfies it structurally. Substrate has zero `wanxiang_application`
+imports (verified by `rg`), and the runtime boundary stays at one composition root.
 
 ## 3. 16-kernel -> physical package mapping
 
@@ -73,7 +64,7 @@ and centralizes the runtime boundary at one composition root.
 
 | Move | Kind | When | Risk |
 |---|---|---|---|
-| Break substrate->application via WorldRuntimePort | ADAPT | G21F/G25B | medium; requires call-site tests |
+| Break substrate->application via WorldRuntimePort | ADAPT | DONE in G29E | low; structural typing, call-site tests green |
 | Delete empty stub packages evidence/model_providers (or repurpose) | DELETE | G21E (after call-site evidence) | low |
 | None other — current topology already satisfies target | - | - | - |
 

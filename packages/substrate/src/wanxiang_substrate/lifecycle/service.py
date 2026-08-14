@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from wanxiang_application.world_runtime import WorldRuntime
 from wanxiang_domain.command import CommandEnvelope
 from wanxiang_domain.ids import BranchId, CommandId, WorldInstanceId
 from wanxiang_domain.time import WorldTime
@@ -13,6 +12,7 @@ from wanxiang_substrate.lifecycle.resolver import (
     LIFECYCLE_COMPONENT,
     LIFECYCLE_ENTITY,
 )
+from wanxiang_substrate.runtime_port import WorldRuntimePort
 from wanxiang_substrate.temporal.query import TemporalQuery
 
 
@@ -21,7 +21,7 @@ class LifecycleService:
 
     def __init__(
         self,
-        runtime: WorldRuntime,
+        runtime: WorldRuntimePort,
         instance_id: WorldInstanceId,
         branch_id: BranchId,
     ) -> None:

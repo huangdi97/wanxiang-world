@@ -33,7 +33,7 @@ GOLDEN_EDGES: dict[str, tuple[str, ...]] = {
     "packages/research": ("packages/domain",),
     "packages/runtime": ("packages/domain",),
     "packages/sdk_ts": (),
-    "packages/substrate": ("packages/application", "packages/domain", "packages/runtime"),
+    "packages/substrate": ("packages/domain", "packages/runtime"),
 }
 
 

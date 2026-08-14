@@ -8,7 +8,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from wanxiang_application.world_runtime import CreateWorldResult, WorldRuntime
 from wanxiang_domain.command import CommandEnvelope
 from wanxiang_domain.ids import BranchId, WorldInstanceId
 
@@ -18,6 +17,7 @@ from wanxiang_substrate.host.errors import (
     InvalidHostTransition,
 )
 from wanxiang_substrate.host.model import HostStatus, LifecycleMode
+from wanxiang_substrate.runtime_port import WorldCreateResult, WorldRuntimePort
 
 
 @dataclass(frozen=True, slots=True)
@@ -33,7 +33,7 @@ class WorldHost:
 
     def __init__(
         self,
-        runtime: WorldRuntime,
+        runtime: WorldRuntimePort,
         instance_id: WorldInstanceId,
         root_branch_id: BranchId,
         *,
@@ -46,7 +46,7 @@ class WorldHost:
             mode="running",
             scheduler_enabled=scheduler_enabled,
         )
-        self._create_result: CreateWorldResult | None = None
+        self._create_result: WorldCreateResult | None = None
 
     @property
     def handle(self) -> HostHandle:

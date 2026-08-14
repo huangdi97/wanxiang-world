@@ -46,3 +46,18 @@ snapshot store flagged MERGE (G29C) with consumer evidence.
 ## G29D entry
 No new production abstraction (verification + tests only). Confirmed the
 single-authority derivation model; no second State/Event/Audit mechanism exists.
+
+
+## G29E entry
+
+### New abstraction review ? `wanxiang_substrate.runtime_port.WorldRuntimePort` Protocol
+1. irreducible semantics: the substrate<->application composition-root boundary
+   (external, replaceable boundary; substrate must not import the facade).
+2. replaces/merges: replaces five direct `wanxiang_application.world_runtime` imports.
+3. why function/type insufficient: a Protocol gives structural typing without a
+   new service or registry; the boundary is about type-level decoupling.
+4. consumers: host/host, queue/queue, population/scheduler, skills/runtime,
+   lifecycle/service (5 consumers) + application WorldRuntime as implementer.
+
+### Removed dependency edge
+substrate -> application (5 module imports removed; verified zero remaining).

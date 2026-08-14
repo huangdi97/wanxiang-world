@@ -12,4 +12,4 @@
 | packages/research | EXPERIMENTAL (research namespace) | packages/domain |
 | packages/runtime | core | packages/domain |
 | packages/sdk_ts | infrastructure (TS SDK, generated contract) | (none) |
-| packages/substrate | definition+runtime+agency+experience (modular monolith substrate) | packages/application, packages/domain, packages/runtime |
+| packages/substrate | definition+runtime+agency+experience (modular monolith substrate) | packages/domain, packages/runtime |

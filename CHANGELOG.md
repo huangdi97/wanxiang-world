@@ -851,3 +851,10 @@
 - Verified State/Event/Audit derivation: events authoritative, snapshots cache, audit reference view; no second state table; no route/provider ORM writes (guard-enforced).
 - Added 2 integration tests: drop-all-derived-state rebuild (same semantic hash) and audit-references-events (no delta duplication, deleting audit doesn't change replay hash).
 - Checkpoint: `g29d: ?? State Event Audit ????`.
+
+
+## 2026-08-14 - V5.2 G29E PASS (M26 phase)
+
+- ADR 0064: v5.2 dependency direction (domain -> runtime -> application/persistence -> substrate -> apps/api; Kernel never depends on Runtime/Forge/Web/ORM; World content never in Kernel).
+- Resolved the P2 substrate->application inversion: new consumer-owned `wanxiang_substrate.runtime_port.WorldRuntimePort` (current_state/submit_command/events); five substrate modules (host/queue/scheduler/skills/lifecycle) now use the port; zero `wanxiang_application` imports left in substrate; golden topology + graph + forensics regenerated.
+- Checkpoint: `g29e: ???????`.

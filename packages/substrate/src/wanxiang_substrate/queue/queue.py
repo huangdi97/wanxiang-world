@@ -10,17 +10,17 @@ from __future__ import annotations
 
 from collections import deque
 
-from wanxiang_application.world_runtime import WorldRuntime
 from wanxiang_domain.command import CommandEnvelope
 
 from wanxiang_substrate.queue.errors import DuplicateQueuedCommand, QueueFull
 from wanxiang_substrate.queue.model import QueuedCommand, SubmissionResult
+from wanxiang_substrate.runtime_port import WorldRuntimePort
 
 
 class CommandQueue:
     """Per-instance/branch intake with dedup, ordering and backpressure."""
 
-    def __init__(self, capacity: int = 64, runtime: WorldRuntime | None = None) -> None:
+    def __init__(self, capacity: int = 64, runtime: WorldRuntimePort | None = None) -> None:
         if capacity <= 0:
             raise ValueError("capacity must be positive")
         self._capacity = capacity
@@ -30,7 +30,7 @@ class CommandQueue:
         self._processed: dict[str, SubmissionResult] = {}
         self._seq = 0
 
-    def attach(self, runtime: WorldRuntime) -> None:
+    def attach(self, runtime: WorldRuntimePort) -> None:
         self._runtime = runtime
 
     def enqueue(self, envelope: CommandEnvelope) -> QueuedCommand:

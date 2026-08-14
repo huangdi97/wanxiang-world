@@ -4,12 +4,12 @@ from __future__ import annotations
 
 from collections.abc import Mapping
 
-from wanxiang_application.world_runtime import WorldRuntime
 from wanxiang_domain.command import CommandEnvelope
 from wanxiang_domain.entity import FieldValue
 from wanxiang_domain.ids import ActorId, BranchId, CommandId, EntityId, WorldInstanceId
 from wanxiang_domain.time import WorldTime
 
+from wanxiang_substrate.runtime_port import WorldRuntimePort
 from wanxiang_substrate.skills.errors import InvalidSkillStep, SkillPrerequisiteError
 from wanxiang_substrate.skills.model import SkillDefinition, SkillInstance, SkillStep
 from wanxiang_substrate.skills.registry import SkillRegistry
@@ -21,7 +21,7 @@ class SkillRuntime:
 
     def __init__(
         self,
-        runtime: WorldRuntime,
+        runtime: WorldRuntimePort,
         registry: SkillRegistry,
         instance_id: WorldInstanceId,
         branch_id: BranchId,

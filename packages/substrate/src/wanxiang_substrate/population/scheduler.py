@@ -14,7 +14,6 @@ import heapq
 from collections.abc import Mapping
 from contextlib import suppress
 
-from wanxiang_application.world_runtime import WorldRuntime
 from wanxiang_domain.command import CommandEnvelope
 from wanxiang_domain.entity import FieldValue
 from wanxiang_domain.errors import WanxiangError
@@ -30,6 +29,7 @@ from wanxiang_substrate.population.model import (
     SchedulerRunResult,
 )
 from wanxiang_substrate.population.query import PopulationQuery, build_initial_events
+from wanxiang_substrate.runtime_port import WorldRuntimePort
 from wanxiang_substrate.temporal.query import TemporalQuery
 
 ACTION_ADVANCE = "temporal.advance"
@@ -42,7 +42,7 @@ class AutonomousScheduler:
 
     def __init__(
         self,
-        runtime: WorldRuntime,
+        runtime: WorldRuntimePort,
         seed: int,
         config: SchedulerConfig | None = None,
     ) -> None:
