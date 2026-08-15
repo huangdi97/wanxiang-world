@@ -1077,3 +1077,10 @@
 - Added WorldlinePromotionPipeline (distill -> Source/Rights/Invariant review -> freeze GenesisSnapshot -> assemble new WorldDefinition id -> record promotion lineage edge); parent definition/source worldline never mutated; derived world re-instantiable.
 - 4 tests.
 - Checkpoint: `g33b: Worldline ? Derived World Promotion Pipeline`.
+
+
+## 2026-08-15 - V5.2 G33C PASS (M30 phase, remediation)
+
+- Added PromotionControlLedger (append-only, replayable); withdrawal only changes derived-definition installability/registry status; source history never deleted; parent replay unchanged.
+- 3 tests.
+- Checkpoint: `g33c: Promotion ?????????`.

@@ -1,5 +1,9 @@
 """Promotion substrate (M30)."""
 
+from wanxiang_substrate.evolution.promotion.control import (
+    PromotionControlLedger,
+    PromotionRecord,
+)
 from wanxiang_substrate.evolution.promotion.ladder import (
     APPROVAL_LEVELS,
     PROMOTION_LEVELS,
@@ -17,6 +21,8 @@ from wanxiang_substrate.evolution.promotion.pipeline import (
 
 __all__ = [
     "APPROVAL_LEVELS",
+    "PromotionControlLedger",
+    "PromotionRecord",
     "PROMOTION_LEVELS",
     "GenesisSnapshot",
     "LevelRequirement",

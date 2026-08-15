@@ -257,3 +257,9 @@ New abstractions: GenesisSnapshot, PromotionReview (frozen records) +
 WorldlinePromotionPipeline (thin chain over WorldDefinition/LineageGraph).
 Justification: M30 derived-world promotion core; parent never mutated; reuses
 domain WorldDefinition + lineage graph.
+
+
+## G33C entry
+New abstractions: PromotionRecord (frozen record) + PromotionControlLedger
+(append-only). Justification: M30 promotion auditability/revocation core;
+withdrawal is a status change, never a history deletion.
