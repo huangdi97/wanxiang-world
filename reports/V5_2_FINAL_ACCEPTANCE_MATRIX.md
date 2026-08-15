@@ -65,7 +65,7 @@
 | Goal | Status |
 |---|---|
 | G33A ?? Abstraction Ladder | PASS (2026-08-15, commit g33a) |
-| G33B Worldline ? Derived World Promotion Pipeline | pending |
+| G33B Worldline ? Derived World Promotion Pipeline | PASS (2026-08-15, commit g33b) |
 | G33C Promotion ????????? | pending |
 | G33D Cross-world Distillation | pending |
 | G33E ???? Sandbox Benchmark Approval | pending |

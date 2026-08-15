@@ -250,3 +250,10 @@ M29 abstraction delta recorded in the budget (evolution package).
 New abstractions: LevelRequirement, PromotionEvidence (frozen records) +
 PromotionPolicy (versioned table) + validate_promotion (function). Justification:
 M30 promotion ladder core; pure validation.
+
+
+## G33B entry
+New abstractions: GenesisSnapshot, PromotionReview (frozen records) +
+WorldlinePromotionPipeline (thin chain over WorldDefinition/LineageGraph).
+Justification: M30 derived-world promotion core; parent never mutated; reuses
+domain WorldDefinition + lineage graph.
