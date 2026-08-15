@@ -1296,3 +1296,8 @@
 
 - Seven-day automated scenario: deterministic reference run + separate optional LLM run.
 - Checkpoint: `g37a: 红楼梦七日场景自动化执行`.
+
+## 2026-08-15 ? G37B PASS (M34)
+
+- Three-worldline generation + comparison (parent hash verified; children never mutate parent).
+- Checkpoint: `g37b: Canon 用户 无干预三世界线比较`.

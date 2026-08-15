@@ -429,3 +429,8 @@ entries above.
 New abstractions: DayEvent, SevenDayResult (frozen records) + SevenDayReferenceRun
 (thin) + optional_llm_run (function). Justification: M34 seven-day reference
 run core; deterministic; LLM run separated; no new registry/engine/store.
+## G37B entry
+New abstractions: WorldlineRun, WorldlineComparison (frozen records) +
+run_worldlines / compare_worldlines / verify_parent_hash (functions).
+Justification: M34 three-worldline comparison core; deterministic; no new
+registry/engine/store.

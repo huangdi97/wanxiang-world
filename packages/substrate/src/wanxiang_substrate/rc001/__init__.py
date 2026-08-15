@@ -33,9 +33,21 @@ from wanxiang_substrate.rc001.strategies import (
     compare_to_baseline,
     strategy_for,
 )
+from wanxiang_substrate.rc001.worldlines import (
+    WorldlineComparison,
+    WorldlineRun,
+    compare_worldlines,
+    run_worldlines,
+    verify_parent_hash,
+)
 
 __all__ = [
     "Activity",
+    "WorldlineComparison",
+    "WorldlineRun",
+    "compare_worldlines",
+    "run_worldlines",
+    "verify_parent_hash",
     "DAY_TICKS",
     "DayEvent",
     "SevenDayReferenceRun",

@@ -120,7 +120,7 @@
 | Goal | Status |
 |---|---|
 | G37A 红楼梦七日场景自动化执行 | PASS (2026-08-15, commit g37a) |
-| G37B Canon ?? ????????? | pending |
+| G37B Canon 用户 无干预三世界线比较 | PASS (2026-08-15, commit g37b) |
 | G37C ???????? Promotion Candidate | pending |
 | G37D ??? Replay Crash Recovery Chaos | pending |
 | G37E v5.2 ??????????? | pending |
