@@ -1216,3 +1216,12 @@
 - SDK baseline: routes=17 ts=5 py=1004 (additive). 6 new unit tests PASS; architecture PASS;
   ruff/pyright clean. Real《红楼梦》text remains EXTERNAL_BLOCKED (G35A).
 - Checkpoint: `g35f: Narrative Household HistoricalChina Domain 复用与补齐`.
+
+## 2026-08-15 ? G35G PASS (M32)
+
+- Character relation / knowledge-boundary distillation: CharacterDistiller + CharacterFact/RelationClaim
+  + KnowledgeBoundary; private facts of others hidden unless granted; future facts control-plane only;
+  Completion/Interpretive separated; anonymized key-choice fixture (identity-agnostic).
+- SDK baseline: routes=17 ts=5 py=1012 (additive). 8 new unit tests PASS; architecture PASS;
+  ruff/pyright clean. Real《红楼梦》text remains EXTERNAL_BLOCKED (G35A).
+- Checkpoint: `g35g: Character Relation Knowledge Boundary Distillation`.

@@ -358,3 +358,9 @@ modules). Justification: M32 generic household/historical-China domain core;
 FORBIDDEN RedChamberCore; missing actions defined in the Domain Pack, never in
 Core reference actions; reuses institution (access/duty), material (letter
 payload) and agency (authority resolver pattern); no new registry/engine.
+## G35G entry
+New abstractions: CharacterFact, RelationClaim, KnowledgeBoundary, CharacterCanon
+(frozen records) + CharacterDistiller (pure). Justification: M32 runnable
+per-character model core; reuses G35B locators + G35E ScenarioPoint/temporal
+classification (imported, not duplicated); knowledge boundary prevents private
+fact leaks; future facts control-plane only; no registry/engine/store.

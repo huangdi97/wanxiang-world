@@ -7,6 +7,15 @@ from wanxiang_substrate.sources.canon import (
     ScenarioPoint,
     scenario_at,
 )
+from wanxiang_substrate.sources.character import (
+    CharacterCanon,
+    CharacterDistiller,
+    CharacterFact,
+    FactKind,
+    FactScope,
+    KnowledgeBoundary,
+    RelationClaim,
+)
 from wanxiang_substrate.sources.entity_distill import (
     DistilledEntities,
     EntityCandidate,
@@ -60,6 +69,13 @@ from wanxiang_substrate.sources.registry import AuditEntry, SourceRegistry
 
 __all__ = [
     "AuditEntry",
+    "CharacterCanon",
+    "CharacterDistiller",
+    "CharacterFact",
+    "FactKind",
+    "FactScope",
+    "KnowledgeBoundary",
+    "RelationClaim",
     "CanonClaim",
     "CanonCompiler",
     "CompiledCanon",
