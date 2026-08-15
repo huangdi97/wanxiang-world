@@ -2,7 +2,7 @@
 
 - API routes: 13
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 941
+- Python public names (stable packages): 943
 
 ## API routes
 

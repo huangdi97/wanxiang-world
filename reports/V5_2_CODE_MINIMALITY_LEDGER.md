@@ -263,3 +263,9 @@ domain WorldDefinition + lineage graph.
 New abstractions: PromotionRecord (frozen record) + PromotionControlLedger
 (append-only). Justification: M30 promotion auditability/revocation core;
 withdrawal is a status change, never a history deletion.
+
+
+## G33D entry
+New abstractions: CrossWorldCandidate (frozen record) + CrossWorldDistiller
+(thin class over CrossWorldDataset). Justification: M30 cross-world
+distillation core; authorization + anonymization + no auto-activation.

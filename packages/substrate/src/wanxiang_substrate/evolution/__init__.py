@@ -6,6 +6,10 @@ from wanxiang_substrate.evolution.actor_evolution import (
     PersonaDelta,
     TrajectoryEntry,
 )
+from wanxiang_substrate.evolution.cross_world import (
+    CrossWorldCandidate,
+    CrossWorldDistiller,
+)
 from wanxiang_substrate.evolution.distillation import (
     BehaviorRecord,
     CandidateEnvelope,
@@ -60,6 +64,8 @@ __all__ = [
     "ActorEvolutionTracker",
     "BehaviorRecord",
     "CandidateEnvelope",
+    "CrossWorldCandidate",
+    "CrossWorldDistiller",
     "CrossWorldDataset",
     "TelemetryEnvelope",
     "TelemetryPolicy",

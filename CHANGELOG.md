@@ -1084,3 +1084,10 @@
 - Added PromotionControlLedger (append-only, replayable); withdrawal only changes derived-definition installability/registry status; source history never deleted; parent replay unchanged.
 - 3 tests.
 - Checkpoint: `g33c: Promotion ?????????`.
+
+
+## 2026-08-15 - V5.2 G33D PASS (M30 phase, remediation)
+
+- Added CrossWorldDistiller over the authorized telemetry dataset: cross-world pattern discovery with anonymized world origins; candidates never auto-activate (explicit approval).
+- 3 tests.
+- Checkpoint: `g33d: Cross-world Distillation`.

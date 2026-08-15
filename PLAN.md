@@ -167,7 +167,8 @@ v5.2 certification reports and local checkpoint. No push/deploy.
 | 16 | G33A | ?? Abstraction Ladder | PASS (2026-08-15) |
 | 16b | G33B | Worldline ? Derived World Promotion Pipeline | PASS (2026-08-15) |
 | 16c | G33C | Promotion ????????? | PASS (2026-08-15) |
-| 16d | G33D..G33G | Cross-world / Sandbox / API (M30) | pending |
+| 16d | G33D | Cross-world Distillation | PASS (2026-08-15) |
+| 16e | G33E..G33G | Sandbox / API (M30) | pending |
 | 17 | M30 Gate | Promotion Cross-world ???? | pending |
 | 18 | G34A..G34G | Kernel/Runtime/Forge/Experiences ?? + ?? (M31) | pending |
 | 19 | M31 Gate | ????????? | pending |
