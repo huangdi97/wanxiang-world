@@ -1119,3 +1119,10 @@
 - Documented final Kernel/Runtime/Forge/Experiences responsibility boundaries + import rules + No-God-Engine rule; added conformance test (Kernel import isolation, engine set pinned).
 - 3 tests.
 - Checkpoint: `g34a: Kernel Runtime Forge Experiences ????`.
+
+
+## 2026-08-15 - V5.2 G34B PASS (M31 phase, remediation)
+
+- WorldPack Definition schema v5.2: added optional constitution/genesis/evolution/lineage refs (canonical includes only when set -> legacy hashes preserved); extended the existing packages/migration.py with v2->v3 + migrate_to_v52 (idempotent); added wxpack migrate CLI.
+- 4 tests; 135-test package/baseline regression green; golden worldpack hash unchanged.
+- Checkpoint: `g34b: WorldPack Definition schema v5.2 迁移`.

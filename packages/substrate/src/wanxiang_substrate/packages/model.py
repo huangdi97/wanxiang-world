@@ -130,6 +130,13 @@ class PackageManifest:
     content_hash: str = ""
     executable_trust: TrustClass = UNTRUSTED
     compat: tuple[str, ...] = ()
+    # v5.2 optional refs (G34B): when set, canonical() includes them and the
+    # manifest is a v5.2 WorldPack Definition. Old manifests (all None) keep
+    # their exact legacy canonical/hash.
+    constitution_ref: str | None = None
+    genesis_ref: str | None = None
+    evolution_policy_ref: str | None = None
+    lineage_ref: str | None = None
 
     def __post_init__(self) -> None:
         if not self.package_id or len(self.package_id) > 64:
@@ -147,8 +154,12 @@ class PackageManifest:
             raise InvalidManifest(f"unknown executable_trust {self.executable_trust!r}")
 
     def canonical(self) -> dict[str, object]:
-        """Canonical serialization for content hashing (sorted, stable)."""
-        return {
+        """Canonical serialization for content hashing (sorted, stable).
+
+        v5.2 refs are included only when set, so legacy manifests keep their
+        exact hash and old packages round-trip unchanged.
+        """
+        payload: dict[str, object] = {
             "package_id": self.package_id,
             "kind": self.kind,
             "version": str(self.version),
@@ -161,6 +172,15 @@ class PackageManifest:
             "executable_trust": self.executable_trust,
             "compat": sorted(self.compat),
         }
+        for key, value in (
+            ("constitution_ref", self.constitution_ref),
+            ("genesis_ref", self.genesis_ref),
+            ("evolution_policy_ref", self.evolution_policy_ref),
+            ("lineage_ref", self.lineage_ref),
+        ):
+            if value is not None:
+                payload[key] = value
+        return payload
 
     def compute_hash(self) -> str:
         payload = json.dumps(self.canonical(), sort_keys=True, separators=(",", ":"))
@@ -177,6 +197,10 @@ class PackageManifest:
             content_hash=self.compute_hash(),
             executable_trust=self.executable_trust,
             compat=self.compat,
+            constitution_ref=self.constitution_ref,
+            genesis_ref=self.genesis_ref,
+            evolution_policy_ref=self.evolution_policy_ref,
+            lineage_ref=self.lineage_ref,
         )
 
 

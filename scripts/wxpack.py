@@ -203,6 +203,9 @@ def main(argv: list[str] | None = None) -> int:
     c = sub.add_parser("certify")
     c.add_argument("target", type=pathlib.Path)
     c.add_argument("package_id")
+    m = sub.add_parser("migrate")
+    m.add_argument("target", type=pathlib.Path)
+    m.add_argument("package_id")
     args = parser.parse_args(argv)
     if args.command == "scaffold":
         name = args.name or args.package_id
@@ -222,6 +225,16 @@ def main(argv: list[str] | None = None) -> int:
 
         print(json.dumps(report, indent=2))
         return 0 if report["ok"] else 1
+    elif args.command == "migrate":
+        from wanxiang_substrate.packages.migration import migrate_to_v52
+
+        migrated = migrate_to_v52(dry_run_build(args.target, args.package_id)["manifest"])
+        print(
+            f"migrated schema_version={migrated.schema_version} "
+            f"constitution_ref={migrated.constitution_ref} "
+            f"hash={migrated.content_hash}"
+        )
+        return 0
     return 0
 
 

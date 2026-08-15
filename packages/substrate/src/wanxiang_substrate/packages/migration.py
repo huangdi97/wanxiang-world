@@ -26,6 +26,10 @@ def _migrate_v1_to_v2(manifest: PackageManifest) -> PackageManifest:
         content_hash=manifest.content_hash,
         executable_trust=manifest.executable_trust or UNTRUSTED,
         compat=manifest.compat,
+        constitution_ref=manifest.constitution_ref,
+        genesis_ref=manifest.genesis_ref,
+        evolution_policy_ref=manifest.evolution_policy_ref,
+        lineage_ref=manifest.lineage_ref,
     )
 
 
@@ -70,3 +74,57 @@ def compatible(
         if pid == package_id and ver == version and oid == other_id and over == other_version:
             return True
     return False
+
+
+# --- v5.2 WorldPack Definition migration (G34B) ---
+# Adds Constitution / Genesis / Evolution / Lineage refs while keeping old
+# packages importable. Checksum rule: content_hash covers the canonical payload,
+# which includes the v5.2 refs only when set, so legacy hashes never change.
+
+V52_SCHEMA_VERSION = 3
+LEGACY_CONSTITUTION_REF = "con_legacy_v5"
+
+
+def legacy_constitution_ref() -> str:
+    return LEGACY_CONSTITUTION_REF
+
+
+def is_v52(manifest: PackageManifest) -> bool:
+    """A manifest is v5.2 when it carries the constitution ref."""
+    return manifest.constitution_ref is not None
+
+
+def _migrate_v2_to_v3(manifest: PackageManifest) -> PackageManifest:
+    """v2 manifests gain the v5.2 constitution ref (legacy default) and rehash."""
+    return (
+        manifest.with_hash()
+        if is_v52(manifest)
+        else PackageManifest(
+            package_id=manifest.package_id,
+            kind=manifest.kind,
+            version=manifest.version,
+            name=manifest.name,
+            dependencies=manifest.dependencies,
+            schema_version=V52_SCHEMA_VERSION,
+            executable_trust=manifest.executable_trust or UNTRUSTED,
+            compat=manifest.compat,
+            constitution_ref=manifest.constitution_ref or LEGACY_CONSTITUTION_REF,
+            genesis_ref=manifest.genesis_ref,
+            evolution_policy_ref=manifest.evolution_policy_ref,
+            lineage_ref=manifest.lineage_ref,
+        ).with_hash()
+    )
+
+
+_MIGRATIONS[2] = _migrate_v2_to_v3
+
+
+def migrate_to_v52(manifest: PackageManifest) -> PackageManifest:
+    """Migrate any legacy manifest to the v5.2 WorldPack Definition schema.
+
+    A manifest that already carries the v5.2 constitution ref is returned
+    unchanged (idempotent), regardless of its stored schema_version.
+    """
+    if is_v52(manifest):
+        return manifest
+    return migrate_manifest(manifest, V52_SCHEMA_VERSION)

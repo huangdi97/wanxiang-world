@@ -291,3 +291,9 @@ delta recorded in the budget (promotion package).
 ## G34A entry
 No new production abstraction (doc + conformance test only). Pinned the
 engine-named set (no God Engines).
+
+
+## G34B entry
+No new abstraction class; extended PackageManifest with 4 optional fields and
+the existing packages/migration.py with v2->v3 + migrate_to_v52 (functions).
+Justification: M31 WorldPack schema migration core; legacy hashes preserved.
