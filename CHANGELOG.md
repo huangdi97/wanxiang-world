@@ -1126,3 +1126,10 @@
 - WorldPack Definition schema v5.2: added optional constitution/genesis/evolution/lineage refs (canonical includes only when set -> legacy hashes preserved); extended the existing packages/migration.py with v2->v3 + migrate_to_v52 (idempotent); added wxpack migrate CLI.
 - 4 tests; 135-test package/baseline regression green; golden worldpack hash unchanged.
 - Checkpoint: `g34b: WorldPack Definition schema v5.2 迁移`.
+
+
+## 2026-08-15 - V5.2 G34C PASS (M31 phase, remediation)
+
+- Migration 0004_add_world_metadata: world_instances definition/constitution/evolution refs + lineage kind index; downgrade restores old schema.
+- 3 tests (old-DB upgrade keeps count/hash, downgrade, backup/restore path); 11 migration tests green.
+- Checkpoint: `g34c: 数据库与 Ledger 兼容迁移`.

@@ -297,3 +297,9 @@ engine-named set (no God Engines).
 No new abstraction class; extended PackageManifest with 4 optional fields and
 the existing packages/migration.py with v2->v3 + migrate_to_v52 (functions).
 Justification: M31 WorldPack schema migration core; legacy hashes preserved.
+
+
+## G34C entry
+No new abstraction class (3 ORM columns + migration only). Justification: M31
+persistence compatibility core; metadata columns nullable -> no data migration
+of existing rows.

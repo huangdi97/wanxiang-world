@@ -28,6 +28,9 @@ class WorldInstanceRecord(Base):
     schema_version: Mapped[int] = mapped_column(Integer, nullable=False)
     rule_version: Mapped[int] = mapped_column(Integer, nullable=False)
     created_world_time: Mapped[int] = mapped_column(Integer, nullable=False)
+    definition_ref: Mapped[str | None] = mapped_column(String(256), nullable=True)
+    constitution_ref: Mapped[str | None] = mapped_column(String(256), nullable=True)
+    evolution_policy_ref: Mapped[str | None] = mapped_column(String(64), nullable=True)
 
 
 class BranchRecord(Base):
