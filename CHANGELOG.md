@@ -1091,3 +1091,10 @@
 - Added CrossWorldDistiller over the authorized telemetry dataset: cross-world pattern discovery with anonymized world origins; candidates never auto-activate (explicit approval).
 - 3 tests.
 - Checkpoint: `g33d: Cross-world Distillation`.
+
+
+## 2026-08-15 - V5.2 G33E PASS (M30 phase, remediation)
+
+- Added PlatformFeedbackLab: sandbox gate (benchmark/invariant/security/cost/determinism), platform-only approval, versioned Domain/Runtime release; rollback status-only (events never rewritten).
+- 3 tests.
+- Checkpoint: `g33e: ???? Sandbox Benchmark Approval`.

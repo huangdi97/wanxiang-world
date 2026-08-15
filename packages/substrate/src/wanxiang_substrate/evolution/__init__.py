@@ -25,6 +25,11 @@ from wanxiang_substrate.evolution.ontology_law import (
     OntologyCandidate,
     OntologyLawEvolution,
 )
+from wanxiang_substrate.evolution.platform_feedback import (
+    PlatformFeedbackLab,
+    SandboxReport,
+    VersionedRelease,
+)
 from wanxiang_substrate.evolution.policy_stack import (
     EvolutionPolicyStack,
     PlatformPolicy,
@@ -79,6 +84,9 @@ __all__ = [
     "OntologyCandidate",
     "OntologyLawEvolution",
     "PersonaDelta",
+    "PlatformFeedbackLab",
+    "SandboxReport",
+    "VersionedRelease",
     "PlatformPolicy",
     "SocialPatternDistiller",
     "TrajectoryEntry",

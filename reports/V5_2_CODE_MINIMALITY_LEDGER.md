@@ -269,3 +269,9 @@ withdrawal is a status change, never a history deletion.
 New abstractions: CrossWorldCandidate (frozen record) + CrossWorldDistiller
 (thin class over CrossWorldDataset). Justification: M30 cross-world
 distillation core; authorization + anonymization + no auto-activation.
+
+
+## G33E entry
+New abstractions: SandboxReport, VersionedRelease (frozen records) +
+PlatformFeedbackLab (thin chain). Justification: M30 platform-feedback
+sandbox/approval core; platform-only approval; rollback never rewrites events.

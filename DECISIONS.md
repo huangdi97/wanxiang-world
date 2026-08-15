@@ -107,3 +107,4 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0095 | G33B: WorldlinePromotionPipeline = distill -> review -> assemble new WorldDefinition id -> lineage edge; parent definition/source worldline never mutated; derived world re-instantiable | accepted |
 | 0096 | G33C: PromotionControlLedger append-only + replayable; withdraw only changes installability/registry status; source history never deleted (parent replay unchanged) | accepted |
 | 0097 | G33D: CrossWorldDistiller reads only authorized telemetry (opt-in/rights), excludes trajectories, preserves anonymized world origins; candidates never activate without explicit approval | accepted |
+| 0098 | G33E: PlatformFeedbackLab = shadow/sandbox gate (benchmark/invariant/security/cost/determinism) -> platform-only approval -> versioned release; rollback is status-only (events never rewritten) | accepted |
