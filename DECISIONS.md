@@ -145,3 +145,4 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0133 | M37: full semantic world mechanism certified (956+1 PASS); persona/state separation; propose-only secrets/scenes/arcs; Core proper-noun scan empty; real corpus EXTERNAL_BLOCKED | accepted |
 | 0134 | M38: full living-runtime mechanism certified (963+1 PASS); population budgets, autonomous loop, scoped propagation, long-term evolution, LawCommit gate, 30-day/1-year accelerated; real corpus EXTERNAL_BLOCKED | accepted |
 | 0135 | M39: Studio/Experience mechanism certified (968+1 PASS); read-only/propose-only surfaces; fresh-user flow + accessibility; real corpus EXTERNAL_BLOCKED | accepted |
+| 0136 | M40: long-horizon/derived-world mechanism certified (974+1 PASS); windowed distill + promotion candidate + derived world only from approved candidates; real corpus EXTERNAL_BLOCKED | accepted |

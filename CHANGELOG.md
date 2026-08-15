@@ -1358,3 +1358,8 @@
 
 - Studio/Experience mechanism qualified: 968 passed + 1 skipped; SDK baseline py=1152.
   Real corpus EXTERNAL_BLOCKED. Tag `m39-product`.
+
+## 2026-08-15 ? M40 GATE PASS
+
+- Long-horizon/derived-world mechanism qualified: 974 passed + 1 skipped; SDK baseline py=1164.
+  Real corpus EXTERNAL_BLOCKED. Tag `m40-long-horizon`.

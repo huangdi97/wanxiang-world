@@ -81,14 +81,14 @@ The M35 Kernel v1 freeze can only be certified after v5.2 M30?M34 are completed.
 
 | Goal | Status |
 |---|---|
-| G43A ?? Distillation | pending |
-| G43B Habit/Norm/Culture/Institution Candidate | pending |
-| G43C Living/Open ????????? | pending |
-| G43D Worldline Promotion Candidate | pending |
-| G43E Derived Red Chamber World | pending |
-| G43F 100/1000/???? Benchmark | pending |
-| G43G M40 Long-Horizon Qualification | pending |
-| **M40 Milestone Gate** | pending |
+| G43A 长期 Distillation | PASS |
+| G43B Habit/Norm/Culture/Institution Candidate | PASS |
+| G43C Living/Open 长期社会与人物演化 | PASS |
+| G43D Worldline Promotion Candidate | PASS |
+| G43E Derived Red Chamber World | PASS (mechanism) |
+| G43F 100/1000 聚合人口 Benchmark | PASS |
+| G43G M40 Long-Horizon Qualification | PASS (reports/M40_QUALIFICATION.md) |
+| **M40 Milestone Gate** | **PASS (2026-08-15, reports/M40_QUALIFICATION.md; real corpus EXTERNAL_BLOCKED)** |
 
 ## M41 ? Cross-Domain Generality
 
