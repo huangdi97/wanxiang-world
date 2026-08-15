@@ -133,3 +133,4 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0121 | G36E: perception/propagation = PerceptionEnvelope + perceive (memory) + propagate_message (rumour/misunderstanding, deterministic) ; propagatable claims = G35E runtime view only (future canon never propagates) | accepted |
 | 0122 | G36F: embodiment = EmbodimentController (modes intent/co_drive/full_control) over G05B LeaseService + append-only ControlHandoffEvent; ShadowPolicy never makes major decisions (major_decision raises ShadowCannotCommit) | accepted |
 | 0123 | G36G: three strategies = StrategyConfig policy (canonical_replay/soft_canon/living_open) + CanonLocks (immutable) + SoftAttractor (deterministic pull) + baseline comparison; pure policies, no write path | accepted |
+| 0124 | G36H: Experience Studio = read-only query surface composing spatial/actions/canon/completion/baseline views; reuses existing queries; no write path, no UI authority | accepted |

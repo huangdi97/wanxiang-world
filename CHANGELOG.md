@@ -1280,3 +1280,8 @@
 
 - Three world strategies: canonical replay / soft canon (attractor) / living open (baseline compare).
 - Checkpoint: `g36g: Canonical Replay Soft Canon Living Open 三策略`.
+
+## 2026-08-15 ? G36H PASS (M33)
+
+- Experience Studio minimal surface: map/characters/actions/events/source/completion/branch views.
+- Checkpoint: `g36h: 红楼梦 Experience Studio 最小可用面`.

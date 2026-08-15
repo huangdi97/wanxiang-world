@@ -1,5 +1,6 @@
 """RC-001 living-world slice (M33)."""
 
+from wanxiang_substrate.rc001.experience import ExperienceStudio, ExperienceViews
 from wanxiang_substrate.rc001.instantiate import (
     InitialSnapshot,
     RC001Instance,
@@ -28,6 +29,8 @@ from wanxiang_substrate.rc001.strategies import (
 
 __all__ = [
     "Activity",
+    "ExperienceStudio",
+    "ExperienceViews",
     "BaselineComparison",
     "CanonLocks",
     "SoftAttractor",

@@ -416,3 +416,8 @@ New abstractions: StrategyConfig, BaselineComparison, SoftAttractor, CanonLocks
 (frozen records/immutable set) + strategy_for / compare_to_baseline (functions).
 Justification: M33 three-strategy policy core; reuses G04D CanonLocked; no new
 registry/engine/store.
+## G36H entry
+New abstractions: ExperienceStudio (read-only queries) + ExperienceViews (frozen
+record). Justification: M33 Studio surface; composes existing queries (spatial,
+actions, canon runtime view, completion studio, baseline compare); no write
+path, no UI authority.

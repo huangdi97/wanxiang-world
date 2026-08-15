@@ -112,7 +112,7 @@
 | G36E Perception Belief Memory 与消息传播 | PASS (2026-08-15, commit g36e) |
 | G36F 林黛玉 Embodiment ShadowPolicy Handoff | PASS (2026-08-15, commit g36f) |
 | G36G Canonical Replay Soft Canon Living Open 三策略 | PASS (2026-08-15, commit g36g) |
-| G36H ??? Experience Studio ????? | pending |
+| G36H 红楼梦 Experience Studio 最小可用面 | PASS (2026-08-15, commit g36h) |
 | **M33 Milestone Gate** | pending |
 
 ## M34 ? ?????????
