@@ -286,3 +286,8 @@ thin transports over existing graph/ladder/pipeline; no new store/engine.
 ## G33G/M30 entry
 No new production abstraction (verification + e2e test only). M30 abstraction
 delta recorded in the budget (promotion package).
+
+
+## G34A entry
+No new production abstraction (doc + conformance test only). Pinned the
+engine-named set (no God Engines).

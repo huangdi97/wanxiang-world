@@ -385,7 +385,7 @@ golden fixtures (`tests/fixtures/v5_2_baseline/`, combined hash
 | M28 | Worldline / Lineage / Hypervisor | PASS (2026-08-15, reports/M28_QUALIFICATION.md) |
 | M29 | ?????? | PASS (2026-08-15, reports/M29_QUALIFICATION.md) |
 | M30 | Promotion / Cross-world Distillation | PASS (2026-08-15, reports/M30_QUALIFICATION.md) |
-| M31 | Kernel/Runtime/Forge/Experiences ?? + ????? | pending |
+| M31 | Kernel/Runtime/Forge/Experiences ?? + ????? | in progress (G34A PASS) |
 | M32 | ??? Source Gate ??? | pending |
 | M33 | ????????? | pending |
 | M34 | ????? + Lineage/Promotion + v5.2 ???? | pending |

@@ -77,7 +77,7 @@
 
 | Goal | Status |
 |---|---|
-| G34A Kernel Runtime Forge Experiences ???? | pending |
+| G34A Kernel Runtime Forge Experiences ???? | PASS (2026-08-15, commit g34a) |
 | G34B WorldPack Definition schema v5.2 ?? | pending |
 | G34C ???? Ledger ???? | pending |
 | G34D ? Event Snapshot Branch ???? | pending |

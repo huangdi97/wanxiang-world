@@ -110,3 +110,4 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0098 | G33E: PlatformFeedbackLab = shadow/sandbox gate (benchmark/invariant/security/cost/determinism) -> platform-only approval -> versioned release; rollback is status-only (events never rewritten) | accepted |
 | 0099 | G33F: promotion/lineage API + Studio views are thin and admin-gated (403 without permission); UI actions route through backend authority; OpenAPI regenerated (16 routes) | accepted |
 | 0100 | G33G/M30: full gate PASS (798+1); worlds beget worlds + experience -> platform candidates with no direct write; M30=PASS ? M31 compatibility convergence can start | accepted |
+| 0101 | G34A: final Kernel/Runtime/Forge/Experiences responsibility boundaries documented + conformance test (Kernel import isolation, no new God Engine) | accepted |

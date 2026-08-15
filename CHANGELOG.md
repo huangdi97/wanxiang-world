@@ -1112,3 +1112,10 @@
 - Full M30 gate: 798 passed + 1 EXTERNAL_BLOCKED skip; ruff/format/pyright/architecture PASS.
 - Added synthetic promotion + cross-world candidate e2e test; lineage read-only test updated for admin-gated promotions POST.
 - M30 = PASS (reports/M30_QUALIFICATION.md). Commit: `g33g: M30 Promotion Cross-world ????`.
+
+
+## 2026-08-15 - V5.2 G34A PASS (M31 phase, remediation)
+
+- Documented final Kernel/Runtime/Forge/Experiences responsibility boundaries + import rules + No-God-Engine rule; added conformance test (Kernel import isolation, engine set pinned).
+- 3 tests.
+- Checkpoint: `g34a: Kernel Runtime Forge Experiences ????`.

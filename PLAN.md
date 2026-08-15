@@ -172,7 +172,8 @@ v5.2 certification reports and local checkpoint. No push/deploy.
 | 16f | G33F | Lineage ? Promotion API Studio | PASS (2026-08-15) |
 | 16g | G33G | M30 Promotion Cross-world ???? | PASS (2026-08-15) |
 | 17 | M30 Gate | Promotion Cross-world ???? | PASS (2026-08-15, reports/M30_QUALIFICATION.md) |
-| 18 | G34A..G34G | Kernel/Runtime/Forge/Experiences ?? + ?? (M31) | pending |
+| 18 | G34A | Kernel Runtime Forge Experiences ???? | PASS (2026-08-15) |
+| 18b | G34B..G34G | WorldPack/DB/Replay/API/Perf ?? (M31) | pending |
 | 19 | M31 Gate | ????????? | pending |
 | 20 | G35A..G35I | ??? Source Gate ??? (M32) | pending |
 | 21 | M32 Gate | ???????????? | pending |
