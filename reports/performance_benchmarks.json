@@ -7,17 +7,17 @@
   "profile": "small_ci",
   "commits": {
     "events": 200,
-    "seconds": 6.829657599999791,
-    "events_per_second": 29.284044927816897
+    "seconds": 4.970567299998947,
+    "events_per_second": 40.23685586151149
   },
   "replay": {
     "events": 1200,
-    "replay_seconds": 0.03522229999998672
+    "replay_seconds": 0.023956299999554176
   },
   "lineage": {
     "nodes": 400,
     "ancestors_count": 400,
     "descendants_count": 400,
-    "query_seconds": 0.022663100000045233
+    "query_seconds": 0.013221700000940473
   }
 }
