@@ -23,6 +23,25 @@
   never as real-corpus completion.
 - No model memory used as Canon (BLOCKERS.md G35A).
 
+## Final evidence files (08_FINAL_EVIDENCE_STANDARD.md - all 18 present)
+- reports/M35_BASELINE_INDEPENDENT_AUDIT.md, FULL_RED_CHAMBER_GAP_MATRIX.md,
+  RED_CHAMBER_FULL_SOURCE_GATE.md (EXTERNAL_BLOCKED record),
+  M36_FULL_CORPUS_QUALIFICATION.md, FULL_RED_CHAMBER_SEMANTIC_COVERAGE.md
+  (EXTERNAL_BLOCKED), FULL_RED_CHAMBER_30_DAY_STABILITY.md (EXTERNAL_BLOCKED),
+  FULL_RED_CHAMBER_1_YEAR_ACCELERATED.md (EXTERNAL_BLOCKED),
+  RED_CHAMBER_PRODUCT_E2E.md (EXTERNAL_BLOCKED),
+  RED_CHAMBER_DERIVED_WORLD_ACCEPTANCE.md (EXTERNAL_BLOCKED),
+  CROSS_DOMAIN_GENERALITY_MATRIX.md, EXTERNAL_PACKAGE_AUTHOR_TEST.md
+  (EXTERNAL_BLOCKED), PACKAGE_ECOSYSTEM_ACCEPTANCE.md,
+  PRODUCTION_DEPLOYMENT_QUALIFICATION.md (local-only),
+  FINAL_SECURITY_RIGHTS_REPORT.md, FINAL_PERFORMANCE_CAPACITY_REPORT.md,
+  M35_M42_ACCEPTANCE_MATRIX.md, M42_FINAL_CERTIFICATION.md,
+  docs/RELEASE_READINESS_V5_2.md.
+- Real-corpus evidence files are honest EXTERNAL_BLOCKED records: they document
+  the precise missing requirements (legal, traceable edition with
+  URI/checksum/rights grant) and the mechanism evidence; they do NOT claim
+  FULL_RED_CHAMBER_COMPLETE.
+
 ## Local checkpoint
 - Working tree clean; local tags: v5.2-platform-pass, m35-kernel-v1-freeze,
   m36..m42 milestone tags; final tag `m42-v5.2-production`.

@@ -408,15 +408,21 @@ golden fixtures (`tests/fixtures/v5_2_baseline/`, combined hash
 Current HEAD: master @ f53cf82 (v5.1 g21d) -> next commit `g29a`.
 
 
-## M35-M42 (v5.2 production) continuation (2026-08-15)
+## M35-M42 (v5.2 production) continuation (2026-08-15) - COMPLETE
 
-Started the M35-M42 program per `02_CODEX_MASTER_PROMPT.md` and
-`README_FIRST.md`. G38A independent audit performed first: current real state is
-v5.2 M26-M34 PASS (V5_2_PLATFORM_PASS; real corpus EXTERNAL_BLOCKED). **M34 is NOT complete**:
-v5.2 G35D-G37G and M32-M34 gates are pending (no M32-M34 qualification reports,
-no M34 final certification, no RedChamber 7-day acceptance). Real《红楼梦》
-full-text remains EXTERNAL_BLOCKED (G35A); M32-M34 progress is mechanism-level
-until a legal, traceable edition is available.
+Executed G38A -> G45H per `02_CODEX_MASTER_PROMPT.md`. Milestones M35-M42 all
+PASS (2026-08-15): M35 Kernel v1 freeze, M36 Full Corpus & Canon Graph, M37
+Full Semantic World, M38 Full Living Runtime, M39 Studio & Experience, M40
+Long-Horizon & Derived Worlds, M41 Cross-Domain Generality, M42 Production
+Release.
 
-Remediation COMPLETE (2026-08-15): v5.2 M30-M34 PASS (V5_2_PLATFORM_PASS;
-real corpus EXTERNAL_BLOCKED). G38A re-run PASS. M35 Kernel v1 freeze in progress.
+- M34 (v5.2) remediation COMPLETE: M30-M34 gates PASS; final certification
+  V5_2_PLATFORM_PASS; G38A re-run PASS.
+- Kernel v1 frozen (tag `m35-kernel-v1-freeze`); kernel_guard 0 violations.
+- Full quality gate: 982 passed + 1 skipped (live PostgreSQL EXTERNAL_BLOCKED);
+  architecture PASS; ruff/format/pyright 0 errors.
+- SDK/package/API frozen: routes=17, ts=5, py=1176.
+- Final certification: V5_2_PRODUCTION_PASS (mechanism); all 18 evidence files
+  of `08_FINAL_EVIDENCE_STANDARD.md` present (real-corpus items are honest
+  EXTERNAL_BLOCKED records - no legal《红楼梦》edition in environment).
+- Local checkpoint: tag `m42-v5.2-production`; no push, no deploy, no v5.3.

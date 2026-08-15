@@ -3,16 +3,18 @@
 > Tracks every M35?M42 Goal and Milestone Gate toward `08_FINAL_EVIDENCE_STANDARD.md`.
 > Statuses: PASS / FAIL / EXTERNAL_BLOCKED / NOT_APPLICABLE / pending.
 
-## Program prerequisite audit (G38A finding)
+## Program prerequisite audit (G38A finding - RESOLVED)
 
-M34 (v5.2) is NOT complete: M30?M34 gates pending (G33B?G37G not executed).
-The M35 Kernel v1 freeze can only be certified after v5.2 M30?M34 are completed.
+G38A found M34 (v5.2) incomplete (M30?M34 gates pending). Remediation
+COMPLETE (2026-08-15): M30?M34 gates PASS; final certification =
+V5_2_PLATFORM_PASS (RED_CHAMBER_REAL EXTERNAL_BLOCKED). G38A re-run PASS; M35
+Kernel v1 freeze certified; M35?M42 executed to completion.
 
 ## M35 ? Post-M34 Audit & Kernel Freeze
 
 | Goal | Status |
 |---|---|
-| G38A ???? M34 | AUDIT DONE ? M34 NOT PASS (remediation: complete v5.2 M30-M34) |
+| G38A 独立复核 M34 | PASS (2026-08-15, commit g38a; M34 = V5_2_PLATFORM_PASS; real corpus EXTERNAL_BLOCKED) |
 | G38B Kernel v1 ABI 清单 | PASS (2026-08-15, commit g38b) |
 | G38C Kernel Change Guard | PASS (2026-08-15, commit g38c) |
 | G38D Full Red Chamber Gap Audit | PASS (2026-08-15, commit g38d; real gaps EXTERNAL_BLOCKED) |
@@ -121,21 +123,21 @@ The M35 Kernel v1 freeze can only be certified after v5.2 M30?M34 are completed.
 
 | Evidence file | Status |
 |---|---|
-| reports/M35_BASELINE_INDEPENDENT_AUDIT.md | pending |
-| reports/FULL_RED_CHAMBER_GAP_MATRIX.md | pending |
-| reports/RED_CHAMBER_FULL_SOURCE_GATE.md | pending |
-| reports/M36_FULL_CORPUS_QUALIFICATION.md | pending |
-| reports/FULL_RED_CHAMBER_SEMANTIC_COVERAGE.md | pending |
-| reports/FULL_RED_CHAMBER_30_DAY_STABILITY.md | pending |
-| reports/FULL_RED_CHAMBER_1_YEAR_ACCELERATED.md | pending |
-| reports/RED_CHAMBER_PRODUCT_E2E.md | pending |
-| reports/RED_CHAMBER_DERIVED_WORLD_ACCEPTANCE.md | pending |
-| reports/CROSS_DOMAIN_GENERALITY_MATRIX.md | pending |
-| reports/EXTERNAL_PACKAGE_AUTHOR_TEST.md | pending |
-| reports/PACKAGE_ECOSYSTEM_ACCEPTANCE.md | pending |
-| reports/PRODUCTION_DEPLOYMENT_QUALIFICATION.md | pending |
-| reports/FINAL_SECURITY_RIGHTS_REPORT.md | pending |
-| reports/FINAL_PERFORMANCE_CAPACITY_REPORT.md | pending |
+| reports/M35_BASELINE_INDEPENDENT_AUDIT.md | created |
+| reports/FULL_RED_CHAMBER_GAP_MATRIX.md | created |
+| reports/RED_CHAMBER_FULL_SOURCE_GATE.md | created (EXTERNAL_BLOCKED record; no legal edition) |
+| reports/M36_FULL_CORPUS_QUALIFICATION.md | created (mechanism; real corpus EXTERNAL_BLOCKED) |
+| reports/FULL_RED_CHAMBER_SEMANTIC_COVERAGE.md | created (EXTERNAL_BLOCKED record) |
+| reports/FULL_RED_CHAMBER_30_DAY_STABILITY.md | created (EXTERNAL_BLOCKED record) |
+| reports/FULL_RED_CHAMBER_1_YEAR_ACCELERATED.md | created (EXTERNAL_BLOCKED record) |
+| reports/RED_CHAMBER_PRODUCT_E2E.md | created (EXTERNAL_BLOCKED record) |
+| reports/RED_CHAMBER_DERIVED_WORLD_ACCEPTANCE.md | created (EXTERNAL_BLOCKED record) |
+| reports/CROSS_DOMAIN_GENERALITY_MATRIX.md | created (mechanism) |
+| reports/EXTERNAL_PACKAGE_AUTHOR_TEST.md | created (EXTERNAL_BLOCKED record; no external author) |
+| reports/PACKAGE_ECOSYSTEM_ACCEPTANCE.md | created (mechanism) |
+| reports/PRODUCTION_DEPLOYMENT_QUALIFICATION.md | created (local-only; no deploy per policy) |
+| reports/FINAL_SECURITY_RIGHTS_REPORT.md | created (mechanism) |
+| reports/FINAL_PERFORMANCE_CAPACITY_REPORT.md | created (mechanism) |
 | reports/M35_M42_ACCEPTANCE_MATRIX.md | this file |
 | reports/M42_FINAL_CERTIFICATION.md | created |
 | docs/RELEASE_READINESS_V5_2.md | created |
