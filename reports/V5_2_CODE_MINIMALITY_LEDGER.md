@@ -281,3 +281,8 @@ sandbox/approval core; platform-only approval; rollback never rewrites events.
 New abstractions: promotion_routes router (3 endpoints) + Studio read-only
 methods + admin-gated promote. Justification: M30 promotion/lineage surface;
 thin transports over existing graph/ladder/pipeline; no new store/engine.
+
+
+## G33G/M30 entry
+No new production abstraction (verification + e2e test only). M30 abstraction
+delta recorded in the budget (promotion package).

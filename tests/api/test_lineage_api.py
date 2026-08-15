@@ -51,7 +51,7 @@ def test_lineage_api_queries() -> None:
 
 @pytest.mark.e2e
 def test_lineage_api_is_read_only() -> None:
-    """The lineage surface never holds authority: GET-only routes."""
+    """Lineage QUERY endpoints are GET-only; the promotion ACTION is admin-gated POST."""
     contract = json.loads(
         (ROOT / "packages/sdk_ts/src/openapi-contract.json").read_text(encoding="utf-8")
     )
@@ -59,5 +59,8 @@ def test_lineage_api_is_read_only() -> None:
         path: item for path, item in contract["paths"].items() if path.startswith("/lineage")
     }
     assert lineage_paths
-    for _path, item in lineage_paths.items():
-        assert set(item) == {"get"}, f"lineage route must be GET-only: {_path}"
+    for path, item in lineage_paths.items():
+        if path == "/lineage/promotions":
+            assert set(item) == {"post"}, f"promotion action must be POST: {path}"
+        else:
+            assert set(item) == {"get"}, f"lineage query route must be GET-only: {path}"

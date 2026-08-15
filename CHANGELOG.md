@@ -1105,3 +1105,10 @@
 - Added promotion/lineage API (promotion-candidates, admin-gated promotions, lineage compare) + Studio candidate/approval/lineage-diff views; OpenAPI regenerated (16 routes).
 - 5 tests (403 unauthorized, backend-authority UI action, compare, SDK contract).
 - Checkpoint: `g33f: Lineage ? Promotion API Studio`.
+
+
+## 2026-08-15 - V5.2 G33G PASS + M30 GATE PASS
+
+- Full M30 gate: 798 passed + 1 EXTERNAL_BLOCKED skip; ruff/format/pyright/architecture PASS.
+- Added synthetic promotion + cross-world candidate e2e test; lineage read-only test updated for admin-gated promotions POST.
+- M30 = PASS (reports/M30_QUALIFICATION.md). Commit: `g33g: M30 Promotion Cross-world ????`.

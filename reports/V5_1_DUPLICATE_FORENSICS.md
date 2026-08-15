@@ -18,7 +18,7 @@
 | packages/substrate/src/wanxiang_substrate/skills/registry.py | SkillRegistry | 13 |
 | packages/substrate/src/wanxiang_substrate/sources/registry.py | SourceRegistry | 31 |
 
-## state_classes (19)
+## state_classes (20)
 
 | path | name | line |
 |---|---|---|
@@ -31,6 +31,7 @@
 | packages/substrate/src/wanxiang_substrate/capability/model.py | LearnerState | 112 |
 | packages/substrate/src/wanxiang_substrate/cosim/adapter.py | FakeSimulatorState | 34 |
 | packages/substrate/src/wanxiang_substrate/evolution/actor_evolution.py | ActorEvolutionState | 56 |
+| packages/substrate/src/wanxiang_substrate/evolution/promotion/pipeline.py | GenesisSnapshot | 26 |
 | packages/substrate/src/wanxiang_substrate/genealogy/privacy.py | ConsentState | 19 |
 | packages/substrate/src/wanxiang_substrate/lifecycle/model.py | LifecycleState | 87 |
 | packages/substrate/src/wanxiang_substrate/material/errors.py | InvalidMaterialState | 26 |
@@ -42,7 +43,7 @@
 | packages/substrate/src/wanxiang_substrate/spatial/errors.py | InvalidSpatialState | 34 |
 | packages/substrate/src/wanxiang_substrate/spatial/model.py | SpatialSnapshot | 91 |
 
-## store_classes (16)
+## store_classes (17)
 
 | path | name | line |
 |---|---|---|
@@ -60,6 +61,7 @@
 | packages/substrate/src/wanxiang_substrate/assets/storage.py | ObjectStore | 35 |
 | packages/substrate/src/wanxiang_substrate/assets/storage.py | LocalObjectStore | 44 |
 | packages/substrate/src/wanxiang_substrate/capability/runtime_control.py | RuntimeControlLedger | 33 |
+| packages/substrate/src/wanxiang_substrate/evolution/promotion/control.py | PromotionControlLedger | 29 |
 | packages/substrate/src/wanxiang_substrate/ledger/ledger.py | CompletionLedger | 30 |
 | packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | CheckpointStore | 31 |
 

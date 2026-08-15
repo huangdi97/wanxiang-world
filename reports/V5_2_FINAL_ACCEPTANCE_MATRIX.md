@@ -70,8 +70,8 @@
 | G33D Cross-world Distillation | PASS (2026-08-15, commit g33d) |
 | G33E ???? Sandbox Benchmark Approval | PASS (2026-08-15, commit g33e) |
 | G33F Lineage ? Promotion API Studio | PASS (2026-08-15, commit g33f) |
-| G33G M30 Promotion Cross-world ???? | pending |
-| **M30 Milestone Gate** | pending |
+| G33G M30 Promotion Cross-world ???? | PASS (2026-08-15, commit g33g) |
+| **M30 Milestone Gate** | **PASS (2026-08-15, reports/M30_QUALIFICATION.md)** |
 
 ## M31 ? ???????
 
