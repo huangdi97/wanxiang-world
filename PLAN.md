@@ -192,7 +192,7 @@ M30-M34 gates) because G38A verified M34 is not complete.
 | # | Goal | Scope | Status |
 |---|---|---|---|
 | 0 | v5.2 M30-M34 | G33B-G37G + M30-M34 gates (remediation for G38A finding) | PASS (M30-M34; V5_2_PLATFORM_PASS; real corpus EXTERNAL_BLOCKED) |
-| 1 | G38A | ???? M34 | AUDIT DONE ? M34 NOT PASS (remediation above) |
+| 1 | G38A | 独立复核 M34 | PASS (2026-08-15, commit g38a; M34 V5_2_PLATFORM_PASS) |
 | 2 | G38B-G38H | Kernel v1 ABI / Guard / Gap Audit / Minimality / Baselines (M35) | pending |
 | 3 | M35 Gate | Post-M34 Audit & Kernel Freeze | pending |
 | 4 | G39A-G39H | Full Corpus & Canon Graph (M36) | pending |

@@ -1319,3 +1319,9 @@
 - Final certification: V5_2_PLATFORM_PASS (RED_CHAMBER_REAL EXTERNAL_BLOCKED until a
   legal, traceable edition is available); local tag v5.2-platform-pass; no push/deploy.
 - Checkpoints: `g37e`, `g37f`, `g37g`, M34 gate, tag `v5.2-platform-pass`.
+
+## 2026-08-15 ? G38A PASS (M35)
+
+- G38A re-run: M34 independently verified COMPLETE at platform level (V5_2_PLATFORM_PASS);
+  M34 evidence suite 68 passed; goldens reproducible. Real corpus EXTERNAL_BLOCKED.
+- Checkpoint: `g38a: 独立复核 M34`.

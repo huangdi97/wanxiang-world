@@ -418,5 +418,5 @@ no M34 final certification, no RedChamber 7-day acceptance). Real《红楼梦》
 full-text remains EXTERNAL_BLOCKED (G35A); M32-M34 progress is mechanism-level
 until a legal, traceable edition is available.
 
-Remediation (evidence-bound): complete v5.2 M30-M34 (G33B -> G37G + M30-M34
-gates), then re-run G38A for PASS, then M35 Kernel v1 freeze and M36-M42.
+Remediation COMPLETE (2026-08-15): v5.2 M30-M34 PASS (V5_2_PLATFORM_PASS;
+real corpus EXTERNAL_BLOCKED). G38A re-run PASS. M35 Kernel v1 freeze in progress.
