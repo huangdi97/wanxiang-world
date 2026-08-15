@@ -205,7 +205,7 @@ M30-M34 gates) because G38A verified M34 is not complete.
 | 11 | M39 Gate | Studio & Experience | PASS (2026-08-15, reports/M39_QUALIFICATION.md) |
 | 12 | G43A-G43G | Long-Horizon & Derived Worlds (M40) | PASS (2026-08-15, commit g43) |
 | 13 | M40 Gate | Long-Horizon & Derived Worlds | PASS (2026-08-15, reports/M40_QUALIFICATION.md) |
-| 14 | G44A-G44G | Cross-Domain Generality (M41) | pending |
-| 15 | M41 Gate | Cross-Domain Generality | pending |
+| 14 | G44A-G44G | Cross-Domain Generality (M41) | PASS (2026-08-15, commit g44) |
+| 15 | M41 Gate | Cross-Domain Generality | PASS (2026-08-15, reports/M41_QUALIFICATION.md) |
 | 16 | G45A-G45H | SDK/Package/Production/Final Certification (M42) | pending |
 | 17 | M42 Gate | v5.2 Production Release | pending |

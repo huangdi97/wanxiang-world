@@ -94,14 +94,14 @@ The M35 Kernel v1 freeze can only be certified after v5.2 M30?M34 are completed.
 
 | Goal | Status |
 |---|---|
-| G44A Generality Harness + Kernel Lock | pending |
-| G44B Family World Qualification | pending |
-| G44C Heritage World Qualification | pending |
-| G44D Campaign World Qualification | pending |
-| G44E ???? Core ?? | pending |
-| G44F ????? World Pack | pending |
-| G44G M41 Generality Qualification | pending |
-| **M41 Milestone Gate** | pending |
+| G44A Generality Harness + Kernel Lock | PASS |
+| G44B Family World Qualification | PASS (mechanism) |
+| G44C Heritage World Qualification | PASS (mechanism) |
+| G44D Campaign World Qualification | PASS (mechanism) |
+| G44E 四领域同 Core 对照 | PASS |
+| G44F 第三方黑盒 World Pack | PASS |
+| G44G M41 Generality Qualification | PASS (reports/M41_QUALIFICATION.md) |
+| **M41 Milestone Gate** | **PASS (2026-08-15, reports/M41_QUALIFICATION.md; external data EXTERNAL_BLOCKED)** |
 
 ## M42 ? Production Release
 

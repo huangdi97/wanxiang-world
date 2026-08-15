@@ -1363,3 +1363,8 @@
 
 - Long-horizon/derived-world mechanism qualified: 974 passed + 1 skipped; SDK baseline py=1164.
   Real corpus EXTERNAL_BLOCKED. Tag `m40-long-horizon`.
+
+## 2026-08-15 ? M41 GATE PASS
+
+- Cross-domain generality mechanism qualified: 978 passed + 1 skipped; SDK baseline py=1169.
+  External data EXTERNAL_BLOCKED. Tag `m41-generality`.

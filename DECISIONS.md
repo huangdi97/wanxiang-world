@@ -146,3 +146,4 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0134 | M38: full living-runtime mechanism certified (963+1 PASS); population budgets, autonomous loop, scoped propagation, long-term evolution, LawCommit gate, 30-day/1-year accelerated; real corpus EXTERNAL_BLOCKED | accepted |
 | 0135 | M39: Studio/Experience mechanism certified (968+1 PASS); read-only/propose-only surfaces; fresh-user flow + accessibility; real corpus EXTERNAL_BLOCKED | accepted |
 | 0136 | M40: long-horizon/derived-world mechanism certified (974+1 PASS); windowed distill + promotion candidate + derived world only from approved candidates; real corpus EXTERNAL_BLOCKED | accepted |
+| 0137 | M41: cross-domain generality mechanism certified (978+1 PASS); shared harness + kernel diff guard; four domains reuse Core; black-box pack gate; external data EXTERNAL_BLOCKED | accepted |
