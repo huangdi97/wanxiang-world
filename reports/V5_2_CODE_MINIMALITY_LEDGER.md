@@ -328,3 +328,8 @@ M31 abstraction delta recorded in the budget.
 ## G35A entry
 No new production abstraction (registration test only). Real source is
 EXTERNAL_BLOCKED; mechanism verified with an explicitly-labeled synthetic fixture.
+
+
+## G35B entry
+New abstraction: SourceLocator (frozen record) + 3 pure functions. Justification:
+M32 source-locator mechanism; read-only; no engine/store.

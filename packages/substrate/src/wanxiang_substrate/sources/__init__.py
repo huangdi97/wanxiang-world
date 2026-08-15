@@ -17,6 +17,12 @@ from wanxiang_substrate.sources.fixture import (
     rejected_source,
 )
 from wanxiang_substrate.sources.gate import GateDecision, SourceGate
+from wanxiang_substrate.sources.locator import (
+    SourceLocator,
+    locator_stable_hash,
+    segment_source,
+    source_slice,
+)
 from wanxiang_substrate.sources.model import (
     ClaimCandidate,
     EvidenceLink,
@@ -50,4 +56,8 @@ __all__ = [
     "malicious_source",
     "payload_hash",
     "rejected_source",
+    "SourceLocator",
+    "locator_stable_hash",
+    "segment_source",
+    "source_slice",
 ]

@@ -1168,3 +1168,10 @@
 - Real《红楼梦》full-text source EXTERNAL_BLOCKED (no legal/traceable edition in env; read-only + no network/rights verification); no model-memory canon. Registered exact missing needs in reports/RED_CHAMBER_SOURCE_GATE.md.
 - Source registration mechanism verified with a synthetic fixture (3 tests: checksum reproducible, rights/review non-empty, no fabricated canon).
 - Checkpoint: `g35a: 红楼梦来源策略与合法版本登记`.
+
+
+## 2026-08-15 - V5.2 G35B PASS (M32 phase, remediation; mechanism)
+
+- Added chapter/segment SourceLocator (read-only segmentation, offsets + chapter ids, back-linkable slices, stable hash); mechanism verified on synthetic corpus; real《红楼梦》text EXTERNAL_BLOCKED (G35A).
+- 4 tests.
+- Checkpoint: `g35b: 章节分段与可引用 Source Locator`.
