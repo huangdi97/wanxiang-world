@@ -17,6 +17,14 @@ from wanxiang_substrate.sources.fixture import (
     rejected_source,
 )
 from wanxiang_substrate.sources.gate import GateDecision, SourceGate
+from wanxiang_substrate.sources.identity import (
+    AliasClaim,
+    IdentityCandidate,
+    IdentityDistiller,
+    IdentityReviewDecision,
+    IdentityReviewGate,
+    identity_to_claim,
+)
 from wanxiang_substrate.sources.locator import (
     SourceLocator,
     locator_stable_hash,
@@ -39,6 +47,12 @@ __all__ = [
     "DuplicateSource",
     "EvidenceLink",
     "GateDecision",
+    "AliasClaim",
+    "IdentityCandidate",
+    "IdentityDistiller",
+    "IdentityReviewDecision",
+    "IdentityReviewGate",
+    "identity_to_claim",
     "InvalidTransition",
     "MaliciousSource",
     "RightsDenied",

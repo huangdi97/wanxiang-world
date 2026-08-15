@@ -1175,3 +1175,16 @@
 - Added chapter/segment SourceLocator (read-only segmentation, offsets + chapter ids, back-linkable slices, stable hash); mechanism verified on synthetic corpus; real《红楼梦》text EXTERNAL_BLOCKED (G35A).
 - 4 tests.
 - Checkpoint: `g35b: 章节分段与可引用 Source Locator`.
+
+## 2026-08-15 ? G35C PASS (M32)
+
+- Identity/alias distillation: pure `IdentityDistiller` (segment -> mention -> identity key)
+  + evidence-backed `AliasClaim` (G35B locators) + `IdentityReviewGate` (human/rule;
+  no-evidence/unresolvable-locator/unauthorized reviewers rejected).
+- `identity_to_claim()` bridges approved identities into the G04B ClaimCandidate/
+  EvidenceLink pipeline; no second registry/engine/claim model.
+- SDK baseline: routes=17 ts=5 py=965 (additive). 7 new unit tests PASS;
+  architecture conformance PASS; ruff/pyright clean.
+- Real《红楼梦》text remains EXTERNAL_BLOCKED (G35A); mechanism verified on
+  synthetic corpus only.
+- Checkpoint: `g35c: 人物与别名 Identity Distillation`.

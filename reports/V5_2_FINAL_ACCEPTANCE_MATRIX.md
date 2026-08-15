@@ -78,21 +78,21 @@
 | Goal | Status |
 |---|---|
 | G34A Kernel Runtime Forge Experiences ???? | PASS (2026-08-15, commit g34a) |
-| G34B WorldPack Definition schema v5.2 ?? | pending |
-| G34C ???? Ledger ???? | pending |
-| G34D ? Event Snapshot Branch ???? | pending |
-| G34E API SDK Client ?? | pending |
-| G34F ???????? | pending |
-| G34G M31 ????????? | pending |
+| G34B WorldPack Definition schema v5.2 迁移 | PASS (2026-08-15, commit g34b) |
+| G34C 数据库与 Ledger 兼容迁移 | PASS (2026-08-15, commit g34c) |
+| G34D 旧 Event Snapshot Branch 向后回放 | PASS (2026-08-15, commit g34d) |
+| G34E API SDK Client 兼容 | PASS (2026-08-15, commit g34e) |
+| G34F 性能与复杂度回归 | PASS (2026-08-15, commit g34f) |
+| G34G M31 全平台兼容资格验收 | PASS (2026-08-15, commit g34g) |
 | **M31 Milestone Gate** | **PASS (2026-08-15, reports/M31_QUALIFICATION.md)** |
 
 ## M32 ? ??? Source Gate ???
 
 | Goal | Status |
 |---|---|
-| G35A ?????????????? | pending (EXTERNAL_BLOCKED possible) |
-| G35B ???????? Source Locator | pending |
-| G35C ????? Identity Distillation | pending |
+| G35A 红楼梦来源策略与合法版本登记 | PASS (2026-08-15, commit g35a; real text EXTERNAL_BLOCKED, mechanism PASS) |
+| G35B 章节分段与可引用 Source Locator | PASS (2026-08-15, commit g35b) |
+| G35C 人物与别名 Identity Distillation | PASS (2026-08-15, commit g35c) |
 | G35D ?????? Distillation | pending |
 | G35E Past Character Future Canon ?? | pending |
 | G35F Narrative Household HistoricalChina Domain ????? | pending |

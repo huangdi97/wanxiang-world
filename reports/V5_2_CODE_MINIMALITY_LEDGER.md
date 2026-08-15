@@ -333,3 +333,9 @@ EXTERNAL_BLOCKED; mechanism verified with an explicitly-labeled synthetic fixtur
 ## G35B entry
 New abstraction: SourceLocator (frozen record) + 3 pure functions. Justification:
 M32 source-locator mechanism; read-only; no engine/store.
+## G35C entry
+New abstractions: AliasClaim, IdentityCandidate, IdentityReviewDecision (frozen
+records) + IdentityDistiller (pure) + IdentityReviewGate (thin) + identity_to_claim
+(function). Justification: M32 identity/alias distillation core; reuses G35B
+SourceLocator + G04B ClaimCandidate/EvidenceLink/SourceGate (no second claim
+model / registry / engine); candidates never Canon until human/rule review.

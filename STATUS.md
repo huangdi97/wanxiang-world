@@ -385,8 +385,8 @@ golden fixtures (`tests/fixtures/v5_2_baseline/`, combined hash
 | M28 | Worldline / Lineage / Hypervisor | PASS (2026-08-15, reports/M28_QUALIFICATION.md) |
 | M29 | ?????? | PASS (2026-08-15, reports/M29_QUALIFICATION.md) |
 | M30 | Promotion / Cross-world Distillation | PASS (2026-08-15, reports/M30_QUALIFICATION.md) |
-| M31 | Kernel/Runtime/Forge/Experiences ?? + ????? | in progress (G34A PASS) |
-| M32 | ??? Source Gate ??? | pending |
+| M31 | Kernel/Runtime/Forge/Experiences 责任收敛 + 全平台兼容 | PASS (2026-08-15, reports/M31_QUALIFICATION.md) |
+| M32 | 红楼梦 Source Gate 与蒸馏机制 | in progress (G35A/B/C PASS; real text EXTERNAL_BLOCKED) |
 | M33 | ????????? | pending |
 | M34 | ????? + Lineage/Promotion + v5.2 ???? | pending |
 
@@ -412,12 +412,11 @@ Current HEAD: master @ f53cf82 (v5.1 g21d) -> next commit `g29a`.
 
 Started the M35-M42 program per `02_CODEX_MASTER_PROMPT.md` and
 `README_FIRST.md`. G38A independent audit performed first: current real state is
-v5.2 M26-M29 PASS + G33A (M30 in progress). **M34 is NOT complete** ? v5.2
-G33B-G37G and M30-M34 gates are pending (no M30-M34 qualification reports, no
-M34 final certification, no RedChamber 7-day acceptance). Full quality gate
-re-verified: 778 passed + 1 EXTERNAL_BLOCKED skip; ruff/format/pyright/architecture
-PASS. Golden samples frozen and reproducible (baseline f27b7724..., replay
-7d17aba7..., lineage fixture, migration head 0003).
+v5.2 M26-M31 PASS + M32 in progress (G35A/B/C PASS). **M34 is NOT complete**:
+v5.2 G35D-G37G and M32-M34 gates are pending (no M32-M34 qualification reports,
+no M34 final certification, no RedChamber 7-day acceptance). Real《红楼梦》
+full-text remains EXTERNAL_BLOCKED (G35A); M32-M34 progress is mechanism-level
+until a legal, traceable edition is available.
 
 Remediation (evidence-bound): complete v5.2 M30-M34 (G33B -> G37G + M30-M34
 gates), then re-run G38A for PASS, then M35 Kernel v1 freeze and M36-M42.
