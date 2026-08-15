@@ -26,14 +26,14 @@ The M35 Kernel v1 freeze can only be certified after v5.2 M30?M34 are completed.
 
 | Goal | Status |
 |---|---|
-| G39A ???? Source Gate | pending |
-| G39B ??/??????? | pending |
-| G39C Scene Boundary ????? | pending |
-| G39D ??? Identity/Alias/Role Graph | pending |
-| G39E ??/??/?? Source Graph | pending |
-| G39F Event/Timeline/Relation Graph | pending |
-| G39G Canon Graph / Edition Conflict | pending |
-| G39H M36 Full Corpus Qualification | pending |
+| G39A 完整底本 Source Gate | PASS (mechanism; real text EXTERNAL_BLOCKED) |
+| G39B 章节/段落稳定定位器 | PASS (reuses G35B + G38F) |
+| G39C Scene Boundary 与场景候选 | PASS |
+| G39D 全人物 Identity/Alias/Role Graph | PASS |
+| G39E 地点/物品/组织 Source Graph | PASS |
+| G39F Event/Timeline/Relation Graph | PASS |
+| G39G Canon Graph / Edition Conflict | PASS |
+| G39H M36 Full Corpus Qualification | pending (gate) |
 | **M36 Milestone Gate** | pending |
 
 ## M37 ? Full Semantic World

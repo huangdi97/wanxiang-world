@@ -195,7 +195,7 @@ M30-M34 gates) because G38A verified M34 is not complete.
 | 1 | G38A | 独立复核 M34 | PASS (2026-08-15, commit g38a; M34 V5_2_PLATFORM_PASS) |
 | 2 | G38B-G38H | Kernel v1 ABI / Guard / Gap Audit / Minimality / Baselines (M35) | PASS (2026-08-15, commits g38b..g38h) |
 | 3 | M35 Gate | Post-M34 Audit & Kernel Freeze | PASS (2026-08-15, reports/M35_QUALIFICATION.md) |
-| 4 | G39A-G39H | Full Corpus & Canon Graph (M36) | pending |
+| 4 | G39A-G39H | Full Corpus & Canon Graph (M36) | in progress (mechanism PASS; gate pending) |
 | 5 | M36 Gate | Full Corpus & Canon Graph | pending |
 | 6 | G40A-G40H | Full Semantic World (M37) | pending |
 | 7 | M37 Gate | Full Semantic World | pending |

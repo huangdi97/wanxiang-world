@@ -466,3 +466,8 @@ M35 kernel change guard (domain names / direct mutation / ABI drift).
 G38D/G38E: no new production abstraction (audits). G38F: CorpusPipeline +
 CorpusProfile + generate_synthetic_corpus (mechanism; reuses G35B/G35C).
 G38G: no new production abstraction (baselines + benchmark).
+## G39 entry
+New abstractions: canon_graph package (SceneCandidate, CharacterGraph, SourceGraph,
+TimelineGraph, CanonGraph, CoverageReport, FullCorpusPipeline). Justification: M36
+full-corpus -> canon-graph composition; reuses G35B/G35C/G38F; no new
+registry/engine/store.

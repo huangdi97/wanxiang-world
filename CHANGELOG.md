@@ -1331,3 +1331,8 @@
 - Kernel v1 ABI + golden frozen; change guard active; gap audit; minimality; corpus/perf
   baselines; 940 passed + 1 skipped; architecture PASS; kernel_guard 0 violations.
 - Tag `m35-kernel-v1-freeze`. Real corpus EXTERNAL_BLOCKED.
+
+## 2026-08-15 ? G39 mechanism PASS (M36)
+
+- Full Corpus -> Canon Graph (scenes/character/source/timeline/canon graphs + coverage/resume).
+- Checkpoint: `g39: Full Corpus & Canon Graph (M36 mechanism)`.
