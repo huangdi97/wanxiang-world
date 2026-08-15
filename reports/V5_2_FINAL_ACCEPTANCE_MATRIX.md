@@ -98,8 +98,8 @@
 | G35F Narrative Household HistoricalChina Domain 复用与补齐 | PASS (2026-08-15, commit g35f) |
 | G35G Character Relation Knowledge Boundary Distillation | PASS (2026-08-15, commit g35g) |
 | G35H Completion Ledger 与审核 | PASS (2026-08-15, commit g35h) |
-| G35I ?? RedChamber World Definition ? Scenario | pending |
-| **M32 Milestone Gate** | pending |
+| G35I 编译 RedChamber World Definition 与 Scenario | PASS (2026-08-15, commit g35i) |
+| **M32 Milestone Gate** | **PASS (2026-08-15, reports/M32_QUALIFICATION.md; real corpus EXTERNAL_BLOCKED)** |
 
 ## M33 ? ?????????
 

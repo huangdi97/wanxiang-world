@@ -1233,3 +1233,11 @@
 - SDK baseline: routes=17 ts=5 py=1021 (additive). 9 new unit tests PASS; architecture PASS;
   ruff/pyright clean. Real《红楼梦》text remains EXTERNAL_BLOCKED (G35A).
 - Checkpoint: `g35h: Completion Ledger 与审核`.
+
+## 2026-08-15 ? G35I PASS + M32 GATE PASS
+
+- RedChamber WorldPack assembly: WorldPackAssembler + literary_constitution + GenesisSpec +
+  HMAC signature/deps; validate/install/export/import + dry-run; no Core hardcode.
+- M32 gate: full quality 878 passed + 1 skipped (PostgreSQL EXTERNAL_BLOCKED); architecture PASS;
+  routes=17 ts=5 py=1028. MECHANISM PASS - real《红楼梦》corpus remains EXTERNAL_BLOCKED (G35A).
+- Checkpoints: `g35i: 编译 RedChamber World Definition 与 Scenario`; M32 gate qualified.

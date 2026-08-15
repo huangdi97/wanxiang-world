@@ -371,3 +371,14 @@ apply_batch_review (function) + CLI script. Justification: M32 completion
 review core; extends (does not replace) G04D CompletionLedger truth taxonomy;
 E0-E5 stage semantics with terminal E4/E5; can_enter_canon default false;
 reuses AUTHORIZED_REVIEWERS from sources.evidence; no second registry/engine.
+## G35I entry
+New abstractions: GenesisSpec, WorldPackSignature, AssembledWorldPack (frozen
+records) + WorldPackAssembler (pure) + literary_constitution /
+sign_world_pack / verify_world_pack (functions). Justification: M32 world-pack
+assembly core; reuses G34B PackageManifest v5.2 refs, G31A WorldDefinition,
+G30B ConstitutionManifest, G35B/G35E locators+scenario; no new registry/engine;
+instantiation dry-run only (no authority writes); core packages stay free of
+Red Chamber hardcode.
+
+## M32 entry
+No new production abstraction (qualification gate + reports only).
