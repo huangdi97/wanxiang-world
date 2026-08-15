@@ -439,3 +439,7 @@ New abstractions: LongHorizonPromotion (frozen record) + accelerate /
 distill_stable / promote_long_horizon (functions). Justification: M34
 long-horizon promotion core; reuses G33B pipeline + G33A ladder; no new
 registry/engine/store.
+## G37D entry
+New abstractions: ChaosCheck, ChaosReport (frozen records) + chaos check
+functions. Justification: M34 chaos core; reuses runtime snapshot/state
+round-trip + CommitAuthority + G36F embodiment; no new registry/engine/store.

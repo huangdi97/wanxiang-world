@@ -1306,3 +1306,8 @@
 
 - Long-horizon evolution + promotion candidate (gate-gated derived world).
 - Checkpoint: `g37c: 红楼梦长时演化与 Promotion Candidate`.
+
+## 2026-08-15 ? G37D PASS (M34)
+
+- Replay/crash-recovery/chaos checks (snapshot/restart, corruption, duplicate/stale, reconnect, provider isolation).
+- Checkpoint: `g37d: 红楼梦 Replay Crash Recovery Chaos`.

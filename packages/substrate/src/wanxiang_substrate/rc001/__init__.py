@@ -1,5 +1,15 @@
 """RC-001 living-world slice (M33)."""
 
+from wanxiang_substrate.rc001.chaos import (
+    ChaosCheck,
+    ChaosReport,
+    detect_stream_corruption,
+    duplicate_command_rejected,
+    provider_failure_isolated,
+    reconnect_embodiment,
+    run_chaos_checks,
+    snapshot_restart,
+)
 from wanxiang_substrate.rc001.experience import ExperienceStudio, ExperienceViews
 from wanxiang_substrate.rc001.instantiate import (
     InitialSnapshot,
@@ -49,6 +59,14 @@ from wanxiang_substrate.rc001.worldlines import (
 
 __all__ = [
     "Activity",
+    "ChaosCheck",
+    "ChaosReport",
+    "detect_stream_corruption",
+    "duplicate_command_rejected",
+    "provider_failure_isolated",
+    "reconnect_embodiment",
+    "run_chaos_checks",
+    "snapshot_restart",
     "LongHorizonPromotion",
     "accelerate",
     "distill_stable",

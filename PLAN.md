@@ -179,7 +179,7 @@ v5.2 certification reports and local checkpoint. No push/deploy.
 | 21 | M32 Gate | 红楼梦 Source Gate 与蒸馏机制 | PASS (2026-08-15, reports/M32_QUALIFICATION.md) |
 | 22 | G36A..G36H | 红楼梦实例化/生活 (M33) | PASS (2026-08-15, commits g36a..g36h) |
 | 23 | M33 Gate | 红楼梦实例化/生活资格验收 | PASS (2026-08-15, reports/M33_QUALIFICATION.md) |
-| 24 | G37A..G37G | 红楼梦终审/认证 (M34) | in progress (G37A-C PASS) |
+| 24 | G37A..G37G | 红楼梦终审/认证 (M34) | in progress (G37A-D PASS) |
 | 25 | M34 Gate | ????? + Lineage/Promotion + v5.2 ???? | pending |
 
 
