@@ -1368,3 +1368,10 @@
 
 - Cross-domain generality mechanism qualified: 978 passed + 1 skipped; SDK baseline py=1169.
   External data EXTERNAL_BLOCKED. Tag `m41-generality`.
+
+## 2026-08-15 ? M42 GATE PASS (FINAL)
+
+- v5.2 production release mechanism certified: 982 passed + 1 skipped; SDK baseline
+  routes=17 ts=5 py=1176; architecture PASS; kernel_guard 0 violations.
+- Final certification: V5_2_PRODUCTION_PASS (RED_CHAMBER_REAL EXTERNAL_BLOCKED).
+  Tag `m42-v5.2-production`. No push/deploy; v5.3 not started.

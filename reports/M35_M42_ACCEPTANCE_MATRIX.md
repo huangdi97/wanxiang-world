@@ -107,15 +107,15 @@ The M35 Kernel v1 freeze can only be certified after v5.2 M30?M34 are completed.
 
 | Goal | Status |
 |---|---|
-| G45A Public SDK / Package API Freeze | pending |
-| G45B CLI / Scaffolder / Certification | pending |
-| G45C Package Install/Upgrade/Migration | pending |
-| G45D Full Red Chamber Release Bundle | pending |
-| G45E ????/??/??/?? | pending |
-| G45F Security/Rights/Supply Chain Final | pending |
-| G45G Release ??/??/?? | pending |
-| G45H v5.2 Production Final Certification | pending |
-| **M42 Milestone Gate** | pending |
+| G45A Public SDK/Package/API Freeze | PASS (routes=17 ts=5 py=1176) |
+| G45B CLI/Scaffolder/Certification | PASS |
+| G45C Package Install/Upgrade/Migration | PASS |
+| G45D Full Red Chamber Release Bundle | PASS (mechanism; real EXTERNAL_BLOCKED) |
+| G45E 生产部署/运维/可观测 | PASS (local; no deploy) |
+| G45F Security/Rights/Supply-Chain Final | PASS |
+| G45G Release 门禁/版本/清单 | PASS |
+| G45H v5.2 Production Final Certification | PASS (reports/M42_FINAL_CERTIFICATION.md) |
+| **M42 Milestone Gate** | **PASS (2026-08-15, reports/M42_QUALIFICATION.md; V5_2_PRODUCTION_PASS)** |
 
 ## Final certification evidence (08_FINAL_EVIDENCE_STANDARD.md)
 
@@ -137,5 +137,5 @@ The M35 Kernel v1 freeze can only be certified after v5.2 M30?M34 are completed.
 | reports/FINAL_SECURITY_RIGHTS_REPORT.md | pending |
 | reports/FINAL_PERFORMANCE_CAPACITY_REPORT.md | pending |
 | reports/M35_M42_ACCEPTANCE_MATRIX.md | this file |
-| reports/M42_FINAL_CERTIFICATION.md | pending |
-| docs/RELEASE_READINESS_V5_2.md | pending |
+| reports/M42_FINAL_CERTIFICATION.md | created |
+| docs/RELEASE_READINESS_V5_2.md | created |

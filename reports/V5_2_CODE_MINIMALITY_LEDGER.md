@@ -471,3 +471,8 @@ New abstractions: canon_graph package (SceneCandidate, CharacterGraph, SourceGra
 TimelineGraph, CanonGraph, CoverageReport, FullCorpusPipeline). Justification: M36
 full-corpus -> canon-graph composition; reuses G35B/G35C/G38F; no new
 registry/engine/store.
+## G45 entry
+New abstractions: ReleaseFreeze, ReleaseBundle, ReleaseGates, FinalCertification
+(frozen records) + freeze_sdk / build_release_bundle / certify_release
+(functions). Justification: M42 production release gate core; certification
+refused when any gate is red; no new registry/engine/store.
