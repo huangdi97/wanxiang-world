@@ -352,3 +352,9 @@ New abstractions: ScenarioPoint, CanonClaim, CompiledCanon (frozen records) +
 CanonCompiler (pure) + scenario_at (function). Justification: M32 canon
 compilation core; reuses G35B locators; runtime/control-plane view split keeps
 FutureCanon from leaking to the world; no registry/engine/store.
+## G35F entry
+New abstractions: narrative domain pack (actions/components/resolver/query
+modules). Justification: M32 generic household/historical-China domain core;
+FORBIDDEN RedChamberCore; missing actions defined in the Domain Pack, never in
+Core reference actions; reuses institution (access/duty), material (letter
+payload) and agency (authority resolver pattern); no new registry/engine.

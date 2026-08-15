@@ -1207,3 +1207,12 @@
 - SDK baseline: routes=17 ts=5 py=986 (additive). 6 new unit tests PASS; architecture PASS;
   ruff/pyright clean. Real《红楼梦》text remains EXTERNAL_BLOCKED (G35A).
 - Checkpoint: `g35e: Past Character Future Canon 编译`.
+
+## 2026-08-15 ? G35F PASS (M32)
+
+- Generic narrative/household domain pack (no RedChamberCore, no Red Chamber proper nouns):
+  ritual/visit/letter/message actions+resolvers through Commit Authority; access-gated sick
+  visits; sealed letter payloads (material reuse); message relay; duty/access queries.
+- SDK baseline: routes=17 ts=5 py=1004 (additive). 6 new unit tests PASS; architecture PASS;
+  ruff/pyright clean. Real《红楼梦》text remains EXTERNAL_BLOCKED (G35A).
+- Checkpoint: `g35f: Narrative Household HistoricalChina Domain 复用与补齐`.

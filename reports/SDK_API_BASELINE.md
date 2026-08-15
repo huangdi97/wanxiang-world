@@ -2,7 +2,7 @@
 
 - API routes: 17
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 986
+- Python public names (stable packages): 1004
 
 ## API routes
 
@@ -265,6 +265,7 @@
 - `wanxiang_substrate.ACTION_MEDICATE`
 - `wanxiang_substrate.ACTION_MOVE`
 - `wanxiang_substrate.ACTION_MOVE_INTO`
+- `wanxiang_substrate.ACTION_PERFORM_RITUAL`
 - `wanxiang_substrate.ACTION_READ`
 - `wanxiang_substrate.ACTION_RECEIVE_ORDER`
 - `wanxiang_substrate.ACTION_RECORD_ASSESSMENT`
@@ -272,10 +273,12 @@
 - `wanxiang_substrate.ACTION_RECORD_PRACTICE`
 - `wanxiang_substrate.ACTION_RECORD_RUN`
 - `wanxiang_substrate.ACTION_REJECT_ORDER`
+- `wanxiang_substrate.ACTION_RELAY_MESSAGE`
 - `wanxiang_substrate.ACTION_REPORT_ORDER`
 - `wanxiang_substrate.ACTION_REST`
 - `wanxiang_substrate.ACTION_SCHEDULE_APPOINTMENT`
 - `wanxiang_substrate.ACTION_SEAL`
+- `wanxiang_substrate.ACTION_SEND_LETTER`
 - `wanxiang_substrate.ACTION_SET_ACTOR_STATE`
 - `wanxiang_substrate.ACTION_SET_DEADLINE`
 - `wanxiang_substrate.ACTION_SET_MODE`
@@ -285,6 +288,7 @@
 - `wanxiang_substrate.ACTION_SET_VISIBILITY`
 - `wanxiang_substrate.ACTION_START_SKILL`
 - `wanxiang_substrate.ACTION_TRANSFER`
+- `wanxiang_substrate.ACTION_VISIT_SICK`
 - `wanxiang_substrate.ACTOR`
 - `wanxiang_substrate.ACTOR_A`
 - `wanxiang_substrate.ACTOR_B`
@@ -322,9 +326,5 @@
 - `wanxiang_substrate.AssessmentEvidence`
 - `wanxiang_substrate.AssetCandidate`
 - `wanxiang_substrate.AssetCorrupt`
-- `wanxiang_substrate.AssetFoundry`
-- `wanxiang_substrate.AssetGenerator`
-- `wanxiang_substrate.AssetNotFound`
-- `wanxiang_substrate.AssetRef`
 
 Machine-readable: reports/sdk_api_baseline.json.

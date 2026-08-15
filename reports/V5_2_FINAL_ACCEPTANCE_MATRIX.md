@@ -95,7 +95,7 @@
 | G35C 人物与别名 Identity Distillation | PASS (2026-08-15, commit g35c) |
 | G35D 空间组织物品 Distillation | PASS (2026-08-15, commit g35d) |
 | G35E Past Character Future Canon 编译 | PASS (2026-08-15, commit g35e) |
-| G35F Narrative Household HistoricalChina Domain ????? | pending |
+| G35F Narrative Household HistoricalChina Domain 复用与补齐 | PASS (2026-08-15, commit g35f) |
 | G35G Character Relation Knowledge Boundary Distillation | pending |
 | G35H Completion Ledger ??? | pending |
 | G35I ?? RedChamber World Definition ? Scenario | pending |
