@@ -1253,3 +1253,8 @@
 - RC-001 spatial run: visibility/acoustic/privacy/access + MovementProfile travel time;
   synthetic anonymized map (real canon EXTERNAL_BLOCKED).
 - Checkpoint: `g36b: 红楼梦空间可见可听私密运行`.
+
+## 2026-08-15 ? G36C PASS (M33)
+
+- RC-001 NPC schedule/duty/body/social policy (deterministic daily schedule + population resolution).
+- Checkpoint: `g36c: 人物职责 NPC 日程身体与社会制度`.

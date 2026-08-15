@@ -107,7 +107,7 @@
 |---|---|
 | G36A 实例化 RC-001 与固定世界快照 | PASS (2026-08-15, commit g36a) |
 | G36B 红楼梦空间可见可听私密运行 | PASS (2026-08-15, commit g36b) |
-| G36C ???? NPC ????????? | pending |
+| G36C 人物职责 NPC 日程身体与社会制度 | PASS (2026-08-15, commit g36c) |
 | G36D ????????????????? | pending |
 | G36E Perception Belief Memory ????? | pending |
 | G36F ??? Embodiment ShadowPolicy Handoff | pending |

@@ -392,3 +392,8 @@ registry/engine; single commit path.
 New abstractions: MovementProfile (frozen record) + travel_time (function).
 Justification: M33 spatial movement-time core; reuses G02A spatial graph/query;
 no new registry/engine/store.
+## G36C entry
+New abstractions: NPCProfile, Activity (frozen records) + daily_schedule /
+resolve_population / resolve_population_result (functions). Justification: M33
+NPC schedule/population policy core; composes institution/narrative/body
+resolvers; no new registry/engine/store.
