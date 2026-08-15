@@ -103,3 +103,4 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0091 | G32G: telemetry is opt-in; trajectories require explicit rights + retention; unauthorized data never enters the cross-world dataset; revocation supported | accepted |
 | 0092 | G32H/M29: full gate PASS (774+1); synthetic society habit->norm->institution chain is controlled (validate/approve -> LawCommit); platform power isolated; M29=PASS ? M30 promotion work can start | accepted |
 | 0093 | G33A: abstraction ladder L0-L8 with per-level evidence/stability/cross-scenario/approval; one step at a time; L7/L8 explicit approval; policy versioned | accepted |
+| 0094 | M35-M42 program start (2026-08-15): G38A independent audit verified M34 NOT complete (v5.2 M30-M34 pending: G33B-G37G + gates); remediation = complete v5.2 M30-M34 before M35 Kernel v1 freeze; kernel freeze policy per 01_KERNEL_FREEZE_POLICY.md | accepted |

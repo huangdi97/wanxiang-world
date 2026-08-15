@@ -1063,3 +1063,10 @@
 - Added promotion ladder (L0-L8): level requirements (evidence/stability/cross-scenario/approval), one-step-at-a-time, L7/L8 explicit approval, versioned policy.
 - 4 tests.
 - Checkpoint: `g33a: ?? Abstraction Ladder`.
+
+
+## 2026-08-15 - M35-M42 program start (G38A audit)
+
+- Committed the M35-M42 program pack (README_FIRST, 00-08 program docs, CODEX_COPY_PASTE_M35_M42_CN.txt, WANXIANG_M35_M42_ALL_IN_ONE_CN.md, goals/G38A..G45H, milestones/M35..M42, PACK_MANIFEST/README updates).
+- G38A independent M34 audit: full quality gate 778 passed + 1 EXTERNAL_BLOCKED skip; ruff/format/pyright/architecture PASS; golden samples frozen (baseline f27b7724..., replay 7d17aba7..., lineage fixture, migration head 0003). Finding: **M34 NOT complete** (v5.2 M30-M34 pending).
+- Checkpoint: `g38a: ???? M34`.

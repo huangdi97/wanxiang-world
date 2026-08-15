@@ -1,103 +1,89 @@
 # PACK MANIFEST
 
-- Goal 数量：71
-- Milestone Gate 数量：9
-- 文件总数（不含本 Manifest）：95
-- ALL-IN-ONE 行数：10352
+- Goals: 61
+- Milestones: 8
+- Files before manifest: 82
+- ALL-IN-ONE lines: 3807
 
-## 文件校验
-- `00_V5_2_代码处置与复用矩阵.md` — sha256 `8026d36f0d184ddcaf34a92146cb0ce45ddea3c5842de3cf46f52f023e0d817f`
-- `01_V5_2_全量工程程序架构.md` — sha256 `48a41198f99f3df8aee26b1d827669d3b2a8a48a86ccafa6b82a8d3911b5496d`
-- `02_CODEX_V5_2_今晚连续执行总指令.md` — sha256 `ad4379a64e9cd5d3dce34c9d3186ce8b59eb43ea35eabe8a5f659dcdf2d48ea4`
-- `03_最小代码工程宪法.md` — sha256 `122085253e97463092f49c8fe746412dae9578239cbac70ced5bf979a27b7556`
-- `04_V5_2_架构裁决与歧义消解.md` — sha256 `62a75aae8c43a2e64ef8bdfa406a349db3dc342635eaa34a8b00e25d83990f97`
-- `05_M0_M25到V5_2迁移映射.md` — sha256 `3001230839d1320b4f680005c54d78ef7ef3b9d7254bf6743b2998451a30defd`
-- `06_M26_M34_GOAL总索引.md` — sha256 `c34053a8cdfbbe9ab9f4f213b09134f88ab4de7cac0e217ee25de84dd1523815`
-- `07_M26_M34_Milestone验收门.md` — sha256 `69f2d0bb5ce89c9154cf611045ede134c217a666c25b193ff997d96cd7271f4f`
-- `08_连续执行与中断恢复协议.md` — sha256 `b27f5315d62abce6b034dc0ac916538a87a7f190be9f03204b168bf00463020f`
-- `09_红楼梦SourceGate与实例验收标准.md` — sha256 `20f70a7d9f3462f465a714612361de63d0b67dad6bc86de6910a5612cd51ea14`
-- `10_V5_2最终验收证据标准.md` — sha256 `9afb1e7a45ffac1ef7b3332d01ebe1a7a9340b689199b89ebb13510c8536a088`
-- `CODEX_直接复制启动_中文.txt` — sha256 `9f5a7b05e02e654ad4edac932d5e670ae8b9d37b174a77a629202392414e169f`
-- `README_FIRST_V5_2_CN.md` — sha256 `4a0a47a962bd9482672fc4542f9e4f8c0f4144dc7b5872a839a7577a8bcf329d`
-- `WANXIANG_V5_2_M26_M34_今晚全量执行_ALL_IN_ONE_中文.md` — sha256 `abfccfe7dcb619039661541d3840cf0950fd5168935a0d612e9a027821b32a1c`
-- `docs/spec/WANXIANG_v5_2_MASTER_SPEC.md` — sha256 `74b9a36fd6b15a10cd0ca37e365529963eb65cc406098c53a2987db60cd2d184`
-- `goals/G29A_冻结旧基线并验证 M25 真实状态.md` — sha256 `15293df31ef574c213fc5dee7f3cd9a22e4e3e7ee6e94e77370e1025eae33902`
-- `goals/G29B_全仓代码处置实际盘点.md` — sha256 `f2569986d5b6f813f56662d6a981aede2fba433b9467f7686e70c89770def313`
-- `goals/G29C_合并重复 Registry 与 Manager.md` — sha256 `e59291dcffabe94c6ee3e135589e23e8ded9621f22b4cfadc900c93498916b92`
-- `goals/G29D_统一 State Event Audit 派生关系.md` — sha256 `654fb02da5b3af6cee15f58df09a3eed5d445aa03bb8013da9752bc67a06d139`
-- `goals/G29E_收敛物理包边界.md` — sha256 `a4ca249f7a29317cd906b66712e69d5bef00ac30ee24ff6f57750ee057e464b0`
-- `goals/G29F_清理 Fake Placeholder 与旧实验残留.md` — sha256 `37f50249ed61a6eacecc50b2b59a21f7632683fce02a8665b593916432056b0d`
-- `goals/G29G_建立最小代码度量与预算.md` — sha256 `158a6f11d8ac206cefacb8aadd1008d12cd675a699442a35c3c4a8605db394da`
-- `goals/G29H_M26 收敛资格验收.md` — sha256 `53f88e4ff66c2e3b3505c85afd7815f5edc059d883cdebccf646aeef3793d66f`
-- `goals/G30A_Reality Root 语义契约.md` — sha256 `bcbc53fe5b0fabd1ffba1c0be859681a52cb7addcd9a37551a6398b009181377`
-- `goals/G30B_World Constitution 模型与版本.md` — sha256 `889af0fd40af99b0fe4d40df0e9a55ca3eff9ba769bcb5946201e5eb126d5fe9`
-- `goals/G30C_Constitution 执行与不可越权.md` — sha256 `0c45f468f40a21a997c9ff42af82aa51502df58321148263251459f937cf9c3f`
-- `goals/G30D_World Semantic ISA 最小类型.md` — sha256 `23c141760ba6242645c25811cefcaa8c4da8262dafa314fb454f5577762eae4b`
-- `goals/G30E_ISA 到现有用例与 Commit 管线映射.md` — sha256 `0bc8086f6b6bccb808e17295ab4f382e25674a5b8cb477b5d5ccc3cb8c2fbd1e`
-- `goals/G30F_三类 World Commit 收敛.md` — sha256 `d42b13a2456a2c592fec63767e669a327f199facd0116a6f320c7d9fd7f60e40`
-- `goals/G30G_Fact Scope 与 Authority Partition.md` — sha256 `af64dfcafdaec52ec4b4a7036bcd5c5a81ec852266398e1cdfbdd1d57a6fa6a4`
-- `goals/G30H_Event Snapshot 版本上下文升级.md` — sha256 `1f04339b443a25832551cb8cf980765ff0c3289d076b87d2bd97cf7cb652f0a9`
-- `goals/G30I_M27 Root Constitution ISA 资格验收.md` — sha256 `4cd2291620f23ece8a1b4233a7f3829ddbc27f1c2df0250eb12ae6470330a2b7`
-- `goals/G31A_World Definition 与 Worldline 身份模型.md` — sha256 `0e4477e1c804d61cc04aa61c798b660a74222a39f8e1a3e8cd4cc42801ae9477`
-- `goals/G31B_World Lineage Graph 数据模型.md` — sha256 `9c4fa96f22e05684951e3cc18047fffc6a9b9d5e91075fe932d5353bfaacf765`
-- `goals/G31C_Lineage Repository 与迁移.md` — sha256 `c2cd76d021c9c276b4551b744dcde798536b5a5ec778cf9798f9b88ecc33b27f`
-- `goals/G31D_World Hypervisor 多实例隔离.md` — sha256 `df0e24dfcd49735bc3f6fa82b72363c2fcf2169ba0cd51187ea3072216832636`
-- `goals/G31E_Interworld Identity 与 Presence.md` — sha256 `ceb9b697169306e1a4ae1f78a08c5fa3599a40b0f3a57dd3539de441b2b0d32b`
-- `goals/G31F_Hybrid Genesis 兼容性分析与安全拒绝.md` — sha256 `8e585c6551ab483c92fae349c1387275e590f45fbbf537ba6bdc9f1a7517aa70`
-- `goals/G31G_Lineage API SDK Studio 最小投影.md` — sha256 `dc1f37ca11eeb75aa4cd44ff657f7dcdf45aaf9450fb90ecdf862753c757dd9c`
-- `goals/G31H_M28 Lineage Hypervisor 资格验收.md` — sha256 `e88cc5a27105af8040de50c653dd89053f3ea0688b4af2471b07e2792aa81e31`
-- `goals/G32A_Evolution Policy Stack.md` — sha256 `b6cea864d22dd7d2a988fe87ab3cbde9daefc4a2cbccb94419405057c5624840`
-- `goals/G32B_多尺度演化调度.md` — sha256 `c08b2aff9ca83708e1e4bcdefe815422c1cadc8c681c7a70197ff3eeec349123`
-- `goals/G32C_Actor Capability 与 Persona 演化分离.md` — sha256 `f31ec66afddb87441e8fdd4ed5c4d32dadafcf632645b8348f428e72edd0a6a9`
-- `goals/G32D_Relation Group Social Pattern Distillation.md` — sha256 `12f67afb08f331024c882f9fb434db4c1619163295df6f06354f99d96ccf4be4`
-- `goals/G32E_Institution Organization Rule 晋升.md` — sha256 `4ff1c58d97a5caa5346c455d48b8d2489bb371a60bf0c3424522293b3385be92`
-- `goals/G32F_Ontology Law 多尺度演化.md` — sha256 `fb45f8eb26ed774a5ad8a2d9eb04f17607d60ca9526a09cff61aac27e6d20165`
-- `goals/G32G_Evolution Telemetry 与隐私权利.md` — sha256 `94448e29e01167910b4ccfa2bd324c9899bca7f50382d8fd2be7aa48174f0945`
-- `goals/G32H_M29 多尺度共演化资格验收.md` — sha256 `955490ff79ba24abef47ebae7ed4354afa5106a0148bb51273f95b44c1ee83bb`
-- `goals/G33A_统一 Abstraction Ladder.md` — sha256 `b3ffa277794d5705f54ebcdabf4fb8a77caa06ad6613822dd1e5a0bfe2a434e4`
-- `goals/G33B_Worldline 到 Derived World Promotion Pipeline.md` — sha256 `01b4f3dba9e9f9c47b30e37ed80bf914818b1a157f5e103a24b985ff92424ad8`
-- `goals/G33C_Promotion 可重放与可撤销控制.md` — sha256 `9c4eba9b4a5d95a732320d292f37f639002911f4d3ecdc0d34a45c5dcc77bf70`
-- `goals/G33D_Cross-world Distillation.md` — sha256 `71f1456969b728e40d1c079a9c7015ddbd8174474183f03c2f678f2ba2714258`
-- `goals/G33E_平台反哺 Sandbox Benchmark Approval.md` — sha256 `2b6b034af38cd1399d9d074460d1a0d83ecde422313cbf05ea0d812fc6dcf39f`
-- `goals/G33F_Lineage 与 Promotion API Studio.md` — sha256 `c685627ebbce5efafc61890b16e0758c9b794438382a68093d13a8c64ff30612`
-- `goals/G33G_M30 Promotion Cross-world 资格验收.md` — sha256 `fdf2a62e2e0bb78f57ced4ce2b6aa1b056a42e99c09e05b0727ca935bcc6c432`
-- `goals/G34A_Kernel Runtime Forge Experiences 责任收敛.md` — sha256 `35765140e4a0e7f1acedc8fb619aa5eaed963ef74079ca1749b89ffdf2cf3743`
-- `goals/G34B_WorldPack Definition schema v5.2 迁移.md` — sha256 `1ef5ac851eee839b90c31696737808171b7873eb4ea4286f0de1d9852b1ac461`
-- `goals/G34C_数据库与 Ledger 兼容迁移.md` — sha256 `16141b145c6346a1c2db55313854c101f0525da9df95824cadfb179d49441329`
-- `goals/G34D_旧 Event Snapshot Branch 向后回放.md` — sha256 `0213fb35ddbdb521c038955b4ff74e80ccf5f9d27a3b268c5a1893b16630c113`
-- `goals/G34E_API SDK Client 兼容.md` — sha256 `831d646a856e017aee287fc9365f9f1f41526fcb138a3bd2ffeb9013072eb1a8`
-- `goals/G34F_性能与复杂度回归.md` — sha256 `f3c064fad285a3c7241dd394ab3d04825a6a939fab8541dad68638791a963b9a`
-- `goals/G34G_M31 全平台兼容资格验收.md` — sha256 `00dd8d84b6f00e2daa5125c57f96a6f409229bdcedb512a51507e17d5c4ffb24`
-- `goals/G35A_红楼梦来源策略与合法版本登记.md` — sha256 `2103961ce3cb54a4e30b5a41d90a6ad5d78da3211f598bb046a763cff2e5d7a0`
-- `goals/G35B_章节分段与可引用 Source Locator.md` — sha256 `886c10c3081b67efb5be1c5c22efd8efa42ac26bb886d263440e272d8b8b59a9`
-- `goals/G35C_人物与别名 Identity Distillation.md` — sha256 `9cf9e6d2d2c9aada690158d82f6ec0a5a0076886fea8d9d34d7db597d6254e97`
-- `goals/G35D_空间组织物品 Distillation.md` — sha256 `b07917be031a76cef946052a6ccfe803eb499c84ee3484208d6a25a37d71d43d`
-- `goals/G35E_Past Character Future Canon 编译.md` — sha256 `773457132f962932dcf65de1883b7678d583520238b5acdb033e3aee3c951014`
-- `goals/G35F_Narrative Household HistoricalChina Domain 复用与补齐.md` — sha256 `73066215f7bd152ef052cb97028c2486d144df1a58e59d5098c15c06a331d584`
-- `goals/G35G_Character Relation Knowledge Boundary Distillation.md` — sha256 `f19c3bea51a08d4176c186e4b60e9823a12f26bd07d54dba2d00af1ad4393203`
-- `goals/G35H_Completion Ledger 与审核.md` — sha256 `36e5bc8b03b7045efdb7a7e83966f54d591a540341e174b08a9cb1f17a555f88`
-- `goals/G35I_编译 RedChamber World Definition 与 Scenario.md` — sha256 `67d9346179bdcf2f4a3aa088cb6f44b5b61aae4571c23a874c05d93ec5c6ffc0`
-- `goals/G36A_实例化 RC-001 与固定世界快照.md` — sha256 `12f1fe47e83348c4e84f69b1c8167a761aaa575f1de18442e223748ca0444b17`
-- `goals/G36B_红楼梦空间可见可听私密运行.md` — sha256 `ca4019552709a87414c09e0a385b3a39a4930e74fc5d55da50a6f205f2424286`
-- `goals/G36C_人物职责 NPC 日程身体与社会制度.md` — sha256 `e7767ca6e93023fed76a68375de8bc071a7117c8c28ff8a5fd6616e56b840c70`
-- `goals/G36D_信件诗稿礼物药物的物质与信息连续性.md` — sha256 `20a98864cb37405d2da7089c8ed70429b1a811af6fc69fa24ac4abef4c6c08d1`
-- `goals/G36E_Perception Belief Memory 与消息传播.md` — sha256 `f6f2cc3a4e41704994ee9ded542226979fbe04ca36960d6e232e47238d818779`
-- `goals/G36F_林黛玉 Embodiment ShadowPolicy Handoff.md` — sha256 `06000b69653ee9c4a8f0870561bc709dcd6ff942d122d5f2a838c4eb20b487da`
-- `goals/G36G_Canonical Replay Soft Canon Living Open 三策略.md` — sha256 `aaacf0612da2a22affaa9b37d4866b423787341022bb1d8a3692b1a67d647e0d`
-- `goals/G36H_红楼梦 Experience Studio 最小可用面.md` — sha256 `cc3b470c33960d91c2ea4693e0a643005c18bb0e66346b63cb1878de303add42`
-- `goals/G37A_红楼梦七日场景自动化执行.md` — sha256 `1cc6b9e27a058ed24ac73a51575c55b72213c159c36e9c53b8024a9e065bbf19`
-- `goals/G37B_Canon 用户 无干预三世界线比较.md` — sha256 `4ae269a9bb4185dcac25177b908be765c9fe34538d72eec8676150d1ecff101d`
-- `goals/G37C_红楼梦长时演化与 Promotion Candidate.md` — sha256 `560af3be0c24f11c826a14110339e4d96c5e21d5a62a7d35f6cee2b0a82392f7`
-- `goals/G37D_红楼梦 Replay Crash Recovery Chaos.md` — sha256 `c1b185f565dcfb3f93c292b5ccba01348e3d4f245248e986f4d17e5e311be6df`
-- `goals/G37E_v5.2 全仓最小代码与架构终审.md` — sha256 `b2853c5bca43570124d447a37c5ad3291419a24bdf86a18493c61e1a773da566`
-- `goals/G37F_全量回归与最终追溯矩阵.md` — sha256 `9b1e21c97844d1af20dea52c7ba28cba7fceae8054471359aacbfe0cade34c82`
-- `goals/G37G_v5.2 与 RedChamber 最终认证并停止.md` — sha256 `ff20827405769fa5dbd3fd0897b3a99c21f1e2a22d5d91bb75921da37a37f1cc`
-- `milestones/M26_QUALIFICATION.md` — sha256 `f83c578a365c04352b907fdf73640d75f003b148137eabd71f2b06d290bf6190`
-- `milestones/M27_QUALIFICATION.md` — sha256 `f21df83a7263ecdcb5639586873c4d94ab26aee4edc3bd8a70e5b11d82733c8c`
-- `milestones/M28_QUALIFICATION.md` — sha256 `a1d77772559d35e11635b253ceb826bcd453bbd0334362622ed751b09ba79dd3`
-- `milestones/M29_QUALIFICATION.md` — sha256 `37e190faac05f8d18186b0b4680fc8e13eebe5981453f58d920062ea0cf3dcfe`
-- `milestones/M30_QUALIFICATION.md` — sha256 `93e8be8cffe18aac4db2f63635dcb786950f1842a848c3e2d139d5c62e77c10e`
-- `milestones/M31_QUALIFICATION.md` — sha256 `cb8250f7e889d5bc20f31795ca715dfb41fa30ec237777064c195d8ba92b171a`
-- `milestones/M32_QUALIFICATION.md` — sha256 `1e357196769419673475a33784197960a150d0e61732870962a920abebca46de`
-- `milestones/M33_QUALIFICATION.md` — sha256 `ba73d821ca4107c72ab570092add09dcf5d599097de85e0de1d3cd9418a69520`
-- `milestones/M34_QUALIFICATION.md` — sha256 `830ae9e6871d875411588e3117b0602755336483bf82f76f71eabc98588c34bd`
+- `00_PROGRAM_ARCHITECTURE.md` — sha256:10e0f1983e0b32eb
+- `01_KERNEL_FREEZE_POLICY.md` — sha256:2e04c2663aa1d303
+- `02_CODEX_MASTER_PROMPT.md` — sha256:38f9f87aaf855b61
+- `03_FULL_RED_CHAMBER_ACCEPTANCE.md` — sha256:0403aa0e2fdee65d
+- `04_CROSS_DOMAIN_AND_RELEASE_STANDARD.md` — sha256:4fd8228d953947b1
+- `05_GOALS_INDEX.md` — sha256:c1d435dade7b7993
+- `06_MILESTONE_GATES.md` — sha256:e93ca7ce6d9c1bae
+- `07_RESUME_PROTOCOL.md` — sha256:a05a67cdeafe2191
+- `08_FINAL_EVIDENCE_STANDARD.md` — sha256:5bfabef5b1327dbe
+- `CODEX_COPY_PASTE_M35_M42_CN.txt` — sha256:5d22ce4473dcc610
+- `README_FIRST.md` — sha256:fdcc08995127984a
+- `WANXIANG_M35_M42_ALL_IN_ONE_CN.md` — sha256:4861b3a6f12ef29c
+- `docs/spec/WANXIANG_v5_2_MASTER_SPEC.md` — sha256:74b9a36fd6b15a10
+- `goals/G38A_独立复核_M34.md` — sha256:c17aa09f874cd003
+- `goals/G38B_Kernel_v1_ABI_清单.md` — sha256:eafa247b74bbf360
+- `goals/G38C_Kernel_Change_Guard.md` — sha256:a50d50a29715268e
+- `goals/G38D_Full_Red_Chamber_Gap_Audit.md` — sha256:b348191f4a460fc0
+- `goals/G38E_代码最小性清理.md` — sha256:8aa28ed611b58b8e
+- `goals/G38F_大_Corpus_流水线容量基线.md` — sha256:6aeb34b2d7eb821d
+- `goals/G38G_API_DB_Package_性能基线冻结.md` — sha256:ae2809a5f112f2b0
+- `goals/G38H_M35_资格验收.md` — sha256:ff6d98b7eaccfb77
+- `goals/G39A_完整底本_Source_Gate.md` — sha256:f2ba879572c34128
+- `goals/G39B_章节_段落稳定定位器.md` — sha256:43c8439541aff751
+- `goals/G39C_Scene_Boundary_与场景候选.md` — sha256:b9c94be2ba4664ef
+- `goals/G39D_全人物_Identity_Alias_Role_Graph.md` — sha256:2e7a51c81de23f45
+- `goals/G39E_地点_物品_组织_Source_Graph.md` — sha256:1057eb2eab9eba06
+- `goals/G39F_Event_Timeline_Relation_Graph.md` — sha256:1a1d838379e4085c
+- `goals/G39G_Canon_Graph_Edition_Conflict.md` — sha256:998d51628b7e64b0
+- `goals/G39H_M36_Full_Corpus_Qualification.md` — sha256:72aa404160a597ed
+- `goals/G40A_Full_World_Definition.md` — sha256:0eae47733556eb04
+- `goals/G40B_Household_Society_Domain_深化.md` — sha256:37b2321ca7df087d
+- `goals/G40C_Historical_China_Narrative_Domain_深化.md` — sha256:50a50ad83587b84f
+- `goals/G40D_全人物_Character_Package.md` — sha256:7b66a49ab5fe6dc7
+- `goals/G40E_完整_Spatial_World.md` — sha256:9205c97de7cf51b8
+- `goals/G40F_物质_书信_礼物_药物绑定.md` — sha256:9e536d480d462fe7
+- `goals/G40G_Schedule_Body_Social_Life_Completion.md` — sha256:3dba0bfa4cc742ac
+- `goals/G40H_M37_Semantic_World_Qualification.md` — sha256:e97932141d45b039
+- `goals/G41A_多_Scenario_实例化.md` — sha256:8da4e4885d399c73
+- `goals/G41B_Population_Resolution.md` — sha256:f0e6e0d3f9b20b95
+- `goals/G41C_Autonomous_World_Loop.md` — sha256:2205b585dba5560a
+- `goals/G41D_大规模认知_消息传播.md` — sha256:5e2329188e3e8359
+- `goals/G41E_长期_Persona_Capability_Relation_演化.md` — sha256:72c35decff6354c5
+- `goals/G41F_社会_制度演化.md` — sha256:b3850e34f6758751
+- `goals/G41G_30_日_1_年加速长稳.md` — sha256:f0f8ae0e8bf832db
+- `goals/G41H_M38_Living_World_Qualification.md` — sha256:6afd608a8224de6d
+- `goals/G42A_Studio_Source_Corpus_Candidate_Review.md` — sha256:f2810da18a411de7
+- `goals/G42B_Studio_Character_Relation_Canon_Workspace.md` — sha256:3a58b95d8f96a27c
+- `goals/G42C_Studio_Spatial_Schedule_Institution_Workspace.md` — sha256:d3bcc1a3a2135555
+- `goals/G42D_Experience_世界_Scenario_角色入口.md` — sha256:352ccb8d8c058fd5
+- `goals/G42E_Experience_2D_Living_World.md` — sha256:c384cdd2c69c86a6
+- `goals/G42F_Embodiment_Leave_Return_Branch_Compare.md` — sha256:3f62ebc02d3ea9f5
+- `goals/G42G_M39_Product_Qualification.md` — sha256:508e3e5b600b4b9a
+- `goals/G43A_长期_Distillation.md` — sha256:f7b41eccf9797583
+- `goals/G43B_Habit_Norm_Culture_Institution_Candidate.md` — sha256:bbff48c605ef5b80
+- `goals/G43C_Living_Open_长期社会与人物演化.md` — sha256:be91549f43faf24d
+- `goals/G43D_Worldline_Promotion_Candidate.md` — sha256:aaa2473bb5156f52
+- `goals/G43E_Derived_Red_Chamber_World.md` — sha256:6eea53e2dde91ed4
+- `goals/G43F_100_1000_聚合人口_Benchmark.md` — sha256:e08b6aa8d226ffb0
+- `goals/G43G_M40_Long-Horizon_Qualification.md` — sha256:c056f56356cffd39
+- `goals/G44A_Generality_Harness_Kernel_Lock.md` — sha256:4278c92f05230e8e
+- `goals/G44B_Family_World_Qualification.md` — sha256:d7e2f1cd38dad229
+- `goals/G44C_Heritage_World_Qualification.md` — sha256:6d79e394257716d9
+- `goals/G44D_Campaign_World_Qualification.md` — sha256:e4658802e12f34ef
+- `goals/G44E_四领域同_Core_对照.md` — sha256:2d815a5cc1377b19
+- `goals/G44F_第三方黑盒_World_Pack.md` — sha256:d663366b101e955f
+- `goals/G44G_M41_Generality_Qualification.md` — sha256:54f56a11e53bb051
+- `goals/G45A_Public_SDK_Package_API_Freeze.md` — sha256:4ea50f7307cd7c0f
+- `goals/G45B_CLI_Scaffolder_Certification.md` — sha256:3c6efa0ef64be7b5
+- `goals/G45C_Package_Install_Upgrade_Migration.md` — sha256:f94f637716a7d6fe
+- `goals/G45D_Full_Red_Chamber_Release_Bundle.md` — sha256:8e67592d81285656
+- `goals/G45E_生产部署_备份_恢复_观测.md` — sha256:980f6f5ac7420ee6
+- `goals/G45F_Security_Rights_Supply_Chain_Final.md` — sha256:33acf23d2f1d553c
+- `goals/G45G_Release_长稳_容量_文档.md` — sha256:6a4972d62b1d43ce
+- `goals/G45H_v5_2_Production_Final_Certification.md` — sha256:ad66117d0fba367e
+- `milestones/M35_QUALIFICATION.md` — sha256:acafb8d064d68dbf
+- `milestones/M36_QUALIFICATION.md` — sha256:ad1a56c1c16d7fc1
+- `milestones/M37_QUALIFICATION.md` — sha256:e198c51b10231740
+- `milestones/M38_QUALIFICATION.md` — sha256:1da4f037bbe761ac
+- `milestones/M39_QUALIFICATION.md` — sha256:a07ee22412163bab
+- `milestones/M40_QUALIFICATION.md` — sha256:bac746bc7a5eef77
+- `milestones/M41_QUALIFICATION.md` — sha256:f470f926cbe9bff2
+- `milestones/M42_QUALIFICATION.md` — sha256:ed6273b94aa26006

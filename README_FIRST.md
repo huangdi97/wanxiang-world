@@ -1,24 +1,9 @@
-# Wanxiang M2→M9 Remaining Engineering Execution Pack
+# 万相世界 M35–M42 中文全量执行包
+本包接续已经完成的 M0–M34。目标不是继续重写底层，而是冻结 v5.2 Kernel v1，把《红楼梦》最小参考实例扩展为 Full Living Red Chamber，再以 Family / Heritage / Campaign 验证同一 Core 的通用性，最后完成 SDK、Package 生态、生产部署和 v5.2 Release Qualification。
 
-This package continues the previously completed M0/M1 batch.
-
-## What this pack contains
-
-- `05_CODEX_REMAINING_PROGRAM_MASTER_PROMPT.md` — continuous controller from G02A through G12H.
-- `06_REMAINING_GOALS_INDEX.md` — exact order of all 55 remaining Goals.
-- `07_MILESTONE_GATES_M2_M9.md` — summary of M2–M9 system qualification.
-- `08_CONTINUOUS_EXECUTION_AND_RESUME_PROTOCOL.md` — recovery from context compaction/restart.
-- `09_RELEASE_AND_QUALITY_CONSTITUTION_ADDENDUM.md` — maintainability/upgrade/security rules for later phases.
-- `goals/` — 55 detailed executable Goal contracts.
-- `milestones/` — 8 integrated milestone qualification contracts.
-- `CODEX_COPY_PASTE_CONTINUE.txt` — the shortest startup message to give Codex.
-- `WANXIANG_REMAINING_M2_M9_ALL_IN_ONE.md` — merged reference copy.
-- `baseline_reference/` — copies of the earlier program standards and v5 master spec for reference; do not overwrite newer repository copies blindly.
-
-## How to use
-
-Copy/merge the new controller/index/protocol/Goal/milestone documents into the existing Wanxiang repository that already passed M1. Preserve the repository's existing ledgers, Git history and implementation.
-
-Then start a new Codex Desktop conversation and paste the contents of `CODEX_COPY_PASTE_CONTINUE.txt`.
-
-Codex must verify the actual M1 repository state first, then execute continuously through M9 with local checkpoints. It must not push/deploy without a separate instruction.
+使用：
+1. 合并到当前万相仓库根目录，不删除现有源码、Git、迁移、tests、reports。
+2. 以 `docs/spec/WANXIANG_v5_2_MASTER_SPEC.md` 为设计 Source of Truth。
+3. 新开 Codex 对话，复制 `CODEX_COPY_PASTE_M35_M42_CN.txt`。
+4. 从 G38A 连续执行到 G45H；每个 Goal PASS 后本地 commit，每个 Milestone PASS 后自动继续。
+5. 禁止自动 push / force-push / 生产部署 / 擅自进入 v5.3。

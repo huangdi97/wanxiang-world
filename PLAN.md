@@ -175,3 +175,31 @@ v5.2 certification reports and local checkpoint. No push/deploy.
 | 23 | M33 Gate | ????????? | pending |
 | 24 | G37A..G37G | ???? / ???? / Promotion / ???? (M34) | pending |
 | 25 | M34 Gate | ????? + Lineage/Promotion + v5.2 ???? | pending |
+
+
+## M35-M42 (v5.2 production) continuation (2026-08-15)
+
+Continuous execution per `02_CODEX_MASTER_PROMPT.md`: G38A -> G45H, milestone
+gates M35 -> M42. **Prerequisite: complete v5.2 M30-M34 first** (G33B-G37G +
+M30-M34 gates) because G38A verified M34 is not complete.
+
+| # | Goal | Scope | Status |
+|---|---|---|---|
+| 0 | v5.2 M30-M34 | G33B-G37G + M30-M34 gates (remediation for G38A finding) | pending |
+| 1 | G38A | ???? M34 | AUDIT DONE ? M34 NOT PASS (remediation above) |
+| 2 | G38B-G38H | Kernel v1 ABI / Guard / Gap Audit / Minimality / Baselines (M35) | pending |
+| 3 | M35 Gate | Post-M34 Audit & Kernel Freeze | pending |
+| 4 | G39A-G39H | Full Corpus & Canon Graph (M36) | pending |
+| 5 | M36 Gate | Full Corpus & Canon Graph | pending |
+| 6 | G40A-G40H | Full Semantic World (M37) | pending |
+| 7 | M37 Gate | Full Semantic World | pending |
+| 8 | G41A-G41H | Full Living Runtime (M38) | pending |
+| 9 | M38 Gate | Full Living Runtime | pending |
+| 10 | G42A-G42G | Studio & Experience (M39) | pending |
+| 11 | M39 Gate | Studio & Experience | pending |
+| 12 | G43A-G43G | Long-Horizon & Derived Worlds (M40) | pending |
+| 13 | M40 Gate | Long-Horizon & Derived Worlds | pending |
+| 14 | G44A-G44G | Cross-Domain Generality (M41) | pending |
+| 15 | M41 Gate | Cross-Domain Generality | pending |
+| 16 | G45A-G45H | SDK/Package/Production/Final Certification (M42) | pending |
+| 17 | M42 Gate | v5.2 Production Release | pending |

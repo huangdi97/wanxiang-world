@@ -1,0 +1,13 @@
+继续当前万相世界仓库，不新建项目、不从零重写、不重新设计 Reality Root。
+
+先完整阅读本包所有根目录文档、全部 `goals/`、全部 `milestones/`、`docs/spec/WANXIANG_v5_2_MASTER_SPEC.md`，以及当前仓库 AGENTS/PLAN/STATUS/DECISIONS/BLOCKERS/KNOWN_FAILURES/CHANGELOG、M34 reports、Git、源码、tests、migrations。
+
+然后严格执行 `02_CODEX_MASTER_PROMPT.md`：
+从 G38A 连续执行到 G45H。
+每个 Goal PASS 后本地 commit 并自动继续；每个 Milestone Gate PASS 后自动继续，不询问是否继续。
+
+M35 PASS 后冻结 Kernel v1。Full Red Chamber / Family / Heritage / Campaign 的需求优先通过 Domain Pack / World Pack / Scenario / Evolution Policy / Provider / Experience 表达。禁止红楼梦专名进入 Kernel，禁止第二套 Commit/Event/Branch/Worldline/Registry/Engine。
+
+完整《红楼梦》必须过 Source Gate；不得凭模型记忆制造 Canon。Population Resolution 优先，禁止所有 NPC 持续调用大模型。内部 bug/test/type/migration/performance 问题自己修复。只有真实外部授权/资料/硬件/凭证可 EXTERNAL_BLOCKED。
+
+只有 M42 全部最终验收满足时才生成最终认证、本地 checkpoint/tag 并停止。不自动 push，不生产部署，不开始 v5.3。
