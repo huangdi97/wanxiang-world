@@ -443,3 +443,13 @@ registry/engine/store.
 New abstractions: ChaosCheck, ChaosReport (frozen records) + chaos check
 functions. Justification: M34 chaos core; reuses runtime snapshot/state
 round-trip + CommitAuthority + G36F embodiment; no new registry/engine/store.
+## G37E entry
+No new production abstraction (verification + audit only). Minimality metrics
+captured in v52_minimality_budget.json; per-abstraction justifications recorded
+throughout G29A..G37D; no safely-removable compatibility shim identified.
+
+## G37F entry
+No new production abstraction (regression + traceability evidence only).
+
+## G37G entry
+No new production abstraction (final certification + tag only).

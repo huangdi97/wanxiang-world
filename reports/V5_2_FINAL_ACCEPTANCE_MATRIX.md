@@ -123,10 +123,10 @@
 | G37B Canon 用户 无干预三世界线比较 | PASS (2026-08-15, commit g37b) |
 | G37C 红楼梦长时演化与 Promotion Candidate | PASS (2026-08-15, commit g37c) |
 | G37D 红楼梦 Replay Crash Recovery Chaos | PASS (2026-08-15, commit g37d) |
-| G37E v5.2 ??????????? | pending |
-| G37F ??????????? | pending |
-| G37G v5.2 ? RedChamber ??????? | pending |
-| **M34 Milestone Gate** | pending |
+| G37E v5.2 全仓最小代码与架构终审 | PASS (2026-08-15, commit g37e) |
+| G37F 全量回归与最终追溯矩阵 | PASS (2026-08-15, commit g37f) |
+| G37G v5.2 与 RedChamber 最终认证并停止 | PASS (2026-08-15, commit g37g; V5_2_PLATFORM_PASS) |
+| **M34 Milestone Gate** | **PASS (2026-08-15, reports/M34_QUALIFICATION.md; V5_2_PLATFORM_PASS; real corpus EXTERNAL_BLOCKED)** |
 
 ## Final certification evidence (10_V5_2????????.md)
 
@@ -141,6 +141,6 @@
 | reports/V5_2_EVOLUTION_POLICY_VALIDATION.md | pending |
 | reports/RED_CHAMBER_SOURCE_GATE.md | pending (G35A) |
 | reports/RED_CHAMBER_WORLD_PACK_ACCEPTANCE.md | pending |
-| reports/RED_CHAMBER_7_DAY_ACCEPTANCE.md | pending |
+| reports/RED_CHAMBER_7_DAY_ACCEPTANCE.md | created (G37A; mechanism; real EXTERNAL_BLOCKED) |
 | reports/V5_2_FINAL_ACCEPTANCE_MATRIX.md | this file |
-| reports/V5_2_FINAL_CERTIFICATION.md | pending (G37G) |
+| reports/V5_2_FINAL_CERTIFICATION.md | created (G37G) |

@@ -1311,3 +1311,11 @@
 
 - Replay/crash-recovery/chaos checks (snapshot/restart, corruption, duplicate/stale, reconnect, provider isolation).
 - Checkpoint: `g37d: 红楼梦 Replay Crash Recovery Chaos`.
+
+## 2026-08-15 ? G37E-G PASS + M34 GATE PASS (V5_2_PLATFORM_PASS)
+
+- Final minimality/architecture audit; full regression 930 passed + 1 skipped;
+  SDK baseline routes=17 ts=5 py=1093.
+- Final certification: V5_2_PLATFORM_PASS (RED_CHAMBER_REAL EXTERNAL_BLOCKED until a
+  legal, traceable edition is available); local tag v5.2-platform-pass; no push/deploy.
+- Checkpoints: `g37e`, `g37f`, `g37g`, M34 gate, tag `v5.2-platform-pass`.

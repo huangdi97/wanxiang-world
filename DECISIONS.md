@@ -139,3 +139,4 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0127 | G37B: three worldlines from shared parent (replay/soft/open) with deterministic divergence; comparison over state/items/beliefs/relations; parent hash never mutated by children | accepted |
 | 0128 | G37C: long-horizon promotion = accelerate + distill_stable + G33A ladder validation; Derived World Definition only when policy gate reached; lineage edge recorded; parent never mutated | accepted |
 | 0129 | G37D: chaos checks = snapshot/restart, corrupt-stream detection, duplicate/stale rejection, client reconnect, provider-failure isolation; aggregate ChaosReport; no write path beyond authority | accepted |
+| 0130 | G37E/F/G + M34: minimality/architecture final audit PASS; full regression 930+1 PASS; final certification = V5_2_PLATFORM_PASS (RED_CHAMBER_REAL EXTERNAL_BLOCKED); local tag v5.2-platform-pass; no push/deploy; v5.3 not started | accepted |
