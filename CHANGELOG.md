@@ -1198,3 +1198,12 @@
 - SDK baseline: routes=17 ts=5 py=979 (additive). 8 new unit tests PASS; architecture PASS;
   ruff/pyright clean. Real《红楼梦》text remains EXTERNAL_BLOCKED (G35A).
 - Checkpoint: `g35d: 空间组织物品 Distillation`.
+
+## 2026-08-15 ? G35E PASS (M32)
+
+- Past/Character/Future canon compilation: `CanonCompiler` + `CompiledCanon`;
+  FutureCanon is control-plane-only (runtime_view never contains future claims);
+  per-character canon via character_canon(key).
+- SDK baseline: routes=17 ts=5 py=986 (additive). 6 new unit tests PASS; architecture PASS;
+  ruff/pyright clean. Real《红楼梦》text remains EXTERNAL_BLOCKED (G35A).
+- Checkpoint: `g35e: Past Character Future Canon 编译`.

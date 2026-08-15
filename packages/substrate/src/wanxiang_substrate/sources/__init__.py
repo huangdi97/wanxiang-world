@@ -1,5 +1,12 @@
 """Source registry & source gate substrate (G04B)."""
 
+from wanxiang_substrate.sources.canon import (
+    CanonClaim,
+    CanonCompiler,
+    CompiledCanon,
+    ScenarioPoint,
+    scenario_at,
+)
 from wanxiang_substrate.sources.entity_distill import (
     DistilledEntities,
     EntityCandidate,
@@ -53,6 +60,11 @@ from wanxiang_substrate.sources.registry import AuditEntry, SourceRegistry
 
 __all__ = [
     "AuditEntry",
+    "CanonClaim",
+    "CanonCompiler",
+    "CompiledCanon",
+    "ScenarioPoint",
+    "scenario_at",
     "AUTHORIZED_REVIEWERS",
     "DistilledEntities",
     "EntityCandidate",

@@ -347,3 +347,8 @@ EntityReviewDecision, DistilledEntities (frozen records) + EntityDistiller
 topology distillation core; reuses G35B locators + G35C review semantics via
 the shared evidence_ok (IdentityReviewGate ADAPTED, behavior unchanged; no
 second evidence rule set); completion_notes never evidence; no registry/engine.
+## G35E entry
+New abstractions: ScenarioPoint, CanonClaim, CompiledCanon (frozen records) +
+CanonCompiler (pure) + scenario_at (function). Justification: M32 canon
+compilation core; reuses G35B locators; runtime/control-plane view split keeps
+FutureCanon from leaking to the world; no registry/engine/store.
