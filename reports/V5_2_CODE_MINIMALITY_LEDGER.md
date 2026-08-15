@@ -303,3 +303,7 @@ Justification: M31 WorldPack schema migration core; legacy hashes preserved.
 No new abstraction class (3 ORM columns + migration only). Justification: M31
 persistence compatibility core; metadata columns nullable -> no data migration
 of existing rows.
+
+
+## G34D entry
+No new abstraction (verification tests only).

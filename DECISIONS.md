@@ -113,3 +113,4 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0101 | G34A: final Kernel/Runtime/Forge/Experiences responsibility boundaries documented + conformance test (Kernel import isolation, no new God Engine) | accepted |
 | 0102 | G34B: WorldPack schema v5.2 migration — optional constitution/genesis/evolution/lineage refs; canonical includes refs only when set (legacy hashes preserved); migrate_to_v52 + wxpack migrate | accepted |
 | 0103 | G34C: migration 0004 persists world definition/constitution/evolution metadata + lineage kind index; downgrade-safe; backup/restore path verified (event count/hash unchanged) | accepted |
+| 0104 | G34D: old Event/Snapshot/Branch backward replay proven against M26 golden samples (hashes match, no data-clearing); new v5.2 fields default via legacy adapter | accepted |

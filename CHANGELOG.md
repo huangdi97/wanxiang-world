@@ -1133,3 +1133,10 @@
 - Migration 0004_add_world_metadata: world_instances definition/constitution/evolution refs + lineage kind index; downgrade restores old schema.
 - 3 tests (old-DB upgrade keeps count/hash, downgrade, backup/restore path); 11 migration tests green.
 - Checkpoint: `g34c: 数据库与 Ledger 兼容迁移`.
+
+
+## 2026-08-15 - V5.2 G34D PASS (M31 phase, remediation)
+
+- Backward-replay verification against M26 golden fixtures: old snapshot restore, old events replay, old branch fork under v5.2 (parent unchanged); new fields via legacy defaults; semantic hashes match baseline; no data-clearing.
+- 4 tests.
+- Checkpoint: `g34d: 旧 Event Snapshot Branch 向后回放`.
