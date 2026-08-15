@@ -18,7 +18,7 @@
 | packages/substrate/src/wanxiang_substrate/skills/registry.py | SkillRegistry | 13 |
 | packages/substrate/src/wanxiang_substrate/sources/registry.py | SourceRegistry | 31 |
 
-## state_classes (20)
+## state_classes (22)
 
 | path | name | line |
 |---|---|---|
@@ -37,8 +37,10 @@
 | packages/substrate/src/wanxiang_substrate/material/errors.py | InvalidMaterialState | 26 |
 | packages/substrate/src/wanxiang_substrate/projection/errors.py | UnauthorizedProjection | 14 |
 | packages/substrate/src/wanxiang_substrate/projection/model.py | ProjectionSnapshot | 42 |
+| packages/substrate/src/wanxiang_substrate/rc001/instantiate.py | InitialSnapshot | 59 |
 | packages/substrate/src/wanxiang_substrate/recovery/errors.py | CorruptSnapshot | 18 |
 | packages/substrate/src/wanxiang_substrate/recovery/errors.py | NoSnapshot | 22 |
+| packages/substrate/src/wanxiang_substrate/session/embodiment.py | EmbodimentState | 26 |
 | packages/substrate/src/wanxiang_substrate/session/model.py | HandoffState | 54 |
 | packages/substrate/src/wanxiang_substrate/spatial/errors.py | InvalidSpatialState | 34 |
 | packages/substrate/src/wanxiang_substrate/spatial/model.py | SpatialSnapshot | 91 |
