@@ -17,6 +17,14 @@ from wanxiang_substrate.epistemic.model import (
     MemoryKind,
     MemoryRecord,
 )
+from wanxiang_substrate.epistemic.propagation import (
+    PerceptionEnvelope,
+    PropagatedMessage,
+    perceive,
+    propagatable_claims,
+    propagate_message,
+    rumour_distortion,
+)
 from wanxiang_substrate.epistemic.query import EpistemicQuery
 from wanxiang_substrate.epistemic.resolver import register_epistemic_resolvers
 
@@ -32,6 +40,12 @@ __all__ = [
     "MemoryAccessDenied",
     "MemoryKind",
     "MemoryRecord",
+    "PerceptionEnvelope",
+    "PropagatedMessage",
+    "perceive",
+    "propagatable_claims",
+    "propagate_message",
+    "rumour_distortion",
     "build_rumor_fixture_commands",
     "register_epistemic_resolvers",
 ]

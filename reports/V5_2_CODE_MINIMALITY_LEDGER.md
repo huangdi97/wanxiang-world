@@ -401,3 +401,8 @@ resolvers; no new registry/engine/store.
 New abstractions: ACTION_READ_AND_REMEMBER + resolve_read_and_remember (function).
 Justification: M33 read->memory continuity core; reuses material resolve_read +
 epistemic memory components; no new registry/engine/store.
+## G36E entry
+New abstractions: PerceptionEnvelope, PropagatedMessage (frozen records) +
+perceive / propagate_message / rumour_distortion / propagatable_claims
+(functions). Justification: M33 perception/propagation core; reuses G03B memory
+model + G35E runtime view; no new registry/engine/store.

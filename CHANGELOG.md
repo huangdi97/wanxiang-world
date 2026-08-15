@@ -1264,3 +1264,8 @@
 - Material/information continuity: read-and-remember (read forms observation memory),
   hide/gift/medicine continuity verified; synthetic objects (real canon EXTERNAL_BLOCKED).
 - Checkpoint: `g36d: 信件诗稿礼物药物的物质与信息连续性`.
+
+## 2026-08-15 ? G36E PASS (M33)
+
+- Perception/belief/memory + message propagation (rumour/misunderstanding; future canon isolation).
+- Checkpoint: `g36e: Perception Belief Memory 与消息传播`.

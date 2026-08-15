@@ -109,7 +109,7 @@
 | G36B 红楼梦空间可见可听私密运行 | PASS (2026-08-15, commit g36b) |
 | G36C 人物职责 NPC 日程身体与社会制度 | PASS (2026-08-15, commit g36c) |
 | G36D 信件诗稿礼物药物的物质与信息连续性 | PASS (2026-08-15, commit g36d) |
-| G36E Perception Belief Memory ????? | pending |
+| G36E Perception Belief Memory 与消息传播 | PASS (2026-08-15, commit g36e) |
 | G36F ??? Embodiment ShadowPolicy Handoff | pending |
 | G36G Canonical Replay Soft Canon Living Open ??? | pending |
 | G36H ??? Experience Studio ????? | pending |
