@@ -1353,3 +1353,8 @@
 
 - Full living-runtime mechanism qualified: 963 passed + 1 skipped; SDK baseline py=1140.
   Real corpus EXTERNAL_BLOCKED. Tag `m38-living-world`.
+
+## 2026-08-15 ? M39 GATE PASS
+
+- Studio/Experience mechanism qualified: 968 passed + 1 skipped; SDK baseline py=1152.
+  Real corpus EXTERNAL_BLOCKED. Tag `m39-product`.

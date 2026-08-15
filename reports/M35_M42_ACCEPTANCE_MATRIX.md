@@ -68,14 +68,14 @@ The M35 Kernel v1 freeze can only be certified after v5.2 M30?M34 are completed.
 
 | Goal | Status |
 |---|---|
-| G42A Studio Source/Corpus/Candidate Review | pending |
-| G42B Studio Character/Relation/Canon Workspace | pending |
-| G42C Studio Spatial/Schedule/Institution Workspace | pending |
-| G42D Experience ??/Scenario/???? | pending |
-| G42E Experience 2D Living World | pending |
-| G42F Embodiment Leave/Return + Branch Compare | pending |
-| G42G M39 Product Qualification | pending |
-| **M39 Milestone Gate** | pending |
+| G42A Studio Source/Corpus/Candidate Review | PASS |
+| G42B Studio Character/Relation/Canon Workspace | PASS |
+| G42C Studio Spatial/Schedule/Institution Workspace | PASS |
+| G42D Experience 世界/Scenario/角色入口 | PASS |
+| G42E Experience 2D Living World | PASS |
+| G42F Embodiment Leave/Return + Branch Compare | PASS |
+| G42G M39 Product Qualification | PASS (reports/M39_QUALIFICATION.md) |
+| **M39 Milestone Gate** | **PASS (2026-08-15, reports/M39_QUALIFICATION.md; real corpus EXTERNAL_BLOCKED)** |
 
 ## M40 ? Long-Horizon & Derived Worlds
 
