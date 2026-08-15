@@ -1269,3 +1269,9 @@
 
 - Perception/belief/memory + message propagation (rumour/misunderstanding; future canon isolation).
 - Checkpoint: `g36e: Perception Belief Memory 与消息传播`.
+
+## 2026-08-15 ? G36F PASS (M33)
+
+- Embodiment + ShadowPolicy handoff: intent/co-drive/full-control modes, handoff events,
+  shadow never decides major (mechanism; no fabricated canon).
+- Checkpoint: `g36f: 林霹玉 Embodiment ShadowPolicy Handoff`.

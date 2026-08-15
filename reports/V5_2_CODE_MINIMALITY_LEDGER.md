@@ -406,3 +406,8 @@ New abstractions: PerceptionEnvelope, PropagatedMessage (frozen records) +
 perceive / propagate_message / rumour_distortion / propagatable_claims
 (functions). Justification: M33 perception/propagation core; reuses G03B memory
 model + G35E runtime view; no new registry/engine/store.
+## G36F entry
+New abstractions: EmbodimentState, ControlHandoffEvent (frozen records) +
+EmbodimentController (thin) + major_decision (function). Justification: M33
+embodiment/handoff core; composes G05B LeaseService + G05C ShadowPolicy; no new
+registry/engine/store.

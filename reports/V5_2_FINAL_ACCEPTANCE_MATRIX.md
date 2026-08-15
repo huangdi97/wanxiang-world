@@ -110,7 +110,7 @@
 | G36C 人物职责 NPC 日程身体与社会制度 | PASS (2026-08-15, commit g36c) |
 | G36D 信件诗稿礼物药物的物质与信息连续性 | PASS (2026-08-15, commit g36d) |
 | G36E Perception Belief Memory 与消息传播 | PASS (2026-08-15, commit g36e) |
-| G36F ??? Embodiment ShadowPolicy Handoff | pending |
+| G36F 林黛玉 Embodiment ShadowPolicy Handoff | PASS (2026-08-15, commit g36f) |
 | G36G Canonical Replay Soft Canon Living Open ??? | pending |
 | G36H ??? Experience Studio ????? | pending |
 | **M33 Milestone Gate** | pending |
