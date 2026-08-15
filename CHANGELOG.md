@@ -1140,3 +1140,10 @@
 - Backward-replay verification against M26 golden fixtures: old snapshot restore, old events replay, old branch fork under v5.2 (parent unchanged); new fields via legacy defaults; semantic hashes match baseline; no data-clearing.
 - 4 tests.
 - Checkpoint: `g34d: 旧 Event Snapshot Branch 向后回放`.
+
+
+## 2026-08-15 - V5.2 G34E PASS (M31 phase, remediation)
+
+- Added constitution API endpoint + TS SDK client; regenerated OpenAPI (17 routes); old world/branch endpoints preserved (no breaking removal); old-client smoke test.
+- 3 tests.
+- Checkpoint: `g34e: API SDK Client 兼容`.

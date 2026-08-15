@@ -21,6 +21,7 @@ export function makeWorldRef(instanceId: string, branchId: string): WorldRef {
   return { instanceId, branchId };
 }
 
+export * from "./constitution.js";
 export * from "./projection.js";
 export * from "./studio.js";
 export * from "./phaser.js";

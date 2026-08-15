@@ -1,5 +1,6 @@
 {
   "api_routes": [
+    "GET /constitutions/{constitution_id}",
     "GET /healthz",
     "GET /lineage/compare",
     "GET /lineage/nodes/{node_id}/ancestors",

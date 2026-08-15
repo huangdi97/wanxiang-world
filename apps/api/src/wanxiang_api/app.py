@@ -18,6 +18,7 @@ from wanxiang_persistence.snapshot_store import SqlAlchemySnapshotStore
 from wanxiang_runtime.resolver import ResolverRegistry
 from wanxiang_substrate.lineage import LineageGraph
 
+from wanxiang_api.constitution_routes import router as constitution_router
 from wanxiang_api.errors import install_error_handler
 from wanxiang_api.limits import PayloadTooLarge
 from wanxiang_api.lineage_routes import router as lineage_router
@@ -80,4 +81,5 @@ def create_app(
     app.include_router(router)
     app.include_router(lineage_router)
     app.include_router(promotion_router)
+    app.include_router(constitution_router)
     return app

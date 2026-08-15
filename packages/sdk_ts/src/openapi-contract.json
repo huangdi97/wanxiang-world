@@ -5,6 +5,11 @@
     "version": "0.1.0"
   },
   "paths": {
+    "/constitutions/{constitution_id}": {
+      "get": {
+        "operationId": "get_constitution_constitutions__constitution_id__get"
+      }
+    },
     "/healthz": {
       "get": {
         "operationId": "healthz_healthz_get"

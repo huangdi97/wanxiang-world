@@ -307,3 +307,9 @@ of existing rows.
 
 ## G34D entry
 No new abstraction (verification tests only).
+
+
+## G34E entry
+New abstractions: constitution_routes router (1 GET endpoint) + TS SDK
+constitution client (types + helpers). Justification: M31 API/SDK
+compatibility; thin read-only surface; old endpoints untouched.
