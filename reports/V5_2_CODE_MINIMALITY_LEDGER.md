@@ -388,3 +388,7 @@ New abstractions: RC001Profile, InitialSnapshot, RC001Instance (frozen records)
 (functions). Justification: M33 RC-001 instantiation core; reuses G35I assembler,
 G31A InstanceIdentity, CommitAuthority, snapshot hashing, LineageGraph; no new
 registry/engine; single commit path.
+## G36B entry
+New abstractions: MovementProfile (frozen record) + travel_time (function).
+Justification: M33 spatial movement-time core; reuses G02A spatial graph/query;
+no new registry/engine/store.

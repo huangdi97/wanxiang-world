@@ -1247,3 +1247,9 @@
 - RC-001 instantiation: genesis through single Commit Authority, immutable initial snapshot,
   lineage root; synthetic anonymized content (real canon EXTERNAL_BLOCKED).
 - Checkpoint: `g36a: 实例化 RC-001 与固定世界快照`.
+
+## 2026-08-15 ? G36B PASS (M33)
+
+- RC-001 spatial run: visibility/acoustic/privacy/access + MovementProfile travel time;
+  synthetic anonymized map (real canon EXTERNAL_BLOCKED).
+- Checkpoint: `g36b: 红楼梦空间可见可听私密运行`.

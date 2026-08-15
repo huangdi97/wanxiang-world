@@ -21,11 +21,13 @@ from wanxiang_substrate.spatial.model import (
     PrivacyLevel,
     SpatialSnapshot,
 )
+from wanxiang_substrate.spatial.movement import MovementProfile, travel_time
 from wanxiang_substrate.spatial.query import SpatialQuery
 from wanxiang_substrate.spatial.resolver import register_spatial_resolvers
 
 __all__ = [
     "LocationNotReachable",
+    "MovementProfile",
     "PLACE_COMPONENT",
     "PORTAL_COMPONENT",
     "POSITION_COMPONENT",
@@ -42,4 +44,5 @@ __all__ = [
     "SpatialSnapshot",
     "build_house_fixture_commands",
     "register_spatial_resolvers",
+    "travel_time",
 ]
