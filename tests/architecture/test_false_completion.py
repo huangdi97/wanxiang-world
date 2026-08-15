@@ -104,8 +104,10 @@ def test_e2e_smoke_server_truth_not_canned(persist_db_path: pathlib.Path) -> Non
     from fastapi.testclient import TestClient
     from tests.conftest import upgrade_db
     from wanxiang_api.app import build_runtime, create_app
+    from wanxiang_api.routes import reset_action_rate_limiter
 
     upgrade_db(persist_db_path)
+    reset_action_rate_limiter()  # isolate this test from shared rate-limit state
     runtime = build_runtime(f"sqlite:///{persist_db_path.as_posix()}")
     app = create_app(runtime)
     client: Any = TestClient(app)

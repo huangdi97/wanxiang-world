@@ -1153,3 +1153,11 @@
 
 - Extended benchmarks.py with lineage query; added 4 performance/complexity regression tests (commit/replay/tick/lineage bounds + determinism). replay 1200 ev ~35ms, lineage 400-node ~23ms.
 - Checkpoint: `g34f: 性能与复杂度回归`.
+
+
+## 2026-08-15 - V5.2 G34G PASS + M31 GATE PASS
+
+- Full M31 gate: 819 passed + 1 EXTERNAL_BLOCKED skip; ruff/format/pyright/architecture PASS.
+- Fixed migration-head constants (0004) and isolated the shared action rate-limiter for API smoke tests (public reset helper).
+- Generated V5_2_BACKWARD_COMPATIBILITY.md + M31_QUALIFICATION.md.
+- M31 = PASS. Commit: `g34g: M31 全平台兼容资格验收`.

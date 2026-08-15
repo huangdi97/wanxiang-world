@@ -38,6 +38,11 @@ from wanxiang_api.schemas import (  # noqa: E402
 router = APIRouter()
 
 
+def reset_action_rate_limiter() -> None:
+    """Clear the shared action rate-limiter (test isolation)."""
+    _ACTION_LIMITER.reset()
+
+
 def _runtime(request: Request) -> WorldRuntime:
     return request.app.state.runtime
 

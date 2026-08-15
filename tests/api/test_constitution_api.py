@@ -59,8 +59,10 @@ def test_old_client_smoke_world_actions_still_work(persist_db_path: pathlib.Path
 
     from tests.conftest import upgrade_db
     from wanxiang_api.app import build_runtime
+    from wanxiang_api.routes import reset_action_rate_limiter
 
     upgrade_db(persist_db_path)
+    reset_action_rate_limiter()  # isolate this test from shared rate-limit state
     app = create_app(build_runtime(f"sqlite:///{persist_db_path.as_posix()}"))
     client: Any = TestClient(app)
     with client:

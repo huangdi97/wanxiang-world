@@ -22,7 +22,7 @@ def test_release_manifest_reproducible_and_matches_head() -> None:
     result = release_manifest()
     assert result["ok"] is True
     assert result["version"] == "0.1.0"
-    assert result["migration_head"] == "0003_add_lineage"
+    assert result["migration_head"] == "0004_add_world_metadata"
     assert result["reproducible"] is True
     assert result["git_matches_head"] is True
 
@@ -31,7 +31,7 @@ def test_previous_revision_upgrade_to_head() -> None:
     result = migration_upgrade()
     assert result["ok"] is True
     assert result["previous_revision"] == "0001_initial"
-    assert result["head_revision"] == "0003_add_lineage"
+    assert result["head_revision"] == "0004_add_world_metadata"
 
 
 def test_golden_history_replay_hash_matches() -> None:

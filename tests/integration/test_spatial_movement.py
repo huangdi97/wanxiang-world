@@ -183,7 +183,7 @@ def test_pre_g02_db_upgrades_cleanly_and_m1_fixture_still_replays() -> None:
         engine = create_engine_for(f"sqlite:///{path.as_posix()}")
         with engine.connect() as conn:
             version = conn.execute(text("SELECT version_num FROM alembic_version")).scalar()
-        assert version == "0003_add_lineage"
+        assert version == "0004_add_world_metadata"
         engine.dispose()
 
         # M1 golden fixture + spatial events on the same DB.

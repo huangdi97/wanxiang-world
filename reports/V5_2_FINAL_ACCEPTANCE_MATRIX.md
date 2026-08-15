@@ -84,7 +84,7 @@
 | G34E API SDK Client ?? | pending |
 | G34F ???????? | pending |
 | G34G M31 ????????? | pending |
-| **M31 Milestone Gate** | pending |
+| **M31 Milestone Gate** | **PASS (2026-08-15, reports/M31_QUALIFICATION.md)** |
 
 ## M32 ? ??? Source Gate ???
 

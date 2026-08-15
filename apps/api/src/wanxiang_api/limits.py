@@ -48,6 +48,10 @@ class RateLimiter:
         if not self.allow(key):
             raise RateLimited(retry_after_seconds=int(self.window_seconds))
 
+    def reset(self) -> None:
+        """Clear the fixed-window buckets (test isolation; production state reset)."""
+        self._buckets.clear()
+
 
 def check_payload_size(payload: object) -> None:
     size = len(repr(payload).encode("utf-8"))

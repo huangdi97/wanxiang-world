@@ -318,3 +318,8 @@ compatibility; thin read-only surface; old endpoints untouched.
 ## G34F entry
 No new production abstraction (benchmark extension + tests only). Performance
 bounds recorded; no critical-path degradation.
+
+
+## G34G/M31 entry
+No new production abstraction (verification + rate-limiter reset helper).
+M31 abstraction delta recorded in the budget.
