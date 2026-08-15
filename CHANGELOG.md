@@ -1241,3 +1241,9 @@
 - M32 gate: full quality 878 passed + 1 skipped (PostgreSQL EXTERNAL_BLOCKED); architecture PASS;
   routes=17 ts=5 py=1028. MECHANISM PASS - real《红楼梦》corpus remains EXTERNAL_BLOCKED (G35A).
 - Checkpoints: `g35i: 编译 RedChamber World Definition 与 Scenario`; M32 gate qualified.
+
+## 2026-08-15 ? G36A PASS (M33)
+
+- RC-001 instantiation: genesis through single Commit Authority, immutable initial snapshot,
+  lineage root; synthetic anonymized content (real canon EXTERNAL_BLOCKED).
+- Checkpoint: `g36a: 实例化 RC-001 与固定世界快照`.

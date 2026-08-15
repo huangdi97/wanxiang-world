@@ -382,3 +382,9 @@ Red Chamber hardcode.
 
 ## M32 entry
 No new production abstraction (qualification gate + reports only).
+## G36A entry
+New abstractions: RC001Profile, InitialSnapshot, RC001Instance (frozen records)
++ instantiate_rc001 / record_lineage_root / resolve_rc001_profile / genesis_delta
+(functions). Justification: M33 RC-001 instantiation core; reuses G35I assembler,
+G31A InstanceIdentity, CommitAuthority, snapshot hashing, LineageGraph; no new
+registry/engine; single commit path.

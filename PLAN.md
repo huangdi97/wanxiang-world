@@ -177,7 +177,7 @@ v5.2 certification reports and local checkpoint. No push/deploy.
 | 19 | M31 Gate | 全平台兼容资格验收 | PASS (2026-08-15, reports/M31_QUALIFICATION.md) |
 | 20 | G35A..G35I | 红楼梦 Source Gate 与蒸馏 (M32) | PASS (2026-08-15, commits g35a..g35i; real text EXTERNAL_BLOCKED) |
 | 21 | M32 Gate | 红楼梦 Source Gate 与蒸馏机制 | PASS (2026-08-15, reports/M32_QUALIFICATION.md) |
-| 22 | G36A..G36H | ????????? (M33) | pending |
+| 22 | G36A..G36H | 红楼梦实例化/生活 (M33) | in progress (G36A PASS) |
 | 23 | M33 Gate | ????????? | pending |
 | 24 | G37A..G37G | ???? / ???? / Promotion / ???? (M34) | pending |
 | 25 | M34 Gate | ????? + Lineage/Promotion + v5.2 ???? | pending |
