@@ -1301,3 +1301,8 @@
 
 - Three-worldline generation + comparison (parent hash verified; children never mutate parent).
 - Checkpoint: `g37b: Canon 用户 无干预三世界线比较`.
+
+## 2026-08-15 ? G37C PASS (M34)
+
+- Long-horizon evolution + promotion candidate (gate-gated derived world).
+- Checkpoint: `g37c: 红楼梦长时演化与 Promotion Candidate`.

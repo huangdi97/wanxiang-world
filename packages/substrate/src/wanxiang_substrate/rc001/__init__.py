@@ -18,6 +18,12 @@ from wanxiang_substrate.rc001.npc import (
     resolve_population,
     resolve_population_result,
 )
+from wanxiang_substrate.rc001.promotion import (
+    LongHorizonPromotion,
+    accelerate,
+    distill_stable,
+    promote_long_horizon,
+)
 from wanxiang_substrate.rc001.seven_day import (
     DAY_TICKS,
     DayEvent,
@@ -43,6 +49,10 @@ from wanxiang_substrate.rc001.worldlines import (
 
 __all__ = [
     "Activity",
+    "LongHorizonPromotion",
+    "accelerate",
+    "distill_stable",
+    "promote_long_horizon",
     "WorldlineComparison",
     "WorldlineRun",
     "compare_worldlines",
