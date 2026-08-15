@@ -339,3 +339,11 @@ records) + IdentityDistiller (pure) + IdentityReviewGate (thin) + identity_to_cl
 (function). Justification: M32 identity/alias distillation core; reuses G35B
 SourceLocator + G04B ClaimCandidate/EvidenceLink/SourceGate (no second claim
 model / registry / engine); candidates never Canon until human/rule review.
+## G35D entry
+New abstractions: EntityMention, EntityConnection, EntityCandidate,
+EntityReviewDecision, DistilledEntities (frozen records) + EntityDistiller
+(pure) + EntityReviewGate (thin) + evidence_ok (function) + AUTHORIZED_REVIEWERS
+(moved from identity.py). Justification: M32 place/object/organization +
+topology distillation core; reuses G35B locators + G35C review semantics via
+the shared evidence_ok (IdentityReviewGate ADAPTED, behavior unchanged; no
+second evidence rule set); completion_notes never evidence; no registry/engine.

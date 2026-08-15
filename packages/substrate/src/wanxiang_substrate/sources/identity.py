@@ -16,6 +16,7 @@ from typing import Literal
 
 from wanxiang_domain.errors import ContractError
 
+from wanxiang_substrate.sources.evidence import AUTHORIZED_REVIEWERS, evidence_ok
 from wanxiang_substrate.sources.locator import (
     SourceLocator,
     segment_source,
@@ -25,7 +26,6 @@ from wanxiang_substrate.sources.model import ClaimCandidate, EvidenceLink
 
 IdentityStatus = Literal["pending", "eligible", "rejected"]
 VALID_IDENTITY_STATUSES = ("pending", "eligible", "rejected")
-AUTHORIZED_REVIEWERS = ("human", "reviewer")
 
 
 @dataclass(frozen=True, slots=True)
@@ -172,29 +172,13 @@ class IdentityReviewGate:
                 f"reviewer {reviewer!r} is not authorized",
                 reviewer,
             )
-        if not candidate.all_aliases_have_evidence:
-            return IdentityReviewDecision(
-                candidate.candidate_id,
-                False,
-                "candidate lacks evidence-backed aliases",
-                reviewer,
-            )
-        for claim in candidate.aliases:
-            if len(claim.locators) < self._min_evidence_locators:
-                return IdentityReviewDecision(
-                    candidate.candidate_id,
-                    False,
-                    f"alias {claim.alias!r} lacks required evidence",
-                    reviewer,
-                )
-            for locator in claim.locators:
-                if not source_slice(source_text, locator).strip():
-                    return IdentityReviewDecision(
-                        candidate.candidate_id,
-                        False,
-                        f"alias {claim.alias!r} locator does not resolve",
-                        reviewer,
-                    )
+        ok, reason = evidence_ok(
+            locators_per_claim=tuple(claim.locators for claim in candidate.aliases),
+            source_text=source_text,
+            min_evidence_locators=self._min_evidence_locators,
+        )
+        if not ok:
+            return IdentityReviewDecision(candidate.candidate_id, False, reason, reviewer)
         return IdentityReviewDecision(
             candidate.candidate_id,
             True,

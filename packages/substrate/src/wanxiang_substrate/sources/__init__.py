@@ -1,5 +1,14 @@
 """Source registry & source gate substrate (G04B)."""
 
+from wanxiang_substrate.sources.entity_distill import (
+    DistilledEntities,
+    EntityCandidate,
+    EntityConnection,
+    EntityDistiller,
+    EntityMention,
+    EntityReviewDecision,
+    EntityReviewGate,
+)
 from wanxiang_substrate.sources.errors import (
     DuplicateSource,
     InvalidTransition,
@@ -9,6 +18,7 @@ from wanxiang_substrate.sources.errors import (
     SourceNotApproved,
     SourceNotFound,
 )
+from wanxiang_substrate.sources.evidence import AUTHORIZED_REVIEWERS, evidence_ok
 from wanxiang_substrate.sources.fixture import (
     approved_source,
     conflicting_claims,
@@ -43,6 +53,15 @@ from wanxiang_substrate.sources.registry import AuditEntry, SourceRegistry
 
 __all__ = [
     "AuditEntry",
+    "AUTHORIZED_REVIEWERS",
+    "DistilledEntities",
+    "EntityCandidate",
+    "EntityConnection",
+    "EntityDistiller",
+    "EntityMention",
+    "EntityReviewDecision",
+    "EntityReviewGate",
+    "evidence_ok",
     "ClaimCandidate",
     "DuplicateSource",
     "EvidenceLink",

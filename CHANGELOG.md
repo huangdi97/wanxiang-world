@@ -1188,3 +1188,13 @@
 - Real《红楼梦》text remains EXTERNAL_BLOCKED (G35A); mechanism verified on
   synthetic corpus only.
 - Checkpoint: `g35c: 人物与别名 Identity Distillation`.
+
+## 2026-08-15 ? G35D PASS (M32)
+
+- Place/object/organization + topology distillation: `EntityDistiller` (pure) + `EntityConnection`
+  + `EntityReviewGate`; unverifiable details route to Completion (completion_notes never evidence).
+- Shared `evidence_ok()` extracted (G35C IdentityReviewGate ADAPTED, behavior unchanged) so evidence
+  rules never drift between gates.
+- SDK baseline: routes=17 ts=5 py=979 (additive). 8 new unit tests PASS; architecture PASS;
+  ruff/pyright clean. Real《红楼梦》text remains EXTERNAL_BLOCKED (G35A).
+- Checkpoint: `g35d: 空间组织物品 Distillation`.

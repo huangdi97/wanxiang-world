@@ -93,7 +93,7 @@
 | G35A 红楼梦来源策略与合法版本登记 | PASS (2026-08-15, commit g35a; real text EXTERNAL_BLOCKED, mechanism PASS) |
 | G35B 章节分段与可引用 Source Locator | PASS (2026-08-15, commit g35b) |
 | G35C 人物与别名 Identity Distillation | PASS (2026-08-15, commit g35c) |
-| G35D ?????? Distillation | pending |
+| G35D 空间组织物品 Distillation | PASS (2026-08-15, commit g35d) |
 | G35E Past Character Future Canon ?? | pending |
 | G35F Narrative Household HistoricalChina Domain ????? | pending |
 | G35G Character Relation Knowledge Boundary Distillation | pending |
