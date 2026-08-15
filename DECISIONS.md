@@ -115,3 +115,4 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0103 | G34C: migration 0004 persists world definition/constitution/evolution metadata + lineage kind index; downgrade-safe; backup/restore path verified (event count/hash unchanged) | accepted |
 | 0104 | G34D: old Event/Snapshot/Branch backward replay proven against M26 golden samples (hashes match, no data-clearing); new v5.2 fields default via legacy adapter | accepted |
 | 0105 | G34E: constitution endpoint + TS SDK client added; lineage/promotion endpoints kept; old world/branch endpoints preserved (no breaking removal); OpenAPI regenerated (17 routes) | accepted |
+| 0106 | G34F: performance regression verified — commit SQLite-bound (~29 ev/s), replay 1200 ev ~35ms, lineage 400-node ~23ms; no unexplained degradation; benchmark extended with lineage | accepted |

@@ -96,12 +96,34 @@ def benchmark_replay(n: int = 1200) -> dict[str, Any]:
     return {"events": n, "replay_seconds": elapsed}
 
 
+def benchmark_lineage(n: int = 400) -> dict[str, Any]:
+    """Lineage query cost on a synthetic chain + fans (G34F)."""
+    from wanxiang_domain.lineage import LineageEdge, LineageGraph, LineageNode
+
+    graph = LineageGraph()
+    graph.add_node(LineageNode(node_id="root", kind="definition"))
+    for i in range(n):
+        graph.add_node(LineageNode(node_id=f"n{i}", kind="worldline"))
+        graph.add_edge(LineageEdge("root" if i == 0 else f"n{i - 1}", f"n{i}", edge_kind="fork"))
+    start = time.perf_counter()
+    ancestors = graph.ancestors(f"n{n - 1}")
+    descendants = graph.descendants("root")
+    elapsed = time.perf_counter() - start
+    return {
+        "nodes": n,
+        "ancestors_count": len(ancestors),
+        "descendants_count": len(descendants),
+        "query_seconds": elapsed,
+    }
+
+
 def run_all() -> dict[str, Any]:
     return {
         "environment": environment(),
         "profile": "small_ci",
         "commits": benchmark_commits(),
         "replay": benchmark_replay(),
+        "lineage": benchmark_lineage(),
     }
 
 

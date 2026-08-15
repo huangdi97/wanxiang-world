@@ -1147,3 +1147,9 @@
 - Added constitution API endpoint + TS SDK client; regenerated OpenAPI (17 routes); old world/branch endpoints preserved (no breaking removal); old-client smoke test.
 - 3 tests.
 - Checkpoint: `g34e: API SDK Client 兼容`.
+
+
+## 2026-08-15 - V5.2 G34F PASS (M31 phase, remediation)
+
+- Extended benchmarks.py with lineage query; added 4 performance/complexity regression tests (commit/replay/tick/lineage bounds + determinism). replay 1200 ev ~35ms, lineage 400-node ~23ms.
+- Checkpoint: `g34f: 性能与复杂度回归`.

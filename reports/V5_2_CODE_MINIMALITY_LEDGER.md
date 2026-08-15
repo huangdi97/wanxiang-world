@@ -313,3 +313,8 @@ No new abstraction (verification tests only).
 New abstractions: constitution_routes router (1 GET endpoint) + TS SDK
 constitution client (types + helpers). Justification: M31 API/SDK
 compatibility; thin read-only surface; old endpoints untouched.
+
+
+## G34F entry
+No new production abstraction (benchmark extension + tests only). Performance
+bounds recorded; no critical-path degradation.
