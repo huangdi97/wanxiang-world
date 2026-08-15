@@ -364,3 +364,10 @@ New abstractions: CharacterFact, RelationClaim, KnowledgeBoundary, CharacterCano
 per-character model core; reuses G35B locators + G35E ScenarioPoint/temporal
 classification (imported, not duplicated); knowledge boundary prevents private
 fact leaks; future facts control-plane only; no registry/engine/store.
+## G35H entry
+New abstractions: CompletionRecord, CompletionDecision (frozen records) +
+CompletionReviewLedger (append-only) + CompletionStudio (read-only queries) +
+apply_batch_review (function) + CLI script. Justification: M32 completion
+review core; extends (does not replace) G04D CompletionLedger truth taxonomy;
+E0-E5 stage semantics with terminal E4/E5; can_enter_canon default false;
+reuses AUTHORIZED_REVIEWERS from sources.evidence; no second registry/engine.

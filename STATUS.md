@@ -386,7 +386,7 @@ golden fixtures (`tests/fixtures/v5_2_baseline/`, combined hash
 | M29 | ?????? | PASS (2026-08-15, reports/M29_QUALIFICATION.md) |
 | M30 | Promotion / Cross-world Distillation | PASS (2026-08-15, reports/M30_QUALIFICATION.md) |
 | M31 | Kernel/Runtime/Forge/Experiences 责任收敛 + 全平台兼容 | PASS (2026-08-15, reports/M31_QUALIFICATION.md) |
-| M32 | 红楼梦 Source Gate 与蒸馏机制 | in progress (G35A-G PASS; real text EXTERNAL_BLOCKED) |
+| M32 | 红楼梦 Source Gate 与蒸馏机制 | in progress (G35A-H PASS; real text EXTERNAL_BLOCKED) |
 | M33 | ????????? | pending |
 | M34 | ????? + Lineage/Promotion + v5.2 ???? | pending |
 
@@ -412,7 +412,7 @@ Current HEAD: master @ f53cf82 (v5.1 g21d) -> next commit `g29a`.
 
 Started the M35-M42 program per `02_CODEX_MASTER_PROMPT.md` and
 `README_FIRST.md`. G38A independent audit performed first: current real state is
-v5.2 M26-M31 PASS + M32 in progress (G35A-G PASS). **M34 is NOT complete**:
+v5.2 M26-M31 PASS + M32 in progress (G35A-H PASS). **M34 is NOT complete**:
 v5.2 G35D-G37G and M32-M34 gates are pending (no M32-M34 qualification reports,
 no M34 final certification, no RedChamber 7-day acceptance). Real《红楼梦》
 full-text remains EXTERNAL_BLOCKED (G35A); M32-M34 progress is mechanism-level

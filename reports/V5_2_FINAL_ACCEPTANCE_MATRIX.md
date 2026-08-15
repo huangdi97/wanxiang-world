@@ -97,7 +97,7 @@
 | G35E Past Character Future Canon 编译 | PASS (2026-08-15, commit g35e) |
 | G35F Narrative Household HistoricalChina Domain 复用与补齐 | PASS (2026-08-15, commit g35f) |
 | G35G Character Relation Knowledge Boundary Distillation | PASS (2026-08-15, commit g35g) |
-| G35H Completion Ledger ??? | pending |
+| G35H Completion Ledger 与审核 | PASS (2026-08-15, commit g35h) |
 | G35I ?? RedChamber World Definition ? Scenario | pending |
 | **M32 Milestone Gate** | pending |
 

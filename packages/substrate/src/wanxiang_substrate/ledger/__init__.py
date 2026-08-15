@@ -1,5 +1,12 @@
 """Completion ledger & review workflow substrate (G04D)."""
 
+from wanxiang_substrate.ledger.completion import (
+    CompletionDecision,
+    CompletionRecord,
+    CompletionReviewLedger,
+    CompletionStudio,
+    apply_batch_review,
+)
 from wanxiang_substrate.ledger.errors import (
     CanonLocked,
     InvalidPromotion,
@@ -38,6 +45,11 @@ __all__ = [
     "FactScopePolicy",
     "TRUTH_LABELS",
     "CanonLocked",
+    "CompletionDecision",
+    "CompletionRecord",
+    "CompletionReviewLedger",
+    "CompletionStudio",
+    "apply_batch_review",
     "CompletionLedger",
     "ContentItem",
     "InvalidPromotion",

@@ -1225,3 +1225,11 @@
 - SDK baseline: routes=17 ts=5 py=1012 (additive). 8 new unit tests PASS; architecture PASS;
   ruff/pyright clean. Real《红楼梦》text remains EXTERNAL_BLOCKED (G35A).
 - Checkpoint: `g35g: Character Relation Knowledge Boundary Distillation`.
+
+## 2026-08-15 ? G35H PASS (M32)
+
+- Completion ledger review: CompletionRecord (support refs/confidence/review status) + CompletionReviewLedger
+  (E0-E5 stage semantics; can_enter_canon default false; E4/E5 terminal) + CompletionStudio + batch CLI.
+- SDK baseline: routes=17 ts=5 py=1021 (additive). 9 new unit tests PASS; architecture PASS;
+  ruff/pyright clean. Real《红楼梦》text remains EXTERNAL_BLOCKED (G35A).
+- Checkpoint: `g35h: Completion Ledger 与审核`.
