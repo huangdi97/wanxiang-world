@@ -135,3 +135,4 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0123 | G36G: three strategies = StrategyConfig policy (canonical_replay/soft_canon/living_open) + CanonLocks (immutable) + SoftAttractor (deterministic pull) + baseline comparison; pure policies, no write path | accepted |
 | 0124 | G36H: Experience Studio = read-only query surface composing spatial/actions/canon/completion/baseline views; reuses existing queries; no write path, no UI authority | accepted |
 | 0125 | M33 gate: full pytest 911+1 PASS (baseline regenerated for additive M33 symbols; contract 3/3); architecture PASS; M33 = living-world MECHANISM PASS (real corpus EXTERNAL_BLOCKED until legal edition) | accepted |
+| 0126 | G37A: seven-day scenario = deterministic reference run (snapshot -> Day1 embody/relay -> Day3 release+fork -> Day7) with optional LLM run kept separate (EXTERNAL_BLOCKED without key); deterministic hash | accepted |

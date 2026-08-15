@@ -425,3 +425,7 @@ path, no UI authority.
 No new production abstraction (qualification gate + reports only). M33
 abstraction deltas recorded in the rc001/spatial/session/material/epistemic
 entries above.
+## G37A entry
+New abstractions: DayEvent, SevenDayResult (frozen records) + SevenDayReferenceRun
+(thin) + optional_llm_run (function). Justification: M34 seven-day reference
+run core; deterministic; LLM run separated; no new registry/engine/store.

@@ -18,6 +18,13 @@ from wanxiang_substrate.rc001.npc import (
     resolve_population,
     resolve_population_result,
 )
+from wanxiang_substrate.rc001.seven_day import (
+    DAY_TICKS,
+    DayEvent,
+    SevenDayReferenceRun,
+    SevenDayResult,
+    optional_llm_run,
+)
 from wanxiang_substrate.rc001.strategies import (
     BaselineComparison,
     CanonLocks,
@@ -29,6 +36,11 @@ from wanxiang_substrate.rc001.strategies import (
 
 __all__ = [
     "Activity",
+    "DAY_TICKS",
+    "DayEvent",
+    "SevenDayReferenceRun",
+    "SevenDayResult",
+    "optional_llm_run",
     "ExperienceStudio",
     "ExperienceViews",
     "BaselineComparison",

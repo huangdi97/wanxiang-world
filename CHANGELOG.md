@@ -1291,3 +1291,8 @@
 - M33 living-world mechanism qualified: 911 passed + 1 skipped (PostgreSQL EXTERNAL_BLOCKED);
   baseline regenerated (routes=17 ts=5 py=1070); architecture PASS. Real corpus EXTERNAL_BLOCKED.
 - Checkpoint: M33 gate qualified.
+
+## 2026-08-15 ? G37A PASS (M34)
+
+- Seven-day automated scenario: deterministic reference run + separate optional LLM run.
+- Checkpoint: `g37a: 红楼梦七日场景自动化执行`.
