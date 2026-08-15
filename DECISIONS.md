@@ -143,3 +143,4 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0131 | M35: Kernel v1 freeze — ABI enumerated + golden frozen (G38B); change guard active (G38C); gap audit + minimality + corpus/perf baselines (G38D-G38G); full gate 940+1 PASS; M35 = Kernel v1 freeze PASS | accepted |
 | 0132 | M36: full-corpus -> canon graph mechanism certified (946+1 PASS; canon_graph split for size budget); contradictory claims preserved; real corpus EXTERNAL_BLOCKED | accepted |
 | 0133 | M37: full semantic world mechanism certified (956+1 PASS); persona/state separation; propose-only secrets/scenes/arcs; Core proper-noun scan empty; real corpus EXTERNAL_BLOCKED | accepted |
+| 0134 | M38: full living-runtime mechanism certified (963+1 PASS); population budgets, autonomous loop, scoped propagation, long-term evolution, LawCommit gate, 30-day/1-year accelerated; real corpus EXTERNAL_BLOCKED | accepted |

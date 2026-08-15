@@ -1348,3 +1348,8 @@
 - Full semantic world mechanism qualified: 956 passed + 1 skipped; SDK baseline py=1126;
   Core proper-noun scan empty. Real corpus EXTERNAL_BLOCKED.
 - Checkpoint: M37 gate qualified; tag `m37-semantic-world`.
+
+## 2026-08-15 ? M38 GATE PASS
+
+- Full living-runtime mechanism qualified: 963 passed + 1 skipped; SDK baseline py=1140.
+  Real corpus EXTERNAL_BLOCKED. Tag `m38-living-world`.

@@ -199,8 +199,8 @@ M30-M34 gates) because G38A verified M34 is not complete.
 | 5 | M36 Gate | Full Corpus & Canon Graph | PASS (2026-08-15, reports/M36_QUALIFICATION.md) |
 | 6 | G40A-G40H | Full Semantic World (M37) | PASS (2026-08-15, commit g40) |
 | 7 | M37 Gate | Full Semantic World | PASS (2026-08-15, reports/M37_QUALIFICATION.md) |
-| 8 | G41A-G41H | Full Living Runtime (M38) | pending |
-| 9 | M38 Gate | Full Living Runtime | pending |
+| 8 | G41A-G41H | Full Living Runtime (M38) | PASS (2026-08-15, commit g41) |
+| 9 | M38 Gate | Full Living Runtime | PASS (2026-08-15, reports/M38_QUALIFICATION.md) |
 | 10 | G42A-G42G | Studio & Experience (M39) | pending |
 | 11 | M39 Gate | Studio & Experience | pending |
 | 12 | G43A-G43G | Long-Horizon & Derived Worlds (M40) | pending |

@@ -54,15 +54,15 @@ The M35 Kernel v1 freeze can only be certified after v5.2 M30?M34 are completed.
 
 | Goal | Status |
 |---|---|
-| G41A ? Scenario ??? | pending |
-| G41B Population Resolution | pending |
-| G41C Autonomous World Loop | pending |
-| G41D ?????/???? | pending |
-| G41E ?? Persona/Capability/Relation ?? | pending |
-| G41F ??/???? | pending |
-| G41G 30 ? + 1 ????? | pending |
-| G41H M38 Living World Qualification | pending |
-| **M38 Milestone Gate** | pending |
+| G41A 多 Scenario 实例化 | PASS |
+| G41B Population Resolution | PASS |
+| G41C Autonomous World Loop | PASS |
+| G41D 大规模认知/消息传播 | PASS |
+| G41E 长期 Persona/Capability/Relation 演化 | PASS |
+| G41F 社会/制度演化 | PASS |
+| G41G 30日 + 1年加速长稳 | PASS |
+| G41H M38 Living World Qualification | PASS (reports/M38_QUALIFICATION.md) |
+| **M38 Milestone Gate** | **PASS (2026-08-15, reports/M38_QUALIFICATION.md; real corpus EXTERNAL_BLOCKED)** |
 
 ## M39 ? Studio & Experience
 
