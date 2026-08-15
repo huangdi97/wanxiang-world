@@ -17,9 +17,23 @@ from wanxiang_substrate.rc001.npc import (
     resolve_population,
     resolve_population_result,
 )
+from wanxiang_substrate.rc001.strategies import (
+    BaselineComparison,
+    CanonLocks,
+    SoftAttractor,
+    StrategyConfig,
+    compare_to_baseline,
+    strategy_for,
+)
 
 __all__ = [
     "Activity",
+    "BaselineComparison",
+    "CanonLocks",
+    "SoftAttractor",
+    "StrategyConfig",
+    "compare_to_baseline",
+    "strategy_for",
     "ActivityKind",
     "InitialSnapshot",
     "NPCProfile",

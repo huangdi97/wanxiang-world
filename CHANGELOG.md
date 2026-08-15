@@ -1275,3 +1275,8 @@
 - Embodiment + ShadowPolicy handoff: intent/co-drive/full-control modes, handoff events,
   shadow never decides major (mechanism; no fabricated canon).
 - Checkpoint: `g36f: 林霹玉 Embodiment ShadowPolicy Handoff`.
+
+## 2026-08-15 ? G36G PASS (M33)
+
+- Three world strategies: canonical replay / soft canon (attractor) / living open (baseline compare).
+- Checkpoint: `g36g: Canonical Replay Soft Canon Living Open 三策略`.

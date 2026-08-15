@@ -411,3 +411,8 @@ New abstractions: EmbodimentState, ControlHandoffEvent (frozen records) +
 EmbodimentController (thin) + major_decision (function). Justification: M33
 embodiment/handoff core; composes G05B LeaseService + G05C ShadowPolicy; no new
 registry/engine/store.
+## G36G entry
+New abstractions: StrategyConfig, BaselineComparison, SoftAttractor, CanonLocks
+(frozen records/immutable set) + strategy_for / compare_to_baseline (functions).
+Justification: M33 three-strategy policy core; reuses G04D CanonLocked; no new
+registry/engine/store.
