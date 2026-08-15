@@ -453,3 +453,16 @@ No new production abstraction (regression + traceability evidence only).
 
 ## G37G entry
 No new production abstraction (final certification + tag only).
+## G38B entry
+New abstractions: KernelAbiManifest (frozen record) + abi_manifest / abi_golden /
+verify_abi_golden (functions). Justification: M35 kernel v1 ABI freeze core;
+deterministic golden; no registry/engine.
+
+## G38C entry
+New abstraction: scripts/kernel_guard.py (tooling, not Core). Justification:
+M35 kernel change guard (domain names / direct mutation / ABI drift).
+
+## G38D/G38E/G38F/G38G entries
+G38D/G38E: no new production abstraction (audits). G38F: CorpusPipeline +
+CorpusProfile + generate_synthetic_corpus (mechanism; reuses G35B/G35C).
+G38G: no new production abstraction (baselines + benchmark).

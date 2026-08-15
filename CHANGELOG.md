@@ -1325,3 +1325,9 @@
 - G38A re-run: M34 independently verified COMPLETE at platform level (V5_2_PLATFORM_PASS);
   M34 evidence suite 68 passed; goldens reproducible. Real corpus EXTERNAL_BLOCKED.
 - Checkpoint: `g38a: 独立复核 M34`.
+
+## 2026-08-15 ? M35 GATE PASS (Kernel v1 freeze)
+
+- Kernel v1 ABI + golden frozen; change guard active; gap audit; minimality; corpus/perf
+  baselines; 940 passed + 1 skipped; architecture PASS; kernel_guard 0 violations.
+- Tag `m35-kernel-v1-freeze`. Real corpus EXTERNAL_BLOCKED.

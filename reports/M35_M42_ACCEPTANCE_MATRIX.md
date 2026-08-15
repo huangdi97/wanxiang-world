@@ -13,14 +13,14 @@ The M35 Kernel v1 freeze can only be certified after v5.2 M30?M34 are completed.
 | Goal | Status |
 |---|---|
 | G38A ???? M34 | AUDIT DONE ? M34 NOT PASS (remediation: complete v5.2 M30-M34) |
-| G38B Kernel v1 ABI ?? | pending |
-| G38C Kernel Change Guard | pending |
-| G38D Full Red Chamber Gap Audit | pending |
-| G38E ??????? | pending |
-| G38F ? Corpus ??????? | pending |
-| G38G API/DB/Package/?????? | pending |
-| G38H M35 ???? | pending |
-| **M35 Milestone Gate** | pending |
+| G38B Kernel v1 ABI 清单 | PASS (2026-08-15, commit g38b) |
+| G38C Kernel Change Guard | PASS (2026-08-15, commit g38c) |
+| G38D Full Red Chamber Gap Audit | PASS (2026-08-15, commit g38d; real gaps EXTERNAL_BLOCKED) |
+| G38E 代码最小性清理 | PASS (2026-08-15, commit g38e) |
+| G38F 大 Corpus 流水线容量基线 | PASS (2026-08-15, commit g38f) |
+| G38G API/DB/Package 性能基线冻结 | PASS (2026-08-15, commit g38g) |
+| G38H M35 资格验收 | PASS (2026-08-15, commit g38h) |
+| **M35 Milestone Gate** | **PASS (2026-08-15, reports/M35_QUALIFICATION.md)** |
 
 ## M36 ? Full Corpus & Canon Graph
 

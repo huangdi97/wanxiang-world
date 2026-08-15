@@ -140,3 +140,4 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0128 | G37C: long-horizon promotion = accelerate + distill_stable + G33A ladder validation; Derived World Definition only when policy gate reached; lineage edge recorded; parent never mutated | accepted |
 | 0129 | G37D: chaos checks = snapshot/restart, corrupt-stream detection, duplicate/stale rejection, client reconnect, provider-failure isolation; aggregate ChaosReport; no write path beyond authority | accepted |
 | 0130 | G37E/F/G + M34: minimality/architecture final audit PASS; full regression 930+1 PASS; final certification = V5_2_PLATFORM_PASS (RED_CHAMBER_REAL EXTERNAL_BLOCKED); local tag v5.2-platform-pass; no push/deploy; v5.3 not started | accepted |
+| 0131 | M35: Kernel v1 freeze — ABI enumerated + golden frozen (G38B); change guard active (G38C); gap audit + minimality + corpus/perf baselines (G38D-G38G); full gate 940+1 PASS; M35 = Kernel v1 freeze PASS | accepted |
