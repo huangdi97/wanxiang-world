@@ -1161,3 +1161,10 @@
 - Fixed migration-head constants (0004) and isolated the shared action rate-limiter for API smoke tests (public reset helper).
 - Generated V5_2_BACKWARD_COMPATIBILITY.md + M31_QUALIFICATION.md.
 - M31 = PASS. Commit: `g34g: M31 全平台兼容资格验收`.
+
+
+## 2026-08-15 - V5.2 G35A EXTERNAL_BLOCKED (M32 phase, remediation)
+
+- Real《红楼梦》full-text source EXTERNAL_BLOCKED (no legal/traceable edition in env; read-only + no network/rights verification); no model-memory canon. Registered exact missing needs in reports/RED_CHAMBER_SOURCE_GATE.md.
+- Source registration mechanism verified with a synthetic fixture (3 tests: checksum reproducible, rights/review non-empty, no fabricated canon).
+- Checkpoint: `g35a: 红楼梦来源策略与合法版本登记`.

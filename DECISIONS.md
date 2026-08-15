@@ -117,3 +117,4 @@ ADRs live in `docs/decisions/` (`NNNN-slug.md`); this file is the index.
 | 0105 | G34E: constitution endpoint + TS SDK client added; lineage/promotion endpoints kept; old world/branch endpoints preserved (no breaking removal); OpenAPI regenerated (17 routes) | accepted |
 | 0106 | G34F: performance regression verified — commit SQLite-bound (~29 ev/s), replay 1200 ev ~35ms, lineage 400-node ~23ms; no unexplained degradation; benchmark extended with lineage | accepted |
 | 0107 | G34G/M31: full gate PASS (819+1); migration head 0004; backward-compat report generated; M31=PASS — M32 Red Chamber Source Gate can start (real source EXTERNAL_BLOCKED until a legal edition is available) | accepted |
+| 0108 | G35A: real《红楼梦》full-text source EXTERNAL_BLOCKED (no legal/traceable edition in env; read-only + no network/rights verification); no model-memory canon; registration mechanism verified with synthetic fixture | accepted |

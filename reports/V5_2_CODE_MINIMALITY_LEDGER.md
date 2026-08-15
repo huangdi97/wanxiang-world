@@ -323,3 +323,8 @@ bounds recorded; no critical-path degradation.
 ## G34G/M31 entry
 No new production abstraction (verification + rate-limiter reset helper).
 M31 abstraction delta recorded in the budget.
+
+
+## G35A entry
+No new production abstraction (registration test only). Real source is
+EXTERNAL_BLOCKED; mechanism verified with an explicitly-labeled synthetic fixture.
