@@ -397,3 +397,7 @@ New abstractions: NPCProfile, Activity (frozen records) + daily_schedule /
 resolve_population / resolve_population_result (functions). Justification: M33
 NPC schedule/population policy core; composes institution/narrative/body
 resolvers; no new registry/engine/store.
+## G36D entry
+New abstractions: ACTION_READ_AND_REMEMBER + resolve_read_and_remember (function).
+Justification: M33 read->memory continuity core; reuses material resolve_read +
+epistemic memory components; no new registry/engine/store.

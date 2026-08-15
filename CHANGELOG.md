@@ -1258,3 +1258,9 @@
 
 - RC-001 NPC schedule/duty/body/social policy (deterministic daily schedule + population resolution).
 - Checkpoint: `g36c: 人物职责 NPC 日程身体与社会制度`.
+
+## 2026-08-15 ? G36D PASS (M33)
+
+- Material/information continuity: read-and-remember (read forms observation memory),
+  hide/gift/medicine continuity verified; synthetic objects (real canon EXTERNAL_BLOCKED).
+- Checkpoint: `g36d: 信件诗稿礼物药物的物质与信息连续性`.
