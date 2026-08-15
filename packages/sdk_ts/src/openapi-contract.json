@@ -10,6 +10,11 @@
         "operationId": "healthz_healthz_get"
       }
     },
+    "/lineage/compare": {
+      "get": {
+        "operationId": "lineage_compare_lineage_compare_get"
+      }
+    },
     "/lineage/nodes/{node_id}/ancestors": {
       "get": {
         "operationId": "ancestors_lineage_nodes__node_id__ancestors_get"
@@ -23,6 +28,16 @@
     "/lineage/nodes/{node_id}/promotion-origin": {
       "get": {
         "operationId": "promotion_origin_lineage_nodes__node_id__promotion_origin_get"
+      }
+    },
+    "/lineage/promotion-candidates": {
+      "get": {
+        "operationId": "promotion_candidates_lineage_promotion_candidates_get"
+      }
+    },
+    "/lineage/promotions": {
+      "post": {
+        "operationId": "submit_promotion_lineage_promotions_post"
       }
     },
     "/worlds": {

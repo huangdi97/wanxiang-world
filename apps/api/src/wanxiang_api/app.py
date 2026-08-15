@@ -21,6 +21,7 @@ from wanxiang_substrate.lineage import LineageGraph
 from wanxiang_api.errors import install_error_handler
 from wanxiang_api.limits import PayloadTooLarge
 from wanxiang_api.lineage_routes import router as lineage_router
+from wanxiang_api.promotion_routes import router as promotion_router
 from wanxiang_api.routes import router
 
 API_TITLE = "Wanxiang World API"
@@ -60,6 +61,8 @@ def create_app(
     app = FastAPI(title=API_TITLE, version=API_VERSION)
     app.state.runtime = runtime
     app.state.lineage_graph = lineage_graph or LineageGraph()
+    app.state.studio_admin = False
+    app.state.promotion_candidates = ()
     install_error_handler(app)
 
     @app.exception_handler(PayloadTooLarge)
@@ -76,4 +79,5 @@ def create_app(
 
     app.include_router(router)
     app.include_router(lineage_router)
+    app.include_router(promotion_router)
     return app

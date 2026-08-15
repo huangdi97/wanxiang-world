@@ -169,7 +169,8 @@ v5.2 certification reports and local checkpoint. No push/deploy.
 | 16c | G33C | Promotion ????????? | PASS (2026-08-15) |
 | 16d | G33D | Cross-world Distillation | PASS (2026-08-15) |
 | 16e | G33E | ???? Sandbox Benchmark Approval | PASS (2026-08-15) |
-| 16f | G33F..G33G | Lineage/Promotion API / M30 ?? (M30) | pending |
+| 16f | G33F | Lineage ? Promotion API Studio | PASS (2026-08-15) |
+| 16g | G33G | M30 Promotion Cross-world ???? | pending |
 | 17 | M30 Gate | Promotion Cross-world ???? | pending |
 | 18 | G34A..G34G | Kernel/Runtime/Forge/Experiences ?? + ?? (M31) | pending |
 | 19 | M31 Gate | ????????? | pending |

@@ -1098,3 +1098,10 @@
 - Added PlatformFeedbackLab: sandbox gate (benchmark/invariant/security/cost/determinism), platform-only approval, versioned Domain/Runtime release; rollback status-only (events never rewritten).
 - 3 tests.
 - Checkpoint: `g33e: ???? Sandbox Benchmark Approval`.
+
+
+## 2026-08-15 - V5.2 G33F PASS (M30 phase, remediation)
+
+- Added promotion/lineage API (promotion-candidates, admin-gated promotions, lineage compare) + Studio candidate/approval/lineage-diff views; OpenAPI regenerated (16 routes).
+- 5 tests (403 unauthorized, backend-authority UI action, compare, SDK contract).
+- Checkpoint: `g33f: Lineage ? Promotion API Studio`.

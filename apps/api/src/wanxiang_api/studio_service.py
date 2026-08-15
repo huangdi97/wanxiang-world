@@ -95,5 +95,37 @@ class StudioService:
             "promotion_origin": promotion_origin,
         }
 
+    def promotion_candidates(self, candidates: object) -> dict[str, object]:
+        """Studio read-only view of promotion candidates."""
+        self._record("promotion_candidates", "list")
+        return {"candidates": list(candidates)}  # type: ignore[arg-type]
+
+    def lineage_compare(self, graph: LineageGraph, node_a: str, node_b: str) -> dict[str, object]:
+        """Studio lineage diff (read-only)."""
+        aa = set(graph.ancestors(node_a))
+        ab = set(graph.ancestors(node_b))
+        da = set(graph.descendants(node_a))
+        db = set(graph.descendants(node_b))
+        self._record("lineage_compare", f"{node_a}..{node_b}")
+        return {
+            "common_ancestors": sorted(aa & ab),
+            "only_a": sorted((aa | da) - (ab | db)),
+            "only_b": sorted((ab | db) - (aa | da)),
+        }
+
+    def promote(
+        self, source_worldline: str, target_world_definition: str, candidate: str
+    ) -> dict[str, object]:
+        """UI action goes through the backend; requires explicit admin."""
+        if not self._admin:
+            raise StudioRequiresAdmin("promote requires explicit studio admin permission")
+        self._record("promote", f"{source_worldline}->{target_world_definition}")
+        return {
+            "source_worldline": source_worldline,
+            "target_world_definition": target_world_definition,
+            "candidate": candidate,
+            "status": "pending_approval",
+        }
+
     def audit_log(self) -> tuple[dict[str, str], ...]:
         return tuple(self._audit)

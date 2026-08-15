@@ -1,18 +1,21 @@
 # SDK API Baseline (G17A)
 
-- API routes: 13
+- API routes: 16
 - TypeScript surface symbols: 5
 - Python public names (stable packages): 947
 
 ## API routes
 
 - `GET /healthz`
+- `GET /lineage/compare`
 - `GET /lineage/nodes/{node_id}/ancestors`
 - `GET /lineage/nodes/{node_id}/descendants`
 - `GET /lineage/nodes/{node_id}/promotion-origin`
+- `GET /lineage/promotion-candidates`
 - `GET /worlds/{instance_id}`
 - `GET /worlds/{instance_id}/events`
 - `GET /worlds/{instance_id}/state`
+- `POST /lineage/promotions`
 - `POST /worlds`
 - `POST /worlds/{instance_id}/actions`
 - `POST /worlds/{instance_id}/branches`

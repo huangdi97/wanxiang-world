@@ -275,3 +275,9 @@ distillation core; authorization + anonymization + no auto-activation.
 New abstractions: SandboxReport, VersionedRelease (frozen records) +
 PlatformFeedbackLab (thin chain). Justification: M30 platform-feedback
 sandbox/approval core; platform-only approval; rollback never rewrites events.
+
+
+## G33F entry
+New abstractions: promotion_routes router (3 endpoints) + Studio read-only
+methods + admin-gated promote. Justification: M30 promotion/lineage surface;
+thin transports over existing graph/ladder/pipeline; no new store/engine.
