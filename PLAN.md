@@ -197,8 +197,8 @@ M30-M34 gates) because G38A verified M34 is not complete.
 | 3 | M35 Gate | Post-M34 Audit & Kernel Freeze | PASS (2026-08-15, reports/M35_QUALIFICATION.md) |
 | 4 | G39A-G39H | Full Corpus & Canon Graph (M36) | PASS (2026-08-15, commit g39) |
 | 5 | M36 Gate | Full Corpus & Canon Graph | PASS (2026-08-15, reports/M36_QUALIFICATION.md) |
-| 6 | G40A-G40H | Full Semantic World (M37) | pending |
-| 7 | M37 Gate | Full Semantic World | pending |
+| 6 | G40A-G40H | Full Semantic World (M37) | PASS (2026-08-15, commit g40) |
+| 7 | M37 Gate | Full Semantic World | PASS (2026-08-15, reports/M37_QUALIFICATION.md) |
 | 8 | G41A-G41H | Full Living Runtime (M38) | pending |
 | 9 | M38 Gate | Full Living Runtime | pending |
 | 10 | G42A-G42G | Studio & Experience (M39) | pending |

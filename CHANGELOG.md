@@ -1342,3 +1342,9 @@
 - Full-corpus/canon-graph mechanism qualified: 946 passed + 1 skipped; canon_graph
   split for size budget; SDK baseline py=1118. Real corpus EXTERNAL_BLOCKED.
 - Checkpoint: M36 gate qualified.
+
+## 2026-08-15 ? M37 GATE PASS
+
+- Full semantic world mechanism qualified: 956 passed + 1 skipped; SDK baseline py=1126;
+  Core proper-noun scan empty. Real corpus EXTERNAL_BLOCKED.
+- Checkpoint: M37 gate qualified; tag `m37-semantic-world`.

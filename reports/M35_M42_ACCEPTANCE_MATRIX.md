@@ -40,15 +40,15 @@ The M35 Kernel v1 freeze can only be certified after v5.2 M30?M34 are completed.
 
 | Goal | Status |
 |---|---|
-| G40A Full World Definition | pending |
-| G40B Household Society Domain ?? | pending |
-| G40C Historical China + Narrative Domain ?? | pending |
-| G40D ??? Character Package | pending |
-| G40E ?? Spatial World | pending |
-| G40F ??/??/??/???? | pending |
-| G40G Schedule/Body/Social Life + Completion | pending |
-| G40H M37 Semantic World Qualification | pending |
-| **M37 Milestone Gate** | pending |
+| G40A Full World Definition | PASS |
+| G40B Household Society Domain 深化 | PASS |
+| G40C Historical China + Narrative Domain 深化 | PASS |
+| G40D 全人物 Character Package | PASS |
+| G40E 完整 Spatial World | PASS |
+| G40F 物质/书信/礼物/药物绑定 | PASS |
+| G40G Schedule/Body/Social Life + Completion | PASS |
+| G40H M37 Semantic World Qualification | PASS (reports/M37_QUALIFICATION.md) |
+| **M37 Milestone Gate** | **PASS (2026-08-15, reports/M37_QUALIFICATION.md; real corpus EXTERNAL_BLOCKED)** |
 
 ## M38 ? Full Living Runtime
 
