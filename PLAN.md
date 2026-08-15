@@ -178,7 +178,7 @@ v5.2 certification reports and local checkpoint. No push/deploy.
 | 20 | G35A..G35I | 红楼梦 Source Gate 与蒸馏 (M32) | PASS (2026-08-15, commits g35a..g35i; real text EXTERNAL_BLOCKED) |
 | 21 | M32 Gate | 红楼梦 Source Gate 与蒸馏机制 | PASS (2026-08-15, reports/M32_QUALIFICATION.md) |
 | 22 | G36A..G36H | 红楼梦实例化/生活 (M33) | PASS (2026-08-15, commits g36a..g36h) |
-| 23 | M33 Gate | 红楼梦实例化/生活资格验收 | pending (run gate) |
+| 23 | M33 Gate | 红楼梦实例化/生活资格验收 | PASS (2026-08-15, reports/M33_QUALIFICATION.md) |
 | 24 | G37A..G37G | ???? / ???? / Promotion / ???? (M34) | pending |
 | 25 | M34 Gate | ????? + Lineage/Promotion + v5.2 ???? | pending |
 
@@ -191,7 +191,7 @@ M30-M34 gates) because G38A verified M34 is not complete.
 
 | # | Goal | Scope | Status |
 |---|---|---|---|
-| 0 | v5.2 M30-M34 | G33B-G37G + M30-M34 gates (remediation for G38A finding) | in progress (M30+M31+M32 PASS; M33/M34 pending) |
+| 0 | v5.2 M30-M34 | G33B-G37G + M30-M34 gates (remediation for G38A finding) | in progress (M30+M31+M32+M33 PASS; M34 pending) |
 | 1 | G38A | ???? M34 | AUDIT DONE ? M34 NOT PASS (remediation above) |
 | 2 | G38B-G38H | Kernel v1 ABI / Guard / Gap Audit / Minimality / Baselines (M35) | pending |
 | 3 | M35 Gate | Post-M34 Audit & Kernel Freeze | pending |

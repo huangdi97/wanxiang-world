@@ -421,3 +421,7 @@ New abstractions: ExperienceStudio (read-only queries) + ExperienceViews (frozen
 record). Justification: M33 Studio surface; composes existing queries (spatial,
 actions, canon runtime view, completion studio, baseline compare); no write
 path, no UI authority.
+## M33 entry
+No new production abstraction (qualification gate + reports only). M33
+abstraction deltas recorded in the rc001/spatial/session/material/epistemic
+entries above.

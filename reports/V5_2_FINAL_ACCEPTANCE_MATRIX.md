@@ -113,7 +113,7 @@
 | G36F 林黛玉 Embodiment ShadowPolicy Handoff | PASS (2026-08-15, commit g36f) |
 | G36G Canonical Replay Soft Canon Living Open 三策略 | PASS (2026-08-15, commit g36g) |
 | G36H 红楼梦 Experience Studio 最小可用面 | PASS (2026-08-15, commit g36h) |
-| **M33 Milestone Gate** | pending |
+| **M33 Milestone Gate** | **PASS (2026-08-15, reports/M33_QUALIFICATION.md; real corpus EXTERNAL_BLOCKED)** |
 
 ## M34 ? ?????????
 

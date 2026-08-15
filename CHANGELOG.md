@@ -1285,3 +1285,9 @@
 
 - Experience Studio minimal surface: map/characters/actions/events/source/completion/branch views.
 - Checkpoint: `g36h: 红楼梦 Experience Studio 最小可用面`.
+
+## 2026-08-15 ? M33 GATE PASS
+
+- M33 living-world mechanism qualified: 911 passed + 1 skipped (PostgreSQL EXTERNAL_BLOCKED);
+  baseline regenerated (routes=17 ts=5 py=1070); architecture PASS. Real corpus EXTERNAL_BLOCKED.
+- Checkpoint: M33 gate qualified.

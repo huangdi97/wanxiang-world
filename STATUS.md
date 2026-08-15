@@ -412,7 +412,7 @@ Current HEAD: master @ f53cf82 (v5.1 g21d) -> next commit `g29a`.
 
 Started the M35-M42 program per `02_CODEX_MASTER_PROMPT.md` and
 `README_FIRST.md`. G38A independent audit performed first: current real state is
-v5.2 M26-M31 PASS + M32 PASS (source-gate/distillation mechanism; real text EXTERNAL_BLOCKED). **M34 is NOT complete**:
+v5.2 M26-M33 PASS (M32 source-gate/distillation + M33 living-world mechanisms; real text EXTERNAL_BLOCKED). **M34 is NOT complete**:
 v5.2 G35D-G37G and M32-M34 gates are pending (no M32-M34 qualification reports,
 no M34 final certification, no RedChamber 7-day acceptance). Real《红楼梦》
 full-text remains EXTERNAL_BLOCKED (G35A); M32-M34 progress is mechanism-level
