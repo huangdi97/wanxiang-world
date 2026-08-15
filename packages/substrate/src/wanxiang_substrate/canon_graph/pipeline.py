@@ -10,17 +10,19 @@ import hashlib
 from dataclasses import dataclass
 
 from wanxiang_substrate.canon_graph.graphs import (
-    CanonGraph,
     CharacterGraph,
-    CoverageReport,
     SceneCandidate,
     SourceGraph,
-    TimelineGraph,
-    build_canon_graph,
     build_character_graph,
     build_source_graph,
-    build_timeline,
     detect_scenes,
+)
+from wanxiang_substrate.canon_graph.timeline_canon import (
+    CanonGraph,
+    CoverageReport,
+    TimelineGraph,
+    build_canon_graph,
+    build_timeline,
 )
 from wanxiang_substrate.sources.locator import SourceLocator, segment_source
 

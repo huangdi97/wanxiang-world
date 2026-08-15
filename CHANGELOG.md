@@ -1336,3 +1336,9 @@
 
 - Full Corpus -> Canon Graph (scenes/character/source/timeline/canon graphs + coverage/resume).
 - Checkpoint: `g39: Full Corpus & Canon Graph (M36 mechanism)`.
+
+## 2026-08-15 ? M36 GATE PASS
+
+- Full-corpus/canon-graph mechanism qualified: 946 passed + 1 skipped; canon_graph
+  split for size budget; SDK baseline py=1118. Real corpus EXTERNAL_BLOCKED.
+- Checkpoint: M36 gate qualified.

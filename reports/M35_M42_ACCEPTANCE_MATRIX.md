@@ -33,8 +33,8 @@ The M35 Kernel v1 freeze can only be certified after v5.2 M30?M34 are completed.
 | G39E 地点/物品/组织 Source Graph | PASS |
 | G39F Event/Timeline/Relation Graph | PASS |
 | G39G Canon Graph / Edition Conflict | PASS |
-| G39H M36 Full Corpus Qualification | pending (gate) |
-| **M36 Milestone Gate** | pending |
+| G39H M36 Full Corpus Qualification | PASS (2026-08-15, reports/M36_QUALIFICATION.md) |
+| **M36 Milestone Gate** | **PASS (2026-08-15, reports/M36_QUALIFICATION.md; real corpus EXTERNAL_BLOCKED)** |
 
 ## M37 ? Full Semantic World
 
