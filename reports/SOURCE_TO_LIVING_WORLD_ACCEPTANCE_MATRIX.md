@@ -45,14 +45,14 @@
 
 | Goal | Status |
 |---|---|
-| G57A | pending |
-| G57B | pending |
-| G57C | pending |
-| G57D | pending |
-| G57E | pending |
-| G57F | pending |
-| G57G | pending |
-| G57H | pending |
+| G57A | PASS (2026-08-16, commit g57) |
+| G57B | PASS (2026-08-16, commit g57) |
+| G57C | PASS (2026-08-16, commit g57) |
+| G57D | PASS (2026-08-16, commit g57) |
+| G57E | PASS (2026-08-16, commit g57) |
+| G57F | PASS (2026-08-16, commit g57) |
+| G57G | PASS (2026-08-16, commit g57) |
+| G57H | PASS (2026-08-16, commit g57) |
 | G57I | pending |
 
 ## M55
@@ -263,6 +263,7 @@
 | G73F | pending |
 | G73G | pending |
 | G73H | pending |
+
 
 
 
