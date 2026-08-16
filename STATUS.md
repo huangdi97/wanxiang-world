@@ -1,6 +1,22 @@
 # Status ? Wanxiang Engineering Program
 
-Updated: 2026-08-11 (batch start)
+Updated: 2026-08-16 (GitHub public delivery)
+
+## GitHub public delivery (2026-08-16) - COMPLETE
+
+- Repository published PUBLIC as `huangdi97/wanxiang-world`
+  (https://github.com/huangdi97/wanxiang-world), origin remote set, master
+  pushed, remote SHA == local HEAD.
+- GitHub Actions CI green on the pushed branch (run 31942590763, success):
+  safety/secret scan, python quality gates, PostgreSQL integration, API/SDK
+  drift + wxpack pipeline, TypeScript checks, release/clean-room certification.
+- Tag `v5.3.0-rc1` + GitHub Release created on the CI-certified commit
+  7b0674c (https://github.com/huangdi97/wanxiang-world/releases/tag/v5.3.0-rc1).
+- Open-source files added: LICENSE (Apache-2.0), NOTICE, README_EN,
+  CONTRIBUTING, SECURITY, CODE_OF_CONDUCT, DATA_AND_ASSET_RIGHTS.
+- See reports/GITHUB_DELIVERY_REPORT.md. Certified baseline remains v5.2 / M42
+  (`m42-v5.2-production`); v5.3 M43-M50 planning docs were committed as
+  planning material only (not qualified).
 
 ## Milestones
 

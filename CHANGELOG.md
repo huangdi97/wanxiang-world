@@ -1,5 +1,19 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-16 ? GitHub public delivery (v5.3.0-rc1)
+
+- Published `huangdi97/wanxiang-world` PUBLIC (origin remote, master pushed,
+  remote SHA == local HEAD 7b0674c).
+- GitHub Actions CI green on the pushed branch (6 jobs; run 31942590763).
+- Tag `v5.3.0-rc1` + GitHub Release created.
+- Added Apache-2.0 LICENSE, NOTICE, README_EN, CONTRIBUTING, SECURITY,
+  CODE_OF_CONDUCT, DATA_AND_ASSET_RIGHTS; refreshed README; expanded CI.
+- CI-driven fixes: pnpm version pin, secret-scan fixture false positive,
+  canonical (CRLF-normalized) v5.2 baseline hashes, migration round-trip URL
+  pin, live PG profile migration + psycopg2 driver, TS op count 10->17.
+- Committed user-prepared v5.3 M43-M50 planning docs as planning material
+  (not qualified). Report: reports/GITHUB_DELIVERY_REPORT.md.
+
 ## 2026-08-11 ? Batch initialization
 
 - Repository initialized (`git init`, branch `main`).
