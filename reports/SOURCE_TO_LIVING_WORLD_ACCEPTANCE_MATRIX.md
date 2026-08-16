@@ -59,12 +59,12 @@
 
 | Goal | Status |
 |---|---|
-| G58A | pending |
-| G58B | pending |
-| G58C | pending |
-| G58D | pending |
-| G58E | pending |
-| G58F | pending |
+| G58A | PASS (2026-08-16, commit g58af) |
+| G58B | PASS (2026-08-16, commit g58af) |
+| G58C | PASS (2026-08-16, commit g58af) |
+| G58D | PASS (2026-08-16, commit g58af) |
+| G58E | PASS (2026-08-16, commit g58af) |
+| G58F | PASS (2026-08-16, commit g58af) |
 | G58G | pending |
 | G58H | pending |
 
@@ -263,6 +263,7 @@
 | G73F | pending |
 | G73G | pending |
 | G73H | pending |
+
 
 
 
