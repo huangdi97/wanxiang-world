@@ -82,12 +82,14 @@ from wanxiang_substrate.sources.model import (
 )
 from wanxiang_substrate.sources.policy import SourcePolicy
 from wanxiang_substrate.sources.registry import AuditEntry, SourceRegistry
+from wanxiang_substrate.sources.structured import StructuredAdapter
 
 __all__ = [
     "AdapterRegistry",
     "BlobRef",
     "BookAdapter",
     "Chapter",
+    "StructuredAdapter",
     "IngestError",
     "IngestResult",
     "MalformedSourceContent",
