@@ -9,6 +9,7 @@ from wanxiang_substrate.sources.adapter import (
     require_text,
 )
 from wanxiang_substrate.sources.blob import BlobRef, SourceBlobStore, is_blob_uri
+from wanxiang_substrate.sources.book import BookAdapter, Chapter
 from wanxiang_substrate.sources.canon import (
     CanonClaim,
     CanonCompiler,
@@ -85,6 +86,8 @@ from wanxiang_substrate.sources.registry import AuditEntry, SourceRegistry
 __all__ = [
     "AdapterRegistry",
     "BlobRef",
+    "BookAdapter",
+    "Chapter",
     "IngestError",
     "IngestResult",
     "MalformedSourceContent",
