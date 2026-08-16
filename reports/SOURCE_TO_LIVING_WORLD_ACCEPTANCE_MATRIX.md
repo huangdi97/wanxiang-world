@@ -38,7 +38,7 @@
 | G56D | PASS (2026-08-16, commit g56cd) |
 | G56E | PASS (2026-08-16, commit g56ef) |
 | G56F | PASS (2026-08-16, commit g56ef) |
-| G56G | pending |
+| G56G | PASS (2026-08-16, commit g56g) |
 | G56H | pending |
 
 ## M54
@@ -263,6 +263,7 @@
 | G73F | pending |
 | G73G | pending |
 | G73H | pending |
+
 
 
 
