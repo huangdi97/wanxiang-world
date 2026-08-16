@@ -58,9 +58,11 @@ from wanxiang_substrate.sources.locator import (
     source_slice,
 )
 from wanxiang_substrate.sources.model import (
+    VALID_SOURCE_ACCESS,
     ClaimCandidate,
     EvidenceLink,
     RightsEnvelope,
+    SourceAccess,
     SourceRecord,
     payload_hash,
 )
@@ -108,9 +110,11 @@ __all__ = [
     "SourceGate",
     "SourceNotApproved",
     "SourceNotFound",
+    "SourceAccess",
     "SourcePolicy",
     "SourceRecord",
     "SourceRegistry",
+    "VALID_SOURCE_ACCESS",
     "approved_source",
     "conflicting_claims",
     "conflicting_sources",
