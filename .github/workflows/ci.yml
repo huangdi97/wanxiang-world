@@ -4,7 +4,41 @@ on:
   push:
   pull_request:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
+  # 1. Repository safety / secret / forbidden tracked files
+  safety:
+    name: Repository safety / secret scan / forbidden tracked files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Secret pattern scan
+        run: |
+          set -euo pipefail
+          if grep -rInE 'ghp_[A-Za-z0-9]{20,}|sk-[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{20,}|-----BEGIN [A-Z ]*PRIVATE KEY-----' \
+            --exclude-dir=node_modules --exclude-dir=.venv --exclude-dir=.git \
+            --exclude-dir=.uv-cache --exclude-dir=.pytest_cache .; then
+            echo "FOUND POTENTIAL SECRET" >&2; exit 1
+          fi
+          echo "secret scan clean"
+      - name: No forbidden tracked files
+        run: |
+          set -euo pipefail
+          if git ls-files | grep -E '(^|/)(\.env|.*\.pem|.*\.p12|.*\.jks|.*\.key|.*\.sqlite|.*\.db)$'; then
+            echo "FORBIDDEN TRACKED FILE (env/secret/db)" >&2; exit 1
+          fi
+          if git ls-files 'sources/red_chamber/*' | grep -vE 'README|MANIFEST'; then
+            echo "RESTRICTED RED CHAMBER CORPUS TRACKED" >&2; exit 1
+          fi
+          echo "forbidden-file scan clean"
+
+  # 2. Python: format / lint / typecheck / tests
   python:
     runs-on: ubuntu-latest
     steps:
@@ -20,11 +54,71 @@ jobs:
         run: uv run ruff format --check .
       - name: Typecheck
         run: uv run pyright
-      - name: Tests
+      - name: Unit / integration / contract / property tests (SQLite)
         run: uv run pytest -q
-      - name: Architecture guard
+      - name: Architecture / quality gate
         run: uv run python scripts/quality.py
+      - name: Kernel freeze guard (Commit/Replay/Branch/Worldline/Lineage/Determinism)
+        run: uv run python scripts/kernel_guard.py
 
+  # 3. PostgreSQL migration + integration via service container
+  postgres:
+    name: PostgreSQL migration + integration
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: wanxiang
+          POSTGRES_PASSWORD: wanxiang
+          POSTGRES_DB: wanxiang
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U wanxiang"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: uv sync --all-groups --all-packages
+      - name: PostgreSQL migration + integration profile
+        run: uv run pytest tests/integration/test_g16b_postgres.py -q
+        env:
+          WANXIANG_POSTGRES_TEST_URL: postgresql://wanxiang:wanxiang@localhost:5432/wanxiang
+          WANXIANG_DATABASE_URL: postgresql://wanxiang:wanxiang@localhost:5432/wanxiang
+
+  # 4. API / package / SDK generation + drift checks
+  api-sdk:
+    name: API / package / SDK generation + drift
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: uv sync --all-groups --all-packages
+      - name: SDK baseline
+        run: uv run python scripts/sdk_baseline.py
+      - name: OpenAPI export
+        run: uv run python scripts/export_openapi.py
+      - name: Package authoring pipeline (wxpack scaffold/validate/build/certify)
+        run: |
+          set -euo pipefail
+          tmp="$(mktemp -d)"
+          uv run python scripts/wxpack.py scaffold "$tmp" ci-demo-domain --kind domain --name "CI Demo"
+          uv run python scripts/wxpack.py validate "$tmp" ci-demo-domain
+          uv run python scripts/wxpack.py build "$tmp" ci-demo-domain
+          uv run python scripts/wxpack.py certify "$tmp" ci-demo-domain
+      - name: No generated-artifact drift (clean tree)
+        run: git diff --exit-code
+
+  # 5. TypeScript SDK (frontend-type surface): install / lint / typecheck / test / build
   ts:
     runs-on: ubuntu-latest
     steps:
@@ -46,3 +140,24 @@ jobs:
         run: pnpm -r test
       - name: Build
         run: pnpm -r build
+
+  # 6. Package / build / certification smoke
+  release-smoke:
+    name: Release build + clean-room certification smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: uv sync --all-groups --all-packages
+      - name: Release build manifest
+        run: uv run python scripts/release_build.py
+      - name: Clean-room certification
+        run: uv run python scripts/clean_room_certify.py
+
+# Note: Playwright browser E2E is NOT_APPLICABLE for this repository today
+# (no Playwright config / e2e suite exists). The repository's full interactive
+# surface is covered by FastAPI TestClient integration tests (pytest) and the
+# TypeScript SDK Vitest suite.
