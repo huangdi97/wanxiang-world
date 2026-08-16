@@ -1,0 +1,79 @@
+{
+  "duplicates": [
+    {
+      "allowed": true,
+      "modules": [
+        "packages/research/src/wanxiang_research/generative_assets.py",
+        "packages/substrate/src/wanxiang_substrate/assets/foundry.py"
+      ],
+      "name": "AssetGenerator"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/substrate/src/wanxiang_substrate/canon_graph/timeline_canon.py",
+        "packages/substrate/src/wanxiang_substrate/sources/canon.py"
+      ],
+      "name": "CanonClaim"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/substrate/src/wanxiang_substrate/agency/policy.py",
+        "packages/substrate/src/wanxiang_substrate/population/policy.py"
+      ],
+      "name": "DeterministicPolicy"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/substrate/src/wanxiang_substrate/observation/model.py",
+        "packages/substrate/src/wanxiang_substrate/research/adapters.py"
+      ],
+      "name": "Observation"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/research/src/wanxiang_research/reality_stream.py",
+        "packages/substrate/src/wanxiang_substrate/reality/fusion.py"
+      ],
+      "name": "ObservationFusion"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/substrate/src/wanxiang_substrate/agency/model.py",
+        "packages/substrate/src/wanxiang_substrate/cosim/campaign.py"
+      ],
+      "name": "Order"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/domain/src/wanxiang_domain/errors.py",
+        "packages/substrate/src/wanxiang_substrate/sources/errors.py"
+      ],
+      "name": "RightsDenied"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/domain/src/wanxiang_domain/rights.py",
+        "packages/substrate/src/wanxiang_substrate/sources/model.py"
+      ],
+      "name": "RightsEnvelope"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/research/src/wanxiang_research/sim_federation.py",
+        "packages/substrate/src/wanxiang_substrate/reality/experiment.py"
+      ],
+      "name": "ValidityEnvelope"
+    }
+  ],
+  "scan": "G54D duplicate abstraction scan",
+  "unallowed": [],
+  "verdict": "PASS"
+}
