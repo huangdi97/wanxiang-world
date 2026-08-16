@@ -105,15 +105,24 @@
       ],
       "new_abstractions_allowance": 8,
       "note": "Parse/Segment/Stable Locator: ParsedDocument IR, StructureParser, segment model + format locators, incremental cache, parse checkpoint, diagnostics API. All propose only; single locator/source-registry."
+    },
+    "M54": {
+      "hard_constraints": [
+        "1 commit path",
+        "no Canon from candidates",
+        "no second envelope"
+      ],
+      "new_abstractions_allowance": 10,
+      "note": "Distillation & Candidate Fabric: unified CandidateEnvelope, distiller DAG + registry, reference passes (identity/event/relation/character/object), candidate clustering. Candidates propose only; no Canon."
     }
   },
   "oversized_modules": 0,
-  "ports": 25,
-  "production_files": 362,
-  "production_loc": 33095,
-  "public_classes": 739,
-  "public_functions": 309,
-  "registry_classes": 12,
+  "ports": 26,
+  "production_files": 369,
+  "production_loc": 33834,
+  "public_classes": 751,
+  "public_functions": 311,
+  "registry_classes": 13,
   "service_classes": 17,
   "state_schema_models": 22,
   "store_classes": 20

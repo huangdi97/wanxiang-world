@@ -499,3 +499,10 @@ Segment/StableLocator, IncrementalParser/ParseCache, ParseCheckpointService,
 DiagnosticsReport). Justification: M53 Parse/Segment/Stable Locator; all
 propose-only, single source registry/locator system. Count impact:
 services 16->17, py 1231->1256.
+
+## M54 entry (G57A-G57H)
+New abstractions: candidates package (CandidateEnvelope, CandidateClusterer,
+ClusterSuggestion/Decision), distill package (Distiller protocol + DAG +
+registry, reference passes). Justification: M54 Distillation & Candidate
+Fabric; candidates propose only (never Canon), single envelope. Count impact:
+registries 12->13, ports 25->26, py 1256->1286.

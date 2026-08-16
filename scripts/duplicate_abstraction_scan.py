@@ -27,6 +27,10 @@ ALLOWED_DUPLICATE_NAMES: dict[str, tuple[str, ...]] = {
         "packages/research/src/wanxiang_research/generative_assets.py",
         "packages/substrate/src/wanxiang_substrate/assets/foundry.py",
     ),
+    "CandidateEnvelope": (
+        "packages/substrate/src/wanxiang_substrate/candidates/envelope.py",
+        "packages/substrate/src/wanxiang_substrate/evolution/distillation.py",
+    ),
     "CanonClaim": (
         "packages/substrate/src/wanxiang_substrate/canon_graph/timeline_canon.py",
         "packages/substrate/src/wanxiang_substrate/sources/canon.py",

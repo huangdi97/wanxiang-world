@@ -53,7 +53,7 @@
 | G57F | PASS (2026-08-16, commit g57) |
 | G57G | PASS (2026-08-16, commit g57) |
 | G57H | PASS (2026-08-16, commit g57) |
-| G57I | pending |
+| G57I | PASS (2026-08-16, commit g57i) |
 
 ## M55
 
@@ -263,6 +263,7 @@
 | G73F | pending |
 | G73G | pending |
 | G73H | pending |
+
 
 
 

@@ -146,6 +146,15 @@ MILESTONE_BUDGETS: dict[str, MilestoneBudget] = {
         "new_abstractions_allowance": 8,
         "hard_constraints": ("1 commit path", "single source registry", "no fake extraction"),
     },
+    "M54": {
+        "note": (
+            "Distillation & Candidate Fabric: unified CandidateEnvelope, distiller "
+            "DAG + registry, reference passes (identity/event/relation/character/"
+            "object), candidate clustering. Candidates propose only; no Canon."
+        ),
+        "new_abstractions_allowance": 10,
+        "hard_constraints": ("1 commit path", "no Canon from candidates", "no second envelope"),
+    },
 }
 
 

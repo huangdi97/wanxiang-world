@@ -83,33 +83,31 @@
         "G57G",
         "G57H"
       ],
-      "missing": [
-        "wanxiang_substrate.distill.passes.EventTimeSpacePass",
-        "wanxiang_substrate.distill.passes.RelationOrganizationPass"
-      ],
+      "missing": [],
       "name": "Multi-pass Distillation",
       "present": [
         "wanxiang_substrate.sources.identity.IdentityDistiller",
-        "wanxiang_substrate.sources.entity_distill.EntityDistiller"
+        "wanxiang_substrate.sources.entity_distill.EntityDistiller",
+        "wanxiang_substrate.distill.passes.EventTimeSpacePass",
+        "wanxiang_substrate.distill.passes.RelationOrganizationPass"
       ],
       "stage": 6,
-      "status": "PARTIAL"
+      "status": "EXISTS"
     },
     {
       "closure_goals": [
         "G57A",
         "G58A"
       ],
-      "missing": [
-        "wanxiang_substrate.candidates.envelope.CandidateEnvelope"
-      ],
+      "missing": [],
       "name": "CandidateEnvelope / Claim / Evidence",
       "present": [
         "wanxiang_substrate.sources.model.ClaimCandidate",
-        "wanxiang_substrate.sources.model.EvidenceLink"
+        "wanxiang_substrate.sources.model.EvidenceLink",
+        "wanxiang_substrate.candidates.envelope.CandidateEnvelope"
       ],
       "stage": 7,
-      "status": "PARTIAL"
+      "status": "EXISTS"
     },
     {
       "closure_goals": [

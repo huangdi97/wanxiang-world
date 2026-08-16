@@ -500,3 +500,15 @@ qualified); real baseline = v5.2/M42 production + public GitHub delivery.
 - Cross-format locator round-trip E2E green (EPUB/DOCX/PDF/JSON/CSV/GEDCOM/TXT).
 - Full regression 1096 passed + 1 skipped + 3 env-deselected.
 - Next: M54 Distillation & Candidate Fabric (G57A-G57I).
+
+### M54 goals
+| Goal | Status |
+|---|---|
+| G57A-G57H Distillation & Candidate Fabric | PASS (commit 65d8a91) |
+| G57I M54 qualification | PASS (this update) |
+| **M54 Milestone Gate** | **PASS (2026-08-16, reports/M54_QUALIFICATION.md)** |
+
+- Unified CandidateEnvelope + Distiller DAG + 5 reference passes + clustering.
+- Deterministic candidate E2E (book/GEDCOM/JSON/CSV) green; no Canon from candidates.
+- Full regression 1114 passed + 1 skipped + 3 env-deselected.
+- Next: M55 Evidence / Rights / Review / Completion Core (G58A-G58H).

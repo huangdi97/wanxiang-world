@@ -9,15 +9,15 @@ hard invariants that must hold at every milestone.
 
 | Metric | Count |
 |---|---|
-| Production files | 362 |
-| Production LOC | 33095 |
-| Public classes | 739 |
-| Public functions | 309 |
-| Registries | 12 |
+| Production files | 369 |
+| Production LOC | 33834 |
+| Public classes | 751 |
+| Public functions | 311 |
+| Registries | 13 |
 | Managers | 0 |
 | Services | 17 |
 | Engines | 2 |
-| Ports | 25 |
+| Ports | 26 |
 | Stores | 20 |
 | State/schema models | 22 |
 | Import cycles | 0 |
@@ -42,6 +42,7 @@ Hard invariants hold: **True** (0 cycles, 1 commit path).
 | M51 | 5 | Source->LivingWorld Forge baseline: unified Job/JobCheckpoint/JobStore/JobService + typed job errors; reuses single commit path (jobs never mutate canon). | 1 commit path; no second source registry; jobs propose only |
 | M52 | 12 | Source Registry & Adapter Foundation: convergence fields, blob refs, SourceAdapter ABI + AdapterRegistry, book/structured/asset adapters, ingestion security gate. All adapters propose only; single SourceRegistry. | 1 commit path; single source registry; no fake extraction |
 | M53 | 8 | Parse/Segment/Stable Locator: ParsedDocument IR, StructureParser, segment model + format locators, incremental cache, parse checkpoint, diagnostics API. All propose only; single locator/source-registry. | 1 commit path; single source registry; no fake extraction |
+| M54 | 10 | Distillation & Candidate Fabric: unified CandidateEnvelope, distiller DAG + registry, reference passes (identity/event/relation/character/object), candidate clustering. Candidates propose only; no Canon. | 1 commit path; no Canon from candidates; no second envelope |
 
 Every new abstraction must answer the four questions in
 `reports/V5_2_CODE_MINIMALITY_LEDGER.md`; otherwise it is not added.
