@@ -78,16 +78,25 @@
       ],
       "new_abstractions_allowance": 0,
       "note": "Final acceptance: verification + evidence only; no new abstractions."
+    },
+    "M51": {
+      "hard_constraints": [
+        "1 commit path",
+        "no second source registry",
+        "jobs propose only"
+      ],
+      "new_abstractions_allowance": 5,
+      "note": "Source->LivingWorld Forge baseline: unified Job/JobCheckpoint/JobStore/JobService + typed job errors; reuses single commit path (jobs never mutate canon)."
     }
   },
   "oversized_modules": 0,
   "ports": 24,
-  "production_files": 344,
-  "production_loc": 30802,
-  "public_classes": 694,
+  "production_files": 349,
+  "production_loc": 31176,
+  "public_classes": 703,
   "public_functions": 296,
   "registry_classes": 11,
-  "service_classes": 15,
+  "service_classes": 16,
   "state_schema_models": 22,
-  "store_classes": 18
+  "store_classes": 19
 }

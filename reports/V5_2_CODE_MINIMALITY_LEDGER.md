@@ -476,3 +476,10 @@ New abstractions: ReleaseFreeze, ReleaseBundle, ReleaseGates, FinalCertification
 (frozen records) + freeze_sdk / build_release_bundle / certify_release
 (functions). Justification: M42 production release gate core; certification
 refused when any gate is red; no new registry/engine/store.
+
+## M51 entry (G54E)
+New abstractions: jobs package (Job, JobCheckpoint, JobStore, JobService,
+JobError taxonomy). Justification: unified Source->LivingWorld Import/Authoring
+job with idempotent create + checkpoint/resume; reuses WanxiangError + single
+commit path (jobs never mutate canon); no second registry/engine/store.
+Count impact: service_classes 15->16, store_classes 19, py symbols 1176->1190.

@@ -9,16 +9,16 @@ hard invariants that must hold at every milestone.
 
 | Metric | Count |
 |---|---|
-| Production files | 344 |
-| Production LOC | 30802 |
-| Public classes | 694 |
+| Production files | 349 |
+| Production LOC | 31176 |
+| Public classes | 703 |
 | Public functions | 296 |
 | Registries | 11 |
 | Managers | 0 |
-| Services | 15 |
+| Services | 16 |
 | Engines | 2 |
 | Ports | 24 |
-| Stores | 18 |
+| Stores | 19 |
 | State/schema models | 22 |
 | Import cycles | 0 |
 | Commit paths | 1 |
@@ -39,6 +39,7 @@ Hard invariants hold: **True** (0 cycles, 1 commit path).
 | M32 | 1 | Red Chamber content (World/Domain/Experience) must NOT add Core abstractions. | no Core special-casing for red_chamber; no model-memory Canon |
 | M33 | 1 | Red Chamber instance runtime; reuse Living World substrate. | no second Runtime; no Core hack for RC-001 |
 | M34 | 0 | Final acceptance: verification + evidence only; no new abstractions. | working tree clean or explained; no failed-test skips |
+| M51 | 5 | Source->LivingWorld Forge baseline: unified Job/JobCheckpoint/JobStore/JobService + typed job errors; reuses single commit path (jobs never mutate canon). | 1 commit path; no second source registry; jobs propose only |
 
 Every new abstraction must answer the four questions in
 `reports/V5_2_CODE_MINIMALITY_LEDGER.md`; otherwise it is not added.

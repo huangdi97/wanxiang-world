@@ -45,7 +45,7 @@
 | packages/substrate/src/wanxiang_substrate/spatial/errors.py | InvalidSpatialState | 34 |
 | packages/substrate/src/wanxiang_substrate/spatial/model.py | SpatialSnapshot | 91 |
 
-## store_classes (18)
+## store_classes (19)
 
 | path | name | line |
 |---|---|---|
@@ -64,14 +64,16 @@
 | packages/substrate/src/wanxiang_substrate/assets/storage.py | LocalObjectStore | 44 |
 | packages/substrate/src/wanxiang_substrate/capability/runtime_control.py | RuntimeControlLedger | 33 |
 | packages/substrate/src/wanxiang_substrate/evolution/promotion/control.py | PromotionControlLedger | 29 |
+| packages/substrate/src/wanxiang_substrate/jobs/store.py | JobStore | 35 |
 | packages/substrate/src/wanxiang_substrate/ledger/completion.py | CompletionReviewLedger | 86 |
 | packages/substrate/src/wanxiang_substrate/ledger/ledger.py | CompletionLedger | 30 |
 | packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | CheckpointStore | 31 |
 
-## service_classes (15)
+## service_classes (16)
 
 | path | name | line |
 |---|---|---|
+| packages/substrate/src/wanxiang_substrate/jobs/service.py | JobService | 17 |
 | packages/substrate/src/wanxiang_substrate/lifecycle/service.py | LifecycleService | 19 |
 | packages/substrate/src/wanxiang_substrate/observation/query.py | PerspectiveService | 29 |
 | packages/substrate/src/wanxiang_substrate/projection/service.py | ProjectionService | 32 |

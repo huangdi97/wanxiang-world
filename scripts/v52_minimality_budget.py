@@ -120,6 +120,14 @@ MILESTONE_BUDGETS: dict[str, MilestoneBudget] = {
         "new_abstractions_allowance": 0,
         "hard_constraints": ("working tree clean or explained", "no failed-test skips"),
     },
+    "M51": {
+        "note": (
+            "Source->LivingWorld Forge baseline: unified Job/JobCheckpoint/JobStore/"
+            "JobService + typed job errors; reuses single commit path (jobs never mutate canon)."
+        ),
+        "new_abstractions_allowance": 5,
+        "hard_constraints": ("1 commit path", "no second source registry", "jobs propose only"),
+    },
 }
 
 
