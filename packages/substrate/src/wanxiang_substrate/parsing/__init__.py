@@ -6,6 +6,8 @@ from wanxiang_substrate.parsing.model import (
     ParseDiagnostic,
     StructuralNode,
 )
+from wanxiang_substrate.parsing.checkpoint import ParseCheckpointService
+from wanxiang_substrate.parsing.incremental import IncrementalParser, ParseCache, changed_segments
 from wanxiang_substrate.parsing.parser import StructureParser
 from wanxiang_substrate.parsing.segment import (
     Segment,
@@ -17,8 +19,12 @@ from wanxiang_substrate.parsing.segment import (
 
 __all__ = [
     "DocumentMetadata",
+    "IncrementalParser",
+    "ParseCache",
+    "ParseCheckpointService",
     "ParseDiagnostic",
     "ParsedDocument",
+    "changed_segments",
     "Segment",
     "StableLocator",
     "StructuralNode",

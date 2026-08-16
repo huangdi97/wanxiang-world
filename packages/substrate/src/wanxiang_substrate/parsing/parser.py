@@ -30,6 +30,14 @@ class StructureParser:
         self._parser_version = parser_version
         self._segmenter_version = segmenter_version
 
+    @property
+    def parser_version(self) -> int:
+        return self._parser_version
+
+    @property
+    def segmenter_version(self) -> int:
+        return self._segmenter_version
+
     def parse(
         self,
         result: IngestResult,
