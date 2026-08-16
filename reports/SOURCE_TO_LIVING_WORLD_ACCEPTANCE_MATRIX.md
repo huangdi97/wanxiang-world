@@ -65,7 +65,7 @@
 | G58D | PASS (2026-08-16, commit g58af) |
 | G58E | PASS (2026-08-16, commit g58af) |
 | G58F | PASS (2026-08-16, commit g58af) |
-| G58G | pending |
+| G58G | PASS (2026-08-16, commit g58g) |
 | G58H | pending |
 
 ## M56
@@ -263,6 +263,7 @@
 | G73F | pending |
 | G73G | pending |
 | G73H | pending |
+
 
 
 

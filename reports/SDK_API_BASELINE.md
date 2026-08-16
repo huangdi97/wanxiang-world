@@ -1,12 +1,15 @@
 # SDK API Baseline (G17A)
 
-- API routes: 17
+- API routes: 23
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 1286
+- Python public names (stable packages): 1309
 
 ## API routes
 
 - `GET /constitutions/{constitution_id}`
+- `GET /forge/candidates/{candidate_id}/evidence`
+- `GET /forge/conflicts`
+- `GET /forge/reviews/{target_id}`
 - `GET /healthz`
 - `GET /lineage/compare`
 - `GET /lineage/nodes/{node_id}/ancestors`
@@ -16,6 +19,9 @@
 - `GET /worlds/{instance_id}`
 - `GET /worlds/{instance_id}/events`
 - `GET /worlds/{instance_id}/state`
+- `POST /forge/completions/plan`
+- `POST /forge/conflicts`
+- `POST /forge/reviews`
 - `POST /lineage/promotions`
 - `POST /worlds`
 - `POST /worlds/{instance_id}/actions`

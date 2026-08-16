@@ -10,6 +10,34 @@
         "operationId": "get_constitution_constitutions__constitution_id__get"
       }
     },
+    "/forge/candidates/{candidate_id}/evidence": {
+      "get": {
+        "operationId": "candidate_evidence_forge_candidates__candidate_id__evidence_get"
+      }
+    },
+    "/forge/completions/plan": {
+      "post": {
+        "operationId": "build_completion_plan_forge_completions_plan_post"
+      }
+    },
+    "/forge/conflicts": {
+      "get": {
+        "operationId": "list_conflicts_forge_conflicts_get"
+      },
+      "post": {
+        "operationId": "register_conflict_forge_conflicts_post"
+      }
+    },
+    "/forge/reviews": {
+      "post": {
+        "operationId": "record_review_forge_reviews_post"
+      }
+    },
+    "/forge/reviews/{target_id}": {
+      "get": {
+        "operationId": "review_history_forge_reviews__target_id__get"
+      }
+    },
     "/healthz": {
       "get": {
         "operationId": "healthz_healthz_get"
