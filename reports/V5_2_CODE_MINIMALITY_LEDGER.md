@@ -506,3 +506,11 @@ ClusterSuggestion/Decision), distill package (Distiller protocol + DAG +
 registry, reference passes). Justification: M54 Distillation & Candidate
 Fabric; candidates propose only (never Canon), single envelope. Count impact:
 registries 12->13, ports 25->26, py 1256->1286.
+
+## M55 entry (G58A-G58G)
+New abstractions: evidence (EvidenceBindings/EvidenceLink, ConflictLedger/
+ConflictSet), rights (RightsGate), review (ReviewLedger/ReviewDecision),
+completion (CompletionCandidate E0-E5, CompletionPlanner/Plan), forge review
+API routes. Justification: M55 Evidence/Rights/Review/Completion core;
+append-only/reversible decisions, no auto canon. Count impact: API routes
+17->23, py 1286->1309; registry/service/engine/ports unchanged.

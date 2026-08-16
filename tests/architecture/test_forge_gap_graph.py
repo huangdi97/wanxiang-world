@@ -24,8 +24,10 @@ def test_graph_reports_honest_statuses() -> None:
     """Stages 10/11/12/14/19 are genuinely missing today; do not over-claim."""
     graph = gap.build_graph()
     status = {s.stage: s.status for s in graph}
-    for stage in (10, 11, 12, 14, 19):
+    for stage in (10, 11, 14, 19):
         assert status[stage] == "MISSING"
+    # Completion planner (G58F) exists; missingness graph still missing.
+    assert status[12] == "PARTIAL"
     # Foundation registry/locator/package/living stages exist.
     for stage in (1, 2, 5, 20, 21):
         assert status[stage] == "EXISTS"

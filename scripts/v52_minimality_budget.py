@@ -155,6 +155,15 @@ MILESTONE_BUDGETS: dict[str, MilestoneBudget] = {
         "new_abstractions_allowance": 10,
         "hard_constraints": ("1 commit path", "no Canon from candidates", "no second envelope"),
     },
+    "M55": {
+        "note": (
+            "Evidence/Rights/Review/Completion core: evidence bindings, conflict "
+            "ledger, rights gate, review ledger, E0-E5 completion + planner, review "
+            "API routes. All decisions append-only/reversible; no Canon promotion."
+        ),
+        "new_abstractions_allowance": 8,
+        "hard_constraints": ("1 commit path", "no last-write-wins", "no auto canon"),
+    },
 }
 
 

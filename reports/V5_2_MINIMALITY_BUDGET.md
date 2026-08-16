@@ -9,16 +9,16 @@ hard invariants that must hold at every milestone.
 
 | Metric | Count |
 |---|---|
-| Production files | 369 |
-| Production LOC | 33834 |
-| Public classes | 751 |
-| Public functions | 311 |
+| Production files | 380 |
+| Production LOC | 34520 |
+| Public classes | 770 |
+| Public functions | 318 |
 | Registries | 13 |
 | Managers | 0 |
 | Services | 17 |
 | Engines | 2 |
 | Ports | 26 |
-| Stores | 20 |
+| Stores | 22 |
 | State/schema models | 22 |
 | Import cycles | 0 |
 | Commit paths | 1 |
@@ -43,6 +43,7 @@ Hard invariants hold: **True** (0 cycles, 1 commit path).
 | M52 | 12 | Source Registry & Adapter Foundation: convergence fields, blob refs, SourceAdapter ABI + AdapterRegistry, book/structured/asset adapters, ingestion security gate. All adapters propose only; single SourceRegistry. | 1 commit path; single source registry; no fake extraction |
 | M53 | 8 | Parse/Segment/Stable Locator: ParsedDocument IR, StructureParser, segment model + format locators, incremental cache, parse checkpoint, diagnostics API. All propose only; single locator/source-registry. | 1 commit path; single source registry; no fake extraction |
 | M54 | 10 | Distillation & Candidate Fabric: unified CandidateEnvelope, distiller DAG + registry, reference passes (identity/event/relation/character/object), candidate clustering. Candidates propose only; no Canon. | 1 commit path; no Canon from candidates; no second envelope |
+| M55 | 8 | Evidence/Rights/Review/Completion core: evidence bindings, conflict ledger, rights gate, review ledger, E0-E5 completion + planner, review API routes. All decisions append-only/reversible; no Canon promotion. | 1 commit path; no last-write-wins; no auto canon |
 
 Every new abstraction must answer the four questions in
 `reports/V5_2_CODE_MINIMALITY_LEDGER.md`; otherwise it is not added.

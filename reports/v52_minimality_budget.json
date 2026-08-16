@@ -114,16 +114,25 @@
       ],
       "new_abstractions_allowance": 10,
       "note": "Distillation & Candidate Fabric: unified CandidateEnvelope, distiller DAG + registry, reference passes (identity/event/relation/character/object), candidate clustering. Candidates propose only; no Canon."
+    },
+    "M55": {
+      "hard_constraints": [
+        "1 commit path",
+        "no last-write-wins",
+        "no auto canon"
+      ],
+      "new_abstractions_allowance": 8,
+      "note": "Evidence/Rights/Review/Completion core: evidence bindings, conflict ledger, rights gate, review ledger, E0-E5 completion + planner, review API routes. All decisions append-only/reversible; no Canon promotion."
     }
   },
   "oversized_modules": 0,
   "ports": 26,
-  "production_files": 369,
-  "production_loc": 33834,
-  "public_classes": 751,
-  "public_functions": 311,
+  "production_files": 380,
+  "production_loc": 34520,
+  "public_classes": 770,
+  "public_functions": 318,
   "registry_classes": 13,
   "service_classes": 17,
   "state_schema_models": 22,
-  "store_classes": 20
+  "store_classes": 22
 }

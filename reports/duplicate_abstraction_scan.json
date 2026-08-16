@@ -35,6 +35,14 @@
     {
       "allowed": true,
       "modules": [
+        "packages/substrate/src/wanxiang_substrate/evidence/binding.py",
+        "packages/substrate/src/wanxiang_substrate/sources/model.py"
+      ],
+      "name": "EvidenceLink"
+    },
+    {
+      "allowed": true,
+      "modules": [
         "packages/substrate/src/wanxiang_substrate/observation/model.py",
         "packages/substrate/src/wanxiang_substrate/research/adapters.py"
       ],
@@ -55,6 +63,14 @@
         "packages/substrate/src/wanxiang_substrate/cosim/campaign.py"
       ],
       "name": "Order"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/substrate/src/wanxiang_substrate/ledger/model.py",
+        "packages/substrate/src/wanxiang_substrate/review/decisions.py"
+      ],
+      "name": "ReviewDecision"
     },
     {
       "allowed": true,

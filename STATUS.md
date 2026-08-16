@@ -512,3 +512,15 @@ qualified); real baseline = v5.2/M42 production + public GitHub delivery.
 - Deterministic candidate E2E (book/GEDCOM/JSON/CSV) green; no Canon from candidates.
 - Full regression 1114 passed + 1 skipped + 3 env-deselected.
 - Next: M55 Evidence / Rights / Review / Completion Core (G58A-G58H).
+
+### M55 goals
+| Goal | Status |
+|---|---|
+| G58A-G58F Evidence/Rights/Review/Completion core | PASS (commit b20f12f) |
+| G58G Review APIs | PASS (commit 44ada36) |
+| G58H M55 qualification | PASS (this update) |
+| **M55 Milestone Gate** | **PASS (2026-08-17, reports/M55_QUALIFICATION.md)** |
+
+- Evidence bindings + conflicts + rights gate + review ledger + E0-E5 completion + planner + forge review API.
+- Full regression 1127 passed + 1 skipped + 3 env-deselected.
+- Next: M56 Domain Matching & WorldDraft (G59A-G59H).

@@ -178,28 +178,28 @@
         "G67B"
       ],
       "missing": [
-        "wanxiang_substrate.completion.missingness.MissingnessGraph",
-        "wanxiang_substrate.completion.planner.CompletionPlanner"
+        "wanxiang_substrate.completion.missingness.MissingnessGraph"
       ],
       "name": "Missingness Graph / Completion Plan",
-      "present": [],
+      "present": [
+        "wanxiang_substrate.completion.planner.CompletionPlanner"
+      ],
       "stage": 12,
-      "status": "MISSING"
+      "status": "PARTIAL"
     },
     {
       "closure_goals": [
         "G58E",
         "G58F"
       ],
-      "missing": [
-        "wanxiang_substrate.completion.candidates.CompletionCandidate"
-      ],
+      "missing": [],
       "name": "Completion Candidate E0-E5",
       "present": [
-        "wanxiang_substrate.ledger.ledger.CompletionLedger"
+        "wanxiang_substrate.ledger.ledger.CompletionLedger",
+        "wanxiang_substrate.completion.candidates.CompletionCandidate"
       ],
       "stage": 13,
-      "status": "PARTIAL"
+      "status": "EXISTS"
     },
     {
       "closure_goals": [

@@ -39,6 +39,14 @@ ALLOWED_DUPLICATE_NAMES: dict[str, tuple[str, ...]] = {
         "packages/substrate/src/wanxiang_substrate/agency/policy.py",
         "packages/substrate/src/wanxiang_substrate/population/policy.py",
     ),
+    "EvidenceLink": (
+        "packages/substrate/src/wanxiang_substrate/evidence/binding.py",
+        "packages/substrate/src/wanxiang_substrate/sources/model.py",
+    ),
+    "ReviewDecision": (
+        "packages/substrate/src/wanxiang_substrate/ledger/model.py",
+        "packages/substrate/src/wanxiang_substrate/review/decisions.py",
+    ),
     "Observation": (
         "packages/substrate/src/wanxiang_substrate/observation/model.py",
         "packages/substrate/src/wanxiang_substrate/research/adapters.py",
