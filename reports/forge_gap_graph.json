@@ -1,0 +1,327 @@
+{
+  "closure_goal_count": 160,
+  "errors": [],
+  "graph": "G54C Source->Living World capability/gap graph",
+  "stages": [
+    {
+      "closure_goals": [],
+      "missing": [],
+      "name": "SOURCE",
+      "present": [
+        "wanxiang_substrate.sources.model.SourceRecord"
+      ],
+      "stage": 1,
+      "status": "EXISTS"
+    },
+    {
+      "closure_goals": [],
+      "missing": [],
+      "name": "SourceRegistry + Rights + Version + Checksum",
+      "present": [
+        "wanxiang_substrate.sources.registry.SourceRegistry",
+        "wanxiang_substrate.sources.model.RightsEnvelope"
+      ],
+      "stage": 2,
+      "status": "EXISTS"
+    },
+    {
+      "closure_goals": [
+        "G55D",
+        "G55E",
+        "G55F",
+        "G55G"
+      ],
+      "missing": [
+        "wanxiang_substrate.compiler.readers.read_epub",
+        "wanxiang_substrate.compiler.readers.read_docx",
+        "wanxiang_substrate.compiler.readers.read_pdf_text",
+        "wanxiang_substrate.compiler.readers.read_csv"
+      ],
+      "name": "SourceAdapter (TXT/MD/EPUB/DOCX/text-PDF/JSON/YAML/CSV/GEDCOM/Asset)",
+      "present": [
+        "wanxiang_substrate.compiler.readers.read_source",
+        "wanxiang_substrate.genealogy.gedcom.parse_gedcom"
+      ],
+      "stage": 3,
+      "status": "PARTIAL"
+    },
+    {
+      "closure_goals": [
+        "G56A",
+        "G56B"
+      ],
+      "missing": [
+        "wanxiang_substrate.parsing.model.ParsedDocument"
+      ],
+      "name": "ParsedDocument / StructuredRecords / AssetReferences",
+      "present": [
+        "wanxiang_substrate.compiler.model.CandidateObject"
+      ],
+      "stage": 4,
+      "status": "PARTIAL"
+    },
+    {
+      "closure_goals": [
+        "G56C",
+        "G56D"
+      ],
+      "missing": [],
+      "name": "Segment + StableLocator",
+      "present": [
+        "wanxiang_substrate.sources.locator.segment_source"
+      ],
+      "stage": 5,
+      "status": "EXISTS"
+    },
+    {
+      "closure_goals": [
+        "G57A",
+        "G57B",
+        "G57C",
+        "G57D",
+        "G57E",
+        "G57F",
+        "G57G",
+        "G57H"
+      ],
+      "missing": [
+        "wanxiang_substrate.distill.passes.EventTimeSpacePass",
+        "wanxiang_substrate.distill.passes.RelationOrganizationPass"
+      ],
+      "name": "Multi-pass Distillation",
+      "present": [
+        "wanxiang_substrate.sources.identity.IdentityDistiller",
+        "wanxiang_substrate.sources.entity_distill.EntityDistiller"
+      ],
+      "stage": 6,
+      "status": "PARTIAL"
+    },
+    {
+      "closure_goals": [
+        "G57A",
+        "G58A"
+      ],
+      "missing": [
+        "wanxiang_substrate.candidates.envelope.CandidateEnvelope"
+      ],
+      "name": "CandidateEnvelope / Claim / Evidence",
+      "present": [
+        "wanxiang_substrate.sources.model.ClaimCandidate",
+        "wanxiang_substrate.sources.model.EvidenceLink"
+      ],
+      "stage": 7,
+      "status": "PARTIAL"
+    },
+    {
+      "closure_goals": [
+        "G63A",
+        "G64B",
+        "G57C"
+      ],
+      "missing": [
+        "wanxiang_substrate.fusion.alignment.CrossSourceAligner"
+      ],
+      "name": "Identity Resolution + Cross-source Alignment",
+      "present": [
+        "wanxiang_substrate.sources.identity.IdentityCandidate"
+      ],
+      "stage": 8,
+      "status": "PARTIAL"
+    },
+    {
+      "closure_goals": [
+        "G58B",
+        "G58D",
+        "G64C",
+        "G64E"
+      ],
+      "missing": [
+        "wanxiang_substrate.conflict.workbench.ConflictWorkbench"
+      ],
+      "name": "Conflict Preservation + Review Decisions",
+      "present": [
+        "wanxiang_substrate.sources.fixture.conflicting_claims",
+        "wanxiang_substrate.sources.entity_distill.EntityReviewGate"
+      ],
+      "stage": 9,
+      "status": "PARTIAL"
+    },
+    {
+      "closure_goals": [
+        "G59A",
+        "G59B",
+        "G59C",
+        "G66A",
+        "G66B",
+        "G66C"
+      ],
+      "missing": [],
+      "name": "Domain Inference / Dependency Resolution",
+      "present": [],
+      "stage": 10,
+      "status": "MISSING"
+    },
+    {
+      "closure_goals": [
+        "G59D",
+        "G59E"
+      ],
+      "missing": [
+        "wanxiang_substrate.draft.model.WorldDraft"
+      ],
+      "name": "WorldDraft",
+      "present": [],
+      "stage": 11,
+      "status": "MISSING"
+    },
+    {
+      "closure_goals": [
+        "G59E",
+        "G67A",
+        "G67B"
+      ],
+      "missing": [
+        "wanxiang_substrate.completion.missingness.MissingnessGraph",
+        "wanxiang_substrate.completion.planner.CompletionPlanner"
+      ],
+      "name": "Missingness Graph / Completion Plan",
+      "present": [],
+      "stage": 12,
+      "status": "MISSING"
+    },
+    {
+      "closure_goals": [
+        "G58E",
+        "G58F"
+      ],
+      "missing": [
+        "wanxiang_substrate.completion.candidates.CompletionCandidate"
+      ],
+      "name": "Completion Candidate E0-E5",
+      "present": [
+        "wanxiang_substrate.ledger.ledger.CompletionLedger"
+      ],
+      "stage": 13,
+      "status": "PARTIAL"
+    },
+    {
+      "closure_goals": [
+        "G67F",
+        "G67G"
+      ],
+      "missing": [
+        "wanxiang_substrate.completion.consistency.ConsistencySolver"
+      ],
+      "name": "Consistency / Constraint Validation",
+      "present": [],
+      "stage": 14,
+      "status": "MISSING"
+    },
+    {
+      "closure_goals": [
+        "G59F",
+        "G68A",
+        "G68F"
+      ],
+      "missing": [
+        "wanxiang_substrate.genesis.plan.GenesisPlan"
+      ],
+      "name": "Scenario Candidate / Genesis Plan",
+      "present": [
+        "wanxiang_substrate.sources.canon.ScenarioPoint"
+      ],
+      "stage": 15,
+      "status": "PARTIAL"
+    },
+    {
+      "closure_goals": [
+        "G60B",
+        "G60C"
+      ],
+      "missing": [
+        "wanxiang_substrate.draft.package.WorldPackageDraft"
+      ],
+      "name": "WorldPackageDraft",
+      "present": [
+        "wanxiang_substrate.packages.model.PackageManifest"
+      ],
+      "stage": 16,
+      "status": "PARTIAL"
+    },
+    {
+      "closure_goals": [
+        "G60E",
+        "G60F",
+        "G60G"
+      ],
+      "missing": [
+        "wanxiang_substrate.preview.scope.PreviewScope"
+      ],
+      "name": "Preview Instance",
+      "present": [
+        "wanxiang_substrate.living.runtime.instantiate_scenarios"
+      ],
+      "stage": 17,
+      "status": "PARTIAL"
+    },
+    {
+      "closure_goals": [
+        "G69A",
+        "G69B"
+      ],
+      "missing": [
+        "wanxiang_substrate.worldness.evaluator.WorldnessEvaluator"
+      ],
+      "name": "Worldness Evaluation",
+      "present": [
+        "wanxiang_substrate.living.runtime.WORLDNESS_CLASSES"
+      ],
+      "stage": 18,
+      "status": "PARTIAL"
+    },
+    {
+      "closure_goals": [
+        "G69C",
+        "G69D",
+        "G69E",
+        "G69F"
+      ],
+      "missing": [
+        "wanxiang_substrate.worldness.repair.RepairProposal",
+        "wanxiang_substrate.worldness.repair.RecompileLoop"
+      ],
+      "name": "Repair Proposal / Completion Loop",
+      "present": [],
+      "stage": 19,
+      "status": "MISSING"
+    },
+    {
+      "closure_goals": [
+        "G60C",
+        "G73G"
+      ],
+      "missing": [],
+      "name": "Publishable WorldPackage",
+      "present": [
+        "wanxiang_substrate.release.readiness.ReleaseGates",
+        "wanxiang_substrate.worldpack.assembler.GenesisSpec"
+      ],
+      "stage": 20,
+      "status": "EXISTS"
+    },
+    {
+      "closure_goals": [
+        "G72E"
+      ],
+      "missing": [],
+      "name": "Living World Instance",
+      "present": [
+        "wanxiang_application.world_runtime.WorldRuntime",
+        "wanxiang_substrate.living.runtime.ScenarioInstance"
+      ],
+      "stage": 21,
+      "status": "EXISTS"
+    }
+  ],
+  "verdict": "PASS"
+}
