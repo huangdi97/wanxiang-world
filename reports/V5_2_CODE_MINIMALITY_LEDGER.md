@@ -483,3 +483,12 @@ JobError taxonomy). Justification: unified Source->LivingWorld Import/Authoring
 job with idempotent create + checkpoint/resume; reuses WanxiangError + single
 commit path (jobs never mutate canon); no second registry/engine/store.
 Count impact: service_classes 15->16, store_classes 19, py symbols 1176->1190.
+
+## M52 entry (G55A-G55G)
+New abstractions: source convergence fields (no new types), BlobRef +
+SourceBlobStore, SourceAdapter/ReferenceTextAdapter/AdapterRegistry/
+SourceInspection/IngestResult, BookAdapter, StructuredAdapter, AssetAdapter +
+GenericAsset, IngestSecurityGate + security errors, Chapter. Justification:
+M52 Source Registry & Adapter Foundation; single SourceRegistry, single ObjectStore
+port (G16D), adapters propose only. Count impact: registries 11->12, ports 24->25,
+py 1190->1231.

@@ -128,6 +128,15 @@ MILESTONE_BUDGETS: dict[str, MilestoneBudget] = {
         "new_abstractions_allowance": 5,
         "hard_constraints": ("1 commit path", "no second source registry", "jobs propose only"),
     },
+    "M52": {
+        "note": (
+            "Source Registry & Adapter Foundation: convergence fields, blob refs, "
+            "SourceAdapter ABI + AdapterRegistry, book/structured/asset adapters, "
+            "ingestion security gate. All adapters propose only; single SourceRegistry."
+        ),
+        "new_abstractions_allowance": 12,
+        "hard_constraints": ("1 commit path", "single source registry", "no fake extraction"),
+    },
 }
 
 

@@ -465,3 +465,21 @@ qualified); real baseline = v5.2/M42 production + public GitHub delivery.
 - New M51 tests: 28 (truth audit / freeze goldens / gap graph / duplicates / jobs).
 - Full regression: (see reports/M51_QUALIFICATION.md for final count).
 - Next: M52 Source Registry & Adapter Foundation (G55A-G55H).
+
+### M52 goals
+| Goal | Status |
+|---|---|
+| G55A SourceRecord convergence | PASS (commit 59e6238) |
+| G55B Blob asset reference | PASS (commit 4ef54cf) |
+| G55C SourceAdapter ABI | PASS (commit a4a6253) |
+| G55D Book adapters | PASS (commit fe76f62) |
+| G55E Structured adapters | PASS (commit ce8a66a) |
+| G55F Asset adapter | PASS (commit cee571e) |
+| G55G Ingestion security | PASS (commit 6a4158d) |
+| G55H M52 qualification | PASS (this update) |
+| **M52 Milestone Gate** | **PASS (2026-08-16, reports/M52_QUALIFICATION.md)** |
+
+- Adapter matrix green (TXT/MD/EPUB/DOCX/text-PDF/JSON/YAML/CSV/GEDCOM/Asset);
+  scanned PDF -> honest OCR_REQUIRED.
+- Full regression 1064 passed + 1 skipped + 3 env-deselected.
+- Next: M53 Parse / Segment / Stable Locator (G56A-G56H).

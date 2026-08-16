@@ -70,6 +70,12 @@ def test_static_success_candidates_are_documented_only() -> None:
             "packages/substrate/src/wanxiang_substrate/evolution/policy_stack.py",
             "assert_world_cannot_mutate_platform",
         ),
+        # G55C/G55D/G55E/G55F stateless reference adapters: resume() is a
+        # documented no-op (idempotent); progress is owned by JobService.
+        ("packages/substrate/src/wanxiang_substrate/sources/adapter.py", "resume"),
+        ("packages/substrate/src/wanxiang_substrate/sources/book.py", "resume"),
+        ("packages/substrate/src/wanxiang_substrate/sources/structured.py", "resume"),
+        ("packages/substrate/src/wanxiang_substrate/sources/asset.py", "resume"),
     }
     actual = {(f["file"], f["text"].removeprefix("def ")) for f in findings}
     assert actual == documented, f"unexpected static-success paths: {actual - documented}"

@@ -2,7 +2,7 @@
 
 - API routes: 17
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 1190
+- Python public names (stable packages): 1231
 
 ## API routes
 
@@ -315,6 +315,7 @@
 - `wanxiang_substrate.ActorEvolutionState`
 - `wanxiang_substrate.ActorEvolutionTracker`
 - `wanxiang_substrate.AdapterContractError`
+- `wanxiang_substrate.AdapterRegistry`
 - `wanxiang_substrate.Adjudication`
 - `wanxiang_substrate.AdjudicationService`
 - `wanxiang_substrate.Adjudicator`
@@ -325,6 +326,5 @@
 - `wanxiang_substrate.AliasClaim`
 - `wanxiang_substrate.Appointment`
 - `wanxiang_substrate.AppointmentState`
-- `wanxiang_substrate.ArbitrationResult`
 
 Machine-readable: reports/sdk_api_baseline.json.

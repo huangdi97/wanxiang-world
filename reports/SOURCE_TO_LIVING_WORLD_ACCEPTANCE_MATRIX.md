@@ -26,7 +26,7 @@
 | G55E | PASS (2026-08-16, commit g55e) |
 | G55F | PASS (2026-08-16, commit g55f) |
 | G55G | PASS (2026-08-16, commit g55g) |
-| G55H | pending |
+| G55H | PASS (2026-08-16, commit g55h) |
 
 ## M53
 
@@ -263,6 +263,7 @@
 | G73F | pending |
 | G73G | pending |
 | G73H | pending |
+
 
 
 

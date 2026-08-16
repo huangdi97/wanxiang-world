@@ -225,3 +225,7 @@ gates M51 -> M70. Current: M51 PASS (2026-08-16).
 | 6 | G54F | M51 qualification | PASS (2026-08-16) |
 | 7 | M51 Gate | Post-v5.3 Audit & Forge Baseline | PASS (2026-08-16) |
 | 8 | G55A..G55H | Source Registry & Adapter Foundation (M52) | pending |
+
+| 8 | G55A..G55H | Source Registry & Adapter Foundation (M52) | PASS (2026-08-16, commits g55a..g55g) |
+| 9 | M52 Gate | Source Registry & Adapter Foundation | PASS (2026-08-16) |
+| 10 | G56A..G56H | Parse / Segment / Stable Locator (M53) | pending |

@@ -2,7 +2,7 @@
 
 > Deterministic AST scan. Groups: registry/catalog, state models, stores,
 > services/managers, engines, ports, oversized modules, commit paths.
-## registry_classes (11)
+## registry_classes (12)
 
 | path | name | line |
 |---|---|---|
@@ -16,6 +16,7 @@
 | packages/substrate/src/wanxiang_substrate/packages/registry.py | InMemoryPackageRegistry | 24 |
 | packages/substrate/src/wanxiang_substrate/resolution/registry.py | AdjudicatorRegistry | 15 |
 | packages/substrate/src/wanxiang_substrate/skills/registry.py | SkillRegistry | 13 |
+| packages/substrate/src/wanxiang_substrate/sources/adapter.py | AdapterRegistry | 112 |
 | packages/substrate/src/wanxiang_substrate/sources/registry.py | SourceRegistry | 31 |
 
 ## state_classes (22)
@@ -45,7 +46,7 @@
 | packages/substrate/src/wanxiang_substrate/spatial/errors.py | InvalidSpatialState | 34 |
 | packages/substrate/src/wanxiang_substrate/spatial/model.py | SpatialSnapshot | 91 |
 
-## store_classes (19)
+## store_classes (20)
 
 | path | name | line |
 |---|---|---|
@@ -68,6 +69,7 @@
 | packages/substrate/src/wanxiang_substrate/ledger/completion.py | CompletionReviewLedger | 86 |
 | packages/substrate/src/wanxiang_substrate/ledger/ledger.py | CompletionLedger | 30 |
 | packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | CheckpointStore | 31 |
+| packages/substrate/src/wanxiang_substrate/sources/blob.py | SourceBlobStore | 51 |
 
 ## service_classes (16)
 
@@ -97,7 +99,7 @@
 | packages/research/src/wanxiang_research/planner.py | PlannerEngine | 47 |
 | packages/runtime/src/wanxiang_runtime/replay.py | ReplayEngine | 21 |
 
-## ports (24)
+## ports (25)
 
 | path | name | line |
 |---|---|---|
@@ -125,6 +127,7 @@
 | packages/substrate/src/wanxiang_substrate/reality/bridge.py | ObservationAdapter | 21 |
 | packages/substrate/src/wanxiang_substrate/reality/challenge.py | OpportunityDetector | 49 |
 | packages/substrate/src/wanxiang_substrate/runtime_port.py | WorldRuntimePort | 29 |
+| packages/substrate/src/wanxiang_substrate/sources/adapter.py | SourceAdapter | 47 |
 
 ## oversized_modules (0)
 
