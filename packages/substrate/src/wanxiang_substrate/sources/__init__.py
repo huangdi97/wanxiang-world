@@ -8,6 +8,7 @@ from wanxiang_substrate.sources.adapter import (
     SourceInspection,
     require_text,
 )
+from wanxiang_substrate.sources.asset import AssetAdapter, GenericAsset, kind_for, register_asset
 from wanxiang_substrate.sources.blob import BlobRef, SourceBlobStore, is_blob_uri
 from wanxiang_substrate.sources.book import BookAdapter, Chapter
 from wanxiang_substrate.sources.canon import (
@@ -88,7 +89,11 @@ __all__ = [
     "AdapterRegistry",
     "BlobRef",
     "BookAdapter",
+    "AssetAdapter",
     "Chapter",
+    "GenericAsset",
+    "kind_for",
+    "register_asset",
     "StructuredAdapter",
     "IngestError",
     "IngestResult",
