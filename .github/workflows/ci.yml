@@ -87,7 +87,7 @@ jobs:
       - name: Install dependencies
         run: uv sync --all-groups --all-packages
       - name: PostgreSQL migration + integration profile
-        run: uv run pytest tests/integration/test_g16b_postgres.py -q
+        run: uv run --with psycopg2-binary pytest tests/integration/test_g16b_postgres.py -q
         env:
           WANXIANG_POSTGRES_TEST_URL: postgresql://wanxiang:wanxiang@localhost:5432/wanxiang
           WANXIANG_DATABASE_URL: postgresql://wanxiang:wanxiang@localhost:5432/wanxiang

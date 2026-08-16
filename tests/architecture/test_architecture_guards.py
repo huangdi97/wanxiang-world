@@ -133,9 +133,7 @@ def test_secret_scan_detects_api_key() -> None:
     tree = _write_tree(
         {
             "packages/domain/src/wanxiang_domain/__init__.py": "",
-            "packages/domain/src/wanxiang_domain/config.py": (
-                f'API_KEY = "{fake_key}"\n'
-            ),
+            "packages/domain/src/wanxiang_domain/config.py": (f'API_KEY = "{fake_key}"\n'),
         },
     )
     violations = scan_secrets(tree)
