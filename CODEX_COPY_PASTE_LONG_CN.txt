@@ -1,24 +1,64 @@
-继续当前万相世界仓库。用户已经授权本轮最终将代码上传 GitHub。
+继续当前已经公开到 GitHub 的 `wanxiang-world` 仓库。不要新建项目，不要重新做 v5.3，不要开始训练模型。
 
-请先完整阅读本包 README、00–10 全部文档、全部 goals/、全部 milestones/，以及当前仓库 M42/v5.2 reports、AGENTS.md、PLAN.md、STATUS.md、DECISIONS.md、BLOCKERS.md、KNOWN_FAILURES.md、CHANGELOG.md、Git、源码、tests、migrations。
+本次使用新的 **M51–M70 Source → Living World 全量连续执行包**；它取代之前单独的 M51–M59 包。
 
-然后严格执行 `10_CODEX_MASTER_LONG_PROMPT_CN.md`，从 G46A 一直连续跑到 G53J，不要中途问是否继续。
+先完整阅读：
+README_FIRST.md
+00_MASTER_ROADMAP.md
+01_ARCHITECTURE_BOUNDARIES.md
+02_SOURCE_TO_LIVING_WORLD_PIPELINE.md
+03_SOURCE_ADAPTER_MATRIX.md
+04_SEMANTIC_DISTILLATION_SPEC.md
+05_WORLD_DRAFT_SCHEMA.md
+06_AUTONOMOUS_WORLD_AUTHORING_SPEC.md
+07_COMPLETION_CONSISTENCY_SPEC.md
+08_WORLDNESS_VALIDATION_SPEC.md
+09_STUDIO_ONE_CLICK_SPEC.md
+10_MODEL_PROVIDER_POLICY.md
+11_GITHUB_CI_RELEASE_POLICY.md
+12_CODEX_MASTER_PROMPT_CN.md
+13_GOALS_INDEX.md
+14_MILESTONE_GATES.md
+15_RESUME_PROTOCOL.md
+16_FINAL_ACCEPTANCE.md
+17_RED_CHAMBER_IMPORT_REFERENCE.md
+18_FAMILY_IMPORT_REFERENCE.md
+19_NON_GOALS_AND_RESEARCH_BOUNDARIES.md
+全部 goals/
+全部 milestones/
+以及仓库当前 AGENTS/STATUS/PLAN/DECISIONS/BLOCKERS/KNOWN_FAILURES/CHANGELOG、Git history、tests、migrations、package schemas、OpenAPI 和 CI workflows。
 
-核心：Kernel v1 冻结；不重造 Commit/Event/Branch/Lineage/Package/Capability；Interworld 默认不反向污染 origin；Hybrid Genesis 只创建新 child definition；World Intelligence 只能 proposal/candidate；内部失败自己修；最终测试全部 PASS 后 normal git push；禁止 force push；不提交 secrets/private data/restricted corpus/model cache；记录 remote branch + final SHA；可用 gh 且权限允许可创建 PR；最终认证后可选 push v5.3.0-rc1 tag；不开始 v5.4。
+然后严格执行 `12_CODEX_MASTER_PROMPT_CN.md`，从 M51 连续跑到 M70，不中途问我是否继续。
 
+最终目标：
+Book / GEDCOM / JSON / CSV / Multi-source Bundle
+→ Source Registry
+→ Parse / Segment / Stable Locator
+→ Multi-pass Distillation
+→ Candidate / Evidence / Rights
+→ Multi-source Fusion
+→ Domain Composition
+→ WorldDraft
+→ Completion / Consistency
+→ Scenario / Genesis
+→ WorldPackageDraft
+→ Preview
+→ Worldness Validation
+→ Repair Loop
+→ Publishable World Package
+→ Living World Instance
 
-【开源 + GitHub + CI 最终授权，覆盖旧的 private/optional 规则】
-用户明确要求：上面全部 Goal 做完后，自动把万相开源。
-
-请额外完整读取：
-11_OPEN_SOURCE_GITHUB_CI_POLICY.md
-12_GITHUB_ACTIONS_CI_SPEC.md
-新版 goals/G53G–G53L
-新版 milestones/M50_QUALIFICATION.md
-
-最终顺序必须是：
-本地 final PASS → 开源安全审计 → License/README/CONTRIBUTING/SECURITY/数据权利说明 → GitHub Actions CI 文件及本地等价验证 → 自动创建 PUBLIC `wanxiang-world`（重名则 fallback）→ push → 用 gh 查询真实 GitHub Actions → CI 失败就修复并继续 push → 核心 CI 全绿 → push v5.3.0-rc1 tag → 创建 GitHub Release Candidate → 记录远端 URL/SHA/CI run/release → STOP。
-
-若无现有 LICENSE，默认代码使用 Apache-2.0。不得上传 secrets、个人数据、DB、未明确可再分发的《红楼梦》电子底本/现代校注、受限博物馆资产、模型缓存或本地大文件。不要删除用户本地原始数据，只排除出 Git tracking/public repo。
-
-GitHub auth/permission/service 是唯一允许的远端 EXTERNAL_BLOCKED；普通 CI 失败必须自己修到绿。禁止 force push。
+关键要求：
+- Kernel 默认冻结；
+- 具体世界不进入 Core；
+- LLM/Agent/Model 只做 Provider，不拥有 Commit；
+- 不训练自有模型；
+- no-API reference E2E 必须通过；
+- 真实版权书籍、family 私有资料不进 Git；
+- 扫描 PDF 无 OCR Provider 时必须诚实返回 OCR_REQUIRED；
+- Candidate/Completion 不能冒充 E0 Canon；
+- 每 Goal PASS 后 commit 并继续；
+- 最后 push 到现有 public GitHub repo 的 feature branch；
+- 查询真实 Actions，失败就修到 required CI green；
+- 若权限/流程允许创建 v5.4.0-rc1 RC；
+- M70 完成后 STOP，不自行进入模型训练或 v5.5。

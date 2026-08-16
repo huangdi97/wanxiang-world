@@ -1,0 +1,22 @@
+# Milestone Gates
+
+- **M51** — Post-v5.3 Audit & Forge Baseline — `milestones/M51_QUALIFICATION.md`
+- **M52** — Source Registry & Adapter Foundation — `milestones/M52_QUALIFICATION.md`
+- **M53** — Parse / Segment / Stable Locator — `milestones/M53_QUALIFICATION.md`
+- **M54** — Distillation & Candidate Fabric — `milestones/M54_QUALIFICATION.md`
+- **M55** — Evidence / Rights / Review / Completion Core — `milestones/M55_QUALIFICATION.md`
+- **M56** — Domain Matching & WorldDraft — `milestones/M56_QUALIFICATION.md`
+- **M57** — World Compiler / Package / Preview — `milestones/M57_QUALIFICATION.md`
+- **M58** — Studio Create World Wizard + API / CLI — `milestones/M58_QUALIFICATION.md`
+- **M59** — Cross-source E2E / Hardening — `milestones/M59_QUALIFICATION.md`
+- **M60** — Book-scale Semantic World Understanding — `milestones/M60_QUALIFICATION.md`
+- **M61** — Multi-source / Multi-version Fusion — `milestones/M61_QUALIFICATION.md`
+- **M62** — Multimodal & External Source Expansion — `milestones/M62_QUALIFICATION.md`
+- **M63** — Domain Inference / Composition / Gap Packs — `milestones/M63_QUALIFICATION.md`
+- **M64** — Constraint-backed Completion & Consistency — `milestones/M64_QUALIFICATION.md`
+- **M65** — Scenario / Genesis Auto Authoring — `milestones/M65_QUALIFICATION.md`
+- **M66** — Worldness Validation & Simulation Closure — `milestones/M66_QUALIFICATION.md`
+- **M67** — Autonomous Authoring Orchestrator — `milestones/M67_QUALIFICATION.md`
+- **M68** — Minimal Human Review / Active Review Studio — `milestones/M68_QUALIFICATION.md`
+- **M69** — One-click Source → Living World E2E — `milestones/M69_QUALIFICATION.md`
+- **M70** — Production Hardening / GitHub CI / v5.4 RC — `milestones/M70_QUALIFICATION.md`
