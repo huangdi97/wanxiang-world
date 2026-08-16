@@ -32,8 +32,8 @@
 
 | Goal | Status |
 |---|---|
-| G56A | pending |
-| G56B | pending |
+| G56A | PASS (2026-08-16, commit g56ab) |
+| G56B | PASS (2026-08-16, commit g56ab) |
 | G56C | pending |
 | G56D | pending |
 | G56E | pending |
@@ -263,6 +263,7 @@
 | G73F | pending |
 | G73G | pending |
 | G73H | pending |
+
 
 
 
