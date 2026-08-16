@@ -1,5 +1,6 @@
 """Source registry & source gate substrate (G04B)."""
 
+from wanxiang_substrate.sources.blob import BlobRef, SourceBlobStore, is_blob_uri
 from wanxiang_substrate.sources.canon import (
     CanonClaim,
     CanonCompiler,
@@ -70,6 +71,7 @@ from wanxiang_substrate.sources.policy import SourcePolicy
 from wanxiang_substrate.sources.registry import AuditEntry, SourceRegistry
 
 __all__ = [
+    "BlobRef",
     "AuditEntry",
     "CharacterCanon",
     "CharacterDistiller",
@@ -113,6 +115,7 @@ __all__ = [
     "SourceAccess",
     "SourcePolicy",
     "SourceRecord",
+    "SourceBlobStore",
     "SourceRegistry",
     "VALID_SOURCE_ACCESS",
     "approved_source",
@@ -122,6 +125,7 @@ __all__ = [
     "payload_hash",
     "rejected_source",
     "SourceLocator",
+    "is_blob_uri",
     "locator_stable_hash",
     "segment_source",
     "source_slice",
