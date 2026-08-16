@@ -35,6 +35,10 @@ ALLOWED_DUPLICATE_NAMES: dict[str, tuple[str, ...]] = {
         "packages/substrate/src/wanxiang_substrate/canon_graph/timeline_canon.py",
         "packages/substrate/src/wanxiang_substrate/sources/canon.py",
     ),
+    "CoverageReport": (
+        "packages/substrate/src/wanxiang_substrate/canon_graph/timeline_canon.py",
+        "packages/substrate/src/wanxiang_substrate/draft/coverage.py",
+    ),
     "DeterministicPolicy": (
         "packages/substrate/src/wanxiang_substrate/agency/policy.py",
         "packages/substrate/src/wanxiang_substrate/population/policy.py",

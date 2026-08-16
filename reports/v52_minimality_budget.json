@@ -123,16 +123,25 @@
       ],
       "new_abstractions_allowance": 8,
       "note": "Evidence/Rights/Review/Completion core: evidence bindings, conflict ledger, rights gate, review ledger, E0-E5 completion + planner, review API routes. All decisions append-only/reversible; no Canon promotion."
+    },
+    "M56": {
+      "hard_constraints": [
+        "1 commit path",
+        "no second runtime state",
+        "no per-world domain fork"
+      ],
+      "new_abstractions_allowance": 9,
+      "note": "Domain Matching & WorldDraft: domain capability registry + recommender + resolver, WorldDraft v1 + store, coverage, scenario mining, genesis draft. Drafts are compile intermediates, never runtime state."
     }
   },
   "oversized_modules": 0,
   "ports": 26,
-  "production_files": 380,
-  "production_loc": 34520,
-  "public_classes": 770,
+  "production_files": 390,
+  "production_loc": 35188,
+  "public_classes": 785,
   "public_functions": 318,
-  "registry_classes": 13,
+  "registry_classes": 14,
   "service_classes": 17,
   "state_schema_models": 22,
-  "store_classes": 22
+  "store_classes": 23
 }

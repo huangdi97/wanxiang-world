@@ -524,3 +524,14 @@ qualified); real baseline = v5.2/M42 production + public GitHub delivery.
 - Evidence bindings + conflicts + rights gate + review ledger + E0-E5 completion + planner + forge review API.
 - Full regression 1127 passed + 1 skipped + 3 env-deselected.
 - Next: M56 Domain Matching & WorldDraft (G59A-G59H).
+
+### M56 goals
+| Goal | Status |
+|---|---|
+| G59A-G59G Domain Matching & WorldDraft | PASS (commit 9ca62c2) |
+| G59H M56 qualification | PASS (this update) |
+| **M56 Milestone Gate** | **PASS (2026-08-17, reports/M56_QUALIFICATION.md)** |
+
+- Domain registry/recommender/resolver + WorldDraft v1 (revisioned/saveable) + coverage/scenarios/genesis.
+- Full regression 1137 passed + 1 skipped + 3 env-deselected.
+- Next: M57 World Compiler / Package / Preview (G60A-G60H).

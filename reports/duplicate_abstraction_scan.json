@@ -27,6 +27,14 @@
     {
       "allowed": true,
       "modules": [
+        "packages/substrate/src/wanxiang_substrate/canon_graph/timeline_canon.py",
+        "packages/substrate/src/wanxiang_substrate/draft/coverage.py"
+      ],
+      "name": "CoverageReport"
+    },
+    {
+      "allowed": true,
+      "modules": [
         "packages/substrate/src/wanxiang_substrate/agency/policy.py",
         "packages/substrate/src/wanxiang_substrate/population/policy.py"
       ],

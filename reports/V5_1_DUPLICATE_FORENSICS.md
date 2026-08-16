@@ -2,7 +2,7 @@
 
 > Deterministic AST scan. Groups: registry/catalog, state models, stores,
 > services/managers, engines, ports, oversized modules, commit paths.
-## registry_classes (13)
+## registry_classes (14)
 
 | path | name | line |
 |---|---|---|
@@ -11,6 +11,7 @@
 | packages/runtime/src/wanxiang_runtime/resolver.py | ResolverRegistry | 29 |
 | packages/substrate/src/wanxiang_substrate/actions/registry.py | ActionRegistry | 8 |
 | packages/substrate/src/wanxiang_substrate/distill/protocol.py | DistillerRegistry | 54 |
+| packages/substrate/src/wanxiang_substrate/domains/capability.py | DomainRegistry | 38 |
 | packages/substrate/src/wanxiang_substrate/host/host.py | HostRegistry | 107 |
 | packages/substrate/src/wanxiang_substrate/lineage/presence.py | PresenceRegistry | 71 |
 | packages/substrate/src/wanxiang_substrate/packages/registry.py | PackageRegistry | 15 |
@@ -47,7 +48,7 @@
 | packages/substrate/src/wanxiang_substrate/spatial/errors.py | InvalidSpatialState | 34 |
 | packages/substrate/src/wanxiang_substrate/spatial/model.py | SpatialSnapshot | 91 |
 
-## store_classes (22)
+## store_classes (23)
 
 | path | name | line |
 |---|---|---|
@@ -65,6 +66,7 @@
 | packages/substrate/src/wanxiang_substrate/assets/storage.py | ObjectStore | 35 |
 | packages/substrate/src/wanxiang_substrate/assets/storage.py | LocalObjectStore | 44 |
 | packages/substrate/src/wanxiang_substrate/capability/runtime_control.py | RuntimeControlLedger | 33 |
+| packages/substrate/src/wanxiang_substrate/draft/store.py | DraftStore | 20 |
 | packages/substrate/src/wanxiang_substrate/evidence/conflict.py | ConflictLedger | 38 |
 | packages/substrate/src/wanxiang_substrate/evolution/promotion/control.py | PromotionControlLedger | 29 |
 | packages/substrate/src/wanxiang_substrate/jobs/store.py | JobStore | 35 |

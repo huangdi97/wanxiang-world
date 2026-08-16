@@ -241,3 +241,7 @@ gates M51 -> M70. Current: M51 PASS (2026-08-16).
 | 14 | G58A..G58H | Evidence / Rights / Review / Completion Core (M55) | PASS (2026-08-17, commits g58af/g58g) |
 | 15 | M55 Gate | Evidence / Rights / Review / Completion Core | PASS (2026-08-17) |
 | 16 | G59A..G59H | Domain Matching & WorldDraft (M56) | pending |
+
+| 16 | G59A..G59H | Domain Matching & WorldDraft (M56) | PASS (2026-08-17, commit g59) |
+| 17 | M56 Gate | Domain Matching & WorldDraft | PASS (2026-08-17) |
+| 18 | G60A..G60H | World Compiler / Package / Preview (M57) | pending |

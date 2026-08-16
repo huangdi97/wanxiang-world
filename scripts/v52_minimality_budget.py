@@ -164,6 +164,15 @@ MILESTONE_BUDGETS: dict[str, MilestoneBudget] = {
         "new_abstractions_allowance": 8,
         "hard_constraints": ("1 commit path", "no last-write-wins", "no auto canon"),
     },
+    "M56": {
+        "note": (
+            "Domain Matching & WorldDraft: domain capability registry + recommender "
+            "+ resolver, WorldDraft v1 + store, coverage, scenario mining, genesis "
+            "draft. Drafts are compile intermediates, never runtime state."
+        ),
+        "new_abstractions_allowance": 9,
+        "hard_constraints": ("1 commit path", "no second runtime state", "no per-world domain fork"),
+    },
 }
 
 

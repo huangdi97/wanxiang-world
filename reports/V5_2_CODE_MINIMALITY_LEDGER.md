@@ -514,3 +514,10 @@ completion (CompletionCandidate E0-E5, CompletionPlanner/Plan), forge review
 API routes. Justification: M55 Evidence/Rights/Review/Completion core;
 append-only/reversible decisions, no auto canon. Count impact: API routes
 17->23, py 1286->1309; registry/service/engine/ports unchanged.
+
+## M56 entry (G59A-G59G)
+New abstractions: domains package (DomainCapability/Registry, Recommender,
+DependencyResolver), draft package (WorldDraft, DraftStore, CoverageAssessor,
+ScenarioMiner, GenesisPlanBuilder). Justification: M56 Domain Matching &
+WorldDraft; drafts are compile intermediates, domains reusable. Count impact:
+registries 13->14, py 1309->1324.

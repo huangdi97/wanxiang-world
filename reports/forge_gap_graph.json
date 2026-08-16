@@ -163,13 +163,13 @@
         "G59D",
         "G59E"
       ],
-      "missing": [
+      "missing": [],
+      "name": "WorldDraft",
+      "present": [
         "wanxiang_substrate.draft.model.WorldDraft"
       ],
-      "name": "WorldDraft",
-      "present": [],
       "stage": 11,
-      "status": "MISSING"
+      "status": "EXISTS"
     },
     {
       "closure_goals": [
