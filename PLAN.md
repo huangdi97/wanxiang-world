@@ -229,3 +229,7 @@ gates M51 -> M70. Current: M51 PASS (2026-08-16).
 | 8 | G55A..G55H | Source Registry & Adapter Foundation (M52) | PASS (2026-08-16, commits g55a..g55g) |
 | 9 | M52 Gate | Source Registry & Adapter Foundation | PASS (2026-08-16) |
 | 10 | G56A..G56H | Parse / Segment / Stable Locator (M53) | pending |
+
+| 10 | G56A..G56H | Parse / Segment / Stable Locator (M53) | PASS (2026-08-16, commits g56ab/g56cd/g56ef/g56g) |
+| 11 | M53 Gate | Parse / Segment / Stable Locator | PASS (2026-08-16) |
+| 12 | G57A..G57I | Distillation & Candidate Fabric (M54) | pending |

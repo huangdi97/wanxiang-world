@@ -9,13 +9,13 @@ hard invariants that must hold at every milestone.
 
 | Metric | Count |
 |---|---|
-| Production files | 355 |
-| Production LOC | 32247 |
-| Public classes | 728 |
-| Public functions | 301 |
+| Production files | 362 |
+| Production LOC | 33095 |
+| Public classes | 739 |
+| Public functions | 309 |
 | Registries | 12 |
 | Managers | 0 |
-| Services | 16 |
+| Services | 17 |
 | Engines | 2 |
 | Ports | 25 |
 | Stores | 20 |
@@ -41,6 +41,7 @@ Hard invariants hold: **True** (0 cycles, 1 commit path).
 | M34 | 0 | Final acceptance: verification + evidence only; no new abstractions. | working tree clean or explained; no failed-test skips |
 | M51 | 5 | Source->LivingWorld Forge baseline: unified Job/JobCheckpoint/JobStore/JobService + typed job errors; reuses single commit path (jobs never mutate canon). | 1 commit path; no second source registry; jobs propose only |
 | M52 | 12 | Source Registry & Adapter Foundation: convergence fields, blob refs, SourceAdapter ABI + AdapterRegistry, book/structured/asset adapters, ingestion security gate. All adapters propose only; single SourceRegistry. | 1 commit path; single source registry; no fake extraction |
+| M53 | 8 | Parse/Segment/Stable Locator: ParsedDocument IR, StructureParser, segment model + format locators, incremental cache, parse checkpoint, diagnostics API. All propose only; single locator/source-registry. | 1 commit path; single source registry; no fake extraction |
 
 Every new abstraction must answer the four questions in
 `reports/V5_2_CODE_MINIMALITY_LEDGER.md`; otherwise it is not added.

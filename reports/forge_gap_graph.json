@@ -50,15 +50,14 @@
         "G56A",
         "G56B"
       ],
-      "missing": [
-        "wanxiang_substrate.parsing.model.ParsedDocument"
-      ],
+      "missing": [],
       "name": "ParsedDocument / StructuredRecords / AssetReferences",
       "present": [
-        "wanxiang_substrate.compiler.model.CandidateObject"
+        "wanxiang_substrate.compiler.model.CandidateObject",
+        "wanxiang_substrate.parsing.model.ParsedDocument"
       ],
       "stage": 4,
-      "status": "PARTIAL"
+      "status": "EXISTS"
     },
     {
       "closure_goals": [

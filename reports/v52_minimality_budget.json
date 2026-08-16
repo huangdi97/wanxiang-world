@@ -96,16 +96,25 @@
       ],
       "new_abstractions_allowance": 12,
       "note": "Source Registry & Adapter Foundation: convergence fields, blob refs, SourceAdapter ABI + AdapterRegistry, book/structured/asset adapters, ingestion security gate. All adapters propose only; single SourceRegistry."
+    },
+    "M53": {
+      "hard_constraints": [
+        "1 commit path",
+        "single source registry",
+        "no fake extraction"
+      ],
+      "new_abstractions_allowance": 8,
+      "note": "Parse/Segment/Stable Locator: ParsedDocument IR, StructureParser, segment model + format locators, incremental cache, parse checkpoint, diagnostics API. All propose only; single locator/source-registry."
     }
   },
   "oversized_modules": 0,
   "ports": 25,
-  "production_files": 355,
-  "production_loc": 32247,
-  "public_classes": 728,
-  "public_functions": 301,
+  "production_files": 362,
+  "production_loc": 33095,
+  "public_classes": 739,
+  "public_functions": 309,
   "registry_classes": 12,
-  "service_classes": 16,
+  "service_classes": 17,
   "state_schema_models": 22,
   "store_classes": 20
 }

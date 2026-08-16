@@ -483,3 +483,20 @@ qualified); real baseline = v5.2/M42 production + public GitHub delivery.
   scanned PDF -> honest OCR_REQUIRED.
 - Full regression 1064 passed + 1 skipped + 3 env-deselected.
 - Next: M53 Parse / Segment / Stable Locator (G56A-G56H).
+
+### M53 goals
+| Goal | Status |
+|---|---|
+| G56A ParsedDocument model | PASS (commit 77d4087) |
+| G56B Structural parsing | PASS (commit 77d4087) |
+| G56C Segment model | PASS (commit 31cc7f8) |
+| G56D Stable locator | PASS (commit 31cc7f8) |
+| G56E Incremental parsing | PASS (commit 32cb29c) |
+| G56F Checkpoint resume | PASS (commit 32cb29c) |
+| G56G Diagnostics API | PASS (commit 57b3869) |
+| G56H M53 qualification | PASS (this update) |
+| **M53 Milestone Gate** | **PASS (2026-08-16, reports/M53_QUALIFICATION.md)** |
+
+- Cross-format locator round-trip E2E green (EPUB/DOCX/PDF/JSON/CSV/GEDCOM/TXT).
+- Full regression 1096 passed + 1 skipped + 3 env-deselected.
+- Next: M54 Distillation & Candidate Fabric (G57A-G57I).

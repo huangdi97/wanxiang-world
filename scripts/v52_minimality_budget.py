@@ -137,6 +137,15 @@ MILESTONE_BUDGETS: dict[str, MilestoneBudget] = {
         "new_abstractions_allowance": 12,
         "hard_constraints": ("1 commit path", "single source registry", "no fake extraction"),
     },
+    "M53": {
+        "note": (
+            "Parse/Segment/Stable Locator: ParsedDocument IR, StructureParser, "
+            "segment model + format locators, incremental cache, parse checkpoint, "
+            "diagnostics API. All propose only; single locator/source-registry."
+        ),
+        "new_abstractions_allowance": 8,
+        "hard_constraints": ("1 commit path", "single source registry", "no fake extraction"),
+    },
 }
 
 

@@ -492,3 +492,10 @@ GenericAsset, IngestSecurityGate + security errors, Chapter. Justification:
 M52 Source Registry & Adapter Foundation; single SourceRegistry, single ObjectStore
 port (G16D), adapters propose only. Count impact: registries 11->12, ports 24->25,
 py 1190->1231.
+
+## M53 entry (G56A-G56G)
+New abstractions: parsing package (ParsedDocument IR, StructureParser,
+Segment/StableLocator, IncrementalParser/ParseCache, ParseCheckpointService,
+DiagnosticsReport). Justification: M53 Parse/Segment/Stable Locator; all
+propose-only, single source registry/locator system. Count impact:
+services 16->17, py 1231->1256.
