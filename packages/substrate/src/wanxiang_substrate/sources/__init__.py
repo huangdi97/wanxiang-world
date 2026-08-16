@@ -1,5 +1,13 @@
 """Source registry & source gate substrate (G04B)."""
 
+from wanxiang_substrate.sources.adapter import (
+    AdapterRegistry,
+    IngestResult,
+    ReferenceTextAdapter,
+    SourceAdapter,
+    SourceInspection,
+    require_text,
+)
 from wanxiang_substrate.sources.blob import BlobRef, SourceBlobStore, is_blob_uri
 from wanxiang_substrate.sources.canon import (
     CanonClaim,
@@ -28,12 +36,16 @@ from wanxiang_substrate.sources.entity_distill import (
 )
 from wanxiang_substrate.sources.errors import (
     DuplicateSource,
+    IngestError,
     InvalidTransition,
+    MalformedSourceContent,
     MaliciousSource,
+    OcrRequired,
     RightsDenied,
     SourceError,
     SourceNotApproved,
     SourceNotFound,
+    UnsupportedSource,
 )
 from wanxiang_substrate.sources.evidence import AUTHORIZED_REVIEWERS, evidence_ok
 from wanxiang_substrate.sources.fixture import (
@@ -71,6 +83,17 @@ from wanxiang_substrate.sources.policy import SourcePolicy
 from wanxiang_substrate.sources.registry import AuditEntry, SourceRegistry
 
 __all__ = [
+    "AdapterRegistry",
+    "BlobRef",
+    "IngestError",
+    "IngestResult",
+    "MalformedSourceContent",
+    "OcrRequired",
+    "ReferenceTextAdapter",
+    "SourceAdapter",
+    "SourceInspection",
+    "UnsupportedSource",
+    "require_text",
     "BlobRef",
     "AuditEntry",
     "CharacterCanon",

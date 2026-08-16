@@ -21,7 +21,7 @@
 |---|---|
 | G55A | PASS (2026-08-16, commit g55a) |
 | G55B | PASS (2026-08-16, commit g55b) |
-| G55C | pending |
+| G55C | PASS (2026-08-16, commit g55c) |
 | G55D | pending |
 | G55E | pending |
 | G55F | pending |
@@ -263,6 +263,7 @@
 | G73F | pending |
 | G73G | pending |
 | G73H | pending |
+
 
 
 

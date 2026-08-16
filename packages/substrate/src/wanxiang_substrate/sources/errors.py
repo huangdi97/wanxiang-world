@@ -33,3 +33,27 @@ class DuplicateSource(SourceError):
 
 class SourceNotFound(SourceError):
     code = "source_not_found"
+
+
+class UnsupportedSource(SourceError):
+    """No adapter can handle this source kind/format."""
+
+    code = "unsupported_source"
+
+
+class OcrRequired(SourceError):
+    """Scanned content needs an OCR provider; none is available (honest)."""
+
+    code = "ocr_required"
+
+
+class MalformedSourceContent(SourceError):
+    """Source bytes could not be parsed as the declared format."""
+
+    code = "malformed_source_content"
+
+
+class IngestError(SourceError):
+    """Adapter ingest failed (typed, never silent fallback)."""
+
+    code = "ingest_error"
