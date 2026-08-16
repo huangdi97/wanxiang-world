@@ -28,14 +28,25 @@ def test_postgres_live_integration_profile(persist_db_path: pathlib.Path) -> Non
     # Live profile: migrate a fresh Postgres schema, run the replay corpus, and
     # verify storage-independent hashes. This path executes only when an
     # operator provides a reachable instance.
-    from tests.conftest import upgrade_db
+    from alembic import command as alembic_command
+    from alembic.config import Config as AlembicConfig
     from tests.helpers.replay_fixture import BRANCH, INSTANCE, build_fixture_events
     from wanxiang_domain.versions import RuntimeVersion, SchemaVersion
     from wanxiang_persistence.database import create_engine_for
     from wanxiang_persistence.event_store import SqlAlchemyEventStore
     from wanxiang_runtime.replay import ReplayEngine
 
-    upgrade_db(pathlib.Path(url))
+    # Migrate the PostgreSQL URL directly; upgrade_db() is a SQLite-file helper
+    # and must not be handed a postgresql:// URL.
+    old_db_url = os.environ.get("WANXIANG_DATABASE_URL")
+    os.environ["WANXIANG_DATABASE_URL"] = url
+    try:
+        alembic_command.upgrade(AlembicConfig(str(ROOT / "alembic.ini")), "head")
+    finally:
+        if old_db_url is None:
+            os.environ.pop("WANXIANG_DATABASE_URL", None)
+        else:
+            os.environ["WANXIANG_DATABASE_URL"] = old_db_url
     factory = __import__("sqlalchemy.orm", fromlist=["sessionmaker"]).sessionmaker(
         bind=create_engine_for(url), expire_on_commit=False
     )

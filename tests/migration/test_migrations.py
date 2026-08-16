@@ -78,8 +78,19 @@ def test_pre_head_fixture_upgrade_keeps_data() -> None:
 def test_downgrade_round_trip() -> None:
     path = fresh_db_path()
     upgrade_db(path)
-    command.downgrade(_config(), "base")
-    command.upgrade(_config(), "head")
+    # Pin the migration URL to the test DB so the round-trip never touches the
+    # ambient default URL (sqlite:///./data/wanxiang.db), whose data/ dir may
+    # not exist on a fresh checkout.
+    old_url = os.environ.get("WANXIANG_DATABASE_URL")
+    os.environ["WANXIANG_DATABASE_URL"] = f"sqlite:///{path.as_posix()}"
+    try:
+        command.downgrade(_config(), "base")
+        command.upgrade(_config(), "head")
+    finally:
+        if old_url is None:
+            os.environ.pop("WANXIANG_DATABASE_URL", None)
+        else:
+            os.environ["WANXIANG_DATABASE_URL"] = old_url
     engine = create_engine_for(f"sqlite:///{path.as_posix()}")
     tables = set(inspect(engine).get_table_names())
     assert "events" in tables

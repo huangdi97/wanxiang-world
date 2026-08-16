@@ -37,6 +37,12 @@ def _sha256(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def _canonical_bytes(path: pathlib.Path) -> bytes:
+    """Canonical fixture bytes: CRLF normalized to LF so the recorded hashes
+    are reproducible on any platform / checkout line-ending policy."""
+    return path.read_bytes().replace(b"\r\n", b"\n")
+
+
 @pytest.mark.architecture
 def test_manifest_combined_hash_reproducible() -> None:
     manifest = _load("manifest.json")
@@ -51,7 +57,7 @@ def test_manifest_combined_hash_reproducible() -> None:
         "api.json",
     }
     for name, expected in files.items():
-        assert _sha256((BASELINE / name).read_bytes()) == expected
+        assert _sha256(_canonical_bytes(BASELINE / name)) == expected
     combined = _sha256("\n".join(f"{name}:{files[name]}" for name in sorted(files)).encode("utf-8"))
     assert combined == manifest["combined_semantic_hash"]
 

@@ -69,6 +69,12 @@ def sha256_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def canonical_bytes(path: pathlib.Path) -> bytes:
+    """Canonical bytes: CRLF normalized to LF so recorded hashes are
+    reproducible on any platform / checkout line-ending policy."""
+    return path.read_bytes().replace(b"\r\n", b"\n")
+
+
 def write_json(name: str, payload: dict[str, object]) -> None:
     TARGET.mkdir(parents=True, exist_ok=True)
     (TARGET / name).write_text(
@@ -258,7 +264,7 @@ def main() -> int:
 
     hashes: dict[str, str] = {}
     for name in sorted(payloads):
-        hashes[name] = sha256_bytes((TARGET / name).read_bytes())
+        hashes[name] = sha256_bytes(canonical_bytes(TARGET / name))
     combined = sha256_bytes(
         "\n".join(f"{name}:{hashes[name]}" for name in sorted(hashes)).encode("utf-8")
     )
