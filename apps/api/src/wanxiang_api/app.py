@@ -24,6 +24,7 @@ from wanxiang_api.constitution_routes import router as constitution_router
 from wanxiang_api.errors import install_error_handler
 from wanxiang_api.limits import PayloadTooLarge
 from wanxiang_api.lineage_routes import router as lineage_router
+from wanxiang_api.one_click_routes import router as one_click_router
 from wanxiang_api.promotion_routes import router as promotion_router
 from wanxiang_api.review_routes import router as review_router
 from wanxiang_api.routes import router
@@ -97,4 +98,5 @@ def create_app(
     app.include_router(promotion_router)
     app.include_router(constitution_router)
     app.include_router(authoring_router)
+    app.include_router(one_click_router)
     return app

@@ -2,7 +2,7 @@
 
 > Tracks every M51–M70 Goal and Milestone Gate toward `16_FINAL_ACCEPTANCE.md`.
 > Statuses: PASS / FAIL / EXTERNAL_BLOCKED / NOT_APPLICABLE / pending.
-> Updated: 2026-08-25 (M65 qualified; M66 onward pending).
+> Updated: 2026-08-25 (M69 qualified; M70 is the final hardening gate).
 
 ## M51
 
@@ -254,14 +254,15 @@
 
 | Goal | Status |
 |---|---|
-| G72A | pending |
-| G72B | pending |
-| G72C | pending |
-| G72D | pending |
-| G72E | pending |
-| G72F | pending |
-| G72G | pending |
-| G72H | pending |
+| G72A | PASS (2026-08-25, reports/G72A_REPORT.md) |
+| G72B | PASS (2026-08-25, reports/G72B_REPORT.md) |
+| G72C | PASS (2026-08-25, reports/G72C_REPORT.md) |
+| G72D | PASS (2026-08-25, reports/G72D_REPORT.md) |
+| G72E | PASS (2026-08-25, reports/G72E_REPORT.md) |
+| G72F | PASS (2026-08-25, reports/G72F_REPORT.md) |
+| G72G | PASS (2026-08-25, reports/G72G_REPORT.md) |
+| G72H | PASS (2026-08-25, reports/G72H_REPORT.md) |
+| **M69 Milestone Gate** | **PASS (2026-08-25, reports/M69_QUALIFICATION.md)** |
 
 ## M70
 

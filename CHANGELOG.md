@@ -1506,3 +1506,12 @@
   over the existing ReviewLedger.
 - Qualified G71A-G71H on no-API TestClient E2E; unknowns remain deferred and
   cannot become E0 Canon.
+
+## 2026-08-25 — M69 One-click Source → Living World E2E
+
+- Added one-click Book/GEDCOM/JSON/CSV/Mixed routing over the shared authoring
+  service, including deterministic asset handling and structured candidates.
+- Added explicit package validation/publish checkpointing; publish never owns
+  or mutates Canonical World State.
+- Added Studio one-click/publish and CLI `--publish` evidence, OCR_REQUIRED
+  negative coverage, runtime replay, and branch-isolation acceptance.

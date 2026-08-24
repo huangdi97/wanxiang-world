@@ -1,5 +1,7 @@
 # M69 — One-click Source → Living World E2E Qualification
 
+**PASS (2026-08-25)**
+
 ## Required Goals
 
 - G72A PASS
@@ -20,5 +22,9 @@
 - 检查 no-API reference path（适用时）。
 - 检查 Source/Evidence/Rights 负向测试（适用时）。
 - 生成 `reports/M69_QUALIFICATION.md`。
+
+Evidence: `reports/G72A_REPORT.md` through `reports/G72H_REPORT.md` and
+`reports/M69_QUALIFICATION.md`. The one-click path remains no-API and uses the
+existing Forge/package, preview, WorldRuntime, and Commit Authority boundaries.
 
 FAIL 必须修复后再继续；PASS 自动进入下一 Milestone，不询问用户。

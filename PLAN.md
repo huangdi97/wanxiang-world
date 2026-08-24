@@ -303,3 +303,9 @@ provenance, and preview-only UX explicit.
 M68 G71A-G71H: PASS (`reports/M68_QUALIFICATION.md`). Continue to M69
 G72A-G72H without pausing; keep one-click profile routing on the shared
 service and living-instance entry behind preview/Commit Authority boundaries.
+
+M69 G72A-G72H: PASS (`reports/M69_QUALIFICATION.md`). Book, GEDCOM, JSON,
+CSV, mixed-source, Studio/API/CLI, publish-gate, OCR_REQUIRED, replay, and
+branch-isolation reference evidence are green. Continue to M70 G73A-G73H
+without pausing; keep real GitHub Actions, clean-room, security, release, and
+final-SHA evidence separate from local-only claims.

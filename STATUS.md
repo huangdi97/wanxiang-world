@@ -611,3 +611,9 @@ uncertainty/conflict/rights; the inbox prioritizes human work, batch review
 is idempotent, impact previews are stable, and Studio exposes audit
 provenance. Evidence: `reports/M68_QUALIFICATION.md`. Next active checkpoint:
 M69 G72A-G72H (one-click authoring and living-world entry).
+
+M69 G72A-G72H now PASS. One-click Book/GEDCOM/JSON/CSV/Mixed flows share the
+same AuthoringService and package/preview path; explicit publish validation,
+OCR_REQUIRED, Studio/API/CLI equivalence, Commit Authority replay, and branch
+isolation are qualified. Evidence: `reports/M69_QUALIFICATION.md`. Next active
+checkpoint: M70 G73A-G73H (production hardening, GitHub CI, and v5.4 RC).

@@ -6,7 +6,7 @@ import argparse
 import json
 from pathlib import Path
 
-from wanxiang_substrate.authoring.service import AuthoringService
+from wanxiang_substrate.authoring.one_click import OneClickAuthoring
 from wanxiang_substrate.sources.model import RightsEnvelope, SourceRecord, payload_hash
 
 
@@ -19,6 +19,10 @@ def _parser() -> argparse.ArgumentParser:
     reference.add_argument("--content")
     reference.add_argument("--file", type=Path)
     reference.add_argument("--job-id", default="job_cli")
+    reference.add_argument(
+        "--profile", choices=("book", "family", "structured", "mixed"), default="book"
+    )
+    reference.add_argument("--publish", action="store_true")
     return parser
 
 
@@ -43,16 +47,26 @@ def run_reference(args: argparse.Namespace) -> dict[str, object]:
         provenance="cli:reference",
         access="private",
     )
-    service = AuthoringService()
-    service.create_job(args.job_id, sources=(record,), created_by="cli")
-    service.start(args.job_id)
-    package = service.build_package(args.job_id)
-    install = service.preview(args.job_id)
+    authoring = OneClickAuthoring()
+    result = authoring.run(
+        args.job_id,
+        (record,),
+        profile=args.profile,
+    )
+    validation = authoring.service.package_validation(args.job_id)
+    published = False
+    if args.publish:
+        authoring.publish(result)
+        published = True
+    status = authoring.service.status(args.job_id)
     return {
-        "status": service.status(args.job_id).to_dict(),
-        "package_id": package.package_id,
-        "manifest_hash": package.manifest.content_hash,
-        "preview_ref": install.scoped_ref,
+        "status": status.to_dict(),
+        "package_id": result.package.package_id,
+        "manifest_hash": result.package.manifest.content_hash,
+        "preview_ref": result.preview.scoped_ref,
+        "profile": result.source_profile,
+        "publishable": validation.publish_ok,
+        "published": published,
     }
 
 

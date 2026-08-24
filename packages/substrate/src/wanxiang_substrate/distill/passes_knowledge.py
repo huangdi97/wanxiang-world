@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import re
+
 from wanxiang_substrate.candidates.envelope import CandidateEnvelope
 from wanxiang_substrate.distill.passes import (
     GEDCOM_BIRT_RE,
@@ -99,6 +101,48 @@ class ObjectRuleSkillPass(Distiller):
                 ):
                     if lowered.startswith(marker):
                         value = line.split(":", 1)[1].strip()
+                        candidates.append(
+                            make_candidate(
+                                "object_rule_skill",
+                                candidate_id(source_id, kind, f"{segment.segment_id}|{value}"),
+                                kind,
+                                {"name": value},
+                                source_refs=(ref,),
+                                confidence=confidence,
+                            )
+                        )
+                if not lowered.startswith(("object:", "rule:", "norm:", "skill:")):
+                    marker_match = re.search(
+                        r"(?:^|\\n|\n|\b)(object|rule|norm|skill):\s*(.+)$",
+                        line,
+                        flags=re.IGNORECASE,
+                    )
+                    if marker_match:
+                        kind = marker_match.group(1).lower()
+                        value = marker_match.group(2).strip().strip("\"'")
+                        candidates.append(
+                            make_candidate(
+                                "object_rule_skill",
+                                candidate_id(source_id, kind, f"{segment.segment_id}|{value}"),
+                                kind,
+                                {"name": value},
+                                source_refs=(ref,),
+                                confidence=0.65,
+                            )
+                        )
+                for marker, kind, confidence in (
+                    ("object", "object", 0.65),
+                    ("rule", "rule", 0.65),
+                    ("norm", "norm", 0.65),
+                    ("skill", "skill", 0.65),
+                ):
+                    match = re.search(
+                        rf"[\"']{marker}[\"']\s*:\s*[\"']([^\"']+)[\"']",
+                        line,
+                        flags=re.IGNORECASE,
+                    )
+                    if match:
+                        value = match.group(1).strip()
                         candidates.append(
                             make_candidate(
                                 "object_rule_skill",

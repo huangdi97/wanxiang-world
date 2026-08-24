@@ -7,6 +7,7 @@ from collections.abc import Callable
 from dataclasses import replace
 from typing import cast
 
+from wanxiang_substrate.assets.storage import InMemoryObjectStore
 from wanxiang_substrate.authoring.fusion import fuse_candidates
 from wanxiang_substrate.authoring.model import PipelineBuild
 from wanxiang_substrate.authoring.semantic import SemanticAnalyzer
@@ -27,6 +28,8 @@ from wanxiang_substrate.draft.model import DraftStatus, WorldDraft
 from wanxiang_substrate.parsing.parser import StructureParser
 from wanxiang_substrate.parsing.segment import LocatorFormat, Segment, build_segments
 from wanxiang_substrate.sources.adapter import AdapterRegistry
+from wanxiang_substrate.sources.asset import AssetAdapter
+from wanxiang_substrate.sources.blob import SourceBlobStore
 from wanxiang_substrate.sources.book import BookAdapter
 from wanxiang_substrate.sources.errors import ContentHashMismatch
 from wanxiang_substrate.sources.gate import SourceGate
@@ -99,7 +102,13 @@ class SourceToDraftPipeline:
         blob_loader: Callable[[SourceRecord], bytes | None] | None = None,
         security_gate: IngestSecurityGate | None = None,
     ) -> None:
-        self._adapters = AdapterRegistry((BookAdapter(), StructuredAdapter()))
+        self._adapters = AdapterRegistry(
+            (
+                BookAdapter(),
+                StructuredAdapter(),
+                AssetAdapter(SourceBlobStore(InMemoryObjectStore())),
+            )
+        )
         self._gate = SourceGate()
         self._blob_loader = blob_loader
         self._security = security_gate or IngestSecurityGate()
@@ -163,10 +172,23 @@ class SourceToDraftPipeline:
                 and _field(candidate, "key", "identity_key")
             }
         )
+        identity_keys_by_xref = {
+            _field(candidate, "xref"): _field(candidate, "key")
+            for candidate in fusion.candidates
+            if candidate.kind == "identity"
+            and _field(candidate, "xref")
+            and _field(candidate, "key")
+        }
         relations = sorted(
             (
-                _field(candidate, "source_key", "subject_xref"),
-                _field(candidate, "target_key", "object_key", default="unknown"),
+                identity_keys_by_xref.get(
+                    _field(candidate, "source_key", "subject_xref"),
+                    _field(candidate, "source_key", "subject_xref"),
+                ),
+                identity_keys_by_xref.get(
+                    _field(candidate, "target_key", "object_key", default="unknown"),
+                    _field(candidate, "target_key", "object_key", default="unknown"),
+                ),
                 _field(candidate, "relation_type", default="related"),
             )
             for candidate in fusion.candidates

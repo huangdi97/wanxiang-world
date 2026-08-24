@@ -188,7 +188,10 @@ def fuse_candidates(candidates: tuple[CandidateEnvelope, ...]) -> FusionResult:
     for key in sorted(groups):
         batch = sorted(groups[key], key=lambda item: item.candidate_id)
         payloads = {tuple(item.payload) for item in batch}
-        if len(payloads) > 1 and len({ref for item in batch for ref in item.source_refs}) > 1:
+        source_ids = tuple(
+            sorted({ref.split("#", 1)[0] for item in batch for ref in item.source_refs})
+        )
+        if len(payloads) > 1 and len(source_ids) > 1:
             conflicts.append(f"conflict_{_digest(*key)}")
         ordered.extend(batch)
         provenance.append(
@@ -196,9 +199,6 @@ def fuse_candidates(candidates: tuple[CandidateEnvelope, ...]) -> FusionResult:
                 f"{key[0]}:{key[1]}",
                 tuple(sorted({ref for item in batch for ref in item.source_refs})),
             )
-        )
-        source_ids = tuple(
-            sorted({ref.split("#", 1)[0] for item in batch for ref in item.source_refs})
         )
         if len(source_ids) > 1:
             alignments.append(
