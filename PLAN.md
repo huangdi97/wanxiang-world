@@ -336,3 +336,9 @@ is pushed; the first real run exposed and the second run repaired a Linux-only
 duplicate-scan ordering defect. Run `32771663283` is green across all six
 required jobs. Continue immediately with G73G: audit and, if permitted, create
 the v5.4.0-rc1 release.
+
+M70 G73G: PASS (`reports/G73G_REPORT.md`). Existing tags were audited without
+moving v5.3.0-rc1; annotated `v5.4.0-rc1` and its prerelease now point to the
+green `5137140` HEAD, and tag-push run `32772687982` is green across all six
+required jobs. Continue immediately with G73H final acceptance, then STOP at
+M70; do not enter model training or v5.5.

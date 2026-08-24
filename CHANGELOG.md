@@ -1566,3 +1566,10 @@
 - Kept Node.js deprecation annotations, external rights/OCR boundaries, and
   no-training scope explicit rather than treating them as product failures or
   hidden completion.
+
+## 2026-08-25 — M70 G73G v5.4.0-rc1
+
+- Created annotated `v5.4.0-rc1` and the corresponding public GitHub
+  prerelease at the green Source -> Living World feature HEAD.
+- Re-ran the full six-job CI workflow from the tag push (`32772687982`) and
+  recorded a final success; the prior v5.3.0-rc1 tag was not moved.

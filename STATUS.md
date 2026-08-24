@@ -656,3 +656,9 @@ G73F PASS. The feature branch is public and tracks `origin`; first run
 PostgreSQL, API/SDK, TypeScript, and release-smoke jobs. Evidence:
 `reports/G73F_REPORT.md`. Continue immediately with G73G: v5.4.0-rc1 tag and
 release audit.
+
+G73G PASS. `v5.4.0-rc1` was absent before creation, so an annotated tag and
+GitHub prerelease were created without moving v5.3.0-rc1. The RC resolves to
+`5137140`; tag-push Actions run `32772687982` is green across all six jobs.
+Evidence: `reports/G73G_REPORT.md` and the public prerelease. Continue
+immediately with G73H final acceptance and then STOP at M70.
