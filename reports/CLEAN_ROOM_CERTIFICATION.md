@@ -18,7 +18,7 @@ documented scripts (`release_build`, `backup_restore`, `wxpack`,`reference_world
 
 ## Verdict
 
-**PASS** - clean-room build/install/upgrade/restore/replay certified for commit aa144229e6a8b720c9b5bd90669d0c5aa97d4cde.
+**PASS** - clean-room build/install/upgrade/restore/replay certified for commit cc059cc0eea1c9bd90150a7f8f3d4e0cae10d314.
 
 ## Evidence commands
 

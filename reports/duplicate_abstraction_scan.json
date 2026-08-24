@@ -51,6 +51,22 @@
     {
       "allowed": true,
       "modules": [
+        "packages/substrate/src/wanxiang_substrate/authoring/fusion.py",
+        "packages/substrate/src/wanxiang_substrate/reality/fusion.py"
+      ],
+      "name": "FusionResult"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/substrate/src/wanxiang_substrate/authoring/scenario_engine.py",
+        "packages/substrate/src/wanxiang_substrate/rc001/instantiate.py"
+      ],
+      "name": "InitialSnapshot"
+    },
+    {
+      "allowed": true,
+      "modules": [
         "packages/substrate/src/wanxiang_substrate/observation/model.py",
         "packages/substrate/src/wanxiang_substrate/research/adapters.py"
       ],
@@ -83,6 +99,14 @@
     {
       "allowed": true,
       "modules": [
+        "packages/substrate/src/wanxiang_substrate/authoring/fusion.py",
+        "packages/substrate/src/wanxiang_substrate/rights/gate.py"
+      ],
+      "name": "RightsDecision"
+    },
+    {
+      "allowed": true,
+      "modules": [
         "packages/domain/src/wanxiang_domain/errors.py",
         "packages/substrate/src/wanxiang_substrate/sources/errors.py"
       ],
@@ -95,6 +119,14 @@
         "packages/substrate/src/wanxiang_substrate/sources/model.py"
       ],
       "name": "RightsEnvelope"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/substrate/src/wanxiang_substrate/authoring/scenario_engine.py",
+        "packages/substrate/src/wanxiang_substrate/host/hypervisor.py"
+      ],
+      "name": "RuntimeProfile"
     },
     {
       "allowed": true,

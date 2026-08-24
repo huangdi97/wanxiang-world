@@ -104,7 +104,7 @@ class DuplicateName:
 def scan(root: pathlib.Path = ROOT) -> tuple[DuplicateName, ...]:
     class_names: dict[str, list[str]] = {}
     for parent in PRODUCTION_DIRS:
-        for py in (root / parent).rglob("*.py"):
+        for py in sorted((root / parent).rglob("*.py")):
             try:
                 tree = ast.parse(py.read_text(encoding="utf-8"))
             except SyntaxError:
@@ -117,10 +117,11 @@ def scan(root: pathlib.Path = ROOT) -> tuple[DuplicateName, ...]:
     for name, modules in sorted(class_names.items()):
         if len(modules) < 2:
             continue
-        allowed = tuple(modules) == ALLOWED_DUPLICATE_NAMES.get(name)
+        ordered_modules = tuple(sorted(modules))
+        allowed = ordered_modules == ALLOWED_DUPLICATE_NAMES.get(name)
         if not allowed and name in ALLOWED_DUPLICATE_NAMES:
-            allowed = tuple(modules) == ALLOWED_DUPLICATE_NAMES[name]
-        duplicates.append(DuplicateName(name=name, modules=tuple(modules), allowed=allowed))
+            allowed = ordered_modules == ALLOWED_DUPLICATE_NAMES[name]
+        duplicates.append(DuplicateName(name=name, modules=ordered_modules, allowed=allowed))
     return tuple(duplicates)
 
 
