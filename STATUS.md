@@ -631,3 +631,9 @@ publication boundary passed; only the red-chamber README/manifest template is
 tracked. Evidence: `reports/G73B_REPORT.md` and
 `reports/SECURITY_RIGHTS_SOURCE_FORENSICS.md`. Continue immediately with G73C
 performance/recovery qualification.
+
+G73C PASS. Existing chunk/cache/hash/resume, concurrency/idempotency,
+backup/restore, orchestrator checkpoint, one-click regression, and deterministic
+benchmark paths passed; evidence: `reports/G73C_REPORT.md` and
+`reports/performance_benchmarks.json`. Continue immediately with G73D docs/SDK
+examples.

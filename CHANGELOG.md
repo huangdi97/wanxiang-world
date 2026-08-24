@@ -1530,3 +1530,11 @@
   probes, 8 threat rows, 6 rights rows, and 22 security/reference tests pass.
 - Confirmed the repository contains no real copyrighted/private corpus or
   provider/model artifact; red-chamber remains README/manifest-template only.
+
+## 2026-08-25 — M70 G73C Performance/recovery qualification
+
+- Re-ran bounded chunk/cache/hash/resume, concurrency/idempotency,
+  backup/restore, orchestrator checkpoint, and one-click regressions.
+- Recorded the current synthetic SQLite benchmark: 45.68 commit events/s,
+  1200-event replay in 0.0161s, and 400-node lineage query in 0.0091s;
+  no real multi-node or PostgreSQL-PITR claim is made.

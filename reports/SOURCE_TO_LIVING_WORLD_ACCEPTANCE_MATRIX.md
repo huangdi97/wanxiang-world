@@ -270,7 +270,7 @@
 |---|---|
 | G73A | PASS (2026-08-25, reports/G73A_REPORT.md) |
 | G73B | PASS (2026-08-25, reports/G73B_REPORT.md) |
-| G73C | pending |
+| G73C | PASS (2026-08-25, reports/G73C_REPORT.md) |
 | G73D | pending |
 | G73E | pending |
 | G73F | pending |

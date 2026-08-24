@@ -317,3 +317,7 @@ authoring are certified. Continue immediately with G73B.
 M70 G73B: PASS (`reports/G73B_REPORT.md`). Secret/source/rights publication
 audit and 22-test security/reference regression are green. Continue
 immediately with G73C.
+
+M70 G73C: PASS (`reports/G73C_REPORT.md`). Bounded performance, concurrent
+ command semantics, checkpoint/resume, cache/hash, and backup/restore evidence
+ are green. Continue immediately with G73D.
