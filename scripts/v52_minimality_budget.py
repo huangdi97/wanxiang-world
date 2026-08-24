@@ -171,7 +171,24 @@ MILESTONE_BUDGETS: dict[str, MilestoneBudget] = {
             "draft. Drafts are compile intermediates, never runtime state."
         ),
         "new_abstractions_allowance": 9,
-        "hard_constraints": ("1 commit path", "no second runtime state", "no per-world domain fork"),
+        "hard_constraints": (
+            "1 commit path",
+            "no second runtime state",
+            "no per-world domain fork",
+        ),
+    },
+    "M57": {
+        "note": (
+            "World compiler/package/preview: revision-pinned compiler boundary, "
+            "formal package manifest wrapper, deterministic rebuild plan, and an "
+            "isolated preview scope over the existing runtime port."
+        ),
+        "new_abstractions_allowance": 10,
+        "hard_constraints": (
+            "1 commit path",
+            "no second runtime state",
+            "preview never mutates published registry",
+        ),
     },
 }
 

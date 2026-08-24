@@ -132,15 +132,24 @@
       ],
       "new_abstractions_allowance": 9,
       "note": "Domain Matching & WorldDraft: domain capability registry + recommender + resolver, WorldDraft v1 + store, coverage, scenario mining, genesis draft. Drafts are compile intermediates, never runtime state."
+    },
+    "M57": {
+      "hard_constraints": [
+        "1 commit path",
+        "no second runtime state",
+        "preview never mutates published registry"
+      ],
+      "new_abstractions_allowance": 10,
+      "note": "World compiler/package/preview: revision-pinned compiler boundary, formal package manifest wrapper, deterministic rebuild plan, and an isolated preview scope over the existing runtime port."
     }
   },
   "oversized_modules": 0,
-  "ports": 26,
-  "production_files": 390,
-  "production_loc": 35188,
-  "public_classes": 785,
-  "public_functions": 318,
-  "registry_classes": 14,
+  "ports": 29,
+  "production_files": 397,
+  "production_loc": 35799,
+  "public_classes": 800,
+  "public_functions": 321,
+  "registry_classes": 15,
   "service_classes": 17,
   "state_schema_models": 22,
   "store_classes": 23

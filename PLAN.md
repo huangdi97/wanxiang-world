@@ -245,3 +245,19 @@ gates M51 -> M70. Current: M51 PASS (2026-08-16).
 | 16 | G59A..G59H | Domain Matching & WorldDraft (M56) | PASS (2026-08-17, commit g59) |
 | 17 | M56 Gate | Domain Matching & WorldDraft | PASS (2026-08-17) |
 | 18 | G60A..G60H | World Compiler / Package / Preview (M57) | pending |
+
+## M51-M70 continuous execution checkpoint (2026-08-25)
+
+| Milestone | Status |
+|---|---|
+| M51-M56 | PASS (revalidated baseline) |
+| M57 | PASS (`reports/M57_QUALIFICATION.md`) |
+| M58-M70 | pending |
+
+| Goal | Status |
+|---|---|
+| G60A-G60G | PASS (`reports/G60A_REPORT.md` through `reports/G60G_REPORT.md`) |
+| G60H | PASS (`reports/G60H_REPORT.md`) |
+| G61A-G73H | pending |
+
+Execution continues immediately with M58; no model-training work is in scope.

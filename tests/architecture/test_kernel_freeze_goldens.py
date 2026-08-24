@@ -76,4 +76,3 @@ def test_kernel_guard_passes_on_current_tree() -> None:
     import scripts.kernel_guard as guard
 
     assert guard.run() == ()
-

@@ -2,7 +2,7 @@
 
 > Deterministic AST scan. Groups: registry/catalog, state models, stores,
 > services/managers, engines, ports, oversized modules, commit paths.
-## registry_classes (14)
+## registry_classes (15)
 
 | path | name | line |
 |---|---|---|
@@ -16,6 +16,7 @@
 | packages/substrate/src/wanxiang_substrate/lineage/presence.py | PresenceRegistry | 71 |
 | packages/substrate/src/wanxiang_substrate/packages/registry.py | PackageRegistry | 15 |
 | packages/substrate/src/wanxiang_substrate/packages/registry.py | InMemoryPackageRegistry | 24 |
+| packages/substrate/src/wanxiang_substrate/preview/scope.py | PreviewRegistry | 26 |
 | packages/substrate/src/wanxiang_substrate/resolution/registry.py | AdjudicatorRegistry | 15 |
 | packages/substrate/src/wanxiang_substrate/skills/registry.py | SkillRegistry | 13 |
 | packages/substrate/src/wanxiang_substrate/sources/adapter.py | AdapterRegistry | 112 |
@@ -105,7 +106,7 @@
 | packages/research/src/wanxiang_research/planner.py | PlannerEngine | 47 |
 | packages/runtime/src/wanxiang_runtime/replay.py | ReplayEngine | 21 |
 
-## ports (26)
+## ports (29)
 
 | path | name | line |
 |---|---|---|
@@ -131,6 +132,9 @@
 | packages/substrate/src/wanxiang_substrate/cosim/adapter.py | SimulationAdapter | 19 |
 | packages/substrate/src/wanxiang_substrate/distill/protocol.py | Distiller | 18 |
 | packages/substrate/src/wanxiang_substrate/packages/registry.py | PackageRegistry | 15 |
+| packages/substrate/src/wanxiang_substrate/preview/runtime.py | CreatedWorld | 43 |
+| packages/substrate/src/wanxiang_substrate/preview/runtime.py | ReplayResult | 48 |
+| packages/substrate/src/wanxiang_substrate/preview/runtime.py | PreviewRuntimePort | 52 |
 | packages/substrate/src/wanxiang_substrate/reality/bridge.py | ObservationAdapter | 21 |
 | packages/substrate/src/wanxiang_substrate/reality/challenge.py | OpportunityDetector | 49 |
 | packages/substrate/src/wanxiang_substrate/runtime_port.py | WorldRuntimePort | 29 |

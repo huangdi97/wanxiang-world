@@ -45,4 +45,3 @@ def test_pipeline_has_21_stages() -> None:
 def test_committed_graph_matches_current() -> None:
     data = json.loads(GRAPH.read_text(encoding="utf-8"))
     assert data["stages"] == [gap.stage_payload(s) for s in gap.build_graph()]
-

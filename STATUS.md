@@ -535,3 +535,17 @@ qualified); real baseline = v5.2/M42 production + public GitHub delivery.
 - Domain registry/recommender/resolver + WorldDraft v1 (revisioned/saveable) + coverage/scenarios/genesis.
 - Full regression 1137 passed + 1 skipped + 3 env-deselected.
 - Next: M57 World Compiler / Package / Preview (G60A-G60H).
+
+## Current M51-M70 continuation checkpoint (2026-08-25)
+
+The authoritative current checkout is `feature/source-to-living-world`.
+M51-M56 were revalidated as the existing baseline; M57 G60A-G60H and its
+milestone gate now PASS. M57 is implemented as a Forge/package/preview
+reference path: no Kernel mutation, no private or copyrighted source material,
+and preview writes only through the existing Commit Authority.
+
+Evidence: `reports/M57_QUALIFICATION.md` and `reports/G60A_REPORT.md` through
+`reports/G60H_REPORT.md`. Targeted qualification is 13 passed, architecture
+guard PASS, Ruff PASS, and Pyright 0 errors.
+
+Next active checkpoint: M58 G61A-G61H (Studio/API/CLI surfaces).

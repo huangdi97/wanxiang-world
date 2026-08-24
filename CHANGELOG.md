@@ -1389,3 +1389,15 @@
   routes=17 ts=5 py=1176; architecture PASS; kernel_guard 0 violations.
 - Final certification: V5_2_PRODUCTION_PASS (RED_CHAMBER_REAL EXTERNAL_BLOCKED).
   Tag `m42-v5.2-production`. No push/deploy; v5.3 not started.
+
+## 2026-08-25 — M57 World Compiler / Package / Preview
+
+- Added the revision-pinned `WorldDraft` compiler boundary and formal world
+  package assembly/validation.
+- Added deterministic incremental rebuild planning and isolated `preview://`
+  installs with package hash checks.
+- Added a reference preview runtime that reuses WorldHost and the existing
+  Commit Authority; completion gaps remain non-canon metadata and block publish.
+- M57 G60A-G60H qualified: targeted tests, Ruff, Pyright, and architecture guard
+  passed. Real copyrighted/private sources and optional providers remain out of
+  Git and out of this reference qualification.

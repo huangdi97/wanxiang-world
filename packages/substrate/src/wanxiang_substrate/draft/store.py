@@ -14,7 +14,7 @@ from wanxiang_substrate.draft.model import WorldDraft
 
 
 class DraftNotFound(ContractError):
-    pass
+    code = "draft_not_found"
 
 
 class DraftStore:

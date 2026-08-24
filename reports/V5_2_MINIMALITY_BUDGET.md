@@ -9,15 +9,15 @@ hard invariants that must hold at every milestone.
 
 | Metric | Count |
 |---|---|
-| Production files | 390 |
-| Production LOC | 35188 |
-| Public classes | 785 |
-| Public functions | 318 |
-| Registries | 14 |
+| Production files | 397 |
+| Production LOC | 35799 |
+| Public classes | 800 |
+| Public functions | 321 |
+| Registries | 15 |
 | Managers | 0 |
 | Services | 17 |
 | Engines | 2 |
-| Ports | 26 |
+| Ports | 29 |
 | Stores | 23 |
 | State/schema models | 22 |
 | Import cycles | 0 |
@@ -45,6 +45,7 @@ Hard invariants hold: **True** (0 cycles, 1 commit path).
 | M54 | 10 | Distillation & Candidate Fabric: unified CandidateEnvelope, distiller DAG + registry, reference passes (identity/event/relation/character/object), candidate clustering. Candidates propose only; no Canon. | 1 commit path; no Canon from candidates; no second envelope |
 | M55 | 8 | Evidence/Rights/Review/Completion core: evidence bindings, conflict ledger, rights gate, review ledger, E0-E5 completion + planner, review API routes. All decisions append-only/reversible; no Canon promotion. | 1 commit path; no last-write-wins; no auto canon |
 | M56 | 9 | Domain Matching & WorldDraft: domain capability registry + recommender + resolver, WorldDraft v1 + store, coverage, scenario mining, genesis draft. Drafts are compile intermediates, never runtime state. | 1 commit path; no second runtime state; no per-world domain fork |
+| M57 | 10 | World compiler/package/preview: revision-pinned compiler boundary, formal package manifest wrapper, deterministic rebuild plan, and an isolated preview scope over the existing runtime port. | 1 commit path; no second runtime state; preview never mutates published registry |
 
 Every new abstraction must answer the four questions in
 `reports/V5_2_CODE_MINIMALITY_LEDGER.md`; otherwise it is not added.

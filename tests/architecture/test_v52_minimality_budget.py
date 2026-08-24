@@ -51,13 +51,13 @@ def test_budget_counts_are_stable() -> None:
     budget = _load()
     # M26 baseline anchors (verified by G29A/G29B/G29C/G29E):
     # 10 at M26 + PresenceRegistry (M28) = 11
-    assert budget["registry_classes"] == 14  # + AdapterRegistry (M52) + DistillerRegistry (M54) + DomainRegistry (M56)
+    assert budget["registry_classes"] == 15  # + PreviewRegistry (M57)
     # 16 at M51-M52 + StructureParser/IncrementalParser/ParseCheckpointService (M53) = 17
     assert budget["service_classes"] == 17
     assert budget["engine_classes"] == 2
     # 23 at M26 + RealityRootContract Protocol (M27) = 24; + SourceAdapter (M52) = 25;
-    # + Distiller Protocol (M54) = 26
-    assert budget["ports"] == 26
+    # + Distiller Protocol (M54) = 26; + compiler/preview ports (M57) = 29
+    assert budget["ports"] == 29
     loc = budget["production_loc"]
     files = budget["production_files"]
     assert isinstance(loc, int) and loc > 0
@@ -71,10 +71,32 @@ def test_budget_documents_every_milestone() -> None:
     raw_milestones = budget["milestone_budgets"]
     assert isinstance(raw_milestones, dict)
     milestones = cast(dict[str, dict[str, object]], raw_milestones)
-    assert set(milestones) == {f"M{n}" for n in range(26, 35)} | {"M51", "M52", "M53", "M54", "M55", "M56"}
+    assert set(milestones) == {f"M{n}" for n in range(26, 35)} | {
+        "M51",
+        "M52",
+        "M53",
+        "M54",
+        "M55",
+        "M56",
+        "M57",
+    }
     for ms in (
-        "M26", "M27", "M28", "M29", "M30", "M31", "M32", "M33", "M34",
-        "M51", "M52", "M53", "M54", "M55", "M56"
+        "M26",
+        "M27",
+        "M28",
+        "M29",
+        "M30",
+        "M31",
+        "M32",
+        "M33",
+        "M34",
+        "M51",
+        "M52",
+        "M53",
+        "M54",
+        "M55",
+        "M56",
+        "M57",
     ):
         spec = milestones[ms]
         allowance = spec["new_abstractions_allowance"]

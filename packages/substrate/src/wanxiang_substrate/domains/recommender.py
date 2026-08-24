@@ -59,16 +59,24 @@ class DomainRecommender:
             features.add("family")
         if "identity" in kinds and "relation" in kinds:
             features.add("social")
-        if "event" in kinds and "time" in kinds:
+        if "time" in kinds or ("event" in kinds and "time" in kinds):
             features.add("temporal")
         if "place" in kinds:
             features.add("spatial")
         if "organization" in kinds or "role" in kinds:
             features.add("institutional")
-        if any(word in payloads for word in ("rule", "norm", "ritual", "礼")):
+        if any(k in kinds for k in ("rule", "norm", "skill")) or any(
+            word in payloads for word in ("rule", "norm", "ritual", "礼")
+        ):
             features.add("norms")
-        if any(word in payloads for word in ("secret", "believe", "knows")):
+        if (
+            "knowledge_boundary" in kinds
+            or "belief" in kinds
+            or any(word in payloads for word in ("secret", "believe", "knows"))
+        ):
             features.add("epistemic")
+        if "character" in kinds or "life_arc" in kinds:
+            features.add("character")
         return features
 
     def _score(
@@ -101,4 +109,7 @@ class DomainRecommender:
             if key in ("epistemic", "knowledge") and "epistemic" in features:
                 score += 0.2
                 reasons.append("secret/belief markers")
+            if key in ("character", "persona") and "character" in features:
+                score += 0.2
+                reasons.append("character/life-arc candidates")
         return min(score, 1.0), tuple(reasons)
