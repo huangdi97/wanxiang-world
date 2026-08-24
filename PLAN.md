@@ -268,3 +268,7 @@ Next: M59 G62A-G62H, then continue sequentially through M70 without pausing.
 M59 G62A-G62H: PASS (`reports/M59_QUALIFICATION.md`). Continue to M60
 G63A-G63I without pausing; keep real corpus and external-provider gates
 explicitly separated from the no-API reference path.
+
+M60 G63A-G63I: PASS (`reports/M60_QUALIFICATION.md`). Continue to M61
+G64A-G64H without pausing; preserve reversible semantic candidates and no
+coordinate/Canon invention.

@@ -39,6 +39,16 @@ CandidateKind = Literal[
     "affordance",
     "ontology",
     "scenario",
+    "topology",
+    "containment",
+    "connectivity",
+    "access",
+    "place_relation",
+    "ownership",
+    "custody",
+    "transfer",
+    "object_event",
+    "institution",
 ]
 VALID_KINDS = (
     "identity",
@@ -63,6 +73,16 @@ VALID_KINDS = (
     "affordance",
     "ontology",
     "scenario",
+    "topology",
+    "containment",
+    "connectivity",
+    "access",
+    "place_relation",
+    "ownership",
+    "custody",
+    "transfer",
+    "object_event",
+    "institution",
 )
 CandidateStatus = Literal["pending", "eligible", "rejected"]
 VALID_STATUSES = ("pending", "eligible", "rejected")

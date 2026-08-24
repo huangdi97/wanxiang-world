@@ -127,15 +127,16 @@
 
 | Goal | Status |
 |---|---|
-| G63A | pending |
-| G63B | pending |
-| G63C | pending |
-| G63D | pending |
-| G63E | pending |
-| G63F | pending |
-| G63G | pending |
-| G63H | pending |
-| G63I | pending |
+| G63A | PASS (2026-08-25, reports/G63A_REPORT.md) |
+| G63B | PASS (2026-08-25, reports/G63B_REPORT.md) |
+| G63C | PASS (2026-08-25, reports/G63C_REPORT.md) |
+| G63D | PASS (2026-08-25, reports/G63D_REPORT.md) |
+| G63E | PASS (2026-08-25, reports/G63E_REPORT.md) |
+| G63F | PASS (2026-08-25, reports/G63F_REPORT.md) |
+| G63G | PASS (2026-08-25, reports/G63G_REPORT.md) |
+| G63H | PASS (2026-08-25, reports/G63H_REPORT.md) |
+| G63I | PASS (2026-08-25, reports/G63I_REPORT.md) |
+| **M60 Milestone Gate** | **PASS (2026-08-25, reports/M60_QUALIFICATION.md)** |
 
 ## M61
 

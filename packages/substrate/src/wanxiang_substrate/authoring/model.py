@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Literal
 
+from wanxiang_substrate.authoring.semantic import SemanticAnalysis
 from wanxiang_substrate.candidates.envelope import CandidateEnvelope
 from wanxiang_substrate.draft.model import WorldDraft
 from wanxiang_substrate.parsing.segment import Segment
@@ -33,6 +34,7 @@ class PipelineBuild:
     diagnostics: tuple[str, ...]
     conflicts: tuple[str, ...]
     selected_domains: tuple[str, ...]
+    semantic_analysis: SemanticAnalysis | None = None
 
     @property
     def candidate_ids(self) -> tuple[str, ...]:

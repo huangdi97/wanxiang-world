@@ -1424,3 +1424,14 @@
   job fingerprint; unreviewed sources remain `REVIEW_REQUIRED` and cannot be
   compiled.
 - Qualified G62A-G62H and the M59 gate on synthetic/reference evidence.
+
+## 2026-08-25 — M60 Book-scale Semantic World Understanding
+
+- Extended the shared semantic analyzer with reversible life arcs, temporal
+  conflict/unknown views, knowledge graph observations, spatial topology,
+  object biographies, institution norms, and explicit quality proxies.
+- Attached deterministic semantic metadata to the existing Forge pipeline; no
+  Core or Commit Authority path was added.
+- Qualified G63A-G63I on a multi-chapter synthetic novel; metrics remain
+  reference proxies and real book/private-corpus claims remain blocked by
+  provenance and rights boundaries.

@@ -560,3 +560,8 @@ fingerprint idempotency, bounded source chunking, hash/security checks, and
 E0/rights negative paths are qualified. Evidence:
 `reports/M59_QUALIFICATION.md`. Next active checkpoint: M60 G63A-G63I
 (book-scale semantic understanding).
+
+M60 G63A-G63I now PASS. Reversible identity/time/life-arc/knowledge/spatial/
+object/institution semantic views and reference metrics are qualified on a
+multi-chapter synthetic novel. Evidence: `reports/M60_QUALIFICATION.md`.
+Next active checkpoint: M61 G64A-G64H (multi-source fusion).

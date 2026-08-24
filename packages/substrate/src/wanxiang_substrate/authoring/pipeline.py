@@ -9,6 +9,7 @@ from typing import cast
 
 from wanxiang_substrate.authoring.fusion import fuse_candidates
 from wanxiang_substrate.authoring.model import PipelineBuild
+from wanxiang_substrate.authoring.semantic import SemanticAnalyzer
 from wanxiang_substrate.candidates.envelope import CandidateEnvelope
 from wanxiang_substrate.distill import (
     CharacterKnowledgePass,
@@ -142,6 +143,7 @@ class SourceToDraftPipeline:
             if not inspection.ok:
                 diagnostics.append(f"source {record.source_id} inspection requires capability")
         fusion = fuse_candidates(tuple(candidates))
+        semantic = SemanticAnalyzer().analyze(fusion.candidates)
         source_kind = (
             "gedcom" if any(record.kind == "gedcom" for record in records) else records[0].kind
         )
@@ -240,7 +242,13 @@ class SourceToDraftPipeline:
             coverage=0.0,
             uncertainty=0.0,
             quality=0.0,
-            compiler_metadata={"pipeline": "reference", "candidates": str(len(fusion.candidates))},
+            compiler_metadata={
+                "pipeline": "reference",
+                "candidates": str(len(fusion.candidates)),
+                "semantic_identities": str(semantic.metrics.identity_count),
+                "semantic_events": str(semantic.metrics.temporal_count),
+                "semantic_edges": str(semantic.metrics.graph_edge_count),
+            },
         )
         coverage = CoverageAssessor().assess(preliminary, self._domains)
         completion = tuple(sorted(set(coverage.unknown)))
@@ -265,4 +273,5 @@ class SourceToDraftPipeline:
             diagnostics=tuple(diagnostics),
             conflicts=fusion.conflict_ids + resolution.conflicts,
             selected_domains=domain_order,
+            semantic_analysis=semantic,
         )
