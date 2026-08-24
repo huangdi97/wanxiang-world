@@ -1573,3 +1573,11 @@
   prerelease at the green Source -> Living World feature HEAD.
 - Re-ran the full six-job CI workflow from the tag push (`32772687982`) and
   recorded a final success; the prior v5.3.0-rc1 tag was not moved.
+
+## 2026-08-25 — M70 G73H final acceptance
+
+- Qualified the complete M51-M70 Source -> Living World execution package and
+  consolidated `reports/M70_QUALIFICATION.md`.
+- Recorded the final no-API, authority, E0, OCR, rights, security, clean-room,
+  CI, and RC boundaries with an explicit STOP condition.
+- M70 is complete; this execution does not start model training, M71, or v5.5.

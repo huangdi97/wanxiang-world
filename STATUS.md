@@ -662,3 +662,10 @@ GitHub prerelease were created without moving v5.3.0-rc1. The RC resolves to
 `5137140`; tag-push Actions run `32772687982` is green across all six jobs.
 Evidence: `reports/G73G_REPORT.md` and the public prerelease. Continue
 immediately with G73H final acceptance and then STOP at M70.
+
+G73H PASS / M70 FINAL PASS. The complete M51-M70 Source -> Living World
+package is accepted: no-API reference E2E, rights/OCR/E0 boundaries, clean
+room, security, performance/recovery, contracts, public docs, repaired real
+CI, and v5.4.0-rc1 are all recorded. Evidence:
+`reports/G73H_REPORT.md` and `reports/M70_QUALIFICATION.md`. STOP condition
+met: do not start model training, M71, or v5.5.

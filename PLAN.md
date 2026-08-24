@@ -342,3 +342,8 @@ moving v5.3.0-rc1; annotated `v5.4.0-rc1` and its prerelease now point to the
 green `5137140` HEAD, and tag-push run `32772687982` is green across all six
 required jobs. Continue immediately with G73H final acceptance, then STOP at
 M70; do not enter model training or v5.5.
+
+M70 G73H: PASS (`reports/G73H_REPORT.md`, `reports/M70_QUALIFICATION.md`).
+G73A-G73H, the full Source -> Living World chain, local and remote gates, and
+v5.4.0-rc1 are certified with explicit rights/OCR/E0/authority boundaries.
+M70 is complete. STOP now; no model training, M71, or v5.5 work is started.
