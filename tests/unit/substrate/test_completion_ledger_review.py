@@ -144,7 +144,8 @@ def test_unauthorized_reviewer_rejected() -> None:
 
 
 @pytest.mark.unit
-def test_batch_review_cli_use_case(tmp_path: Path) -> None:
+def test_batch_review_cli_use_case(workspace_tmp_path: Path) -> None:
+    tmp_path = workspace_tmp_path
     from scripts.completion_review import main
 
     manifest = {

@@ -20,7 +20,8 @@ def test_guard_passes_on_current_tree() -> None:
 
 
 @pytest.mark.unit
-def test_guard_catches_domain_name_in_kernel(tmp_path: Path) -> None:
+def test_guard_catches_domain_name_in_kernel(workspace_tmp_path: Path) -> None:
+    tmp_path = workspace_tmp_path
     _write(
         tmp_path / "packages/domain/src/wanxiang_domain/bad.py",
         'NAME = "林黛玉"\n',
@@ -32,7 +33,8 @@ def test_guard_catches_domain_name_in_kernel(tmp_path: Path) -> None:
 
 
 @pytest.mark.unit
-def test_guard_catches_new_direct_mutation_path(tmp_path: Path) -> None:
+def test_guard_catches_new_direct_mutation_path(workspace_tmp_path: Path) -> None:
+    tmp_path = workspace_tmp_path
     _write(
         tmp_path / "packages/substrate/src/wanxiang_substrate/x.py",
         "state.apply(delta)\n",

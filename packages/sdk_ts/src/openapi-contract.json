@@ -108,9 +108,29 @@
         "operationId": "preview_package_studio_jobs__job_id__preview_post"
       }
     },
+    "/studio/jobs/{job_id}/publish": {
+      "post": {
+        "operationId": "publish_job_studio_jobs__job_id__publish_post"
+      }
+    },
     "/studio/jobs/{job_id}/resume": {
       "post": {
         "operationId": "resume_job_studio_jobs__job_id__resume_post"
+      }
+    },
+    "/studio/jobs/{job_id}/review-inbox": {
+      "get": {
+        "operationId": "review_inbox_studio_jobs__job_id__review_inbox_get"
+      }
+    },
+    "/studio/jobs/{job_id}/review-inbox/audit": {
+      "get": {
+        "operationId": "review_audit_studio_jobs__job_id__review_inbox_audit_get"
+      }
+    },
+    "/studio/jobs/{job_id}/review-inbox/batch": {
+      "post": {
+        "operationId": "batch_review_studio_jobs__job_id__review_inbox_batch_post"
       }
     },
     "/studio/jobs/{job_id}/scenarios": {
@@ -126,6 +146,11 @@
     "/studio/jobs/{job_id}/start": {
       "post": {
         "operationId": "start_job_studio_jobs__job_id__start_post"
+      }
+    },
+    "/studio/one-click": {
+      "post": {
+        "operationId": "one_click_studio_one_click_post"
       }
     },
     "/worlds": {

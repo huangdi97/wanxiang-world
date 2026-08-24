@@ -1545,3 +1545,13 @@
   guides for the existing Source -> Living World path.
 - Added documentation contract tests and a passing no-API CLI publish example;
   all examples are synthetic and preserve proposal/rights/OCR/E0 boundaries.
+
+## 2026-08-25 — M70 G73E CI matrix and contract qualification
+
+- Refreshed the generated OpenAPI contract and SDK baseline at 38 paths / 39
+  operations, 5 TypeScript symbols, and 1472 Python public names.
+- Qualified the full Python quality gate, TypeScript SDK, wxpack authoring
+  sequence, and reproducible release manifest.
+- Made affected Windows test scratch paths configurable/workspace-local so
+  restricted user-temp ACLs do not masquerade as product failures; no runtime
+  persistence or authority semantics changed.

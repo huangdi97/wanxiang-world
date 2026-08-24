@@ -93,7 +93,7 @@ def test_backup_restore_path_preserves_history() -> None:
         store.append(event)
     factory.kw["bind"].dispose()
 
-    backup_dir = ROOT / "tests" / "_persist_tmp" / "g34c_backup"
+    backup_dir = path.parent / "g34c_backup"
     backup_dir.mkdir(parents=True, exist_ok=True)
     manifest = backup(pathlib.Path(path), backup_dir)
     assert manifest["event_counts"] == {f"{INSTANCE.value}:{BRANCH.value}": 5}

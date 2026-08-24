@@ -71,9 +71,7 @@ def test_budget_documents_every_milestone() -> None:
     raw_milestones = budget["milestone_budgets"]
     assert isinstance(raw_milestones, dict)
     milestones = cast(dict[str, dict[str, object]], raw_milestones)
-    assert set(milestones) == {f"M{n}" for n in range(26, 35)} | {
-        f"M{n}" for n in range(51, 71)
-    }
+    assert set(milestones) == {f"M{n}" for n in range(26, 35)} | {f"M{n}" for n in range(51, 71)}
     for ms in (
         "M26",
         "M27",
