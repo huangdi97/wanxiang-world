@@ -581,3 +581,9 @@ packs, capability candidates, consent-gated cross-world reuse, and the
 application-level validation sandbox are qualified. Evidence:
 `reports/M63_QUALIFICATION.md`. Next active checkpoint: M64 G67A-G67H
 (constraint-backed completion and consistency).
+
+M64 G67A-G67H now PASS. Missingness graphs, E1-E5 candidates, temporal/
+identity/topology/ownership/knowledge/organization/scenario/package/rights
+checks, and uncertainty calibration are qualified. Evidence:
+`reports/M64_QUALIFICATION.md`. Next active checkpoint: M65 G68A-G68H
+(scenario/genesis auto authoring).

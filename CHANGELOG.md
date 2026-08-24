@@ -1461,3 +1461,12 @@
 - Added an application-level deterministic validation sandbox with honest
   non-OS-isolation labeling; no domain package is auto-installed.
 - Qualified G66A-G66H on no-API synthetic candidates.
+
+## 2026-08-25 — M64 Completion / Consistency
+
+- Added missingness dependency graphs, typed E1-E5 completion candidates,
+  constraint checks for temporal/identity/topology/ownership/knowledge/
+  organization/scenario/package/rights, and bounded uncertainty calibration.
+- Kept unknowns and blocking gaps explicit; no completion can silently enter
+  E0 Canon.
+- Qualified G67A-G67H on no-API deterministic evidence.

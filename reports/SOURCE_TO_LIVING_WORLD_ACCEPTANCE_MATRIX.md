@@ -184,14 +184,15 @@
 
 | Goal | Status |
 |---|---|
-| G67A | pending |
-| G67B | pending |
-| G67C | pending |
-| G67D | pending |
-| G67E | pending |
-| G67F | pending |
-| G67G | pending |
-| G67H | pending |
+| G67A | PASS (2026-08-25, reports/G67A_REPORT.md) |
+| G67B | PASS (2026-08-25, reports/G67B_REPORT.md) |
+| G67C | PASS (2026-08-25, reports/G67C_REPORT.md) |
+| G67D | PASS (2026-08-25, reports/G67D_REPORT.md) |
+| G67E | PASS (2026-08-25, reports/G67E_REPORT.md) |
+| G67F | PASS (2026-08-25, reports/G67F_REPORT.md) |
+| G67G | PASS (2026-08-25, reports/G67G_REPORT.md) |
+| G67H | PASS (2026-08-25, reports/G67H_REPORT.md) |
+| **M64 Milestone Gate** | **PASS (2026-08-25, reports/M64_QUALIFICATION.md)** |
 
 ## M65
 

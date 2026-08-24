@@ -284,3 +284,6 @@ metadata.
 M63 G66A-G66H: PASS (`reports/M63_QUALIFICATION.md`). Continue to M64
 G67A-G67H without pausing; keep gap candidates sandbox-only and do not claim
 OS-level isolation.
+
+M64 G67A-G67H: PASS (`reports/M64_QUALIFICATION.md`). Continue to M65
+G68A-G68H without pausing; preserve E0 boundaries and explicit unknowns.
