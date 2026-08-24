@@ -1538,3 +1538,10 @@
 - Recorded the current synthetic SQLite benchmark: 45.68 commit events/s,
   1200-event replay in 0.0161s, and 400-node lineage query in 0.0091s;
   no real multi-node or PostgreSQL-PITR claim is made.
+
+## 2026-08-25 — M70 G73D Public authoring guides
+
+- Added public Quickstart, Provider SDK, Domain Extension, and Source/Rights
+  guides for the existing Source -> Living World path.
+- Added documentation contract tests and a passing no-API CLI publish example;
+  all examples are synthetic and preserve proposal/rights/OCR/E0 boundaries.

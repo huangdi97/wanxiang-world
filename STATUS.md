@@ -637,3 +637,8 @@ backup/restore, orchestrator checkpoint, one-click regression, and deterministic
 benchmark paths passed; evidence: `reports/G73C_REPORT.md` and
 `reports/performance_benchmarks.json`. Continue immediately with G73D docs/SDK
 examples.
+
+G73D PASS. Public Quickstart, Provider SDK, Domain Extension, and Source/Rights
+guides match the existing CLI/API/ports; the documentation contract tests and
+publishable synthetic CLI example passed. Evidence: `reports/G73D_REPORT.md`.
+Continue immediately with G73E CI matrix and contract regeneration.

@@ -319,5 +319,9 @@ audit and 22-test security/reference regression are green. Continue
 immediately with G73C.
 
 M70 G73C: PASS (`reports/G73C_REPORT.md`). Bounded performance, concurrent
- command semantics, checkpoint/resume, cache/hash, and backup/restore evidence
- are green. Continue immediately with G73D.
+command semantics, checkpoint/resume, cache/hash, and backup/restore evidence
+are green. Continue immediately with G73D.
+
+M70 G73D: PASS (`reports/G73D_REPORT.md`). The four public guides, no-API CLI
+example, provider/domain/rights contracts, and documentation tests are green.
+Continue immediately with G73E.
