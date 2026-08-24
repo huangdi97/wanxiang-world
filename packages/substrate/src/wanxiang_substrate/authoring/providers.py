@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Literal, Protocol
 
-from wanxiang_substrate.sources.errors import OcrRequired
+from wanxiang_substrate.sources.errors import CapabilityUnavailable, OcrRequired
 
 ProviderKind = Literal["llm", "embedding", "ocr", "asr", "vision", "linking", "temporal"]
 ProposalKind = Literal["observation", "candidate", "claim", "completion", "repair", "asset"]
@@ -85,5 +85,16 @@ class ProviderRouter:
         if provider is None:
             if kind == "ocr":
                 raise OcrRequired("OCR_REQUIRED: no OCR provider is registered")
-            return ()
+            raise CapabilityUnavailable(f"CAPABILITY_UNAVAILABLE: no {kind} provider is registered")
         return provider.propose(source_refs, payload)
+
+    def require(self, kind: ProviderKind, source_refs: tuple[str, ...] = ()) -> ProviderCapability:
+        """Return a capability or raise an explicit provider requirement."""
+        capability = self.capability(kind)
+        if capability is None or not capability.available:
+            if kind == "ocr":
+                raise OcrRequired("OCR_REQUIRED: no OCR provider is available")
+            raise CapabilityUnavailable(
+                f"CAPABILITY_UNAVAILABLE: {kind} required for {','.join(source_refs)}"
+            )
+        return capability

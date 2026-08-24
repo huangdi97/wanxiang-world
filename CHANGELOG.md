@@ -1444,3 +1444,12 @@
 - Added incremental supplemental fusion and rights-compatible candidate views
   without deleting alternatives or adding a second authority.
 - Qualified G64A-G64H on deterministic two-version synthetic evidence.
+
+## 2026-08-25 — M62 Multimodal / External Source Ports
+
+- Added explicit OCR, vision, and ASR provider capability failures and
+  proposal-only reference behavior.
+- Added deterministic SRT/WebVTT subtitle cues, IIIF/API observation port,
+  and hash/rights/privacy-aware source bundle manifests.
+- Qualified G65A-G65H without API keys or network access; scanned PDFs remain
+  `OCR_REQUIRED` when no OCR provider exists.

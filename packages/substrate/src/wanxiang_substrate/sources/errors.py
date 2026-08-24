@@ -47,6 +47,12 @@ class OcrRequired(SourceError):
     code = "ocr_required"
 
 
+class CapabilityUnavailable(SourceError):
+    """An optional provider capability is not registered."""
+
+    code = "capability_unavailable"
+
+
 class MalformedSourceContent(SourceError):
     """Source bytes could not be parsed as the declared format."""
 

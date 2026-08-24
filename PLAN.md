@@ -276,3 +276,7 @@ coordinate/Canon invention.
 M61 G64A-G64H: PASS (`reports/M61_QUALIFICATION.md`). Continue to M62
 G65A-G65H without pausing; keep source bytes external and provider outputs
 proposal-only.
+
+M62 G65A-G65H: PASS (`reports/M62_QUALIFICATION.md`). Continue to M63
+G66A-G66H without pausing; retain explicit capability failures and rights
+metadata.

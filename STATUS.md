@@ -570,3 +570,8 @@ M61 G64A-G64H now PASS. Source family/version roles, alignment, provenance,
 dissent/conflict workbench, incremental supplement, and rights-compatible
 candidate filtering are qualified. Evidence: `reports/M61_QUALIFICATION.md`.
 Next active checkpoint: M62 G65A-G65H (multimodal and external source ports).
+
+M62 G65A-G65H now PASS. Optional OCR/vision/ASR, subtitle, IIIF/API
+observation, bundle hash, rights, and privacy ports are qualified with no
+network/provider dependency. Evidence: `reports/M62_QUALIFICATION.md`.
+Next active checkpoint: M63 G66A-G66H (domain inference and gap packs).

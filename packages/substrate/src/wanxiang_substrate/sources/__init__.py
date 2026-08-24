@@ -37,6 +37,7 @@ from wanxiang_substrate.sources.entity_distill import (
     EntityReviewGate,
 )
 from wanxiang_substrate.sources.errors import (
+    CapabilityUnavailable,
     DuplicateSource,
     IngestError,
     InvalidTransition,
@@ -151,6 +152,7 @@ __all__ = [
     "evidence_ok",
     "ClaimCandidate",
     "DuplicateSource",
+    "CapabilityUnavailable",
     "EvidenceLink",
     "GateDecision",
     "AliasClaim",
