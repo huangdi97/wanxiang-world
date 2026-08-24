@@ -295,3 +295,7 @@ and proposal-only until the existing Commit Authority path is used.
 M66 G69A-G69H: PASS (`reports/M66_QUALIFICATION.md`). Continue to M67
 G70A-G70H without pausing; preserve DAG ordering, provider budgets, and
 checkpoint/resume semantics.
+
+M67 G70A-G70H: PASS (`reports/M67_QUALIFICATION.md`). Continue to M68
+G71A-G71H without pausing; keep review impact, batch decisions, audit
+provenance, and preview-only UX explicit.

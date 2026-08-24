@@ -17,6 +17,9 @@ class ProviderCapability:
     kind: ProviderKind
     version: str
     available: bool = True
+    cost_units: int = 1
+    deterministic: bool = True
+    private_safe: bool = False
 
 
 @dataclass(frozen=True, slots=True)
@@ -97,4 +100,27 @@ class ProviderRouter:
             raise CapabilityUnavailable(
                 f"CAPABILITY_UNAVAILABLE: {kind} required for {','.join(source_refs)}"
             )
+        return capability
+
+    def select(
+        self,
+        kind: ProviderKind,
+        *,
+        private_source: bool = False,
+        require_deterministic: bool = True,
+        max_cost_units: int | None = None,
+        source_refs: tuple[str, ...] = (),
+    ) -> ProviderCapability:
+        """Select a capability under privacy, determinism, and cost policy."""
+        capability = self.require(kind, source_refs)
+        if private_source and not capability.private_safe:
+            raise CapabilityUnavailable(
+                f"CAPABILITY_UNAVAILABLE: {kind} provider is not private-safe"
+            )
+        if require_deterministic and not capability.deterministic:
+            raise CapabilityUnavailable(
+                f"CAPABILITY_UNAVAILABLE: {kind} provider is nondeterministic"
+            )
+        if max_cost_units is not None and capability.cost_units > max_cost_units:
+            raise CapabilityUnavailable(f"CAPABILITY_UNAVAILABLE: {kind} cost exceeds budget")
         return capability

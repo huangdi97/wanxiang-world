@@ -599,3 +599,9 @@ simulation, failure localization, candidate-only repair/recompile, branch
 isolation, and determinism envelopes are qualified. Evidence:
 `reports/M66_QUALIFICATION.md`. Next active checkpoint: M67 G70A-G70H
 (autonomous authoring orchestration).
+
+M67 G70A-G70H now PASS. The single authoring DAG has explicit stage policies,
+provider privacy/determinism/cost routing, stop reasons, multi-budget guards,
+and checkpoint-backed cancellation recovery. Evidence:
+`reports/M67_QUALIFICATION.md`. Next active checkpoint: M68 G71A-G71H
+(review inbox and impact-aware decisions).

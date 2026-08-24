@@ -1488,3 +1488,12 @@
   isolation proofs, and explicit determinism envelopes.
 - Qualified G69A-G69H without adding a canonical mutation path or provider
   dependency.
+
+## 2026-08-25 — M67 Autonomous Authoring Orchestrator
+
+- Added the single topological authoring DAG with stage pre/postcondition,
+  retry, timeout, budget, and cost metadata.
+- Added provider selection constraints, deterministic stop/next-action policy,
+  candidate/provider/token/network/storage/time budget records, and
+  checkpoint-backed resume.
+- Qualified G70A-G70H on the no-API reference path without a second authority.

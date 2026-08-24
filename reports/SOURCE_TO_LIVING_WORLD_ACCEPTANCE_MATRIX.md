@@ -226,14 +226,15 @@
 
 | Goal | Status |
 |---|---|
-| G70A | pending |
-| G70B | pending |
-| G70C | pending |
-| G70D | pending |
-| G70E | pending |
-| G70F | pending |
-| G70G | pending |
-| G70H | pending |
+| G70A | PASS (2026-08-25, reports/G70A_REPORT.md) |
+| G70B | PASS (2026-08-25, reports/G70B_REPORT.md) |
+| G70C | PASS (2026-08-25, reports/G70C_REPORT.md) |
+| G70D | PASS (2026-08-25, reports/G70D_REPORT.md) |
+| G70E | PASS (2026-08-25, reports/G70E_REPORT.md) |
+| G70F | PASS (2026-08-25, reports/G70F_REPORT.md) |
+| G70G | PASS (2026-08-25, reports/G70G_REPORT.md) |
+| G70H | PASS (2026-08-25, reports/G70H_REPORT.md) |
+| **M67 Milestone Gate** | **PASS (2026-08-25, reports/M67_QUALIFICATION.md)** |
 
 ## M68
 
