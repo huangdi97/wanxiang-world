@@ -625,3 +625,9 @@ pack validation, and synthetic reference-world authoring passed at commit
 `aa14422`; evidence: `reports/G73A_REPORT.md` and
 `reports/CLEAN_ROOM_CERTIFICATION.md`. Continue immediately with G73B security
 corpus audit; real copyrighted/private corpora remain outside Git.
+
+G73B PASS. Secret scan, source-gate adversarial probes, rights matrix, OCR and
+publication boundary passed; only the red-chamber README/manifest template is
+tracked. Evidence: `reports/G73B_REPORT.md` and
+`reports/SECURITY_RIGHTS_SOURCE_FORENSICS.md`. Continue immediately with G73C
+performance/recovery qualification.

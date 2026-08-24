@@ -313,3 +313,7 @@ final-SHA evidence separate from local-only claims.
 M70 G73A: PASS (`reports/G73A_REPORT.md`). Clean-room migration, replay,
 backup/restore, external sample-pack validation, and synthetic reference-world
 authoring are certified. Continue immediately with G73B.
+
+M70 G73B: PASS (`reports/G73B_REPORT.md`). Secret/source/rights publication
+audit and 22-test security/reference regression are green. Continue
+immediately with G73C.

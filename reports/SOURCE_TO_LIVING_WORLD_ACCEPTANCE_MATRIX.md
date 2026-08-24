@@ -269,7 +269,7 @@
 | Goal | Status |
 |---|---|
 | G73A | PASS (2026-08-25, reports/G73A_REPORT.md) |
-| G73B | pending |
+| G73B | PASS (2026-08-25, reports/G73B_REPORT.md) |
 | G73C | pending |
 | G73D | pending |
 | G73E | pending |

@@ -1523,3 +1523,10 @@
   reference-world authoring.
 - Kept copyrighted books, family-private records, tokens, databases, and model
   caches outside the repository; evidence is deterministic/reference-only.
+
+## 2026-08-25 — M70 G73B Security/corpus audit
+
+- Re-ran secret/source/rights forensics: 0 secret findings, 4 source-gate
+  probes, 8 threat rows, 6 rights rows, and 22 security/reference tests pass.
+- Confirmed the repository contains no real copyrighted/private corpus or
+  provider/model artifact; red-chamber remains README/manifest-template only.
