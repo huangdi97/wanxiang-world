@@ -1555,3 +1555,14 @@
 - Made affected Windows test scratch paths configurable/workspace-local so
   restricted user-temp ACLs do not masquerade as product failures; no runtime
   persistence or authority semantics changed.
+
+## 2026-08-25 — M70 G73F public CI qualification
+
+- Pushed `feature/source-to-living-world` to the existing public
+  `huangdi97/wanxiang-world` repository.
+- Repaired a real Ubuntu CI failure caused by filesystem traversal order in the
+  duplicate-abstraction allowlist; the final Actions run `32771663283` is green
+  across all six required jobs.
+- Kept Node.js deprecation annotations, external rights/OCR boundaries, and
+  no-training scope explicit rather than treating them as product failures or
+  hidden completion.

@@ -649,3 +649,10 @@ tests), wxpack scaffold/validate/build/certify, release manifest, and the
 workspace-local Windows temp isolation fix are green. Evidence:
 `reports/G73E_REPORT.md`. Continue immediately with G73F: push the feature
 branch and query the real GitHub Actions jobs.
+
+G73F PASS. The feature branch is public and tracks `origin`; first run
+`32770711648` exposed an Ubuntu-only duplicate-scan ordering defect, fixed in
+`b2e8fa8`. Final run `32771663283` at that SHA is green across safety, Python,
+PostgreSQL, API/SDK, TypeScript, and release-smoke jobs. Evidence:
+`reports/G73F_REPORT.md`. Continue immediately with G73G: v5.4.0-rc1 tag and
+release audit.

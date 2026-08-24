@@ -330,3 +330,9 @@ M70 G73E: PASS (`reports/G73E_REPORT.md`). OpenAPI/SDK contracts, the full
 Python quality gate, TypeScript SDK, wxpack CI sequence, release manifest, and
 workspace-local Windows test isolation are green. Continue immediately with
 G73F: push the feature branch and inspect real GitHub Actions.
+
+M70 G73F: PASS (`reports/G73F_REPORT.md`). The existing public feature branch
+is pushed; the first real run exposed and the second run repaired a Linux-only
+duplicate-scan ordering defect. Run `32771663283` is green across all six
+required jobs. Continue immediately with G73G: audit and, if permitted, create
+the v5.4.0-rc1 release.
