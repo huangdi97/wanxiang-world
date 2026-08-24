@@ -291,3 +291,7 @@ G68A-G68H without pausing; preserve E0 boundaries and explicit unknowns.
 M65 G68A-G68H: PASS (`reports/M65_QUALIFICATION.md`). Continue to M66
 G69A-G69H without pausing; keep worldness validation bounded, deterministic,
 and proposal-only until the existing Commit Authority path is used.
+
+M66 G69A-G69H: PASS (`reports/M66_QUALIFICATION.md`). Continue to M67
+G70A-G70H without pausing; preserve DAG ordering, provider budgets, and
+checkpoint/resume semantics.

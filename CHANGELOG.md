@@ -1479,3 +1479,12 @@
   explicit canon policies, runtime profiles, and source-version-derived seeds.
 - Qualified G68A-G68H with the M58-M65 no-API regression; no runtime commit or
   silent E0 promotion is performed.
+
+## 2026-08-25 — M66 Worldness Validation / Simulation Closure
+
+- Added ten-dimensional worldness scoring and a bounded seven-day accelerated
+  reference simulation with replay hashes.
+- Added failure localization, candidate-only repair/recompile cycles, branch
+  isolation proofs, and explicit determinism envelopes.
+- Qualified G69A-G69H without adding a canonical mutation path or provider
+  dependency.

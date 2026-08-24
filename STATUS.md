@@ -593,3 +593,9 @@ immutable initial-snapshot candidates, bounded activation sets, explicit
 Canon policies, runtime profiles, and source-version-derived seeds without
 runtime writes. Evidence: `reports/M65_QUALIFICATION.md`. Next active
 checkpoint: M66 G69A-G69H (worldness validation and simulation closure).
+
+M66 G69A-G69H now PASS. Ten-dimensional worldness scoring, bounded seven-day
+simulation, failure localization, candidate-only repair/recompile, branch
+isolation, and determinism envelopes are qualified. Evidence:
+`reports/M66_QUALIFICATION.md`. Next active checkpoint: M67 G70A-G70H
+(autonomous authoring orchestration).

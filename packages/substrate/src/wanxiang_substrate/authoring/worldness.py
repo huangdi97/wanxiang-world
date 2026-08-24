@@ -1,42 +1,24 @@
-"""Worldness evaluation and repair proposals (M66)."""
+"""Worldness evaluation and candidate-only repair loops (M66)."""
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
 
-WORLDNESS_DIMENSIONS = (
-    "persistence",
-    "causality",
-    "epistemic",
-    "spatial",
-    "consequence",
-    "autonomy",
-    "branch_isolation",
-    "replayability",
-    "provenance",
-    "uncertainty",
+from wanxiang_substrate.authoring.worldness_support import (
+    WORLDNESS_DIMENSIONS,
+    BoundedSimulation,
+    BranchIsolationProof,
+    DeterminismEnvelope,
+    FailureLocalizer,
+    FailureLocation,
+    SimulationStep,
+    SimulationTrace,
+    WorldnessInput,
+    WorldnessScore,
+    determinism_envelope,
+    prove_branch_isolation,
 )
-
-
-@dataclass(frozen=True, slots=True)
-class WorldnessInput:
-    entity_count: int
-    relation_count: int
-    event_count: int
-    source_count: int
-    uncertainty: float
-    replay_equal: bool
-    branch_isolated: bool
-
-
-@dataclass(frozen=True, slots=True)
-class WorldnessScore:
-    dimensions: tuple[tuple[str, float], ...]
-    overall: float
-    passed: bool
-
-    def value(self, name: str) -> float:
-        return dict(self.dimensions).get(name, 0.0)
 
 
 @dataclass(frozen=True, slots=True)
@@ -47,6 +29,16 @@ class RepairCandidate:
     source_refs: tuple[str, ...]
     confidence: float
     applied: bool = False
+    target: str = ""
+
+
+@dataclass(frozen=True, slots=True)
+class RecompileCycle:
+    round_number: int
+    input_revision: int
+    output_revision: int | None
+    candidate_ids: tuple[str, ...]
+    committed: bool = False
 
 
 @dataclass(frozen=True, slots=True)
@@ -55,12 +47,17 @@ class RepairRun:
     scores: tuple[WorldnessScore, ...]
     candidates: tuple[RepairCandidate, ...]
     converged: bool
+    locations: tuple[FailureLocation, ...] = ()
+    traces: tuple[SimulationTrace, ...] = ()
+    cycles: tuple[RecompileCycle, ...] = ()
 
 
 class WorldnessEvaluator:
     """Scores observable reference evidence, not subjective human realism."""
 
     def evaluate(self, value: WorldnessInput, *, threshold: float = 0.6) -> WorldnessScore:
+        if not 0.0 <= threshold <= 1.0:
+            raise ValueError("threshold must be within [0,1]")
         enough_entities = min(1.0, value.entity_count / 2)
         enough_events = min(1.0, value.event_count / 2)
         enough_relations = min(1.0, value.relation_count / 1)
@@ -84,26 +81,89 @@ class WorldnessEvaluator:
 
 
 class RepairLoop:
-    """Produces bounded repair proposals and re-evaluates supplied evidence."""
+    """Runs bounded candidate-only repair/recompile/evaluation cycles."""
 
-    def run(self, value: WorldnessInput, *, rounds: int = 2) -> RepairRun:
+    def run(
+        self,
+        value: WorldnessInput,
+        *,
+        rounds: int = 2,
+        recompile: Callable[[WorldnessInput, tuple[RepairCandidate, ...], int], WorldnessInput]
+        | None = None,
+    ) -> RepairRun:
+        limit = min(max(rounds, 1), 7)
         evaluator = WorldnessEvaluator()
-        scores = [evaluator.evaluate(value)]
+        simulator = BoundedSimulation()
+        localizer = FailureLocalizer()
+        current = value
+        scores: list[WorldnessScore] = []
+        traces: list[SimulationTrace] = []
+        locations: list[FailureLocation] = []
         candidates: list[RepairCandidate] = []
-        for name, score in scores[0].dimensions:
-            if score < 0.6:
-                candidates.append(
-                    RepairCandidate(
-                        repair_id=f"repair_{name}",
-                        dimension=name,
-                        action=f"rebuild_{name}",
-                        source_refs=(),
-                        confidence=0.4,
-                    )
+        cycles: list[RecompileCycle] = []
+        for number in range(1, limit + 1):
+            score = evaluator.evaluate(current)
+            scores.append(score)
+            traces.append(simulator.run(current, branch_id=f"repair_{number}"))
+            if score.passed:
+                break
+            found = localizer.locate(score, current)
+            locations.extend(found)
+            proposals = tuple(
+                RepairCandidate(
+                    repair_id=f"repair_{number}_{item.dimension}",
+                    dimension=item.dimension,
+                    action=f"rebuild_{item.target.replace(' ', '_')}",
+                    source_refs=item.source_refs,
+                    confidence=0.4,
+                    target=f"{item.layer}:{item.target}",
                 )
+                for item in found
+            )
+            candidates.extend(proposals)
+            input_revision = current.draft_revision
+            output_revision: int | None = None
+            if recompile is not None and number < limit:
+                next_value = recompile(current, proposals, number)
+                output_revision = next_value.draft_revision
+                current = next_value
+            cycles.append(
+                RecompileCycle(
+                    number,
+                    input_revision,
+                    output_revision,
+                    tuple(item.repair_id for item in proposals),
+                )
+            )
+            if recompile is None or number >= limit:
+                break
         return RepairRun(
-            rounds=min(max(rounds, 1), 7),
+            rounds=limit,
             scores=tuple(scores),
             candidates=tuple(candidates),
             converged=scores[-1].passed,
+            locations=tuple(locations),
+            traces=tuple(traces),
+            cycles=tuple(cycles),
         )
+
+
+__all__ = [
+    "WORLDNESS_DIMENSIONS",
+    "BoundedSimulation",
+    "BranchIsolationProof",
+    "DeterminismEnvelope",
+    "FailureLocalizer",
+    "FailureLocation",
+    "RepairCandidate",
+    "RepairLoop",
+    "RepairRun",
+    "RecompileCycle",
+    "SimulationStep",
+    "SimulationTrace",
+    "WorldnessEvaluator",
+    "WorldnessInput",
+    "WorldnessScore",
+    "determinism_envelope",
+    "prove_branch_isolation",
+]
