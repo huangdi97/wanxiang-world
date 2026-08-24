@@ -272,3 +272,7 @@ explicitly separated from the no-API reference path.
 M60 G63A-G63I: PASS (`reports/M60_QUALIFICATION.md`). Continue to M61
 G64A-G64H without pausing; preserve reversible semantic candidates and no
 coordinate/Canon invention.
+
+M61 G64A-G64H: PASS (`reports/M61_QUALIFICATION.md`). Continue to M62
+G65A-G65H without pausing; keep source bytes external and provider outputs
+proposal-only.

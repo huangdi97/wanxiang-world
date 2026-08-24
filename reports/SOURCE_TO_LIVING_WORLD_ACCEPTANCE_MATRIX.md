@@ -142,14 +142,15 @@
 
 | Goal | Status |
 |---|---|
-| G64A | pending |
-| G64B | pending |
-| G64C | pending |
-| G64D | pending |
-| G64E | pending |
-| G64F | pending |
-| G64G | pending |
-| G64H | pending |
+| G64A | PASS (2026-08-25, reports/G64A_REPORT.md) |
+| G64B | PASS (2026-08-25, reports/G64B_REPORT.md) |
+| G64C | PASS (2026-08-25, reports/G64C_REPORT.md) |
+| G64D | PASS (2026-08-25, reports/G64D_REPORT.md) |
+| G64E | PASS (2026-08-25, reports/G64E_REPORT.md) |
+| G64F | PASS (2026-08-25, reports/G64F_REPORT.md) |
+| G64G | PASS (2026-08-25, reports/G64G_REPORT.md) |
+| G64H | PASS (2026-08-25, reports/G64H_REPORT.md) |
+| **M61 Milestone Gate** | **PASS (2026-08-25, reports/M61_QUALIFICATION.md)** |
 
 ## M62
 

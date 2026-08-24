@@ -1435,3 +1435,12 @@
 - Qualified G63A-G63I on a multi-chapter synthetic novel; metrics remain
   reference proxies and real book/private-corpus claims remain blocked by
   provenance and rights boundaries.
+
+## 2026-08-25 — M61 Multi-source / Multi-version Fusion
+
+- Added source-family role/version views, cross-source alignment records,
+  explicit provenance relation edges, conflict impact, and preserve-dissent
+  policy metadata.
+- Added incremental supplemental fusion and rights-compatible candidate views
+  without deleting alternatives or adding a second authority.
+- Qualified G64A-G64H on deterministic two-version synthetic evidence.

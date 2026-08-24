@@ -565,3 +565,8 @@ M60 G63A-G63I now PASS. Reversible identity/time/life-arc/knowledge/spatial/
 object/institution semantic views and reference metrics are qualified on a
 multi-chapter synthetic novel. Evidence: `reports/M60_QUALIFICATION.md`.
 Next active checkpoint: M61 G64A-G64H (multi-source fusion).
+
+M61 G64A-G64H now PASS. Source family/version roles, alignment, provenance,
+dissent/conflict workbench, incremental supplement, and rights-compatible
+candidate filtering are qualified. Evidence: `reports/M61_QUALIFICATION.md`.
+Next active checkpoint: M62 G65A-G65H (multimodal and external source ports).
