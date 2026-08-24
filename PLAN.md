@@ -287,3 +287,7 @@ OS-level isolation.
 
 M64 G67A-G67H: PASS (`reports/M64_QUALIFICATION.md`). Continue to M65
 G68A-G68H without pausing; preserve E0 boundaries and explicit unknowns.
+
+M65 G68A-G68H: PASS (`reports/M65_QUALIFICATION.md`). Continue to M66
+G69A-G69H without pausing; keep worldness validation bounded, deterministic,
+and proposal-only until the existing Commit Authority path is used.

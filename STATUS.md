@@ -587,3 +587,9 @@ identity/topology/ownership/knowledge/organization/scenario/package/rights
 checks, and uncertainty calibration are qualified. Evidence:
 `reports/M64_QUALIFICATION.md`. Next active checkpoint: M65 G68A-G68H
 (scenario/genesis auto authoring).
+
+M65 G68A-G68H now PASS. Three reproducible scenario/genesis modes carry
+immutable initial-snapshot candidates, bounded activation sets, explicit
+Canon policies, runtime profiles, and source-version-derived seeds without
+runtime writes. Evidence: `reports/M65_QUALIFICATION.md`. Next active
+checkpoint: M66 G69A-G69H (worldness validation and simulation closure).

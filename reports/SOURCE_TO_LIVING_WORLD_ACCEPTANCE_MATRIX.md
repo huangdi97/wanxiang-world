@@ -2,7 +2,7 @@
 
 > Tracks every M51–M70 Goal and Milestone Gate toward `16_FINAL_ACCEPTANCE.md`.
 > Statuses: PASS / FAIL / EXTERNAL_BLOCKED / NOT_APPLICABLE / pending.
-> Updated: 2026-08-25 (M59 qualified; M60 onward pending).
+> Updated: 2026-08-25 (M65 qualified; M66 onward pending).
 
 ## M51
 
@@ -198,14 +198,15 @@
 
 | Goal | Status |
 |---|---|
-| G68A | pending |
-| G68B | pending |
-| G68C | pending |
-| G68D | pending |
-| G68E | pending |
-| G68F | pending |
-| G68G | pending |
-| G68H | pending |
+| G68A | PASS (2026-08-25, reports/G68A_REPORT.md) |
+| G68B | PASS (2026-08-25, reports/G68B_REPORT.md) |
+| G68C | PASS (2026-08-25, reports/G68C_REPORT.md) |
+| G68D | PASS (2026-08-25, reports/G68D_REPORT.md) |
+| G68E | PASS (2026-08-25, reports/G68E_REPORT.md) |
+| G68F | PASS (2026-08-25, reports/G68F_REPORT.md) |
+| G68G | PASS (2026-08-25, reports/G68G_REPORT.md) |
+| G68H | PASS (2026-08-25, reports/G68H_REPORT.md) |
+| **M65 Milestone Gate** | **PASS (2026-08-25, reports/M65_QUALIFICATION.md)** |
 
 ## M66
 

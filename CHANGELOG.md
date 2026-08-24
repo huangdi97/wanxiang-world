@@ -1470,3 +1470,12 @@
 - Kept unknowns and blocking gaps explicit; no completion can silently enter
   E0 Canon.
 - Qualified G67A-G67H on no-API deterministic evidence.
+
+## 2026-08-25 — M65 Scenario / Genesis Auto Authoring
+
+- Added deterministic scenario mining and three Genesis modes: canonical
+  replay, soft canon, and living open.
+- Added immutable initial-snapshot candidates, bounded activation sets,
+  explicit canon policies, runtime profiles, and source-version-derived seeds.
+- Qualified G68A-G68H with the M58-M65 no-API regression; no runtime commit or
+  silent E0 promotion is performed.
