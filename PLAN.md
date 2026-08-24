@@ -309,3 +309,7 @@ CSV, mixed-source, Studio/API/CLI, publish-gate, OCR_REQUIRED, replay, and
 branch-isolation reference evidence are green. Continue to M70 G73A-G73H
 without pausing; keep real GitHub Actions, clean-room, security, release, and
 final-SHA evidence separate from local-only claims.
+
+M70 G73A: PASS (`reports/G73A_REPORT.md`). Clean-room migration, replay,
+backup/restore, external sample-pack validation, and synthetic reference-world
+authoring are certified. Continue immediately with G73B.

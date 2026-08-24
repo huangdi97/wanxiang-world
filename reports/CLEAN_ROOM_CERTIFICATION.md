@@ -8,9 +8,9 @@ documented scripts (`release_build`, `backup_restore`, `wxpack`,`reference_world
 
 | Step | Result | Evidence |
 |---|---|---|
-| clean_tree | PASS | tracked modifications=0; caches=[]; documented out-of-scope docs=92 |
-| release_manifest | PASS | version=0.1.0; sha==HEAD=True; reproducible=True; head=0002_add_event_seq_index |
-| migration_upgrade | PASS | 0001->head: 0001_initial -> 0002_add_event_seq_index |
+| clean_tree | PASS | tracked modifications=0; caches=[]; documented out-of-scope docs=0 |
+| release_manifest | PASS | version=0.1.0; sha==HEAD=True; reproducible=True; head=0004_add_world_metadata |
+| migration_upgrade | PASS | 0001->head: 0001_initial -> 0004_add_world_metadata |
 | golden_replay | PASS | 5 events; hash match=True |
 | backup_restore_replay | PASS | backup=5; restored=5; hash_match=True |
 | external_sample_pack | PASS | errors=[] |
@@ -18,7 +18,7 @@ documented scripts (`release_build`, `backup_restore`, `wxpack`,`reference_world
 
 ## Verdict
 
-**PASS** - clean-room build/install/upgrade/restore/replay certified for commit 72a8c0f6085efbb2b008ad56b09017966e05836f.
+**PASS** - clean-room build/install/upgrade/restore/replay certified for commit aa144229e6a8b720c9b5bd90669d0c5aa97d4cde.
 
 ## Evidence commands
 

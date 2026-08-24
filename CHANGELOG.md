@@ -1515,3 +1515,11 @@
   or mutates Canonical World State.
 - Added Studio one-click/publish and CLI `--publish` evidence, OCR_REQUIRED
   negative coverage, runtime replay, and branch-isolation acceptance.
+
+## 2026-08-25 — M70 G73A Clean-room certification
+
+- Certified clean-room release-manifest reproducibility, migration bootstrap,
+  golden replay, backup/restore, external sample-pack validation, and synthetic
+  reference-world authoring.
+- Kept copyrighted books, family-private records, tokens, databases, and model
+  caches outside the repository; evidence is deterministic/reference-only.

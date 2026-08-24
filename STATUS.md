@@ -617,3 +617,11 @@ same AuthoringService and package/preview path; explicit publish validation,
 OCR_REQUIRED, Studio/API/CLI equivalence, Commit Authority replay, and branch
 isolation are qualified. Evidence: `reports/M69_QUALIFICATION.md`. Next active
 checkpoint: M70 G73A-G73H (production hardening, GitHub CI, and v5.4 RC).
+
+## M70 current checkpoint (2026-08-25)
+
+G73A PASS. Clean-room build/install/upgrade/restore/replay, external sample
+pack validation, and synthetic reference-world authoring passed at commit
+`aa14422`; evidence: `reports/G73A_REPORT.md` and
+`reports/CLEAN_ROOM_CERTIFICATION.md`. Continue immediately with G73B security
+corpus audit; real copyrighted/private corpora remain outside Git.
