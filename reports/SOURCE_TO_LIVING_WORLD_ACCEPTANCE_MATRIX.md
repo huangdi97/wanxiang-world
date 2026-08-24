@@ -240,14 +240,15 @@
 
 | Goal | Status |
 |---|---|
-| G71A | pending |
-| G71B | pending |
-| G71C | pending |
-| G71D | pending |
-| G71E | pending |
-| G71F | pending |
-| G71G | pending |
-| G71H | pending |
+| G71A | PASS (2026-08-25, reports/G71A_REPORT.md) |
+| G71B | PASS (2026-08-25, reports/G71B_REPORT.md) |
+| G71C | PASS (2026-08-25, reports/G71C_REPORT.md) |
+| G71D | PASS (2026-08-25, reports/G71D_REPORT.md) |
+| G71E | PASS (2026-08-25, reports/G71E_REPORT.md) |
+| G71F | PASS (2026-08-25, reports/G71F_REPORT.md) |
+| G71G | PASS (2026-08-25, reports/G71G_REPORT.md) |
+| G71H | PASS (2026-08-25, reports/G71H_REPORT.md) |
+| **M68 Milestone Gate** | **PASS (2026-08-25, reports/M68_QUALIFICATION.md)** |
 
 ## M69
 

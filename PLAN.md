@@ -299,3 +299,7 @@ checkpoint/resume semantics.
 M67 G70A-G70H: PASS (`reports/M67_QUALIFICATION.md`). Continue to M68
 G71A-G71H without pausing; keep review impact, batch decisions, audit
 provenance, and preview-only UX explicit.
+
+M68 G71A-G71H: PASS (`reports/M68_QUALIFICATION.md`). Continue to M69
+G72A-G72H without pausing; keep one-click profile routing on the shared
+service and living-instance entry behind preview/Commit Authority boundaries.

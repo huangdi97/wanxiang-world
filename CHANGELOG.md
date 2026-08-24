@@ -1497,3 +1497,12 @@
   candidate/provider/token/network/storage/time budget records, and
   checkpoint-backed resume.
 - Qualified G70A-G70H on the no-API reference path without a second authority.
+
+## 2026-08-25 — M68 Minimal Human Review / Active Review Studio
+
+- Added impact-aware scoring and a policy-gated review inbox with bounded
+  human queue, stable impact preview, and idempotent batch decisions.
+- Added rule/human audit provenance and Studio API inbox/batch/audit surfaces
+  over the existing ReviewLedger.
+- Qualified G71A-G71H on no-API TestClient E2E; unknowns remain deferred and
+  cannot become E0 Canon.

@@ -57,6 +57,13 @@ class ReviewCandidateRequest(BaseModel):
     rationale: str
 
 
+class BatchReviewRequest(BaseModel):
+    candidate_ids: list[str] = Field(default_factory=list)
+    action: str
+    reviewer: str
+    rationale: str
+
+
 def _service(request: Request) -> AuthoringService:
     return request.app.state.authoring
 
@@ -202,4 +209,75 @@ def review_candidate(
         "action": decision.action,
         "reviewer": decision.reviewer,
         "rationale": decision.rationale,
+    }
+
+
+@router.get("/jobs/{job_id}/review-inbox")
+def review_inbox(job_id: str, request: Request) -> dict[str, object]:
+    items = _service(request).review_inbox(job_id)
+    return {
+        "job_id": job_id,
+        "items": [
+            {
+                "candidate_id": item.candidate.candidate_id,
+                "kind": item.candidate.kind,
+                "confidence": item.candidate.confidence,
+                "impact": item.impact.score,
+                "reasons": list(item.impact.reasons),
+                "auto_approved": item.auto_approved,
+                "needs_human_review": item.needs_human_review,
+                "preview": {
+                    "entities": list(item.preview.entities) if item.preview else [],
+                    "events": list(item.preview.events) if item.preview else [],
+                    "scenarios": list(item.preview.scenarios) if item.preview else [],
+                    "package_sections": list(item.preview.package_sections) if item.preview else [],
+                    "preview_hash": item.preview.preview_hash if item.preview else "",
+                },
+            }
+            for item in items
+        ],
+    }
+
+
+@router.post("/jobs/{job_id}/review-inbox/batch", status_code=201)
+def batch_review(job_id: str, payload: BatchReviewRequest, request: Request) -> dict[str, object]:
+    decisions = _service(request).review_inbox_batch(
+        job_id,
+        tuple(payload.candidate_ids),
+        action=payload.action,
+        reviewer=payload.reviewer,
+        rationale=payload.rationale,
+    )
+    return {
+        "job_id": job_id,
+        "decisions": [
+            {
+                "decision_id": decision.decision_id,
+                "target_id": decision.target_id,
+                "action": decision.action,
+                "reviewer": decision.reviewer,
+            }
+            for decision in decisions
+        ],
+    }
+
+
+@router.get("/jobs/{job_id}/review-inbox/audit")
+def review_audit(job_id: str, request: Request) -> dict[str, object]:
+    audits = _service(request).review_audit(job_id)
+    return {
+        "job_id": job_id,
+        "audits": [
+            {
+                "audit_id": audit.audit_id,
+                "decision_id": audit.decision_id,
+                "target_id": audit.target_id,
+                "actor_type": audit.actor_type,
+                "actor_id": audit.actor_id,
+                "rationale": audit.rationale,
+                "impact_score": audit.impact_score,
+                "source_refs": list(audit.source_refs),
+            }
+            for audit in audits
+        ],
     }

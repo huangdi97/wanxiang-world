@@ -6,6 +6,7 @@ from wanxiang_domain.errors import ContractError, WanxiangError
 
 from wanxiang_substrate.authoring.model import AuthoringSnapshot, PipelineBuild
 from wanxiang_substrate.authoring.pipeline import SourceToDraftPipeline
+from wanxiang_substrate.authoring.review_inbox import InboxItem, ReviewAudit, ReviewInbox
 from wanxiang_substrate.compile import CompilerBoundary, CompilerInput, PackageAssembler
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.jobs.errors import InvalidJobTransition, JobNotFound
@@ -29,6 +30,7 @@ class AuthoringService:
         self._packages: dict[str, WorldPackageDraft] = {}
         self._previews = PreviewRegistry()
         self._reviews = ReviewLedger()
+        self._inbox = ReviewInbox(self._reviews)
 
     def create_job(
         self,
@@ -148,6 +150,35 @@ class AuthoringService:
             rationale=rationale,
         )
         return self._reviews.record(decision)
+
+    def review_inbox(self, job_id: str) -> tuple[InboxItem, ...]:
+        """Return impact-ranked review items over the shared candidate build."""
+        build = self._require_build(job_id)
+        return self._inbox.build(build.candidates)
+
+    def review_inbox_batch(
+        self,
+        job_id: str,
+        candidate_ids: tuple[str, ...],
+        *,
+        action: str,
+        reviewer: str,
+        rationale: str,
+    ) -> tuple[ReviewDecision, ...]:
+        build = self._require_build(job_id)
+        unknown = set(candidate_ids).difference(build.candidate_ids)
+        if unknown:
+            raise ContractError(f"candidate ids are not part of job {job_id!r}: {sorted(unknown)}")
+        return self._inbox.batch(
+            candidate_ids,
+            action=action,
+            reviewer=reviewer,
+            rationale=rationale,
+        )
+
+    def review_audit(self, job_id: str) -> tuple[ReviewAudit, ...]:
+        self._require_build(job_id)
+        return self._inbox.audit()
 
     def build_package(self, job_id: str) -> WorldPackageDraft:
         build = self._require_build(job_id)

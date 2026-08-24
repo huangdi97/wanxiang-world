@@ -605,3 +605,9 @@ provider privacy/determinism/cost routing, stop reasons, multi-budget guards,
 and checkpoint-backed cancellation recovery. Evidence:
 `reports/M67_QUALIFICATION.md`. Next active checkpoint: M68 G71A-G71H
 (review inbox and impact-aware decisions).
+
+M68 G71A-G71H now PASS. Impact scoring covers downstream effects,
+uncertainty/conflict/rights; the inbox prioritizes human work, batch review
+is idempotent, impact previews are stable, and Studio exposes audit
+provenance. Evidence: `reports/M68_QUALIFICATION.md`. Next active checkpoint:
+M69 G72A-G72H (one-click authoring and living-world entry).
