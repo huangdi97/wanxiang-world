@@ -23,7 +23,8 @@ All required goals G73A-G73H are PASS. The final evidence is consolidated in
 ## Required evidence
 
 - Local full regression: 1201 passed, 1 skipped, 2 warnings.
-- RC tag-push Actions run `32772687982`: all six required jobs green.
+- Final branch Actions run `32773363629` and RC tag-push run `32772687982`:
+  all six required jobs green.
 - Migration, replay, backup/restore, no-API reference authoring, source/rights
   negative paths, OCR_REQUIRED, E0 boundary, architecture, and kernel guards
   remain qualified as documented in the reports.

@@ -22,8 +22,8 @@ continuous execution package.
 
 - Local full regression: `1201 passed, 1 skipped, 2 warnings`; the skip is the
   documented live PostgreSQL profile without a local service.
-- Remote branch CI run `32772200759` passed at the final documentation branch
-  HEAD; RC tag-push run `32772687982` also passed at the qualified RC commit.
+- Final branch CI run `32773363629` passed at branch HEAD `518f255`; RC
+  tag-push run `32772687982` also passed at the qualified RC commit `5137140`.
   Both runs passed safety, Python, PostgreSQL, API/SDK, TypeScript, and
   release-smoke jobs. The Python job included lint, format, Pyright, full
   SQLite regression, quality, and kernel freeze guard.

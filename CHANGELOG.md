@@ -1580,4 +1580,6 @@
   consolidated `reports/M70_QUALIFICATION.md`.
 - Recorded the final no-API, authority, E0, OCR, rights, security, clean-room,
   CI, and RC boundaries with an explicit STOP condition.
+- Final branch Actions run `32773363629` passed all six required jobs at the
+  documentation-complete HEAD.
 - M70 is complete; this execution does not start model training, M71, or v5.5.

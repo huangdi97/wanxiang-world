@@ -14,6 +14,7 @@ provider limitations into product claims.
 | M70 G73A-G73G | PASS | reports `G73A_REPORT.md` through `G73G_REPORT.md` |
 | M70 G73H | PASS | this report and `reports/M70_QUALIFICATION.md` |
 | Local full regression | PASS | 1201 passed, 1 skipped, 2 warnings; documented PostgreSQL skip only |
+| Final branch Actions | PASS | run `32773363629` at final branch HEAD `518f255`, all six required jobs green |
 | Remote RC Actions | PASS | run `32772687982` on `v5.4.0-rc1` at qualified commit `5137140`, all six required jobs green |
 | RC / public delivery | PASS | `v5.4.0-rc1` prerelease at qualified commit `5137140`; feature branch public |
 | Architecture / authority | PASS | architecture guard, kernel guard, one Commit Authority, no world-specific Core logic |

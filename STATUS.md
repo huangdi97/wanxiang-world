@@ -667,5 +667,6 @@ G73H PASS / M70 FINAL PASS. The complete M51-M70 Source -> Living World
 package is accepted: no-API reference E2E, rights/OCR/E0 boundaries, clean
 room, security, performance/recovery, contracts, public docs, repaired real
 CI, and v5.4.0-rc1 are all recorded. Evidence:
-`reports/G73H_REPORT.md` and `reports/M70_QUALIFICATION.md`. STOP condition
-met: do not start model training, M71, or v5.5.
+`reports/G73H_REPORT.md` and `reports/M70_QUALIFICATION.md`; final branch run
+`32773363629` is green at `518f255`. STOP condition met: do not start model
+training, M71, or v5.5.
