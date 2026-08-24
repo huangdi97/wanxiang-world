@@ -1413,3 +1413,14 @@
   Ruff, Pyright, and architecture guard. Missing OCR capability remains an
   explicit `OCR_REQUIRED` failure; private/copyrighted source bytes stay out of
   Git.
+
+## 2026-08-25 — M59 Cross-source E2E / Hardening
+
+- Added Blob-resolver EPUB coverage to the shared no-API source-to-preview
+  path, with content-hash verification and pre-ingest archive security.
+- Added bounded source chunking, deterministic recovery records, and a
+  content/version hash cache for large synthetic inputs.
+- Hardened job idempotency so changed bytes cannot silently reuse an existing
+  job fingerprint; unreviewed sources remain `REVIEW_REQUIRED` and cannot be
+  compiled.
+- Qualified G62A-G62H and the M59 gate on synthetic/reference evidence.

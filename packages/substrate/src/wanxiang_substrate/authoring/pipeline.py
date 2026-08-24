@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import hashlib
+from collections.abc import Callable
 from dataclasses import replace
 from typing import cast
 
@@ -25,8 +27,10 @@ from wanxiang_substrate.parsing.parser import StructureParser
 from wanxiang_substrate.parsing.segment import LocatorFormat, Segment, build_segments
 from wanxiang_substrate.sources.adapter import AdapterRegistry
 from wanxiang_substrate.sources.book import BookAdapter
+from wanxiang_substrate.sources.errors import ContentHashMismatch
 from wanxiang_substrate.sources.gate import SourceGate
 from wanxiang_substrate.sources.model import SourceRecord
+from wanxiang_substrate.sources.security import IngestSecurityGate
 from wanxiang_substrate.sources.structured import StructuredAdapter
 
 
@@ -87,9 +91,17 @@ def _expand_domains(registry: DomainRegistry, selected: tuple[str, ...]) -> tupl
 class SourceToDraftPipeline:
     """Build a revisioned Forge draft from one or more registered sources."""
 
-    def __init__(self, *, domains: DomainRegistry | None = None) -> None:
+    def __init__(
+        self,
+        *,
+        domains: DomainRegistry | None = None,
+        blob_loader: Callable[[SourceRecord], bytes | None] | None = None,
+        security_gate: IngestSecurityGate | None = None,
+    ) -> None:
         self._adapters = AdapterRegistry((BookAdapter(), StructuredAdapter()))
         self._gate = SourceGate()
+        self._blob_loader = blob_loader
+        self._security = security_gate or IngestSecurityGate()
         self._domains = domains or default_domain_registry()
         self._dag = _dag()
         self._parser = StructureParser()
@@ -106,7 +118,14 @@ class SourceToDraftPipeline:
             if adapter is None:
                 raise ValueError(f"unsupported source kind {record.kind!r}")
             inspection = adapter.inspect(record)
-            result = adapter.ingest(record, content.encode("utf-8"))
+            blob = self._blob_loader(record) if self._blob_loader is not None else None
+            raw = content.encode("utf-8") if blob is None else blob
+            if hashlib.sha256(raw).hexdigest() != record.content_hash:
+                raise ContentHashMismatch(
+                    f"source {record.source_id!r} bytes do not match content hash"
+                )
+            self._security.check_blob(raw, kind=record.kind)
+            result = adapter.ingest(record, raw)
             parsed = self._parser.parse(
                 result,
                 source_id=record.source_id,
@@ -197,11 +216,7 @@ class SourceToDraftPipeline:
                 if candidate.kind in ("knowledge_boundary", "belief")
             }
         )
-        rights = tuple(
-            record.source_id
-            for record in records
-            if record.rights is None or not record.rights.approved
-        )
+        rights = tuple(record.source_id for record in records if not record.canonical_eligible())
         preliminary = WorldDraft(
             draft_id=draft_id,
             revision=1,

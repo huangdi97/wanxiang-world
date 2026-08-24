@@ -53,6 +53,12 @@ class MalformedSourceContent(SourceError):
     code = "malformed_source_content"
 
 
+class ContentHashMismatch(SourceError):
+    """Resolved source bytes do not match the immutable source record."""
+
+    code = "content_hash_mismatch"
+
+
 class IngestError(SourceError):
     """Adapter ingest failed (typed, never silent fallback)."""
 

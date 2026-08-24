@@ -264,3 +264,7 @@ Execution continues immediately with M58; no model-training work is in scope.
 
 M58 G61A-G61H: PASS (`reports/M58_QUALIFICATION.md`).
 Next: M59 G62A-G62H, then continue sequentially through M70 without pausing.
+
+M59 G62A-G62H: PASS (`reports/M59_QUALIFICATION.md`). Continue to M60
+G63A-G63I without pausing; keep real corpus and external-provider gates
+explicitly separated from the no-API reference path.

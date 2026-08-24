@@ -554,3 +554,9 @@ M58 G61A-G61H now PASS. The shared no-API AuthoringService exposes source
 registration, checkpointed authoring, draft/candidate review, package/preview
 build, API routes, and the `wxworld reference` CLI. Next active checkpoint:
 M59 G62A-G62H (multi-format E2E and hardening).
+
+M59 G62A-G62H now PASS. Book/EPUB, GEDCOM, JSON, and CSV reference paths,
+fingerprint idempotency, bounded source chunking, hash/security checks, and
+E0/rights negative paths are qualified. Evidence:
+`reports/M59_QUALIFICATION.md`. Next active checkpoint: M60 G63A-G63I
+(book-scale semantic understanding).

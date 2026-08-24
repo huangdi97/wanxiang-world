@@ -43,6 +43,29 @@ class AuthoringService:
         except JobNotFound:
             existing = None
         if existing is not None:
+            current_fingerprint = tuple(
+                sorted(
+                    (
+                        record.source_id,
+                        record.kind,
+                        record.content_hash,
+                        record.version,
+                    )
+                    for source_id in self._job_sources.get(job_id, ())
+                    for record in (self._sources.require(source_id),)
+                )
+            )
+            incoming_fingerprint = tuple(
+                sorted(
+                    (record.source_id, record.kind, record.content_hash, record.version)
+                    for record in sources
+                )
+            )
+            if current_fingerprint != incoming_fingerprint or existing.job_id != job_id:
+                raise ContractError(
+                    f"job {job_id!r} already exists with a different source fingerprint; "
+                    "use a new job id or source version"
+                )
             return self.status(job_id)
         source_ids = self._register_sources(sources)
         job_source_refs = source_ids or (f"job_{job_id}",)
