@@ -47,9 +47,21 @@ ALLOWED_DUPLICATE_NAMES: dict[str, tuple[str, ...]] = {
         "packages/substrate/src/wanxiang_substrate/evidence/binding.py",
         "packages/substrate/src/wanxiang_substrate/sources/model.py",
     ),
+    "FusionResult": (
+        "packages/substrate/src/wanxiang_substrate/authoring/fusion.py",
+        "packages/substrate/src/wanxiang_substrate/reality/fusion.py",
+    ),
+    "InitialSnapshot": (
+        "packages/substrate/src/wanxiang_substrate/authoring/scenario_engine.py",
+        "packages/substrate/src/wanxiang_substrate/rc001/instantiate.py",
+    ),
     "ReviewDecision": (
         "packages/substrate/src/wanxiang_substrate/ledger/model.py",
         "packages/substrate/src/wanxiang_substrate/review/decisions.py",
+    ),
+    "RightsDecision": (
+        "packages/substrate/src/wanxiang_substrate/authoring/fusion.py",
+        "packages/substrate/src/wanxiang_substrate/rights/gate.py",
     ),
     "Observation": (
         "packages/substrate/src/wanxiang_substrate/observation/model.py",
@@ -70,6 +82,10 @@ ALLOWED_DUPLICATE_NAMES: dict[str, tuple[str, ...]] = {
     "RightsEnvelope": (
         "packages/domain/src/wanxiang_domain/rights.py",
         "packages/substrate/src/wanxiang_substrate/sources/model.py",
+    ),
+    "RuntimeProfile": (
+        "packages/substrate/src/wanxiang_substrate/authoring/scenario_engine.py",
+        "packages/substrate/src/wanxiang_substrate/host/hypervisor.py",
     ),
     "ValidityEnvelope": (
         "packages/research/src/wanxiang_research/sim_federation.py",

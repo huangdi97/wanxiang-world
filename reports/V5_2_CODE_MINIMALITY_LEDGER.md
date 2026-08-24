@@ -2,7 +2,8 @@
 
 > Required by `03_????????.md`: every new class/protocol/service/registry/
 > manager must answer the four questions. Deletions/merges are recorded too.
-> Updated continuously across G29A?G37G.
+> Updated continuously across G29A-G37G and the M51-M70 Source -> Living World
+> execution package.
 
 ## G29A entry
 
@@ -521,3 +522,100 @@ DependencyResolver), draft package (WorldDraft, DraftStore, CoverageAssessor,
 ScenarioMiner, GenesisPlanBuilder). Justification: M56 Domain Matching &
 WorldDraft; drafts are compile intermediates, domains reusable. Count impact:
 registries 13->14, py 1309->1324.
+
+## M57 entry (G60A-G60H)
+New abstractions: compiler/package/preview boundary (WorldCompiler,
+CompiledWorldDraft, PackageManifest v4 fields, PackageValidator, PreviewScope /
+PreviewRegistry / PreviewRuntimePort). Justification: M57 requires a revision-
+pinned compile artifact and an isolated preview over the existing runtime port;
+these replace ad-hoc draft-to-preview wiring and never become runtime state.
+Consumers: compiler/package tests, preview tests, and the M58 authoring service.
+
+## M58 entry (G61A-G61H)
+New abstractions: AuthoringService and the thin Studio/API/CLI adapters; no
+transport-owned state. Justification: one backend must drive upload, parse,
+review, package and preview from both API and CLI. Consumers: Studio routes,
+CLI reference command, and authoring integration tests; existing JobStore,
+ReviewLedger and package/preview contracts are reused.
+
+## M59 entry (G62A-G62H)
+New abstractions: bounded source chunk/cache/hash and hardening diagnostics.
+Justification: large-source resume, idempotency and adversarial input handling
+need explicit checkpoint data; the existing SourceRegistry and JobStore remain
+the owners. Consumers: source matrix, resume, security and compatibility tests.
+
+## M60 entry (G63A-G63I)
+New abstractions: typed semantic candidate views for identity, event order,
+life arcs, knowledge propagation, spatial topology, institution rules and
+object biographies. Justification: these are distinct projections of the
+existing CandidateEnvelope, not a second Canon model. Consumers: semantic
+passes, metrics and the book-scale reference fixture.
+
+## M61 entry (G64A-G64H)
+New abstractions: SourceFamily, alignment/provenance records, fusion result and
+incremental-fusion records. Justification: editions and supplemental sources
+need explicit lineage, dissent and affected-key recomputation; they extend the
+single candidate/evidence fabric. Consumers: two-version fusion, rights and
+incremental-source tests.
+
+## M62 entry (G65A-G65H)
+New abstractions: OCR/ASR/vision/IIIF connector capabilities and bundle
+manifest records. Justification: external services are replaceable provider
+ports; a port is required to represent capability and typed absence without
+network I/O. Consumers: multimodal source matrix, bundle validation and
+OCR_REQUIRED negative tests.
+
+## M63 entry (G66A-G66H)
+New abstractions: domain fingerprints, composition plans, gap candidates and
+validation reports. Justification: domain inference must be reusable and
+draft-scoped; these records replace per-world special cases and reuse the
+existing DomainRegistry. Consumers: domain composition, gap-pack and
+cross-world reuse tests.
+
+## M64 entry (G67A-G67H)
+New abstractions: missingness/constraint/consistency records and the bounded
+completion engine surface. Justification: completion needs typed unknown,
+blocking and contradiction evidence while preserving E0-E5 semantics;
+CompletionCandidate remains the only promotion vocabulary. Consumers:
+consistency solver, completion negative tests and package validation.
+
+## M65 entry (G68A-G68H)
+New abstractions: ScenarioSpec, InitialSnapshot, CanonPolicy, RuntimeProfile,
+ActivationSet and GenesisPlan plus the bounded CompletionEngine/ScenarioEngine.
+Justification: scenario/genesis planning is a Forge compilation concern; the
+engines emit immutable candidates/drafts and reuse the existing Commit
+Authority for any later activation. Consumers: scenario modes, seed
+reproducibility and runtime isolation tests.
+
+## M66 entry (G69A-G69H)
+New abstractions: WorldnessReport, bounded simulation trace, failure
+localization and repair proposal records. Justification: validation needs a
+deterministic bounded loop over a WorldDraft, while repair remains candidate-
+only. Consumers: worldness evaluator, repair/recompile and branch-isolation
+tests.
+
+## M67 entry (G70A-G70H)
+New abstractions: authoring DAG/stage policy, provider routing, budget and
+stopping records, and job checkpoint orchestration. Justification: the loop
+coordinates existing Forge stages and providers; it does not introduce a
+second job store, registry or commit path. Consumers: orchestrator, crash /
+resume and provider-routing tests.
+
+## M68 entry (G71A-G71H)
+New abstractions: review impact, auto-approval policy, inbox and batch review
+records. Justification: minimal human review needs a queryable proposal view;
+decisions append to the existing ReviewLedger and defer/unknown stays outside
+Canon. Consumers: review inbox, batch review, audit and API tests.
+
+## M69 entry (G72A-G72H)
+New abstractions: OneClickAuthoring profiles and its shared service facade;
+publish is a Forge job checkpoint, not a Canon write. Justification: four
+source profiles must share the existing AuthoringService, package validator,
+preview registry and runtime. Consumers: one-click API, CLI, synthetic
+book/family/structured/mixed flows and living-world acceptance tests.
+
+## M70 entry (G73A-G73H)
+No new production authority, registry, store, runtime state or model-training
+abstraction is permitted. Clean-room, security, performance, docs, CI,
+delivery and final certification reuse existing gates and produce evidence
+only. Consumers: the M70 qualification matrix and public release workflow.

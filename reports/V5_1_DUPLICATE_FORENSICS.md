@@ -22,7 +22,7 @@
 | packages/substrate/src/wanxiang_substrate/sources/adapter.py | AdapterRegistry | 112 |
 | packages/substrate/src/wanxiang_substrate/sources/registry.py | SourceRegistry | 31 |
 
-## state_classes (23)
+## state_classes (24)
 
 | path | name | line |
 |---|---|---|
@@ -31,7 +31,8 @@
 | packages/domain/src/wanxiang_domain/state.py | CanonicalState | 16 |
 | packages/runtime/src/wanxiang_runtime/snapshot.py | StoredSnapshot | 17 |
 | packages/runtime/src/wanxiang_runtime/state.py | InMemoryCanonicalState | 31 |
-| packages/substrate/src/wanxiang_substrate/authoring/model.py | AuthoringSnapshot | 43 |
+| packages/substrate/src/wanxiang_substrate/authoring/model.py | AuthoringSnapshot | 45 |
+| packages/substrate/src/wanxiang_substrate/authoring/scenario_engine.py | InitialSnapshot | 25 |
 | packages/substrate/src/wanxiang_substrate/capability/model.py | CapabilityState | 32 |
 | packages/substrate/src/wanxiang_substrate/capability/model.py | LearnerState | 112 |
 | packages/substrate/src/wanxiang_substrate/cosim/adapter.py | FakeSimulatorState | 34 |
@@ -50,7 +51,7 @@
 | packages/substrate/src/wanxiang_substrate/spatial/errors.py | InvalidSpatialState | 34 |
 | packages/substrate/src/wanxiang_substrate/spatial/model.py | SpatialSnapshot | 91 |
 
-## store_classes (23)
+## store_classes (24)
 
 | path | name | line |
 |---|---|---|
@@ -67,6 +68,7 @@
 | packages/runtime/src/wanxiang_runtime/snapshot.py | InMemorySnapshotStore | 66 |
 | packages/substrate/src/wanxiang_substrate/assets/storage.py | ObjectStore | 35 |
 | packages/substrate/src/wanxiang_substrate/assets/storage.py | LocalObjectStore | 44 |
+| packages/substrate/src/wanxiang_substrate/assets/storage.py | InMemoryObjectStore | 93 |
 | packages/substrate/src/wanxiang_substrate/capability/runtime_control.py | RuntimeControlLedger | 33 |
 | packages/substrate/src/wanxiang_substrate/draft/store.py | DraftStore | 20 |
 | packages/substrate/src/wanxiang_substrate/evidence/conflict.py | ConflictLedger | 38 |
@@ -82,7 +84,7 @@
 
 | path | name | line |
 |---|---|---|
-| packages/substrate/src/wanxiang_substrate/authoring/service.py | AuthoringService | 20 |
+| packages/substrate/src/wanxiang_substrate/authoring/service.py | AuthoringService | 28 |
 | packages/substrate/src/wanxiang_substrate/jobs/service.py | JobService | 17 |
 | packages/substrate/src/wanxiang_substrate/lifecycle/service.py | LifecycleService | 19 |
 | packages/substrate/src/wanxiang_substrate/observation/query.py | PerspectiveService | 29 |
@@ -107,10 +109,10 @@
 |---|---|---|
 | packages/research/src/wanxiang_research/planner.py | PlannerEngine | 47 |
 | packages/runtime/src/wanxiang_runtime/replay.py | ReplayEngine | 21 |
-| packages/substrate/src/wanxiang_substrate/authoring/completion_engine.py | CompletionEngine | 45 |
-| packages/substrate/src/wanxiang_substrate/authoring/scenario_engine.py | ScenarioEngine | 32 |
+| packages/substrate/src/wanxiang_substrate/authoring/completion_engine.py | CompletionEngine | 178 |
+| packages/substrate/src/wanxiang_substrate/authoring/scenario_engine.py | ScenarioEngine | 78 |
 
-## ports (30)
+## ports (31)
 
 | path | name | line |
 |---|---|---|
@@ -133,7 +135,8 @@
 | packages/substrate/src/wanxiang_substrate/agency/policy.py | Policy | 21 |
 | packages/substrate/src/wanxiang_substrate/assets/foundry.py | AssetGenerator | 38 |
 | packages/substrate/src/wanxiang_substrate/assets/storage.py | ObjectStore | 35 |
-| packages/substrate/src/wanxiang_substrate/authoring/providers.py | Provider | 40 |
+| packages/substrate/src/wanxiang_substrate/authoring/multimodal.py | ExternalSourceConnector | 117 |
+| packages/substrate/src/wanxiang_substrate/authoring/providers.py | Provider | 43 |
 | packages/substrate/src/wanxiang_substrate/cosim/adapter.py | SimulationAdapter | 19 |
 | packages/substrate/src/wanxiang_substrate/distill/protocol.py | Distiller | 18 |
 | packages/substrate/src/wanxiang_substrate/packages/registry.py | PackageRegistry | 15 |

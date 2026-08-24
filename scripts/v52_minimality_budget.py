@@ -1,7 +1,7 @@
 """v5.2 minimality budget: code minimality as a continuous acceptance metric.
 
 Reuses the deterministic v5.1 metrics + forensics scanners and the architecture
-guard cycle check, then records a per-milestone incremental budget (M27-M34).
+guard cycle check, then records a per-milestone incremental budget (M27-M70).
 No arbitrary absolute LOC cap: budgets are per-stage *increment* allowances on
 new abstractions (with mandatory justification in V5_2_CODE_MINIMALITY_LEDGER.md)
 and hard invariants (0 cycles, exactly 1 commit path, no second Event/Branch/
@@ -57,7 +57,7 @@ class Budget(TypedDict):
     milestone_budgets: dict[str, MilestoneBudget]
 
 
-# Per-milestone incremental budget notes (M26 baseline -> M34).
+# Per-milestone incremental budget notes (M26 baseline -> M70).
 # key: milestone; value: allowed new production abstractions (types/protocols/
 # classes/services) with justification, plus hard constraints.
 MILESTONE_BUDGETS: dict[str, MilestoneBudget] = {
@@ -202,6 +202,150 @@ MILESTONE_BUDGETS: dict[str, MilestoneBudget] = {
             "no second commit path",
         ),
     },
+    "M59": {
+        "note": (
+            "Cross-source reference E2E hardening: bounded chunks, hashes, "
+            "resume/idempotency and security evidence over the existing Forge path."
+        ),
+        "new_abstractions_allowance": 8,
+        "hard_constraints": (
+            "single source registry",
+            "no source bytes in Git",
+            "resume is idempotent",
+        ),
+    },
+    "M60": {
+        "note": (
+            "Semantic world views add typed candidate projections for identity, "
+            "events, relations, knowledge, topology and object continuity."
+        ),
+        "new_abstractions_allowance": 10,
+        "hard_constraints": (
+            "semantic views remain Forge data",
+            "no E0 promotion",
+            "deterministic no-API path",
+        ),
+    },
+    "M61": {
+        "note": (
+            "Source-family alignment and fusion preserve provenance, dissent, "
+            "rights decisions and incremental recomputation."
+        ),
+        "new_abstractions_allowance": 8,
+        "hard_constraints": (
+            "no last-write-wins",
+            "source identity stays explicit",
+            "rights gate is scope-aware",
+        ),
+    },
+    "M62": {
+        "note": (
+            "Multimodal and external-source additions are ports/capability "
+            "descriptors only; missing providers remain typed failures."
+        ),
+        "new_abstractions_allowance": 8,
+        "hard_constraints": (
+            "connectors propose only",
+            "no network in reference path",
+            "OCR_REQUIRED is explicit",
+        ),
+    },
+    "M63": {
+        "note": (
+            "Domain fingerprint/composition and gap packs remain draft-scoped "
+            "and reuse the single capability registry."
+        ),
+        "new_abstractions_allowance": 8,
+        "hard_constraints": (
+            "no per-world domain fork",
+            "gap packs are proposals",
+            "no OS sandbox claim",
+        ),
+    },
+    "M64": {
+        "note": (
+            "Completion and consistency add constraint-backed evidence views "
+            "without changing the canonical completion boundary."
+        ),
+        "new_abstractions_allowance": 8,
+        "hard_constraints": (
+            "E1-E5 cannot enter E0 implicitly",
+            "unknowns stay explicit",
+            "no auto canon",
+        ),
+    },
+    "M65": {
+        "note": (
+            "Scenario/genesis authoring adds bounded Forge engines and immutable "
+            "candidate snapshots; runtime activation reuses existing ports."
+        ),
+        "new_abstractions_allowance": 10,
+        "hard_constraints": (
+            "engines are Forge-scoped",
+            "snapshot is not runtime state",
+            "activation uses existing Commit Authority",
+        ),
+    },
+    "M66": {
+        "note": (
+            "Worldness validation is a bounded simulation/repair proposal loop "
+            "over WorldDraft and never writes Canonical World State."
+        ),
+        "new_abstractions_allowance": 8,
+        "hard_constraints": (
+            "repair is candidate-only",
+            "bounded simulation",
+            "single commit path",
+        ),
+    },
+    "M67": {
+        "note": (
+            "Authoring orchestration composes existing stages, providers and job "
+            "checkpoints without a transport-owned pipeline."
+        ),
+        "new_abstractions_allowance": 8,
+        "hard_constraints": (
+            "provider routing is proposal-only",
+            "checkpoint is metadata",
+            "no second orchestrator",
+        ),
+    },
+    "M68": {
+        "note": (
+            "Review inbox/impact policy reuses the append-only review ledger and "
+            "keeps defer/unknown outside Canon."
+        ),
+        "new_abstractions_allowance": 6,
+        "hard_constraints": (
+            "review is not commit authority",
+            "decisions append-only",
+            "unknown is not E0",
+        ),
+    },
+    "M69": {
+        "note": (
+            "One-click profiles are a facade over the unified authoring service, "
+            "package validator, preview registry and existing runtime."
+        ),
+        "new_abstractions_allowance": 6,
+        "hard_constraints": (
+            "API and CLI share one service",
+            "publish updates Forge job metadata only",
+            "incomplete packages remain blocked",
+        ),
+    },
+    "M70": {
+        "note": (
+            "Production hardening is evidence, compatibility, documentation and "
+            "delivery work; no new Kernel authority or runtime state is allowed."
+        ),
+        "new_abstractions_allowance": 0,
+        "hard_constraints": (
+            "no new authority",
+            "no source/private artifact publication",
+            "stop after final certification",
+        ),
+    },
 }
 
 
@@ -229,7 +373,7 @@ def build_budget() -> Budget:
     managers = sum(1 for _label, name in flag_rows if "manager" in name.lower())
 
     payload: Budget = {
-        "milestone": "M26",
+        "milestone": "M70",
         "production_files": total["files"],
         "production_loc": total["loc"],
         "public_classes": total["classes"],
@@ -259,7 +403,7 @@ def render(budget: Budget) -> str:
         "with mandatory justification in `V5_2_CODE_MINIMALITY_LEDGER.md`) plus",
         "hard invariants that must hold at every milestone.",
         "",
-        "## M26 baseline snapshot",
+        "## Current M70 snapshot",
         "",
         "| Metric | Count |",
         "|---|---|",
@@ -280,7 +424,7 @@ def render(budget: Budget) -> str:
         "",
         f"Hard invariants hold: **{budget['hard_invariants_ok']}** (0 cycles, 1 commit path).",
         "",
-        "## Incremental budgets M27-M34",
+        "## Incremental budgets M26-M70",
         "",
         "| Milestone | New-abstraction allowance | Note | Hard constraints |",
         "|---|---|---|---|",
