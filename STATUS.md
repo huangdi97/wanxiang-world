@@ -549,3 +549,8 @@ Evidence: `reports/M57_QUALIFICATION.md` and `reports/G60A_REPORT.md` through
 guard PASS, Ruff PASS, and Pyright 0 errors.
 
 Next active checkpoint: M58 G61A-G61H (Studio/API/CLI surfaces).
+
+M58 G61A-G61H now PASS. The shared no-API AuthoringService exposes source
+registration, checkpointed authoring, draft/candidate review, package/preview
+build, API routes, and the `wxworld reference` CLI. Next active checkpoint:
+M59 G62A-G62H (multi-format E2E and hardening).

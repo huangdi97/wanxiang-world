@@ -261,3 +261,6 @@ gates M51 -> M70. Current: M51 PASS (2026-08-16).
 | G61A-G73H | pending |
 
 Execution continues immediately with M58; no model-training work is in scope.
+
+M58 G61A-G61H: PASS (`reports/M58_QUALIFICATION.md`).
+Next: M59 G62A-G62H, then continue sequentially through M70 without pausing.

@@ -99,14 +99,15 @@
 
 | Goal | Status |
 |---|---|
-| G61A | pending |
-| G61B | pending |
-| G61C | pending |
-| G61D | pending |
-| G61E | pending |
-| G61F | pending |
-| G61G | pending |
-| G61H | pending |
+| G61A | PASS (2026-08-25, reports/G61A_REPORT.md) |
+| G61B | PASS (2026-08-25, reports/G61B_REPORT.md) |
+| G61C | PASS (2026-08-25, reports/G61C_REPORT.md) |
+| G61D | PASS (2026-08-25, reports/G61D_REPORT.md) |
+| G61E | PASS (2026-08-25, reports/G61E_REPORT.md) |
+| G61F | PASS (2026-08-25, reports/G61F_REPORT.md) |
+| G61G | PASS (2026-08-25, reports/G61G_REPORT.md) |
+| G61H | PASS (2026-08-25, reports/G61H_REPORT.md) |
+| **M58 Milestone Gate** | **PASS (2026-08-25, reports/M58_QUALIFICATION.md)** |
 
 ## M59
 

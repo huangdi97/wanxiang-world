@@ -1,8 +1,8 @@
 # SDK API Baseline (G17A)
 
-- API routes: 23
+- API routes: 34
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 1346
+- Python public names (stable packages): 1407
 
 ## API routes
 
@@ -16,6 +16,9 @@
 - `GET /lineage/nodes/{node_id}/descendants`
 - `GET /lineage/nodes/{node_id}/promotion-origin`
 - `GET /lineage/promotion-candidates`
+- `GET /studio/jobs/{job_id}`
+- `GET /studio/jobs/{job_id}/draft`
+- `GET /studio/jobs/{job_id}/scenarios`
 - `GET /worlds/{instance_id}`
 - `GET /worlds/{instance_id}/events`
 - `GET /worlds/{instance_id}/state`
@@ -23,6 +26,14 @@
 - `POST /forge/conflicts`
 - `POST /forge/reviews`
 - `POST /lineage/promotions`
+- `POST /studio/jobs`
+- `POST /studio/jobs/{job_id}/build`
+- `POST /studio/jobs/{job_id}/cancel`
+- `POST /studio/jobs/{job_id}/candidates/{candidate_id}/review`
+- `POST /studio/jobs/{job_id}/preview`
+- `POST /studio/jobs/{job_id}/resume`
+- `POST /studio/jobs/{job_id}/sources`
+- `POST /studio/jobs/{job_id}/start`
 - `POST /worlds`
 - `POST /worlds/{instance_id}/actions`
 - `POST /worlds/{instance_id}/branches`
@@ -309,6 +320,7 @@
 - `wanxiang_substrate.APPT_MORNING`
 - `wanxiang_substrate.ASSESSMENT_COMPONENT`
 - `wanxiang_substrate.ASSESSMENT_OUTCOMES`
+- `wanxiang_substrate.AUTHORING_STAGES`
 - `wanxiang_substrate.AUTHORIZED_REVIEWERS`
 - `wanxiang_substrate.AccessPolicy`
 - `wanxiang_substrate.AcousticZone`
@@ -331,6 +343,5 @@
 - `wanxiang_substrate.AgencyQuery`
 - `wanxiang_substrate.AliasClaim`
 - `wanxiang_substrate.Appointment`
-- `wanxiang_substrate.AppointmentState`
 
 Machine-readable: reports/sdk_api_baseline.json.

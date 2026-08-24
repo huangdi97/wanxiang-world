@@ -1,6 +1,6 @@
 {
   "commit_paths": 1,
-  "engine_classes": 2,
+  "engine_classes": 4,
   "hard_invariants_ok": true,
   "import_cycles": 0,
   "manager_classes": 0,
@@ -144,13 +144,13 @@
     }
   },
   "oversized_modules": 0,
-  "ports": 29,
-  "production_files": 397,
-  "production_loc": 35799,
-  "public_classes": 800,
-  "public_functions": 321,
+  "ports": 30,
+  "production_files": 413,
+  "production_loc": 37581,
+  "public_classes": 852,
+  "public_functions": 339,
   "registry_classes": 15,
-  "service_classes": 17,
-  "state_schema_models": 22,
+  "service_classes": 18,
+  "state_schema_models": 23,
   "store_classes": 23
 }

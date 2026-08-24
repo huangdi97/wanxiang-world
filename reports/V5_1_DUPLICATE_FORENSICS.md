@@ -22,7 +22,7 @@
 | packages/substrate/src/wanxiang_substrate/sources/adapter.py | AdapterRegistry | 112 |
 | packages/substrate/src/wanxiang_substrate/sources/registry.py | SourceRegistry | 31 |
 
-## state_classes (22)
+## state_classes (23)
 
 | path | name | line |
 |---|---|---|
@@ -31,6 +31,7 @@
 | packages/domain/src/wanxiang_domain/state.py | CanonicalState | 16 |
 | packages/runtime/src/wanxiang_runtime/snapshot.py | StoredSnapshot | 17 |
 | packages/runtime/src/wanxiang_runtime/state.py | InMemoryCanonicalState | 31 |
+| packages/substrate/src/wanxiang_substrate/authoring/model.py | AuthoringSnapshot | 43 |
 | packages/substrate/src/wanxiang_substrate/capability/model.py | CapabilityState | 32 |
 | packages/substrate/src/wanxiang_substrate/capability/model.py | LearnerState | 112 |
 | packages/substrate/src/wanxiang_substrate/cosim/adapter.py | FakeSimulatorState | 34 |
@@ -77,10 +78,11 @@
 | packages/substrate/src/wanxiang_substrate/review/decisions.py | ReviewLedger | 37 |
 | packages/substrate/src/wanxiang_substrate/sources/blob.py | SourceBlobStore | 51 |
 
-## service_classes (17)
+## service_classes (18)
 
 | path | name | line |
 |---|---|---|
+| packages/substrate/src/wanxiang_substrate/authoring/service.py | AuthoringService | 20 |
 | packages/substrate/src/wanxiang_substrate/jobs/service.py | JobService | 17 |
 | packages/substrate/src/wanxiang_substrate/lifecycle/service.py | LifecycleService | 19 |
 | packages/substrate/src/wanxiang_substrate/observation/query.py | PerspectiveService | 29 |
@@ -99,14 +101,16 @@
 | apps/api/src/wanxiang_api/strategy_workbench_service.py | StrategyWorkbenchService | 44 |
 | apps/api/src/wanxiang_api/studio_service.py | StudioService | 24 |
 
-## engine_classes (2)
+## engine_classes (4)
 
 | path | name | line |
 |---|---|---|
 | packages/research/src/wanxiang_research/planner.py | PlannerEngine | 47 |
 | packages/runtime/src/wanxiang_runtime/replay.py | ReplayEngine | 21 |
+| packages/substrate/src/wanxiang_substrate/authoring/completion_engine.py | CompletionEngine | 45 |
+| packages/substrate/src/wanxiang_substrate/authoring/scenario_engine.py | ScenarioEngine | 32 |
 
-## ports (29)
+## ports (30)
 
 | path | name | line |
 |---|---|---|
@@ -129,6 +133,7 @@
 | packages/substrate/src/wanxiang_substrate/agency/policy.py | Policy | 21 |
 | packages/substrate/src/wanxiang_substrate/assets/foundry.py | AssetGenerator | 38 |
 | packages/substrate/src/wanxiang_substrate/assets/storage.py | ObjectStore | 35 |
+| packages/substrate/src/wanxiang_substrate/authoring/providers.py | Provider | 40 |
 | packages/substrate/src/wanxiang_substrate/cosim/adapter.py | SimulationAdapter | 19 |
 | packages/substrate/src/wanxiang_substrate/distill/protocol.py | Distiller | 18 |
 | packages/substrate/src/wanxiang_substrate/packages/registry.py | PackageRegistry | 15 |

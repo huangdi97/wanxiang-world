@@ -1401,3 +1401,15 @@
 - M57 G60A-G60H qualified: targeted tests, Ruff, Pyright, and architecture guard
   passed. Real copyrighted/private sources and optional providers remain out of
   Git and out of this reference qualification.
+
+## 2026-08-25 — M58 Authoring Studio / API / CLI
+
+- Added one deterministic, no-API AuthoringService shared by direct calls, the
+  `/studio` API, and `wxworld reference` CLI.
+- Added source registration, checkpointed start/cancel/resume, candidate review,
+  WorldDraft/package compilation, and isolated preview routes without adding a
+  second commit path.
+- Qualified G61A-G61H with 19 targeted tests, OpenAPI/SDK baseline refresh,
+  Ruff, Pyright, and architecture guard. Missing OCR capability remains an
+  explicit `OCR_REQUIRED` failure; private/copyrighted source bytes stay out of
+  Git.

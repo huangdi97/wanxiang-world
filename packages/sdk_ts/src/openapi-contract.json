@@ -73,6 +73,61 @@
         "operationId": "submit_promotion_lineage_promotions_post"
       }
     },
+    "/studio/jobs": {
+      "post": {
+        "operationId": "create_job_studio_jobs_post"
+      }
+    },
+    "/studio/jobs/{job_id}": {
+      "get": {
+        "operationId": "get_job_studio_jobs__job_id__get"
+      }
+    },
+    "/studio/jobs/{job_id}/build": {
+      "post": {
+        "operationId": "build_package_studio_jobs__job_id__build_post"
+      }
+    },
+    "/studio/jobs/{job_id}/cancel": {
+      "post": {
+        "operationId": "cancel_job_studio_jobs__job_id__cancel_post"
+      }
+    },
+    "/studio/jobs/{job_id}/candidates/{candidate_id}/review": {
+      "post": {
+        "operationId": "review_candidate_studio_jobs__job_id__candidates__candidate_id__review_post"
+      }
+    },
+    "/studio/jobs/{job_id}/draft": {
+      "get": {
+        "operationId": "get_draft_studio_jobs__job_id__draft_get"
+      }
+    },
+    "/studio/jobs/{job_id}/preview": {
+      "post": {
+        "operationId": "preview_package_studio_jobs__job_id__preview_post"
+      }
+    },
+    "/studio/jobs/{job_id}/resume": {
+      "post": {
+        "operationId": "resume_job_studio_jobs__job_id__resume_post"
+      }
+    },
+    "/studio/jobs/{job_id}/scenarios": {
+      "get": {
+        "operationId": "get_scenarios_studio_jobs__job_id__scenarios_get"
+      }
+    },
+    "/studio/jobs/{job_id}/sources": {
+      "post": {
+        "operationId": "add_source_studio_jobs__job_id__sources_post"
+      }
+    },
+    "/studio/jobs/{job_id}/start": {
+      "post": {
+        "operationId": "start_job_studio_jobs__job_id__start_post"
+      }
+    },
     "/worlds": {
       "post": {
         "operationId": "create_world_worlds_post"

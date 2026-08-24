@@ -1,0 +1,205 @@
+"""Studio authoring routes over the shared substrate service (G61A-G)."""
+
+from __future__ import annotations
+
+from fastapi import APIRouter, Request
+from pydantic import BaseModel, Field
+from wanxiang_substrate.authoring.scenario_engine import ScenarioEngine
+from wanxiang_substrate.authoring.service import AuthoringService
+from wanxiang_substrate.sources.model import RightsEnvelope, SourceRecord, payload_hash
+
+router = APIRouter(prefix="/studio")
+
+
+class SourceInput(BaseModel):
+    source_id: str
+    kind: str
+    content: str
+    version: str = "1"
+    stage: str = "E0"
+    owner: str = "user"
+    usage: str = "reference"
+    rights_approved: bool = False
+    access: str = "private"
+    reliability: float = Field(default=1.0, ge=0.0, le=1.0)
+    provenance: str = "studio"
+
+    def record(self) -> SourceRecord:
+        return SourceRecord(
+            source_id=self.source_id,
+            kind=self.kind,
+            content_hash=payload_hash(self.content),
+            content_ref=f"memory://{self.source_id}",
+            stage=self.stage,  # type: ignore[arg-type]
+            rights=RightsEnvelope(
+                owner=self.owner,
+                usage=self.usage,
+                approved=self.rights_approved,
+            ),
+            payload=self.content,
+            provenance=self.provenance,
+            version=self.version,
+            access=self.access,  # type: ignore[arg-type]
+            reliability=self.reliability,
+        )
+
+
+class CreateJobRequest(BaseModel):
+    job_id: str
+    version: str = "1"
+    sources: list[SourceInput] = Field(default_factory=lambda: list[SourceInput]())
+    created_by: str = "studio"
+
+
+class ReviewCandidateRequest(BaseModel):
+    action: str
+    reviewer: str
+    rationale: str
+
+
+def _service(request: Request) -> AuthoringService:
+    return request.app.state.authoring
+
+
+@router.post("/jobs", status_code=201)
+def create_job(payload: CreateJobRequest, request: Request) -> dict[str, object]:
+    snapshot = _service(request).create_job(
+        payload.job_id,
+        version=payload.version,
+        sources=tuple(source.record() for source in payload.sources),
+        created_by=payload.created_by,
+    )
+    return snapshot.to_dict()
+
+
+@router.post("/jobs/{job_id}/sources")
+def add_source(job_id: str, payload: SourceInput, request: Request) -> dict[str, object]:
+    return _service(request).add_source(job_id, payload.record()).to_dict()
+
+
+@router.post("/jobs/{job_id}/start")
+def start_job(job_id: str, request: Request) -> dict[str, object]:
+    return _service(request).start(job_id).to_dict()
+
+
+@router.post("/jobs/{job_id}/resume")
+def resume_job(job_id: str, request: Request) -> dict[str, object]:
+    return _service(request).resume(job_id).to_dict()
+
+
+@router.post("/jobs/{job_id}/cancel")
+def cancel_job(job_id: str, request: Request) -> dict[str, object]:
+    return _service(request).cancel(job_id).to_dict()
+
+
+@router.get("/jobs/{job_id}")
+def get_job(job_id: str, request: Request) -> dict[str, object]:
+    return _service(request).status(job_id).to_dict()
+
+
+@router.get("/jobs/{job_id}/draft")
+def get_draft(job_id: str, request: Request) -> dict[str, object]:
+    build = _service(request).build(job_id)
+    if build is None:
+        return {"job_id": job_id, "draft": None, "candidates": []}
+    draft = build.draft
+    return {
+        "job_id": job_id,
+        "draft": {
+            "draft_id": draft.draft_id,
+            "revision": draft.revision,
+            "status": draft.status,
+            "source_refs": list(draft.source_refs),
+            "source_versions": [list(item) for item in draft.source_versions],
+            "selected_domains": list(draft.selected_domains),
+            "entities": [list(item) for item in draft.entities],
+            "relations": [list(item) for item in draft.relations],
+            "places": list(draft.places),
+            "events": [list(item) for item in draft.events],
+            "completion_items": list(draft.completion_items),
+            "unresolved_conflicts": list(draft.unresolved_conflicts),
+            "unresolved_rights": list(draft.unresolved_rights),
+            "coverage": draft.coverage,
+            "uncertainty": draft.uncertainty,
+        },
+        "candidates": [
+            {
+                "candidate_id": candidate.candidate_id,
+                "kind": candidate.kind,
+                "confidence": candidate.confidence,
+                "status": candidate.status,
+                "source_refs": list(candidate.source_refs),
+                "payload": dict(candidate.payload),
+            }
+            for candidate in build.candidates
+        ],
+    }
+
+
+@router.get("/jobs/{job_id}/scenarios")
+def get_scenarios(job_id: str, request: Request) -> dict[str, object]:
+    build = _service(request).build(job_id)
+    if build is None:
+        return {"job_id": job_id, "scenarios": []}
+    plans = ScenarioEngine().build_three(build.draft)
+    return {
+        "job_id": job_id,
+        "scenarios": [
+            {
+                "genesis_id": plan.genesis_id,
+                "scenario_id": plan.scenario.scenario_id,
+                "canon_mode": plan.scenario.canon_mode,
+                "snapshot_hash": plan.snapshot_hash,
+                "seed": plan.scenario.seed,
+            }
+            for plan in plans
+        ],
+    }
+
+
+@router.post("/jobs/{job_id}/build")
+def build_package(job_id: str, request: Request) -> dict[str, object]:
+    package = _service(request).build_package(job_id)
+    return {
+        "package_id": package.package_id,
+        "manifest_hash": package.manifest.content_hash,
+        "draft_id": package.draft_id,
+        "draft_revision": package.draft_revision,
+        "preview_allowed": package.for_preview,
+        "publishable": not package.unresolved_gaps and package.rights_ok,
+    }
+
+
+@router.post("/jobs/{job_id}/preview")
+def preview_package(job_id: str, request: Request) -> dict[str, object]:
+    install = _service(request).preview(job_id)
+    return {
+        "preview_id": install.preview_id,
+        "scoped_ref": install.scoped_ref,
+        "package_id": install.package_id,
+        "draft_id": install.draft_id,
+        "package_hash": install.package_hash,
+    }
+
+
+@router.post("/jobs/{job_id}/candidates/{candidate_id}/review", status_code=201)
+def review_candidate(
+    job_id: str,
+    candidate_id: str,
+    payload: ReviewCandidateRequest,
+    request: Request,
+) -> dict[str, object]:
+    decision = _service(request).review_candidate(
+        job_id,
+        candidate_id,
+        action=payload.action,
+        reviewer=payload.reviewer,
+        rationale=payload.rationale,
+    )
+    return {
+        "decision_id": decision.decision_id,
+        "target_id": decision.target_id,
+        "action": decision.action,
+        "reviewer": decision.reviewer,
+        "rationale": decision.rationale,
+    }

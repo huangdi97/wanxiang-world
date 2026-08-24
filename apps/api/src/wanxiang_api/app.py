@@ -16,8 +16,10 @@ from wanxiang_persistence.event_store import SqlAlchemyEventStore
 from wanxiang_persistence.instance_repository import WorldInstanceRepository
 from wanxiang_persistence.snapshot_store import SqlAlchemySnapshotStore
 from wanxiang_runtime.resolver import ResolverRegistry
+from wanxiang_substrate.authoring import AuthoringService
 from wanxiang_substrate.lineage import LineageGraph
 
+from wanxiang_api.authoring_routes import router as authoring_router
 from wanxiang_api.constitution_routes import router as constitution_router
 from wanxiang_api.errors import install_error_handler
 from wanxiang_api.limits import PayloadTooLarge
@@ -74,6 +76,7 @@ def create_app(
     app.state.conflict_ledger = ConflictLedger()
     app.state.evidence_bindings = EvidenceBindings()
     app.state.completion_planner = CompletionPlanner()
+    app.state.authoring = AuthoringService()
     install_error_handler(app)
 
     @app.exception_handler(PayloadTooLarge)
@@ -93,4 +96,5 @@ def create_app(
     app.include_router(lineage_router)
     app.include_router(promotion_router)
     app.include_router(constitution_router)
+    app.include_router(authoring_router)
     return app

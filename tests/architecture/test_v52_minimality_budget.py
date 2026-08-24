@@ -52,12 +52,12 @@ def test_budget_counts_are_stable() -> None:
     # M26 baseline anchors (verified by G29A/G29B/G29C/G29E):
     # 10 at M26 + PresenceRegistry (M28) = 11
     assert budget["registry_classes"] == 15  # + PreviewRegistry (M57)
-    # 16 at M51-M52 + StructureParser/IncrementalParser/ParseCheckpointService (M53) = 17
-    assert budget["service_classes"] == 17
-    assert budget["engine_classes"] == 2
+    # M58 AuthoringService adds one service; advanced authoring adds two engines.
+    assert budget["service_classes"] == 18
+    assert budget["engine_classes"] == 4
     # 23 at M26 + RealityRootContract Protocol (M27) = 24; + SourceAdapter (M52) = 25;
-    # + Distiller Protocol (M54) = 26; + compiler/preview ports (M57) = 29
-    assert budget["ports"] == 29
+    # + Distiller Protocol (M54) = 26; + compiler/preview/authoring ports (M58) = 30
+    assert budget["ports"] == 30
     loc = budget["production_loc"]
     files = budget["production_files"]
     assert isinstance(loc, int) and loc > 0
@@ -79,6 +79,7 @@ def test_budget_documents_every_milestone() -> None:
         "M55",
         "M56",
         "M57",
+        "M58",
     }
     for ms in (
         "M26",
@@ -97,6 +98,7 @@ def test_budget_documents_every_milestone() -> None:
         "M55",
         "M56",
         "M57",
+        "M58",
     ):
         spec = milestones[ms]
         allowance = spec["new_abstractions_allowance"]

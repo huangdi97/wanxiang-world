@@ -28,7 +28,7 @@ _VALID_TRANSITIONS: dict[str, tuple[str, ...]] = {
     "running": ("done", "failed", "cancelled"),
     "done": (),
     "failed": (),
-    "cancelled": (),
+    "cancelled": ("running",),
 }
 
 

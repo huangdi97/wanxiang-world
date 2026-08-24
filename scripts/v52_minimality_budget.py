@@ -190,6 +190,18 @@ MILESTONE_BUDGETS: dict[str, MilestoneBudget] = {
             "preview never mutates published registry",
         ),
     },
+    "M58": {
+        "note": (
+            "Studio/API/CLI surfaces reuse one AuthoringService, existing JobStore, "
+            "review ledger, and package/preview boundaries."
+        ),
+        "new_abstractions_allowance": 8,
+        "hard_constraints": (
+            "one backend for API and CLI",
+            "no transport-owned state",
+            "no second commit path",
+        ),
+    },
 }
 
 

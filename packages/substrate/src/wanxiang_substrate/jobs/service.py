@@ -42,7 +42,7 @@ class JobService:
 
     def resume(self, job_id: str) -> tuple[Job, JobCheckpoint | None]:
         job = self._store.require(job_id)
-        if job.status == "created":
+        if job.status in ("created", "cancelled"):
             job = self.start(job_id)
         checkpoint = self._store.load_checkpoint(job_id)
         return job, checkpoint
