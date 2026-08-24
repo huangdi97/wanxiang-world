@@ -575,3 +575,9 @@ M62 G65A-G65H now PASS. Optional OCR/vision/ASR, subtitle, IIIF/API
 observation, bundle hash, rights, and privacy ports are qualified with no
 network/provider dependency. Evidence: `reports/M62_QUALIFICATION.md`.
 Next active checkpoint: M63 G66A-G66H (domain inference and gap packs).
+
+M63 G66A-G66H now PASS. Domain fingerprints/composition locks, explicit gap
+packs, capability candidates, consent-gated cross-world reuse, and the
+application-level validation sandbox are qualified. Evidence:
+`reports/M63_QUALIFICATION.md`. Next active checkpoint: M64 G67A-G67H
+(constraint-backed completion and consistency).

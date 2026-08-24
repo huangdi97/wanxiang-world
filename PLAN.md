@@ -280,3 +280,7 @@ proposal-only.
 M62 G65A-G65H: PASS (`reports/M62_QUALIFICATION.md`). Continue to M63
 G66A-G66H without pausing; retain explicit capability failures and rights
 metadata.
+
+M63 G66A-G66H: PASS (`reports/M63_QUALIFICATION.md`). Continue to M64
+G67A-G67H without pausing; keep gap candidates sandbox-only and do not claim
+OS-level isolation.

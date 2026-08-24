@@ -1453,3 +1453,11 @@
   and hash/rights/privacy-aware source bundle manifests.
 - Qualified G65A-G65H without API keys or network access; scanned PDFs remain
   `OCR_REQUIRED` when no OCR provider exists.
+
+## 2026-08-25 — M63 Domain Inference / Composition / Gap Packs
+
+- Added deterministic domain fingerprints, composite dependency locks, explicit
+  gap packs, DomainCapabilityCandidate scaffolds, and consent-gated reuse.
+- Added an application-level deterministic validation sandbox with honest
+  non-OS-isolation labeling; no domain package is auto-installed.
+- Qualified G66A-G66H on no-API synthetic candidates.
