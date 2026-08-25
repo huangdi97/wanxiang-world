@@ -1,0 +1,19 @@
+{
+  "profile": "mixed",
+  "draft_id": "wd_m83_smoke",
+  "source_refs": [
+    "book_m83",
+    "csv_m83",
+    "json_m83"
+  ],
+  "candidate_count": 9,
+  "fusion_alignment_count": 3,
+  "package_id": "world:wd_job_m83_smoke",
+  "preview_ref": "preview://preview_1",
+  "json_pointer": "json://json_m83#record//people/0/name",
+  "json_pointer_value": "\"Ada\"",
+  "json_leaf_count": 2,
+  "csv_cell": "csv://csv_m83#column/row_2/column_3",
+  "csv_cell_value": "Harbor",
+  "one_world_draft": true
+}

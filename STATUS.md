@@ -686,3 +686,22 @@ Actions run `32821744579` is green across all six required jobs, and
 `reports/G74A_G81J_REPORT.md` is ACCEPTED. A final evidence-only commit still
 needs its own green Actions run before `v5.4.0-rc2`; no v5.5 work or model
 training is authorized.
+
+## M79-M84 current status (2026-08-25)
+
+The active continuation is not yet accepted. Independent engineering for M80,
+M81, and M83 is complete locally: the anonymized semantic Gold Set benchmark,
+adversarial Worldness calibration, and synthetic structured/mixed evidence
+chain all pass. Reports: `reports/SEMANTIC_QUALITY_BENCHMARK.md`,
+`reports/WORLDNESS_CALIBRATION.md`, and
+`reports/M83_STRUCTURED_MIXED_QUALIFICATION.md`.
+
+M79 and M82 are both held at one blocker class, `USER_INPUT_REQUIRED`, because
+the private local second real-book path and real GEDCOM path are absent. The
+inputs must remain outside Git and unmodified. M79 real semantic quality,
+M82 real family validation, and the final M84 stable gates are not claimed.
+Resume checkpoints are `M79/G82A` and `M82/G85A`; see
+`artifacts/m79_m84/checkpoint.json` and `reports/M79_M84_STATUS.md`.
+
+No v5.4.0 stable tag/release is authorized. No model training or v5.5 work is
+started.

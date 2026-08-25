@@ -3,13 +3,9 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, replace
-from typing import Protocol, cast
+from typing import cast
 
-from wanxiang_domain.hierarchy import BranchId
-from wanxiang_domain.ids import WorldInstanceId
-from wanxiang_domain.snapshot import SnapshotMetadata
-from wanxiang_runtime.state import InMemoryCanonicalState
-
+from wanxiang_substrate.authoring.living_ports import BranchResult, LivingRuntimePort, ReplayState
 from wanxiang_substrate.authoring.worldness import (
     BranchIsolationProof,
     RepairLoop,
@@ -22,25 +18,6 @@ from wanxiang_substrate.authoring.worldness import (
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.host import WorldHost
 from wanxiang_substrate.preview import PreviewInstall, PreviewWorld, instantiate_preview
-from wanxiang_substrate.preview.runtime import PreviewRuntimePort
-
-
-class LivingRuntimePort(PreviewRuntimePort, Protocol):
-    """Runtime operations needed to produce living-world evidence."""
-
-    def create_checkpoint(
-        self, instance_id: WorldInstanceId, branch_id: BranchId
-    ) -> SnapshotMetadata: ...
-
-    def create_branch(self, instance_id: WorldInstanceId, parent_branch_id: BranchId) -> object: ...
-
-
-class ReplayState(Protocol):
-    state: InMemoryCanonicalState
-
-
-class BranchResult(Protocol):
-    branch_id: BranchId
 
 
 @dataclass(frozen=True, slots=True)
@@ -114,6 +91,12 @@ class WorldnessRun:
             "preview_id": self.preview_id,
             "passed": self.score.passed,
             "overall": self.score.overall,
+            "gates": {
+                "previewable": self.score.gates.previewable,
+                "publishable": self.score.gates.publishable,
+                "living_ready": self.score.gates.living_ready,
+            },
+            "violations": list(self.score.violations),
             "dimensions": [{"name": name, "score": score} for name, score in self.score.dimensions],
             "evidence": [
                 {
@@ -255,14 +238,15 @@ def evaluate_living_world(
         object_required=bool(package.draft.objects),
         evidence_coverage=package.evidence_coverage,
         action_committed=action.committed and action.proposal_validated,
+        action_evidence_refs=("runtime.commit", "runtime.replay")
+        if action.committed and action.proposal_validated
+        else (),
     )
     branch_proof = prove_branch_isolation(
         branch_value, world.branch_id.value, child.branch_id.value
     )
-    branch_proof = BranchIsolationProof(
-        source_fingerprint=branch_proof.source_fingerprint,
-        branch_ids=branch_proof.branch_ids,
-        branch_fingerprints=branch_proof.branch_fingerprints,
+    branch_proof = replace(
+        branch_proof,
         isolated=branch_proof.isolated and parent_unchanged and child_changed,
     )
     branch_value = replace(

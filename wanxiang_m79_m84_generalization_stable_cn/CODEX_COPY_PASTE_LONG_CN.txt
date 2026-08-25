@@ -1,0 +1,29 @@
+继续当前 `wanxiang-world` 仓库。
+
+当前 M71–M78 已完成，真实中文长书 Source → Living World 已 ACCEPTED，v5.4.0-rc2 与 required CI 已完成。不要重新执行 M51–M78，不训练模型，不进入 v5.5。
+
+完整读取本执行包：
+README_FIRST.md
+00_MASTER_ROADMAP.md
+01_M79_M84_GOALS.md
+02_CODEX_MASTER_PROMPT_CN.md
+03_USER_ACTIONS.md
+04_FINAL_ACCEPTANCE.md
+以及仓库当前 STATUS/PLAN/CHANGELOG/reports/tests/OpenAPI/CLI/Studio/CI。
+
+然后严格执行 M79–M84。
+
+如果用户尚未给第二本真实书路径或 GEDCOM 路径：
+- 不要伪造真实验收；
+- 继续完成所有不依赖该输入的内部工程与 benchmark 基础设施；
+- 将唯一缺失输入标为 USER_INPUT_REQUIRED；
+- 一旦用户提供路径，从 checkpoint 继续，不重复已完成工作。
+
+当路径已经提供：
+- 原始文件只作为 private local source；
+- 不复制进 Git；
+- 不修改；
+- 不走 source-specific shortcut；
+- 完整执行真实 E2E。
+
+最后只有 M79–M83 全部 PASS 才创建 v5.4.0 stable，GitHub required Actions 必须全绿；发布后 STOP。

@@ -53,6 +53,7 @@ class IdentityPass(Distiller):
     ) -> tuple[CandidateEnvelope, ...]:
         candidates: list[CandidateEnvelope] = []
         seen_names: Counter[str] = Counter()
+        seen_refs: dict[str, set[str]] = {}
         for segment in segments:
             text = segment.text
             ref = segment.locator.to_string()
@@ -63,6 +64,7 @@ class IdentityPass(Distiller):
                 display = f"{given} {surname}".strip()
                 key = f"{given.lower()}|{surname.lower()}"
                 seen_names[key] += 1
+                seen_refs.setdefault(key, set()).add(ref)
                 candidates.append(
                     make_candidate(
                         "identity",
@@ -105,6 +107,7 @@ class IdentityPass(Distiller):
                 if not key:
                     continue
                 seen_names[key] += 1
+                seen_refs.setdefault(key, set()).add(ref)
                 candidates.append(
                     make_candidate(
                         "identity",
@@ -124,7 +127,7 @@ class IdentityPass(Distiller):
                         candidate_id(source_id, "coref", key),
                         "coreference",
                         {"identity_key": key, "mention_count": str(count)},
-                        source_refs=(),
+                        source_refs=tuple(sorted(seen_refs.get(key, set()))),
                         confidence=0.5,
                     )
                 )

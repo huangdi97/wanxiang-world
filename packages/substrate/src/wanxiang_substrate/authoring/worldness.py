@@ -5,6 +5,8 @@ from __future__ import annotations
 from collections.abc import Callable
 from dataclasses import dataclass
 
+from wanxiang_substrate.authoring.worldness_policy import WorldnessGates, WorldnessIntegrity
+from wanxiang_substrate.authoring.worldness_scoring import assess_worldness
 from wanxiang_substrate.authoring.worldness_support import (
     WORLDNESS_DIMENSIONS,
     BoundedSimulation,
@@ -57,100 +59,7 @@ class WorldnessEvaluator:
     """Scores observable reference evidence, not subjective human realism."""
 
     def evaluate(self, value: WorldnessInput, *, threshold: float = 0.6) -> WorldnessScore:
-        if not 0.0 <= threshold <= 1.0:
-            raise ValueError("threshold must be within [0,1]")
-        enough_entities = min(1.0, value.entity_count / 2)
-        enough_events = min(1.0, value.event_count / 2)
-        enough_relations = min(1.0, value.relation_count / 1)
-        enough_sources = min(1.0, value.source_count / 1)
-        dimensions = (
-            ("persistence", enough_entities),
-            ("causality", enough_events),
-            ("epistemic", 1.0 - value.uncertainty),
-            ("spatial", enough_relations),
-            ("consequence", enough_events),
-            ("autonomy", enough_entities),
-            ("branch_isolation", 1.0 if value.branch_isolated else 0.0),
-            ("replayability", 1.0 if value.replay_equal else 0.0),
-            ("provenance", enough_sources),
-            ("uncertainty", 1.0 - value.uncertainty),
-        )
-        overall = sum(score for _name, score in dimensions) / len(dimensions)
-        measurements = (
-            (
-                "persistence",
-                enough_entities,
-                f"entity_count={value.entity_count}",
-                ("draft.entities",),
-            ),
-            (
-                "identity",
-                enough_entities,
-                f"identity_count={value.entity_count}",
-                ("draft.entities",),
-            ),
-            ("temporal", enough_events, f"event_count={value.event_count}", ("draft.events",)),
-            (
-                "spatial",
-                min(1.0, value.place_count / 1) if value.place_count else enough_relations,
-                f"place_count={value.place_count};relation_count={value.relation_count}",
-                ("draft.places", "draft.relations"),
-            ),
-            (
-                "causal_action",
-                1.0 if value.action_committed and value.event_count else enough_events,
-                f"action_committed={value.action_committed};event_count={value.event_count}",
-                ("runtime.commit", "draft.events"),
-            ),
-            (
-                "epistemic_isolation",
-                1.0 - value.uncertainty,
-                f"uncertainty={value.uncertainty:.3f}",
-                ("draft.uncertainty", "runtime.perception"),
-            ),
-            (
-                "object_persistence",
-                min(1.0, value.object_count / 1) if value.object_required else 1.0,
-                f"object_count={value.object_count};required={value.object_required}",
-                ("draft.objects",),
-            ),
-            (
-                "evidence_traceability",
-                value.evidence_coverage,
-                f"evidence_coverage={value.evidence_coverage:.3f}",
-                value.source_refs,
-            ),
-            (
-                "uncertainty",
-                1.0 - value.uncertainty,
-                f"uncertainty={value.uncertainty:.3f}",
-                ("draft.uncertainty",),
-            ),
-            (
-                "branch_replay_readiness",
-                1.0 if value.branch_isolated and value.replay_equal else 0.0,
-                f"branch_isolated={value.branch_isolated};replay_equal={value.replay_equal}",
-                ("runtime.branch", "runtime.replay"),
-            ),
-        )
-        evidence = tuple(
-            WorldnessDimensionEvidence(
-                name=name,
-                measurement=measurement,
-                score=score,
-                evidence=tuple(refs),
-                failure="" if score >= threshold else f"score {score:.3f} below {threshold:.3f}",
-                remediation="" if score >= threshold else f"repair {name} from its evidence refs",
-            )
-            for name, score, measurement, refs in measurements
-        )
-        return WorldnessScore(
-            dimensions,
-            overall,
-            all(score >= threshold for _name, score in dimensions)
-            and all(item.score >= threshold for item in evidence),
-            evidence,
-        )
+        return assess_worldness(value, threshold=threshold)
 
 
 class RepairLoop:
@@ -236,6 +145,8 @@ __all__ = [
     "SimulationTrace",
     "WorldnessEvaluator",
     "WorldnessDimensionEvidence",
+    "WorldnessGates",
+    "WorldnessIntegrity",
     "WorldnessInput",
     "WorldnessScore",
     "determinism_envelope",

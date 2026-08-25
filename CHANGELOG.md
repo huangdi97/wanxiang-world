@@ -1583,3 +1583,21 @@
 - Final branch Actions run `32773363629` passed all six required jobs at the
   documentation-complete HEAD.
 - M70 is complete; this execution does not start model training, M71, or v5.5.
+
+## 2026-08-25 — M79-M84 generalization checkpoint
+
+- Added extractor-independent semantic Gold Set metrics and deterministic
+  stratified sampling; anonymized benchmark infrastructure passes, while the
+  real second-book Gold Set waits for a private local path.
+- Added measured Worldness integrity signals, separate preview/publish/living
+  gates, and seven-case adversarial calibration; synthetic calibration passes.
+- Added JSON Pointer and CSV-cell evidence plus structured/mixed fusion,
+  conflict preservation, package, and preview regression; synthetic path
+  passes.
+- Recorded one blocker class, `USER_INPUT_REQUIRED`, for the missing private
+  second real-book and GEDCOM paths. M79/M82 real acceptance and M84 stable
+  release remain pending; no private data enters Git, and no model training or
+  v5.5 work is started. See `reports/M79_M84_STATUS.md`.
+- Local repository gate after the final fixes: `quality.py` PASS with 1211
+  passed and one existing PostgreSQL-profile skip; stable release remains
+  blocked by the missing real-source inputs.

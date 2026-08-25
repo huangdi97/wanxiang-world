@@ -6,6 +6,11 @@ import hashlib
 import json
 from dataclasses import asdict, dataclass
 
+from wanxiang_substrate.authoring.worldness_policy import (
+    WorldnessGates,
+    WorldnessIntegrity,
+)
+
 WORLDNESS_DIMENSIONS = (
     "persistence",
     "causality",
@@ -44,6 +49,8 @@ class WorldnessInput:
     # their measured coverage at construction time.
     evidence_coverage: float = 1.0
     action_committed: bool = False
+    action_evidence_refs: tuple[str, ...] = ()
+    integrity: WorldnessIntegrity = WorldnessIntegrity()
 
 
 @dataclass(frozen=True, slots=True)
@@ -64,6 +71,8 @@ class WorldnessScore:
     overall: float
     passed: bool
     evidence: tuple[WorldnessDimensionEvidence, ...] = ()
+    gates: WorldnessGates = WorldnessGates(False, False, False)
+    violations: tuple[str, ...] = ()
 
     def value(self, name: str) -> float:
         return dict(self.dimensions).get(name, 0.0)

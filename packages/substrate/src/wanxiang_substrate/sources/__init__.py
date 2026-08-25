@@ -100,6 +100,14 @@ from wanxiang_substrate.sources.security import (
     check_archive,
 )
 from wanxiang_substrate.sources.structured import StructuredAdapter
+from wanxiang_substrate.sources.structured_evidence import (
+    StructuredEvidence,
+    csv_cell_locator,
+    json_leaf_evidence,
+    json_pointer_locator,
+    resolve_csv_cell,
+    resolve_json_pointer,
+)
 
 __all__ = [
     "AdapterRegistry",
@@ -121,6 +129,12 @@ __all__ = [
     "kind_for",
     "register_asset",
     "StructuredAdapter",
+    "StructuredEvidence",
+    "csv_cell_locator",
+    "json_leaf_evidence",
+    "json_pointer_locator",
+    "resolve_csv_cell",
+    "resolve_json_pointer",
     "IngestError",
     "IngestResult",
     "MalformedSourceContent",

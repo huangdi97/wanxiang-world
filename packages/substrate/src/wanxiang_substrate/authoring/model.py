@@ -37,6 +37,8 @@ class PipelineBuild:
     selected_domains: tuple[str, ...]
     semantic_analysis: SemanticAnalysis | None = None
     distillation: DistillationStats = DistillationStats()
+    fusion_alignments: tuple[tuple[str, tuple[str, ...], tuple[str, ...]], ...] = ()
+    fusion_provenance: tuple[tuple[str, tuple[str, ...]], ...] = ()
 
     @property
     def candidate_ids(self) -> tuple[str, ...]:

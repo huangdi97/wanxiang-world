@@ -1,0 +1,366 @@
+{
+  "baseline": {
+    "overall": 0.9800000000000001,
+    "passed": true,
+    "dimensions": {
+      "persistence": 1.0,
+      "causality": 1.0,
+      "epistemic": 0.92,
+      "spatial": 1.0,
+      "consequence": 1.0,
+      "autonomy": 1.0,
+      "branch_isolation": 1.0,
+      "replayability": 1.0,
+      "provenance": 0.96,
+      "uncertainty": 0.92
+    },
+    "gates": {
+      "previewable": true,
+      "publishable": true,
+      "living_ready": true
+    },
+    "violations": []
+  },
+  "cases": {
+    "teleportation": {
+      "broken": {
+        "overall": 0.78,
+        "passed": false,
+        "dimensions": {
+          "persistence": 1.0,
+          "causality": 0.0,
+          "epistemic": 0.92,
+          "spatial": 0.0,
+          "consequence": 1.0,
+          "autonomy": 1.0,
+          "branch_isolation": 1.0,
+          "replayability": 1.0,
+          "provenance": 0.96,
+          "uncertainty": 0.92
+        },
+        "gates": {
+          "previewable": true,
+          "publishable": false,
+          "living_ready": false
+        },
+        "violations": [
+          "teleportation"
+        ]
+      },
+      "repair": {
+        "overall": 0.9800000000000001,
+        "passed": true,
+        "dimensions": {
+          "persistence": 1.0,
+          "causality": 1.0,
+          "epistemic": 0.92,
+          "spatial": 1.0,
+          "consequence": 1.0,
+          "autonomy": 1.0,
+          "branch_isolation": 1.0,
+          "replayability": 1.0,
+          "provenance": 0.96,
+          "uncertainty": 0.92
+        },
+        "gates": {
+          "previewable": true,
+          "publishable": true,
+          "living_ready": true
+        },
+        "violations": []
+      }
+    },
+    "secret_leakage": {
+      "broken": {
+        "overall": 0.8880000000000001,
+        "passed": false,
+        "dimensions": {
+          "persistence": 1.0,
+          "causality": 1.0,
+          "epistemic": 0.0,
+          "spatial": 1.0,
+          "consequence": 1.0,
+          "autonomy": 1.0,
+          "branch_isolation": 1.0,
+          "replayability": 1.0,
+          "provenance": 0.96,
+          "uncertainty": 0.92
+        },
+        "gates": {
+          "previewable": true,
+          "publishable": false,
+          "living_ready": false
+        },
+        "violations": [
+          "secret_leakage"
+        ]
+      },
+      "repair": {
+        "overall": 0.9800000000000001,
+        "passed": true,
+        "dimensions": {
+          "persistence": 1.0,
+          "causality": 1.0,
+          "epistemic": 0.92,
+          "spatial": 1.0,
+          "consequence": 1.0,
+          "autonomy": 1.0,
+          "branch_isolation": 1.0,
+          "replayability": 1.0,
+          "provenance": 0.96,
+          "uncertainty": 0.92
+        },
+        "gates": {
+          "previewable": true,
+          "publishable": true,
+          "living_ready": true
+        },
+        "violations": []
+      }
+    },
+    "duplicate_object": {
+      "broken": {
+        "overall": 0.8800000000000001,
+        "passed": false,
+        "dimensions": {
+          "persistence": 0.0,
+          "causality": 1.0,
+          "epistemic": 0.92,
+          "spatial": 1.0,
+          "consequence": 1.0,
+          "autonomy": 1.0,
+          "branch_isolation": 1.0,
+          "replayability": 1.0,
+          "provenance": 0.96,
+          "uncertainty": 0.92
+        },
+        "gates": {
+          "previewable": true,
+          "publishable": false,
+          "living_ready": false
+        },
+        "violations": [
+          "duplicate_object"
+        ]
+      },
+      "repair": {
+        "overall": 0.9800000000000001,
+        "passed": true,
+        "dimensions": {
+          "persistence": 1.0,
+          "causality": 1.0,
+          "epistemic": 0.92,
+          "spatial": 1.0,
+          "consequence": 1.0,
+          "autonomy": 1.0,
+          "branch_isolation": 1.0,
+          "replayability": 1.0,
+          "provenance": 0.96,
+          "uncertainty": 0.92
+        },
+        "gates": {
+          "previewable": true,
+          "publishable": true,
+          "living_ready": true
+        },
+        "violations": []
+      }
+    },
+    "temporal_reversal": {
+      "broken": {
+        "overall": 0.8800000000000001,
+        "passed": false,
+        "dimensions": {
+          "persistence": 1.0,
+          "causality": 0.0,
+          "epistemic": 0.92,
+          "spatial": 1.0,
+          "consequence": 1.0,
+          "autonomy": 1.0,
+          "branch_isolation": 1.0,
+          "replayability": 1.0,
+          "provenance": 0.96,
+          "uncertainty": 0.92
+        },
+        "gates": {
+          "previewable": true,
+          "publishable": false,
+          "living_ready": false
+        },
+        "violations": [
+          "temporal_reversal"
+        ]
+      },
+      "repair": {
+        "overall": 0.9800000000000001,
+        "passed": true,
+        "dimensions": {
+          "persistence": 1.0,
+          "causality": 1.0,
+          "epistemic": 0.92,
+          "spatial": 1.0,
+          "consequence": 1.0,
+          "autonomy": 1.0,
+          "branch_isolation": 1.0,
+          "replayability": 1.0,
+          "provenance": 0.96,
+          "uncertainty": 0.92
+        },
+        "gates": {
+          "previewable": true,
+          "publishable": true,
+          "living_ready": true
+        },
+        "violations": []
+      }
+    },
+    "unsupported_fact": {
+      "broken": {
+        "overall": 0.792,
+        "passed": false,
+        "dimensions": {
+          "persistence": 1.0,
+          "causality": 1.0,
+          "epistemic": 0.92,
+          "spatial": 1.0,
+          "consequence": 1.0,
+          "autonomy": 1.0,
+          "branch_isolation": 1.0,
+          "replayability": 1.0,
+          "provenance": 0.0,
+          "uncertainty": 0.0
+        },
+        "gates": {
+          "previewable": true,
+          "publishable": false,
+          "living_ready": false
+        },
+        "violations": [
+          "unsupported_fact"
+        ]
+      },
+      "repair": {
+        "overall": 0.9800000000000001,
+        "passed": true,
+        "dimensions": {
+          "persistence": 1.0,
+          "causality": 1.0,
+          "epistemic": 0.92,
+          "spatial": 1.0,
+          "consequence": 1.0,
+          "autonomy": 1.0,
+          "branch_isolation": 1.0,
+          "replayability": 1.0,
+          "provenance": 0.96,
+          "uncertainty": 0.92
+        },
+        "gates": {
+          "previewable": true,
+          "publishable": true,
+          "living_ready": true
+        },
+        "violations": []
+      }
+    },
+    "replay_mismatch": {
+      "broken": {
+        "overall": 0.8800000000000001,
+        "passed": false,
+        "dimensions": {
+          "persistence": 1.0,
+          "causality": 1.0,
+          "epistemic": 0.92,
+          "spatial": 1.0,
+          "consequence": 1.0,
+          "autonomy": 1.0,
+          "branch_isolation": 1.0,
+          "replayability": 0.0,
+          "provenance": 0.96,
+          "uncertainty": 0.92
+        },
+        "gates": {
+          "previewable": true,
+          "publishable": false,
+          "living_ready": false
+        },
+        "violations": [
+          "replay_mismatch"
+        ]
+      },
+      "repair": {
+        "overall": 0.9800000000000001,
+        "passed": true,
+        "dimensions": {
+          "persistence": 1.0,
+          "causality": 1.0,
+          "epistemic": 0.92,
+          "spatial": 1.0,
+          "consequence": 1.0,
+          "autonomy": 1.0,
+          "branch_isolation": 1.0,
+          "replayability": 1.0,
+          "provenance": 0.96,
+          "uncertainty": 0.92
+        },
+        "gates": {
+          "previewable": true,
+          "publishable": true,
+          "living_ready": true
+        },
+        "violations": []
+      }
+    },
+    "identity_corruption": {
+      "broken": {
+        "overall": 0.8800000000000001,
+        "passed": false,
+        "dimensions": {
+          "persistence": 1.0,
+          "causality": 1.0,
+          "epistemic": 0.92,
+          "spatial": 1.0,
+          "consequence": 1.0,
+          "autonomy": 0.0,
+          "branch_isolation": 1.0,
+          "replayability": 1.0,
+          "provenance": 0.96,
+          "uncertainty": 0.92
+        },
+        "gates": {
+          "previewable": true,
+          "publishable": false,
+          "living_ready": false
+        },
+        "violations": [
+          "identity_split"
+        ]
+      },
+      "repair": {
+        "overall": 0.9800000000000001,
+        "passed": true,
+        "dimensions": {
+          "persistence": 1.0,
+          "causality": 1.0,
+          "epistemic": 0.92,
+          "spatial": 1.0,
+          "consequence": 1.0,
+          "autonomy": 1.0,
+          "branch_isolation": 1.0,
+          "replayability": 1.0,
+          "provenance": 0.96,
+          "uncertainty": 0.92
+        },
+        "gates": {
+          "previewable": true,
+          "publishable": true,
+          "living_ready": true
+        },
+        "violations": []
+      }
+    }
+  },
+  "minimum_score_drop": 0.09199999999999997,
+  "anti_gaming_passed": true,
+  "threshold_policy_passed": true,
+  "passed": true
+}

@@ -367,3 +367,26 @@ Commit Authority. Providers emit candidates only.
   run `32821744579` is green across all six required jobs, and the final report
   is ACCEPTED. Create `v5.4.0-rc2` only after the final evidence-only commit's
   Actions run is also green; then STOP without entering v5.5.
+
+## M79-M84 current continuation (user-authorized 2026-08-25)
+
+The M79-M84 execution package is active on the same feature branch. No model
+training, v5.5 work, source editing, source-specific logic, hand-filled
+Candidate, hardcoded coverage, or disabled compiler/Worldness gate is allowed.
+
+- M80/G83A-G83H: PASS for deterministic, extractor-independent anonymized
+  semantic-quality infrastructure. Real second-book qualification is pending.
+- M81/G84A-G84F: PASS for seven-case adversarial Worldness calibration,
+  separate preview/publish/living gates, and anti-gaming checks.
+- M83/G86A-G86G: PASS for synthetic JSON/CSV/book structured and mixed-source
+  evidence, fusion, conflict preservation, one-draft, package, and preview.
+- M79/G82A-G82G: `USER_INPUT_REQUIRED` for a private local second real-book
+  path; resume from G82A when supplied.
+- M82/G85A-G85G: `USER_INPUT_REQUIRED` for a private local GEDCOM path; resume
+  from G85A when supplied. No real family claim is made.
+- M84/G87A-G87H: `NOT_READY`; stable release gates cannot open while M79/M82
+  remain pending. See `reports/M79_M84_STATUS.md`.
+
+There is one blocker class, `USER_INPUT_REQUIRED`, with the two required input
+fields recorded in `artifacts/m79_m84/checkpoint.json`. Do not create a stable
+tag or release. Continue only after the required private paths are supplied.

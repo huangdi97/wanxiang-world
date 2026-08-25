@@ -179,6 +179,8 @@ def build_pipeline_build(
             provider_id=distillation.provider_id,
             stage_errors=distillation.stage_errors,
         ),
+        fusion_alignments=fusion.alignments,
+        fusion_provenance=fusion.provenance,
     )
 
 

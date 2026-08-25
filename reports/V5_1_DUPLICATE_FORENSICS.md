@@ -31,8 +31,8 @@
 | packages/domain/src/wanxiang_domain/state.py | CanonicalState | 16 |
 | packages/runtime/src/wanxiang_runtime/snapshot.py | StoredSnapshot | 17 |
 | packages/runtime/src/wanxiang_runtime/state.py | InMemoryCanonicalState | 31 |
-| packages/substrate/src/wanxiang_substrate/authoring/living_world.py | ReplayState | 38 |
-| packages/substrate/src/wanxiang_substrate/authoring/model.py | AuthoringSnapshot | 47 |
+| packages/substrate/src/wanxiang_substrate/authoring/living_ports.py | ReplayState | 25 |
+| packages/substrate/src/wanxiang_substrate/authoring/model.py | AuthoringSnapshot | 49 |
 | packages/substrate/src/wanxiang_substrate/authoring/scenario_engine.py | InitialSnapshot | 25 |
 | packages/substrate/src/wanxiang_substrate/capability/model.py | CapabilityState | 32 |
 | packages/substrate/src/wanxiang_substrate/capability/model.py | LearnerState | 112 |
@@ -137,9 +137,9 @@
 | packages/substrate/src/wanxiang_substrate/agency/policy.py | Policy | 21 |
 | packages/substrate/src/wanxiang_substrate/assets/foundry.py | AssetGenerator | 38 |
 | packages/substrate/src/wanxiang_substrate/assets/storage.py | ObjectStore | 35 |
-| packages/substrate/src/wanxiang_substrate/authoring/living_world.py | LivingRuntimePort | 28 |
-| packages/substrate/src/wanxiang_substrate/authoring/living_world.py | ReplayState | 38 |
-| packages/substrate/src/wanxiang_substrate/authoring/living_world.py | BranchResult | 42 |
+| packages/substrate/src/wanxiang_substrate/authoring/living_ports.py | LivingRuntimePort | 15 |
+| packages/substrate/src/wanxiang_substrate/authoring/living_ports.py | ReplayState | 25 |
+| packages/substrate/src/wanxiang_substrate/authoring/living_ports.py | BranchResult | 29 |
 | packages/substrate/src/wanxiang_substrate/authoring/multimodal.py | ExternalSourceConnector | 117 |
 | packages/substrate/src/wanxiang_substrate/authoring/providers.py | Provider | 52 |
 | packages/substrate/src/wanxiang_substrate/cosim/adapter.py | SimulationAdapter | 19 |

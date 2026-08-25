@@ -1,0 +1,23 @@
+{
+  "package": "M79-M84",
+  "status": "USER_INPUT_REQUIRED",
+  "missing_inputs": [
+    "second_real_book_path",
+    "gedcom_path"
+  ],
+  "private_local_sources": {
+    "second_book": false,
+    "gedcom": false,
+    "copied_to_git": false,
+    "modified": false
+  },
+  "resume": {
+    "M79": "G82A",
+    "M82": "G85A",
+    "completed_independent_work": [
+      "M80",
+      "M81",
+      "M83"
+    ]
+  }
+}
