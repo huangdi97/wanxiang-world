@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json as stdlib_json
 import os
 from pathlib import Path
 
@@ -7,9 +8,10 @@ from scripts.m79_m84_checkpoint import ROOT, checkpoint
 
 
 def test_checkpoint_requires_real_external_files() -> None:
-    system_root = Path(os.environ.get("SYSTEMROOT", "C:/Windows"))
-    book = system_root / "System32" / "kernel32.dll"
-    gedcom = system_root / "System32" / "ntdll.dll"
+    assert os.__file__ is not None
+    assert stdlib_json.__file__ is not None
+    book = Path(os.__file__)
+    gedcom = Path(stdlib_json.__file__)
 
     result = checkpoint(book, gedcom)
 
