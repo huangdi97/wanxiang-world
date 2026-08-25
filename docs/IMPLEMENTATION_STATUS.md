@@ -193,6 +193,7 @@ Commit Authority action, replay equality and branch isolation.
 Real-source evidence records 3,918 parsed nodes/segments, 164 batches, 11,549
 candidates, coverage 0.8333333333, package/preview/publish, Worldness passed
 at 0.99, a committed `set_status` event with replay equality, and an unchanged
-parent branch. G81G-G81J remain open until full quality, remote Actions and
-the final report/version decision complete. v5.5 and training remain out of
-scope.
+parent branch. G81G-G81J are PASS for implementation commit `f7685ec` and
+Actions run `32821744579`, whose six required jobs are green. The final
+evidence-only commit must still pass its own Actions run before `rc2`; v5.5
+and training remain out of scope.

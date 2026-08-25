@@ -681,7 +681,8 @@ batches, 11,549 candidates, WorldPackage, Preview, Worldness 0.99, Living
 Instance commit/replay and branch isolation. The original NOT_ACCEPTED report
 remains unchanged as historical evidence of the pre-repair failure.
 
-G81G-G81J remain delivery gates: full quality must be green, the feature branch
-must be pushed, required Actions must be green, and only then may the final
-report be ACCEPTED and `v5.4.0-rc2` created. No v5.5 work or model training is
-authorized.
+G81G-G81J implementation delivery is now PASS: feature branch push succeeded,
+Actions run `32821744579` is green across all six required jobs, and
+`reports/G74A_G81J_REPORT.md` is ACCEPTED. A final evidence-only commit still
+needs its own green Actions run before `v5.4.0-rc2`; no v5.5 work or model
+training is authorized.

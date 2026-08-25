@@ -363,6 +363,7 @@ Commit Authority. Providers emit candidates only.
   paths. The CLI preserves exact file bytes; the private source is not in Git.
 - G81D-G81F: local evidence is present: 164 bounded batches, 164 completed
   calls, zero retries, deterministic provenance and negative/security tests.
-- G81G-G81J: final full quality, feature-branch push, required Actions and
-  final report/version decision remain. Create `v5.4.0-rc2` only after an
-  ACCEPTED report and green remote Actions; otherwise preserve NOT_ACCEPTED.
+- G81G-G81J: PASS for the implementation commit. The feature branch is pushed,
+  run `32821744579` is green across all six required jobs, and the final report
+  is ACCEPTED. Create `v5.4.0-rc2` only after the final evidence-only commit's
+  Actions run is also green; then STOP without entering v5.5.
