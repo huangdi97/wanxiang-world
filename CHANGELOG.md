@@ -1601,3 +1601,6 @@
 - Local repository gate after the final fixes: `quality.py` PASS with 1211
   passed and one existing PostgreSQL-profile skip; stable release remains
   blocked by the missing real-source inputs.
+- Feature branch commit `82918be` is pushed; Actions run `32835309602` is green
+  across all six required jobs. No stable tag or release was created because
+  M79/M82 still require private real-source inputs.

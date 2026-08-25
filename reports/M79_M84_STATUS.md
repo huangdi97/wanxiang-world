@@ -42,8 +42,19 @@ The post-implementation gate is green for the available scope:
 
 The single skipped test is the existing live PostgreSQL profile test because
 no PostgreSQL instance is available in this environment. It is not converted
-into a product pass claim. GitHub Actions remains required after the feature
-branch push.
+into a product pass claim.
+
+## Remote delivery gate
+
+The evidence-only feature commit is pushed and verified remotely:
+
+- local HEAD and `origin/feature/source-to-living-world`: `82918be493721853821562ccb66f67eaa5bf657f`
+- GitHub Actions run `32835309602`: all six required jobs succeeded
+  (`python`, API/package/SDK, PostgreSQL, release-smoke, safety, and TS)
+- no stable `v5.4.0` tag or GitHub stable Release was created
+
+This remote green result closes the available engineering/delivery gate; it
+does not turn the missing real-source inputs into M79/M82 acceptance.
 
 ## Independent evidence
 
