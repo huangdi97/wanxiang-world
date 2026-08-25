@@ -82,6 +82,8 @@ class ScenarioEngine:
         found = ScenarioMiner().mine(draft)
         if found:
             return found
+        if not (draft.entities or draft.events or draft.places):
+            return ()
         return (
             ScenarioCandidate(
                 scenario_id="scenario_default",
@@ -94,6 +96,8 @@ class ScenarioEngine:
 
     def build_three(self, draft: WorldDraft) -> tuple[GenesisPlan, ...]:
         candidates = self.mine(draft)
+        if not candidates:
+            return ()
         plans: list[GenesisPlan] = []
         modes = ("canonical_replay", "soft_canon", "living_open")
         for index, mode in enumerate(modes, start=1):

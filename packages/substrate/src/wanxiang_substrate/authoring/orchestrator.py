@@ -30,9 +30,9 @@ class StagePolicy:
 
 @dataclass(frozen=True, slots=True)
 class AuthoringBudget:
-    max_candidates: int = 10000
+    max_candidates: int = 50000
     max_repair_rounds: int = 7
-    max_provider_calls: int = 0
+    max_provider_calls: int = 1000
     max_tokens: int = 0
     max_network_calls: int = 0
     max_storage_bytes: int = 0
@@ -161,6 +161,21 @@ class AuthoringOrchestrator:
         resume: bool = False,
     ) -> OrchestrationRun:
         active_budget = budget or AuthoringBudget()
+        provider_ids: list[str] = []
+        try:
+            for request in provider_requests:
+                capability = self._providers.select(
+                    request.kind,
+                    private_source=request.private_source,
+                    require_deterministic=request.require_deterministic,
+                    max_cost_units=request.max_cost_units,
+                )
+                provider_ids.append(capability.provider_id)
+        except CapabilityUnavailable as exc:
+            current = service.status(job_id)
+            return self._stopped(
+                job_id, current, f"provider:{exc}", BudgetUsage(), 0, "configure_provider"
+            )
         current = service.status(job_id)
         snapshot = (
             service.resume(job_id)
@@ -176,18 +191,6 @@ class AuthoringOrchestrator:
         budget_reason = usage.exceeded(active_budget)
         if budget_reason:
             return self._stopped(job_id, snapshot, budget_reason, usage, 3)
-        provider_ids: list[str] = []
-        try:
-            for request in provider_requests:
-                capability = self._providers.select(
-                    request.kind,
-                    private_source=request.private_source,
-                    require_deterministic=request.require_deterministic,
-                    max_cost_units=request.max_cost_units,
-                )
-                provider_ids.append(capability.provider_id)
-        except CapabilityUnavailable as exc:
-            return self._stopped(job_id, snapshot, f"provider:{exc}", usage, 6)
         usage = replace(usage, provider_calls=len(provider_requests))
         budget_reason = usage.exceeded(active_budget)
         if budget_reason:

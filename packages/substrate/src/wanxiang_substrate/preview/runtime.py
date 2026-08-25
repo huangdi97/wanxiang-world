@@ -131,9 +131,16 @@ def register_preview_resolvers(registry: ResolverRegistry) -> None:
     registry.register(PREVIEW_CREATE_RELATION, _preview_relation)
 
 
-def _safe_id(raw: str, index: int) -> str:
+def _safe_id(raw: str, index: int, used: set[str]) -> str:
     value = re.sub(r"[^a-z0-9_-]+", "_", raw.lower()).strip("_-")
-    return f"ent_{value or index}"
+    base = f"ent_{value or index}"
+    candidate = base
+    if candidate in used:
+        candidate = f"{base}_{index}"
+    while candidate in used:
+        index += 1
+        candidate = f"{base}_{index}"
+    return candidate
 
 
 @dataclass(frozen=True, slots=True)
@@ -188,8 +195,10 @@ def instantiate_preview(
     created = cast(CreatedWorld, runtime.create_world(instance_id=instance_id))
     host = WorldHost(runtime, created.instance_id, created.root_branch_id)
     identity: dict[str, str] = {}
+    used_entity_ids: set[str] = set()
     for index, (key, display_name) in enumerate(package.draft.entities, start=1):
-        entity_id = _safe_id(key, index)
+        entity_id = _safe_id(key, index, used_entity_ids)
+        used_entity_ids.add(entity_id)
         identity[key] = entity_id
         PreviewWorld(install, runtime, host, instance_id, created.root_branch_id).step(
             PREVIEW_CREATE_ENTITY,

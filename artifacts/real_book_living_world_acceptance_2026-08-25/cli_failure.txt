@@ -1,0 +1,19 @@
+Command:
+  $env:UV_CACHE_DIR='E:\AI\wanxiang\.uv-cache'; uv run python scripts/wxworld.py reference --profile book --kind text --source-id real_book_cli_20260825 --job-id real-book-cli-20260825 --file 'D:\下载\我本英雄-周梅森.txt'
+
+Exit code: 1
+Result:
+  The real CLI read the full file and failed before returning a result.
+
+Traceback tail:
+  wanxiang_domain.errors.ContractError: draft has zero coverage
+  at AuthoringOrchestrator.run -> AuthoringService.build_package
+
+Publish attempt with the same full file and --publish:
+  Exit code: 1
+  wanxiang_domain.errors.ContractError: draft has zero coverage
+
+CLI surface probes:
+  wxworld --help lists only the `reference` subcommand.
+  wxworld status --job-id real-book-cli-20260825 exits 1:
+    argument command: invalid choice: 'status' (choose from 'reference')

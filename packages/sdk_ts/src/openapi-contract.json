@@ -103,6 +103,21 @@
         "operationId": "get_draft_studio_jobs__job_id__draft_get"
       }
     },
+    "/studio/jobs/{job_id}/enter": {
+      "post": {
+        "operationId": "enter_studio_jobs__job_id__enter_post"
+      }
+    },
+    "/studio/jobs/{job_id}/instantiate": {
+      "post": {
+        "operationId": "instantiate_studio_jobs__job_id__instantiate_post"
+      }
+    },
+    "/studio/jobs/{job_id}/living": {
+      "get": {
+        "operationId": "get_living_studio_jobs__job_id__living_get"
+      }
+    },
     "/studio/jobs/{job_id}/preview": {
       "post": {
         "operationId": "preview_package_studio_jobs__job_id__preview_post"
@@ -148,9 +163,22 @@
         "operationId": "start_job_studio_jobs__job_id__start_post"
       }
     },
+    "/studio/jobs/{job_id}/worldness": {
+      "post": {
+        "operationId": "evaluate_worldness_studio_jobs__job_id__worldness_post"
+      },
+      "get": {
+        "operationId": "get_worldness_studio_jobs__job_id__worldness_get"
+      }
+    },
     "/studio/one-click": {
       "post": {
         "operationId": "one_click_studio_one_click_post"
+      }
+    },
+    "/studio/ui": {
+      "get": {
+        "operationId": "studio_ui_studio_ui_get"
       }
     },
     "/worlds": {

@@ -1,0 +1,112 @@
+{
+  "transport": "FastAPI TestClient over create_app()",
+  "socket_status": "not_verified; uvicorn bind on 127.0.0.1:8765 failed with WinError 10013",
+  "input": {
+    "path": "D:\\下载\\我本英雄-周梅森.txt",
+    "bytes": 937500,
+    "sha256": "5c914ea9995f41239b56e06f331ca7e3595b28cb2b15377fa015556a1c99268d",
+    "rights_approved_sent": false,
+    "stage_sent": "E0",
+    "access_sent": "private",
+    "usage_sent": "package"
+  },
+  "steps": [
+    {
+      "method": "POST",
+      "path": "/studio/one-click",
+      "status_code": 500,
+      "body": {
+        "code": "contract_error",
+        "details": {},
+        "message": "draft status REVIEW_REQUIRED is not compilable"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/studio/jobs/real-book-api-20260825",
+      "status_code": 200,
+      "body": {
+        "job_id": "real-book-api-20260825",
+        "status": "running",
+        "stage": "drafted",
+        "source_ids": ["real_book_api_20260825"],
+        "draft_id": "wd_real-book-api-20260825",
+        "package_id": null,
+        "preview_id": null,
+        "candidate_count": 0,
+        "conflict_count": 0,
+        "error": "",
+        "diagnostics": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/studio/jobs/real-book-api-20260825/draft",
+      "status_code": 200,
+      "body": {
+        "job_id": "real-book-api-20260825",
+        "candidates": [],
+        "draft": {
+          "draft_id": "wd_real-book-api-20260825",
+          "revision": 1,
+          "status": "REVIEW_REQUIRED",
+          "source_refs": ["real_book_api_20260825"],
+          "source_versions": [["real_book_api_20260825", "1"]],
+          "selected_domains": [],
+          "entities": [],
+          "relations": [],
+          "places": [],
+          "events": [],
+          "completion_items": ["actor entities", "events", "places", "relations", "rules"],
+          "unresolved_conflicts": [],
+          "unresolved_rights": ["real_book_api_20260825"],
+          "coverage": 0.0,
+          "uncertainty": 0.3
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/studio/jobs/real-book-api-20260825/scenarios",
+      "status_code": 200,
+      "body": {
+        "job_id": "real-book-api-20260825",
+        "scenarios": [
+          {"genesis_id": "genesis_1", "scenario_id": "scenario_default_canonical_replay", "canon_mode": "canonical_replay", "seed": 2838004829, "snapshot_hash": "de58404905058bcab836f2e2585ee3d06faf5aeeb61a30731cd73d931793fb1b"},
+          {"genesis_id": "genesis_2", "scenario_id": "scenario_default_soft_canon", "canon_mode": "soft_canon", "seed": 489574640, "snapshot_hash": "771169bc3ad228b30a275f7c065c53d2436c2ee0cb3bffd5da1045171bfef157"},
+          {"genesis_id": "genesis_3", "scenario_id": "scenario_default_living_open", "canon_mode": "living_open", "seed": 1253076042, "snapshot_hash": "d75b2c12406b85fd1c686d6f01a2df885bf7f50f9b0792edb94dc69c302bc1fd"}
+        ]
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/studio/jobs/real-book-api-20260825/review-inbox",
+      "status_code": 200,
+      "body": {"job_id": "real-book-api-20260825", "items": []}
+    },
+    {
+      "method": "GET",
+      "path": "/studio/jobs/real-book-api-20260825/review-inbox/audit",
+      "status_code": 200,
+      "body": {"job_id": "real-book-api-20260825", "audits": []}
+    },
+    {
+      "method": "POST",
+      "path": "/studio/jobs/real-book-api-20260825/build",
+      "status_code": 500,
+      "body": {"code": "contract_error", "details": {}, "message": "draft status REVIEW_REQUIRED is not compilable"}
+    },
+    {
+      "method": "POST",
+      "path": "/studio/jobs/real-book-api-20260825/preview",
+      "status_code": 500,
+      "body": {"code": "contract_error", "details": {}, "message": "draft status REVIEW_REQUIRED is not compilable"}
+    },
+    {
+      "method": "POST",
+      "path": "/studio/jobs/real-book-api-20260825/publish",
+      "status_code": 500,
+      "body": {"code": "contract_error", "details": {}, "message": "draft status REVIEW_REQUIRED is not compilable"}
+    }
+  ]
+}

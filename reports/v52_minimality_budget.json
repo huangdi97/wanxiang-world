@@ -4,7 +4,7 @@
   "hard_invariants_ok": true,
   "import_cycles": 0,
   "manager_classes": 0,
-  "milestone": "M70",
+  "milestone": "M78",
   "milestone_budgets": {
     "M26": {
       "hard_constraints": [
@@ -258,16 +258,88 @@
       ],
       "new_abstractions_allowance": 0,
       "note": "Production hardening is evidence, compatibility, documentation and delivery work; no new Kernel authority or runtime state is allowed."
+    },
+    "M71": {
+      "hard_constraints": [
+        "private bytes remain outside Git",
+        "provider output is candidate-only",
+        "zero coverage is typed"
+      ],
+      "new_abstractions_allowance": 5,
+      "note": "Real-book semantic distillation adds a bounded provider port and typed progress without allowing providers to mutate Canon."
+    },
+    "M72": {
+      "hard_constraints": [
+        "rights gates remain independent",
+        "no source rewriting",
+        "no hidden provider fallback"
+      ],
+      "new_abstractions_allowance": 4,
+      "note": "Rights and schema diagnostics make the Source -> Candidate boundary explicit while preserving the existing SourceRegistry."
+    },
+    "M73": {
+      "hard_constraints": [
+        "one authoring backend",
+        "transport owns no state",
+        "no second commit path"
+      ],
+      "new_abstractions_allowance": 4,
+      "note": "CLI/API/Studio lifecycle additions reuse AuthoringService and expose the same typed state transitions."
+    },
+    "M74": {
+      "hard_constraints": [
+        "worldness cannot commit canon",
+        "no hardcoded coverage",
+        "failure evidence is retained"
+      ],
+      "new_abstractions_allowance": 4,
+      "note": "Worldness dimensions carry measurements and evidence, with bounded repair proposals over the draft only."
+    },
+    "M75": {
+      "hard_constraints": [
+        "only Commit Authority mutates canon",
+        "replay must match",
+        "parent branch remains unchanged"
+      ],
+      "new_abstractions_allowance": 5,
+      "note": "Living Instance evaluation proves commit/replay and branch isolation through the existing Commit Authority runtime port."
+    },
+    "M76": {
+      "hard_constraints": [
+        "same API use cases",
+        "socket allocation is bounded",
+        "no browser-only success path"
+      ],
+      "new_abstractions_allowance": 3,
+      "note": "Browser Studio and random-socket smoke evidence complete the product surface without introducing a separate runtime."
+    },
+    "M77": {
+      "hard_constraints": [
+        "same source bytes",
+        "all required evidence present",
+        "NOT_ACCEPTED remains honest"
+      ],
+      "new_abstractions_allowance": 0,
+      "note": "Real private-source acceptance and regression evidence only."
+    },
+    "M78": {
+      "hard_constraints": [
+        "no v5.5",
+        "no model training",
+        "stop after delivery"
+      ],
+      "new_abstractions_allowance": 0,
+      "note": "Final feature-branch delivery and Actions verification only."
     }
   },
   "oversized_modules": 0,
-  "ports": 31,
-  "production_files": 418,
-  "production_loc": 39697,
-  "public_classes": 905,
-  "public_functions": 352,
+  "ports": 34,
+  "production_files": 429,
+  "production_loc": 41229,
+  "public_classes": 922,
+  "public_functions": 365,
   "registry_classes": 15,
-  "service_classes": 18,
-  "state_schema_models": 24,
+  "service_classes": 19,
+  "state_schema_models": 25,
   "store_classes": 24
 }

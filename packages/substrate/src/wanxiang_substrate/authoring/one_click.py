@@ -6,7 +6,11 @@ from dataclasses import dataclass
 
 from wanxiang_domain.errors import ContractError
 
-from wanxiang_substrate.authoring.orchestrator import AuthoringOrchestrator, OrchestrationRun
+from wanxiang_substrate.authoring.orchestrator import (
+    AuthoringOrchestrator,
+    OrchestrationRun,
+    ProviderRequest,
+)
 from wanxiang_substrate.authoring.service import AuthoringService
 from wanxiang_substrate.compile import PackageValidationResult
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
@@ -31,7 +35,7 @@ class OneClickAuthoring:
 
     def __init__(self, service: AuthoringService | None = None) -> None:
         self.service = service or AuthoringService()
-        self.orchestrator = AuthoringOrchestrator()
+        self.orchestrator = AuthoringOrchestrator(providers=self.service.providers)
 
     def run(
         self,
@@ -39,12 +43,32 @@ class OneClickAuthoring:
         sources: tuple[SourceRecord, ...],
         *,
         profile: str = "mixed",
+        semantic_provider: str | None = None,
     ) -> OneClickResult:
         if profile not in SOURCE_PROFILES:
             raise ValueError(f"unknown source profile {profile!r}")
         self._validate_profile(profile, sources)
-        self.service.create_job(job_id, sources=sources, created_by="one-click")
-        orchestration = self.orchestrator.run(self.service, job_id)
+        self.service.create_job(
+            job_id,
+            sources=sources,
+            created_by="one-click",
+            semantic_provider=semantic_provider,
+        )
+        requests = (
+            (
+                ProviderRequest(
+                    "semantic", private_source=any(source.access != "public" for source in sources)
+                ),
+            )
+            if semantic_provider is not None
+            and self.service.providers.capability("semantic") is not None
+            else ()
+        )
+        orchestration = self.orchestrator.run(
+            self.service,
+            job_id,
+            provider_requests=requests,
+        )
         if orchestration.stopped_reason:
             raise ContractError(
                 f"one-click authoring stopped for {job_id!r}: {orchestration.stopped_reason}"

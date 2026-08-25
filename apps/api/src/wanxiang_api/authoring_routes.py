@@ -8,6 +8,8 @@ from wanxiang_substrate.authoring.scenario_engine import ScenarioEngine
 from wanxiang_substrate.authoring.service import AuthoringService
 from wanxiang_substrate.sources.model import RightsEnvelope, SourceRecord, payload_hash
 
+from wanxiang_api.candidate_serializers import candidate_to_dict
+
 router = APIRouter(prefix="/studio")
 
 
@@ -23,6 +25,12 @@ class SourceInput(BaseModel):
     access: str = "private"
     reliability: float = Field(default=1.0, ge=0.0, le=1.0)
     provenance: str = "studio"
+    ingest_allowed: bool = True
+    private_analysis_allowed: bool = True
+    external_model_processing_allowed: bool = False
+    package_inclusion_allowed: bool | None = None
+    public_export_allowed: bool = False
+    training_allowed: bool = False
 
     def record(self) -> SourceRecord:
         return SourceRecord(
@@ -35,6 +43,12 @@ class SourceInput(BaseModel):
                 owner=self.owner,
                 usage=self.usage,
                 approved=self.rights_approved,
+                ingest_allowed=self.ingest_allowed,
+                private_analysis_allowed=self.private_analysis_allowed,
+                external_model_processing_allowed=self.external_model_processing_allowed,
+                package_inclusion_allowed=self.package_inclusion_allowed,
+                public_export_allowed=self.public_export_allowed,
+                training_allowed=self.training_allowed,
             ),
             payload=self.content,
             provenance=self.provenance,
@@ -49,6 +63,7 @@ class CreateJobRequest(BaseModel):
     version: str = "1"
     sources: list[SourceInput] = Field(default_factory=lambda: list[SourceInput]())
     created_by: str = "studio"
+    semantic_provider: str | None = None
 
 
 class ReviewCandidateRequest(BaseModel):
@@ -75,6 +90,7 @@ def create_job(payload: CreateJobRequest, request: Request) -> dict[str, object]
         version=payload.version,
         sources=tuple(source.record() for source in payload.sources),
         created_by=payload.created_by,
+        semantic_provider=payload.semantic_provider,
     )
     return snapshot.to_dict()
 
@@ -129,17 +145,7 @@ def get_draft(job_id: str, request: Request) -> dict[str, object]:
             "coverage": draft.coverage,
             "uncertainty": draft.uncertainty,
         },
-        "candidates": [
-            {
-                "candidate_id": candidate.candidate_id,
-                "kind": candidate.kind,
-                "confidence": candidate.confidence,
-                "status": candidate.status,
-                "source_refs": list(candidate.source_refs),
-                "payload": dict(candidate.payload),
-            }
-            for candidate in build.candidates
-        ],
+        "candidates": [candidate_to_dict(candidate) for candidate in build.candidates],
     }
 
 

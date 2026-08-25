@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from typing import Literal
 
 from wanxiang_substrate.authoring.semantic import SemanticAnalysis
+from wanxiang_substrate.authoring.semantic_distillation import DistillationStats
 from wanxiang_substrate.candidates.envelope import CandidateEnvelope
 from wanxiang_substrate.draft.model import WorldDraft
 from wanxiang_substrate.parsing.segment import Segment
@@ -35,6 +36,7 @@ class PipelineBuild:
     conflicts: tuple[str, ...]
     selected_domains: tuple[str, ...]
     semantic_analysis: SemanticAnalysis | None = None
+    distillation: DistillationStats = DistillationStats()
 
     @property
     def candidate_ids(self) -> tuple[str, ...]:
@@ -56,6 +58,13 @@ class AuthoringSnapshot:
     conflict_count: int = 0
     error: str = ""
     diagnostics: tuple[str, ...] = ()
+    product_state: str = "READY"
+    checkpoint: tuple[tuple[str, str], ...] = ()
+    parsed_nodes: int = 0
+    segment_count: int = 0
+    batch_count: int = 0
+    provider_id: str = ""
+    stage_errors: tuple[str, ...] = ()
 
     def to_dict(self) -> dict[str, object]:
         return {
@@ -70,4 +79,11 @@ class AuthoringSnapshot:
             "conflict_count": self.conflict_count,
             "error": self.error,
             "diagnostics": list(self.diagnostics),
+            "product_state": self.product_state,
+            "checkpoint": dict(self.checkpoint),
+            "parsed_nodes": self.parsed_nodes,
+            "segment_count": self.segment_count,
+            "batch_count": self.batch_count,
+            "provider_id": self.provider_id,
+            "stage_errors": list(self.stage_errors),
         }

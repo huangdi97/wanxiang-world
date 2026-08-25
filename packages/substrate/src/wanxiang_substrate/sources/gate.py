@@ -49,6 +49,17 @@ class SourceGate:
             return GateDecision(
                 record.source_id, False, "rights not approved", self._policy.policy_version
             )
+        if record.rights is not None and not record.rights.allows("ingest"):
+            return GateDecision(
+                record.source_id, False, "ingest gate is not allowed", self._policy.policy_version
+            )
+        if record.rights is not None and not record.rights.allows("private_analysis"):
+            return GateDecision(
+                record.source_id,
+                False,
+                "private analysis gate is not allowed",
+                self._policy.policy_version,
+            )
         if not record.canonical_eligible():
             return GateDecision(
                 record.source_id,
@@ -76,6 +87,11 @@ class SourceGate:
         """Return source content as data only; never as instructions."""
         if self._is_malicious(record):
             raise MaliciousSource("refusing to surface injection payload")
+        if record.rights is not None:
+            if not record.rights.allows("ingest"):
+                raise RightsDenied("source ingest is not allowed")
+            if not record.rights.allows("private_analysis"):
+                raise RightsDenied("private analysis is not allowed")
         return record.payload
 
     def _is_malicious(self, record: SourceRecord) -> bool:

@@ -53,6 +53,27 @@ class CapabilityUnavailable(SourceError):
     code = "capability_unavailable"
 
 
+class SemanticProviderRequired(CapabilityUnavailable):
+    """Semantic extraction cannot continue without an explicitly configured provider."""
+
+    code = "semantic_provider_required"
+    product_state = "SEMANTIC_PROVIDER_REQUIRED"
+
+
+class SemanticProviderSchemaError(CapabilityUnavailable):
+    """A semantic provider returned data outside the structured candidate contract."""
+
+    code = "semantic_provider_schema_error"
+    product_state = "SEMANTIC_PROVIDER_SCHEMA_ERROR"
+
+
+class ZeroCoverage(SourceError):
+    """The real pipeline produced no compileable semantic coverage."""
+
+    code = "zero_coverage"
+    product_state = "ZERO_COVERAGE"
+
+
 class MalformedSourceContent(SourceError):
     """Source bytes could not be parsed as the declared format."""
 

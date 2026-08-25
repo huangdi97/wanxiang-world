@@ -1,7 +1,7 @@
 """v5.2 minimality budget: code minimality as a continuous acceptance metric.
 
 Reuses the deterministic v5.1 metrics + forensics scanners and the architecture
-guard cycle check, then records a per-milestone incremental budget (M27-M70).
+guard cycle check, then records a per-milestone incremental budget (M27-M78).
 No arbitrary absolute LOC cap: budgets are per-stage *increment* allowances on
 new abstractions (with mandatory justification in V5_2_CODE_MINIMALITY_LEDGER.md)
 and hard invariants (0 cycles, exactly 1 commit path, no second Event/Branch/
@@ -57,7 +57,7 @@ class Budget(TypedDict):
     milestone_budgets: dict[str, MilestoneBudget]
 
 
-# Per-milestone incremental budget notes (M26 baseline -> M70).
+# Per-milestone incremental budget notes (M26 baseline -> M78).
 # key: milestone; value: allowed new production abstractions (types/protocols/
 # classes/services) with justification, plus hard constraints.
 MILESTONE_BUDGETS: dict[str, MilestoneBudget] = {
@@ -346,6 +346,96 @@ MILESTONE_BUDGETS: dict[str, MilestoneBudget] = {
             "stop after final certification",
         ),
     },
+    "M71": {
+        "note": (
+            "Real-book semantic distillation adds a bounded provider port and "
+            "typed progress without allowing providers to mutate Canon."
+        ),
+        "new_abstractions_allowance": 5,
+        "hard_constraints": (
+            "private bytes remain outside Git",
+            "provider output is candidate-only",
+            "zero coverage is typed",
+        ),
+    },
+    "M72": {
+        "note": (
+            "Rights and schema diagnostics make the Source -> Candidate boundary "
+            "explicit while preserving the existing SourceRegistry."
+        ),
+        "new_abstractions_allowance": 4,
+        "hard_constraints": (
+            "rights gates remain independent",
+            "no source rewriting",
+            "no hidden provider fallback",
+        ),
+    },
+    "M73": {
+        "note": (
+            "CLI/API/Studio lifecycle additions reuse AuthoringService and expose "
+            "the same typed state transitions."
+        ),
+        "new_abstractions_allowance": 4,
+        "hard_constraints": (
+            "one authoring backend",
+            "transport owns no state",
+            "no second commit path",
+        ),
+    },
+    "M74": {
+        "note": (
+            "Worldness dimensions carry measurements and evidence, with bounded "
+            "repair proposals over the draft only."
+        ),
+        "new_abstractions_allowance": 4,
+        "hard_constraints": (
+            "worldness cannot commit canon",
+            "no hardcoded coverage",
+            "failure evidence is retained",
+        ),
+    },
+    "M75": {
+        "note": (
+            "Living Instance evaluation proves commit/replay and branch isolation "
+            "through the existing Commit Authority runtime port."
+        ),
+        "new_abstractions_allowance": 5,
+        "hard_constraints": (
+            "only Commit Authority mutates canon",
+            "replay must match",
+            "parent branch remains unchanged",
+        ),
+    },
+    "M76": {
+        "note": (
+            "Browser Studio and random-socket smoke evidence complete the product "
+            "surface without introducing a separate runtime."
+        ),
+        "new_abstractions_allowance": 3,
+        "hard_constraints": (
+            "same API use cases",
+            "socket allocation is bounded",
+            "no browser-only success path",
+        ),
+    },
+    "M77": {
+        "note": "Real private-source acceptance and regression evidence only.",
+        "new_abstractions_allowance": 0,
+        "hard_constraints": (
+            "same source bytes",
+            "all required evidence present",
+            "NOT_ACCEPTED remains honest",
+        ),
+    },
+    "M78": {
+        "note": "Final feature-branch delivery and Actions verification only.",
+        "new_abstractions_allowance": 0,
+        "hard_constraints": (
+            "no v5.5",
+            "no model training",
+            "stop after delivery",
+        ),
+    },
 }
 
 
@@ -373,7 +463,7 @@ def build_budget() -> Budget:
     managers = sum(1 for _label, name in flag_rows if "manager" in name.lower())
 
     payload: Budget = {
-        "milestone": "M70",
+        "milestone": "M78",
         "production_files": total["files"],
         "production_loc": total["loc"],
         "public_classes": total["classes"],
@@ -403,7 +493,7 @@ def render(budget: Budget) -> str:
         "with mandatory justification in `V5_2_CODE_MINIMALITY_LEDGER.md`) plus",
         "hard invariants that must hold at every milestone.",
         "",
-        "## Current M70 snapshot",
+        "## Current M78 snapshot",
         "",
         "| Metric | Count |",
         "|---|---|",
@@ -424,7 +514,7 @@ def render(budget: Budget) -> str:
         "",
         f"Hard invariants hold: **{budget['hard_invariants_ok']}** (0 cycles, 1 commit path).",
         "",
-        "## Incremental budgets M26-M70",
+        "## Incremental budgets M26-M78",
         "",
         "| Milestone | New-abstraction allowance | Note | Hard constraints |",
         "|---|---|---|---|",

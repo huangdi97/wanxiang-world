@@ -670,3 +670,18 @@ CI, and v5.4.0-rc1 are all recorded. Evidence:
 `reports/G73H_REPORT.md` and `reports/M70_QUALIFICATION.md`; final branch run
 `32773363629` is green at `518f255`. STOP condition met: do not start model
 training, M71, or v5.5.
+
+## M71-M78 current status (2026-08-25, supersedes the historical STOP)
+
+User-authorized continuation is active on `feature/source-to-living-world`.
+G74A-G80G are implemented locally around the existing Forge/compiler/preview/
+Commit Authority path. The same 937,500-byte private source now traverses real
+CLI/API/Studio flows with 3,918 parsed nodes and segments, 164 semantic
+batches, 11,549 candidates, WorldPackage, Preview, Worldness 0.99, Living
+Instance commit/replay and branch isolation. The original NOT_ACCEPTED report
+remains unchanged as historical evidence of the pre-repair failure.
+
+G81G-G81J remain delivery gates: full quality must be green, the feature branch
+must be pushed, required Actions must be green, and only then may the final
+report be ACCEPTED and `v5.4.0-rc2` created. No v5.5 work or model training is
+authorized.

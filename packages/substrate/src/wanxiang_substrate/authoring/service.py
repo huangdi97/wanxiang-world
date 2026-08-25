@@ -6,36 +6,44 @@ from wanxiang_domain.errors import ContractError, WanxiangError
 
 from wanxiang_substrate.authoring.model import AuthoringSnapshot, PipelineBuild
 from wanxiang_substrate.authoring.pipeline import SourceToDraftPipeline
+from wanxiang_substrate.authoring.providers import ProviderRouter
 from wanxiang_substrate.authoring.review_inbox import InboxItem, ReviewAudit, ReviewInbox
-from wanxiang_substrate.compile import (
-    CompilerBoundary,
-    CompilerInput,
-    PackageAssembler,
-    PackageValidationResult,
-    PackageValidator,
-)
+from wanxiang_substrate.authoring.service_living import LivingWorldMixin
+from wanxiang_substrate.authoring.service_package import PackageServiceMixin
+from wanxiang_substrate.authoring.service_status import StatusMixin
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.jobs.errors import InvalidJobTransition, JobNotFound
-from wanxiang_substrate.jobs.model import JOB_STAGES
 from wanxiang_substrate.jobs.service import JobService
 from wanxiang_substrate.jobs.store import JobStore
-from wanxiang_substrate.preview import PreviewInstall, PreviewRegistry
+from wanxiang_substrate.preview import PreviewRegistry
 from wanxiang_substrate.review.decisions import ReviewDecision, ReviewLedger
 from wanxiang_substrate.sources.model import SourceRecord
 from wanxiang_substrate.sources.registry import SourceRegistry
 
 
-class AuthoringService:
+class AuthoringService(PackageServiceMixin, LivingWorldMixin, StatusMixin):
     """One in-memory Forge service; canonical world state is outside this class."""
 
-    def __init__(self, pipeline: SourceToDraftPipeline | None = None) -> None:
+    def __init__(
+        self,
+        pipeline: SourceToDraftPipeline | None = None,
+        *,
+        providers: ProviderRouter | None = None,
+    ) -> None:
         self._jobs = JobService(JobStore())
         self._sources = SourceRegistry()
-        self._pipeline = pipeline or SourceToDraftPipeline()
+        self._providers = providers or ProviderRouter()
+        self._pipeline = pipeline or SourceToDraftPipeline(providers=self._providers)
         self._job_sources: dict[str, tuple[str, ...]] = {}
+        self._job_semantic: dict[str, bool] = {}
+        self._progress: dict[str, tuple[tuple[str, str], ...]] = {}
+        self._product_states: dict[str, str] = {}
         self._builds: dict[str, PipelineBuild] = {}
         self._packages: dict[str, WorldPackageDraft] = {}
         self._previews = PreviewRegistry()
+        self._living_worlds: dict[str, object] = {}
+        self._living_records: dict[str, object] = {}
+        self._worldness_runs: dict[str, object] = {}
         self._reviews = ReviewLedger()
         self._inbox = ReviewInbox(self._reviews)
 
@@ -46,6 +54,7 @@ class AuthoringService:
         version: str = "1",
         sources: tuple[SourceRecord, ...] = (),
         created_by: str = "studio",
+        semantic_provider: str | None = None,
     ) -> AuthoringSnapshot:
         try:
             existing = self._jobs.status(job_id)
@@ -75,12 +84,22 @@ class AuthoringService:
                     f"job {job_id!r} already exists with a different source fingerprint; "
                     "use a new job id or source version"
                 )
+            if self._job_semantic.get(job_id, False) != (semantic_provider is not None):
+                raise ContractError(
+                    f"job {job_id!r} already exists with a different semantic provider selection"
+                )
             return self.status(job_id)
         source_ids = self._register_sources(sources)
         job_source_refs = source_ids or (f"job_{job_id}",)
         self._jobs.create(job_id, "authoring", job_source_refs, version, created_by)
         self._job_sources.setdefault(job_id, source_ids)
+        self._job_semantic[job_id] = semantic_provider is not None
+        self._product_states[job_id] = "CREATED"
         return self.status(job_id)
+
+    @property
+    def providers(self) -> ProviderRouter:
+        return self._providers
 
     def add_source(self, job_id: str, record: SourceRecord) -> AuthoringSnapshot:
         job = self._jobs.status(job_id)
@@ -106,7 +125,11 @@ class AuthoringService:
             self._sources.require(source_id) for source_id in self._job_sources.get(job_id, ())
         )
         try:
-            build = self._pipeline.run(records, draft_id=f"wd_{job_id}")
+            build = self._pipeline.run(
+                records,
+                draft_id=f"wd_{job_id}",
+                use_semantic_provider=self._job_semantic.get(job_id, False),
+            )
             self._builds[job_id] = build
             for stage, payload in (
                 ("registered", {"sources": str(len(records))}),
@@ -118,10 +141,20 @@ class AuthoringService:
                 ("drafted", {"draft_id": build.draft.draft_id}),
             ):
                 self._jobs.checkpoint(job_id, stage, payload)
+            self._progress[job_id] = tuple(sorted(build.distillation.checkpoint().items()))
+            self._product_states[job_id] = self._product_state_for_build(build)
             return self.status(job_id)
         except Exception as exc:
             current = self._jobs.status(job_id)
+            details = dict(exc.details) if isinstance(exc, WanxiangError) else {}
+            details.setdefault("error", f"{type(exc).__name__}:{exc}")
+            if isinstance(exc, WanxiangError):
+                details.setdefault("product_state", getattr(exc, "product_state", "FAILED"))
+            self._progress[job_id] = tuple(sorted((str(k), str(v)) for k, v in details.items()))
+            self._product_states[job_id] = details.get("product_state", "FAILED")
             if current.status == "running":
+                checkpoint_stage = "distilled" if "batches" in details else current.stage
+                self._jobs.checkpoint(job_id, checkpoint_stage, details)
                 self._jobs.fail(job_id, f"{type(exc).__name__}:{exc}")
             if isinstance(exc, WanxiangError):
                 raise
@@ -187,87 +220,11 @@ class AuthoringService:
         self._require_build(job_id)
         return self._inbox.audit()
 
-    def build_package(self, job_id: str, *, for_preview: bool = True) -> WorldPackageDraft:
-        build = self._require_build(job_id)
-        draft = build.draft
-        source_versions = draft.source_versions
-        domain_versions = tuple((domain_id, "1.0.0") for domain_id in draft.selected_domains)
-        outcome = CompilerBoundary().check(
-            CompilerInput(
-                draft=draft,
-                draft_revision=draft.revision,
-                source_versions=source_versions,
-                domain_versions=domain_versions,
-            )
-        )
-        if not outcome.ok:
-            raise ContractError("; ".join(outcome.reasons))
-        package = PackageAssembler().assemble(
-            draft,
-            compile_outcome=outcome,
-            domain_versions=domain_versions,
-            evidence_coverage=draft.coverage,
-            for_preview=for_preview,
-        )
-        self._packages[job_id] = package
-        current = self._jobs.status(job_id)
-        if JOB_STAGES.index(current.stage) <= JOB_STAGES.index("compiled"):
-            self._jobs.checkpoint(job_id, "compiled", {"package_id": package.package_id})
-        return package
-
-    def package_validation(self, job_id: str) -> PackageValidationResult:
-        package = self._packages.get(job_id) or self.build_package(job_id)
-        return PackageValidator().validate(package)
-
-    def publish(self, job_id: str) -> PackageValidationResult:
-        """Publish only a validated package; this changes Forge job metadata only."""
-        current = self._jobs.status(job_id)
-        if current.status == "done" and current.stage == "published":
-            return self.package_validation(job_id)
-        package = self.build_package(job_id, for_preview=False)
-        validation = PackageValidator().validate(package)
-        if not validation.publish_ok:
-            raise ContractError(
-                f"package {package.package_id!r} is not publishable: "
-                + "; ".join(validation.reasons)
-            )
-        job = self._jobs.status(job_id)
-        if job.status != "running":
-            raise InvalidJobTransition(f"cannot publish job {job_id!r} in state {job.status}")
-        self._jobs.checkpoint(job_id, "published", {"package_id": package.package_id})
-        self._jobs.finish(job_id)
-        return validation
-
-    def preview(self, job_id: str) -> PreviewInstall:
-        package = self._packages.get(job_id) or self.build_package(job_id)
-        install = self._previews.install(package)
-        self._jobs.checkpoint(job_id, "previewed", {"preview_id": install.preview_id})
-        return install
-
     def package(self, job_id: str) -> WorldPackageDraft | None:
         return self._packages.get(job_id)
 
     def build(self, job_id: str) -> PipelineBuild | None:
         return self._builds.get(job_id)
-
-    def status(self, job_id: str) -> AuthoringSnapshot:
-        job = self._jobs.status(job_id)
-        build = self._builds.get(job_id)
-        package = self._packages.get(job_id)
-        preview = self._previews.for_package(package.package_id) if package else None
-        return AuthoringSnapshot(
-            job_id=job.job_id,
-            status=job.status,
-            stage=job.stage,
-            source_ids=self._job_sources.get(job_id, ()),
-            draft_id=build.draft.draft_id if build else None,
-            package_id=package.package_id if package else None,
-            preview_id=preview.preview_id if preview else None,
-            candidate_count=len(build.candidates) if build else 0,
-            conflict_count=len(build.conflicts) if build else 0,
-            error=job.error,
-            diagnostics=build.diagnostics if build else (),
-        )
 
     def _register_sources(self, records: tuple[SourceRecord, ...]) -> tuple[str, ...]:
         ids: list[str] = []

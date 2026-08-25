@@ -1,0 +1,63 @@
+{
+  "date": "2026-08-25",
+  "source": {
+    "path": "D:\\下载\\我本英雄-周梅森.txt",
+    "raw_bytes": 937500,
+    "raw_sha256": "5c914ea9995f41239b56e06f331ca7e3595b28cb2b15377fa015556a1c99268d",
+    "tracked_in_git": false
+  },
+  "api_job_id": "real_book_final_api_evidence_20260825",
+  "one_click": {
+    "http": 201,
+    "package_id": "world:wd_real_book_final_api_evidence_20260825",
+    "manifest_hash": "67bb0e8bc79672b57862a1cdad634f52d1fece14ac4d91589f283d876b6e3ab5",
+    "preview_ref": "preview://preview_1"
+  },
+  "authoring": {
+    "status_http": 200,
+    "product_state": "READY",
+    "stage": "previewed",
+    "parsed_nodes": 3918,
+    "segments": 3918,
+    "batches": 164,
+    "candidate_count": 11549,
+    "provider_id": "local_semantic_v1",
+    "draft_coverage": 0.8333333333333334,
+    "review_items": 11549
+  },
+  "product_chain": {
+    "draft_http": 200,
+    "build_http": 200,
+    "preview_http": 200,
+    "instantiate_http": 200,
+    "worldness_http": 200,
+    "enter_http": 200,
+    "publish_http": 200,
+    "publishable": true,
+    "published_stage": "published",
+    "living_instance_id": "prv_preview_1",
+    "entered_entity_count": 2764,
+    "worldness_passed": true,
+    "worldness_overall": 0.99,
+    "worldness_evidence_names": [
+      "persistence",
+      "identity",
+      "temporal",
+      "spatial",
+      "causal_action",
+      "epistemic_isolation",
+      "object_persistence",
+      "evidence_traceability",
+      "uncertainty",
+      "branch_replay_readiness"
+    ],
+    "action_committed": true,
+    "replay_equal": true,
+    "branch_isolated": true
+  },
+  "studio_ui": {
+    "http": 200,
+    "file_input": true,
+    "worldness_control": true
+  }
+}

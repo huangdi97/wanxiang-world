@@ -37,6 +37,25 @@ class WorldnessInput:
     package_id: str = ""
     provider_ids: tuple[str, ...] = ()
     seed: int = 0
+    place_count: int = 0
+    object_count: int = 0
+    object_required: bool = False
+    # Legacy callers predate explicit package evidence; real package runs pass
+    # their measured coverage at construction time.
+    evidence_coverage: float = 1.0
+    action_committed: bool = False
+
+
+@dataclass(frozen=True, slots=True)
+class WorldnessDimensionEvidence:
+    """Measured dimension result with source evidence and repair guidance."""
+
+    name: str
+    measurement: str
+    score: float
+    evidence: tuple[str, ...]
+    failure: str = ""
+    remediation: str = ""
 
 
 @dataclass(frozen=True, slots=True)
@@ -44,6 +63,7 @@ class WorldnessScore:
     dimensions: tuple[tuple[str, float], ...]
     overall: float
     passed: bool
+    evidence: tuple[WorldnessDimensionEvidence, ...] = ()
 
     def value(self, name: str) -> float:
         return dict(self.dimensions).get(name, 0.0)

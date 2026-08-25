@@ -113,6 +113,10 @@ def locator_for_node(node: StructuralNode, *, source_id: str, fmt: LocatorFormat
         ref = node.node_id.removeprefix("record:row_")
     elif fmt == "gedcom":
         ref = node.node_id.removeprefix("record:")
+    elif fmt == "text":
+        # Text paragraphs retain the parser node id, whose final component is
+        # the original source line. This keeps candidate evidence line-bound.
+        ref = node.node_id
     elif node.kind in ("chapter", "section", "paragraph"):
         ref = node.ordinal
     else:

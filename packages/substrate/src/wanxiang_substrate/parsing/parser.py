@@ -19,8 +19,14 @@ from wanxiang_substrate.parsing.model import (
 )
 from wanxiang_substrate.sources.adapter import IngestResult
 
-_CHAPTER_HEADING = re.compile(r"^#\s+(.+)$")
+_CHAPTER_HEADING = re.compile(
+    r"^(?:#\s*)?(?:(?:第\s*[零〇一二三四五六七八九十百千万0-9]+\s*[章节回部卷])|"
+    r"(?:卷\s*[零〇一二三四五六七八九十百千万0-9]+))"
+    r"(?:\s*[:：.．、-]?\s*(.*))?$"
+)
+_MARKDOWN_CHAPTER = re.compile(r"^#\s+(.+)$")
 _HEADING = re.compile(r"^(#{2,6})\s+(.+)$")
+_NUMBERED_SECTION = re.compile(r"^[一二三四五六七八九十百千万0-9]+[、.．]\s*(.+)$")
 
 
 class StructureParser:
@@ -113,28 +119,38 @@ class StructureParser:
             if not stripped:
                 continue
             chapter_match = _CHAPTER_HEADING.match(stripped)
-            if chapter_match:
+            markdown_chapter = _MARKDOWN_CHAPTER.match(stripped)
+            if chapter_match or markdown_chapter:
                 chapter_ordinal += 1
                 paragraph_ordinal = 0
                 chapter_id = f"chapter_{chapter_ordinal}"
+                title = (
+                    chapter_match.group(1) if chapter_match else markdown_chapter.group(1)  # type: ignore[union-attr]
+                ).strip()
                 nodes.append(
                     self._node(
                         chapter_id,
                         "chapter",
-                        chapter_match.group(1).strip(),
+                        title,
                         chapter_ordinal,
                         parent_id="document",
                     )
                 )
                 continue
             heading_match = _HEADING.match(stripped)
-            if heading_match and chapter_id:
+            numbered_match = _NUMBERED_SECTION.match(stripped)
+            if (heading_match or numbered_match) and chapter_id:
                 paragraph_ordinal += 1
+                title = (
+                    heading_match.group(2).strip()
+                    if heading_match
+                    else numbered_match.group(1).strip()  # type: ignore[union-attr]
+                )
                 nodes.append(
                     self._node(
                         f"{chapter_id}:section_{paragraph_ordinal}",
                         "section",
-                        heading_match.group(2).strip(),
+                        title,
                         paragraph_ordinal,
                         parent_id=chapter_id,
                     )

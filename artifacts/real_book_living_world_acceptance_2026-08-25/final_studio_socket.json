@@ -1,0 +1,9 @@
+{
+  "command": "uv run python scripts/studio_socket_smoke.py",
+  "health": {
+    "status": "ok"
+  },
+  "socket": "passed",
+  "studio_status": true,
+  "random_port": 30139
+}

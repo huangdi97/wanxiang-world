@@ -16,18 +16,22 @@ from wanxiang_persistence.event_store import SqlAlchemyEventStore
 from wanxiang_persistence.instance_repository import WorldInstanceRepository
 from wanxiang_persistence.snapshot_store import SqlAlchemySnapshotStore
 from wanxiang_runtime.resolver import ResolverRegistry
-from wanxiang_substrate.authoring import AuthoringService
+from wanxiang_substrate.authoring import AuthoringService, LocalSemanticProvider
+from wanxiang_substrate.authoring.providers import ProviderRouter
 from wanxiang_substrate.lineage import LineageGraph
+from wanxiang_substrate.preview import register_preview_resolvers
 
 from wanxiang_api.authoring_routes import router as authoring_router
 from wanxiang_api.constitution_routes import router as constitution_router
 from wanxiang_api.errors import install_error_handler
 from wanxiang_api.limits import PayloadTooLarge
 from wanxiang_api.lineage_routes import router as lineage_router
+from wanxiang_api.living_world_routes import router as living_world_router
 from wanxiang_api.one_click_routes import router as one_click_router
 from wanxiang_api.promotion_routes import router as promotion_router
 from wanxiang_api.review_routes import router as review_router
 from wanxiang_api.routes import router
+from wanxiang_api.studio_ui_routes import router as studio_ui_router
 
 API_TITLE = "Wanxiang World API"
 API_VERSION = "0.1.0"
@@ -51,6 +55,7 @@ def build_runtime(
     )
     registry = ResolverRegistry()
     register_synthetic_resolvers(registry)
+    register_preview_resolvers(registry)
     return WorldRuntime(
         persistence,
         RuntimeVersion(rule_version),
@@ -77,7 +82,10 @@ def create_app(
     app.state.conflict_ledger = ConflictLedger()
     app.state.evidence_bindings = EvidenceBindings()
     app.state.completion_planner = CompletionPlanner()
-    app.state.authoring = AuthoringService()
+    # The local provider is available as an explicit capability. Jobs still
+    # require the caller to opt in via semantic_provider; omitted means the
+    # no-key deterministic baseline and can return SEMANTIC_PROVIDER_REQUIRED.
+    app.state.authoring = AuthoringService(providers=ProviderRouter((LocalSemanticProvider(),)))
     install_error_handler(app)
 
     @app.exception_handler(PayloadTooLarge)
@@ -99,4 +107,6 @@ def create_app(
     app.include_router(constitution_router)
     app.include_router(authoring_router)
     app.include_router(one_click_router)
+    app.include_router(living_world_router)
+    app.include_router(studio_ui_router)
     return app

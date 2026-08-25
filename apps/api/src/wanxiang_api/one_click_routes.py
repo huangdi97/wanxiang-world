@@ -16,6 +16,7 @@ class OneClickRequest(BaseModel):
     job_id: str
     profile: str = "mixed"
     sources: list[SourceInput] = Field(default_factory=lambda: list[SourceInput]())
+    semantic_provider: str | None = None
 
 
 def _service(request: Request) -> AuthoringService:
@@ -29,6 +30,7 @@ def one_click(payload: OneClickRequest, request: Request) -> dict[str, object]:
         payload.job_id,
         tuple(source.record() for source in payload.sources),
         profile=payload.profile,
+        semantic_provider=payload.semantic_provider,
     )
     validation = service.package_validation(result.job_id)
     return {

@@ -180,3 +180,19 @@
 - G03E Resolver, Adjudication & Deterministic Policies ? PASS (2026-08-13):
   adjudicator registry by (action, version), seeded RNG, provenance +
   uncertainty, version pinning; delta dry-run before commit; 250 tests green.
+
+## M71-M78 current implementation checkpoint (2026-08-25)
+
+This user-authorized continuation supersedes the historical M70 STOP for this
+task only. G74A-G80G are implemented: semantic distillation consumes stable
+source locators in bounded batches and emits provenance-bound candidates;
+rights and provider absence are typed; CLI/API/Studio share one authoring
+service; Worldness exposes ten measurements; and the living runtime records
+Commit Authority action, replay equality and branch isolation.
+
+Real-source evidence records 3,918 parsed nodes/segments, 164 batches, 11,549
+candidates, coverage 0.8333333333, package/preview/publish, Worldness passed
+at 0.99, a committed `set_status` event with replay equality, and an unchanged
+parent branch. G81G-G81J remain open until full quality, remote Actions and
+the final report/version decision complete. v5.5 and training remain out of
+scope.

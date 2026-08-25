@@ -7,7 +7,16 @@ from typing import Literal, Protocol
 
 from wanxiang_substrate.sources.errors import CapabilityUnavailable, OcrRequired
 
-ProviderKind = Literal["llm", "embedding", "ocr", "asr", "vision", "linking", "temporal"]
+ProviderKind = Literal[
+    "llm",
+    "embedding",
+    "ocr",
+    "asr",
+    "vision",
+    "linking",
+    "temporal",
+    "semantic",
+]
 ProposalKind = Literal["observation", "candidate", "claim", "completion", "repair", "asset"]
 
 

@@ -35,12 +35,34 @@ class RightsEnvelope:
     approved: bool
     policy_version: int = 1
     reviewer: str = "system"
+    ingest_allowed: bool = True
+    private_analysis_allowed: bool = True
+    external_model_processing_allowed: bool = False
+    package_inclusion_allowed: bool | None = None
+    public_export_allowed: bool = False
+    training_allowed: bool = False
 
     def __post_init__(self) -> None:
         if not self.owner or not self.usage:
             raise ContractError("rights envelope requires owner and usage")
         if self.policy_version <= 0:
             raise ContractError("policy_version must be positive")
+
+    def allows(self, gate: str) -> bool:
+        """Evaluate one explicit right without collapsing the other gates."""
+        values = {
+            "ingest": self.ingest_allowed,
+            "private_analysis": self.private_analysis_allowed,
+            "external_model_processing": self.external_model_processing_allowed,
+            "package": self.package_inclusion_allowed
+            if self.package_inclusion_allowed is not None
+            else self.approved,
+            "public_export": self.public_export_allowed,
+            "training": self.training_allowed,
+        }
+        if gate not in values:
+            raise ContractError(f"unknown rights gate {gate!r}")
+        return bool(values[gate])
 
 
 @dataclass(frozen=True, slots=True)
@@ -86,7 +108,12 @@ class SourceRecord:
         return f"{self.kind}:{self.content_hash}:{self.version}"
 
     def canonical_eligible(self) -> bool:
-        return self.stage in CANONICAL_ELIGIBLE_STAGES and self.rights is not None
+        return (
+            self.stage in CANONICAL_ELIGIBLE_STAGES
+            and self.rights is not None
+            and self.rights.approved
+            and self.rights.allows("package")
+        )
 
     def can_transition_to(self, next_stage: ReviewStage) -> bool:
         if self.stage in ("E4", "E5"):
@@ -152,6 +179,17 @@ def canonical_json(record: SourceRecord) -> str:
             "stage": record.stage,
             "rights_approved": record.rights.approved if record.rights else False,
             "policy_version": record.rights.policy_version if record.rights else 0,
+            "rights_gates": {
+                gate: record.rights.allows(gate) if record.rights else False
+                for gate in (
+                    "ingest",
+                    "private_analysis",
+                    "external_model_processing",
+                    "package",
+                    "public_export",
+                    "training",
+                )
+            },
             "provenance": record.provenance,
             "version": record.version,
             "access": record.access,

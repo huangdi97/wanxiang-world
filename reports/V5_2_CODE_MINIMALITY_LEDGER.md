@@ -619,3 +619,16 @@ No new production authority, registry, store, runtime state or model-training
 abstraction is permitted. Clean-room, security, performance, docs, CI,
 delivery and final certification reuse existing gates and produce evidence
 only. Consumers: the M70 qualification matrix and public release workflow.
+
+## M71-M78 entry (G74A-G81J)
+The continuation adds only bounded semantic-provider, rights-diagnostic,
+worldness-evidence, living-instance and product-surface records around the
+existing SourceRegistry, AuthoringService, CompilerBoundary, PreviewRegistry
+and Commit Authority. The local semantic provider is private-safe and emits
+CandidateEnvelope proposals with source locators; it never writes Canon. The
+living evaluator uses the existing runtime port for commit, replay and branch
+proof. Justification: the real private book exposed a missing semantic data
+flow and required typed absence, measurable worldness and product-chain
+evidence; a second runtime, registry or commit path would violate the master
+spec. Consumers: G74A-G81J regression tests, CLI/API/Studio evidence and final
+feature-branch acceptance.

@@ -1,0 +1,24 @@
+{
+  "date": "2026-08-25",
+  "checkout_before": {
+    "branch": "实例-我本英雄",
+    "describe": "m56-worlddraft",
+    "worktree": "clean"
+  },
+  "checkout_used": {
+    "branch": "feature/source-to-living-world",
+    "head": "00da555095cb1524f1a2b19abe7fff59b579a01c",
+    "remote": "origin/feature/source-to-living-world",
+    "describe": "v5.4.0-rc1-3-g00da555"
+  },
+  "gates": {
+    "architecture_check": "PASS",
+    "ruff_check": "PASS",
+    "ruff_format_check": "PASS",
+    "pyright": "PASS: 0 errors, 0 warnings, 0 informations",
+    "full_pytest": "PASS: 1201 passed, 1 skipped, 2 warnings",
+    "targeted_m69_one_click": "PASS: 5 passed, 2 warnings"
+  },
+  "acceptance_verdict": "NOT_ACCEPTED",
+  "reason": "The real Book produced a WorldDraft but no compilable WorldPackage or Preview; no Living World or Worldness result was generated."
+}

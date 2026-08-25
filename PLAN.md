@@ -347,3 +347,22 @@ M70 G73H: PASS (`reports/G73H_REPORT.md`, `reports/M70_QUALIFICATION.md`).
 G73A-G73H, the full Source -> Living World chain, local and remote gates, and
 v5.4.0-rc1 are certified with explicit rights/OCR/E0/authority boundaries.
 M70 is complete. STOP now; no model training, M71, or v5.5 work is started.
+
+## M71-M78 current continuation (user-authorized 2026-08-25)
+
+The historical M70 STOP remains historical. The current user goal explicitly
+authorizes G74A through G81J on `feature/source-to-living-world`; v5.5 and
+model training remain out of scope. The implementation reuses the existing
+SourceRegistry, AuthoringService, CompilerBoundary, PreviewRegistry and
+Commit Authority. Providers emit candidates only.
+
+- G74A-G80G: PASS locally. Bounded semantic batches, typed rights/provider
+  states, shared CLI/API/Studio lifecycle, ten-dimensional Worldness evidence,
+  Living Instance commit/replay and branch isolation are implemented.
+- G81A-G81C: PASS on the unchanged private source through real CLI/API/Studio
+  paths. The CLI preserves exact file bytes; the private source is not in Git.
+- G81D-G81F: local evidence is present: 164 bounded batches, 164 completed
+  calls, zero retries, deterministic provenance and negative/security tests.
+- G81G-G81J: final full quality, feature-branch push, required Actions and
+  final report/version decision remain. Create `v5.4.0-rc2` only after an
+  ACCEPTED report and green remote Actions; otherwise preserve NOT_ACCEPTED.

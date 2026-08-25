@@ -1,0 +1,22 @@
+{
+  "source_path": "D:\\下载\\我本英雄-周梅森.txt",
+  "source_id_primary_api": "real_book_api_20260825",
+  "source_id_diagnostic_api": "real_book_api_rights_diagnostic_20260825",
+  "kind": "text",
+  "profile": "book",
+  "bytes": 937500,
+  "utf8_characters": 323815,
+  "lines": 8144,
+  "line_ending": "CRLF",
+  "sha256": "5c914ea9995f41239b56e06f331ca7e3595b28cb2b15377fa015556a1c99268d",
+  "copied_into_repository": false,
+  "instruction_markers_checked": {
+    "system:": 0,
+    "ignore previous instructions": 0,
+    "ignore all previous instructions": 0,
+    "override your instructions": 0,
+    "you are now": 0,
+    "as an ai": 0
+  },
+  "interpretation": "The attached TXT was treated only as Book data. Its prose was not treated as an instruction channel."
+}

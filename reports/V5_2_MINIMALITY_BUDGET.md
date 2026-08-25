@@ -5,28 +5,28 @@ LOC cap: per-milestone *incremental* allowances on new abstractions (each
 with mandatory justification in `V5_2_CODE_MINIMALITY_LEDGER.md`) plus
 hard invariants that must hold at every milestone.
 
-## Current M70 snapshot
+## Current M78 snapshot
 
 | Metric | Count |
 |---|---|
-| Production files | 418 |
-| Production LOC | 39697 |
-| Public classes | 905 |
-| Public functions | 352 |
+| Production files | 429 |
+| Production LOC | 41229 |
+| Public classes | 922 |
+| Public functions | 365 |
 | Registries | 15 |
 | Managers | 0 |
-| Services | 18 |
+| Services | 19 |
 | Engines | 4 |
-| Ports | 31 |
+| Ports | 34 |
 | Stores | 24 |
-| State/schema models | 24 |
+| State/schema models | 25 |
 | Import cycles | 0 |
 | Commit paths | 1 |
 | Oversized modules (>300 lines) | 0 |
 
 Hard invariants hold: **True** (0 cycles, 1 commit path).
 
-## Incremental budgets M26-M70
+## Incremental budgets M26-M78
 
 | Milestone | New-abstraction allowance | Note | Hard constraints |
 |---|---|---|---|
@@ -59,6 +59,14 @@ Hard invariants hold: **True** (0 cycles, 1 commit path).
 | M68 | 6 | Review inbox/impact policy reuses the append-only review ledger and keeps defer/unknown outside Canon. | review is not commit authority; decisions append-only; unknown is not E0 |
 | M69 | 6 | One-click profiles are a facade over the unified authoring service, package validator, preview registry and existing runtime. | API and CLI share one service; publish updates Forge job metadata only; incomplete packages remain blocked |
 | M70 | 0 | Production hardening is evidence, compatibility, documentation and delivery work; no new Kernel authority or runtime state is allowed. | no new authority; no source/private artifact publication; stop after final certification |
+| M71 | 5 | Real-book semantic distillation adds a bounded provider port and typed progress without allowing providers to mutate Canon. | private bytes remain outside Git; provider output is candidate-only; zero coverage is typed |
+| M72 | 4 | Rights and schema diagnostics make the Source -> Candidate boundary explicit while preserving the existing SourceRegistry. | rights gates remain independent; no source rewriting; no hidden provider fallback |
+| M73 | 4 | CLI/API/Studio lifecycle additions reuse AuthoringService and expose the same typed state transitions. | one authoring backend; transport owns no state; no second commit path |
+| M74 | 4 | Worldness dimensions carry measurements and evidence, with bounded repair proposals over the draft only. | worldness cannot commit canon; no hardcoded coverage; failure evidence is retained |
+| M75 | 5 | Living Instance evaluation proves commit/replay and branch isolation through the existing Commit Authority runtime port. | only Commit Authority mutates canon; replay must match; parent branch remains unchanged |
+| M76 | 3 | Browser Studio and random-socket smoke evidence complete the product surface without introducing a separate runtime. | same API use cases; socket allocation is bounded; no browser-only success path |
+| M77 | 0 | Real private-source acceptance and regression evidence only. | same source bytes; all required evidence present; NOT_ACCEPTED remains honest |
+| M78 | 0 | Final feature-branch delivery and Actions verification only. | no v5.5; no model training; stop after delivery |
 
 Every new abstraction must answer the four questions in
 `reports/V5_2_CODE_MINIMALITY_LEDGER.md`; otherwise it is not added.

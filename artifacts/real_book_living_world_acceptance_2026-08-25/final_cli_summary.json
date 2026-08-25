@@ -1,0 +1,45 @@
+{
+  "date": "2026-08-25",
+  "source": {
+    "path": "D:\\下载\\我本英雄-周梅森.txt",
+    "raw_bytes": 937500,
+    "raw_sha256": "5c914ea9995f41239b56e06f331ca7e3595b28cb2b15377fa015556a1c99268d",
+    "tracked_in_git": false
+  },
+  "command": "uv run python scripts/wxworld.py reference --profile book --file D:\\下载\\我本英雄-周梅森.txt --job-id real_book_final_cli_raw_20260825 --semantic-provider local --publish --instantiate --worldness",
+  "job_id": "real_book_final_cli_raw_20260825",
+  "authoring": {
+    "status": "done",
+    "stage": "published",
+    "product_state": "READY",
+    "parsed_nodes": 3918,
+    "segments": 3918,
+    "batches": 164,
+    "completed_batches": 164,
+    "provider_calls": 164,
+    "retries": 0,
+    "candidate_count": 11549,
+    "provider_id": "local_semantic_v1",
+    "coverage": 0.8333333333333334
+  },
+  "package": {
+    "package_id": "world:wd_real_book_final_cli_raw_20260825",
+    "manifest_hash": "64a82ea3e1071bb269eabd2b78a40dfd841ced76f321fcd7d9f6917bf44cf209",
+    "publishable": true,
+    "published": true,
+    "preview_ref": "preview://preview_1"
+  },
+  "living": {
+    "instance_id": "prv_preview_1",
+    "runtime_profile": "reference-commit-authority",
+    "event_seq": 3856,
+    "action_type": "set_status",
+    "committed": true,
+    "proposal_validated": true,
+    "replay_equal": true,
+    "branch_isolated": true,
+    "worldness_passed": true,
+    "worldness_overall": 0.99,
+    "worldness_evidence_count": 10
+  }
+}

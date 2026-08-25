@@ -13,10 +13,11 @@ from wanxiang_domain.errors import (
     ValidationRejected,
     WanxiangError,
 )
+from wanxiang_substrate.sources.errors import SourceError
 
 
 def _status(error: WanxiangError) -> int:
-    if isinstance(error, (ValidationRejected, IncompatibleVersion)):
+    if isinstance(error, (ValidationRejected, IncompatibleVersion, SourceError)):
         return 422
     if isinstance(error, (StaleRevision, DuplicateCommandConflict, Conflict)):
         return 409

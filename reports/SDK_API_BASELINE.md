@@ -1,8 +1,8 @@
 # SDK API Baseline (G17A)
 
-- API routes: 39
+- API routes: 45
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 1472
+- Python public names (stable packages): 1495
 
 ## API routes
 
@@ -18,9 +18,12 @@
 - `GET /lineage/promotion-candidates`
 - `GET /studio/jobs/{job_id}`
 - `GET /studio/jobs/{job_id}/draft`
+- `GET /studio/jobs/{job_id}/living`
 - `GET /studio/jobs/{job_id}/review-inbox`
 - `GET /studio/jobs/{job_id}/review-inbox/audit`
 - `GET /studio/jobs/{job_id}/scenarios`
+- `GET /studio/jobs/{job_id}/worldness`
+- `GET /studio/ui`
 - `GET /worlds/{instance_id}`
 - `GET /worlds/{instance_id}/events`
 - `GET /worlds/{instance_id}/state`
@@ -32,12 +35,15 @@
 - `POST /studio/jobs/{job_id}/build`
 - `POST /studio/jobs/{job_id}/cancel`
 - `POST /studio/jobs/{job_id}/candidates/{candidate_id}/review`
+- `POST /studio/jobs/{job_id}/enter`
+- `POST /studio/jobs/{job_id}/instantiate`
 - `POST /studio/jobs/{job_id}/preview`
 - `POST /studio/jobs/{job_id}/publish`
 - `POST /studio/jobs/{job_id}/resume`
 - `POST /studio/jobs/{job_id}/review-inbox/batch`
 - `POST /studio/jobs/{job_id}/sources`
 - `POST /studio/jobs/{job_id}/start`
+- `POST /studio/jobs/{job_id}/worldness`
 - `POST /studio/one-click`
 - `POST /worlds`
 - `POST /worlds/{instance_id}/actions`
@@ -330,6 +336,7 @@
 - `wanxiang_substrate.AccessPolicy`
 - `wanxiang_substrate.AcousticZone`
 - `wanxiang_substrate.ActionDefinition`
+- `wanxiang_substrate.ActionProof`
 - `wanxiang_substrate.ActionRegistry`
 - `wanxiang_substrate.ActionSpace`
 - `wanxiang_substrate.ActionValidator`
@@ -347,6 +354,5 @@
 - `wanxiang_substrate.Affordance`
 - `wanxiang_substrate.AgencyError`
 - `wanxiang_substrate.AgencyQuery`
-- `wanxiang_substrate.AliasClaim`
 
 Machine-readable: reports/sdk_api_baseline.json.

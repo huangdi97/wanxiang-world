@@ -49,15 +49,15 @@ def test_budget_script_runs_and_hard_invariants_hold() -> None:
 def test_budget_counts_are_stable() -> None:
     _run()
     budget = _load()
-    # Current M70 snapshot anchors (M26 history remains in the ledger):
+    # Current M78 snapshot anchors (M26 history remains in the ledger):
     # 10 at M26 + PresenceRegistry (M28) = 11
     assert budget["registry_classes"] == 15  # + PreviewRegistry (M57)
-    # M58 AuthoringService adds one service; advanced authoring adds two engines.
-    assert budget["service_classes"] == 18
+    # M58 AuthoringService plus the M71-M78 facade mixins/services.
+    assert budget["service_classes"] == 19
     assert budget["engine_classes"] == 4
     # 23 at M26 + RealityRootContract Protocol (M27) = 24; + SourceAdapter (M52) = 25;
-    # + ExternalSourceConnector (M62) = 31
-    assert budget["ports"] == 31
+    # + ExternalSourceConnector (M62) + M71-M78 semantic/living ports = 34
+    assert budget["ports"] == 34
     loc = budget["production_loc"]
     files = budget["production_files"]
     assert isinstance(loc, int) and loc > 0
@@ -71,7 +71,7 @@ def test_budget_documents_every_milestone() -> None:
     raw_milestones = budget["milestone_budgets"]
     assert isinstance(raw_milestones, dict)
     milestones = cast(dict[str, dict[str, object]], raw_milestones)
-    assert set(milestones) == {f"M{n}" for n in range(26, 35)} | {f"M{n}" for n in range(51, 71)}
+    assert set(milestones) == {f"M{n}" for n in range(26, 35)} | {f"M{n}" for n in range(51, 79)}
     for ms in (
         "M26",
         "M27",
@@ -82,7 +82,7 @@ def test_budget_documents_every_milestone() -> None:
         "M32",
         "M33",
         "M34",
-        *[f"M{n}" for n in range(51, 71)],
+        *[f"M{n}" for n in range(51, 79)],
     ):
         spec = milestones[ms]
         allowance = spec["new_abstractions_allowance"]

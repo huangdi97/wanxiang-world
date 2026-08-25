@@ -45,10 +45,13 @@ from wanxiang_substrate.sources.errors import (
     MaliciousSource,
     OcrRequired,
     RightsDenied,
+    SemanticProviderRequired,
+    SemanticProviderSchemaError,
     SourceError,
     SourceNotApproved,
     SourceNotFound,
     UnsupportedSource,
+    ZeroCoverage,
 )
 from wanxiang_substrate.sources.evidence import AUTHORIZED_REVIEWERS, evidence_ok
 from wanxiang_substrate.sources.fixture import (
@@ -153,6 +156,9 @@ __all__ = [
     "ClaimCandidate",
     "DuplicateSource",
     "CapabilityUnavailable",
+    "SemanticProviderRequired",
+    "SemanticProviderSchemaError",
+    "ZeroCoverage",
     "EvidenceLink",
     "GateDecision",
     "AliasClaim",

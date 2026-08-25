@@ -22,7 +22,7 @@
 | packages/substrate/src/wanxiang_substrate/sources/adapter.py | AdapterRegistry | 112 |
 | packages/substrate/src/wanxiang_substrate/sources/registry.py | SourceRegistry | 31 |
 
-## state_classes (24)
+## state_classes (25)
 
 | path | name | line |
 |---|---|---|
@@ -31,7 +31,8 @@
 | packages/domain/src/wanxiang_domain/state.py | CanonicalState | 16 |
 | packages/runtime/src/wanxiang_runtime/snapshot.py | StoredSnapshot | 17 |
 | packages/runtime/src/wanxiang_runtime/state.py | InMemoryCanonicalState | 31 |
-| packages/substrate/src/wanxiang_substrate/authoring/model.py | AuthoringSnapshot | 45 |
+| packages/substrate/src/wanxiang_substrate/authoring/living_world.py | ReplayState | 38 |
+| packages/substrate/src/wanxiang_substrate/authoring/model.py | AuthoringSnapshot | 47 |
 | packages/substrate/src/wanxiang_substrate/authoring/scenario_engine.py | InitialSnapshot | 25 |
 | packages/substrate/src/wanxiang_substrate/capability/model.py | CapabilityState | 32 |
 | packages/substrate/src/wanxiang_substrate/capability/model.py | LearnerState | 112 |
@@ -80,11 +81,12 @@
 | packages/substrate/src/wanxiang_substrate/review/decisions.py | ReviewLedger | 37 |
 | packages/substrate/src/wanxiang_substrate/sources/blob.py | SourceBlobStore | 51 |
 
-## service_classes (18)
+## service_classes (19)
 
 | path | name | line |
 |---|---|---|
-| packages/substrate/src/wanxiang_substrate/authoring/service.py | AuthoringService | 28 |
+| packages/substrate/src/wanxiang_substrate/authoring/semantic_distillation.py | SemanticDistillationService | 50 |
+| packages/substrate/src/wanxiang_substrate/authoring/service.py | AuthoringService | 24 |
 | packages/substrate/src/wanxiang_substrate/jobs/service.py | JobService | 17 |
 | packages/substrate/src/wanxiang_substrate/lifecycle/service.py | LifecycleService | 19 |
 | packages/substrate/src/wanxiang_substrate/observation/query.py | PerspectiveService | 29 |
@@ -112,7 +114,7 @@
 | packages/substrate/src/wanxiang_substrate/authoring/completion_engine.py | CompletionEngine | 178 |
 | packages/substrate/src/wanxiang_substrate/authoring/scenario_engine.py | ScenarioEngine | 78 |
 
-## ports (31)
+## ports (34)
 
 | path | name | line |
 |---|---|---|
@@ -135,8 +137,11 @@
 | packages/substrate/src/wanxiang_substrate/agency/policy.py | Policy | 21 |
 | packages/substrate/src/wanxiang_substrate/assets/foundry.py | AssetGenerator | 38 |
 | packages/substrate/src/wanxiang_substrate/assets/storage.py | ObjectStore | 35 |
+| packages/substrate/src/wanxiang_substrate/authoring/living_world.py | LivingRuntimePort | 28 |
+| packages/substrate/src/wanxiang_substrate/authoring/living_world.py | ReplayState | 38 |
+| packages/substrate/src/wanxiang_substrate/authoring/living_world.py | BranchResult | 42 |
 | packages/substrate/src/wanxiang_substrate/authoring/multimodal.py | ExternalSourceConnector | 117 |
-| packages/substrate/src/wanxiang_substrate/authoring/providers.py | Provider | 43 |
+| packages/substrate/src/wanxiang_substrate/authoring/providers.py | Provider | 52 |
 | packages/substrate/src/wanxiang_substrate/cosim/adapter.py | SimulationAdapter | 19 |
 | packages/substrate/src/wanxiang_substrate/distill/protocol.py | Distiller | 18 |
 | packages/substrate/src/wanxiang_substrate/packages/registry.py | PackageRegistry | 15 |

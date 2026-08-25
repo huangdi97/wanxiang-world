@@ -1,0 +1,110 @@
+{
+  "diagnostic_only": true,
+  "transport": "FastAPI TestClient over create_app()",
+  "same_input_bytes": {
+    "bytes": 937500,
+    "sha256": "5c914ea9995f41239b56e06f331ca7e3595b28cb2b15377fa015556a1c99268d"
+  },
+  "metadata_variant": {
+    "rights_approved_sent": true,
+    "source_stage_sent": "E3",
+    "access_sent": "private",
+    "usage_sent": "package"
+  },
+  "not_a_rights_or_acceptance_claim": true,
+  "steps": [
+    {
+      "method": "POST",
+      "path": "/studio/one-click",
+      "status_code": 500,
+      "body": {"code": "contract_error", "details": {}, "message": "draft has zero coverage"}
+    },
+    {
+      "method": "GET",
+      "path": "/studio/jobs/real-book-api-rights-diagnostic-20260825",
+      "status_code": 200,
+      "body": {
+        "job_id": "real-book-api-rights-diagnostic-20260825",
+        "status": "running",
+        "stage": "drafted",
+        "source_ids": ["real_book_api_rights_diagnostic_20260825"],
+        "draft_id": "wd_real-book-api-rights-diagnostic-20260825",
+        "package_id": null,
+        "preview_id": null,
+        "candidate_count": 0,
+        "conflict_count": 0,
+        "error": "",
+        "diagnostics": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/studio/jobs/real-book-api-rights-diagnostic-20260825/draft",
+      "status_code": 200,
+      "body": {
+        "job_id": "real-book-api-rights-diagnostic-20260825",
+        "candidates": [],
+        "draft": {
+          "draft_id": "wd_real-book-api-rights-diagnostic-20260825",
+          "revision": 1,
+          "status": "READY_TO_COMPILE",
+          "source_refs": ["real_book_api_rights_diagnostic_20260825"],
+          "source_versions": [["real_book_api_rights_diagnostic_20260825", "1"]],
+          "selected_domains": [],
+          "entities": [],
+          "relations": [],
+          "places": [],
+          "events": [],
+          "completion_items": ["actor entities", "events", "places", "relations", "rules"],
+          "unresolved_conflicts": [],
+          "unresolved_rights": [],
+          "coverage": 0.0,
+          "uncertainty": 0.3
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/studio/jobs/real-book-api-rights-diagnostic-20260825/scenarios",
+      "status_code": 200,
+      "body": {
+        "job_id": "real-book-api-rights-diagnostic-20260825",
+        "scenarios": [
+          {"genesis_id": "genesis_1", "scenario_id": "scenario_default_canonical_replay", "canon_mode": "canonical_replay", "seed": 3301943176, "snapshot_hash": "8b9c7196d25fdf1ccd71ace7517451f874a1d233cccee02a8f532269647be850"},
+          {"genesis_id": "genesis_2", "scenario_id": "scenario_default_soft_canon", "canon_mode": "soft_canon", "seed": 3000595827, "snapshot_hash": "c52cbd15914fe1bfb6532a02c339620f5a4b984bf0db93eced0a9ddde13c2130"},
+          {"genesis_id": "genesis_3", "scenario_id": "scenario_default_living_open", "canon_mode": "living_open", "seed": 1763453333, "snapshot_hash": "ef57e87894f75a3a5191143750addb083479482e8993bfe3172d23875c8b9ff0"}
+        ]
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/studio/jobs/real-book-api-rights-diagnostic-20260825/review-inbox",
+      "status_code": 200,
+      "body": {"job_id": "real-book-api-rights-diagnostic-20260825", "items": []}
+    },
+    {
+      "method": "GET",
+      "path": "/studio/jobs/real-book-api-rights-diagnostic-20260825/review-inbox/audit",
+      "status_code": 200,
+      "body": {"job_id": "real-book-api-rights-diagnostic-20260825", "audits": []}
+    },
+    {
+      "method": "POST",
+      "path": "/studio/jobs/real-book-api-rights-diagnostic-20260825/build",
+      "status_code": 500,
+      "body": {"code": "contract_error", "details": {}, "message": "draft has zero coverage"}
+    },
+    {
+      "method": "POST",
+      "path": "/studio/jobs/real-book-api-rights-diagnostic-20260825/preview",
+      "status_code": 500,
+      "body": {"code": "contract_error", "details": {}, "message": "draft has zero coverage"}
+    },
+    {
+      "method": "POST",
+      "path": "/studio/jobs/real-book-api-rights-diagnostic-20260825/publish",
+      "status_code": 500,
+      "body": {"code": "contract_error", "details": {}, "message": "draft has zero coverage"}
+    }
+  ]
+}
