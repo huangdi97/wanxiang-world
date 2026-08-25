@@ -142,7 +142,8 @@ def build_golden() -> dict[str, Any]:
 
 def main() -> int:
     golden = build_golden()
-    GOLDEN_PATH.write_text(json.dumps(golden, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    with GOLDEN_PATH.open("w", encoding="utf-8", newline="\n") as handle:
+        handle.write(json.dumps(golden, indent=2, sort_keys=True) + "\n")
     print(f"wrote {GOLDEN_PATH.relative_to(ROOT)}")
     return 0
 
