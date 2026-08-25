@@ -55,18 +55,22 @@ remotely:
   `32837328145`, all six required jobs succeeded
 - alignment commit `19e3614a79a9f3e8955f11cc31bae69992291fd3` — run
   `32837871213`, all six required jobs succeeded
+- current remote tip `d9d136176b2df2b0bb4acaf30bb3ea876389ee9e` — run
+  `32864182259`, all six required jobs succeeded
 
-These are historical delivery checkpoints; the current branch tip and its
-post-update Actions run must still be checked after any further report-only
-commit.
+The current remote tip is verified green. The local implementation commit
+`da8c21b3ae1811a14cfe132fd697c6089ed35526` and the remote tip have identical
+trees; the remote Git Database commit uses the same parent, message, author,
+and content with its timestamp normalized to UTC.
 
 The six jobs in each listed run are `python`, API/package/SDK, PostgreSQL,
 release-smoke, safety, and TS.
 
 - no stable `v5.4.0` tag or GitHub stable Release was created
 
-This remote green result closes the historical engineering/delivery gate; the
-current branch tip and its post-update Actions run still require verification.
+This remote green result closes the current engineering/delivery gate. The
+M79-M84 package remains `USER_INPUT_REQUIRED` only because M82 still lacks a
+private GEDCOM path; no stable tag or v5.5 work is authorized.
 
 ## Independent evidence
 

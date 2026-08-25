@@ -703,6 +703,11 @@ blocker because the real GEDCOM path is absent, and M84 stable gates remain
 `NOT_READY`. Resume checkpoint is `M82/G85A`; see
 `artifacts/m79_m84/checkpoint.json` and `reports/M79_M84_STATUS.md`.
 
+Current remote delivery is verified on `feature/source-to-living-world` at
+`d9d136176b2df2b0bb4acaf30bb3ea876389ee9e`; Actions run `32864182259` is green
+across all six required jobs. The remote tree matches local implementation
+commit `da8c21b3ae1811a14cfe132fd697c6089ed35526`; no new tag was created.
+
 The checkpoint now rejects missing, non-file, unreadable, or repository-local
 source paths using metadata only; it does not open or copy source contents.
 

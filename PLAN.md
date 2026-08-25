@@ -389,6 +389,9 @@ Candidate, hardcoded coverage, or disabled compiler/Worldness gate is allowed.
   from G85A when supplied. No real family claim is made.
 - M84/G87A-G87H: `NOT_READY`; stable release gates cannot open while M82
   remains pending. See `reports/M79_M84_STATUS.md`.
+- Current remote delivery: `feature/source-to-living-world` is at
+  `d9d136176b2df2b0bb4acaf30bb3ea876389ee9e`; Actions run `32864182259` is
+  green across all six required jobs. No new tag was created.
 
 There is one remaining blocker class, `USER_INPUT_REQUIRED`: the real GEDCOM
 path recorded at `M82/G85A`. The second-book checkpoint is ready and the
