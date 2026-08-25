@@ -1606,3 +1606,14 @@
   M79/M82 still require private real-source inputs.
 - The current evidence head `ef8a972` is also pushed; its Actions run
   `32837328145` is green across all six required jobs.
+
+## 2026-08-25 — M79-M84 resumable source-gate hardening
+
+- Hardened `scripts/m79_m84_checkpoint.py` so a supplied path advances only
+  when it resolves to an existing regular file outside the repository.
+- Added regression coverage for missing, directory, repository-local, and
+  external-file inputs. Validation is metadata-only and never opens or copies
+  source contents.
+- The full local gate passes with 1213 passed, one existing PostgreSQL-profile
+  skip, and two warnings. M79/M82 remain `USER_INPUT_REQUIRED`; no stable tag,
+  release, v5.5 work, or model training was started.

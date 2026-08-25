@@ -390,3 +390,7 @@ Candidate, hardcoded coverage, or disabled compiler/Worldness gate is allowed.
 There is one blocker class, `USER_INPUT_REQUIRED`, with the two required input
 fields recorded in `artifacts/m79_m84/checkpoint.json`. Do not create a stable
 tag or release. Continue only after the required private paths are supplied.
+
+The resumable source gate now accepts only existing regular files outside the
+repository and performs metadata-only validation; invalid paths do not advance
+M79 or M82.

@@ -703,5 +703,8 @@ M82 real family validation, and the final M84 stable gates are not claimed.
 Resume checkpoints are `M79/G82A` and `M82/G85A`; see
 `artifacts/m79_m84/checkpoint.json` and `reports/M79_M84_STATUS.md`.
 
+The checkpoint now rejects missing, non-file, unreadable, or repository-local
+source paths using metadata only; it does not open or copy source contents.
+
 No v5.4.0 stable tag/release is authorized. No model training or v5.5 work is
 started.

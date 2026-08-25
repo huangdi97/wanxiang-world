@@ -36,7 +36,7 @@ The post-implementation gate is green for the available scope:
 - `uv run ruff check .`: PASS
 - `uv run ruff format --check .`: PASS
 - `uv run pyright`: PASS, 0 errors
-- `uv run pytest -q`: 1211 passed, 1 skipped, 2 warnings
+- `uv run pytest -q`: 1213 passed, 1 skipped, 2 warnings
 - `uv run python scripts/architecture_check.py`: PASS
 - `uv run python scripts/quality.py`: PASS
 
@@ -77,6 +77,11 @@ does not turn the missing real-source inputs into M79/M82 acceptance.
 - `artifacts/m79_m84/worldness_calibration.json`
 - `artifacts/m79_m84/structured_mixed_smoke.json`
 - `scripts/m79_m84_checkpoint.py`
+
+The resumable checkpoint now validates supplied paths using metadata only:
+each source must be an existing regular file outside the repository. Missing,
+non-file, unreadable, or repository-local paths remain `USER_INPUT_REQUIRED`;
+the source contents are never opened or copied by this gate.
 
 The next resumable checkpoints are `M79/G82A` and `M82/G85A`. Once the two
 private paths are supplied, the same real product chain must produce and

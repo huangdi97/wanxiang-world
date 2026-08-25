@@ -5,6 +5,17 @@
     "second_real_book_path",
     "gedcom_path"
   ],
+  "invalid_inputs": [],
+  "source_validation": {
+    "second_book": {
+      "status": "missing",
+      "reason": "path_not_provided"
+    },
+    "gedcom": {
+      "status": "missing",
+      "reason": "path_not_provided"
+    }
+  },
   "private_local_sources": {
     "second_book": false,
     "gedcom": false,
