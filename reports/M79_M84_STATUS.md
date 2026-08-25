@@ -46,12 +46,23 @@ into a product pass claim.
 
 ## Remote delivery gate
 
-The implementation and evidence-only commits are pushed and verified remotely:
+The implementation and evidence-only commit chain is pushed and verified
+remotely:
 
-- implementation commit: `82918be493721853821562ccb66f67eaa5bf657f`
-- current local HEAD and `origin/feature/source-to-living-world`: `ef8a97292b6ab52ded9e2d0af69af333d75e668e`
-- GitHub Actions run `32837328145`: all six required jobs succeeded
-  (`python`, API/package/SDK, PostgreSQL, release-smoke, safety, and TS)
+- implementation commit `82918be493721853821562ccb66f67eaa5bf657f` — run
+  `32835309602`, all six required jobs succeeded
+- evidence commit `ef8a97292b6ab52ded9e2d0af69af333d75e668e` — run
+  `32837328145`, all six required jobs succeeded
+- alignment commit `19e3614a79a9f3e8955f11cc31bae69992291fd3` — run
+  `32837871213`, all six required jobs succeeded
+
+These are historical delivery checkpoints; the current branch tip and its
+post-update Actions run must still be checked after any further report-only
+commit.
+
+The six jobs in each listed run are `python`, API/package/SDK, PostgreSQL,
+release-smoke, safety, and TS.
+
 - no stable `v5.4.0` tag or GitHub stable Release was created
 
 This remote green result closes the available engineering/delivery gate; it
