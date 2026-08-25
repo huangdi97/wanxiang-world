@@ -2,9 +2,9 @@
   "transport": "FastAPI TestClient over create_app()",
   "socket_status": "not_verified; uvicorn bind on 127.0.0.1:8765 failed with WinError 10013",
   "input": {
-    "path": "D:\\下载\\我本英雄-周梅森.txt",
+    "path": "private-local-source",
     "bytes": 937500,
-    "sha256": "5c914ea9995f41239b56e06f331ca7e3595b28cb2b15377fa015556a1c99268d",
+    "sha256": "<withheld-private-source-fingerprint>",
     "rights_approved_sent": false,
     "stage_sent": "E0",
     "access_sent": "private",

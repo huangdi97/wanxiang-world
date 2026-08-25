@@ -1,8 +1,8 @@
 # Real Book → Living World 用户验收
 
-日期：2026-08-25  
-checkout：`feature/source-to-living-world`  
-HEAD：`00da555095cb1524f1a2b19abe7fff59b579a01c`  
+日期：2026-08-25
+checkout：`feature/source-to-living-world`
+HEAD：`00da555095cb1524f1a2b19abe7fff59b579a01c`
 版本描述：`v5.4.0-rc1-3-g00da555`
 
 ## 结论
@@ -19,30 +19,31 @@ HEAD：`00da555095cb1524f1a2b19abe7fff59b579a01c`
 - `artifacts/real_book_living_world_acceptance_2026-08-25/api_rights_diagnostic.json`
 - `artifacts/real_book_living_world_acceptance_2026-08-25/run_manifest.json`
 
-原始文件仍在用户路径 `D:\下载\我本英雄-周梅森.txt`，未进入 Git。
+原始文件仍在用户本地私有路径，未进入 Git。公开分支不记录本地路径或
+原始文件指纹；完整值仅在本地验收时核对。
 
 ## 输入与边界
 
 | 项目 | 实际值 |
 |---|---|
-| 文件 | `D:\下载\我本英雄-周梅森.txt` |
+| 文件 | `private-local-source` |
 | 类型/profile | `text` / `book` |
 | 大小 | 937,500 bytes |
 | 解码 | UTF-8 |
 | 字符/行 | 323,815 字符 / 8,144 行 |
 | 换行 | CRLF |
-| SHA-256 | `5c914ea9995f41239b56e06f331ca7e3595b28cb2b15377fa015556a1c99268d` |
+| SHA-256 | public evidence withheld; locally verified |
 | 注入标记 | `system:`、`ignore previous instructions` 等均为 0 |
 
 TXT 内容按 Source Gate 的 data channel 处理；其中的小说叙述没有被当作系统/用户指令。没有从用户请求中推断出版权授权，因此主验收使用 `stage=E0`、`rights_approved=false`、`access=private`、`usage=package`。这不是修改书籍内容，而是如实保留当前 Source/Rights 状态。
 
-为隔离权限门与解析能力，另做了一个**仅诊断、非验收结论**的 metadata 变体：完全相同的 937,500 bytes 和 SHA，发送 `stage=E3`、`rights_approved=true`。这不构成版权授权，也没有被计入 PASS。
+为隔离权限门与解析能力，另做了一个**仅诊断、非验收结论**的 metadata 变体：完全相同的 937,500 bytes 和本地核对指纹，发送 `stage=E3`、`rights_approved=true`。这不构成版权授权，也没有被计入 PASS。
 
 ## 执行过程
 
 ### 1. 版本与质量前置
 
-最初工作树在 `实例-我本英雄 / m56-worlddraft` 且干净；按用户指定切换到本地及远端一致的 `feature/source-to-living-world`。切换没有改源码或测试。
+最初工作树在本地旧版 checkout 且干净；按用户指定切换到本地及远端一致的 `feature/source-to-living-world`。切换没有改源码或测试。
 
 当前分支质量证据：
 
@@ -147,4 +148,4 @@ completion_items    actor entities, events, places, relations, rules
 
 ## 最终判定
 
-当前 `v5.4.0-rc1 / feature/source-to-living-world` 的代码质量基线通过，但对这份真实《我本英雄》TXT 的 Book → Living World 用户验收 **不通过**：只有不可编译 WorldDraft 和空默认 Scenarios；WorldPackage、Preview、Worldness、人工审核结果和 Living World instance 均未生成。继续前需要明确修复/产品决策，而不是修改书籍或测试数据来绕过 gate。
+当前 `v5.4.0-rc1 / feature/source-to-living-world` 的代码质量基线通过，但对这份真实私有中文长书 TXT 的 Book → Living World 用户验收 **不通过**：只有不可编译 WorldDraft 和空默认 Scenarios；WorldPackage、Preview、Worldness、人工审核结果和 Living World instance 均未生成。继续前需要明确修复/产品决策，而不是修改书籍或测试数据来绕过 gate。

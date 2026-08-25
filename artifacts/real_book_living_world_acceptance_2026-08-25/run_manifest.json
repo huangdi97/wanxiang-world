@@ -1,7 +1,7 @@
 {
   "date": "2026-08-25",
   "checkout_before": {
-    "branch": "实例-我本英雄",
+    "branch": "local-pre-repair-checkout",
     "describe": "m56-worlddraft",
     "worktree": "clean"
   },

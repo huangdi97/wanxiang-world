@@ -1,5 +1,5 @@
 {
-  "source_path": "D:\\下载\\我本英雄-周梅森.txt",
+  "source_path": "private-local-source",
   "source_id_primary_api": "real_book_api_20260825",
   "source_id_diagnostic_api": "real_book_api_rights_diagnostic_20260825",
   "kind": "text",
@@ -8,7 +8,7 @@
   "utf8_characters": 323815,
   "lines": 8144,
   "line_ending": "CRLF",
-  "sha256": "5c914ea9995f41239b56e06f331ca7e3595b28cb2b15377fa015556a1c99268d",
+  "sha256": "<withheld-private-source-fingerprint>",
   "copied_into_repository": false,
   "instruction_markers_checked": {
     "system:": 0,

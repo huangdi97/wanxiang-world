@@ -1,12 +1,12 @@
 {
   "date": "2026-08-25",
   "source": {
-    "path": "D:\\下载\\我本英雄-周梅森.txt",
+    "path": "private-local-source",
     "raw_bytes": 937500,
-    "raw_sha256": "5c914ea9995f41239b56e06f331ca7e3595b28cb2b15377fa015556a1c99268d",
+    "raw_sha256": "<withheld-private-source-fingerprint>",
     "tracked_in_git": false
   },
-  "command": "uv run python scripts/wxworld.py reference --profile book --file D:\\下载\\我本英雄-周梅森.txt --job-id real_book_final_cli_raw_20260825 --semantic-provider local --publish --instantiate --worldness",
+  "command": "uv run python scripts/wxworld.py reference --profile book --file <private-local-source> --job-id real_book_final_cli_raw_20260825 --semantic-provider local --publish --instantiate --worldness",
   "job_id": "real_book_final_cli_raw_20260825",
   "authoring": {
     "status": "done",

@@ -1,7 +1,7 @@
 # G74A-G81J Real Book → Living World Qualification
 
-Date: 2026-08-25  
-Branch: `feature/source-to-living-world`  
+Date: 2026-08-25
+Branch: `feature/source-to-living-world`
 Scope: v5.4 remediation only; no v5.5 and no model training.
 
 ## Decision state
@@ -16,13 +16,15 @@ pre-repair `NOT_ACCEPTED` source-of-truth report.
 ## Source and boundary
 
 The same private local file was used without editing or copying it into the
-repository:
+repository. Public evidence intentionally withholds its local path and raw
+fingerprint; the full values were checked locally before this report was
+sanitized for the public branch:
 
 | Field | Value |
 |---|---|
-| Path | `D:\下载\我本英雄-周梅森.txt` |
+| Path | `private-local-source` |
 | Raw bytes | `937500` |
-| Raw SHA-256 | `5c914ea9995f41239b56e06f331ca7e3595b28cb2b15377fa015556a1c99268d` |
+| Raw SHA-256 | withheld from public evidence; verified locally |
 | Git tracked | `false` |
 | Source access | `private` |
 | Review/rights diagnostic | `E3`, package inclusion approved |
@@ -43,7 +45,7 @@ repair.
 Command:
 
 ```text
-uv run python scripts/wxworld.py reference --profile book --file D:\下载\我本英雄-周梅森.txt --job-id real_book_final_cli_raw_20260825 --semantic-provider local --publish --instantiate --worldness
+uv run python scripts/wxworld.py reference --profile book --file <private-local-source> --job-id real_book_final_cli_raw_20260825 --semantic-provider local --publish --instantiate --worldness
 ```
 
 Observed in `artifacts/real_book_living_world_acceptance_2026-08-25/final_cli_summary.json`:

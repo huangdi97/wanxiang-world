@@ -3,7 +3,7 @@
   "transport": "FastAPI TestClient over create_app()",
   "same_input_bytes": {
     "bytes": 937500,
-    "sha256": "5c914ea9995f41239b56e06f331ca7e3595b28cb2b15377fa015556a1c99268d"
+    "sha256": "<withheld-private-source-fingerprint>"
   },
   "metadata_variant": {
     "rights_approved_sent": true,

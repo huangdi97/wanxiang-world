@@ -1,5 +1,5 @@
 Command:
-  $env:UV_CACHE_DIR='E:\AI\wanxiang\.uv-cache'; uv run python scripts/wxworld.py reference --profile book --kind text --source-id real_book_cli_20260825 --job-id real-book-cli-20260825 --file 'D:\下载\我本英雄-周梅森.txt'
+  $env:UV_CACHE_DIR='E:\AI\wanxiang\.uv-cache'; uv run python scripts/wxworld.py reference --profile book --kind text --source-id real_book_cli_20260825 --job-id real-book-cli-20260825 --file '<private-local-source>'
 
 Exit code: 1
 Result:

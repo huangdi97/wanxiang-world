@@ -1,9 +1,9 @@
 {
   "date": "2026-08-25",
   "source": {
-    "path": "D:\\下载\\我本英雄-周梅森.txt",
+    "path": "private-local-source",
     "raw_bytes": 937500,
-    "raw_sha256": "5c914ea9995f41239b56e06f331ca7e3595b28cb2b15377fa015556a1c99268d",
+    "raw_sha256": "<withheld-private-source-fingerprint>",
     "tracked_in_git": false
   },
   "api_job_id": "real_book_final_api_evidence_20260825",
