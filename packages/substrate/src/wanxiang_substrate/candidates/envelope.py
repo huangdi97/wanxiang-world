@@ -49,6 +49,7 @@ CandidateKind = Literal[
     "transfer",
     "object_event",
     "institution",
+    "claim",
 ]
 VALID_KINDS = (
     "identity",
@@ -83,6 +84,7 @@ VALID_KINDS = (
     "transfer",
     "object_event",
     "institution",
+    "claim",
 )
 CandidateStatus = Literal["pending", "eligible", "rejected"]
 VALID_STATUSES = ("pending", "eligible", "rejected")

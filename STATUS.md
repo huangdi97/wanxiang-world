@@ -696,12 +696,12 @@ chain all pass. Reports: `reports/SEMANTIC_QUALITY_BENCHMARK.md`,
 `reports/WORLDNESS_CALIBRATION.md`, and
 `reports/M83_STRUCTURED_MIXED_QUALIFICATION.md`.
 
-M79 is now `PASS` for the supplied private local EPUB; its sanitized
-qualification is `reports/M79_REAL_EPUB_QUALIFICATION.md`. The source remains
-outside Git and unmodified. M82 remains the single `USER_INPUT_REQUIRED`
-blocker because the real GEDCOM path is absent, and M84 stable gates remain
-`NOT_READY`. Resume checkpoint is `M82/G85A`; see
-`artifacts/m79_m84/checkpoint.json` and `reports/M79_M84_STATUS.md`.
+M79 is `PASS` for the supplied private local EPUB; its sanitized
+qualification is `reports/M79_REAL_EPUB_QUALIFICATION.md`. M82 is now `PASS`
+for the supplied local GEDCOM through the real product chain; its sanitized
+qualification is `reports/M82_GEDCOM_QUALIFICATION.md`. Both sources remain
+outside Git and unmodified. The GEDCOM fixture is historical/public and does
+not stand in for private living-family user validation.
 
 Current remote delivery is verified on `feature/source-to-living-world` at
 `d9d136176b2df2b0bb4acaf30bb3ea876389ee9e`; Actions run `32864182259` is green
@@ -711,5 +711,16 @@ commit `da8c21b3ae1811a14cfe132fd697c6089ed35526`; no new tag was created.
 The checkpoint now rejects missing, non-file, unreadable, or repository-local
 source paths using metadata only; it does not open or copy source contents.
 
-No v5.4.0 stable tag/release is authorized. No model training or v5.5 work is
-started.
+M84 G87A-G87H is active: no v5.4.0 stable tag/release is authorized until
+clean-clone, full-regression, source-safety, final-branch Actions, tag, and
+post-release evidence pass. No model training or v5.5 work is started.
+
+## M82 current qualification (2026-08-26)
+
+The real GEDCOM run produced 326 provenance-bound candidates, measured
+coverage `1.0`, WorldPackage, Preview, Worldness `0.99`, Living Instance,
+Commit/Replay equality, and branch isolation through the CLI and API/Studio
+surfaces. The official GEDCOM 7 import/locator smoke passed as a separate
+in-memory test. Evidence: `reports/M82_GEDCOM_QUALIFICATION.md`,
+`artifacts/m79_m84/real_gedcom_product_evidence.json`, and
+`artifacts/m79_m84/gedcom7_official_smoke.json`.

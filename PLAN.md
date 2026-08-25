@@ -385,19 +385,31 @@ Candidate, hardcoded coverage, or disabled compiler/Worldness gate is allowed.
   container/OPF/spine/XHTML path, bounded semantic distillation, cross-chapter
   locator evidence, WorldPackage/Preview/Worldness/Living/Commit/Replay and
   branch isolation are recorded in `reports/M79_REAL_EPUB_QUALIFICATION.md`.
-- M82/G85A-G85G: `USER_INPUT_REQUIRED` for a private local GEDCOM path; resume
-  from G85A when supplied. No real family claim is made.
-- M84/G87A-G87H: `NOT_READY`; stable release gates cannot open while M82
-  remains pending. See `reports/M79_M84_STATUS.md`.
+- M82/G85A-G85G: `PASS` for the supplied local GEDCOM through the real
+  Source -> Candidate -> WorldDraft -> WorldPackage -> Preview -> Worldness ->
+  Living chain. Evidence: `reports/M82_GEDCOM_QUALIFICATION.md` and
+  `artifacts/m79_m84/real_gedcom_product_evidence.json`. The fixture is a
+  public historical genealogy sample, not private living-family validation.
+- M84/G87A-G87H: `ACTIVE`; proceed through clean clone, full regression,
+  source safety, final branch Actions, stable tag, and post-release checks.
+  See `reports/M79_M84_STATUS.md`.
 - Current remote delivery: `feature/source-to-living-world` is at
   `d9d136176b2df2b0bb4acaf30bb3ea876389ee9e`; Actions run `32864182259` is
   green across all six required jobs. No new tag was created.
 
-There is one remaining blocker class, `USER_INPUT_REQUIRED`: the real GEDCOM
-path recorded at `M82/G85A`. The second-book checkpoint is ready and the
-second-book source remains outside Git. Do not create a stable tag or release.
-The existing `v5.4.0-rc2` tag is preserved; no new tag is created by M79.
+The GEDCOM source gate is ready and M82 is qualified; the source remains
+outside Git. Do not create a stable tag until M84 passes. The existing
+`v5.4.0-rc2` tag is preserved; no new tag is created by M82.
 
-The resumable source gate now accepts only existing regular files outside the
+The resumable source gate accepts only existing regular files outside the
 repository and performs metadata-only validation; invalid paths do not advance
 M79 or M82.
+
+## M82/M84 current continuation (2026-08-26)
+
+M82 G85A-G85G is PASS. The current real GEDCOM run measured 326 provenance-
+bound candidates, coverage `1.0`, Worldness `0.99`, a published WorldPackage,
+Preview, Living Instance, Commit/Replay equality, and branch isolation. The
+official GEDCOM 7 import/locator smoke also passed without vendoring its
+sample. M84 G87A-G87H is now active; no v5.5 or model-training work is
+authorized.

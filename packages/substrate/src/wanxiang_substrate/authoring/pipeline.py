@@ -98,7 +98,7 @@ class SourceToDraftPipeline:
             parsed = self._parser.parse(
                 result,
                 source_id=record.source_id,
-                version=record.version,
+                version=result.source_version or record.version,
                 content_hash=record.content_hash,
             )
             parsed_nodes += max(0, len(parsed.nodes) - 1)
@@ -123,6 +123,7 @@ class SourceToDraftPipeline:
                     candidate_count=len(candidates),
                 )
             diagnostics.extend(item.message for item in parsed.diagnostics)
+            diagnostics.extend(result.diagnostics)
             if not inspection.ok:
                 diagnostics.append(f"source {record.source_id} inspection requires capability")
         if use_semantic_provider and semantic_candidates == 0 and not candidates:

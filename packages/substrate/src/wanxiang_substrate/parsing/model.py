@@ -10,11 +10,12 @@ from __future__ import annotations
 import hashlib
 import json
 from dataclasses import dataclass
-from typing import Literal
+from typing import TYPE_CHECKING, Literal
 
 from wanxiang_domain.errors import ContractError
 
-from wanxiang_substrate.sources.blob import BlobRef
+if TYPE_CHECKING:
+    from wanxiang_substrate.sources.blob import BlobRef
 
 NodeKind = Literal[
     "document", "chapter", "section", "paragraph", "dialogue", "table", "record", "asset"

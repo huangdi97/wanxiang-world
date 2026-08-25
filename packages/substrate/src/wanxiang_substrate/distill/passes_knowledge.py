@@ -5,6 +5,7 @@ from __future__ import annotations
 import re
 
 from wanxiang_substrate.candidates.envelope import CandidateEnvelope
+from wanxiang_substrate.distill.gedcom import document_for_segment, identity_key
 from wanxiang_substrate.distill.passes import (
     GEDCOM_BIRT_RE,
     GEDCOM_XREF_RE,
@@ -32,6 +33,28 @@ class CharacterKnowledgePass(Distiller):
         for segment in segments:
             text = segment.text
             ref = segment.locator.to_string()
+            document = document_for_segment(text)
+            if document is not None:
+                for indi in document.individuals:
+                    for event in indi.events:
+                        if event.tag == "BIRT":
+                            candidates.append(
+                                make_candidate(
+                                    "character_knowledge",
+                                    candidate_id(source_id, "life_arc", indi.xref),
+                                    "life_arc",
+                                    {
+                                        "subject_key": identity_key(source_id, indi.xref),
+                                        "start": event.date or "unknown",
+                                        "date_precision": event.date_precision,
+                                        "uncertain": str(event.uncertain).lower(),
+                                    },
+                                    source_refs=(ref,),
+                                    confidence=0.75,
+                                )
+                            )
+                if document.individuals or document.families or document.sources:
+                    continue
             xref = GEDCOM_XREF_RE.search(text)
             birth = GEDCOM_BIRT_RE.search(text)
             if xref and birth:

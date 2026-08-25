@@ -3,6 +3,7 @@ import json
 import re
 from typing import cast
 
+from wanxiang_substrate.authoring.local_semantic_gedcom import extract_gedcom
 from wanxiang_substrate.authoring.providers import (
     ProviderCapability,
     ProviderProposal,
@@ -140,6 +141,9 @@ class LocalSemanticProvider:
         return tuple(entries)
 
     def _extract(self, locator: str, text: str) -> tuple[ProviderProposal, ...]:
+        gedcom = extract_gedcom(locator, text, self.capability.provider_id)
+        if gedcom:
+            return gedcom
         names = self._names(text)
         places = self._places(text)
         proposals: list[ProviderProposal] = []

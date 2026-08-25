@@ -24,10 +24,13 @@ def _entities(fusion: FusionResult) -> tuple[tuple[str, str], ...]:
     return tuple(
         sorted(
             {
-                (field(candidate, "key", "identity_key"), field(candidate, "display_name", "key"))
+                (
+                    field(candidate, "key", "identity_key", "subject_key"),
+                    field(candidate, "display_name", "name", "key", "subject_key"),
+                )
                 for candidate in fusion.candidates
-                if candidate.kind in ("identity", "character")
-                and field(candidate, "key", "identity_key")
+                if candidate.kind in ("identity", "character", "organization")
+                and field(candidate, "key", "identity_key", "subject_key")
             }
         )
     )
@@ -43,8 +46,8 @@ def _relations(fusion: FusionResult) -> tuple[tuple[str, str, str], ...]:
         sorted(
             (
                 by_xref.get(
-                    field(candidate, "source_key", "subject_xref"),
-                    field(candidate, "source_key", "subject_xref"),
+                    field(candidate, "source_key", "subject_xref", "member_key"),
+                    field(candidate, "source_key", "subject_xref", "member_key"),
                 ),
                 by_xref.get(
                     field(candidate, "target_key", "object_key", default="unknown"),
@@ -54,7 +57,7 @@ def _relations(fusion: FusionResult) -> tuple[tuple[str, str, str], ...]:
             )
             for candidate in fusion.candidates
             if candidate.kind in ("relation", "membership")
-            and field(candidate, "source_key", "subject_xref")
+            and field(candidate, "source_key", "subject_xref", "member_key")
         )
     )
 
@@ -98,7 +101,7 @@ def build_pipeline_build(
             {
                 (
                     field(candidate, "event_type", default="event"),
-                    field(candidate, "date", default="unknown"),
+                    field(candidate, "date", "date_raw", default="unknown"),
                 )
                 for candidate in fusion.candidates
                 if candidate.kind in ("event", "time")
@@ -147,10 +150,21 @@ def build_pipeline_build(
             "segments": str(len(segments)),
             "batches": str(distillation.batch_count),
             "provider_id": distillation.provider_id,
+            "gedcom_version": next(
+                (
+                    item.partition(":")[2]
+                    for item in diagnostics
+                    if item.startswith("gedcom_version:")
+                ),
+                "",
+            ),
+            "claim_candidates": str(
+                sum(1 for candidate in fusion.candidates if candidate.kind == "claim")
+            ),
         },
     )
     coverage = CoverageAssessor().assess(preliminary, domains)
-    completion = tuple(sorted(set(coverage.unknown)))
+    completion = CoverageAssessor().completion_items(preliminary, domains)
     uncertainty = min(1.0, 0.05 + 0.15 * len(fusion.conflict_ids) + 0.05 * len(completion))
     ready = not preliminary.unresolved_conflicts and not rights and coverage.coverage > 0.0
     draft = replace(

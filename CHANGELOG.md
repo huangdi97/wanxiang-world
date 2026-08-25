@@ -1630,3 +1630,20 @@
 - The full local gate passes with 1213 passed, one existing PostgreSQL-profile
   skip, and two warnings. M79/M82 remain `USER_INPUT_REQUIRED`; no stable tag,
   release, v5.5 work, or model training was started.
+
+## 2026-08-26 — M82 real GEDCOM family-world qualification
+
+- Added a generic GEDCOM model/parser path with header/version preservation,
+  XREF-scoped identity, family membership, event/date precision, place, claim,
+  source/evidence, and unknown-extension preservation.
+- Qualified the supplied local GEDCOM through the real CLI and API/Studio
+  Source -> WorldPackage -> Preview -> Worldness -> Living -> Commit/Replay
+  chain: 326 provenance-bound candidates, measured coverage 1.0, Worldness
+  0.99, and isolated branch proof.
+- Added the official GEDCOM 7 import/locator smoke without vendoring its
+  sample; the public historical fixture remains outside Git and is not a
+  private living-family validation claim.
+- M82 is accepted; M84 stable certification remains active. No v5.5 work or
+  model training is started.
+- The post-fix local quality gate is green: 1219 tests passed, one existing
+  PostgreSQL profile was skipped, and two warnings were retained explicitly.

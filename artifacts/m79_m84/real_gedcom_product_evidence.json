@@ -1,0 +1,143 @@
+{
+  "api_studio": {
+    "build": true,
+    "one_click": true,
+    "preview": true,
+    "publish": true,
+    "studio_ui": {
+      "binary_upload": true,
+      "http_status": 200,
+      "living_control": true,
+      "worldness_control": true
+    }
+  },
+  "diagnostics": [
+    "gedcom_version:5.5",
+    "gedcom_header_source:webtreeprint.com",
+    "gedcom_individuals:14",
+    "gedcom_families:4",
+    "gedcom_sources:0"
+  ],
+  "draft": {
+    "absent_fact_candidates": [],
+    "candidate_kind_counts": {
+      "alias": 1,
+      "character": 15,
+      "claim": 42,
+      "event": 56,
+      "identity": 29,
+      "life_arc": 12,
+      "membership": 35,
+      "organization": 8,
+      "place": 28,
+      "relation": 44,
+      "time": 56
+    },
+    "completion_items": [],
+    "counts": {
+      "candidates": 326,
+      "claims": 42,
+      "entities": 19,
+      "events": 55,
+      "family_candidates": 8,
+      "places": 7,
+      "relations": 79,
+      "xref_identities": 28
+    },
+    "coverage": 1.0,
+    "date_precision_counts": {
+      "approximate": 4,
+      "day": 93,
+      "text": 4,
+      "year": 23
+    },
+    "event_types": ["birth", "death", "marriage"],
+    "evidence_refs": 326,
+    "exact_date_candidate_count": 93,
+    "relation_types": ["parent", "spouse"],
+    "selected_domains": ["family", "spatial"],
+    "source_refs": 326,
+    "stable_xref_candidate_count": 28,
+    "status": "READY_TO_COMPILE",
+    "uncertain_date_candidate_count": 31,
+    "uncertainty": 0.05
+  },
+  "job_status": {
+    "batch_count": 1,
+    "candidate_count": 326,
+    "checkpoint": {
+      "batches": "1",
+      "candidates": "326",
+      "completed_batches": "1",
+      "provider_calls": "1",
+      "provider_id": "local_semantic_v1",
+      "retries": "0",
+      "segments": "19",
+      "stage_errors": ""
+    },
+    "conflict_count": 0,
+    "diagnostics": [
+      "gedcom_version:5.5",
+      "gedcom_header_source:webtreeprint.com",
+      "gedcom_individuals:14",
+      "gedcom_families:4",
+      "gedcom_sources:0"
+    ],
+    "draft_id": "wd_m82_real_gedcom_api_final",
+    "error": "",
+    "job_id": "m82_real_gedcom_api_final",
+    "package_id": "world:wd_m82_real_gedcom_api_final",
+    "parsed_nodes": 19,
+    "preview_id": "preview_1",
+    "product_state": "WORLDNESS_ACCEPTED",
+    "provider_id": "local_semantic_v1",
+    "segment_count": 19,
+    "source_ids": ["m82_real_gedcom_source"],
+    "stage": "published",
+    "stage_errors": [],
+    "status": "done"
+  },
+  "living": {
+    "perception_entities": 19,
+    "perception_relations": 79,
+    "record_present": true
+  },
+  "product_refs": {
+    "draft_id": "wd_m82_real_gedcom_api_final",
+    "manifest_hash_present": true,
+    "package_id": "world:wd_m82_real_gedcom_api_final",
+    "preview_id": "preview_1"
+  },
+  "source": {
+    "kind": "gedcom",
+    "private_local_input": true,
+    "provenance_label": "public historical genealogy fixture; not authoritative research",
+    "raw_bytes_read": 2897,
+    "rights": {
+      "approved": true,
+      "external_model_processing": false,
+      "package_inclusion": true,
+      "private_analysis": true,
+      "public_export": false,
+      "stage": "E3",
+      "training": false
+    }
+  },
+  "source_path_or_digest_emitted": false,
+  "worldness": {
+    "branch_isolated": true,
+    "commit": {
+      "committed": true,
+      "proposal_validated": true,
+      "replay_equal": true
+    },
+    "event_head": 99,
+    "gates": {
+      "living_ready": true,
+      "previewable": true,
+      "publishable": true
+    },
+    "overall": 0.99,
+    "passed": true
+  }
+}

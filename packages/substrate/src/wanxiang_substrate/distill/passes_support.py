@@ -10,9 +10,9 @@ from wanxiang_substrate.candidates.envelope import CandidateEnvelope
 PASS_VERSION = 1
 DATE_RE = re.compile(r"\b(1[0-9]{3}|2[0-9]{3})\b")
 PLACE_RE = re.compile(r"\b(?:at|in)\s+([A-Z][A-Za-z\u4e00-\u9fff]{1,24})\b")
-GEDCOM_NAME_RE = re.compile(r"1 NAME\s+(\S+)\s*/([^/]+)/")
+GEDCOM_NAME_RE = re.compile(r"1 NAME\s+(.+?)\s*/([^/]+)/")
 GEDCOM_XREF_RE = re.compile(r"0 @([^@]+)@ INDI")
-GEDCOM_BIRT_RE = re.compile(r"2 DATE\s+([0-9-]{4,})")
+GEDCOM_BIRT_RE = re.compile(r"2 DATE\s+([^\r\n]+)")
 GEDCOM_PLAC_RE = re.compile(r"[12] PLAC\s+(.+)")
 GEDCOM_FAM_RE = re.compile(r"0 @([^@]+)@ FAM")
 GEDCOM_HUSB_RE = re.compile(r"1 HUSB @([^@]+)@")
@@ -59,6 +59,7 @@ def make_candidate(
         payload=tuple(sorted(payload.items())),
         confidence=confidence,
         source_refs=source_refs,
+        evidence_refs=source_refs,
         distiller_version=version,
     )
 

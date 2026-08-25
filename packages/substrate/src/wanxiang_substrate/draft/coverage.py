@@ -66,6 +66,46 @@ class CoverageAssessor:
             conflicts=len(draft.unresolved_conflicts),
         )
 
+    def completion_items(self, draft: WorldDraft, registry: DomainRegistry) -> tuple[str, ...]:
+        """Return only missing capabilities required by selected domains.
+
+        ``unknown`` remains a complete structural report, including optional
+        sections.  Package completion must not turn an unselected capability
+        (for example rules in a family/spatial world) into a fabricated gate.
+        """
+        required: set[str] = set()
+        for domain_id in draft.selected_domains:
+            domain = registry.get(domain_id)
+            if domain:
+                required.update(capability.lower() for capability in domain.provides)
+        missing: list[str] = []
+        checks = (
+            (
+                "entities",
+                "actor entities",
+                (
+                    "family",
+                    "genealogy",
+                    "character",
+                    "narrative",
+                    "social",
+                    "relation",
+                    "institution",
+                    "organization",
+                ),
+            ),
+            ("relations", "relations", ("family", "genealogy", "social", "relation")),
+            ("places", "places", ("spatial", "place", "topology")),
+            ("events", "events", ("temporal", "timeline", "narrative")),
+            ("rules", "rules", ("norm", "rule", "ritual")),
+        )
+        for field, label, capabilities in checks:
+            if any(capability in required for capability in capabilities) and not getattr(
+                draft, field
+            ):
+                missing.append(label)
+        return tuple(sorted(set(missing)))
+
     def _covers(self, draft: WorldDraft, capability: str) -> bool:
         key = capability.lower()
         if key in ("family", "genealogy"):

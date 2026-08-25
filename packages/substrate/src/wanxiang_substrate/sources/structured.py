@@ -48,8 +48,14 @@ class StructuredAdapter(SourceAdapter):
         )
 
     def ingest(self, record: SourceRecord, blob: bytes | None = None) -> IngestResult:
-        raw = record.payload if blob is None else blob.decode("utf-8", errors="strict")
         kind = record.kind
+        if blob is None:
+            raw = record.payload
+        else:
+            encoding = "utf-8-sig" if kind == "gedcom" else "utf-8"
+            raw = blob.decode(encoding, errors="strict")
+        diagnostics: tuple[str, ...] = ()
+        source_version = ""
         if kind == "json":
             content = _normalize_json(raw)
         elif kind == "yaml":
@@ -57,14 +63,19 @@ class StructuredAdapter(SourceAdapter):
         elif kind == "csv":
             content = _normalize_csv(raw)
         elif kind == "gedcom":
-            content = _normalize_gedcom(raw)
+            content, diagnostics, source_version = _normalize_gedcom(raw)
         else:
             raise UnsupportedSource(f"structured adapter cannot ingest {kind!r}")
+        if kind != "gedcom":
+            diagnostics = ()
+            source_version = ""
         return IngestResult(
             source_id=record.source_id,
             kind=record.kind,
             content=content,
             detected_format=kind,
+            diagnostics=diagnostics,
+            source_version=source_version,
         )
 
     def resume(self, source_id: str) -> IngestResult | None:
@@ -98,11 +109,18 @@ def _normalize_csv(raw: str) -> str:
     return "\n".join(lines)
 
 
-def _normalize_gedcom(raw: str) -> str:
+def _normalize_gedcom(raw: str) -> tuple[str, tuple[str, ...], str]:
     document = parse_gedcom(raw)
     if not document.individuals and not document.families:
         raise MalformedSourceContent("GEDCOM has no individuals or families")
-    return serialize_gedcom(document)
+    diagnostics = tuple(document.diagnostics) + (
+        f"gedcom_version:{document.version}",
+        f"gedcom_header_source:{document.header_source or 'unknown'}",
+        f"gedcom_individuals:{len(document.individuals)}",
+        f"gedcom_families:{len(document.families)}",
+        f"gedcom_sources:{len(document.sources)}",
+    )
+    return serialize_gedcom(document), diagnostics, document.version
 
 
 def _canonical(value: Any) -> str:

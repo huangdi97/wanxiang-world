@@ -197,7 +197,11 @@ def instantiate_preview(
     identity: dict[str, str] = {}
     used_entity_ids: set[str] = set()
     for index, (key, display_name) in enumerate(package.draft.entities, start=1):
-        entity_id = _safe_id(key, index, used_entity_ids)
+        # Stable semantic keys remain the identity map; the readable runtime
+        # id is only a presentation handle and is collision-safe for same-name
+        # people from distinct XREFs.
+        readable_key = display_name if key.startswith("gedcom:") else key
+        entity_id = _safe_id(readable_key, index, used_entity_ids)
         used_entity_ids.add(entity_id)
         identity[key] = entity_id
         PreviewWorld(install, runtime, host, instance_id, created.root_branch_id).step(

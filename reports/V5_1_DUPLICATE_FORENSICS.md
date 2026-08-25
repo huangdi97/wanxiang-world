@@ -19,7 +19,7 @@
 | packages/substrate/src/wanxiang_substrate/preview/scope.py | PreviewRegistry | 26 |
 | packages/substrate/src/wanxiang_substrate/resolution/registry.py | AdjudicatorRegistry | 15 |
 | packages/substrate/src/wanxiang_substrate/skills/registry.py | SkillRegistry | 13 |
-| packages/substrate/src/wanxiang_substrate/sources/adapter.py | AdapterRegistry | 112 |
+| packages/substrate/src/wanxiang_substrate/sources/adapter.py | AdapterRegistry | 114 |
 | packages/substrate/src/wanxiang_substrate/sources/registry.py | SourceRegistry | 31 |
 
 ## state_classes (25)
@@ -86,7 +86,7 @@
 | path | name | line |
 |---|---|---|
 | packages/substrate/src/wanxiang_substrate/authoring/semantic_distillation.py | SemanticDistillationService | 50 |
-| packages/substrate/src/wanxiang_substrate/authoring/service.py | AuthoringService | 24 |
+| packages/substrate/src/wanxiang_substrate/authoring/service.py | AuthoringService | 26 |
 | packages/substrate/src/wanxiang_substrate/jobs/service.py | JobService | 17 |
 | packages/substrate/src/wanxiang_substrate/lifecycle/service.py | LifecycleService | 19 |
 | packages/substrate/src/wanxiang_substrate/observation/query.py | PerspectiveService | 29 |
@@ -151,7 +151,7 @@
 | packages/substrate/src/wanxiang_substrate/reality/bridge.py | ObservationAdapter | 21 |
 | packages/substrate/src/wanxiang_substrate/reality/challenge.py | OpportunityDetector | 49 |
 | packages/substrate/src/wanxiang_substrate/runtime_port.py | WorldRuntimePort | 29 |
-| packages/substrate/src/wanxiang_substrate/sources/adapter.py | SourceAdapter | 47 |
+| packages/substrate/src/wanxiang_substrate/sources/adapter.py | SourceAdapter | 49 |
 
 ## oversized_modules (0)
 

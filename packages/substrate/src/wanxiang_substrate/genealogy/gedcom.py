@@ -1,16 +1,31 @@
-"""GEDCOM 5.5 subset parser/writer adapter (G09A).
+"""Generic GEDCOM parser/writer for the normalized genealogy boundary.
 
-Supported profile: INDI (NAME/BIRT/DATE/PLAC/DEAT/SOUR/OBJE), FAM
-(HUSB/WIFE/CHIL), SOUR records. Unknown extensions are preserved under the
-documented policy (retained as tuples, never silently dropped). Imported facts
-map to Claim/Evidence, not unconditional truth.
+The parser keeps typed facts as claims with raw dates, uncertainty metadata,
+XREFs, and unknown extensions. It does not decide canonical truth.
 """
 
 from __future__ import annotations
 
-import re
-from typing import TypedDict
-
+from wanxiang_substrate.genealogy.gedcom_serialization import serialize_document
+from wanxiang_substrate.genealogy.gedcom_support import (
+    EVENT_TAGS,
+    LINE_RE,
+    EventBuffer,
+    FamBuffer,
+    IndiBuffer,
+    SourceBuffer,
+    finish_event,
+    finish_fam,
+    finish_indi,
+    finish_source,
+    handle_fam_1,
+    handle_indi_1,
+    handle_indi_2,
+    handle_source_1,
+    new_fam,
+    new_indi,
+    new_source,
+)
 from wanxiang_substrate.genealogy.model import (
     GedcomDocument,
     GedcomFamily,
@@ -18,66 +33,62 @@ from wanxiang_substrate.genealogy.model import (
     GedcomSource,
 )
 
-_LINE_RE = re.compile(r"^(\d+)\s+(?:@([^@]+)@\s+)?([A-Z0-9_]+)\s?(.*)$")
-
-SUPPORTED_PROFILE = "GEDCOM 5.5 subset: INDI/FAM/SOUR with NAME/BIRT/DEAT/DATE/PLAC/SEX/SOUR/OBJE"
-
-
-class _IndiBuffer(TypedDict):
-    xref: str
-    name: str
-    birth: str
-    death: str
-    place: str
-    sources: list[str]
-    media: list[str]
-    ext: list[tuple[str, str]]
-    living: bool
-
-
-class _FamBuffer(TypedDict):
-    xref: str
-    husband: str
-    wife: str
-    children: list[str]
-    sources: list[str]
-
-
-class _SourceBuffer(TypedDict):
-    xref: str
-    title: str
-    author: str
+SUPPORTED_PROFILE = (
+    "GEDCOM normalized profile: INDI/FAM/SOUR, XREF links, typed events,"
+    " uncertain dates, places, claims/evidence locators, and preserved extensions"
+)
 
 
 def parse_gedcom(text: str) -> GedcomDocument:
-    """Parse a GEDCOM subset into a normalized document."""
+    """Parse a GEDCOM document while retaining all supported facts."""
     individuals: list[GedcomIndividual] = []
     families: list[GedcomFamily] = []
     sources: list[GedcomSource] = []
     diagnostics: list[str] = []
-    current_indi: _IndiBuffer | None = None
-    current_fam: _FamBuffer | None = None
-    current_source: _SourceBuffer | None = None
-    current_tag: str | None = None
+    header_extensions: list[tuple[str, str]] = []
+    current_kind = ""
+    current_indi: IndiBuffer | None = None
+    current_fam: FamBuffer | None = None
+    current_source: SourceBuffer | None = None
+    current_tag = ""
+    active_event: EventBuffer | None = None
+    version = "5.5"
+    header_source = ""
+    header_source_version = ""
 
-    def close_current() -> None:
-        nonlocal current_indi, current_fam, current_source
+    def finish_active_event() -> None:
+        nonlocal active_event
+        if active_event is None:
+            return
+        event = finish_event(active_event)
         if current_indi is not None:
-            individuals.append(_finish_indi(current_indi))
+            current_indi["events"].append(event)
+            if event.tag == "BIRT" and event.date:
+                current_indi["birth"] = event.date
+            if event.tag == "DEAT" and event.date:
+                current_indi["death"] = event.date
+            if event.place and not current_indi["place"]:
+                current_indi["place"] = event.place
+        elif current_fam is not None:
+            current_fam["events"].append(event)
+        active_event = None
+
+    def close_record() -> None:
+        nonlocal current_indi, current_fam, current_source, current_kind, current_tag
+        finish_active_event()
+        if current_indi is not None:
+            individuals.append(finish_indi(current_indi))
         if current_fam is not None:
-            families.append(_finish_fam(current_fam))
+            families.append(finish_fam(current_fam))
         if current_source is not None:
-            sources.append(_finish_source(current_source))
+            sources.append(finish_source(current_source))
         current_indi, current_fam, current_source = None, None, None
+        current_kind, current_tag = "", ""
 
     for line_number, raw in enumerate(text.splitlines(), start=1):
-        stripped = raw.strip()
-        if not stripped:
+        if not raw.strip():
             continue
-        if not stripped[0].isdigit():
-            diagnostics.append(f"line {line_number}: not a GEDCOM line")
-            continue
-        match = _LINE_RE.match(raw)
+        match = LINE_RE.match(raw)
         if match is None:
             diagnostics.append(f"line {line_number}: unparsed")
             continue
@@ -86,168 +97,73 @@ def parse_gedcom(text: str) -> GedcomDocument:
         tag = match.group(3)
         value = match.group(4).strip()
         if level == 0:
-            close_current()
+            close_record()
+            current_kind = tag
             if tag == "INDI":
-                current_indi = _new_indi(xref)
+                current_indi = new_indi(xref)
             elif tag == "FAM":
-                current_fam = _new_fam(xref)
+                current_fam = new_fam(xref)
             elif tag == "SOUR":
-                current_source = _new_source(xref)
-            current_tag = None
+                current_source = new_source(xref)
             continue
         if level == 1:
+            finish_active_event()
             current_tag = tag
-            if current_indi is not None:
-                _handle_indi_1(current_indi, tag, value)
-            elif current_fam is not None:
-                _handle_fam_1(current_fam, tag, value)
-            elif current_source is not None:
-                _handle_source_1(current_source, tag, value)
+            if tag in EVENT_TAGS and current_kind in ("INDI", "FAM"):
+                active_event = EventBuffer(tag=tag, date="", place="", value=value, ext=[])
+            elif current_kind == "INDI" and current_indi is not None:
+                handle_indi_1(current_indi, tag, value)
+            elif current_kind == "FAM" and current_fam is not None:
+                handle_fam_1(current_fam, tag, value)
+            elif current_kind == "SOUR" and current_source is not None:
+                handle_source_1(current_source, tag, value)
+            elif current_kind == "HEAD":
+                if tag == "SOUR":
+                    header_source = value
+                elif tag not in ("GEDC", "CHAR", "DATE", "FILE", "SUBM"):
+                    header_extensions.append((tag, value))
             continue
-        if level == 2 and current_tag is not None and current_indi is not None:
-            if current_tag == "BIRT" and tag == "DATE":
-                current_indi["birth"] = value
-            elif current_tag == "BIRT" and tag == "PLAC":
-                current_indi["place"] = value
-            elif current_tag == "DEAT" and tag == "DATE":
-                current_indi["death"] = value
+        if level >= 2:
+            if active_event is not None:
+                if tag == "DATE":
+                    active_event["date"] = value
+                elif tag == "PLAC":
+                    active_event["place"] = value
+                elif tag in ("VALUE", "TYPE"):
+                    active_event["value"] = value
+                else:
+                    active_event["ext"].append((tag, value))
+            elif current_kind == "HEAD":
+                if current_tag == "GEDC" and tag == "VERS":
+                    version = value or version
+                elif current_tag == "SOUR" and tag == "VERS":
+                    header_source_version = value
+                else:
+                    header_extensions.append((f"{current_tag}.{tag}", value))
+            elif current_indi is not None:
+                handle_indi_2(current_indi, current_tag, tag, value)
+            elif current_fam is not None:
+                current_fam["ext"].append((f"{current_tag}.{tag}", value))
+            elif current_source is not None:
+                current_source["ext"].append((f"{current_tag}.{tag}", value))
             continue
         diagnostics.append(f"line {line_number}: unsupported level {level}")
-    close_current()
+    close_record()
     return GedcomDocument(
         individuals=tuple(individuals),
         families=tuple(families),
         sources=tuple(sources),
+        version=version,
         diagnostics=tuple(diagnostics),
+        header_source=header_source,
+        header_source_version=header_source_version,
+        header_extensions=tuple(header_extensions),
     )
 
 
 def serialize_gedcom(doc: GedcomDocument) -> str:
-    """Write a normalized GEDCOM document (round-trip stable)."""
-    lines: list[str] = ["0 HEAD", "1 GEDC", "2 VERS " + doc.version, "0 @SUBM@ SUBM"]
-    for source in sorted(doc.sources, key=lambda s: s.xref):
-        lines.append(f"0 @{source.xref}@ SOUR")
-        if source.title:
-            lines.append(f"1 TITL {source.title}")
-        if source.author:
-            lines.append(f"1 AUTH {source.author}")
-    for indi in sorted(doc.individuals, key=lambda i: i.xref):
-        lines.append(f"0 @{indi.xref}@ INDI")
-        lines.append(f"1 NAME {indi.name}")
-        if indi.birth_date:
-            lines.append("1 BIRT")
-            lines.append(f"2 DATE {indi.birth_date}")
-        if indi.death_date:
-            lines.append("1 DEAT")
-            lines.append(f"2 DATE {indi.death_date}")
-        if indi.place:
-            lines.append(f"1 PLAC {indi.place}")
-        for source_ref in indi.source_refs:
-            lines.append(f"1 SOUR @{source_ref}@")
-        for media_ref in indi.media_refs:
-            lines.append(f"1 OBJE @{media_ref}@")
-        for tag, ext_value in indi.extensions:
-            lines.append(f"1 {tag} {ext_value}")
-    for family in sorted(doc.families, key=lambda f: f.xref):
-        lines.append(f"0 @{family.xref}@ FAM")
-        if family.husband_xref:
-            lines.append(f"1 HUSB @{family.husband_xref}@")
-        if family.wife_xref:
-            lines.append(f"1 WIFE @{family.wife_xref}@")
-        for child in family.child_xrefs:
-            lines.append(f"1 CHIL @{child}@")
-    lines.append("0 TRLR")
-    return "\n".join(lines)
+    """Write a deterministic GEDCOM representation of the normalized model."""
+    return serialize_document(doc)
 
 
-def _new_indi(xref: str) -> _IndiBuffer:
-    return {
-        "xref": xref,
-        "name": "",
-        "birth": "",
-        "death": "",
-        "place": "",
-        "sources": [],
-        "media": [],
-        "ext": [],
-        "living": False,
-    }
-
-
-def _new_fam(xref: str) -> _FamBuffer:
-    return {"xref": xref, "husband": "", "wife": "", "children": [], "sources": []}
-
-
-def _new_source(xref: str) -> _SourceBuffer:
-    return {"xref": xref, "title": "", "author": ""}
-
-
-def _handle_indi_1(buffer: _IndiBuffer, tag: str, value: str) -> None:
-    if tag == "NAME":
-        buffer["name"] = value
-    elif tag == "BIRT":
-        buffer.setdefault("birth", "")
-    elif tag == "DEAT":
-        buffer.setdefault("death", "")
-    elif tag == "SOUR":
-        buffer["sources"].append(_clean_xref(value))
-    elif tag == "OBJE":
-        buffer["media"].append(_clean_xref(value))
-    elif tag in ("_PRIV", "CONF"):
-        buffer["living"] = True
-    else:
-        buffer["ext"].append((tag, value))
-
-
-def _handle_fam_1(buffer: _FamBuffer, tag: str, value: str) -> None:
-    if tag == "HUSB":
-        buffer["husband"] = _clean_xref(value)
-    elif tag == "WIFE":
-        buffer["wife"] = _clean_xref(value)
-    elif tag == "CHIL":
-        buffer["children"].append(_clean_xref(value))
-    elif tag == "SOUR":
-        buffer["sources"].append(_clean_xref(value))
-
-
-def _handle_source_1(buffer: _SourceBuffer, tag: str, value: str) -> None:
-    if tag == "TITL":
-        buffer["title"] = value
-    elif tag == "AUTH":
-        buffer["author"] = value
-
-
-def _clean_xref(value: str) -> str:
-    return value.strip().strip("@").strip()
-
-
-def _finish_indi(data: _IndiBuffer) -> GedcomIndividual:
-    return GedcomIndividual(
-        xref=data["xref"],
-        name=data["name"] or "UNKNOWN",
-        birth_date=data["birth"],
-        death_date=data["death"],
-        place=data["place"],
-        source_refs=tuple(data["sources"]),
-        media_refs=tuple(data["media"]),
-        extensions=tuple(data["ext"]),
-        living=data["living"],
-    )
-
-
-def _finish_fam(data: _FamBuffer) -> GedcomFamily:
-    return GedcomFamily(
-        xref=data["xref"],
-        husband_xref=data["husband"],
-        wife_xref=data["wife"],
-        child_xrefs=tuple(data["children"]),
-        source_refs=tuple(data["sources"]),
-    )
-
-
-def _finish_source(data: _SourceBuffer) -> GedcomSource:
-    return GedcomSource(
-        xref=data["xref"],
-        title=data["title"],
-        author=data["author"],
-    )
+__all__ = ["SUPPORTED_PROFILE", "parse_gedcom", "serialize_gedcom"]

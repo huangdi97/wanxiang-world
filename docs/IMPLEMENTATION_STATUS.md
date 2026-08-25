@@ -207,5 +207,20 @@ coverage of 0.8333333333333334, WorldPackage/Preview, Worldness
 0.9733333333333333, Living Instance, Commit/Replay equality and branch
 isolation. Evidence is sanitized in `reports/M79_REAL_EPUB_QUALIFICATION.md`
 and `artifacts/m79_m84/real_second_book_product_evidence.json`; no private
-path, digest or source text is tracked. M82/G85A is the only remaining
-user-input blocker, so M84 stable certification remains NOT_READY.
+path, digest or source text is tracked.
+
+## M82 real GEDCOM qualification (2026-08-26)
+
+M82/G85A-G85G is PASS for the supplied local GEDCOM through the generic
+GEDCOM parser, locator, semantic distillation, WorldDraft, WorldPackage,
+Preview, Worldness, Living Instance, Commit/Replay, and branch-isolation
+path. The real run measured 326 provenance-bound candidates, coverage `1.0`,
+Worldness `0.99`, 19 entities, 79 relations, and 55 events. Evidence is
+sanitized in `reports/M82_GEDCOM_QUALIFICATION.md` and
+`artifacts/m79_m84/real_gedcom_product_evidence.json`; the official GEDCOM 7
+in-memory import/locator smoke is in
+`artifacts/m79_m84/gedcom7_official_smoke.json`. The historical/public fixture
+does not constitute private living-family user validation.
+
+M84/G87A-G87H is active. No stable v5.4.0 tag/release, v5.5 work, or model
+training is authorized until the M84 evidence gates pass.

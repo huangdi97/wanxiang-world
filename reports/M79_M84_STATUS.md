@@ -6,12 +6,14 @@ Scope: v5.4 continuation only; no v5.5 and no model training.
 
 ## Decision
 
-`USER_INPUT_REQUIRED`. The M79-M84 package is not accepted and v5.4.0
-stable is not authorized.
+`M82 PASS / M84 ACTIVE`. M79, M80, M81, M82, and M83 are accepted within their
+documented evidence boundaries. v5.4.0 stable remains unauthorized until the
+M84 clean-clone, full-regression, source-safety, final-branch, tag, and
+post-release gates pass.
 
-There is one remaining blocker class: `USER_INPUT_REQUIRED`, with one required
-field: a private local path to a real GEDCOM file. The second-book field has
-been supplied and M79 is accepted.
+The GEDCOM field has now been supplied and qualified. M82 uses a public
+historical genealogy fixture for real product-chain evidence; it is not a
+private living-family user-validation claim.
 
 No private source is copied into Git or modified. No Candidate is hand-filled,
 coverage is not hardcoded, compiler or Worldness gates are not disabled, and no
@@ -24,9 +26,9 @@ source-specific book logic is used.
 | M79 | G82A-G82G | `PASS` | private EPUB real E2E accepted; see `reports/M79_REAL_EPUB_QUALIFICATION.md` |
 | M80 | G83A-G83H | `PASS` infrastructure only | anonymized benchmark passes; real second-book Gold Set is pending |
 | M81 | G84A-G84F | `PASS` | synthetic adversarial calibration passes; real-source qualification remains pending |
-| M82 | G85A-G85G | `USER_INPUT_REQUIRED` | GEDCOM path and real family validation are pending |
+| M82 | G85A-G85G | `PASS` | real GEDCOM product chain accepted; privacy/user-validation boundary explicit |
 | M83 | G86A-G86G | `PASS` | synthetic structured/mixed path passes |
-| M84 | G87A-G87H | `NOT_READY` | stable gate cannot open while M82 is pending |
+| M84 | G87A-G87H | `ACTIVE` | clean clone, full regression, source safety, delivery, stable tag, and post-release gates remain |
 
 ## Local engineering gate
 
@@ -35,7 +37,7 @@ The post-implementation gate is green for the available scope:
 - `uv run ruff check .`: PASS
 - `uv run ruff format --check .`: PASS
 - `uv run pyright`: PASS, 0 errors
-- `uv run pytest -q`: 1216 passed, 1 skipped, 2 warnings
+- `uv run pytest -q`: 1219 passed, 1 skipped, 2 warnings
 - `uv run python scripts/architecture_check.py`: PASS
 - `uv run python scripts/quality.py`: PASS after the temporary pytest ACL
   directory was removed
@@ -89,7 +91,19 @@ each source must be an existing regular file outside the repository. The EPUB
 source is ready; the GEDCOM field remains missing. The source contents are
 never opened or copied by this checkpoint gate.
 
-The next resumable checkpoint is `M82/G85A`. The same real product chain must
-produce and verify the family WorldPackage, Preview, Worldness, Living
-Instance, Commit/Replay, and the required M84 release evidence before any
-stable tag or release is considered.
+M82/G85A-G85G is now qualified in `reports/M82_GEDCOM_QUALIFICATION.md` with
+the sanitized product evidence in `artifacts/m79_m84/real_gedcom_product_evidence.json`.
+The same real product chain produced and verified the family WorldPackage,
+Preview, Worldness, Living Instance, Commit/Replay, and branch-isolation
+evidence. The next active checkpoint is M84/G87A.
+
+The existing `v5.4.0-rc2` history is preserved. No stable tag has been
+created by M82; v5.5 and model training remain out of scope.
+
+## M82 checkpoint gate (2026-08-26)
+
+The post-fix local gate is green: `uv run python scripts/quality.py` completed
+Ruff check, format check, Pyright (`0 errors`), `1219 passed`, one existing
+PostgreSQL-profile skip, two warnings, and the architecture guard. The
+PostgreSQL skip is an external environment boundary, not a GEDCOM product
+success claim.
