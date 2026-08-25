@@ -117,6 +117,8 @@ def locator_for_node(node: StructuralNode, *, source_id: str, fmt: LocatorFormat
         # Text paragraphs retain the parser node id, whose final component is
         # the original source line. This keeps candidate evidence line-bound.
         ref = node.node_id
+    elif fmt == "epub" and node.source_ref:
+        ref = node.source_ref
     elif node.kind in ("chapter", "section", "paragraph"):
         ref = node.ordinal
     else:

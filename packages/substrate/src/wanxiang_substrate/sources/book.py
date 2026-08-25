@@ -10,10 +10,12 @@ Adapters produce IngestResult only; they never mutate sources or canon.
 
 from __future__ import annotations
 
+import posixpath
 import re
 import zipfile
 import zlib
 from dataclasses import dataclass
+from urllib.parse import unquote, urlsplit
 from xml.etree import ElementTree
 
 from wanxiang_substrate.sources.adapter import IngestResult, SourceAdapter, SourceInspection
@@ -26,6 +28,11 @@ _OPF_NS = "{http://www.idpf.org/2007/opf}"
 _XHTML_NS = "{http://www.w3.org/1999/xhtml}"
 
 
+def _local_name(tag: str) -> str:
+    """Return an XML local name for EPUB 2 (no namespace) and EPUB 3."""
+    return tag.rsplit("}", 1)[-1].lower()
+
+
 @dataclass(frozen=True, slots=True)
 class Chapter:
     """One extracted book chapter with a stable ordinal."""
@@ -33,10 +40,16 @@ class Chapter:
     chapter_id: str
     title: str
     text: str
+    href: str = ""
 
     @property
     def heading(self) -> str:
         return self.title or self.chapter_id
+
+    @property
+    def locator_ref(self) -> str:
+        spine = self.chapter_id.removeprefix("chapter_")
+        return f"spine={spine};href={self.href}"
 
 
 def _decode(blob: bytes, *, kind: str) -> str:
@@ -58,7 +71,7 @@ def _extract_epub(blob: bytes) -> tuple[Chapter, ...]:
     except KeyError as exc:
         raise MalformedSourceContent("EPUB missing META-INF/container.xml") from exc
     root = ElementTree.fromstring(container)
-    rootfile = root.find(f".//{_EPUB_NS}rootfile")
+    rootfile = next((item for item in root.iter() if _local_name(item.tag) == "rootfile"), None)
     if rootfile is None:
         raise MalformedSourceContent("EPUB container has no rootfile")
     opf_path = rootfile.attrib.get("full-path", "")
@@ -67,15 +80,15 @@ def _extract_epub(blob: bytes) -> tuple[Chapter, ...]:
     opf = ElementTree.fromstring(archive.read(opf_path))
     base = opf_path.rsplit("/", 1)[0] if "/" in opf_path else ""
     manifest: dict[str, tuple[str, str]] = {}
-    for item in opf.findall(f".//{_OPF_NS}manifest/{_OPF_NS}item"):
+    for item in opf.iter():
+        if _local_name(item.tag) != "item":
+            continue
         item_id = item.attrib.get("id", "")
         href = item.attrib.get("href", "")
         media = item.attrib.get("media-type", "")
         if item_id and href:
             manifest[item_id] = (href, media)
-    spine = [
-        ref.attrib.get("idref", "") for ref in opf.findall(f".//{_OPF_NS}spine/{_OPF_NS}itemref")
-    ]
+    spine = [ref.attrib.get("idref", "") for ref in opf.iter() if _local_name(ref.tag) == "itemref"]
     chapters: list[Chapter] = []
     for index, idref in enumerate(spine):
         entry = manifest.get(idref)
@@ -84,13 +97,23 @@ def _extract_epub(blob: bytes) -> tuple[Chapter, ...]:
         href, media = entry
         if media not in ("application/xhtml+xml", "application/xml", "text/html"):
             continue
-        path = f"{base}/{href}" if base else href
+        href_path = unquote(urlsplit(href).path)
+        path = posixpath.normpath(posixpath.join(base, href_path)) if base else href_path
+        if path in ("", ".", "..") or path.startswith("../"):
+            raise MalformedSourceContent(f"EPUB manifest path escapes package: {href!r}")
         try:
             content = archive.read(path)
         except KeyError:
             continue
         text, title = _xhtml_text(content)
-        chapters.append(Chapter(chapter_id=f"chapter_{index + 1}", title=title, text=text))
+        chapters.append(
+            Chapter(
+                chapter_id=f"chapter_{index + 1}",
+                title=title,
+                text=text,
+                href=path,
+            )
+        )
     if not chapters:
         raise MalformedSourceContent("EPUB spine produced no chapters")
     return tuple(chapters)
@@ -101,11 +124,13 @@ def _xhtml_text(content: bytes) -> tuple[str, str]:
         root = ElementTree.fromstring(content)
     except ElementTree.ParseError as exc:
         raise MalformedSourceContent(f"invalid XHTML: {exc}") from exc
-    title_el = root.find(f".//{_XHTML_NS}title")
+    title_el = next(
+        (element for element in root.iter() if _local_name(element.tag) == "title"), None
+    )
     title = "".join(title_el.itertext()).strip() if title_el is not None else ""
     parts: list[str] = []
     for element in root.iter():
-        if element.tag in (f"{_XHTML_NS}p", f"{_XHTML_NS}h1", f"{_XHTML_NS}h2", f"{_XHTML_NS}h3"):
+        if _local_name(element.tag) in ("p", "h1", "h2", "h3"):
             text = "".join(element.itertext()).strip()
             if text:
                 parts.append(text)
@@ -209,12 +234,23 @@ class BookAdapter(SourceAdapter):
     def ingest(self, record: SourceRecord, blob: bytes | None = None) -> IngestResult:
         data = blob if blob is not None else record.payload.encode("utf-8")
         kind = record.kind
+        node_refs: list[str] = []
         if kind in ("text", "markdown"):
             content = _decode(data, kind=kind)
             detected = kind
         elif kind == "epub":
             chapters = _extract_epub(data)
-            content = "\n\n".join(f"# {chapter.heading}\n{chapter.text}" for chapter in chapters)
+            lines: list[str] = []
+            node_refs: list[str] = []
+            for chapter in chapters:
+                lines.append(f"# {chapter.heading}")
+                node_refs.append(chapter.locator_ref)
+                for line_index, line in enumerate(chapter.text.splitlines(), start=1):
+                    lines.append(line)
+                    node_refs.append(f"{chapter.locator_ref};line={line_index}")
+                lines.append("")
+                node_refs.append("")
+            content = "\n".join(lines)
             detected = "epub"
         elif kind == "docx":
             content = _extract_docx(data)
@@ -233,6 +269,7 @@ class BookAdapter(SourceAdapter):
             kind=record.kind,
             content=content,
             detected_format=detected,
+            node_refs=tuple(node_refs) if kind == "epub" else (),
         )
 
     def resume(self, source_id: str) -> IngestResult | None:

@@ -696,11 +696,11 @@ chain all pass. Reports: `reports/SEMANTIC_QUALITY_BENCHMARK.md`,
 `reports/WORLDNESS_CALIBRATION.md`, and
 `reports/M83_STRUCTURED_MIXED_QUALIFICATION.md`.
 
-M79 and M82 are both held at one blocker class, `USER_INPUT_REQUIRED`, because
-the private local second real-book path and real GEDCOM path are absent. The
-inputs must remain outside Git and unmodified. M79 real semantic quality,
-M82 real family validation, and the final M84 stable gates are not claimed.
-Resume checkpoints are `M79/G82A` and `M82/G85A`; see
+M79 is now `PASS` for the supplied private local EPUB; its sanitized
+qualification is `reports/M79_REAL_EPUB_QUALIFICATION.md`. The source remains
+outside Git and unmodified. M82 remains the single `USER_INPUT_REQUIRED`
+blocker because the real GEDCOM path is absent, and M84 stable gates remain
+`NOT_READY`. Resume checkpoint is `M82/G85A`; see
 `artifacts/m79_m84/checkpoint.json` and `reports/M79_M84_STATUS.md`.
 
 The checkpoint now rejects missing, non-file, unreadable, or repository-local

@@ -2,14 +2,13 @@
   "package": "M79-M84",
   "status": "USER_INPUT_REQUIRED",
   "missing_inputs": [
-    "second_real_book_path",
     "gedcom_path"
   ],
   "invalid_inputs": [],
   "source_validation": {
     "second_book": {
-      "status": "missing",
-      "reason": "path_not_provided"
+      "status": "ready",
+      "reason": "external_regular_file"
     },
     "gedcom": {
       "status": "missing",
@@ -17,16 +16,17 @@
     }
   },
   "private_local_sources": {
-    "second_book": false,
+    "second_book": true,
     "gedcom": false,
     "copied_to_git": false,
     "modified": false
   },
   "resume": {
-    "M79": "G82A",
+      "M79": "G82A_SOURCE_GATE_READY",
     "M82": "G85A",
-    "completed_independent_work": [
-      "M80",
+      "completed_independent_work": [
+        "M79",
+        "M80",
       "M81",
       "M83"
     ]

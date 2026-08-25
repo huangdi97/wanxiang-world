@@ -375,21 +375,25 @@ training, v5.5 work, source editing, source-specific logic, hand-filled
 Candidate, hardcoded coverage, or disabled compiler/Worldness gate is allowed.
 
 - M80/G83A-G83H: PASS for deterministic, extractor-independent anonymized
-  semantic-quality infrastructure. Real second-book qualification is pending.
+  semantic-quality infrastructure. The real second-book product evidence is
+  recorded under M79; no human-labeled precision claim is substituted.
 - M81/G84A-G84F: PASS for seven-case adversarial Worldness calibration,
   separate preview/publish/living gates, and anti-gaming checks.
 - M83/G86A-G86G: PASS for synthetic JSON/CSV/book structured and mixed-source
   evidence, fusion, conflict preservation, one-draft, package, and preview.
-- M79/G82A-G82G: `USER_INPUT_REQUIRED` for a private local second real-book
-  path; resume from G82A when supplied.
+- M79/G82A-G82G: PASS for the supplied private local EPUB. The generic
+  container/OPF/spine/XHTML path, bounded semantic distillation, cross-chapter
+  locator evidence, WorldPackage/Preview/Worldness/Living/Commit/Replay and
+  branch isolation are recorded in `reports/M79_REAL_EPUB_QUALIFICATION.md`.
 - M82/G85A-G85G: `USER_INPUT_REQUIRED` for a private local GEDCOM path; resume
   from G85A when supplied. No real family claim is made.
-- M84/G87A-G87H: `NOT_READY`; stable release gates cannot open while M79/M82
-  remain pending. See `reports/M79_M84_STATUS.md`.
+- M84/G87A-G87H: `NOT_READY`; stable release gates cannot open while M82
+  remains pending. See `reports/M79_M84_STATUS.md`.
 
-There is one blocker class, `USER_INPUT_REQUIRED`, with the two required input
-fields recorded in `artifacts/m79_m84/checkpoint.json`. Do not create a stable
-tag or release. Continue only after the required private paths are supplied.
+There is one remaining blocker class, `USER_INPUT_REQUIRED`: the real GEDCOM
+path recorded at `M82/G85A`. The second-book checkpoint is ready and the
+second-book source remains outside Git. Do not create a stable tag or release.
+The existing `v5.4.0-rc2` tag is preserved; no new tag is created by M79.
 
 The resumable source gate now accepts only existing regular files outside the
 repository and performs metadata-only validation; invalid paths do not advance

@@ -6,9 +6,11 @@ Scope: M79-M84 generalization; no model training; no private source content.
 ## Decision
 
 `PASS` for the benchmark infrastructure and anonymized regression fixture.
-`REAL_SECOND_BOOK_GOLD_SET: USER_INPUT_REQUIRED` because the second private
-real-book path was not supplied. This report does not claim semantic quality
-qualification for a second real book.
+The second private real-book path is now supplied and its product-chain
+qualification is recorded in `reports/M79_REAL_EPUB_QUALIFICATION.md`. This
+report still does not invent a human-labeled Gold Set or claim precision from
+candidate count alone; the real run's structural/provenance evidence is
+reported separately.
 
 ## Evidence
 
@@ -41,7 +43,7 @@ pass traceability merely because its semantic value matches.
 ## Gates
 
 The new integration test and the existing source-matrix/candidate regression
-tests pass locally. The real second-book gate remains open until the user
-provides a private local source path; the source must remain unmodified and
-outside Git, and the Gold Set must be derived from that source without
-source-specific logic or hand-filled candidates.
+tests pass locally. The real source remains unmodified and outside Git. Any
+future labeled Gold Set must be derived from that source without
+source-specific logic or hand-filled candidates; the current M79 acceptance
+does not substitute candidate count for that precision protocol.

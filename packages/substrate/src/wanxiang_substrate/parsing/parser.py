@@ -55,7 +55,7 @@ class StructureParser:
     ) -> ParsedDocument:
         fmt = result.detected_format
         if fmt in ("text", "markdown"):
-            nodes, diagnostics = self._parse_book(result.content)
+            nodes, diagnostics = self._parse_book(result.content, node_refs=result.node_refs)
         elif fmt in ("json", "yaml"):
             nodes, diagnostics = self._parse_records(result.content, record_delimiter=None)
         elif fmt == "csv":
@@ -63,7 +63,7 @@ class StructureParser:
         elif fmt == "gedcom":
             nodes, diagnostics = self._parse_records(result.content, record_delimiter="@")
         else:
-            nodes, diagnostics = self._parse_book(result.content)
+            nodes, diagnostics = self._parse_book(result.content, node_refs=result.node_refs)
         document = StructuralNode(
             node_id="document",
             kind="document",
@@ -97,6 +97,7 @@ class StructureParser:
         text: str,
         ordinal: int,
         parent_id: str = "",
+        source_ref: str = "",
     ) -> StructuralNode:
         return StructuralNode(
             node_id=node_id,
@@ -106,9 +107,12 @@ class StructureParser:
             parser_version=self._parser_version,
             segmenter_version=self._segmenter_version,
             parent_id=parent_id,
+            source_ref=source_ref,
         ).with_hash()
 
-    def _parse_book(self, content: str) -> tuple[tuple[StructuralNode, ...], list[ParseDiagnostic]]:
+    def _parse_book(
+        self, content: str, *, node_refs: tuple[str, ...] = ()
+    ) -> tuple[tuple[StructuralNode, ...], list[ParseDiagnostic]]:
         nodes: list[StructuralNode] = []
         diagnostics: list[ParseDiagnostic] = []
         chapter_id = ""
@@ -118,6 +122,7 @@ class StructureParser:
             stripped = line.strip()
             if not stripped:
                 continue
+            source_ref = node_refs[index - 1] if index <= len(node_refs) else ""
             chapter_match = _CHAPTER_HEADING.match(stripped)
             markdown_chapter = _MARKDOWN_CHAPTER.match(stripped)
             if chapter_match or markdown_chapter:
@@ -134,6 +139,7 @@ class StructureParser:
                         title,
                         chapter_ordinal,
                         parent_id="document",
+                        source_ref=source_ref,
                     )
                 )
                 continue
@@ -153,6 +159,7 @@ class StructureParser:
                         title,
                         paragraph_ordinal,
                         parent_id=chapter_id,
+                        source_ref=source_ref,
                     )
                 )
                 continue
@@ -165,6 +172,7 @@ class StructureParser:
                     stripped,
                     paragraph_ordinal,
                     parent_id=parent,
+                    source_ref=source_ref,
                 )
             )
         if not nodes:

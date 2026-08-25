@@ -197,3 +197,15 @@ parent branch. G81G-G81J are PASS for implementation commit `f7685ec` and
 Actions run `32821744579`, whose six required jobs are green. The final
 evidence-only commit must still pass its own Actions run before `rc2`; v5.5
 and training remain out of scope.
+
+## M79 second real-book qualification (2026-08-25)
+
+M79/G82A-G82G is PASS for a private local EPUB through the generic binary
+source path. The run produced 28,510 parsed nodes/segments, 1,188 completed
+bounded semantic batches, 25,315 provenance-bound candidates, measured
+coverage of 0.8333333333333334, WorldPackage/Preview, Worldness
+0.9733333333333333, Living Instance, Commit/Replay equality and branch
+isolation. Evidence is sanitized in `reports/M79_REAL_EPUB_QUALIFICATION.md`
+and `artifacts/m79_m84/real_second_book_product_evidence.json`; no private
+path, digest or source text is tracked. M82/G85A is the only remaining
+user-input blocker, so M84 stable certification remains NOT_READY.

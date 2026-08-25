@@ -25,9 +25,13 @@ async function call(path, options={}){const r=await fetch(path,options);const x=
 async function loadStatus(){return call('/studio/jobs/'+encodeURIComponent(job()))}
 async function buildDraft(){return call('/studio/jobs/'+encodeURIComponent(job())+'/build',{method:'POST'})}
 async function previewDraft(){return call('/studio/jobs/'+encodeURIComponent(job())+'/preview',{method:'POST'})}
+function sourceKind(name){const n=name.toLowerCase();if(n.endsWith('.epub'))return 'epub';if(n.endsWith('.docx'))return 'docx';if(n.endsWith('.pdf'))return 'pdf';if(n.endsWith('.md'))return 'markdown';return 'text'}
+async function base64File(file){const bytes=new Uint8Array(await file.arrayBuffer());let binary='';for(let i=0;i<bytes.length;i+=0x8000)binary+=String.fromCharCode(...bytes.subarray(i,i+0x8000));return btoa(binary)}
 async function runAuthoring(){
- const file=document.getElementById('file').files[0]; const content=file?await file.text():document.getElementById('source').value;
- const body={job_id:job(),profile:'book',semantic_provider:document.getElementById('provider').value||null,sources:[{source_id:'studio_source',kind:'text',content,stage:'E3',rights_approved:true,access:'private',package_inclusion_allowed:true,private_analysis_allowed:true}]};
+ const file=document.getElementById('file').files[0]; let source;
+ if(file && /\.(epub|docx|pdf)$/i.test(file.name))source={source_id:'studio_source',kind:sourceKind(file.name),content:'',content_base64:await base64File(file)};
+ else source={source_id:'studio_source',kind:file?sourceKind(file.name):'text',content:file?await file.text():document.getElementById('source').value};
+ const body={job_id:job(),profile:'book',semantic_provider:document.getElementById('provider').value||null,sources:[{...source,stage:'E3',rights_approved:true,access:'private',package_inclusion_allowed:true,private_analysis_allowed:true}]};
  const x=await call('/studio/one-click',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});
  await call('/studio/jobs/'+encodeURIComponent(job())+'/draft'); await call('/studio/jobs/'+encodeURIComponent(job())+'/review-inbox'); return x;
 }

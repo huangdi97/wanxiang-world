@@ -7,7 +7,7 @@ from pydantic import BaseModel, Field
 from wanxiang_substrate.authoring.one_click import OneClickAuthoring
 from wanxiang_substrate.authoring.service import AuthoringService
 
-from wanxiang_api.authoring_routes import SourceInput
+from wanxiang_api.authoring_sources import SourceInput, source_records
 
 router = APIRouter(prefix="/studio")
 
@@ -28,7 +28,7 @@ def one_click(payload: OneClickRequest, request: Request) -> dict[str, object]:
     service = _service(request)
     result = OneClickAuthoring(service).run(
         payload.job_id,
-        tuple(source.record() for source in payload.sources),
+        source_records(service, payload.sources),
         profile=payload.profile,
         semantic_provider=payload.semantic_provider,
     )

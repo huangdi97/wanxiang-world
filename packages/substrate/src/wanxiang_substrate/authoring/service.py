@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
+
 from wanxiang_domain.errors import ContractError, WanxiangError
 
 from wanxiang_substrate.authoring.model import AuthoringSnapshot, PipelineBuild
@@ -29,11 +31,16 @@ class AuthoringService(PackageServiceMixin, LivingWorldMixin, StatusMixin):
         pipeline: SourceToDraftPipeline | None = None,
         *,
         providers: ProviderRouter | None = None,
+        blob_loader: Callable[[SourceRecord], bytes | None] | None = None,
     ) -> None:
         self._jobs = JobService(JobStore())
         self._sources = SourceRegistry()
         self._providers = providers or ProviderRouter()
-        self._pipeline = pipeline or SourceToDraftPipeline(providers=self._providers)
+        self._source_blobs: dict[str, bytes] = {}
+        self._pipeline = pipeline or SourceToDraftPipeline(
+            blob_loader=blob_loader or self._load_source_blob,
+            providers=self._providers,
+        )
         self._job_sources: dict[str, tuple[str, ...]] = {}
         self._job_semantic: dict[str, bool] = {}
         self._progress: dict[str, tuple[tuple[str, str], ...]] = {}
@@ -110,6 +117,13 @@ class AuthoringService(PackageServiceMixin, LivingWorldMixin, StatusMixin):
         if record.source_id not in current:
             self._job_sources[job_id] = (*current, record.source_id)
         return self.status(job_id)
+
+    def attach_source_blob(self, source_id: str, blob: bytes) -> None:
+        """Attach private raw bytes for the existing generic blob-loader port."""
+        current = self._source_blobs.get(source_id)
+        if current is not None and current != blob:
+            raise ContractError(f"source blob {source_id!r} cannot be replaced")
+        self._source_blobs[source_id] = bytes(blob)
 
     def start(self, job_id: str) -> AuthoringSnapshot:
         job = self._jobs.status(job_id)
@@ -232,6 +246,9 @@ class AuthoringService(PackageServiceMixin, LivingWorldMixin, StatusMixin):
             self._sources.register(record)
             ids.append(record.source_id)
         return tuple(ids)
+
+    def _load_source_blob(self, record: SourceRecord) -> bytes | None:
+        return self._source_blobs.get(record.source_id)
 
     def _require_build(self, job_id: str) -> PipelineBuild:
         build = self._builds.get(job_id)

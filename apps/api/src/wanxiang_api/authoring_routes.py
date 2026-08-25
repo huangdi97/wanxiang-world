@@ -6,56 +6,11 @@ from fastapi import APIRouter, Request
 from pydantic import BaseModel, Field
 from wanxiang_substrate.authoring.scenario_engine import ScenarioEngine
 from wanxiang_substrate.authoring.service import AuthoringService
-from wanxiang_substrate.sources.model import RightsEnvelope, SourceRecord, payload_hash
 
+from wanxiang_api.authoring_sources import SourceInput, source_records
 from wanxiang_api.candidate_serializers import candidate_to_dict
 
 router = APIRouter(prefix="/studio")
-
-
-class SourceInput(BaseModel):
-    source_id: str
-    kind: str
-    content: str
-    version: str = "1"
-    stage: str = "E0"
-    owner: str = "user"
-    usage: str = "reference"
-    rights_approved: bool = False
-    access: str = "private"
-    reliability: float = Field(default=1.0, ge=0.0, le=1.0)
-    provenance: str = "studio"
-    ingest_allowed: bool = True
-    private_analysis_allowed: bool = True
-    external_model_processing_allowed: bool = False
-    package_inclusion_allowed: bool | None = None
-    public_export_allowed: bool = False
-    training_allowed: bool = False
-
-    def record(self) -> SourceRecord:
-        return SourceRecord(
-            source_id=self.source_id,
-            kind=self.kind,
-            content_hash=payload_hash(self.content),
-            content_ref=f"memory://{self.source_id}",
-            stage=self.stage,  # type: ignore[arg-type]
-            rights=RightsEnvelope(
-                owner=self.owner,
-                usage=self.usage,
-                approved=self.rights_approved,
-                ingest_allowed=self.ingest_allowed,
-                private_analysis_allowed=self.private_analysis_allowed,
-                external_model_processing_allowed=self.external_model_processing_allowed,
-                package_inclusion_allowed=self.package_inclusion_allowed,
-                public_export_allowed=self.public_export_allowed,
-                training_allowed=self.training_allowed,
-            ),
-            payload=self.content,
-            provenance=self.provenance,
-            version=self.version,
-            access=self.access,  # type: ignore[arg-type]
-            reliability=self.reliability,
-        )
 
 
 class CreateJobRequest(BaseModel):
@@ -88,7 +43,7 @@ def create_job(payload: CreateJobRequest, request: Request) -> dict[str, object]
     snapshot = _service(request).create_job(
         payload.job_id,
         version=payload.version,
-        sources=tuple(source.record() for source in payload.sources),
+        sources=source_records(_service(request), payload.sources),
         created_by=payload.created_by,
         semantic_provider=payload.semantic_provider,
     )
@@ -97,7 +52,8 @@ def create_job(payload: CreateJobRequest, request: Request) -> dict[str, object]
 
 @router.post("/jobs/{job_id}/sources")
 def add_source(job_id: str, payload: SourceInput, request: Request) -> dict[str, object]:
-    return _service(request).add_source(job_id, payload.record()).to_dict()
+    service = _service(request)
+    return service.add_source(job_id, source_records(service, [payload])[0]).to_dict()
 
 
 @router.post("/jobs/{job_id}/start")

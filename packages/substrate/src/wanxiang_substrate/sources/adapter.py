@@ -42,6 +42,7 @@ class IngestResult:
     detected_format: str
     blob_ref: BlobRef | None = None
     diagnostics: tuple[str, ...] = ()
+    node_refs: tuple[str, ...] = ()
 
 
 class SourceAdapter(Protocol):

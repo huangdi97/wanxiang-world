@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 
@@ -11,7 +12,7 @@ from wanxiang_substrate.authoring.local_semantic_provider import LocalSemanticPr
 from wanxiang_substrate.authoring.one_click import OneClickAuthoring
 from wanxiang_substrate.authoring.providers import ProviderRouter
 from wanxiang_substrate.authoring.service import AuthoringService
-from wanxiang_substrate.sources.model import RightsEnvelope, SourceRecord, payload_hash
+from wanxiang_substrate.sources.model import RightsEnvelope, SourceRecord
 
 from reference_runtime import build_reference_runtime
 
@@ -62,33 +63,58 @@ def _parser() -> argparse.ArgumentParser:
     return parser
 
 
-def _content(args: argparse.Namespace) -> str:
+def _source_material(args: argparse.Namespace) -> tuple[str, bytes]:
+    """Read one source as private bytes while retaining text when available."""
     if args.content is not None and args.file is not None:
         raise ValueError("use either --content or --file")
     if args.file is not None:
-        return args.file.read_bytes().decode("utf-8")
-    return args.content or "# Reference\nAlice arrived in 1985.\nrule: keep promises\n"
+        return "", args.file.read_bytes()
+    content = args.content or "# Reference\nAlice arrived in 1985.\nrule: keep promises\n"
+    return content, content.encode("utf-8")
 
 
-def run_reference(args: argparse.Namespace) -> dict[str, object]:
-    content = _content(args)
-    record = SourceRecord(
+def _record(args: argparse.Namespace, content: str, raw: bytes, *, provenance: str) -> SourceRecord:
+    return SourceRecord(
         source_id=args.source_id,
         kind=args.kind,
-        content_hash=payload_hash(content),
+        content_hash=hashlib.sha256(raw).hexdigest(),
         content_ref=f"cli://{args.source_id}",
         stage="E3",
-        rights=RightsEnvelope(owner="cli-user", usage="reference", approved=True),
+        rights=RightsEnvelope(
+            owner="cli-user",
+            usage="reference",
+            approved=True,
+            ingest_allowed=True,
+            private_analysis_allowed=True,
+            external_model_processing_allowed=False,
+            package_inclusion_allowed=True,
+            public_export_allowed=False,
+            training_allowed=False,
+        ),
         payload=content,
-        provenance="cli:reference",
+        provenance=provenance,
         access="private",
     )
+
+
+def _authoring(args: argparse.Namespace, raw: bytes) -> OneClickAuthoring:
     providers = (
         ProviderRouter((LocalSemanticProvider(),))
         if args.semantic_provider == "local"
         else ProviderRouter()
     )
-    authoring = OneClickAuthoring(AuthoringService(providers=providers))
+    source_id = args.source_id
+    service = AuthoringService(
+        providers=providers,
+        blob_loader=lambda record: raw if record.source_id == source_id else None,
+    )
+    return OneClickAuthoring(service)
+
+
+def run_reference(args: argparse.Namespace) -> dict[str, object]:
+    content, raw = _source_material(args)
+    record = _record(args, content, raw, provenance="cli:reference")
+    authoring = _authoring(args, raw)
     one_click = authoring.run(
         args.job_id,
         (record,),
@@ -123,24 +149,9 @@ def run_reference(args: argparse.Namespace) -> dict[str, object]:
 
 def run_lifecycle(args: argparse.Namespace) -> dict[str, object]:
     """Execute each named lifecycle command through the shared service facade."""
-    content = _content(args)
-    record = SourceRecord(
-        source_id=args.source_id,
-        kind=args.kind,
-        content_hash=payload_hash(content),
-        content_ref=f"cli://{args.source_id}",
-        stage="E3",
-        rights=RightsEnvelope(owner="cli-user", usage="reference", approved=True),
-        payload=content,
-        provenance="cli:lifecycle",
-        access="private",
-    )
-    providers = (
-        ProviderRouter((LocalSemanticProvider(),))
-        if args.semantic_provider == "local"
-        else ProviderRouter()
-    )
-    authoring = OneClickAuthoring(AuthoringService(providers=providers))
+    content, raw = _source_material(args)
+    record = _record(args, content, raw, provenance="cli:lifecycle")
+    authoring = _authoring(args, raw)
     semantic = "local" if args.semantic_provider == "local" else None
     service = authoring.service
     if args.command == "create":

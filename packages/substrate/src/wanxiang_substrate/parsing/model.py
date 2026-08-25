@@ -67,6 +67,7 @@ class StructuralNode:
     segmenter_version: int
     parent_id: str = ""
     content_hash: str = ""
+    source_ref: str = ""
 
     def __post_init__(self) -> None:
         if not self.node_id:
@@ -86,6 +87,7 @@ class StructuralNode:
                 "text": self.text,
                 "ordinal": self.ordinal,
                 "parent_id": self.parent_id,
+                "source_ref": self.source_ref,
             },
             sort_keys=True,
             separators=(",", ":"),
@@ -102,6 +104,7 @@ class StructuralNode:
             segmenter_version=self.segmenter_version,
             parent_id=self.parent_id,
             content_hash=self.compute_hash(),
+            source_ref=self.source_ref,
         )
 
 

@@ -1,5 +1,18 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-25 ? M79 second real-book qualification
+
+- Generic binary EPUB ingestion now preserves raw-byte hashing through the
+  CLI/API/Studio source path and handles namespaced and unnamespaced EPUB
+  container/OPF/spine XML.
+- EPUB chapter/paragraph locators retain spine/href provenance; the existing
+  bounded semantic distillation service remains the sole candidate producer.
+- A private second real-book run completed WorldPackage, Preview, Worldness,
+  Living Instance, Commit/Replay and branch-isolation evidence. Public
+  evidence contains no private path, digest, or source text.
+- M79 is accepted; M82 remains blocked only by the missing real GEDCOM input.
+  No stable v5.4.0 tag, v5.5 work, or model training was started.
+
 ## 2026-08-16 ? GitHub public delivery (v5.3.0-rc1)
 
 - Published `huangdi97/wanxiang-world` PUBLIC (origin remote, master pushed,

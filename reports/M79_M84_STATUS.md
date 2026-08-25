@@ -9,10 +9,9 @@ Scope: v5.4 continuation only; no v5.5 and no model training.
 `USER_INPUT_REQUIRED`. The M79-M84 package is not accepted and v5.4.0
 stable is not authorized.
 
-There is one blocker class: `USER_INPUT_REQUIRED`, with two required fields:
-
-1. a private local path to an independent second real book;
-2. a private local path to a real GEDCOM file.
+There is one remaining blocker class: `USER_INPUT_REQUIRED`, with one required
+field: a private local path to a real GEDCOM file. The second-book field has
+been supplied and M79 is accepted.
 
 No private source is copied into Git or modified. No Candidate is hand-filled,
 coverage is not hardcoded, compiler or Worldness gates are not disabled, and no
@@ -22,12 +21,12 @@ source-specific book logic is used.
 
 | Milestone | Goals | Status | Boundary |
 |---|---|---|---|
-| M79 | G82A-G82G | `USER_INPUT_REQUIRED` | second real-book path and real E2E are pending |
+| M79 | G82A-G82G | `PASS` | private EPUB real E2E accepted; see `reports/M79_REAL_EPUB_QUALIFICATION.md` |
 | M80 | G83A-G83H | `PASS` infrastructure only | anonymized benchmark passes; real second-book Gold Set is pending |
 | M81 | G84A-G84F | `PASS` | synthetic adversarial calibration passes; real-source qualification remains pending |
 | M82 | G85A-G85G | `USER_INPUT_REQUIRED` | GEDCOM path and real family validation are pending |
 | M83 | G86A-G86G | `PASS` | synthetic structured/mixed path passes |
-| M84 | G87A-G87H | `NOT_READY` | stable gate cannot open while M79/M82 are pending |
+| M84 | G87A-G87H | `NOT_READY` | stable gate cannot open while M82 is pending |
 
 ## Local engineering gate
 
@@ -36,9 +35,10 @@ The post-implementation gate is green for the available scope:
 - `uv run ruff check .`: PASS
 - `uv run ruff format --check .`: PASS
 - `uv run pyright`: PASS, 0 errors
-- `uv run pytest -q`: 1213 passed, 1 skipped, 2 warnings
+- `uv run pytest -q`: 1216 passed, 1 skipped, 2 warnings
 - `uv run python scripts/architecture_check.py`: PASS
-- `uv run python scripts/quality.py`: PASS
+- `uv run python scripts/quality.py`: PASS after the temporary pytest ACL
+  directory was removed
 
 The single skipped test is the existing live PostgreSQL profile test because
 no PostgreSQL instance is available in this environment. It is not converted
@@ -65,8 +65,8 @@ release-smoke, safety, and TS.
 
 - no stable `v5.4.0` tag or GitHub stable Release was created
 
-This remote green result closes the available engineering/delivery gate; it
-does not turn the missing real-source inputs into M79/M82 acceptance.
+This remote green result closes the historical engineering/delivery gate; the
+current branch tip and its post-update Actions run still require verification.
 
 ## Independent evidence
 
@@ -77,14 +77,15 @@ does not turn the missing real-source inputs into M79/M82 acceptance.
 - `artifacts/m79_m84/worldness_calibration.json`
 - `artifacts/m79_m84/structured_mixed_smoke.json`
 - `scripts/m79_m84_checkpoint.py`
+- `reports/M79_REAL_EPUB_QUALIFICATION.md`
+- `artifacts/m79_m84/real_second_book_product_evidence.json`
 
 The resumable checkpoint now validates supplied paths using metadata only:
-each source must be an existing regular file outside the repository. Missing,
-non-file, unreadable, or repository-local paths remain `USER_INPUT_REQUIRED`;
-the source contents are never opened or copied by this gate.
+each source must be an existing regular file outside the repository. The EPUB
+source is ready; the GEDCOM field remains missing. The source contents are
+never opened or copied by this checkpoint gate.
 
-The next resumable checkpoints are `M79/G82A` and `M82/G85A`. Once the two
-private paths are supplied, the same real product chain must produce and
-verify WorldPackage, Preview, semantic quality, Worldness, Living Instance,
-Commit/Replay, and the required M84 release evidence before any stable tag or
-release is considered.
+The next resumable checkpoint is `M82/G85A`. The same real product chain must
+produce and verify the family WorldPackage, Preview, Worldness, Living
+Instance, Commit/Replay, and the required M84 release evidence before any
+stable tag or release is considered.
