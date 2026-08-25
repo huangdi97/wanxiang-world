@@ -46,10 +46,11 @@ into a product pass claim.
 
 ## Remote delivery gate
 
-The evidence-only feature commit is pushed and verified remotely:
+The implementation and evidence-only commits are pushed and verified remotely:
 
-- local HEAD and `origin/feature/source-to-living-world`: `82918be493721853821562ccb66f67eaa5bf657f`
-- GitHub Actions run `32835309602`: all six required jobs succeeded
+- implementation commit: `82918be493721853821562ccb66f67eaa5bf657f`
+- current local HEAD and `origin/feature/source-to-living-world`: `ef8a97292b6ab52ded9e2d0af69af333d75e668e`
+- GitHub Actions run `32837328145`: all six required jobs succeeded
   (`python`, API/package/SDK, PostgreSQL, release-smoke, safety, and TS)
 - no stable `v5.4.0` tag or GitHub stable Release was created
 

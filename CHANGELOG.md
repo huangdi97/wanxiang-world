@@ -1604,3 +1604,5 @@
 - Feature branch commit `82918be` is pushed; Actions run `32835309602` is green
   across all six required jobs. No stable tag or release was created because
   M79/M82 still require private real-source inputs.
+- The current evidence head `ef8a972` is also pushed; its Actions run
+  `32837328145` is green across all six required jobs.
