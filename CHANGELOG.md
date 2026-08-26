@@ -2040,3 +2040,17 @@
 - Qualified the lifecycle against a private source → WorldPackage →
   PlayableService → Preview → SQLite Runtime chain with unchanged canonical
   hash/revision/event count and replay. Gate 30 remains pending until G93H.
+
+## v5.5 G93F (2026-08-27)
+
+- Added typed local/global reputation projections, including observer-specific
+  views, deterministic evidence refs, bounded weighted updates, and stale
+  before-state protection.
+- Restricted reputation evidence to committed events/observations and kept
+  belief and rumor separate; all updates remain review-gated proposals using
+  the existing StateDelta provenance policy.
+- Added independent social-role eligibility and assignment projections with
+  explicit review; no institution role, permission, canonical state, or event
+  store is mutated. Real source/playable/Preview/SQLite evidence passed with
+  unchanged canonical hash/revision/event count and replay. Gate 30 remains
+  pending until G93H.

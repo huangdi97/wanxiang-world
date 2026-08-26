@@ -23,7 +23,7 @@
 | packages/substrate/src/wanxiang_substrate/sources/registry.py | SourceRegistry | 31 |
 | packages/substrate/src/wanxiang_substrate/workshop/registry.py | WorldRegistryCatalog | 99 |
 
-## state_classes (32)
+## state_classes (35)
 
 | path | name | line |
 |---|---|---|
@@ -42,9 +42,12 @@
 | packages/substrate/src/wanxiang_substrate/capability/model.py | LearnerState | 112 |
 | packages/substrate/src/wanxiang_substrate/cosim/adapter.py | FakeSimulatorState | 34 |
 | packages/substrate/src/wanxiang_substrate/evolution/actor_evolution.py | ActorEvolutionState | 42 |
-| packages/substrate/src/wanxiang_substrate/evolution/organization_model.py | OrganizationLifecycleState | 135 |
+| packages/substrate/src/wanxiang_substrate/evolution/organization_model.py | OrganizationLifecycleState | 131 |
 | packages/substrate/src/wanxiang_substrate/evolution/persona_adaptation.py | PersonaTraitState | 23 |
 | packages/substrate/src/wanxiang_substrate/evolution/promotion/pipeline.py | GenesisSnapshot | 26 |
+| packages/substrate/src/wanxiang_substrate/evolution/reputation_model.py | ReputationState | 66 |
+| packages/substrate/src/wanxiang_substrate/evolution/reputation_model.py | ReputationProjection | 113 |
+| packages/substrate/src/wanxiang_substrate/evolution/social_role.py | SocialRoleProjection | 99 |
 | packages/substrate/src/wanxiang_substrate/genealogy/privacy.py | ConsentState | 19 |
 | packages/substrate/src/wanxiang_substrate/lifecycle/model.py | LifecycleState | 87 |
 | packages/substrate/src/wanxiang_substrate/long_horizon/lod.py | LODState | 88 |
