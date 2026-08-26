@@ -510,6 +510,9 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
 - G90F: PASS and committed as `g90f: Publishing Profiles`; visibility, rights,
   metadata, safety refs, private-not-Plaza, and blocked-publish checks are
   covered. G90G-G97J remain pending.
+- G90G: PASS and committed as `g90g: World Registry / Marketplace Baseline`;
+  existing package registry/install/trust paths now back labeled searchable
+  world entries. G90H-G97J remain pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.

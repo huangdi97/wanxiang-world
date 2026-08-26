@@ -881,6 +881,14 @@ Experience, Publishing, Review, and Registry panels over one shared immutable
 conflict; no canonical state or Commit Authority is added. G90B is next;
 M87 and v5.5 remain NOT_ACCEPTED.
 
+## v5.5 G90G checkpoint (2026-08-26)
+
+G90G PASS: WorldRegistryCatalog now provides official/community metadata,
+search/category/tag/version compatibility, data-only open, and existing
+PackageInstaller-based install. Untrusted executable extensions and
+rights-blocked publication are rejected. G90H is next; M87 and v5.5 remain
+NOT_ACCEPTED.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/

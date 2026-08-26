@@ -43,6 +43,14 @@ from wanxiang_substrate.workshop.publishing import (
     SafetyExtensionPoints,
 )
 from wanxiang_substrate.workshop.publishing_editor import PublishingEditor
+from wanxiang_substrate.workshop.registry import (
+    RegistryEntryNotFound,
+    RegistryPublishBlocked,
+    WorldInstall,
+    WorldOpenRecord,
+    WorldRegistryCatalog,
+    WorldRegistryEntry,
+)
 from wanxiang_substrate.workshop.store import DraftRevisionConflict, WorkshopDraftStore
 
 __all__ = [
@@ -79,6 +87,12 @@ __all__ = [
     "PublishingProfile",
     "RightsSummary",
     "SafetyExtensionPoints",
+    "RegistryEntryNotFound",
+    "RegistryPublishBlocked",
+    "WorldInstall",
+    "WorldOpenRecord",
+    "WorldRegistryCatalog",
+    "WorldRegistryEntry",
     "build_prompt_contract",
     "extract_constraints",
     "claim_from_candidate",

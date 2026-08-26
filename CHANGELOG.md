@@ -1831,3 +1831,11 @@
   and safety extension points for explicit visibility boundaries.
 - Added rights-aware publication decisions; blocked source rights fail closed
   and private/family-private profiles are excluded from Plaza listings.
+
+## v5.5 G90G (2026-08-26)
+
+- Added a World Registry catalog adapter with official/community labels,
+  categories, tags, versions, compatibility, provenance, search, open, and
+  install metadata.
+- Reused the existing package registry/resolver/installer and trust policy;
+  untrusted executable extensions and rights-blocked entries remain blocked.

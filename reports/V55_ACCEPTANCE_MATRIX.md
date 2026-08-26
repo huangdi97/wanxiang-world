@@ -184,6 +184,14 @@ Canonical state, event history, candidates, package registry, and Commit
 Authority remain in their existing v5.4 boundaries. Gates 12-15 remain pending
 until G90H exercises the three real creation paths and publishing checks.
 
+## Latest engineering checkpoint — G90G (2026-08-26)
+
+G90G PASS. World Registry search/open/install now delegates to the existing
+package registry, dependency resolver, installer, and trust policy while
+retaining label/category/tag/version/compatibility/provenance metadata.
+Untrusted executables remain blocked and rights-blocked worlds are not
+registered. Gates 12-15 remain pending until G90H qualification.
+
 ## Latest engineering checkpoint — G90F (2026-08-26)
 
 G90F PASS. Publishing profiles now separate visibility, rights summary,
