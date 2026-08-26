@@ -75,3 +75,9 @@ prerelease. Otherwise the final status remains `NOT_ACCEPTED`.
 Gate 1 **ACCEPTED**. Evidence: `reports/G88B_REPORT.md`; four focused contract
 tests pass, including v0-to-v1 compatibility and invalid reference rejection.
 Gates 2-52 remain pending. Release status remains **IN_PROGRESS / NOT_ACCEPTED**.
+
+## Latest checkpoint — G88C (2026-08-26)
+
+G88C PASS. ExperiencePackage round-trip, embodiment-policy, and private/family
+visibility negative tests pass; no new final gate is promoted independently of
+the M85 qualification. Release status remains **IN_PROGRESS / NOT_ACCEPTED**.

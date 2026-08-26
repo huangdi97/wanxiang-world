@@ -1653,6 +1653,13 @@
 - Added v0 compatibility normalization, visibility checks, and a v5.4
   WorldPackage reference adapter without copying canonical state.
 
+## v5.5 G88C (2026-08-26)
+
+- Added ExperiencePackage v1 with product controls, entry/embodiment policy,
+  projection and StateDiff references, allowed actions, and visibility gates.
+- Added negative rights tests proving private/family-private packages cannot be
+  entered by an unrelated principal.
+
 ## 2026-08-25 — M79-M84 resumable source-gate hardening
 
 - Hardened `scripts/m79_m84_checkpoint.py` so a supplied path advances only

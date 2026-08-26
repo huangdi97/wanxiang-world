@@ -786,3 +786,8 @@ G88B PASS: PlayableWorldProfile schema 1, v0 compatibility, visibility
 validation, and the v5.4 WorldPackage reference adapter are implemented in
 `wanxiang_substrate.playable`. Four focused contract tests pass. G88C is next;
 the v5.5 release remains NOT_ACCEPTED.
+
+G88C PASS: ExperiencePackage v1 adds controls, UI capabilities, entry modes,
+allowed actions, StateDiff policy, projection refs, and rights validation while
+remaining proposal/configuration-only. Seven focused M85 contract tests pass.
+G88D is next.
