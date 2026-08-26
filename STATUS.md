@@ -2,6 +2,16 @@
 
 Updated: 2026-08-16 (GitHub public delivery)
 
+## v5.5 G95A checkpoint (2026-08-27)
+
+G95A WorldRunArtifact v1 is implemented and its focused unit/product-chain
+tests pass. The artifact records package/scenario/provider/seed, commit/snapshot/
+branch/control references, trajectory refs, metrics, and validation statuses
+with a verified content hash. Raw private source fields are rejected and
+sanitization reports redactions. Full quality passed with 1389 passed, one
+documented PostgreSQL EXTERNAL_BLOCKED skip, and two warnings. G95B-G97J
+remain pending and v5.5 remains NOT_ACCEPTED.
+
 ## GitHub public delivery (2026-08-16) - COMPLETE
 
 - Repository published PUBLIC as `huangdi97/wanxiang-world`

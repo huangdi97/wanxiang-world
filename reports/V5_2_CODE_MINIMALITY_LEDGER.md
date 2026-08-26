@@ -655,3 +655,15 @@ event/replay path; the removed duplicate branch port is not part of this
 budget. Justification: M88 needs explicit proposal/projection contracts while
 preserving one canonical runtime and one branch authority. Consumers:
 G91A-G91H unit/integration qualification and the M88 acceptance matrix.
+
+## M92 entry (G95A-G95H)
+The M92 World Laboratory adds only bounded evidence contracts over the existing
+runtime: a sanitized hash-verified WorldRunArtifact, versioned experiment
+registry records, branch/intervention provenance, queue/checkpoint batch
+records, provider-assignment proposals, trajectory comparison, and a separate
+V0-V7 validation profile. These records reference existing package, event,
+snapshot, branch, and runtime-control evidence; they never own canonical state
+or invoke Commit Authority. Private source bytes and provider hidden state are
+excluded from exported artifacts. Justification: M92 requires reproducible
+worldline experimentation and honest validity boundaries without creating a
+second runtime, branch, event store, or source registry.

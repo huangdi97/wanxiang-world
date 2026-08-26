@@ -1,5 +1,16 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-27 - G95A WorldRunArtifact v1
+
+- Added immutable, schema-versioned WorldRunArtifact evidence over the
+  existing package/preview/playable/SQLite runtime chain.
+- Added canonical semantic hashing, round-trip deserialization, tamper
+  detection, and strict rejection of raw private source fields/secrets.
+- G95A passed full quality: 1389 passed, one documented PostgreSQL
+  EXTERNAL_BLOCKED skip, two warnings; checkpoint g95a: WorldRunArtifact v1.
+- Gate 38 is accepted; G95B-G97J and the remaining M92-M94 gates remain
+  pending. v5.5 remains NOT_ACCEPTED.
+
 ## 2026-08-26 — M84 stable certification held at source-of-truth blocker
 
 - Fixed cross-platform deterministic fixture generation by writing the kernel

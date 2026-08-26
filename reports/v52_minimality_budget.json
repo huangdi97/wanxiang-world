@@ -4,7 +4,7 @@
   "hard_invariants_ok": true,
   "import_cycles": 0,
   "manager_classes": 0,
-  "milestone": "M91 (v5.5 G94F)",
+  "milestone": "M92 (v5.5 G95A)",
   "milestone_budgets": {
     "M26": {
       "hard_constraints": [
@@ -366,14 +366,24 @@
       ],
       "new_abstractions_allowance": 15,
       "note": "Pattern observations, repeated-pattern detection, and the bounded habit/norm/institution/culture-ontology candidate layers consume immutable derived views over committed history without creating a second history."
+    },
+    "M92": {
+      "hard_constraints": [
+        "one runtime/event store/branch system",
+        "artifacts contain refs and hashes, never private source bytes",
+        "provider output remains proposal-only",
+        "unknown validation is not pass"
+      ],
+      "new_abstractions_allowance": 24,
+      "note": "World laboratory evidence contracts add a sanitized RunArtifact, versioned experiment metadata, isolated fork/intervention evidence, bounded batch worldlines, provider assignment and trajectory/validation reports over the existing runtime and Commit Authority."
     }
   },
   "oversized_modules": 0,
   "ports": 41,
-  "production_files": 534,
-  "production_loc": 58705,
-  "public_classes": 1164,
-  "public_functions": 491,
+  "production_files": 536,
+  "production_loc": 59012,
+  "public_classes": 1165,
+  "public_functions": 492,
   "registry_classes": 16,
   "service_classes": 25,
   "state_schema_models": 37,
