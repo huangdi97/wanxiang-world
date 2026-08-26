@@ -1958,3 +1958,11 @@
   with threshold alerts and allow/defer/reject backpressure.
 - Added graceful next-LOD recommendation on budget exhaustion without partial
   usage charge; real Runtime truth remains untouched.
+
+## v5.5 G92G (2026-08-26)
+
+- Qualified accelerated 24h reference and seven-day multi-actor runs on the
+  real SQLite WorldRuntime with daily checkpoints, replay/restart recovery,
+  storage metrics, and reference compaction equality.
+- Accepted v5.5 gates 21-22; this remains world-time acceleration evidence, not
+  a wall-clock seven-day claim.

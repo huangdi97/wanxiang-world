@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G92F: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G92G: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -25,8 +25,8 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 18 | Director has no Commit authority | ACCEPTED | G91H proposal-only policy and architecture review |
 | 19 | Opportunity can be ignored | ACCEPTED | G91H actor ignore and projection status |
 | 20 | Intervention branch/artifact isolation | ACCEPTED | G91H real runtime child branch, parent event/hash/replay proof |
-| 21 | 24-hour smoke | PENDING | — |
-| 22 | 7-day runtime | PENDING | — |
+| 21 | 24-hour smoke | ACCEPTED | G92G real SQLite accelerated 24h reference with checkpoint/replay/recovery |
+| 22 | 7-day runtime | ACCEPTED | G92G real SQLite accelerated 7d multi-actor run with daily checkpoint/replay/storage evidence |
 | 23 | 30-day literary run | PENDING | — |
 | 24 | 90-day selected-world run | PENDING | — |
 | 25 | Checkpoint/resume/crash recovery | PENDING | — |
@@ -326,6 +326,15 @@ partial charge. Real Runtime truth remains unchanged while budget decisions
 are projected. Gate 28 remains pending until M89 quantification; G92G-G97J
 remain pending and v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**. Evidence:
 `reports/G92F_REPORT.md`.
+
+## Latest engineering checkpoint — G92G (2026-08-26)
+
+G92G PASS. A real SQLite town WorldRuntime ran deterministic accelerated 24h
+and 7d world-time horizons with multiple actors, daily checkpoints, replay /
+restart recovery, bounded storage metrics, and reference compaction equality.
+Gates 21-22 are **ACCEPTED**; Gate 23/24 and later M89+ gates remain pending,
+so v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**. Evidence:
+`reports/G92G_REPORT.md`.
 
 ## Latest engineering checkpoint — G90F (2026-08-26)
 

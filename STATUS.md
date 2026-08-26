@@ -1007,6 +1007,14 @@ backpressure is allow/defer/reject, and budget exhaustion recommends LOD
 degradation without charging partial usage. Gate 28 remains pending until M89
 quantification; G92G-G97J remain pending and v5.5 remains NOT_ACCEPTED.
 
+## v5.5 G92G checkpoint (2026-08-26)
+
+G92G PASS and committed as `g92g: 24h / 7d Long Run`. The real SQLite town
+WorldRuntime ran accelerated 24h and 7d world-time horizons with multiple
+actors, daily checkpoints, replay/restart recovery, storage metrics, and
+reference compaction equality. Gates 21-22 are accepted; Gate 23/24 and later
+M89+ gates remain pending, so v5.5 remains NOT_ACCEPTED.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/
