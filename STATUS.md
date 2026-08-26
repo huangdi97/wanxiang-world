@@ -1178,6 +1178,18 @@ supplied repeated events over two subjects and the scoped candidate, while
 canonical hash and replay stayed unchanged. G94E-G97J and M91-M94 remain
 pending; v5.5 remains NOT_ACCEPTED. Evidence: `reports/G94D_REPORT.md`.
 
+## v5.5 G94E / M91 checkpoint (2026-08-27)
+
+G94E PASS and committed as `g94e: Institution Candidate`. The existing
+InstitutionCandidate fabric now retains structured rule/role/resource/process
+references and provenance derived from a NormCandidate, with a pure explicit
+review helper. Incomplete structures and unauthorized reviewers are rejected;
+review does not invoke Commit Authority or silently change Constitution/Law.
+A private rights-approved source traversed the real playable SQLite chain and
+produced a reviewed institution candidate while canonical hash, revision, and
+replay stayed unchanged. G94F-G97J and M91-M94 remain pending; v5.5 remains
+NOT_ACCEPTED. Evidence: `reports/G94E_REPORT.md`.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/

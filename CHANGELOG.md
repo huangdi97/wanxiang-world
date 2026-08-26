@@ -2135,3 +2135,18 @@
   and replay.
 - G94D is PASS and committed as `g94d: Social Norm Candidate`; G94E-G97J and
   the remaining M91-M94 gates are pending, so v5.5 remains NOT_ACCEPTED.
+
+## v5.5 G94E / M91 (2026-08-27)
+
+- Extended the existing `InstitutionCandidate` with structured
+  rule/role/resource/process references, provenance, and explicit reviewer
+  state; added pure derivation and review helpers from `NormCandidate`.
+- Incomplete institution structure and unauthorized review are rejected;
+  review remains proposal-only and does not invoke Commit Authority or mutate
+  Constitution/Law. Existing institution law promotion remains an explicit
+  controlled operation.
+- Qualified the real private rights-approved source → WorldPackage → Preview →
+  PlayableService → SQLite chain, with a reviewed institution candidate and
+  unchanged canonical hash, revision, and replay.
+- G94E is PASS and committed as `g94e: Institution Candidate`; G94F-G97J and
+  the remaining M91-M94 gates are pending, so v5.5 remains NOT_ACCEPTED.

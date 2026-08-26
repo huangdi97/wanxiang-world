@@ -70,6 +70,8 @@ __all__ = [
     "create_capability_candidate",
     "InstitutionCandidate",
     "InstitutionPromotionChain",
+    "create_institution_candidate",
+    "review_institution_candidate",
     "MIN_STABILITY",
     "LawCandidate",
     "OntologyCandidate",

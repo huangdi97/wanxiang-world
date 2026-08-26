@@ -642,6 +642,11 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   small-sample guards pass through the real playable SQLite chain without
   automatic norm truth or canonical mutation. G94E-G97J and M91-M94 remain
   pending.
+- G94E: PASS and committed as `g94e: Institution Candidate`; the existing
+  candidate fabric now derives structured rule/role/resource/process and
+  provenance records from NormCandidate with explicit review and no auto-commit
+  path. Real playable SQLite evidence and replay/canonical immutability pass.
+  G94F-G97J and M91-M94 remain pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.

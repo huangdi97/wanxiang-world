@@ -65,6 +65,10 @@ from wanxiang_substrate.evolution.habit_candidate_model import (
     HabitKind,
     HabitPromotionPolicy,
 )
+from wanxiang_substrate.evolution.institution_candidate import (
+    create_institution_candidate,
+    review_institution_candidate,
+)
 from wanxiang_substrate.evolution.institution_promotion import (
     MIN_STABILITY,
     InstitutionCandidate,

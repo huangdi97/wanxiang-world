@@ -477,11 +477,11 @@ MILESTONE_BUDGETS: dict[str, MilestoneBudget] = {
     },
     "M91": {
         "note": (
-            "Pattern observations and the repeated-pattern detector are immutable "
-            "derived views over committed history; later candidates must consume "
-            "these records without creating a second history."
+            "Pattern observations, repeated-pattern detection, and the bounded "
+            "habit/norm/institution candidate layers consume immutable derived "
+            "views over committed history without creating a second history."
         ),
-        "new_abstractions_allowance": 10,
+        "new_abstractions_allowance": 14,
         "hard_constraints": (
             "derived cache only",
             "event refs and rebuild determinism",
@@ -515,7 +515,7 @@ def build_budget() -> Budget:
     managers = sum(1 for _label, name in flag_rows if "manager" in name.lower())
 
     payload: Budget = {
-        "milestone": "M91 (v5.5 G94A)",
+        "milestone": "M91 (v5.5 G94E)",
         "production_files": total["files"],
         "production_loc": total["loc"],
         "public_classes": total["classes"],
@@ -545,7 +545,7 @@ def render(budget: Budget) -> str:
         "with mandatory justification in `V5_2_CODE_MINIMALITY_LEDGER.md`) plus",
         "hard invariants that must hold at every milestone.",
         "",
-        "## Current snapshot — M91 / v5.5 G94A",
+        "## Current snapshot — M91 / v5.5 G94E",
         "",
         "| Metric | Count |",
         "|---|---|",

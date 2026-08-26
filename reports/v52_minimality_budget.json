@@ -4,7 +4,7 @@
   "hard_invariants_ok": true,
   "import_cycles": 0,
   "manager_classes": 0,
-  "milestone": "M91 (v5.5 G94A)",
+  "milestone": "M91 (v5.5 G94E)",
   "milestone_budgets": {
     "M26": {
       "hard_constraints": [
@@ -364,16 +364,16 @@
         "event refs and rebuild determinism",
         "no automatic Candidate or canonical mutation"
       ],
-      "new_abstractions_allowance": 10,
-      "note": "Pattern observations and the repeated-pattern detector are immutable derived views over committed history; later candidates must consume these records without creating a second history."
+      "new_abstractions_allowance": 14,
+      "note": "Pattern observations, repeated-pattern detection, and the bounded habit/norm/institution candidate layers consume immutable derived views over committed history without creating a second history."
     }
   },
   "oversized_modules": 0,
   "ports": 41,
-  "production_files": 532,
-  "production_loc": 58330,
+  "production_files": 533,
+  "production_loc": 58411,
   "public_classes": 1163,
-  "public_functions": 487,
+  "public_functions": 489,
   "registry_classes": 16,
   "service_classes": 25,
   "state_schema_models": 37,

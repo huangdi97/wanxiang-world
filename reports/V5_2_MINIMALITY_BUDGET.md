@@ -5,14 +5,14 @@ LOC cap: per-milestone *incremental* allowances on new abstractions (each
 with mandatory justification in `V5_2_CODE_MINIMALITY_LEDGER.md`) plus
 hard invariants that must hold at every milestone.
 
-## Current snapshot — M91 / v5.5 G94A
+## Current snapshot — M91 / v5.5 G94E
 
 | Metric | Count |
 |---|---|
-| Production files | 532 |
-| Production LOC | 58330 |
+| Production files | 533 |
+| Production LOC | 58411 |
 | Public classes | 1163 |
-| Public functions | 487 |
+| Public functions | 489 |
 | Registries | 16 |
 | Managers | 0 |
 | Services | 25 |
@@ -70,7 +70,7 @@ Hard invariants hold: **True** (0 cycles, 1 commit path).
 | M88 | 25 | PressureProfile, Opportunity lifecycle, Director modes, canon attractor, intervention, Quest projection and deterministic benchmark records reuse the existing reality/runtime branch ports. | one runtime and branch system; Director/Quest/intervention remain proposal or projection only; no pressure-specific Kernel types |
 | M89 | 39 | Long-horizon scheduler, detached background execution, cursor-only checkpoint/recovery, reference compaction, SimulationLOD, cost budget, and qualification value objects reuse the existing runtime. | one runtime/event store/branch system; scheduler/LOD/budget/compaction remain proposal or reference-only; no giant manager and no world-specific Kernel types |
 | M90 | 2 | Thirty-day actor/relationship/organization qualification compares typed projection snapshots over the existing Commit Authority and replay path; no new runtime state is introduced. | same source and package bytes; append-only canonical history and replay equality; all three projection planes change without projection commits |
-| M91 | 10 | Pattern observations and the repeated-pattern detector are immutable derived views over committed history; later candidates must consume these records without creating a second history. | derived cache only; event refs and rebuild determinism; no automatic Candidate or canonical mutation |
+| M91 | 14 | Pattern observations, repeated-pattern detection, and the bounded habit/norm/institution candidate layers consume immutable derived views over committed history without creating a second history. | derived cache only; event refs and rebuild determinism; no automatic Candidate or canonical mutation |
 
 Every new abstraction must answer the four questions in
 `reports/V5_2_CODE_MINIMALITY_LEDGER.md`; otherwise it is not added.
