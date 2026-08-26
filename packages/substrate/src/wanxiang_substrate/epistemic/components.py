@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import json
+
 from wanxiang_domain.entity import ComponentData
 from wanxiang_domain.ids import ComponentId, EntityId
 from wanxiang_domain.versions import SchemaVersion
@@ -22,6 +24,10 @@ def memory_component(
     salience: float = 0.5,
     source_obs_ref: str | None = None,
     forgotten: bool = False,
+    source_perception_refs: tuple[str, ...] = (),
+    decay_rate: float = 0.0,
+    reinforcement_count: int = 0,
+    last_reinforced_ticks: int | None = None,
 ) -> ComponentData:
     return ComponentData(
         component_id=ComponentId(f"mem_{memory_id.value}"),
@@ -36,6 +42,10 @@ def memory_component(
             "salience": salience,
             "source_obs_ref": source_obs_ref,
             "forgotten": forgotten,
+            "source_perception_refs": json.dumps(list(source_perception_refs), sort_keys=True),
+            "decay_rate": decay_rate,
+            "reinforcement_count": reinforcement_count,
+            "last_reinforced_ticks": last_reinforced_ticks,
         },
     )
 

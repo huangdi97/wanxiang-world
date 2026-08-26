@@ -58,6 +58,7 @@ def perceive(
         at_ticks=envelope.at_ticks,
         salience=envelope.confidence,
         source_obs_ref=envelope.source_event_ref or None,
+        source_perception_refs=(envelope.envelope_id,),
     )
 
 

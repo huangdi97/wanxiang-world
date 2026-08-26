@@ -1746,3 +1746,10 @@
   and evidence rationale/refs.
 - Added provider proposal validation and stale-source checks without any
   provider or policy commit path.
+
+## v5.5 G89C (2026-08-26)
+
+- Extended the existing Epistemic MemoryRecord with perception refs,
+  read-only salience decay, reinforcement lineage, and legacy-field defaults.
+- Preserved the separation between Observation/Memory, Belief confidence, and
+  canonical World Truth; no second memory store was introduced.

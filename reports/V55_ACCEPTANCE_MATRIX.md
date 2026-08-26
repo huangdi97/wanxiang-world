@@ -11,8 +11,8 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 4 | Free Action proposal-to-commit loop | ACCEPTED | G88H IntentCompiler → CommitAuthority |
 | 5 | Committed StateDiff | ACCEPTED | G88H committed event diff and replay hash |
 | 6 | Leave / Continue continuity | ACCEPTED | G88H same instance/branch after leave |
-| 7 | ActorGoalStack persistence/replay | PENDING | — |
-| 8 | Memory / Belief / Truth separation | PENDING | — |
+| 7 | ActorGoalStack persistence/replay | ACCEPTED | G89A serialization + replay verification |
+| 8 | Memory / Belief / Truth separation | ACCEPTED | G89C EpistemicMemory + G03B replay/authority tests |
 | 9 | Secret / rumor / future-knowledge isolation | PENDING | — |
 | 10 | RelationshipState time/event provenance | PENDING | — |
 | 11 | 7-day actor continuity | PENDING | — |
@@ -129,3 +129,11 @@ bounded deadline/evidence deltas, reason/evidence lineage, stale-source checks,
 and a provider adapter that can only return proposals. Gate 7 remains
 **ACCEPTED**; Gates 8-11 and the remaining gates remain pending. Release status
 remains **IN_PROGRESS / NOT_ACCEPTED**.
+
+## Latest checkpoint — G89C (2026-08-26)
+
+G89C PASS. The existing Epistemic substrate now carries perception refs,
+read-only decay, reinforcement lineage, and legacy-field compatibility without
+creating a second memory store. Gate 8 is **ACCEPTED**. Gates 9-11 and the
+remaining gates remain pending; release status remains **IN_PROGRESS /
+NOT_ACCEPTED**.

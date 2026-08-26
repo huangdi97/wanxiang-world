@@ -476,6 +476,9 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
 - G89B: PASS and committed as `g89b: Goal Reprioritization`; deterministic and
   provider proposal paths are evidence-bound and cannot commit. G89C-G97J
   remain pending.
+- G89C: PASS and committed as `g89c: EpistemicMemory v1`; Gate 8 is accepted
+  with backward-compatible memory refs/decay/reinforcement and existing belief
+  separation. G89D-G97J remain pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.

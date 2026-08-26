@@ -14,6 +14,7 @@ from wanxiang_substrate.epistemic.fixture import build_rumor_fixture_commands
 from wanxiang_substrate.epistemic.model import (
     BeliefAssertion,
     BeliefStatus,
+    EpistemicMemory,
     MemoryKind,
     MemoryRecord,
 )
@@ -34,6 +35,7 @@ __all__ = [
     "BeliefError",
     "BeliefStatus",
     "EpistemicConflict",
+    "EpistemicMemory",
     "EpistemicQuery",
     "MEMORY_ACCESS_COMPONENT",
     "MEMORY_COMPONENT",

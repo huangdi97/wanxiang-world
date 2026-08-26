@@ -831,3 +831,10 @@ G89B PASS: deterministic goal reprioritization and a provider proposal adapter
 now include bounded evidence/deadline deltas, reason/evidence refs, stale
 revision checks, and no provider commit path. The v4/v5.4 Actor/Epistemic
 regression remains green. G89C is next; v5.5 remains NOT_ACCEPTED.
+
+## v5.5 G89C checkpoint (2026-08-26)
+
+G89C PASS: the existing Epistemic substrate now has perception-source refs,
+read-only salience decay, explicit reinforcement lineage, and backward-
+compatible component decoding. Memory, Belief, and World Truth remain separate;
+Gate 8 is accepted. G89D is next; v5.5 remains NOT_ACCEPTED.

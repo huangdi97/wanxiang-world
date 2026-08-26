@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import json
 from collections.abc import Mapping
+from typing import cast
 
 from wanxiang_domain.ids import EntityId
 from wanxiang_runtime.state import InMemoryCanonicalState
@@ -38,7 +40,7 @@ class EpistemicQuery:
                     if belief is not None:
                         self._beliefs[belief.belief_id] = belief
                 elif component.component_type == MEMORY_COMPONENT:
-                    memory = _memory_from(component.fields, entity.entity_id)
+                    memory = memory_from_component(component.fields, entity.entity_id)
                     if memory is not None:
                         self._memories[memory.memory_id] = memory
                 elif component.component_type == MEMORY_ACCESS_COMPONENT:
@@ -149,7 +151,7 @@ def _belief_from(fields: Mapping[str, object], entity_id: EntityId) -> BeliefAss
     )
 
 
-def _memory_from(fields: Mapping[str, object], entity_id: EntityId) -> MemoryRecord | None:
+def memory_from_component(fields: Mapping[str, object], entity_id: EntityId) -> MemoryRecord | None:
     memory_id_raw = _str(fields, "memory_id")
     actor = _str(fields, "actor_id")
     content_ref = _str(fields, "content_ref")
@@ -164,4 +166,26 @@ def _memory_from(fields: Mapping[str, object], entity_id: EntityId) -> MemoryRec
         salience=_float(fields, "salience", 0.5),
         source_obs_ref=_str(fields, "source_obs_ref"),
         forgotten=fields.get("forgotten") is True,
+        source_perception_refs=_refs(fields, "source_perception_refs"),
+        decay_rate=_float(fields, "decay_rate", 0.0),
+        reinforcement_count=_int(fields, "reinforcement_count", 0),
+        last_reinforced_ticks=_optional_int(fields, "last_reinforced_ticks"),
     )
+
+
+def _refs(fields: Mapping[str, object], key: str) -> tuple[str, ...]:
+    raw = fields.get(key)
+    if not isinstance(raw, str) or not raw:
+        return ()
+    try:
+        value = json.loads(raw)
+    except json.JSONDecodeError:
+        return ()
+    if not isinstance(value, list):
+        return ()
+    return tuple(item for item in cast(list[object], value) if isinstance(item, str) and item)
+
+
+def _optional_int(fields: Mapping[str, object], key: str) -> int | None:
+    value = fields.get(key)
+    return value if isinstance(value, int) and not isinstance(value, bool) else None
