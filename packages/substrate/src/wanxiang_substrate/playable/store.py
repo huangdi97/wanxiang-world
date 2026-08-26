@@ -35,6 +35,25 @@ class ExperienceInstanceRecord:
             raise ContractError("instance counters cannot be negative")
 
 
+@dataclass(frozen=True, slots=True)
+class CharacterRecord:
+    """User-owned character identity; cognition and world truth remain elsewhere."""
+
+    character_id: str
+    owner_id: str
+    display_name: str
+    compatible_profile_ids: tuple[str, ...] = ()
+
+    def __post_init__(self) -> None:
+        if not self.character_id or not self.owner_id or not self.display_name.strip():
+            raise ContractError("character requires id, owner and display name")
+        if len(set(self.compatible_profile_ids)) != len(self.compatible_profile_ids):
+            raise ContractError("character profile compatibility refs must be unique")
+
+    def compatible_with(self, profile_id: str) -> bool:
+        return not self.compatible_profile_ids or profile_id in self.compatible_profile_ids
+
+
 class PlayableStore(Protocol):
     """Persistence port for experience metadata only."""
 
@@ -50,6 +69,12 @@ class PlayableStore(Protocol):
 
     def list_instances(self) -> tuple[ExperienceInstanceRecord, ...]: ...
 
+    def save_character(self, character: CharacterRecord) -> None: ...
+
+    def get_character(self, character_id: str) -> CharacterRecord: ...
+
+    def list_characters(self, owner_id: str) -> tuple[CharacterRecord, ...]: ...
+
 
 class InMemoryPlayableStore:
     """Deterministic store used by the reference product and unit tests."""
@@ -57,6 +82,7 @@ class InMemoryPlayableStore:
     def __init__(self) -> None:
         self._profiles: dict[str, PlayableWorldProfile] = {}
         self._instances: dict[str, ExperienceInstanceRecord] = {}
+        self._characters: dict[str, CharacterRecord] = {}
 
     def save_profile(self, profile: PlayableWorldProfile) -> None:
         profile.validate()
@@ -95,3 +121,24 @@ class InMemoryPlayableStore:
 
     def list_instances(self) -> tuple[ExperienceInstanceRecord, ...]:
         return tuple(self._instances[key] for key in sorted(self._instances))
+
+    def save_character(self, character: CharacterRecord) -> None:
+        current = self._characters.get(character.character_id)
+        if current is not None and current != character:
+            raise ContractError(
+                f"character {character.character_id!r} is immutable at this version"
+            )
+        self._characters[character.character_id] = character
+
+    def get_character(self, character_id: str) -> CharacterRecord:
+        try:
+            return self._characters[character_id]
+        except KeyError as exc:
+            raise NotFound(f"character {character_id!r} not found") from exc
+
+    def list_characters(self, owner_id: str) -> tuple[CharacterRecord, ...]:
+        return tuple(
+            self._characters[key]
+            for key in sorted(self._characters)
+            if self._characters[key].owner_id == owner_id
+        )

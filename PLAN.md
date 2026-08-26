@@ -463,6 +463,8 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   pending.
 - G88D: PASS and committed as `g88d: World Plaza / My Worlds / Continue`;
   G88E-G97J remain pending.
+- G88E: PASS and committed as `g88e: My Characters / Character Entry`;
+  G88F-G97J remain pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.

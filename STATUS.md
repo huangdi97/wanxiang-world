@@ -795,3 +795,8 @@ G88D is next.
 G88D PASS: World Plaza, My Worlds, Continue, recent-session ordering, and
 server-side private-world authorization are implemented over the shared
 metadata port. Nine focused M85 tests pass. G88E is next.
+
+G88E PASS: My Characters and Character Entry reuse the existing
+`SessionService`/`LeaseService`; observer presence, embodiment, owner and
+compatibility checks, double-controller rejection, and leave/resume are covered
+by 12 focused tests. G88F is next.

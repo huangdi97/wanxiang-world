@@ -1706,3 +1706,9 @@
   session read models over the shared experience metadata port.
 - Added private-world existence-leak protection and deterministic recent-session
   ordering.
+
+## v5.5 G88E (2026-08-26)
+
+- Added owner-bound My Characters and character compatibility checks.
+- Added observer presence and embodiment entry using the existing session and
+  single-primary-controller lease services, including leave/resume behavior.

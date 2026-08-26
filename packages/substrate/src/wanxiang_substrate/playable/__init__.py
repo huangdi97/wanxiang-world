@@ -1,6 +1,7 @@
 """Playable experience shell over the v5.4 world runtime."""
 
 from wanxiang_substrate.playable.catalog import SessionCard, WorldCard, WorldPlaza
+from wanxiang_substrate.playable.entry import CharacterEntryService, EntryReceipt, active_lease
 from wanxiang_substrate.playable.experience import (
     EmbodimentPolicy,
     ExperiencePackage,
@@ -15,6 +16,7 @@ from wanxiang_substrate.playable.models import (
     ScenarioProfile,
 )
 from wanxiang_substrate.playable.store import (
+    CharacterRecord,
     ExperienceInstanceRecord,
     InMemoryPlayableStore,
     PlayableStore,
@@ -24,6 +26,9 @@ __all__ = [
     "PLAYABLE_PROFILE_SCHEMA_VERSION",
     "InMemoryPlayableStore",
     "EmbodimentPolicy",
+    "CharacterEntryService",
+    "CharacterRecord",
+    "EntryReceipt",
     "ExperiencePackage",
     "ExperienceInstanceRecord",
     "PlayableStore",
@@ -34,6 +39,7 @@ __all__ = [
     "ScenarioProfile",
     "WorldCard",
     "WorldPlaza",
+    "active_lease",
     "experience_from_profile",
     "profile_from_world_package",
 ]

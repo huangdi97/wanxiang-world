@@ -87,3 +87,9 @@ the M85 qualification. Release status remains **IN_PROGRESS / NOT_ACCEPTED**.
 G88D PASS. Plaza cards, owner filtering, recent-session ordering, continue
 selection, and private-profile negative access all pass. Gate 2 remains pending
 until the shared API/Studio playable E2E is complete.
+
+## Latest checkpoint — G88E (2026-08-26)
+
+G88E PASS. Character ownership/compatibility, observer presence, single-lease
+embodiment, leave/resume, and observer-no-lease tests pass. Gate 3 remains
+pending until these rules are exercised through the full product route.
