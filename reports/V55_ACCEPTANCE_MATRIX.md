@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G92B: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G92C: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -289,6 +289,16 @@ be consumed without a live user session and re-entered after scheduler
 occurrences are adapted through the existing temporal Commit path. Gate 21
 remains pending until G92G; G92C-G97J remain pending and v5.5 remains
 **IN_PROGRESS / NOT_ACCEPTED**. Evidence: `reports/G92B_REPORT.md`.
+
+## Latest engineering checkpoint — G92C (2026-08-26)
+
+G92C PASS. Cursor-only RunCheckpoint records are atomically published with
+sequence/event-head monotonicity, deterministic crash injection, and exact
+scheduler restore. A real Runtime retry after simulated restart returned the
+existing committed event and produced no duplicate world effect. Gate 25
+remains pending until M89 long-run qualification; G92D-G97J remain pending and
+v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**. Evidence:
+`reports/G92C_REPORT.md`.
 
 ## Latest engineering checkpoint — G90F (2026-08-26)
 

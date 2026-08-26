@@ -8,6 +8,13 @@ from wanxiang_substrate.long_horizon.background import (
     BackgroundSimulation,
     SessionCursor,
 )
+from wanxiang_substrate.long_horizon.checkpoint import (
+    CheckpointCrash,
+    CrashPlan,
+    LongRunCheckpointService,
+    RunCheckpoint,
+    RunCheckpointStore,
+)
 from wanxiang_substrate.long_horizon.horizon import (
     DerivedWorld,
     DistilledPattern,
@@ -56,4 +63,9 @@ __all__ = [
     "BackgroundRun",
     "BackgroundSimulation",
     "SessionCursor",
+    "CheckpointCrash",
+    "CrashPlan",
+    "LongRunCheckpointService",
+    "RunCheckpoint",
+    "RunCheckpointStore",
 ]

@@ -1929,3 +1929,11 @@
 - Added durable leave/re-entry cursors and proved detached occurrences resume
   through the existing temporal Commit path without a live session or new
   authority.
+
+## v5.5 G92C (2026-08-26)
+
+- Added cursor-only atomic long-run checkpoints with monotonic sequence/event
+  heads, deterministic crash injection, exact scheduler restore, and append-only
+  checkpoint history.
+- Proved a real runtime restart retry is idempotent: the existing command ID
+  returns the committed event and does not append a duplicate world effect.

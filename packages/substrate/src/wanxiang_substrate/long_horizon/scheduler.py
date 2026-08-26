@@ -200,6 +200,23 @@ class RecurringScheduler:
     def cursor(self) -> SchedulerCursor:
         return SchedulerCursor(self._current_tick, self.pending())
 
+    def restore_cursor(self, cursor: SchedulerCursor) -> None:
+        """Restore the proposal queue from a validated cursor checkpoint."""
+        queue: list[tuple[int, int, str, int, int]] = []
+        for due_tick, schedule_id, occurrence in (
+            (item[2], item[0], item[1]) for item in cursor.pending
+        ):
+            schedule = self._schedules.get(schedule_id)
+            if schedule is None:
+                raise ContractError(f"cursor references unknown schedule {schedule_id!r}")
+            if schedule.due_tick(occurrence) != due_tick or due_tick < cursor.current_tick:
+                raise ContractError("scheduler cursor does not match registered schedule")
+            queue.append((due_tick, -schedule.priority, schedule_id, occurrence, len(queue)))
+        self._queue = queue
+        heapq.heapify(self._queue)
+        self._sequence = len(self._queue)
+        self._current_tick = cursor.current_tick
+
     def _enqueue(self, schedule: RecurringSchedule, *, occurrence: int) -> None:
         due_tick = schedule.due_tick(occurrence)
         heapq.heappush(

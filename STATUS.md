@@ -974,6 +974,15 @@ worldline-bound and re-entry preserves scheduler/world-time continuity through
 the existing temporal Commit path. Gate 21 remains pending until G92G;
 G92C-G97J remain pending and v5.5 remains NOT_ACCEPTED.
 
+## v5.5 G92C checkpoint (2026-08-26)
+
+G92C PASS and committed as `g92c: Checkpoint / Resume / Crash Recovery`.
+Cursor-only run checkpoints publish atomically, restore the exact scheduler
+queue, reject cursor/event regressions, and preserve the previous checkpoint
+under injected crash. A real Runtime restart retry is idempotent. Gate 25
+remains pending until the M89 long-run qualification; G92D-G97J remain pending
+and v5.5 remains NOT_ACCEPTED.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/
