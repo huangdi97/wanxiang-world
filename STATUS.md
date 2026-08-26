@@ -800,3 +800,8 @@ G88E PASS: My Characters and Character Entry reuse the existing
 `SessionService`/`LeaseService`; observer presence, embodiment, owner and
 compatibility checks, double-controller rejection, and leave/resume are covered
 by 12 focused tests. G88F is next.
+
+G88F PASS: IntentCompiler now produces immutable ActionProposal records for
+text/structured actions with typed clarification, unsupported, and rejection
+outcomes. Nested/malicious payloads are rejected and no proposal can commit.
+G88G is next.

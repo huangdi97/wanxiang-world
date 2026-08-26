@@ -93,3 +93,10 @@ until the shared API/Studio playable E2E is complete.
 G88E PASS. Character ownership/compatibility, observer presence, single-lease
 embodiment, leave/resume, and observer-no-lease tests pass. Gate 3 remains
 pending until these rules are exercised through the full product route.
+
+## Latest checkpoint — G88F (2026-08-26)
+
+G88F PASS. Text/structured intent compilation, typed clarification/unsupported
+outcomes, hostile-input rejection, and proposal-only authority boundaries pass.
+Gate 4 remains pending until the compiler is connected to the real runtime
+commit/replay path in G88H.

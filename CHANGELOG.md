@@ -1712,3 +1712,10 @@
 - Added owner-bound My Characters and character compatibility checks.
 - Added observer presence and embodiment entry using the existing session and
   single-primary-controller lease services, including leave/resume behavior.
+
+## v5.5 G88F (2026-08-26)
+
+- Added deterministic text/structured IntentCompiler and immutable
+  ActionProposal contracts.
+- Added typed ambiguity/unsupported/rejection outcomes and hostile-input
+  payload checks without a direct commit path.

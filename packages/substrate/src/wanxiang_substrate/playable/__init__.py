@@ -1,5 +1,11 @@
 """Playable experience shell over the v5.4 world runtime."""
 
+from wanxiang_substrate.playable.actions import (
+    ActionAffordance,
+    ActionProposal,
+    IntentCompiler,
+    IntentCompileResult,
+)
 from wanxiang_substrate.playable.catalog import SessionCard, WorldCard, WorldPlaza
 from wanxiang_substrate.playable.entry import CharacterEntryService, EntryReceipt, active_lease
 from wanxiang_substrate.playable.experience import (
@@ -28,7 +34,11 @@ __all__ = [
     "EmbodimentPolicy",
     "CharacterEntryService",
     "CharacterRecord",
+    "ActionAffordance",
+    "ActionProposal",
     "EntryReceipt",
+    "IntentCompileResult",
+    "IntentCompiler",
     "ExperiencePackage",
     "ExperienceInstanceRecord",
     "PlayableStore",
