@@ -1875,3 +1875,11 @@
   audit records.
 - Kept policy evaluation proposal-only; no Director path imports or exposes
   Commit Authority.
+
+## v5.5 G91D (2026-08-26)
+
+- Added `CanonAttractorPolicy` with normalized distance metrics, soft/hard
+  constraints, free-will-preserving assessments, and branch recommendations for
+  major divergence.
+- Kept canon guidance proposal-only; actual actor choice and parent history are
+  never rewritten by the policy.

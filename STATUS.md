@@ -921,6 +921,13 @@ LIVING, and EXPERIMENT proposal contracts, mode transitions, audits, and the
 no-CommitAuthority boundary are covered. Gates 17-18 remain pending until M88
 qualification; G91D-G97J remain pending.
 
+## v5.5 G91D checkpoint (2026-08-26)
+
+G91D PASS and committed as `g91d: Canon Attractor Policy`. Soft/hard canon
+distance, major-divergence branch recommendations, and free-will preservation
+are covered as proposal-only projections. Gates 17-19 remain pending until M88
+qualification; G91E-G97J remain pending.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/

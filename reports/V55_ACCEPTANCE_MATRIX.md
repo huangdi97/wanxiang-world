@@ -228,6 +228,14 @@ evaluation never exposes Commit Authority. Gates 17-18 stay pending until the
 M88 real playable qualification. G91D is next; v5.5 remains
 **IN_PROGRESS / NOT_ACCEPTED**.
 
+## Latest engineering checkpoint — G91D (2026-08-26)
+
+G91D PASS. `CanonAttractorPolicy` measures normalized soft/hard constraint
+distance and recommends a new branch on major divergence while preserving the
+observed actor choice. It never forces an action or mutates goals, state, or
+history. Gates 17-19 stay pending until M88 qualification. G91E is next; v5.5
+remains **IN_PROGRESS / NOT_ACCEPTED**.
+
 ## Latest engineering checkpoint — G90F (2026-08-26)
 
 G90F PASS. Publishing profiles now separate visibility, rights summary,

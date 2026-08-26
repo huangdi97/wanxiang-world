@@ -6,6 +6,14 @@ from wanxiang_substrate.reality.bridge import (
     ObservationAdapter,
     RealityBridge,
 )
+from wanxiang_substrate.reality.canon_attractor import (
+    CanonAttractorAssessment,
+    CanonAttractorPolicy,
+    CanonAttractorProposal,
+    CanonConstraint,
+    CanonConstraintKind,
+    CanonDistance,
+)
 from wanxiang_substrate.reality.challenge import (
     ChallengeCompiler,
     ChallengeSpec,
@@ -64,6 +72,12 @@ __all__ = [
     "ChallengeCompiler",
     "ChallengeSpec",
     "ChallengeValidationError",
+    "CanonAttractorAssessment",
+    "CanonAttractorPolicy",
+    "CanonAttractorProposal",
+    "CanonConstraint",
+    "CanonConstraintKind",
+    "CanonDistance",
     "DIRECTOR_MODES",
     "DefaultOpportunityDetector",
     "DirectorAudit",
