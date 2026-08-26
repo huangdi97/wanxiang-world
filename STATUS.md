@@ -859,3 +859,9 @@ G89F PASS: Character Passport now wraps the existing CharacterRecord as a
 privacy-aware, ref-only portable projection. Memory/skill/item portability,
 origin refs, target compatibility, and impossible-entry rejection are covered.
 G89G is next; v5.5 remains NOT_ACCEPTED.
+
+## v5.5 G89G checkpoint (2026-08-26)
+
+G89G PASS: ActorContinuityProjection now exposes frontend-ready Goal/Memory/
+Belief/Relationship/Action timelines, why refs, and server-side actor/observer
+redaction. G89H is next; Gate 11 remains pending and v5.5 remains NOT_ACCEPTED.

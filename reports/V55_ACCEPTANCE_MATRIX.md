@@ -159,3 +159,11 @@ existing CharacterRecord. Per-entry portability flags, origin refs, target
 compatibility checks, and explicit impossible-entry rejection pass. Gate 11 and
 the remaining gates remain pending; release status remains **IN_PROGRESS /
 NOT_ACCEPTED**.
+
+## Latest checkpoint — G89G (2026-08-26)
+
+G89G PASS. ActorContinuityProjection provides frontend timeline DTOs and
+why-action refs with actor/admin cognition access, observer redaction, and
+relationship visibility filtering. Gate 11 remains pending until G89H's
+multi-day continuity qualification; release status remains **IN_PROGRESS /
+NOT_ACCEPTED**.

@@ -488,6 +488,8 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
 - G89F: PASS and committed as `g89f: Character Passport`; portable entries are
   privacy-aware and target-capability checked with no silent impossible import.
   G89G-G97J remain pending.
+- G89G: PASS and committed as `g89g: Actor Continuity Projection`; frontend DTO
+  timelines and actor/observer redaction are covered. G89H-G97J remain pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.

@@ -27,6 +27,12 @@ from wanxiang_substrate.actor_continuity.passport_policy import (
     DeterministicPassportTranslationPolicy,
     PassportTranslationPolicy,
 )
+from wanxiang_substrate.actor_continuity.projection import (
+    ActionExplanation,
+    ActorContinuityProjection,
+    ActorContinuitySnapshot,
+    ContinuityTimelineItem,
+)
 from wanxiang_substrate.actor_continuity.relationship_graph import (
     RelationshipGraph,
     RelationshipRevisionEvent,
@@ -72,6 +78,10 @@ __all__ = [
     "ShortTermGoal",
     "DeterministicGoalReprioritizationPolicy",
     "CharacterPassport",
+    "ActionExplanation",
+    "ActorContinuityProjection",
+    "ActorContinuitySnapshot",
+    "ContinuityTimelineItem",
     "DeterministicPassportTranslationPolicy",
     "InterworldCompatibility",
     "PassportDecision",

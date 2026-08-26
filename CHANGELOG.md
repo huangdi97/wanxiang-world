@@ -1774,3 +1774,10 @@
   CharacterRecord with memory/skill/item portability and origin refs.
 - Added privacy-aware, compatibility-checked translation proposals that reject
   impossible or blocked entries without silent world import.
+
+## v5.5 G89G (2026-08-26)
+
+- Added ActorContinuityProjection frontend DTO timelines for Goal, Memory,
+  Belief, Relationship, and Action/why refs.
+- Added actor/admin cognition access and observer redaction without a projection
+  write path or private-reasoning leak.
