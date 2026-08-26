@@ -2108,3 +2108,16 @@
   and event history were unchanged.
 - G94B is PASS and committed as `g94b: Repeated Pattern Detector`; G94C-G97J
   and the remaining M91-M94 gates are pending, so v5.5 remains NOT_ACCEPTED.
+
+## v5.5 G94C / M91 (2026-08-27)
+
+- Added immutable actor-local `HabitCandidate`/`SkillCandidate`,
+  `HabitEvaluation`, and `HabitPromotionPolicy` records with explicit evidence
+  windows, event refs, stability thresholds, bounded time decay, and stale-
+  evidence rejection.
+- Only qualified repeated detections can form candidates; evaluation and decay
+  remain proposal-only and never write canonical state or turn a candidate into
+  automatic truth. Real private source/playable/Preview/SQLite evidence passed
+  with unchanged canonical hash and replay.
+- G94C is PASS and committed as `g94c: Habit / Skill Candidate`; G94D-G97J and
+  the remaining M91-M94 gates are pending, so v5.5 remains NOT_ACCEPTED.

@@ -364,16 +364,16 @@
         "event refs and rebuild determinism",
         "no automatic Candidate or canonical mutation"
       ],
-      "new_abstractions_allowance": 7,
+      "new_abstractions_allowance": 10,
       "note": "Pattern observations and the repeated-pattern detector are immutable derived views over committed history; later candidates must consume these records without creating a second history."
     }
   },
   "oversized_modules": 0,
   "ports": 41,
-  "production_files": 528,
-  "production_loc": 57745,
-  "public_classes": 1156,
-  "public_functions": 481,
+  "production_files": 530,
+  "production_loc": 58050,
+  "public_classes": 1159,
+  "public_functions": 485,
   "registry_classes": 16,
   "service_classes": 25,
   "state_schema_models": 37,

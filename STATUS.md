@@ -1156,6 +1156,17 @@ playable SQLite world qualify a behavior detection without changing canonical
 hash, replay, or event history. G94C-G97J and M91-M94 remain pending; v5.5
 remains NOT_ACCEPTED. Evidence: `reports/G94B_REPORT.md`.
 
+## v5.5 G94C / M91 checkpoint (2026-08-27)
+
+G94C PASS and committed as `g94c: Habit / Skill Candidate`. Qualified repeat
+detections now form immutable actor-local Habit/Skill Candidate records with
+evidence windows, event refs, stability, confidence decay, and an explicit
+evaluation policy. Unqualified, wrong-actor, short-window, and stale evidence
+remains ineligible. A private source-created playable SQLite chain supplied
+the repeated committed action; candidate creation/evaluation left canonical
+hash and replay unchanged. G94D-G97J and M91-M94 remain pending; v5.5 remains
+NOT_ACCEPTED. Evidence: `reports/G94C_REPORT.md`.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/

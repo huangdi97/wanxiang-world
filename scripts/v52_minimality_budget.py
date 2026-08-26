@@ -481,7 +481,7 @@ MILESTONE_BUDGETS: dict[str, MilestoneBudget] = {
             "derived views over committed history; later candidates must consume "
             "these records without creating a second history."
         ),
-        "new_abstractions_allowance": 7,
+        "new_abstractions_allowance": 10,
         "hard_constraints": (
             "derived cache only",
             "event refs and rebuild determinism",

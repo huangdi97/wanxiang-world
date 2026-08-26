@@ -52,6 +52,19 @@ from wanxiang_substrate.evolution.explainability import (
     explain_delta,
     link_actor_trajectory,
 )
+from wanxiang_substrate.evolution.habit_candidate import (
+    SkillCandidate,
+    create_habit_candidate,
+    create_skill_candidate,
+    decay_habit_candidate,
+    evaluate_habit_candidate,
+)
+from wanxiang_substrate.evolution.habit_candidate_model import (
+    HabitCandidate,
+    HabitEvaluation,
+    HabitKind,
+    HabitPromotionPolicy,
+)
 from wanxiang_substrate.evolution.institution_promotion import (
     MIN_STABILITY,
     InstitutionCandidate,

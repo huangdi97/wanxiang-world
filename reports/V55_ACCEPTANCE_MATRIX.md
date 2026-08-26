@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G94B: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G94C: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -439,6 +439,20 @@ count, and replay stayed unchanged. Gate 31 is **ACCEPTED**. Gate 30 remains
 pending until G93H's integrated 30-day run; G93H-G97J, Gate 24, and the
 remaining release gates remain pending. v5.5 remains **IN_PROGRESS /
 NOT_ACCEPTED**. Evidence: `reports/G93G_REPORT.md`.
+
+## Latest engineering checkpoint — G94C / M91 (2026-08-27)
+
+G94C PASS. Qualified repeated detections can produce actor-local Habit/Skill
+Candidate records with explicit evidence windows, event refs, stability,
+confidence, decay, and an evaluation policy. Unqualified detections, missing
+actors, insufficient windows, and stale/decayed evidence remain ineligible;
+candidate creation and decay are immutable proposal operations with no
+canonical commit path. A private rights-approved source traversed the real
+OneClickAuthoring → WorldPackage → Preview → PlayableService → SQLite
+WorldRuntime chain; a repeated actor action yielded a skill candidate and
+evaluation while canonical hash and replay stayed unchanged. G94D-G97J and
+Gates 24, 32-52, and 55-60 remain pending; v5.5 remains
+**IN_PROGRESS / NOT_ACCEPTED**. Evidence: `reports/G94C_REPORT.md`.
 
 ## Latest engineering checkpoint — G94B / M91 (2026-08-27)
 
