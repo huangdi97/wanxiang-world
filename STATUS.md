@@ -738,3 +738,12 @@ generalization sources and do not clear that blocker. No `v5.4.0` stable tag
 or release was created.
 
 See `reports/M84_STABLE_BLOCKER.md`.
+
+## M84 blocker resolution (2026-08-26)
+
+The original first-book blocker is cleared by a same-bytes real re-run through
+CLI/API/Studio: 11,549 candidates, measured coverage `0.8333333333333334`,
+WorldPackage, Preview, Worldness, Living, Commit/Replay, and branch isolation.
+The old NOT_ACCEPTED report is unchanged and remains historical evidence;
+current ACCEPTED evidence is in `reports/M84_FIRST_BOOK_REQUALIFICATION.md`.
+Stable tag/release remains pending the documentation commit's green Actions.

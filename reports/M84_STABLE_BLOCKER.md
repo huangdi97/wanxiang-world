@@ -70,3 +70,14 @@ Worldness, Living Instance, Commit/Replay, and an `ACCEPTED` decision can clear
 this blocker. Until then, preserve the original `NOT_ACCEPTED` report and do
 not create or move `v5.4.0`.
 
+## Resolution (2026-08-26)
+
+The blocker was cleared by re-running the same local source after the
+semantic-distillation repair. The real CLI and API/Studio evidence is now
+`ACCEPTED`: 11,549 candidates, measured coverage `0.8333333333333334`,
+WorldPackage, Preview, Worldness, Living, Commit/Replay, and branch isolation.
+See `reports/M84_FIRST_BOOK_REQUALIFICATION.md` and
+`artifacts/m79_m84/real_book_reacceptance_product_evidence.json`.
+
+This historical blocker report remains preserved; it is not rewritten into a
+false PASS record.

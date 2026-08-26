@@ -424,3 +424,13 @@ G87F-G87G remain held because the original first real Chinese book is still
 report. M79's second EPUB and M82's public historical GEDCOM cannot substitute
 for that required first-source acceptance. Do not create or move `v5.4.0`;
 preserve the blocker report and stop at this boundary.
+
+## M84 first-book blocker resolution (2026-08-26)
+
+The same original private Chinese book has now passed the real CLI/API/Studio
+requalification after the semantic-distillation repair: 11,549 provenance-
+bound candidates, measured coverage `0.8333333333333334`, WorldPackage,
+Preview, Worldness, Living, Commit/Replay, and branch isolation. The original
+NOT_ACCEPTED report remains preserved; the sanitized ACCEPTED evidence is in
+`reports/M84_FIRST_BOOK_REQUALIFICATION.md`. After the documentation commit's
+required Actions are green, proceed to G87F/G87G; do not enter v5.5.

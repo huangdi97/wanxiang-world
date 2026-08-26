@@ -1,0 +1,93 @@
+{
+  "qualification": "M84 first real Chinese book reacceptance",
+  "source": {
+    "kind": "text",
+    "private_local_only": true,
+    "raw_bytes_read": 937500,
+    "utf8_characters": 323815,
+    "copied_into_repository": false,
+    "modified": false,
+    "source_path_or_digest_emitted": false,
+    "rights": {
+      "private_analysis": true,
+      "external_model_processing": false,
+      "package_inclusion": true,
+      "public_export": false,
+      "training": false
+    }
+  },
+  "cli": {
+    "job_id": "m84_original_book_cli_rerun",
+    "package_id": "world:wd_m84_original_book_cli_rerun",
+    "preview_ref": "preview://preview_1",
+    "published": true,
+    "parsed_nodes": 3918,
+    "segments": 3918,
+    "batches": 164,
+    "provider_calls": 164,
+    "retries": 0,
+    "candidate_count": 11549,
+    "coverage": 0.8333333333333334,
+    "status": "READY",
+    "worldness_passed": true,
+    "worldness_overall": 0.9733333333333333,
+    "commit_committed": true,
+    "proposal_validated": true,
+    "replay_equal": true,
+    "branch_isolated": true
+  },
+  "api_studio": {
+    "job_id": "m84_original_book_api_rerun",
+    "one_click": "accepted",
+    "build": "accepted",
+    "preview": "accepted",
+    "publish": true,
+    "enter": "accepted",
+    "living_record": true,
+    "studio_ui": {
+      "http_status": 200,
+      "binary_upload": true,
+      "worldness_control": true,
+      "living_control": true
+    },
+    "draft": {
+      "status": "READY_TO_COMPILE",
+      "candidate_count": 11549,
+      "coverage": 0.8333333333333334,
+      "uncertainty": 0.05,
+      "selected_domains": ["household", "spatial"],
+      "entities": 2764,
+      "relations": 1091,
+      "places": 405,
+      "events": 27,
+      "completion_items": 0,
+      "evidence_locator_count": 11549,
+      "provider_ids": ["local_semantic_v1"]
+    },
+    "structure": {
+      "chapter_segments": 195,
+      "section_segments": 20,
+      "paragraph_segments": 3703,
+      "identity_keys_with_locator_provenance": 2764
+    },
+    "worldness": {
+      "passed": true,
+      "overall": 0.9733333333333333,
+      "previewable": true,
+      "publishable": true,
+      "living_ready": true,
+      "commit_committed": true,
+      "proposal_validated": true,
+      "replay_equal": true,
+      "branch_isolated": true,
+      "repair_converged": true,
+      "repair_rounds": 2
+    }
+  },
+  "acceptance": {
+    "decision": "ACCEPTED",
+    "historical_not_accepted_report_preserved": true,
+    "private_living_family_user_validation": "NOT_PERFORMED",
+    "public_historical_family_e2e": "NOT_APPLICABLE_TO_THIS_BOOK"
+  }
+}

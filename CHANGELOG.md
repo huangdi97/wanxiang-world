@@ -1661,3 +1661,15 @@
   model training is started.
 - The post-fix local quality gate is green: 1219 tests passed, one existing
   PostgreSQL profile was skipped, and two warnings were retained explicitly.
+
+## 2026-08-26 — M84 first real-book requalification accepted
+
+- Re-ran the same original private Chinese TXT through the real CLI and
+  API/Studio product paths after the semantic-distillation repair.
+- Accepted 11,549 provenance-bound candidates with measured coverage
+  `0.8333333333333334`, WorldPackage, Preview, Worldness, Living,
+  Commit/Replay, and branch-isolation evidence.
+- Preserved the original pre-repair NOT_ACCEPTED report unchanged and added
+  the sanitized requalification report/artifact. Stable tag/release remains
+  pending final documentation-commit Actions; v5.5 and model training remain
+  out of scope.

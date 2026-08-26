@@ -121,3 +121,16 @@ and zero coverage even in the rights-approved diagnostic. M79's accepted
 second EPUB and M82's accepted public historical GEDCOM do not replace that
 first-source acceptance. No stable tag or stable GitHub Release is authorized.
 See `reports/M84_STABLE_BLOCKER.md`.
+
+## M84 first-book requalification (2026-08-26)
+
+The unique first-book blocker is cleared. The same original private Chinese
+TXT was re-run through the real CLI and API/Studio chain and is now ACCEPTED:
+11,549 candidates, measured coverage `0.8333333333333334`, WorldPackage,
+Preview, Worldness `0.9733333333333333`, Living, Commit/Replay, and branch
+isolation. The historical NOT_ACCEPTED report remains unchanged. Evidence:
+`reports/M84_FIRST_BOOK_REQUALIFICATION.md` and
+`artifacts/m79_m84/real_book_reacceptance_product_evidence.json`.
+
+M84 G87F/G87G may proceed only after this documentation commit receives green
+required Actions; no stable tag has been created yet.

@@ -233,3 +233,13 @@ unchanged first real Chinese book report still records zero candidates and
 zero coverage in its rights-approved diagnostic. The accepted second EPUB and
 public historical GEDCOM generalization runs are not a substitute. No stable
 tag/release was created. See `reports/M84_STABLE_BLOCKER.md`.
+
+## M84 first-book requalification (2026-08-26)
+
+The same original private Chinese book now completes the real CLI/API/Studio
+chain after the semantic-distillation repair: 11,549 candidates, measured
+coverage `0.8333333333333334`, WorldPackage, Preview, Worldness, Living,
+Commit/Replay, and branch isolation. The pre-repair NOT_ACCEPTED report is
+preserved unchanged; sanitized ACCEPTED evidence is recorded in
+`reports/M84_FIRST_BOOK_REQUALIFICATION.md`. Stable release gates may proceed
+after the documentation commit's required Actions are green.
