@@ -151,3 +151,11 @@ G89E PASS. RelationshipState v1 carries eight bounded dimensions, temporal
 validity, event refs, replayable revisions, and actor-scoped visibility. Gate 10
 is **ACCEPTED**. Gate 11 and the remaining gates remain pending; release status
 remains **IN_PROGRESS / NOT_ACCEPTED**.
+
+## Latest checkpoint — G89F (2026-08-26)
+
+G89F PASS. Character Passport is a ref-only, privacy-aware projection over the
+existing CharacterRecord. Per-entry portability flags, origin refs, target
+compatibility checks, and explicit impossible-entry rejection pass. Gate 11 and
+the remaining gates remain pending; release status remains **IN_PROGRESS /
+NOT_ACCEPTED**.

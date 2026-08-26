@@ -852,3 +852,10 @@ G89E PASS: RelationshipState v1 now has eight bounded dimensions, time/event
  provenance, replayable history, and participant/source visibility filtering.
 Gate 10 is accepted; unrelated observers cannot read private relation state.
 G89F is next; v5.5 remains NOT_ACCEPTED.
+
+## v5.5 G89F checkpoint (2026-08-26)
+
+G89F PASS: Character Passport now wraps the existing CharacterRecord as a
+privacy-aware, ref-only portable projection. Memory/skill/item portability,
+origin refs, target compatibility, and impossible-entry rejection are covered.
+G89G is next; v5.5 remains NOT_ACCEPTED.

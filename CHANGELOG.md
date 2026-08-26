@@ -1767,3 +1767,10 @@
   event provenance, replayable revisions, and participant/source visibility.
 - Kept relationship projection reads separate from canonical RelationState and
   rejected global-omniscience access.
+
+## v5.5 G89F (2026-08-26)
+
+- Added a ref-only Character Passport projection over the existing
+  CharacterRecord with memory/skill/item portability and origin refs.
+- Added privacy-aware, compatibility-checked translation proposals that reject
+  impossible or blocked entries without silent world import.

@@ -14,6 +14,19 @@ from wanxiang_substrate.actor_continuity.goal_model import (
     ShortTermGoal,
 )
 from wanxiang_substrate.actor_continuity.goal_stack import ActorGoalStack
+from wanxiang_substrate.actor_continuity.passport_model import (
+    CharacterPassport,
+    InterworldCompatibility,
+    PassportDecision,
+    PassportEntry,
+    PassportPortability,
+    PassportTranslationContext,
+    PassportTranslationProposal,
+)
+from wanxiang_substrate.actor_continuity.passport_policy import (
+    DeterministicPassportTranslationPolicy,
+    PassportTranslationPolicy,
+)
 from wanxiang_substrate.actor_continuity.relationship_graph import (
     RelationshipGraph,
     RelationshipRevisionEvent,
@@ -58,6 +71,15 @@ __all__ = [
     "MediumTermGoal",
     "ShortTermGoal",
     "DeterministicGoalReprioritizationPolicy",
+    "CharacterPassport",
+    "DeterministicPassportTranslationPolicy",
+    "InterworldCompatibility",
+    "PassportDecision",
+    "PassportEntry",
+    "PassportPortability",
+    "PassportTranslationContext",
+    "PassportTranslationPolicy",
+    "PassportTranslationProposal",
     "ProviderGoalReprioritizationPolicy",
     "Relationship",
     "RelationshipDimensions",
