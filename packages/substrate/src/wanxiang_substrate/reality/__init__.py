@@ -12,6 +12,8 @@ from wanxiang_substrate.reality.challenge import (
     DefaultOpportunityDetector,
     Opportunity,
     OpportunityDetector,
+    OpportunityLifecycle,
+    OpportunityStatus,
 )
 from wanxiang_substrate.reality.director import (
     DirectorProposal,
@@ -78,6 +80,8 @@ __all__ = [
     "ObservationFusion",
     "Opportunity",
     "OpportunityDetector",
+    "OpportunityLifecycle",
+    "OpportunityStatus",
     "PerformanceDirector",
     "PhysicalObservation",
     "PRESSURE_DIMENSIONS",

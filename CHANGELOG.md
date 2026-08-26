@@ -1859,3 +1859,11 @@
   authority, reward, sanction, reputation, time, risk, and norm.
 - Preserved provenance and deterministic fingerprints, accepted the bounded
   legacy flat shape, and kept pressure outside the Kernel/domain packages.
+
+## v5.5 G91B (2026-08-26)
+
+- Extended the existing Opportunity contract with explicit lifecycle,
+  actor/world-state eligibility, expiry, reward/risk/evidence refs, and
+  immutable accept/ignore/decline/complete decisions.
+- Kept opportunity decisions proposal-only: no goal overwrite, canonical
+  mutation, or second event/registry path was introduced.

@@ -907,6 +907,13 @@ Scenario/Domain pressure value object carries all required bounded dimensions
 and provenance without Kernel/domain pollution. Gate 16 remains pending until
 M88 qualification; G91B-G97J remain pending.
 
+## v5.5 G91B checkpoint (2026-08-26)
+
+G91B PASS and committed as `g91b: Opportunity / Challenge`. Opportunity
+lifecycle, actor/world-state eligibility, expiry, reward/risk/evidence refs,
+and optional ignore are covered without a goal overwrite or commit path. Gate
+19 remains pending until M88 qualification; G91C-G97J remain pending.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/

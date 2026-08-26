@@ -521,6 +521,10 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   Scenario/Domain pressure dimensions, refs, deterministic serialization, and
   a matched zero-pressure baseline pass the kernel and architecture guards.
   Gate 16 remains pending until G91H; G91B-G97J remain pending.
+- G91B: PASS and committed as `g91b: Opportunity / Challenge`; lifecycle,
+  eligibility, expiry, reward/risk/evidence refs, and actor ignore are covered
+  as immutable proposal transitions. Gate 19 remains pending until G91H;
+  G91C-G97J remain pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.

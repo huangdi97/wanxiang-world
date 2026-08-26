@@ -212,6 +212,14 @@ the substrate reality plane; kernel/domain packages remain unchanged. Gate 16
 stays pending until the M88 qualification exercises it in a real playable
 world. G91B is next; v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**.
 
+## Latest engineering checkpoint — G91B (2026-08-26)
+
+G91B PASS. Existing Opportunity records now have explicit lifecycle,
+eligibility, expiry, reward/risk, completion-evidence, and world-state refs.
+Actor ignore is an immutable terminal proposal decision and cannot overwrite a
+goal or canonical state. Gate 19 stays pending until the M88 real playable
+qualification. G91C is next; v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**.
+
 ## Latest engineering checkpoint — G90F (2026-08-26)
 
 G90F PASS. Publishing profiles now separate visibility, rights summary,
