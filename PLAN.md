@@ -461,6 +461,8 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   PENDING; continue in the package order without pausing.
 - G88C: PASS and committed as `g88c: ExperiencePackage v1`; G88D-G97J remain
   pending.
+- G88D: PASS and committed as `g88d: World Plaza / My Worlds / Continue`;
+  G88E-G97J remain pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.

@@ -81,3 +81,9 @@ Gates 2-52 remain pending. Release status remains **IN_PROGRESS / NOT_ACCEPTED**
 G88C PASS. ExperiencePackage round-trip, embodiment-policy, and private/family
 visibility negative tests pass; no new final gate is promoted independently of
 the M85 qualification. Release status remains **IN_PROGRESS / NOT_ACCEPTED**.
+
+## Latest checkpoint — G88D (2026-08-26)
+
+G88D PASS. Plaza cards, owner filtering, recent-session ordering, continue
+selection, and private-profile negative access all pass. Gate 2 remains pending
+until the shared API/Studio playable E2E is complete.

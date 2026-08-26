@@ -1699,3 +1699,10 @@
   the sanitized requalification report/artifact. Stable tag/release remains
   pending final documentation-commit Actions; v5.5 and model training remain
   out of scope.
+
+## v5.5 G88D (2026-08-26)
+
+- Added server-side World Plaza, My Worlds, Continue, world cards, and recent
+  session read models over the shared experience metadata port.
+- Added private-world existence-leak protection and deterministic recent-session
+  ordering.

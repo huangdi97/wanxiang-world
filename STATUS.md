@@ -791,3 +791,7 @@ G88C PASS: ExperiencePackage v1 adds controls, UI capabilities, entry modes,
 allowed actions, StateDiff policy, projection refs, and rights validation while
 remaining proposal/configuration-only. Seven focused M85 contract tests pass.
 G88D is next.
+
+G88D PASS: World Plaza, My Worlds, Continue, recent-session ordering, and
+server-side private-world authorization are implemented over the shared
+metadata port. Nine focused M85 tests pass. G88E is next.
