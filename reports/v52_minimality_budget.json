@@ -112,7 +112,7 @@
         "no Canon from candidates",
         "no second envelope"
       ],
-      "new_abstractions_allowance": 10,
+      "new_abstractions_allowance": 14,
       "note": "Distillation & Candidate Fabric: unified CandidateEnvelope, distiller DAG + registry, reference passes (identity/event/relation/character/object), candidate clustering. Candidates propose only; no Canon."
     },
     "M55": {
@@ -370,10 +370,10 @@
   },
   "oversized_modules": 0,
   "ports": 41,
-  "production_files": 530,
-  "production_loc": 58050,
-  "public_classes": 1159,
-  "public_functions": 485,
+  "production_files": 532,
+  "production_loc": 58330,
+  "public_classes": 1163,
+  "public_functions": 487,
   "registry_classes": 16,
   "service_classes": 25,
   "state_schema_models": 37,

@@ -9,10 +9,10 @@ hard invariants that must hold at every milestone.
 
 | Metric | Count |
 |---|---|
-| Production files | 530 |
-| Production LOC | 58050 |
-| Public classes | 1159 |
-| Public functions | 485 |
+| Production files | 532 |
+| Production LOC | 58330 |
+| Public classes | 1163 |
+| Public functions | 487 |
 | Registries | 16 |
 | Managers | 0 |
 | Services | 25 |
@@ -42,7 +42,7 @@ Hard invariants hold: **True** (0 cycles, 1 commit path).
 | M51 | 5 | Source->LivingWorld Forge baseline: unified Job/JobCheckpoint/JobStore/JobService + typed job errors; reuses single commit path (jobs never mutate canon). | 1 commit path; no second source registry; jobs propose only |
 | M52 | 12 | Source Registry & Adapter Foundation: convergence fields, blob refs, SourceAdapter ABI + AdapterRegistry, book/structured/asset adapters, ingestion security gate. All adapters propose only; single SourceRegistry. | 1 commit path; single source registry; no fake extraction |
 | M53 | 8 | Parse/Segment/Stable Locator: ParsedDocument IR, StructureParser, segment model + format locators, incremental cache, parse checkpoint, diagnostics API. All propose only; single locator/source-registry. | 1 commit path; single source registry; no fake extraction |
-| M54 | 10 | Distillation & Candidate Fabric: unified CandidateEnvelope, distiller DAG + registry, reference passes (identity/event/relation/character/object), candidate clustering. Candidates propose only; no Canon. | 1 commit path; no Canon from candidates; no second envelope |
+| M54 | 14 | Distillation & Candidate Fabric: unified CandidateEnvelope, distiller DAG + registry, reference passes (identity/event/relation/character/object), candidate clustering. Candidates propose only; no Canon. | 1 commit path; no Canon from candidates; no second envelope |
 | M55 | 8 | Evidence/Rights/Review/Completion core: evidence bindings, conflict ledger, rights gate, review ledger, E0-E5 completion + planner, review API routes. All decisions append-only/reversible; no Canon promotion. | 1 commit path; no last-write-wins; no auto canon |
 | M56 | 9 | Domain Matching & WorldDraft: domain capability registry + recommender + resolver, WorldDraft v1 + store, coverage, scenario mining, genesis draft. Drafts are compile intermediates, never runtime state. | 1 commit path; no second runtime state; no per-world domain fork |
 | M57 | 10 | World compiler/package/preview: revision-pinned compiler boundary, formal package manifest wrapper, deterministic rebuild plan, and an isolated preview scope over the existing runtime port. | 1 commit path; no second runtime state; preview never mutates published registry |

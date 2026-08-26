@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G94C: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G94D: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -439,6 +439,20 @@ count, and replay stayed unchanged. Gate 31 is **ACCEPTED**. Gate 30 remains
 pending until G93H's integrated 30-day run; G93H-G97J, Gate 24, and the
 remaining release gates remain pending. v5.5 remains **IN_PROGRESS /
 NOT_ACCEPTED**. Evidence: `reports/G93G_REPORT.md`.
+
+## Latest engineering checkpoint — G94D / M91 (2026-08-27)
+
+G94D PASS. `NormCandidate` requires a minimum population, explicit local or
+global scope, repeated-window evidence, exception-rate bounds, and committed
+event-linked reward/sanction correlation. Small samples and exception-heavy
+patterns remain ineligible; candidate construction/evaluation is immutable and
+does not activate a norm or write Canon. A private rights-approved source
+traversed OneClickAuthoring → WorldPackage → Preview → PlayableService →
+SQLite WorldRuntime; repeated committed status events over two subjects yielded
+a scoped norm candidate with outcome evidence while canonical hash and replay
+stayed unchanged. G94E-G97J and Gates 24, 32-52, and 55-60 remain pending;
+v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**. Evidence:
+`reports/G94D_REPORT.md`.
 
 ## Latest engineering checkpoint — G94C / M91 (2026-08-27)
 

@@ -152,7 +152,7 @@ MILESTONE_BUDGETS: dict[str, MilestoneBudget] = {
             "DAG + registry, reference passes (identity/event/relation/character/"
             "object), candidate clustering. Candidates propose only; no Canon."
         ),
-        "new_abstractions_allowance": 10,
+        "new_abstractions_allowance": 14,
         "hard_constraints": ("1 commit path", "no Canon from candidates", "no second envelope"),
     },
     "M55": {

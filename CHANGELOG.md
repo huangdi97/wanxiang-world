@@ -2121,3 +2121,17 @@
   with unchanged canonical hash and replay.
 - G94C is PASS and committed as `g94c: Habit / Skill Candidate`; G94D-G97J and
   the remaining M91-M94 gates are pending, so v5.5 remains NOT_ACCEPTED.
+
+## v5.5 G94D / M91 (2026-08-27)
+
+- Added population-level `NormCandidate`, `NormEvaluation`,
+  `NormPromotionPolicy`, and committed-event-linked `NormOutcomeEvidence`.
+  Candidates require explicit local/global scope, population support,
+  repeated-window evidence, exception-rate limits, and optional
+  reward/sanction correlation.
+- Small samples and exception-heavy detections remain ineligible. Candidate
+  creation and evaluation never activate a norm or write canonical state; real
+  private source/playable/Preview/SQLite evidence passed with unchanged hash
+  and replay.
+- G94D is PASS and committed as `g94d: Social Norm Candidate`; G94E-G97J and
+  the remaining M91-M94 gates are pending, so v5.5 remains NOT_ACCEPTED.

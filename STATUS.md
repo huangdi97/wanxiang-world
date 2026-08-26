@@ -1167,6 +1167,17 @@ the repeated committed action; candidate creation/evaluation left canonical
 hash and replay unchanged. G94D-G97J and M91-M94 remain pending; v5.5 remains
 NOT_ACCEPTED. Evidence: `reports/G94C_REPORT.md`.
 
+## v5.5 G94D / M91 checkpoint (2026-08-27)
+
+G94D PASS and committed as `g94d: Social Norm Candidate`. Population-level
+NormCandidate records now retain local/global scope, repeated-window support,
+exception rates, committed event refs, and reward/sanction correlation.
+Small-sample and exception-heavy patterns remain ineligible; all operations
+are candidate/evaluation-only. A private source-created playable SQLite chain
+supplied repeated events over two subjects and the scoped candidate, while
+canonical hash and replay stayed unchanged. G94E-G97J and M91-M94 remain
+pending; v5.5 remains NOT_ACCEPTED. Evidence: `reports/G94D_REPORT.md`.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/

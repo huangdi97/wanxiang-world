@@ -70,6 +70,17 @@ from wanxiang_substrate.evolution.institution_promotion import (
     InstitutionCandidate,
     InstitutionPromotionChain,
 )
+from wanxiang_substrate.evolution.norm_candidate import (
+    create_norm_candidate,
+    evaluate_norm_candidate,
+)
+from wanxiang_substrate.evolution.norm_candidate_model import (
+    NormCandidate,
+    NormEvaluation,
+    NormOutcomeEvidence,
+    NormPromotionPolicy,
+    NormScope,
+)
 from wanxiang_substrate.evolution.ontology_law import (
     LawCandidate,
     OntologyCandidate,
