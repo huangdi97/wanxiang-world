@@ -13,7 +13,7 @@ router = APIRouter(prefix="/studio")
 _HTML = r"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><title>Wanxiang Studio</title>
 <style>body{font:15px system-ui;max-width:960px;margin:2rem auto;padding:0 1rem;background:#111827;color:#e5e7eb}button,input{padding:.55rem;margin:.25rem;background:#1f2937;color:inherit;border:1px solid #4b5563;border-radius:4px}textarea{width:100%;height:14rem;background:#0b1220;color:#e5e7eb;border:1px solid #4b5563;padding:.6rem}pre{white-space:pre-wrap;background:#0b1220;padding:1rem;max-height:28rem;overflow:auto}.row{display:flex;gap:.5rem;flex-wrap:wrap}.muted{color:#9ca3af}</style></head>
-<body><h1>Wanxiang Studio</h1><p class="muted">Upload → Progress → Candidates/Review → Domains/Completion/Draft → Build/Preview → Worldness/Repair → Living World</p>
+<body><h1>Wanxiang Studio</h1><p class="muted"><a href="/workshop">World Workshop</a> · From Source · From Prompt · Hybrid Genesis</p><p class="muted">Upload → Progress → Candidates/Review → Domains/Completion/Draft → Build/Preview → Worldness/Repair → Living World</p>
 <div class="row"><input id="job" value="studio_job" aria-label="job id"><input id="provider" value="local" aria-label="semantic provider"></div>
 <textarea id="source" aria-label="source text">Paste source text or load a file</textarea><div class="row">
 <input id="file" type="file"><button onclick="runAuthoring()">Run authoring</button><button onclick="loadStatus()">Refresh status</button>

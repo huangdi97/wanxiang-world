@@ -1,10 +1,10 @@
 {
   "commit_paths": 1,
-  "engine_classes": 4,
+  "engine_classes": 5,
   "hard_invariants_ok": true,
   "import_cycles": 0,
   "manager_classes": 0,
-  "milestone": "M78",
+  "milestone": "M87 (v5.5 G90H)",
   "milestone_budgets": {
     "M26": {
       "hard_constraints": [
@@ -333,13 +333,13 @@
     }
   },
   "oversized_modules": 0,
-  "ports": 34,
-  "production_files": 446,
-  "production_loc": 43403,
-  "public_classes": 938,
-  "public_functions": 398,
-  "registry_classes": 15,
-  "service_classes": 19,
-  "state_schema_models": 25,
-  "store_classes": 24
+  "ports": 41,
+  "production_files": 490,
+  "production_loc": 50583,
+  "public_classes": 1046,
+  "public_functions": 439,
+  "registry_classes": 16,
+  "service_classes": 23,
+  "state_schema_models": 28,
+  "store_classes": 27
 }

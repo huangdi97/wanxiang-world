@@ -21,6 +21,7 @@ from wanxiang_substrate.authoring.providers import ProviderRouter
 from wanxiang_substrate.lineage import LineageGraph
 from wanxiang_substrate.playable import PlayableService
 from wanxiang_substrate.preview import register_preview_resolvers
+from wanxiang_substrate.workshop import LocalPromptGenesisProvider, WorkshopService
 
 from wanxiang_api.authoring_routes import router as authoring_router
 from wanxiang_api.constitution_routes import router as constitution_router
@@ -34,6 +35,7 @@ from wanxiang_api.promotion_routes import router as promotion_router
 from wanxiang_api.review_routes import router as review_router
 from wanxiang_api.routes import router
 from wanxiang_api.studio_ui_routes import router as studio_ui_router
+from wanxiang_api.workshop_routes import router as workshop_router
 
 API_TITLE = "Wanxiang World API"
 API_VERSION = "0.1.0"
@@ -87,7 +89,9 @@ def create_app(
     # The local provider is available as an explicit capability. Jobs still
     # require the caller to opt in via semantic_provider; omitted means the
     # no-key deterministic baseline and can return SEMANTIC_PROVIDER_REQUIRED.
-    app.state.authoring = AuthoringService(providers=ProviderRouter((LocalSemanticProvider(),)))
+    providers = ProviderRouter((LocalSemanticProvider(), LocalPromptGenesisProvider()))
+    app.state.authoring = AuthoringService(providers=providers)
+    app.state.workshop = WorkshopService(app.state.authoring, providers=providers)
     app.state.playable = PlayableService(runtime) if runtime is not None else None
     install_error_handler(app)
 
@@ -112,5 +116,6 @@ def create_app(
     app.include_router(one_click_router)
     app.include_router(living_world_router)
     app.include_router(studio_ui_router)
+    app.include_router(workshop_router)
     app.include_router(playable_router)
     return app

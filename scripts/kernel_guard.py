@@ -47,6 +47,10 @@ ALLOWED_MUTATION_FILES = (
 ALLOWED_PURE_APPLY = (
     "packages/substrate/src/wanxiang_substrate/resolution/service.py",
     "packages/substrate/src/wanxiang_substrate/capability/resolver.py",
+    # ActorGoalStack and RelationshipGraph are immutable projection replay
+    # records; they never hold or mutate canonical runtime state.
+    "packages/substrate/src/wanxiang_substrate/actor_continuity/goal_stack.py",
+    "packages/substrate/src/wanxiang_substrate/actor_continuity/relationship_graph.py",
 )
 
 

@@ -124,7 +124,8 @@
       "allowed": true,
       "modules": [
         "packages/substrate/src/wanxiang_substrate/authoring/scenario_engine.py",
-        "packages/substrate/src/wanxiang_substrate/host/hypervisor.py"
+        "packages/substrate/src/wanxiang_substrate/host/hypervisor.py",
+        "packages/substrate/src/wanxiang_substrate/playable/models.py"
       ],
       "name": "RuntimeProfile"
     },

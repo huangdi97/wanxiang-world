@@ -51,6 +51,8 @@ from wanxiang_substrate.workshop.registry import (
     WorldRegistryCatalog,
     WorldRegistryEntry,
 )
+from wanxiang_substrate.workshop.service import WorkshopService
+from wanxiang_substrate.workshop.service_models import WorkshopBuild
 from wanxiang_substrate.workshop.store import DraftRevisionConflict, WorkshopDraftStore
 
 __all__ = [
@@ -93,6 +95,8 @@ __all__ = [
     "WorldOpenRecord",
     "WorldRegistryCatalog",
     "WorldRegistryEntry",
+    "WorkshopBuild",
+    "WorkshopService",
     "build_prompt_contract",
     "extract_constraints",
     "claim_from_candidate",

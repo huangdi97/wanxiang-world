@@ -889,6 +889,17 @@ PackageInstaller-based install. Untrusted executable extensions and
 rights-blocked publication are rejected. G90H is next; M87 and v5.5 remain
 NOT_ACCEPTED.
 
+## v5.5 G90H / M87 checkpoint (2026-08-26)
+
+G90H PASS: Source, Prompt, and Hybrid Workshop flows now produce real
+WorldPackage/Preview artifacts and qualify through the shared API/Studio and
+PlayableService observer-entry path. Prompt-generated claims remain E5;
+public publication is blocked until `review_e5`, `accept_constraints`, and
+`preview` are accepted. Private/public visibility and rights checks pass, and
+same-origin source alternatives remain auditable while cross-origin conflicts
+remain explicit. M87 is complete; Gates 12-15 are accepted. G91A is next;
+v5.5 remains NOT_ACCEPTED and no model training or v5.6 scope is active.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/

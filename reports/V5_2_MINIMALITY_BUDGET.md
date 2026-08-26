@@ -5,28 +5,28 @@ LOC cap: per-milestone *incremental* allowances on new abstractions (each
 with mandatory justification in `V5_2_CODE_MINIMALITY_LEDGER.md`) plus
 hard invariants that must hold at every milestone.
 
-## Current M78 snapshot
+## Current snapshot — M87 / v5.5 G90H
 
 | Metric | Count |
 |---|---|
-| Production files | 446 |
-| Production LOC | 43403 |
-| Public classes | 938 |
-| Public functions | 398 |
-| Registries | 15 |
+| Production files | 490 |
+| Production LOC | 50583 |
+| Public classes | 1046 |
+| Public functions | 439 |
+| Registries | 16 |
 | Managers | 0 |
-| Services | 19 |
-| Engines | 4 |
-| Ports | 34 |
-| Stores | 24 |
-| State/schema models | 25 |
+| Services | 23 |
+| Engines | 5 |
+| Ports | 41 |
+| Stores | 27 |
+| State/schema models | 28 |
 | Import cycles | 0 |
 | Commit paths | 1 |
 | Oversized modules (>300 lines) | 0 |
 
 Hard invariants hold: **True** (0 cycles, 1 commit path).
 
-## Incremental budgets M26-M78
+## Historical incremental budgets M26-M78
 
 | Milestone | New-abstraction allowance | Note | Hard constraints |
 |---|---|---|---|

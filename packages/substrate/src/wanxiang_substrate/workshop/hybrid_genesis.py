@@ -199,7 +199,8 @@ def fuse_hybrid_genesis(
     for key in sorted(by_key):
         alternatives = by_key[key]
         values = {item.value for item in alternatives}
-        if len(values) < 2:
+        origins = {item.origin for item in alternatives}
+        if len(values) < 2 or origins != {"source", "prompt"}:
             continue
         source = next((item for item in alternatives if item.origin == "source"), None)
         prompt_claim = next((item for item in alternatives if item.origin == "prompt"), None)

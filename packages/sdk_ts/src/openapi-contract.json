@@ -10,6 +10,49 @@
         "operationId": "get_constitution_constitutions__constitution_id__get"
       }
     },
+    "/experience/characters": {
+      "get": {
+        "operationId": "characters_experience_characters_get"
+      },
+      "post": {
+        "operationId": "create_character_experience_characters_post"
+      }
+    },
+    "/experience/instances/{instance_id}": {
+      "get": {
+        "operationId": "observe_instance_experience_instances__instance_id__get"
+      }
+    },
+    "/experience/instances/{instance_id}/action": {
+      "post": {
+        "operationId": "action_instance_experience_instances__instance_id__action_post"
+      }
+    },
+    "/experience/instances/{instance_id}/continue": {
+      "post": {
+        "operationId": "continue_instance_experience_instances__instance_id__continue_post"
+      }
+    },
+    "/experience/instances/{instance_id}/leave": {
+      "post": {
+        "operationId": "leave_instance_experience_instances__instance_id__leave_post"
+      }
+    },
+    "/experience/plaza": {
+      "get": {
+        "operationId": "plaza_experience_plaza_get"
+      }
+    },
+    "/experience/worlds": {
+      "get": {
+        "operationId": "worlds_experience_worlds_get"
+      }
+    },
+    "/experience/worlds/{profile_id}/enter": {
+      "post": {
+        "operationId": "enter_world_experience_worlds__profile_id__enter_post"
+      }
+    },
     "/forge/candidates/{candidate_id}/evidence": {
       "get": {
         "operationId": "candidate_evidence_forge_candidates__candidate_id__evidence_get"
@@ -118,6 +161,11 @@
         "operationId": "get_living_studio_jobs__job_id__living_get"
       }
     },
+    "/studio/jobs/{job_id}/playable-profile": {
+      "post": {
+        "operationId": "register_playable_profile_studio_jobs__job_id__playable_profile_post"
+      }
+    },
     "/studio/jobs/{job_id}/preview": {
       "post": {
         "operationId": "preview_package_studio_jobs__job_id__preview_post"
@@ -179,6 +227,41 @@
     "/studio/ui": {
       "get": {
         "operationId": "studio_ui_studio_ui_get"
+      }
+    },
+    "/workshop": {
+      "get": {
+        "operationId": "workshop_home_workshop_get"
+      }
+    },
+    "/workshop/from-hybrid": {
+      "post": {
+        "operationId": "create_hybrid_workshop_from_hybrid_post"
+      }
+    },
+    "/workshop/from-prompt": {
+      "post": {
+        "operationId": "create_from_prompt_workshop_from_prompt_post"
+      }
+    },
+    "/workshop/from-source": {
+      "post": {
+        "operationId": "create_from_source_workshop_from_source_post"
+      }
+    },
+    "/workshop/{workshop_id}": {
+      "get": {
+        "operationId": "get_workshop_workshop__workshop_id__get"
+      }
+    },
+    "/workshop/{workshop_id}/evidence": {
+      "get": {
+        "operationId": "workshop_evidence_workshop__workshop_id__evidence_get"
+      }
+    },
+    "/workshop/{workshop_id}/review": {
+      "post": {
+        "operationId": "review_workshop_workshop__workshop_id__review_post"
       }
     },
     "/worlds": {

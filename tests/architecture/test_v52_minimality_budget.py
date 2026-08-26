@@ -49,15 +49,13 @@ def test_budget_script_runs_and_hard_invariants_hold() -> None:
 def test_budget_counts_are_stable() -> None:
     _run()
     budget = _load()
-    # Current M78 snapshot anchors (M26 history remains in the ledger):
-    # 10 at M26 + PresenceRegistry (M28) = 11
-    assert budget["registry_classes"] == 15  # + PreviewRegistry (M57)
-    # M58 AuthoringService plus the M71-M78 facade mixins/services.
-    assert budget["service_classes"] == 19
-    assert budget["engine_classes"] == 4
-    # 23 at M26 + RealityRootContract Protocol (M27) = 24; + SourceAdapter (M52) = 25;
-    # + ExternalSourceConnector (M62) + M71-M78 semantic/living ports = 34
-    assert budget["ports"] == 34
+    # Current v5.5 G90H/M87 snapshot anchors; the M26-M78 history remains in
+    # the ledger and these counts include the accepted v5.5 projection/product
+    # additions.
+    assert budget["registry_classes"] == 16
+    assert budget["service_classes"] == 23
+    assert budget["engine_classes"] == 5
+    assert budget["ports"] == 41
     loc = budget["production_loc"]
     files = budget["production_files"]
     assert isinstance(loc, int) and loc > 0

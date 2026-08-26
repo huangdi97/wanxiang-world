@@ -1,12 +1,16 @@
 # SDK API Baseline (G17A)
 
-- API routes: 45
+- API routes: 62
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 1547
+- Python public names (stable packages): 1716
 
 ## API routes
 
 - `GET /constitutions/{constitution_id}`
+- `GET /experience/characters`
+- `GET /experience/instances/{instance_id}`
+- `GET /experience/plaza`
+- `GET /experience/worlds`
 - `GET /forge/candidates/{candidate_id}/evidence`
 - `GET /forge/conflicts`
 - `GET /forge/reviews/{target_id}`
@@ -24,9 +28,17 @@
 - `GET /studio/jobs/{job_id}/scenarios`
 - `GET /studio/jobs/{job_id}/worldness`
 - `GET /studio/ui`
+- `GET /workshop`
+- `GET /workshop/{workshop_id}`
+- `GET /workshop/{workshop_id}/evidence`
 - `GET /worlds/{instance_id}`
 - `GET /worlds/{instance_id}/events`
 - `GET /worlds/{instance_id}/state`
+- `POST /experience/characters`
+- `POST /experience/instances/{instance_id}/action`
+- `POST /experience/instances/{instance_id}/continue`
+- `POST /experience/instances/{instance_id}/leave`
+- `POST /experience/worlds/{profile_id}/enter`
 - `POST /forge/completions/plan`
 - `POST /forge/conflicts`
 - `POST /forge/reviews`
@@ -37,6 +49,7 @@
 - `POST /studio/jobs/{job_id}/candidates/{candidate_id}/review`
 - `POST /studio/jobs/{job_id}/enter`
 - `POST /studio/jobs/{job_id}/instantiate`
+- `POST /studio/jobs/{job_id}/playable-profile`
 - `POST /studio/jobs/{job_id}/preview`
 - `POST /studio/jobs/{job_id}/publish`
 - `POST /studio/jobs/{job_id}/resume`
@@ -45,6 +58,10 @@
 - `POST /studio/jobs/{job_id}/start`
 - `POST /studio/jobs/{job_id}/worldness`
 - `POST /studio/one-click`
+- `POST /workshop/from-hybrid`
+- `POST /workshop/from-prompt`
+- `POST /workshop/from-source`
+- `POST /workshop/{workshop_id}/review`
 - `POST /worlds`
 - `POST /worlds/{instance_id}/actions`
 - `POST /worlds/{instance_id}/branches`
@@ -335,24 +352,24 @@
 - `wanxiang_substrate.AUTHORIZED_REVIEWERS`
 - `wanxiang_substrate.AccessPolicy`
 - `wanxiang_substrate.AcousticZone`
+- `wanxiang_substrate.ActionAffordance`
 - `wanxiang_substrate.ActionDefinition`
+- `wanxiang_substrate.ActionExplanation`
 - `wanxiang_substrate.ActionProof`
+- `wanxiang_substrate.ActionProposal`
 - `wanxiang_substrate.ActionRegistry`
 - `wanxiang_substrate.ActionSpace`
 - `wanxiang_substrate.ActionValidator`
 - `wanxiang_substrate.ActivationSet`
 - `wanxiang_substrate.Activity`
 - `wanxiang_substrate.ActivityKind`
+- `wanxiang_substrate.ActorContinuityProjection`
+- `wanxiang_substrate.ActorContinuitySnapshot`
 - `wanxiang_substrate.ActorEvolutionState`
 - `wanxiang_substrate.ActorEvolutionTracker`
+- `wanxiang_substrate.ActorGoal`
+- `wanxiang_substrate.ActorGoalStack`
+- `wanxiang_substrate.ActorGoalStatus`
 - `wanxiang_substrate.AdapterContractError`
-- `wanxiang_substrate.AdapterRegistry`
-- `wanxiang_substrate.Adjudication`
-- `wanxiang_substrate.AdjudicationService`
-- `wanxiang_substrate.Adjudicator`
-- `wanxiang_substrate.AdjudicatorRegistry`
-- `wanxiang_substrate.Affordance`
-- `wanxiang_substrate.AgencyError`
-- `wanxiang_substrate.AgencyQuery`
 
 Machine-readable: reports/sdk_api_baseline.json.

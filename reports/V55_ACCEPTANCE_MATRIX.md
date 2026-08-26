@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G88A: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G90H: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -16,10 +16,10 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 9 | Secret / rumor / future-knowledge isolation | ACCEPTED | G89D future guard + G03B/G35G privacy regressions |
 | 10 | RelationshipState time/event provenance | ACCEPTED | G89E time-scoped graph + visibility/replay tests |
 | 11 | 7-day actor continuity | ACCEPTED | G89H source-created two-actor 7-day replay/Continue qualification |
-| 12 | From Source regression | PENDING | — |
-| 13 | From Prompt E5 Candidate/WorldDraft | PENDING | — |
-| 14 | Hybrid E0-E5 provenance | PENDING | — |
-| 15 | Publish visibility/rights gates | PENDING | — |
+| 12 | From Source regression | ACCEPTED | G90H/M87 qualification: reports/G90H_REPORT.md |
+| 13 | From Prompt E5 Candidate/WorldDraft | ACCEPTED | G90H E5 contract, measured WorldDraft coverage, Preview and review gate |
+| 14 | Hybrid E0-E5 provenance | ACCEPTED | G90H source/prompt traces with preserved dissent |
+| 15 | Publish visibility/rights gates | ACCEPTED | G90H private/public/rights/API qualification |
 | 16 | PressureProfile outside Kernel | PENDING | — |
 | 17 | CANON/DIRECTED/LIVING/EXPERIMENT modes | PENDING | — |
 | 18 | Director has no Commit authority | PENDING | — |
@@ -191,6 +191,17 @@ package registry, dependency resolver, installer, and trust policy while
 retaining label/category/tag/version/compatibility/provenance metadata.
 Untrusted executables remain blocked and rights-blocked worlds are not
 registered. Gates 12-15 remain pending until G90H qualification.
+
+## Latest engineering checkpoint — G90H / M87 (2026-08-26)
+
+G90H PASS. Source, Prompt, and Hybrid all produce measured, non-zero-coverage
+WorldPackage/Preview artifacts through the shared Workshop service. Prompt
+claims remain E5 and cannot publish until the three review actions are
+accepted. API/Studio wiring and PlayableService observer entry pass over the
+reference runtime. Gates 12-15 are **ACCEPTED**; Gates 16-52 and final release
+gates remain pending. M87 is complete and v5.5 remains **IN_PROGRESS /
+NOT_ACCEPTED**. Evidence: `reports/G90H_REPORT.md` and
+`reports/M87_QUALIFICATION.md`.
 
 ## Latest engineering checkpoint — G90F (2026-08-26)
 

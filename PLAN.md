@@ -513,6 +513,10 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
 - G90G: PASS and committed as `g90g: World Registry / Marketplace Baseline`;
   existing package registry/install/trust paths now back labeled searchable
   world entries. G90H-G97J remain pending.
+- G90H: PASS and committed as `g90h: M87 Workshop Qualification`; Source,
+  Prompt, and Hybrid now qualify through WorldPackage/Preview, API/Studio,
+  PlayableService entry, E5 review, and rights/visibility gates. M87 is
+  complete; G91A-G97J remain pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.

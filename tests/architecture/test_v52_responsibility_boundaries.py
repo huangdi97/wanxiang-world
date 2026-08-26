@@ -17,6 +17,7 @@ ALLOWED_ENGINE_NAMES = {
     "ReplayEngine",
     "PlannerEngine",
     "ScenarioEngine",
+    "BeliefRevisionEngine",
     "create_engine_for",
 }
 

@@ -632,3 +632,14 @@ flow and required typed absence, measurable worldness and product-chain
 evidence; a second runtime, registry or commit path would violate the master
 spec. Consumers: G74A-G81J regression tests, CLI/API/Studio evidence and final
 feature-branch acceptance.
+
+## M85-M87 entry (G88A-G90H)
+The v5.5 continuation adds bounded Playable/continuity projection records and
+one World Workshop product shell over the existing WorldPackage, Preview,
+ProviderRouter, API and PlayableService ports. Actor goals, memory, beliefs,
+relationships and prompt claims remain projections/candidates; Workshop
+drafts, publishing metadata and registry entries never own canonical history.
+Justification: the package requires playable persistent evolving product
+surfaces while preserving the v5.4 Commit Authority, event store, branch
+repository, source registry, candidate fabric and package registry. Consumers:
+G88A-G90H contract/E2E tests and the v5.5 acceptance matrix.

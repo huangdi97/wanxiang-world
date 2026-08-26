@@ -76,6 +76,13 @@ def test_static_success_candidates_are_documented_only() -> None:
         ("packages/substrate/src/wanxiang_substrate/sources/book.py", "resume"),
         ("packages/substrate/src/wanxiang_substrate/sources/structured.py", "resume"),
         ("packages/substrate/src/wanxiang_substrate/sources/asset.py", "resume"),
+        # Actor cognition records expose an immutable false predicate so the
+        # projection can never be mistaken for canonical World Truth.
+        ("packages/substrate/src/wanxiang_substrate/epistemic/model.py", "is_world_truth"),
+        (
+            "packages/substrate/src/wanxiang_substrate/epistemic/belief_revision.py",
+            "is_world_truth",
+        ),
     }
     actual = {(f["file"], f["text"].removeprefix("def ")) for f in findings}
     assert actual == documented, f"unexpected static-success paths: {actual - documented}"

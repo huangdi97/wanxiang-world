@@ -143,6 +143,7 @@ class PublishingProfile:
     safety: SafetyExtensionPoints = SafetyExtensionPoints()
     audience_ref: str = ""
     schema_version: int = 1
+    review_complete: bool = True
 
     def __post_init__(self) -> None:
         if not self.profile_id or not self.owner_id:
@@ -164,6 +165,7 @@ class PublishingProfile:
             "metadata": self.metadata.to_dict(),
             "rights": self.rights.to_dict(),
             "safety": self.safety.to_dict(),
+            "review_complete": self.review_complete,
         }
 
 
@@ -187,6 +189,8 @@ class PublishingPolicy:
             reasons.append("public export rights are not approved")
         if profile.rights.blocked_refs:
             reasons.append("blocked rights refs: " + ",".join(profile.rights.blocked_refs))
+        if not profile.review_complete:
+            reasons.append("content review is incomplete")
         publishable = not reasons
         visible = publishable and profile.visibility == "public"
         payload = {

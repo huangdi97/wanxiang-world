@@ -2,7 +2,7 @@
 
 > Deterministic AST scan. Groups: registry/catalog, state models, stores,
 > services/managers, engines, ports, oversized modules, commit paths.
-## registry_classes (15)
+## registry_classes (16)
 
 | path | name | line |
 |---|---|---|
@@ -21,8 +21,9 @@
 | packages/substrate/src/wanxiang_substrate/skills/registry.py | SkillRegistry | 13 |
 | packages/substrate/src/wanxiang_substrate/sources/adapter.py | AdapterRegistry | 114 |
 | packages/substrate/src/wanxiang_substrate/sources/registry.py | SourceRegistry | 31 |
+| packages/substrate/src/wanxiang_substrate/workshop/registry.py | WorldRegistryCatalog | 99 |
 
-## state_classes (25)
+## state_classes (28)
 
 | path | name | line |
 |---|---|---|
@@ -31,6 +32,9 @@
 | packages/domain/src/wanxiang_domain/state.py | CanonicalState | 16 |
 | packages/runtime/src/wanxiang_runtime/snapshot.py | StoredSnapshot | 17 |
 | packages/runtime/src/wanxiang_runtime/state.py | InMemoryCanonicalState | 31 |
+| packages/substrate/src/wanxiang_substrate/actor_continuity/projection.py | ActorContinuitySnapshot | 73 |
+| packages/substrate/src/wanxiang_substrate/actor_continuity/projection.py | ActorContinuityProjection | 95 |
+| packages/substrate/src/wanxiang_substrate/actor_continuity/relationship_model.py | RelationshipState | 56 |
 | packages/substrate/src/wanxiang_substrate/authoring/living_ports.py | ReplayState | 25 |
 | packages/substrate/src/wanxiang_substrate/authoring/model.py | AuthoringSnapshot | 49 |
 | packages/substrate/src/wanxiang_substrate/authoring/scenario_engine.py | InitialSnapshot | 25 |
@@ -52,7 +56,7 @@
 | packages/substrate/src/wanxiang_substrate/spatial/errors.py | InvalidSpatialState | 34 |
 | packages/substrate/src/wanxiang_substrate/spatial/model.py | SpatialSnapshot | 91 |
 
-## store_classes (24)
+## store_classes (27)
 
 | path | name | line |
 |---|---|---|
@@ -77,11 +81,14 @@
 | packages/substrate/src/wanxiang_substrate/jobs/store.py | JobStore | 35 |
 | packages/substrate/src/wanxiang_substrate/ledger/completion.py | CompletionReviewLedger | 86 |
 | packages/substrate/src/wanxiang_substrate/ledger/ledger.py | CompletionLedger | 30 |
+| packages/substrate/src/wanxiang_substrate/playable/store.py | PlayableStore | 57 |
+| packages/substrate/src/wanxiang_substrate/playable/store.py | InMemoryPlayableStore | 79 |
 | packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | CheckpointStore | 31 |
 | packages/substrate/src/wanxiang_substrate/review/decisions.py | ReviewLedger | 37 |
 | packages/substrate/src/wanxiang_substrate/sources/blob.py | SourceBlobStore | 51 |
+| packages/substrate/src/wanxiang_substrate/workshop/store.py | WorkshopDraftStore | 16 |
 
-## service_classes (19)
+## service_classes (23)
 
 | path | name | line |
 |---|---|---|
@@ -91,12 +98,16 @@
 | packages/substrate/src/wanxiang_substrate/lifecycle/service.py | LifecycleService | 19 |
 | packages/substrate/src/wanxiang_substrate/observation/query.py | PerspectiveService | 29 |
 | packages/substrate/src/wanxiang_substrate/parsing/checkpoint.py | ParseCheckpointService | 14 |
+| packages/substrate/src/wanxiang_substrate/playable/entry.py | CharacterEntryService | 37 |
+| packages/substrate/src/wanxiang_substrate/playable/service.py | PlayableService | 37 |
 | packages/substrate/src/wanxiang_substrate/projection/service.py | ProjectionService | 32 |
 | packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | CheckpointService | 86 |
 | packages/substrate/src/wanxiang_substrate/recovery/recovery.py | RecoveryService | 31 |
 | packages/substrate/src/wanxiang_substrate/resolution/service.py | AdjudicationService | 14 |
 | packages/substrate/src/wanxiang_substrate/session/service.py | SessionService | 16 |
 | packages/substrate/src/wanxiang_substrate/session/service.py | LeaseService | 50 |
+| packages/substrate/src/wanxiang_substrate/workshop/genesis_provider.py | PromptGenesisProviderService | 150 |
+| packages/substrate/src/wanxiang_substrate/workshop/service.py | WorkshopService | 40 |
 | apps/api/src/wanxiang_api/experience_player_service.py | ExperiencePlayerService | 25 |
 | apps/api/src/wanxiang_api/family_portal_service.py | FamilyPortalService | 22 |
 | apps/api/src/wanxiang_api/heritage_workbench_service.py | HeritageWorkbenchService | 20 |
@@ -105,7 +116,7 @@
 | apps/api/src/wanxiang_api/strategy_workbench_service.py | StrategyWorkbenchService | 44 |
 | apps/api/src/wanxiang_api/studio_service.py | StudioService | 24 |
 
-## engine_classes (4)
+## engine_classes (5)
 
 | path | name | line |
 |---|---|---|
@@ -113,8 +124,9 @@
 | packages/runtime/src/wanxiang_runtime/replay.py | ReplayEngine | 21 |
 | packages/substrate/src/wanxiang_substrate/authoring/completion_engine.py | CompletionEngine | 178 |
 | packages/substrate/src/wanxiang_substrate/authoring/scenario_engine.py | ScenarioEngine | 78 |
+| packages/substrate/src/wanxiang_substrate/epistemic/belief_revision.py | BeliefRevisionEngine | 91 |
 
-## ports (34)
+## ports (41)
 
 | path | name | line |
 |---|---|---|
@@ -133,6 +145,8 @@
 | packages/runtime/src/wanxiang_runtime/ports.py | EventStore | 39 |
 | packages/runtime/src/wanxiang_runtime/resolver.py | CommandValidator | 23 |
 | packages/runtime/src/wanxiang_runtime/snapshot.py | SnapshotStore | 22 |
+| packages/substrate/src/wanxiang_substrate/actor_continuity/reprioritization_policy.py | GoalReprioritizationPolicy | 20 |
+| packages/substrate/src/wanxiang_substrate/actor_continuity/reprioritization_policy.py | GoalProposalProvider | 80 |
 | packages/substrate/src/wanxiang_substrate/agency/policy.py | PolicyContext | 13 |
 | packages/substrate/src/wanxiang_substrate/agency/policy.py | Policy | 21 |
 | packages/substrate/src/wanxiang_substrate/assets/foundry.py | AssetGenerator | 38 |
@@ -145,6 +159,10 @@
 | packages/substrate/src/wanxiang_substrate/cosim/adapter.py | SimulationAdapter | 19 |
 | packages/substrate/src/wanxiang_substrate/distill/protocol.py | Distiller | 18 |
 | packages/substrate/src/wanxiang_substrate/packages/registry.py | PackageRegistry | 15 |
+| packages/substrate/src/wanxiang_substrate/playable/service_model.py | SubmittedResult | 14 |
+| packages/substrate/src/wanxiang_substrate/playable/service_model.py | EventLike | 19 |
+| packages/substrate/src/wanxiang_substrate/playable/state_diff.py | NarrativeRenderer | 133 |
+| packages/substrate/src/wanxiang_substrate/playable/store.py | PlayableStore | 57 |
 | packages/substrate/src/wanxiang_substrate/preview/runtime.py | CreatedWorld | 43 |
 | packages/substrate/src/wanxiang_substrate/preview/runtime.py | ReplayResult | 48 |
 | packages/substrate/src/wanxiang_substrate/preview/runtime.py | PreviewRuntimePort | 52 |
@@ -152,6 +170,7 @@
 | packages/substrate/src/wanxiang_substrate/reality/challenge.py | OpportunityDetector | 49 |
 | packages/substrate/src/wanxiang_substrate/runtime_port.py | WorldRuntimePort | 29 |
 | packages/substrate/src/wanxiang_substrate/sources/adapter.py | SourceAdapter | 49 |
+| packages/substrate/src/wanxiang_substrate/workshop/genesis_provider.py | PromptGenesisProvider | 28 |
 
 ## oversized_modules (0)
 

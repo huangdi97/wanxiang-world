@@ -1839,3 +1839,15 @@
   install metadata.
 - Reused the existing package registry/resolver/installer and trust policy;
   untrusted executable extensions and rights-blocked entries remain blocked.
+
+## v5.5 G90H / M87 (2026-08-26)
+
+- Qualified Source, Prompt, and Hybrid Workshop creation through the existing
+  WorldPackage compiler and isolated PreviewInstall boundary.
+- Wired the same WorkshopService into API/Studio and gated PlayableService
+  registration by completed E5 review and rights/visibility policy.
+- Preserved source/prompt provenance and dissent; same-origin source
+  alternatives are retained without falsely blocking a preview, while
+  cross-origin conflicts remain explicit review blockers.
+- Gates 12-15 are accepted. M87 is complete; v5.5 remains NOT_ACCEPTED while
+  later M88-M94 qualification and final release evidence are pending.

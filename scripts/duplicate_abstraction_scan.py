@@ -86,6 +86,7 @@ ALLOWED_DUPLICATE_NAMES: dict[str, tuple[str, ...]] = {
     "RuntimeProfile": (
         "packages/substrate/src/wanxiang_substrate/authoring/scenario_engine.py",
         "packages/substrate/src/wanxiang_substrate/host/hypervisor.py",
+        "packages/substrate/src/wanxiang_substrate/playable/models.py",
     ),
     "ValidityEnvelope": (
         "packages/research/src/wanxiang_research/sim_federation.py",
