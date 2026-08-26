@@ -999,6 +999,14 @@ L0 preserve state/memory refs. Real Runtime canonical hash/event count remain
 unchanged. Gate 27 remains pending until M89 qualification; G92F-G97J remain
 pending and v5.5 remains NOT_ACCEPTED.
 
+## v5.5 G92F checkpoint (2026-08-26)
+
+G92F PASS and committed as `g92f: Resource / Cost Budget`. World/actor/provider
+calls/tokens/time/storage admission is atomic, alerts are measurable,
+backpressure is allow/defer/reject, and budget exhaustion recommends LOD
+degradation without charging partial usage. Gate 28 remains pending until M89
+quantification; G92G-G97J remain pending and v5.5 remains NOT_ACCEPTED.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/

@@ -569,6 +569,9 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   scoring, state-continuous transitions, cohort aggregation, and promotion back
   to active are covered without a second canonical state. G92F-G97J remain
   pending.
+- G92F: PASS and committed as `g92f: Resource / Cost Budget`; world/actor/
+  provider calls/tokens/time/storage budgets, alerts, backpressure, and
+  no-partial-charge LOD degradation are covered. G92G-G97J remain pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.

@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G92E: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G92F: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -317,6 +317,15 @@ Real Runtime canonical hash and event count remain unchanged because LOD is a
 projection/worker boundary. Gate 27 remains pending until M89 qualification;
 G92F-G97J remain pending and v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**.
 Evidence: `reports/G92E_REPORT.md`.
+
+## Latest engineering checkpoint — G92F (2026-08-26)
+
+G92F PASS. World/actor/provider cost admission covers calls, tokens, time,
+storage, alerts, soft/hard backpressure, and graceful LOD degradation with no
+partial charge. Real Runtime truth remains unchanged while budget decisions
+are projected. Gate 28 remains pending until M89 quantification; G92G-G97J
+remain pending and v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**. Evidence:
+`reports/G92F_REPORT.md`.
 
 ## Latest engineering checkpoint — G90F (2026-08-26)
 

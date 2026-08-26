@@ -1951,3 +1951,10 @@
   population aggregation, and promotion back to focal active simulation.
 - Preserved World-owned state and memory refs through every transition and
   verified no canonical Runtime hash/event mutation in the real integration.
+
+## v5.5 G92F (2026-08-26)
+
+- Added atomic world/actor/provider calls, tokens, time, and storage budgets
+  with threshold alerts and allow/defer/reject backpressure.
+- Added graceful next-LOD recommendation on budget exhaustion without partial
+  usage charge; real Runtime truth remains untouched.

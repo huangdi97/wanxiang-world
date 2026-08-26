@@ -8,6 +8,15 @@ from wanxiang_substrate.long_horizon.background import (
     BackgroundSimulation,
     SessionCursor,
 )
+from wanxiang_substrate.long_horizon.budget import (
+    AdmissionDecision,
+    BackpressurePolicy,
+    BudgetAlert,
+    BudgetKey,
+    CostBudgetLedger,
+    CostLimit,
+    CostUsage,
+)
 from wanxiang_substrate.long_horizon.checkpoint import (
     CheckpointCrash,
     CrashPlan,
@@ -100,4 +109,11 @@ __all__ = [
     "SimulationLevel",
     "SimulationLODPolicy",
     "SimulationLODRuntime",
+    "AdmissionDecision",
+    "BackpressurePolicy",
+    "BudgetAlert",
+    "BudgetKey",
+    "CostBudgetLedger",
+    "CostLimit",
+    "CostUsage",
 ]
