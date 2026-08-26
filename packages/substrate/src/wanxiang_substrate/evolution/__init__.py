@@ -38,6 +38,15 @@ from wanxiang_substrate.evolution.distillation import (
     CandidateEnvelope,
     SocialPatternDistiller,
 )
+from wanxiang_substrate.evolution.explainability import (
+    EvolutionExplainabilityProjection,
+    EvolutionExplanation,
+    ExplainableSubjectKind,
+    TrajectoryExplanationLink,
+    advance_explainability_projection,
+    explain_delta,
+    link_actor_trajectory,
+)
 from wanxiang_substrate.evolution.institution_promotion import (
     MIN_STABILITY,
     InstitutionCandidate,
@@ -178,6 +187,9 @@ __all__ = [
     "CrossWorldCandidate",
     "CrossWorldDistiller",
     "CrossWorldDataset",
+    "EvolutionExplainabilityProjection",
+    "EvolutionExplanation",
+    "ExplainableSubjectKind",
     "TelemetryEnvelope",
     "TelemetryPolicy",
     "EvolutionCadence",
@@ -245,7 +257,11 @@ __all__ = [
     "OrganizationStatus",
     "StateDelta",
     "TrajectoryEntry",
+    "TrajectoryExplanationLink",
     "propose_persona_adaptation",
+    "advance_explainability_projection",
+    "explain_delta",
+    "link_actor_trajectory",
     "apply_relationship_proposal",
     "propose_relationship_evolution",
     "relationship_behavior_feedback",

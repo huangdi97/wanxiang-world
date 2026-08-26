@@ -23,7 +23,7 @@
 | packages/substrate/src/wanxiang_substrate/sources/registry.py | SourceRegistry | 31 |
 | packages/substrate/src/wanxiang_substrate/workshop/registry.py | WorldRegistryCatalog | 99 |
 
-## state_classes (35)
+## state_classes (36)
 
 | path | name | line |
 |---|---|---|
@@ -42,6 +42,7 @@
 | packages/substrate/src/wanxiang_substrate/capability/model.py | LearnerState | 112 |
 | packages/substrate/src/wanxiang_substrate/cosim/adapter.py | FakeSimulatorState | 34 |
 | packages/substrate/src/wanxiang_substrate/evolution/actor_evolution.py | ActorEvolutionState | 42 |
+| packages/substrate/src/wanxiang_substrate/evolution/explainability.py | EvolutionExplainabilityProjection | 149 |
 | packages/substrate/src/wanxiang_substrate/evolution/organization_model.py | OrganizationLifecycleState | 131 |
 | packages/substrate/src/wanxiang_substrate/evolution/persona_adaptation.py | PersonaTraitState | 23 |
 | packages/substrate/src/wanxiang_substrate/evolution/promotion/pipeline.py | GenesisSnapshot | 26 |

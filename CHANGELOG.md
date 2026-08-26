@@ -2054,3 +2054,15 @@
   store is mutated. Real source/playable/Preview/SQLite evidence passed with
   unchanged canonical hash/revision/event count and replay. Gate 30 remains
   pending until G93H.
+
+## v5.5 G93G (2026-08-27)
+
+- Added a typed, immutable evolution explanation projection over the existing
+  Delta taxonomy, preserving reasons, fingerprints, subject refs,
+  source/event refs, projection refs, and explicit actor trajectory links.
+- Rejected explanations whose only basis is hidden provider state; trajectory
+  links require an existing entry and matching explicit provenance.
+- Qualified actor, relationship, and organization explanations against a
+  private source → WorldPackage → Preview → PlayableService → SQLite Runtime
+  chain with unchanged canonical hash/revision/event count and replay. Gate 31
+  is accepted; Gate 30 remains pending until G93H.

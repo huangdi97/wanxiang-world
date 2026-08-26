@@ -1108,6 +1108,17 @@ while canonical hash/revision/event count and replay stayed unchanged. Gate 30
 remains pending until G93H; G93G-G97J and Gate 24 remain pending. v5.5 remains
 NOT_ACCEPTED. Evidence: `reports/G93F_REPORT.md`.
 
+## v5.5 G93G checkpoint (2026-08-27)
+
+G93G PASS: typed evolution deltas now have queryable reasons, deterministic
+fingerprints, source/event lineage, typed actor/relationship/organization
+subjects, and explicit links to existing actor trajectories. Provider-only
+reasons are rejected. The real private source → WorldPackage → Preview →
+PlayableService → SQLite Runtime chain supplied the committed event, while
+canonical hash/revision/event count and replay stayed unchanged. Gate 31 is
+ACCEPTED. Gate 30 remains pending until G93H; G93H-G97J and Gate 24 remain
+pending. v5.5 remains NOT_ACCEPTED. Evidence: `reports/G93G_REPORT.md`.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/

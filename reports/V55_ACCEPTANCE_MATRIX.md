@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G93F: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G93G: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -35,7 +35,7 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 28 | Cost/storage/memory quantification | ACCEPTED | G92H 1,832→31,968 serialized bytes, 60 actor memories, 150 world calls, 30,136 charged storage bytes |
 | 29 | Evolution delta taxonomy separation | ACCEPTED | G93A typed six-kind records, provenance policy, no-generic-blob and real product-chain evidence |
 | 30 | 30-day Actor/Relationship/Organization evolution | PENDING | G93E organization and G93F reputation/social-role chains passed; integrated 30-day G93H qualification pending |
-| 31 | Evolution explainability/replay | PENDING | — |
+| 31 | Evolution explainability/replay | ACCEPTED | G93G typed delta reason/source/event/trajectory explanation projection and real product-chain replay evidence |
 | 32 | Source/canon immutability | PENDING | — |
 | 33 | Positive/negative pattern benchmark | PENDING | — |
 | 34 | Evidence-backed emergence candidate | PENDING | — |
@@ -426,6 +426,19 @@ revision, event count, and replay remained unchanged. Gate 30 remains pending
 until G93H's integrated 30-day run; G93G-G97J, Gate 24, and the remaining
 release gates remain pending. v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**.
 Evidence: `reports/G93F_REPORT.md`.
+
+## Latest engineering checkpoint — G93G (2026-08-27)
+
+G93G PASS. The typed evolution deltas now expose queryable reasons, subjects,
+projection refs, deterministic fingerprints, source/event lineage, and
+explicit links to existing ActorEvolution trajectories. Relationship and
+organization subjects remain typed; provider-only provenance is rejected. A
+private source → WorldPackage → PlayableService → Preview → SQLite Runtime
+chain supplied the real committed event, while canonical hash, revision, event
+count, and replay stayed unchanged. Gate 31 is **ACCEPTED**. Gate 30 remains
+pending until G93H's integrated 30-day run; G93H-G97J, Gate 24, and the
+remaining release gates remain pending. v5.5 remains **IN_PROGRESS /
+NOT_ACCEPTED**. Evidence: `reports/G93G_REPORT.md`.
 
 ## Latest engineering checkpoint — G90F (2026-08-26)
 
