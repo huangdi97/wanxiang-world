@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G93B: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G93C: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -374,6 +374,18 @@ committed and replayed; the actor skill retained the candidate evidence refs.
 Gate 30 remains pending until G93H's 30-day Actor/Relationship/Organization
 run. G93C-G97J and Gate 24 remain pending; v5.5 remains
 **IN_PROGRESS / NOT_ACCEPTED**. Evidence: `reports/G93B_REPORT.md`.
+
+## Latest engineering checkpoint — G93C (2026-08-27)
+
+G93C PASS. Six bounded persona trait dimensions now use slow-variable,
+multi-event windows and deterministic weighted changes. A single event or
+short window cannot rewrite a persona; proposals are one-trait, review-gated,
+and carry the existing `PersonaDelta` evidence lineage. A real private source
+product chain supplied committed event refs, while the approved projection
+change left canonical hash/event count and replay unchanged. Gate 30 remains
+pending until G93H's 30-day Actor/Relationship/Organization run. G93D-G97J
+and Gate 24 remain pending; v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**.
+Evidence: `reports/G93C_REPORT.md`.
 
 ## Latest engineering checkpoint — G90F (2026-08-26)
 

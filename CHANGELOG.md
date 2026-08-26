@@ -2008,3 +2008,13 @@
 - Qualified a private source-created package through PlayableService, Preview,
   and SQLite Runtime with replay-equal actor-skill promotion. Gate 30 remains
   pending until the M90 30-day qualification.
+
+## v5.5 G93C (2026-08-27)
+
+- Added six bounded slow-variable persona dimensions with multi-event evidence
+  windows and deterministic weighted change limits.
+- Added one-trait, review-gated `PersonaDelta` proposals with immutable
+  reviewer decisions; a single event cannot rewrite full persona state and
+  no canonical persona commit path was added.
+- Qualified the proposal against a real private source/playable/runtime event
+  chain with unchanged canonical hash and replay. Gate 30 remains pending.

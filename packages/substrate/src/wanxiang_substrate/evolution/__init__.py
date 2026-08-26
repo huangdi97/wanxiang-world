@@ -48,6 +48,15 @@ from wanxiang_substrate.evolution.ontology_law import (
     OntologyCandidate,
     OntologyLawEvolution,
 )
+from wanxiang_substrate.evolution.persona_adaptation import (
+    PERSONA_TRAITS,
+    PersonaAdaptationPolicy,
+    PersonaAdaptationProposal,
+    PersonaObservation,
+    PersonaTraitState,
+    propose_persona_adaptation,
+    review_persona_adaptation,
+)
 from wanxiang_substrate.evolution.platform_feedback import (
     PlatformFeedbackLab,
     SandboxReport,
@@ -122,6 +131,11 @@ __all__ = [
     "OntologyLawEvolution",
     "OrganizationDelta",
     "PersonaDelta",
+    "PersonaAdaptationPolicy",
+    "PersonaAdaptationProposal",
+    "PersonaObservation",
+    "PersonaTraitState",
+    "PERSONA_TRAITS",
     "PlatformFeedbackLab",
     "SandboxReport",
     "VersionedRelease",
@@ -130,6 +144,8 @@ __all__ = [
     "RelationshipDelta",
     "StateDelta",
     "TrajectoryEntry",
+    "propose_persona_adaptation",
+    "review_persona_adaptation",
     "promote_capability_candidate",
     "validate_capability_candidate",
     "WorldPolicy",

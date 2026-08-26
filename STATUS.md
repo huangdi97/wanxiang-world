@@ -1063,6 +1063,17 @@ validated promotion committed through the existing capability resolver and
 replayed equally. Gate 30 remains pending until G93H; G93C-G97J and Gate 24
 remain pending. Evidence: `reports/G93B_REPORT.md`.
 
+## v5.5 G93C checkpoint (2026-08-27)
+
+G93C PASS and committed as `g93c: Persona Adaptation`. Persona trait state
+now uses six bounded slow variables, multi-event evidence windows, deterministic
+bounded changes, and an explicit reviewer/policy decision. One event and short
+windows are rejected; capability/proposal layers cannot rewrite canonical
+persona state. A real private source-created package supplied committed event
+lineage, while the approved actor projection replayed with canonical hash and
+event count unchanged. Gate 30 remains pending until G93H; G93D-G97J and Gate
+24 remain pending. Evidence: `reports/G93C_REPORT.md`.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/
