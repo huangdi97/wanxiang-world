@@ -13,7 +13,7 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 6 | Leave / Continue continuity | ACCEPTED | G88H same instance/branch after leave |
 | 7 | ActorGoalStack persistence/replay | ACCEPTED | G89A serialization + replay verification |
 | 8 | Memory / Belief / Truth separation | ACCEPTED | G89C EpistemicMemory + G03B replay/authority tests |
-| 9 | Secret / rumor / future-knowledge isolation | PENDING | — |
+| 9 | Secret / rumor / future-knowledge isolation | ACCEPTED | G89D future guard + G03B/G35G privacy regressions |
 | 10 | RelationshipState time/event provenance | PENDING | — |
 | 11 | 7-day actor continuity | PENDING | — |
 | 12 | From Source regression | PENDING | — |
@@ -137,3 +137,10 @@ read-only decay, reinforcement lineage, and legacy-field compatibility without
 creating a second memory store. Gate 8 is **ACCEPTED**. Gates 9-11 and the
 remaining gates remain pending; release status remains **IN_PROGRESS /
 NOT_ACCEPTED**.
+
+## Latest checkpoint — G89D (2026-08-26)
+
+G89D PASS. Belief revisions support, contradict, refine, and explicitly mark
+unknown while retaining before/after lineage; future-scoped evidence is
+rejected. Gate 9 is **ACCEPTED**. Gates 10-11 and the remaining gates remain
+pending; release status remains **IN_PROGRESS / NOT_ACCEPTED**.

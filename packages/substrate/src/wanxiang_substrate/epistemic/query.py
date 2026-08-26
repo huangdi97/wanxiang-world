@@ -148,6 +148,7 @@ def _belief_from(fields: Mapping[str, object], entity_id: EntityId) -> BeliefAss
         status=_str(fields, "status") or "active",  # type: ignore[arg-type]
         supersedes=EntityId(supersedes_raw) if supersedes_raw else None,
         corrected_by=EntityId(corrected_raw) if corrected_raw else None,
+        stance=_str(fields, "stance") or "unknown",  # type: ignore[arg-type]
     )
 
 

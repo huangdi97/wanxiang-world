@@ -838,3 +838,10 @@ G89C PASS: the existing Epistemic substrate now has perception-source refs,
 read-only salience decay, explicit reinforcement lineage, and backward-
 compatible component decoding. Memory, Belief, and World Truth remain separate;
 Gate 8 is accepted. G89D is next; v5.5 remains NOT_ACCEPTED.
+
+## v5.5 G89D checkpoint (2026-08-26)
+
+G89D PASS: BeliefRevisionEngine now supports support, contradict, refine, and
+unknown with confidence changes, before/after lineage, false-belief retention,
+and future-evidence rejection. Gate 9 is accepted. G89E is next; v5.5 remains
+NOT_ACCEPTED.

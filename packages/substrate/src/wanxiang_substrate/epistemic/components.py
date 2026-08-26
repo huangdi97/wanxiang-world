@@ -60,6 +60,7 @@ def belief_component(
     status: str = "active",
     supersedes: EntityId | None = None,
     corrected_by: EntityId | None = None,
+    stance: str = "unknown",
 ) -> ComponentData:
     return ComponentData(
         component_id=ComponentId(f"belief_{belief_id.value}"),
@@ -75,6 +76,7 @@ def belief_component(
             "status": status,
             "supersedes": supersedes.value if supersedes else None,
             "corrected_by": corrected_by.value if corrected_by else None,
+            "stance": stance,
         },
     )
 

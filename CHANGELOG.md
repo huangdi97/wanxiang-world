@@ -1753,3 +1753,10 @@
   read-only salience decay, reinforcement lineage, and legacy-field defaults.
 - Preserved the separation between Observation/Memory, Belief confidence, and
   canonical World Truth; no second memory store was introduced.
+
+## v5.5 G89D (2026-08-26)
+
+- Added evidence-bound support, contradict, refine, and unknown belief
+  revisions with confidence and before/after lineage.
+- Rejected future-scoped evidence and retained prior potentially-false beliefs;
+  belief projections remain separate from World Truth.

@@ -1,5 +1,11 @@
 """Belief, memory & temporal epistemic graph substrate (G03B)."""
 
+from wanxiang_substrate.epistemic.belief_revision import (
+    BeliefEvidence,
+    BeliefRevision,
+    BeliefRevisionChain,
+    BeliefRevisionEngine,
+)
 from wanxiang_substrate.epistemic.components import (
     BELIEF_COMPONENT,
     MEMORY_ACCESS_COMPONENT,
@@ -13,6 +19,7 @@ from wanxiang_substrate.epistemic.errors import (
 from wanxiang_substrate.epistemic.fixture import build_rumor_fixture_commands
 from wanxiang_substrate.epistemic.model import (
     BeliefAssertion,
+    BeliefStance,
     BeliefStatus,
     EpistemicMemory,
     MemoryKind,
@@ -32,6 +39,11 @@ from wanxiang_substrate.epistemic.resolver import register_epistemic_resolvers
 __all__ = [
     "BELIEF_COMPONENT",
     "BeliefAssertion",
+    "BeliefEvidence",
+    "BeliefRevision",
+    "BeliefRevisionChain",
+    "BeliefRevisionEngine",
+    "BeliefStance",
     "BeliefError",
     "BeliefStatus",
     "EpistemicConflict",

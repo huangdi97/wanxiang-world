@@ -10,6 +10,7 @@ from wanxiang_domain.ids import EntityId
 
 MemoryKind = Literal["observation", "interpretation", "belief", "reflection"]
 BeliefStatus = Literal["active", "corrected", "superseded", "forgotten"]
+BeliefStance = Literal["supported", "contested", "unknown"]
 
 
 @dataclass(frozen=True, slots=True)
@@ -104,6 +105,7 @@ class BeliefAssertion:
     status: BeliefStatus = "active"
     supersedes: EntityId | None = None
     corrected_by: EntityId | None = None
+    stance: BeliefStance = "unknown"
 
     def __post_init__(self) -> None:
         if not self.proposition:
@@ -112,3 +114,10 @@ class BeliefAssertion:
             raise ContractError("belief confidence must be in [0, 1]")
         if self.status not in ("active", "corrected", "superseded", "forgotten"):
             raise ContractError(f"invalid belief status {self.status!r}")
+        if self.stance not in ("supported", "contested", "unknown"):
+            raise ContractError(f"invalid belief stance {self.stance!r}")
+
+    @property
+    def is_world_truth(self) -> bool:
+        """Belief assertions are always actor projections, never world truth."""
+        return False
