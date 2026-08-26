@@ -1937,3 +1937,10 @@
   checkpoint history.
 - Proved a real runtime restart retry is idempotent: the existing command ID
   returns the committed event and does not append a duplicate world effect.
+
+## v5.5 G92D (2026-08-26)
+
+- Added bounded snapshot cadence and reference-only event/archive/memory-summary
+  compaction manifests with golden replay equality as a hard precondition.
+- Verified on the real Runtime that compaction leaves the append-only event
+  sequence and count unchanged.

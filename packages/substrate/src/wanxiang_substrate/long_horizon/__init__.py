@@ -15,6 +15,13 @@ from wanxiang_substrate.long_horizon.checkpoint import (
     RunCheckpoint,
     RunCheckpointStore,
 )
+from wanxiang_substrate.long_horizon.compaction import (
+    CompactionManifest,
+    CompactionPolicy,
+    CompactionService,
+    EventArchiveRef,
+    MemorySummaryRef,
+)
 from wanxiang_substrate.long_horizon.horizon import (
     DerivedWorld,
     DistilledPattern,
@@ -68,4 +75,9 @@ __all__ = [
     "LongRunCheckpointService",
     "RunCheckpoint",
     "RunCheckpointStore",
+    "CompactionManifest",
+    "CompactionPolicy",
+    "CompactionService",
+    "EventArchiveRef",
+    "MemorySummaryRef",
 ]

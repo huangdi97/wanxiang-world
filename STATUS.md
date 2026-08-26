@@ -983,6 +983,14 @@ under injected crash. A real Runtime restart retry is idempotent. Gate 25
 remains pending until the M89 long-run qualification; G92D-G97J remain pending
 and v5.5 remains NOT_ACCEPTED.
 
+## v5.5 G92D checkpoint (2026-08-26)
+
+G92D PASS and committed as `g92d: Snapshot / Compaction Policy`. Logical
+compaction creates snapshot/archive/memory-summary refs only; the Runtime
+EventStore remains append-only. Real golden replay hash equality and unchanged
+event sequence/count are proven. Gate 26 remains pending until M89
+qualification; G92E-G97J remain pending and v5.5 remains NOT_ACCEPTED.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/
