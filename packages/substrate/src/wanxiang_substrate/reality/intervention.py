@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass, replace
 from typing import Literal
 
-from wanxiang_domain.hierarchy import BranchId
+from wanxiang_domain.hierarchy import BranchId, BranchRevision
 from wanxiang_domain.ids import WorldInstanceId
 
 from wanxiang_substrate.authoring.living_ports import LivingRuntimePort
@@ -161,6 +161,21 @@ class InterventionBranch:
     intervention_id: str
     artifact_ref: str
     isolated: bool = True
+    fork_event_seq: int = 0
+    fork_snapshot_ref: str = ""
+
+    def to_dict(self) -> dict[str, object]:
+        return {
+            "instance_ref": self.instance_ref,
+            "parent_branch_ref": self.parent_branch_ref,
+            "branch_ref": self.branch_ref,
+            "fork_revision": self.fork_revision,
+            "fork_event_seq": self.fork_event_seq,
+            "fork_snapshot_ref": self.fork_snapshot_ref,
+            "intervention_id": self.intervention_id,
+            "artifact_ref": self.artifact_ref,
+            "isolated": self.isolated,
+        }
 
 
 class ExperimentInterventionRunner:
@@ -173,6 +188,8 @@ class ExperimentInterventionRunner:
         parent_branch_id: BranchId,
         setup: ExperimentSetup,
         intervention: Intervention,
+        *,
+        fork_revision: BranchRevision | None = None,
     ) -> InterventionBranch:
         if setup.baseline_instance_ref != instance_id.value:
             raise ExperimentError("experiment setup instance does not match runtime instance")
@@ -181,13 +198,31 @@ class ExperimentInterventionRunner:
         if intervention not in setup.interventions:
             raise ExperimentError("intervention is not present in experiment setup")
         parent_state = runtime.current_state(instance_id, parent_branch_id)
-        child = runtime.create_branch(instance_id, parent_branch_id)
+        child = (
+            runtime.create_branch(instance_id, parent_branch_id)
+            if fork_revision is None
+            else runtime.create_branch(
+                instance_id,
+                parent_branch_id,
+                fork_revision=fork_revision,
+            )
+        )
         child_branch = getattr(child, "branch_id", None)
         if not isinstance(child_branch, BranchId):
             raise ExperimentError("runtime did not return a branch id")
-        revision = getattr(getattr(parent_state, "revision", None), "value", None)
+        ancestry = getattr(child, "ancestry", None)
+        child_revision = getattr(getattr(ancestry, "fork_revision", None), "value", None)
+        revision = child_revision
+        if revision is None:
+            revision = getattr(getattr(parent_state, "revision", None), "value", None)
         if not isinstance(revision, int):
             raise ExperimentError("runtime parent state did not expose a revision")
+        event_seq = getattr(getattr(ancestry, "fork_event_seq", None), "value", 0)
+        snapshot_ref = getattr(ancestry, "fork_snapshot_ref", None)
+        if not isinstance(snapshot_ref, str):
+            snapshot_ref = getattr(child, "snapshot_ref", "")
+        if not isinstance(event_seq, int) or event_seq < 0:
+            raise ExperimentError("runtime child branch did not expose a valid fork event seq")
         return InterventionBranch(
             instance_ref=instance_id.value,
             parent_branch_ref=parent_branch_id.value,
@@ -195,4 +230,6 @@ class ExperimentInterventionRunner:
             fork_revision=revision,
             intervention_id=intervention.intervention_id,
             artifact_ref=intervention.artifact_ref,
+            fork_event_seq=event_seq,
+            fork_snapshot_ref=snapshot_ref,
         )

@@ -36,7 +36,7 @@
 | packages/substrate/src/wanxiang_substrate/actor_continuity/projection.py | ActorContinuitySnapshot | 73 |
 | packages/substrate/src/wanxiang_substrate/actor_continuity/projection.py | ActorContinuityProjection | 95 |
 | packages/substrate/src/wanxiang_substrate/actor_continuity/relationship_model.py | RelationshipState | 56 |
-| packages/substrate/src/wanxiang_substrate/authoring/living_ports.py | ReplayState | 25 |
+| packages/substrate/src/wanxiang_substrate/authoring/living_ports.py | ReplayState | 36 |
 | packages/substrate/src/wanxiang_substrate/authoring/model.py | AuthoringSnapshot | 49 |
 | packages/substrate/src/wanxiang_substrate/authoring/scenario_engine.py | InitialSnapshot | 25 |
 | packages/substrate/src/wanxiang_substrate/capability/model.py | CapabilityState | 32 |
@@ -66,7 +66,7 @@
 | packages/substrate/src/wanxiang_substrate/spatial/errors.py | InvalidSpatialState | 34 |
 | packages/substrate/src/wanxiang_substrate/spatial/model.py | SpatialSnapshot | 91 |
 
-## store_classes (30)
+## store_classes (31)
 
 | path | name | line |
 |---|---|---|
@@ -100,6 +100,7 @@
 | packages/substrate/src/wanxiang_substrate/review/decisions.py | ReviewLedger | 37 |
 | packages/substrate/src/wanxiang_substrate/sources/blob.py | SourceBlobStore | 51 |
 | packages/substrate/src/wanxiang_substrate/workshop/store.py | WorkshopDraftStore | 16 |
+| packages/substrate/src/wanxiang_substrate/world_lab/fork_ledger.py | InterventionLedger | 22 |
 
 ## service_classes (25)
 
@@ -166,9 +167,9 @@
 | packages/substrate/src/wanxiang_substrate/agency/policy.py | Policy | 21 |
 | packages/substrate/src/wanxiang_substrate/assets/foundry.py | AssetGenerator | 38 |
 | packages/substrate/src/wanxiang_substrate/assets/storage.py | ObjectStore | 35 |
-| packages/substrate/src/wanxiang_substrate/authoring/living_ports.py | LivingRuntimePort | 15 |
-| packages/substrate/src/wanxiang_substrate/authoring/living_ports.py | ReplayState | 25 |
-| packages/substrate/src/wanxiang_substrate/authoring/living_ports.py | BranchResult | 29 |
+| packages/substrate/src/wanxiang_substrate/authoring/living_ports.py | LivingRuntimePort | 16 |
+| packages/substrate/src/wanxiang_substrate/authoring/living_ports.py | ReplayState | 36 |
+| packages/substrate/src/wanxiang_substrate/authoring/living_ports.py | BranchResult | 40 |
 | packages/substrate/src/wanxiang_substrate/authoring/multimodal.py | ExternalSourceConnector | 117 |
 | packages/substrate/src/wanxiang_substrate/authoring/providers.py | Provider | 52 |
 | packages/substrate/src/wanxiang_substrate/cosim/adapter.py | SimulationAdapter | 19 |

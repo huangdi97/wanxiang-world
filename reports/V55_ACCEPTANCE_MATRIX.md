@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G95B: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G95C: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -44,7 +44,7 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 37 | No universal-emergence claim | ACCEPTED | G94H report explicitly limits result to the qualified test scope |
 | 38 | WorldRunArtifact re-verification | ACCEPTED | G95A artifact unit + real private-source product-chain round-trip/tamper evidence |
 | 39 | Recoverable Experiment Registry | ACCEPTED | G95B versioned definition/run records, atomic claim, revision guard, recovery and snapshot round-trip |
-| 40 | Fork/intervention parent isolation | PENDING | — |
+| 40 | Fork/intervention parent isolation | ACCEPTED | G95C explicit snapshot/event fork, append-only intervention ledger, child replay resume, and real private-source parent-isolation evidence |
 | 41 | Four or more parallel worldlines | PENDING | — |
 | 42 | Multi-provider/policy or mixed population | PENDING | — |
 | 43 | Worldline trajectory/cost comparator | PENDING | — |
@@ -69,6 +69,14 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 Required release condition: Gates 1-59 must be ACCEPTED with real evidence;
 then and only then may G97H create annotated `v5.5.0-rc1` and a GitHub
 prerelease. Otherwise the final status remains `NOT_ACCEPTED`.
+
+## Latest checkpoint — G95C (2026-08-27)
+
+Gate 40 **ACCEPTED**. Evidence: `reports/G95C_REPORT.md`; the real private
+rights-approved source chain produced both an event-selected and an explicit
+snapshot-revision child branch. Parent event history/hash stayed unchanged,
+and child resume required replay-hash equality. G95D-G97J and Gates 41-52,
+56-60 remain pending; release status remains **IN_PROGRESS / NOT_ACCEPTED**.
 
 ## Latest checkpoint — G88B (2026-08-26)
 

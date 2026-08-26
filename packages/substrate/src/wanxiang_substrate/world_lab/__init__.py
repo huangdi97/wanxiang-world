@@ -9,6 +9,16 @@ from wanxiang_substrate.world_lab.artifact import (
     WorldRunArtifact,
     sanitize_metadata,
 )
+from wanxiang_substrate.world_lab.fork import (
+    FORK_SCHEMA_VERSION,
+    ForkedInterventionRun,
+    ForkInterventionRunner,
+    ForkProvenance,
+    ForkRun,
+    InterventionLedger,
+    InterventionLedgerEntry,
+    InterventionRun,
+)
 from wanxiang_substrate.world_lab.registry import ExperimentRegistry
 from wanxiang_substrate.world_lab.registry_models import (
     REGISTRY_SCHEMA_VERSION,
@@ -19,9 +29,17 @@ from wanxiang_substrate.world_lab.registry_models import (
 
 __all__ = [
     "ARTIFACT_SCHEMA_VERSION",
+    "FORK_SCHEMA_VERSION",
     "ExperimentDefinition",
     "ExperimentRegistry",
     "ExperimentRun",
+    "ForkInterventionRunner",
+    "ForkProvenance",
+    "ForkRun",
+    "ForkedInterventionRun",
+    "InterventionLedger",
+    "InterventionLedgerEntry",
+    "InterventionRun",
     "REGISTRY_SCHEMA_VERSION",
     "RunStatus",
     "WorldRunArtifact",

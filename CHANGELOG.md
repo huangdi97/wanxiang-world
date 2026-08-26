@@ -1,5 +1,18 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-27 - G95C Fork / Intervention Runner
+
+- Extended the existing runtime-backed intervention branch evidence with
+  explicit snapshot-revision and committed-event fork selection, parent-head
+  hashes, fork event sequences, and runtime snapshot references.
+- Added immutable `ForkProvenance`, schema-versioned append-only
+  `InterventionLedger`, and child-only replay-verified resume records. The
+  intervention remains a proposal and cannot write Canonical World State.
+- Qualified event/snapshot forks and parent isolation through the real private
+  rights-approved source → WorldPackage → Preview → PlayableService → SQLite
+  chain. Gate 40 is accepted; G95D-G97J and M92-M94 remain pending; v5.5
+  remains NOT_ACCEPTED.
+
 ## 2026-08-27 - G95A WorldRunArtifact v1
 
 - Added immutable, schema-versioned WorldRunArtifact evidence over the

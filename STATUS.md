@@ -2,6 +2,18 @@
 
 Updated: 2026-08-16 (GitHub public delivery)
 
+## v5.5 G95C checkpoint (2026-08-27)
+
+G95C is PASS and is ready for the Goal checkpoint commit. The existing
+WorldRuntime branch authority now supports explicit fork revision evidence in
+the intervention runner. ForkProvenance records parent head and child
+snapshot/event lineage; InterventionLedger is schema-versioned and append-only;
+resume verifies child replay equality before recording a cursor. The real
+private source → WorldPackage → Preview → PlayableService → SQLite chain proves
+event/snapshot forks and parent isolation. Full quality passed with 1398
+passed, one documented PostgreSQL EXTERNAL_BLOCKED skip, and two warnings.
+Gate 40 is accepted; G95D-G97J remain pending and v5.5 remains NOT_ACCEPTED.
+
 ## v5.5 G95A checkpoint (2026-08-27)
 
 G95A WorldRunArtifact v1 is implemented and its focused unit/product-chain
