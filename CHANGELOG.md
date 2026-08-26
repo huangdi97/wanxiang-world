@@ -1739,3 +1739,10 @@
   dependency/priority/deadline contracts, provenance, and revision lineage.
 - Added schema-versioned goal serialization with replay verification and kept
   goals outside canonical world truth and Commit Authority.
+
+## v5.5 G89B (2026-08-26)
+
+- Added deterministic, bounded Goal reprioritization proposals with deadline
+  and evidence rationale/refs.
+- Added provider proposal validation and stale-source checks without any
+  provider or policy commit path.

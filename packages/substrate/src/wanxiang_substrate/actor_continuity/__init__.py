@@ -14,18 +14,40 @@ from wanxiang_substrate.actor_continuity.goal_model import (
     ShortTermGoal,
 )
 from wanxiang_substrate.actor_continuity.goal_stack import ActorGoalStack
+from wanxiang_substrate.actor_continuity.reprioritization_model import (
+    GoalEvidence,
+    GoalPriorityProposal,
+    GoalReprioritizationContext,
+    GoalReprioritizationProposal,
+)
+from wanxiang_substrate.actor_continuity.reprioritization_policy import (
+    DeterministicGoalReprioritizationPolicy,
+    GoalProposalProvider,
+    GoalReprioritizationPolicy,
+    ProviderGoalReprioritizationPolicy,
+    apply_goal_reprioritization,
+)
 
 __all__ = [
     "ActorGoal",
     "ActorGoalStack",
     "ActorGoalStatus",
     "GoalProvenance",
+    "GoalEvidence",
+    "GoalPriorityProposal",
+    "GoalProposalProvider",
+    "GoalReprioritizationContext",
     "GoalRevisionEvent",
     "GoalRevisionKind",
+    "GoalReprioritizationPolicy",
+    "GoalReprioritizationProposal",
     "GoalTier",
     "Intent",
     "LifeMotive",
     "LongTermGoal",
     "MediumTermGoal",
     "ShortTermGoal",
+    "DeterministicGoalReprioritizationPolicy",
+    "ProviderGoalReprioritizationPolicy",
+    "apply_goal_reprioritization",
 ]

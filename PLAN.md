@@ -473,6 +473,9 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   G89A-G97J remain pending and execution continues automatically.
 - G89A: PASS and committed as `g89a: ActorGoalStack v1`; Gate 7 is accepted and
   G89B-G97J remain pending. Actor goals are projection data, not world facts.
+- G89B: PASS and committed as `g89b: Goal Reprioritization`; deterministic and
+  provider proposal paths are evidence-bound and cannot commit. G89C-G97J
+  remain pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.
