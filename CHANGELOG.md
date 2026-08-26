@@ -2167,3 +2167,18 @@
   and replay.
 - G94F is PASS and committed as `g94f: Culture / Ontology Candidate`; G94G-G97J
   and the remaining M91-M94 gates are pending, so v5.5 remains NOT_ACCEPTED.
+
+## v5.5 G94G / M91 (2026-08-27)
+
+- Extended the existing L0-L8 promotion requirement/evidence records with
+  policy-version binding, world-count and benchmark thresholds, sandbox and
+  rollback readiness, and a high-level review gate for M91 L0-L5.
+- L0-L5 requirements now increase evidence/world demands; L4 requires passing
+  benchmark and sandbox evidence, while L5 also requires rollback readiness and
+  explicit approval. Existing PlatformFeedbackLab and PromotionControlLedger
+  remain the only sandbox/release/withdrawal controls.
+- Qualified the full sandbox → versioned release → rollback → append-only
+  withdrawal sequence against a real SQLite runtime with unchanged canonical
+  hash, event history, and replay.
+- G94G is PASS and committed as `g94g: Promotion Ladder Enforcement`; G94H-G97J
+  and the remaining M91-M94 gates are pending, so v5.5 remains NOT_ACCEPTED.

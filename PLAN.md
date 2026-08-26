@@ -652,6 +652,12 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   independent NormCandidate records with institution provenance. Explicit
   reviewer approval is required before ontology validation, and Constitution,
   Canon, and replay remain unchanged. G94G-G97J and M91-M94 remain pending.
+- G94G: PASS and committed as `g94g: Promotion Ladder Enforcement`; the
+  existing L0-L8 ladder now enforces increasing M91 evidence/world thresholds,
+  benchmark/sandbox/rollback gates, policy-version binding, and high-level
+  review without a new authority or canonical path. Real SQLite rollback and
+  withdrawal evidence preserve event history and replay. G94H-G97J and
+  M91-M94 remain pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.

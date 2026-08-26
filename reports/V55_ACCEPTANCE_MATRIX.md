@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G94F: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G94G: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -439,6 +439,20 @@ count, and replay stayed unchanged. Gate 31 is **ACCEPTED**. Gate 30 remains
 pending until G93H's integrated 30-day run; G93H-G97J, Gate 24, and the
 remaining release gates remain pending. v5.5 remains **IN_PROGRESS /
 NOT_ACCEPTED**. Evidence: `reports/G93G_REPORT.md`.
+
+## Latest engineering checkpoint — G94G / M91 (2026-08-27)
+
+G94G PASS. The existing L0-L8 promotion ladder now carries policy-version,
+world-count, benchmark, sandbox, rollback-readiness, and high-level-review
+evidence. M91 L0-L5 requirements increase evidence/world thresholds; L4
+requires a passing benchmark and sandbox, and L5 additionally requires
+rollback readiness and explicit review. Existing PlatformFeedbackLab and
+PromotionControlLedger remain the sandbox/release/withdrawal mechanisms;
+promotion validation itself never writes Canon. A real SQLite runtime retained
+the same canonical hash, event history, and replay after sandbox, versioned
+release, rollback, and withdrawal qualification. G94H-G97J and Gates 24,
+32-52, and 55-60 remain pending; v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**.
+Evidence: `reports/G94G_REPORT.md`.
 
 ## Latest engineering checkpoint — G94F / M91 (2026-08-27)
 

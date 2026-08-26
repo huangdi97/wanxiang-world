@@ -1204,6 +1204,18 @@ candidate with unchanged Constitution hash, canonical state/hash, history, and
 replay. G94G-G97J and M91-M94 remain pending; v5.5 remains NOT_ACCEPTED.
 Evidence: `reports/G94F_REPORT.md`.
 
+## v5.5 G94G / M91 checkpoint (2026-08-27)
+
+G94G PASS and committed as `g94g: Promotion Ladder Enforcement`. The existing
+promotion ladder now binds evidence to policy version and enforces increasing
+M91 L0-L5 evidence/world requirements; L4 requires benchmark+sandbox evidence,
+and L5 additionally requires rollback readiness and explicit high-level review.
+The existing PlatformFeedbackLab and PromotionControlLedger provide sandbox,
+versioned release, rollback, and withdrawal controls without changing Canon.
+A real SQLite runtime preserved canonical hash, event history, and replay after
+the complete control sequence. G94H-G97J and M91-M94 remain pending; v5.5
+remains NOT_ACCEPTED. Evidence: `reports/G94G_REPORT.md`.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/

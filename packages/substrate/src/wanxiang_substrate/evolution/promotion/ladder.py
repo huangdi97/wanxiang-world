@@ -8,6 +8,7 @@ approval requirements defined by a versioned promotion policy.
 
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 from typing import Literal
 
@@ -40,6 +41,21 @@ class LevelRequirement:
     min_stability: float
     cross_scenario: bool
     approval_required: bool
+    min_worlds: int = 1
+    min_benchmark: float = 0.0
+    sandbox_required: bool = False
+    rollback_required: bool = False
+    review_required: bool = False
+
+    def __post_init__(self) -> None:
+        if self.min_evidence < 0 or self.min_worlds < 1:
+            raise ValueError("promotion evidence/world requirements must be non-negative")
+        for name, value in (
+            ("minimum stability", self.min_stability),
+            ("minimum benchmark", self.min_benchmark),
+        ):
+            if not math.isfinite(value) or not 0.0 <= value <= 1.0:
+                raise ValueError(f"{name} must be within [0, 1]")
 
 
 @dataclass(frozen=True, slots=True)
@@ -52,8 +68,8 @@ class PromotionPolicy:
         LevelRequirement("L1", 1, 0.3, False, False),
         LevelRequirement("L2", 2, 0.5, False, False),
         LevelRequirement("L3", 3, 0.6, False, False),
-        LevelRequirement("L4", 4, 0.7, True, False),
-        LevelRequirement("L5", 5, 0.8, True, False),
+        LevelRequirement("L4", 4, 0.7, True, False, 2, 0.8, True),
+        LevelRequirement("L5", 5, 0.8, True, False, 3, 0.9, True, True, True),
         LevelRequirement("L6", 6, 0.85, True, False),
         LevelRequirement("L7", 8, 0.9, True, True),
         LevelRequirement("L8", 10, 0.95, True, True),
@@ -76,11 +92,28 @@ class PromotionEvidence:
     stability: float
     cross_scenario: bool
     approved: bool = False
+    world_count: int = 1
+    benchmark_score: float = 0.0
+    sandbox_passed: bool = False
+    rollback_ready: bool = False
+    policy_version: int | None = None
+
+    def __post_init__(self) -> None:
+        if self.evidence_count < 0 or self.world_count < 1:
+            raise ValueError("promotion evidence count must be non-negative and worlds positive")
+        if not math.isfinite(self.stability) or not 0.0 <= self.stability <= 1.0:
+            raise ValueError("promotion stability must be within [0, 1]")
+        if not math.isfinite(self.benchmark_score) or not 0.0 <= self.benchmark_score <= 1.0:
+            raise ValueError("promotion benchmark score must be within [0, 1]")
 
 
 def validate_promotion(evidence: PromotionEvidence, policy: PromotionPolicy | None = None) -> None:
     """Validate one promotion step (no level skipping; L7-L8 need approval)."""
     policy = policy or PromotionPolicy()
+    if evidence.policy_version is not None and evidence.policy_version != policy.version:
+        raise PermissionDenied(
+            f"promotion policy version mismatch: {evidence.policy_version} != {policy.version}"
+        )
     current_index = PROMOTION_LEVELS.index(evidence.current_level)
     target_index = PROMOTION_LEVELS.index(evidence.target_level)
     if target_index != current_index + 1:
@@ -100,7 +133,23 @@ def validate_promotion(evidence: PromotionEvidence, policy: PromotionPolicy | No
             f"insufficient stability for {evidence.target_level}: "
             f"{evidence.stability} < {req.min_stability}"
         )
+    if evidence.world_count < req.min_worlds:
+        raise PermissionDenied(
+            f"insufficient world evidence for {evidence.target_level}: "
+            f"{evidence.world_count} < {req.min_worlds}"
+        )
+    if evidence.benchmark_score < req.min_benchmark:
+        raise PermissionDenied(
+            f"insufficient benchmark for {evidence.target_level}: "
+            f"{evidence.benchmark_score} < {req.min_benchmark}"
+        )
+    if req.sandbox_required and not evidence.sandbox_passed:
+        raise PermissionDenied(f"{evidence.target_level} requires a passing sandbox")
+    if req.rollback_required and not evidence.rollback_ready:
+        raise PermissionDenied(f"{evidence.target_level} requires rollback readiness")
     if req.cross_scenario and not evidence.cross_scenario:
         raise PermissionDenied(f"{evidence.target_level} requires cross-scenario evidence")
     if req.approval_required and not evidence.approved:
         raise PermissionDenied(f"{evidence.target_level} requires explicit approval")
+    if req.review_required and not evidence.approved:
+        raise PermissionDenied(f"{evidence.target_level} requires high-level review")
