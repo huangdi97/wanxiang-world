@@ -914,6 +914,13 @@ lifecycle, actor/world-state eligibility, expiry, reward/risk/evidence refs,
 and optional ignore are covered without a goal overwrite or commit path. Gate
 19 remains pending until M88 qualification; G91C-G97J remain pending.
 
+## v5.5 G91C checkpoint (2026-08-26)
+
+G91C PASS and committed as `g91c: DirectorPolicy Modes`. CANON, DIRECTED,
+LIVING, and EXPERIMENT proposal contracts, mode transitions, audits, and the
+no-CommitAuthority boundary are covered. Gates 17-18 remain pending until M88
+qualification; G91D-G97J remain pending.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/

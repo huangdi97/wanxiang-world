@@ -1867,3 +1867,11 @@
   immutable accept/ignore/decline/complete decisions.
 - Kept opportunity decisions proposal-only: no goal overwrite, canonical
   mutation, or second event/registry path was introduced.
+
+## v5.5 G91C (2026-08-26)
+
+- Added `DirectorPolicy` contracts for CANON, DIRECTED, LIVING, and EXPERIMENT
+  with allowed proposal types, immutable transitions, typed decisions, and
+  audit records.
+- Kept policy evaluation proposal-only; no Director path imports or exposes
+  Commit Authority.

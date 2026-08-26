@@ -220,6 +220,14 @@ Actor ignore is an immutable terminal proposal decision and cannot overwrite a
 goal or canonical state. Gate 19 stays pending until the M88 real playable
 qualification. G91C is next; v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**.
 
+## Latest engineering checkpoint — G91C (2026-08-26)
+
+G91C PASS. CANON, DIRECTED, LIVING, and EXPERIMENT now have explicit allowed
+proposal contracts, immutable mode transitions, and audit records. Policy
+evaluation never exposes Commit Authority. Gates 17-18 stay pending until the
+M88 real playable qualification. G91D is next; v5.5 remains
+**IN_PROGRESS / NOT_ACCEPTED**.
+
 ## Latest engineering checkpoint — G90F (2026-08-26)
 
 G90F PASS. Publishing profiles now separate visibility, rights summary,
