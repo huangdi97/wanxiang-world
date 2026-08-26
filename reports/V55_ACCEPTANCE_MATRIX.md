@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G95D: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G95E: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -46,7 +46,7 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 39 | Recoverable Experiment Registry | ACCEPTED | G95B versioned definition/run records, atomic claim, revision guard, recovery and snapshot round-trip |
 | 40 | Fork/intervention parent isolation | ACCEPTED | G95C explicit snapshot/event fork, append-only intervention ledger, child replay resume, and real private-source parent-isolation evidence |
 | 41 | Four or more parallel worldlines | PENDING | — |
-| 42 | Multi-provider/policy or mixed population | PENDING | — |
+| 42 | Multi-provider/policy or mixed population | ACCEPTED | G95E deterministic assignment + same-input mixed-population product-chain evidence |
 | 43 | Worldline trajectory/cost comparator | PENDING | — |
 | 44 | ValidationProfile V0-V7, unknown != pass | PENDING | — |
 | 45 | Physical Provider ABI | PENDING | — |
@@ -70,6 +70,18 @@ Required release condition: Gates 1-59 must be ACCEPTED with real evidence;
 then and only then may G97H create annotated `v5.5.0-rc1` and a GitHub
 prerelease. Otherwise the final status remains `NOT_ACCEPTED`.
 
+## Latest checkpoint — G95E (2026-08-27)
+
+G95E PASS. Evidence: `reports/G95E_REPORT.md`; versioned deterministic
+provider assignment and four-member mixed-population execution used the same
+private source/package/scenario input across two private-safe reference
+providers. Provider outputs remained `ProviderProposal` values, activation
+was recorded only in `RuntimeControlLedger`, and the real SQLite event stream
+was unchanged until the later normal Playable Commit Authority action. Gate 42
+is accepted; Gate 41 remains pending because G95D's real SQLite qualification
+was serial; G95F-G97J and Gates 43-52, 56-60 remain pending; release status
+remains **IN_PROGRESS / NOT_ACCEPTED**.
+
 ## Latest checkpoint — G95D (2026-08-27)
 
 G95D PASS. Evidence: `reports/G95D_REPORT.md`; one registry definition
@@ -77,7 +89,7 @@ produced four seed/parameter worldlines with bounded worker execution,
 versioned checkpoints, recovery, and all-row aggregation. The real private
 source chain retained per-run WorldPackage/SQLite snapshot/RunArtifact/replay
 evidence. Gate 41 remains pending because the real SQLite qualification was
-serial; G95E-G97J and Gates 42-52, 56-60 remain pending; release status
+serial; G95F-G97J and Gates 43-52, 56-60 remain pending; release status
 remains **IN_PROGRESS / NOT_ACCEPTED**.
 
 ## Latest checkpoint — G95C (2026-08-27)

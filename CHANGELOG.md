@@ -1,5 +1,16 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-27 - G95E Multi-provider / Mixed-population
+
+- Added schema-versioned homogeneous, round-robin, and explicit provider
+  assignment policies with deterministic same-input mixed-population runs.
+- Reused the existing ProviderProposal boundary with strict provider identity,
+  replay-safety, private-source, source-reference, and proposal-only checks.
+- Recorded provider activation through RuntimeControlLedger and qualified two
+  private-safe reference providers across four population members on the real
+  private-source WorldPackage → PlayableService → SQLite chain; no provider
+  output wrote canonical state. Gate 42 is accepted; Gate 41 remains pending.
+
 ## 2026-08-27 - G95D Batch Worldlines
 
 - Added deterministic registry-backed seed/parameter batch queueing with

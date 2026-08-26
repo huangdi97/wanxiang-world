@@ -36,6 +36,18 @@ from wanxiang_substrate.world_lab.fork import (
     InterventionLedgerEntry,
     InterventionRun,
 )
+from wanxiang_substrate.world_lab.provider_evidence import MultiProviderRun, ProviderInvocation
+from wanxiang_substrate.world_lab.provider_models import (
+    PROVIDER_SCHEMA_VERSION,
+    AssignmentMode,
+    ProviderAssignment,
+    ProviderAssignmentPolicy,
+    ProviderRunInput,
+)
+from wanxiang_substrate.world_lab.provider_runner import (
+    MixedPopulationProviderRunner,
+    MultiProviderWorldlineRunner,
+)
 from wanxiang_substrate.world_lab.registry import ExperimentRegistry
 from wanxiang_substrate.world_lab.registry_models import (
     REGISTRY_SCHEMA_VERSION,
@@ -72,4 +84,13 @@ __all__ = [
     "sanitize_metadata",
     "WorldlineBatchExecutor",
     "aggregate_results",
+    "AssignmentMode",
+    "MixedPopulationProviderRunner",
+    "MultiProviderRun",
+    "MultiProviderWorldlineRunner",
+    "PROVIDER_SCHEMA_VERSION",
+    "ProviderAssignment",
+    "ProviderAssignmentPolicy",
+    "ProviderInvocation",
+    "ProviderRunInput",
 ]

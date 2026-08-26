@@ -1,6 +1,21 @@
 # Status ? Wanxiang Engineering Program
 
-Updated: 2026-08-16 (GitHub public delivery)
+Updated: 2026-08-27 (G95E checkpoint)
+
+## v5.5 G95E checkpoint (2026-08-27)
+
+G95E is PASS and is ready for the Goal checkpoint commit. The World Lab now
+has immutable versioned homogeneous/round-robin/explicit provider assignment,
+same-input mixed-population execution, strict proposal-only output validation,
+and existing RuntimeControlLedger activation evidence. The real private
+rights-approved source chain ran four population members across two private-
+safe reference providers through WorldPackage → PlayableService → SQLite
+Runtime; provider execution did not change the event stream, and the later
+normal Playable commit replayed successfully. Full quality passed with 1405
+passed, one documented PostgreSQL EXTERNAL_BLOCKED skip, and two warnings.
+Gate 42 is accepted; Gate 41 remains pending because the G95D SQLite
+qualification was intentionally serial. G95F-G97J remain pending and v5.5
+remains NOT_ACCEPTED.
 
 ## v5.5 G95D checkpoint (2026-08-27)
 
@@ -12,7 +27,7 @@ ran four worldlines through WorldPackage → PlayableService → SQLite Runtime,
 with per-run snapshot/RunArtifact/replay evidence. Full quality passed with
 1401 passed, one documented PostgreSQL EXTERNAL_BLOCKED skip, and two warnings.
 Gate 41 remains pending because the real SQLite qualification is intentionally
-serial; G95E-G97J remain pending and v5.5 remains NOT_ACCEPTED.
+serial; G95F-G97J remain pending and v5.5 remains NOT_ACCEPTED.
 
 ## v5.5 G95C checkpoint (2026-08-27)
 
