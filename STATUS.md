@@ -991,6 +991,14 @@ EventStore remains append-only. Real golden replay hash equality and unchanged
 event sequence/count are proven. Gate 26 remains pending until M89
 qualification; G92E-G97J remain pending and v5.5 remains NOT_ACCEPTED.
 
+## v5.5 G92E checkpoint (2026-08-26)
+
+G92E PASS and committed as `g92e: SimulationLOD Runtime`. L0-L4 activity
+scoring, cohort aggregation, deterministic transitions, and promotion back to
+L0 preserve state/memory refs. Real Runtime canonical hash/event count remain
+unchanged. Gate 27 remains pending until M89 qualification; G92F-G97J remain
+pending and v5.5 remains NOT_ACCEPTED.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/

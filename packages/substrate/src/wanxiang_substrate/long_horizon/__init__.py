@@ -36,6 +36,17 @@ from wanxiang_substrate.long_horizon.horizon import (
     run_population_benchmark,
     windowed_distill,
 )
+from wanxiang_substrate.long_horizon.lod import (
+    SIMULATION_LEVELS,
+    ActivityScore,
+    ActorActivityInput,
+    CohortAggregate,
+    LODState,
+    LODTransition,
+    SimulationLevel,
+    SimulationLODPolicy,
+    SimulationLODRuntime,
+)
 from wanxiang_substrate.long_horizon.scheduler import (
     ActorAvailability,
     AvailabilityWindow,
@@ -80,4 +91,13 @@ __all__ = [
     "CompactionService",
     "EventArchiveRef",
     "MemorySummaryRef",
+    "SIMULATION_LEVELS",
+    "ActivityScore",
+    "ActorActivityInput",
+    "CohortAggregate",
+    "LODState",
+    "LODTransition",
+    "SimulationLevel",
+    "SimulationLODPolicy",
+    "SimulationLODRuntime",
 ]

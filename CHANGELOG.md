@@ -1944,3 +1944,10 @@
   compaction manifests with golden replay equality as a hard precondition.
 - Verified on the real Runtime that compaction leaves the append-only event
   sequence and count unchanged.
+
+## v5.5 G92E (2026-08-26)
+
+- Added L0-L4 SimulationLOD activity scoring, threshold transitions, cohort /
+  population aggregation, and promotion back to focal active simulation.
+- Preserved World-owned state and memory refs through every transition and
+  verified no canonical Runtime hash/event mutation in the real integration.

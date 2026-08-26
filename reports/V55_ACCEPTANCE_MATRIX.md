@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G92D: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G92E: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -308,6 +308,15 @@ EventStore. Real Runtime golden replay hashes match before and after the
 manifest, and event count/sequence are unchanged. Gate 26 remains pending
 until M89 qualification; G92E-G97J remain pending and v5.5 remains
 **IN_PROGRESS / NOT_ACCEPTED**. Evidence: `reports/G92D_REPORT.md`.
+
+## Latest engineering checkpoint — G92E (2026-08-26)
+
+G92E PASS. L0-L4 activity scoring, deterministic transitions, L3/L4 cohort
+aggregation, and promotion back to L0 preserve World-owned state/memory refs.
+Real Runtime canonical hash and event count remain unchanged because LOD is a
+projection/worker boundary. Gate 27 remains pending until M89 qualification;
+G92F-G97J remain pending and v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**.
+Evidence: `reports/G92E_REPORT.md`.
 
 ## Latest engineering checkpoint — G90F (2026-08-26)
 

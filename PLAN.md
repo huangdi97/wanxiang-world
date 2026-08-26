@@ -565,6 +565,10 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   cadence, reference-only event/memory compaction, archive refs, and real
   golden replay equality with an unchanged append-only event stream are covered.
   G92E-G97J remain pending.
+- G92E: PASS and committed as `g92e: SimulationLOD Runtime`; L0-L4 activity
+  scoring, state-continuous transitions, cohort aggregation, and promotion back
+  to active are covered without a second canonical state. G92F-G97J remain
+  pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.
