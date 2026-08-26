@@ -4,7 +4,7 @@
   "hard_invariants_ok": true,
   "import_cycles": 0,
   "manager_classes": 0,
-  "milestone": "M89 (v5.5 G92H)",
+  "milestone": "M90 (v5.5 G93H)",
   "milestone_budgets": {
     "M26": {
       "hard_constraints": [
@@ -348,16 +348,25 @@
       ],
       "new_abstractions_allowance": 39,
       "note": "Long-horizon scheduler, detached background execution, cursor-only checkpoint/recovery, reference compaction, SimulationLOD, cost budget, and qualification value objects reuse the existing runtime."
+    },
+    "M90": {
+      "hard_constraints": [
+        "same source and package bytes",
+        "append-only canonical history and replay equality",
+        "all three projection planes change without projection commits"
+      ],
+      "new_abstractions_allowance": 2,
+      "note": "Thirty-day actor/relationship/organization qualification compares typed projection snapshots over the existing Commit Authority and replay path; no new runtime state is introduced."
     }
   },
   "oversized_modules": 0,
   "ports": 41,
-  "production_files": 522,
-  "production_loc": 56850,
-  "public_classes": 1147,
-  "public_functions": 479,
+  "production_files": 524,
+  "production_loc": 57037,
+  "public_classes": 1149,
+  "public_functions": 480,
   "registry_classes": 16,
   "service_classes": 25,
-  "state_schema_models": 36,
+  "state_schema_models": 37,
   "store_classes": 29
 }

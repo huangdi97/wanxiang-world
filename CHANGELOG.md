@@ -2066,3 +2066,16 @@
   private source → WorldPackage → Preview → PlayableService → SQLite Runtime
   chain with unchanged canonical hash/revision/event count and replay. Gate 31
   is accepted; Gate 30 remains pending until G93H.
+
+## v5.5 G93H / M90 (2026-08-27)
+
+- Added evidence-bound baseline/evolved qualification snapshots and comparison
+  over the existing canonical event/replay path.
+- Qualified a deterministic private rights-approved source chain for 30 days /
+  3,000 ticks with nonzero Actor, Relationship, and Organization projection
+  changes and 7 reviewed validated evolution deltas.
+- Preserved source/package identity, append-only canonical history, Commit
+  Authority boundaries, and replay equality; fixed temporal organization
+  permission evaluation to use the proposal event tick.
+- Gate 30 is accepted and M90 is complete. Gate 24 and later M91-M94 release
+  gates remain pending; v5.5 is still NOT_ACCEPTED.

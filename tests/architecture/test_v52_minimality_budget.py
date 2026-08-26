@@ -70,7 +70,7 @@ def test_budget_documents_every_milestone() -> None:
     assert isinstance(raw_milestones, dict)
     milestones = cast(dict[str, dict[str, object]], raw_milestones)
     assert set(milestones) == (
-        {f"M{n}" for n in range(26, 35)} | {f"M{n}" for n in range(51, 79)} | {"M88", "M89"}
+        {f"M{n}" for n in range(26, 35)} | {f"M{n}" for n in range(51, 79)} | {"M88", "M89", "M90"}
     )
     for ms in (
         "M26",
@@ -84,6 +84,7 @@ def test_budget_documents_every_milestone() -> None:
         "M34",
         *[f"M{n}" for n in range(51, 79)],
         "M89",
+        "M90",
     ):
         spec = milestones[ms]
         allowance = spec["new_abstractions_allowance"]

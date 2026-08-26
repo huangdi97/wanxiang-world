@@ -63,7 +63,12 @@ class OrganizationAuthorityPolicy:
         if event.action in ("join", "leave") and event.subject_actor_id == event.initiator_id:
             return
         permission = AUTHORITY_PERMISSIONS.get(event.action)
-        if permission is None or not state.check_permission(event.initiator_id, permission).allow:
+        if (
+            permission is None
+            or not state.check_permission(
+                event.initiator_id, permission, at_ticks=event.at_ticks
+            ).allow
+        ):
             raise PermissionDenied(
                 f"actor {event.initiator_id.value} lacks {permission or 'organization authority'}"
             )

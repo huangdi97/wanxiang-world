@@ -5,28 +5,28 @@ LOC cap: per-milestone *incremental* allowances on new abstractions (each
 with mandatory justification in `V5_2_CODE_MINIMALITY_LEDGER.md`) plus
 hard invariants that must hold at every milestone.
 
-## Current snapshot — M89 / v5.5 G92H
+## Current snapshot — M90 / v5.5 G93H
 
 | Metric | Count |
 |---|---|
-| Production files | 522 |
-| Production LOC | 56850 |
-| Public classes | 1147 |
-| Public functions | 479 |
+| Production files | 524 |
+| Production LOC | 57037 |
+| Public classes | 1149 |
+| Public functions | 480 |
 | Registries | 16 |
 | Managers | 0 |
 | Services | 25 |
 | Engines | 5 |
 | Ports | 41 |
 | Stores | 29 |
-| State/schema models | 36 |
+| State/schema models | 37 |
 | Import cycles | 0 |
 | Commit paths | 1 |
 | Oversized modules (>300 lines) | 0 |
 
 Hard invariants hold: **True** (0 cycles, 1 commit path).
 
-## Historical incremental budgets M26-M89
+## Historical incremental budgets M26-M90
 
 | Milestone | New-abstraction allowance | Note | Hard constraints |
 |---|---|---|---|
@@ -69,6 +69,7 @@ Hard invariants hold: **True** (0 cycles, 1 commit path).
 | M78 | 0 | Final feature-branch delivery and Actions verification only. | no v5.5; no model training; stop after delivery |
 | M88 | 25 | PressureProfile, Opportunity lifecycle, Director modes, canon attractor, intervention, Quest projection and deterministic benchmark records reuse the existing reality/runtime branch ports. | one runtime and branch system; Director/Quest/intervention remain proposal or projection only; no pressure-specific Kernel types |
 | M89 | 39 | Long-horizon scheduler, detached background execution, cursor-only checkpoint/recovery, reference compaction, SimulationLOD, cost budget, and qualification value objects reuse the existing runtime. | one runtime/event store/branch system; scheduler/LOD/budget/compaction remain proposal or reference-only; no giant manager and no world-specific Kernel types |
+| M90 | 2 | Thirty-day actor/relationship/organization qualification compares typed projection snapshots over the existing Commit Authority and replay path; no new runtime state is introduced. | same source and package bytes; append-only canonical history and replay equality; all three projection planes change without projection commits |
 
 Every new abstraction must answer the four questions in
 `reports/V5_2_CODE_MINIMALITY_LEDGER.md`; otherwise it is not added.

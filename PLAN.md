@@ -607,16 +607,22 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   cleanup, split/resource partitioning, dissolution, review, and real
   source/playable/SQLite evidence pass. Gate 30 remains pending until G93H;
   G93F-G97J remain pending.
-- G93F: PASS and ready to commit as `g93f: Reputation / Social Role`;
+- G93F: PASS and committed as `g93f: Reputation / Social Role`;
   evidence-backed local/global and observer-specific reputation projections,
   belief/rumor rejection, bounded reviewed updates, and separate social-role
   projections pass the real source/playable/Preview/SQLite chain. Gate 30
   remains pending until G93H; G93G-G97J remain pending.
-- G93G: PASS and ready to commit as `g93g: Evolution Explainability`;
+- G93G: PASS and committed as `g93g: Evolution Explainability`;
   typed delta reasons, source/event lineage, queryable actor/relationship/
   organization projections, and explicit trajectory links pass the real
   source/playable/Preview/SQLite chain. Gate 31 is accepted; Gate 30 remains
   pending until G93H; G93H-G97J remain pending.
+- G93H: PASS and committed as `g93h: M90 30d Evolution Qualification`;
+  the real product chain ran 30 days / 3,000 ticks with nonzero, bounded
+  Actor/Relationship/Organization projection changes. Source/package identity,
+  append-only event prefix, and replay equality all hold; 7 reviewed deltas
+  were validated. Gate 30 is accepted and M90 is complete. G93I-G97J and
+  M91-M94 remain pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.

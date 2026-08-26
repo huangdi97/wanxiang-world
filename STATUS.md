@@ -1119,6 +1119,20 @@ canonical hash/revision/event count and replay stayed unchanged. Gate 31 is
 ACCEPTED. Gate 30 remains pending until G93H; G93H-G97J and Gate 24 remain
 pending. v5.5 remains NOT_ACCEPTED. Evidence: `reports/G93G_REPORT.md`.
 
+## v5.5 G93H / M90 checkpoint (2026-08-27)
+
+G93H PASS and committed as `g93h: M90 30d Evolution Qualification`. The
+deterministic private rights-approved source chain ran through
+OneClickAuthoring, WorldPackage, Preview, PlayableService, and real SQLite
+WorldRuntime for 30 days / 3,000 ticks. Typed baseline/evolved snapshots prove
+nonzero Actor, Relationship, and Organization changes, 7 reviewed deltas,
+source/package immutability, append-only canonical history, and replay equality.
+The temporal organization-authority check now evaluates permissions at the
+proposal event tick, preserving authority semantics. Gate 30 is ACCEPTED and
+M90 is complete. Gate 24, G93I-G97J, M91-M94, and final release gates remain
+pending; v5.5 remains NOT_ACCEPTED. Evidence:
+`reports/G93H_REPORT.md`.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/

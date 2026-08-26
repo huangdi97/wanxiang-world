@@ -23,7 +23,7 @@
 | packages/substrate/src/wanxiang_substrate/sources/registry.py | SourceRegistry | 31 |
 | packages/substrate/src/wanxiang_substrate/workshop/registry.py | WorldRegistryCatalog | 99 |
 
-## state_classes (36)
+## state_classes (37)
 
 | path | name | line |
 |---|---|---|
@@ -46,6 +46,7 @@
 | packages/substrate/src/wanxiang_substrate/evolution/organization_model.py | OrganizationLifecycleState | 131 |
 | packages/substrate/src/wanxiang_substrate/evolution/persona_adaptation.py | PersonaTraitState | 23 |
 | packages/substrate/src/wanxiang_substrate/evolution/promotion/pipeline.py | GenesisSnapshot | 26 |
+| packages/substrate/src/wanxiang_substrate/evolution/qualification.py | EvolutionProjectionSnapshot | 23 |
 | packages/substrate/src/wanxiang_substrate/evolution/reputation_model.py | ReputationState | 66 |
 | packages/substrate/src/wanxiang_substrate/evolution/reputation_model.py | ReputationProjection | 113 |
 | packages/substrate/src/wanxiang_substrate/evolution/social_role.py | SocialRoleProjection | 99 |
