@@ -1,5 +1,17 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-27 - G95D Batch Worldlines
+
+- Added deterministic registry-backed seed/parameter batch queueing with
+  bounded worker claims, terminal-run checkpoint cursors, explicit in-flight
+  recovery, and all-row metric aggregation.
+- Qualified four real worldlines from the same private rights-approved source
+  through WorldPackage → PlayableService → SQLite Runtime, retaining per-run
+  snapshot/RunArtifact/replay refs without source bytes.
+- The real SQLite qualification is serial to avoid parallel Alembic/SQLite
+  initialization hazards; the unit test proves the parallelism cap. Gate 41
+  remains pending; G95D is PASS and committed as `g95d: Batch Worldlines`.
+
 ## 2026-08-27 - G95C Fork / Intervention Runner
 
 - Extended the existing runtime-backed intervention branch evidence with

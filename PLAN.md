@@ -20,10 +20,11 @@ Substrate or any later phase in this batch.
 
 ## v5.5 M92 continuation (2026-08-27)
 
-G95A and G95B are PASS. G95C is PASS with the full quality checkpoint
-complete; explicit fork provenance, the append-only intervention ledger, and
-child replay-verified resume keep run evidence outside canonical state. G95D-
-G97J remain pending. v5.5 remains IN_PROGRESS / NOT_ACCEPTED.
+G95A through G95D are PASS with full quality checkpoints complete. G95C
+provides explicit fork provenance, append-only intervention ledger, and
+child replay-verified resume; G95D provides registry-backed seed/parameter
+batch queue, bounded workers, checkpoints, and all-row aggregation. G95E-G97J
+remain pending. v5.5 remains IN_PROGRESS / NOT_ACCEPTED.
 
 ## Continuation M2?M9 (2026-08-13)
 
@@ -675,6 +676,12 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   intervention ledger, child-only replay-verified resume, and real private
   product-chain parent isolation pass. Gate 40 is accepted; G95D-G97J and
   M92-M94 remain pending.
+- G95D: PASS and committed as `g95d: Batch Worldlines`; deterministic
+  registry-backed seed/parameter queue, bounded parallel workers, resumable
+  checkpoints, all-row metric aggregation, and four real private-source
+  product-chain worldlines pass. Gate 41 remains pending because the real
+  SQLite qualification is intentionally serial; G95E-G97J and M92-M94 remain
+  pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.

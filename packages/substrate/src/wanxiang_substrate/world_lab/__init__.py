@@ -9,6 +9,23 @@ from wanxiang_substrate.world_lab.artifact import (
     WorldRunArtifact,
     sanitize_metadata,
 )
+from wanxiang_substrate.world_lab.batch import (
+    BatchExecutor,
+    BatchWorldlineExecutor,
+    WorldlineBatchExecutor,
+)
+from wanxiang_substrate.world_lab.batch_aggregate import (
+    BatchAggregate,
+    BatchExecution,
+    MetricSummary,
+    aggregate_results,
+)
+from wanxiang_substrate.world_lab.batch_models import (
+    BATCH_SCHEMA_VERSION,
+    BatchCheckpoint,
+    BatchPlan,
+    BatchRunResult,
+)
 from wanxiang_substrate.world_lab.fork import (
     FORK_SCHEMA_VERSION,
     ForkedInterventionRun,
@@ -29,10 +46,18 @@ from wanxiang_substrate.world_lab.registry_models import (
 
 __all__ = [
     "ARTIFACT_SCHEMA_VERSION",
+    "BATCH_SCHEMA_VERSION",
     "FORK_SCHEMA_VERSION",
     "ExperimentDefinition",
     "ExperimentRegistry",
     "ExperimentRun",
+    "BatchAggregate",
+    "BatchCheckpoint",
+    "BatchExecution",
+    "BatchExecutor",
+    "BatchPlan",
+    "BatchRunResult",
+    "BatchWorldlineExecutor",
     "ForkInterventionRunner",
     "ForkProvenance",
     "ForkRun",
@@ -40,8 +65,11 @@ __all__ = [
     "InterventionLedger",
     "InterventionLedgerEntry",
     "InterventionRun",
+    "MetricSummary",
     "REGISTRY_SCHEMA_VERSION",
     "RunStatus",
     "WorldRunArtifact",
     "sanitize_metadata",
+    "WorldlineBatchExecutor",
+    "aggregate_results",
 ]

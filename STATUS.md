@@ -2,9 +2,21 @@
 
 Updated: 2026-08-16 (GitHub public delivery)
 
+## v5.5 G95D checkpoint (2026-08-27)
+
+G95D is PASS and is ready for the Goal checkpoint commit. The existing
+ExperimentRegistry now drives a deterministic seed/parameter batch queue with
+bounded worker claims, per-result versioned checkpoints, explicit recovery,
+and all-row metric aggregation. The real private rights-approved source chain
+ran four worldlines through WorldPackage → PlayableService → SQLite Runtime,
+with per-run snapshot/RunArtifact/replay evidence. Full quality passed with
+1401 passed, one documented PostgreSQL EXTERNAL_BLOCKED skip, and two warnings.
+Gate 41 remains pending because the real SQLite qualification is intentionally
+serial; G95E-G97J remain pending and v5.5 remains NOT_ACCEPTED.
+
 ## v5.5 G95C checkpoint (2026-08-27)
 
-G95C is PASS and is ready for the Goal checkpoint commit. The existing
+G95C is PASS and committed as `12ba29b g95c: Fork / Intervention Runner`. The existing
 WorldRuntime branch authority now supports explicit fork revision evidence in
 the intervention runner. ForkProvenance records parent head and child
 snapshot/event lineage; InterventionLedger is schema-versioned and append-only;

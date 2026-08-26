@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G95C: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G95D: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -69,6 +69,16 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 Required release condition: Gates 1-59 must be ACCEPTED with real evidence;
 then and only then may G97H create annotated `v5.5.0-rc1` and a GitHub
 prerelease. Otherwise the final status remains `NOT_ACCEPTED`.
+
+## Latest checkpoint — G95D (2026-08-27)
+
+G95D PASS. Evidence: `reports/G95D_REPORT.md`; one registry definition
+produced four seed/parameter worldlines with bounded worker execution,
+versioned checkpoints, recovery, and all-row aggregation. The real private
+source chain retained per-run WorldPackage/SQLite snapshot/RunArtifact/replay
+evidence. Gate 41 remains pending because the real SQLite qualification was
+serial; G95E-G97J and Gates 42-52, 56-60 remain pending; release status
+remains **IN_PROGRESS / NOT_ACCEPTED**.
 
 ## Latest checkpoint — G95C (2026-08-27)
 
