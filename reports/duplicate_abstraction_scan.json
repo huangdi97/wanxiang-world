@@ -51,6 +51,22 @@
     {
       "allowed": true,
       "modules": [
+        "apps/api/src/wanxiang_api/strategy_workbench_service.py",
+        "packages/substrate/src/wanxiang_substrate/world_lab/registry_models.py"
+      ],
+      "name": "ExperimentDefinition"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/research/src/wanxiang_research/results.py",
+        "packages/substrate/src/wanxiang_substrate/world_lab/registry.py"
+      ],
+      "name": "ExperimentRegistry"
+    },
+    {
+      "allowed": true,
+      "modules": [
         "packages/substrate/src/wanxiang_substrate/authoring/fusion.py",
         "packages/substrate/src/wanxiang_substrate/reality/fusion.py"
       ],

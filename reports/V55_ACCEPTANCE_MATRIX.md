@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G95A: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G95B: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -43,7 +43,7 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 36 | False-positive controls | ACCEPTED | G94H same-window burst remains unqualified and cannot form NormCandidate |
 | 37 | No universal-emergence claim | ACCEPTED | G94H report explicitly limits result to the qualified test scope |
 | 38 | WorldRunArtifact re-verification | ACCEPTED | G95A artifact unit + real private-source product-chain round-trip/tamper evidence |
-| 39 | Recoverable Experiment Registry | PENDING | — |
+| 39 | Recoverable Experiment Registry | ACCEPTED | G95B versioned definition/run records, atomic claim, revision guard, recovery and snapshot round-trip |
 | 40 | Fork/intervention parent isolation | PENDING | — |
 | 41 | Four or more parallel worldlines | PENDING | — |
 | 42 | Multi-provider/policy or mixed population | PENDING | — |

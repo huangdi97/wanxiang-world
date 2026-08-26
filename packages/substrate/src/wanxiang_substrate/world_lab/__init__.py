@@ -9,5 +9,21 @@ from wanxiang_substrate.world_lab.artifact import (
     WorldRunArtifact,
     sanitize_metadata,
 )
+from wanxiang_substrate.world_lab.registry import ExperimentRegistry
+from wanxiang_substrate.world_lab.registry_models import (
+    REGISTRY_SCHEMA_VERSION,
+    ExperimentDefinition,
+    ExperimentRun,
+    RunStatus,
+)
 
-__all__ = ["ARTIFACT_SCHEMA_VERSION", "WorldRunArtifact", "sanitize_metadata"]
+__all__ = [
+    "ARTIFACT_SCHEMA_VERSION",
+    "ExperimentDefinition",
+    "ExperimentRegistry",
+    "ExperimentRun",
+    "REGISTRY_SCHEMA_VERSION",
+    "RunStatus",
+    "WorldRunArtifact",
+    "sanitize_metadata",
+]

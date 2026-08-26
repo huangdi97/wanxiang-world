@@ -11,6 +11,15 @@
 - Gate 38 is accepted; G95B-G97J and the remaining M92-M94 gates remain
   pending. v5.5 remains NOT_ACCEPTED.
 
+## 2026-08-27 - G95B Experiment Registry
+
+- Added versioned ExperimentDefinition and ExperimentRun metadata with
+  owner/rights/provider/parameter/run/artifact refs.
+- Added atomic worker claim, revision-guarded writes, completion/failure,
+  in-flight recovery, and explicit registry snapshot round-trip.
+- G95B passed full quality with the documented PostgreSQL EXTERNAL_BLOCKED
+  profile; Gate 39 is accepted. G95C-G97J remain pending.
+
 ## 2026-08-26 — M84 stable certification held at source-of-truth blocker
 
 - Fixed cross-platform deterministic fixture generation by writing the kernel

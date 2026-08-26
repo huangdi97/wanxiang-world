@@ -12,6 +12,15 @@ sanitization reports redactions. Full quality passed with 1389 passed, one
 documented PostgreSQL EXTERNAL_BLOCKED skip, and two warnings. G95B-G97J
 remain pending and v5.5 remains NOT_ACCEPTED.
 
+## v5.5 G95B active checkpoint (2026-08-27)
+
+G95B adds immutable ExperimentDefinition/ExperimentRun records and a
+thread-safe, recoverable ExperimentRegistry. Definition versions are
+append-only; run claim/finish/recovery transitions use atomic locking and
+revision metadata. The focused registry/product-chain tests pass; the full
+quality checkpoint and commit are pending. G95C-G97J remain pending and v5.5
+remains NOT_ACCEPTED.
+
 ## GitHub public delivery (2026-08-16) - COMPLETE
 
 - Repository published PUBLIC as `huangdi97/wanxiang-world`

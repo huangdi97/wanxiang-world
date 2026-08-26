@@ -4,7 +4,7 @@
   "hard_invariants_ok": true,
   "import_cycles": 0,
   "manager_classes": 0,
-  "milestone": "M92 (v5.5 G95A)",
+  "milestone": "M92 (v5.5 G95B)",
   "milestone_budgets": {
     "M26": {
       "hard_constraints": [
@@ -380,11 +380,11 @@
   },
   "oversized_modules": 0,
   "ports": 41,
-  "production_files": 536,
-  "production_loc": 59012,
-  "public_classes": 1165,
-  "public_functions": 492,
-  "registry_classes": 16,
+  "production_files": 539,
+  "production_loc": 59621,
+  "public_classes": 1168,
+  "public_functions": 501,
+  "registry_classes": 17,
   "service_classes": 25,
   "state_schema_models": 37,
   "store_classes": 30

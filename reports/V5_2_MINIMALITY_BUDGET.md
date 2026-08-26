@@ -5,15 +5,15 @@ LOC cap: per-milestone *incremental* allowances on new abstractions (each
 with mandatory justification in `V5_2_CODE_MINIMALITY_LEDGER.md`) plus
 hard invariants that must hold at every milestone.
 
-## Current snapshot — M92 / v5.5 G95A
+## Current snapshot — M92 / v5.5 G95B
 
 | Metric | Count |
 |---|---|
-| Production files | 536 |
-| Production LOC | 59012 |
-| Public classes | 1165 |
-| Public functions | 492 |
-| Registries | 16 |
+| Production files | 539 |
+| Production LOC | 59621 |
+| Public classes | 1168 |
+| Public functions | 501 |
+| Registries | 17 |
 | Managers | 0 |
 | Services | 25 |
 | Engines | 5 |

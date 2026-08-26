@@ -27,6 +27,8 @@ NEW duplicate class names.
 | AssetGenerator | research/generative_assets.py vs assets/foundry.py | research (EXPERIMENTAL) vs production asset foundry |
 | ValidityEnvelope | research/sim_federation.py vs reality/experiment.py | research (EXPERIMENTAL) vs production reality experiment |
 | RuntimeProfile | authoring/scenario_engine.py vs host/hypervisor.py vs playable/models.py | Forge scenario, host binding, and Playable product selection have distinct owners and lifecycles |
+| ExperimentDefinition | API strategy workbench vs World Laboratory registry | legacy co-simulation request vs version-pinned world-lab definition |
+| ExperimentRegistry | research result decisions vs World Laboratory run leases | experimental result history vs recoverable definition/run metadata |
 
 ## Registry/job/review/package disposition (verified with call sites)
 - Registries (SourceRegistry, PackageRegistry, SkillRegistry, ActionRegistry,

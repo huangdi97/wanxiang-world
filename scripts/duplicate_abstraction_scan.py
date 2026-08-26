@@ -47,6 +47,14 @@ ALLOWED_DUPLICATE_NAMES: dict[str, tuple[str, ...]] = {
         "packages/substrate/src/wanxiang_substrate/evidence/binding.py",
         "packages/substrate/src/wanxiang_substrate/sources/model.py",
     ),
+    "ExperimentDefinition": (
+        "apps/api/src/wanxiang_api/strategy_workbench_service.py",
+        "packages/substrate/src/wanxiang_substrate/world_lab/registry_models.py",
+    ),
+    "ExperimentRegistry": (
+        "packages/research/src/wanxiang_research/results.py",
+        "packages/substrate/src/wanxiang_substrate/world_lab/registry.py",
+    ),
     "FusionResult": (
         "packages/substrate/src/wanxiang_substrate/authoring/fusion.py",
         "packages/substrate/src/wanxiang_substrate/reality/fusion.py",

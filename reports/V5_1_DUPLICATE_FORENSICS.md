@@ -2,7 +2,7 @@
 
 > Deterministic AST scan. Groups: registry/catalog, state models, stores,
 > services/managers, engines, ports, oversized modules, commit paths.
-## registry_classes (16)
+## registry_classes (17)
 
 | path | name | line |
 |---|---|---|
@@ -22,6 +22,7 @@
 | packages/substrate/src/wanxiang_substrate/sources/adapter.py | AdapterRegistry | 114 |
 | packages/substrate/src/wanxiang_substrate/sources/registry.py | SourceRegistry | 31 |
 | packages/substrate/src/wanxiang_substrate/workshop/registry.py | WorldRegistryCatalog | 99 |
+| packages/substrate/src/wanxiang_substrate/world_lab/registry.py | ExperimentRegistry | 28 |
 
 ## state_classes (37)
 

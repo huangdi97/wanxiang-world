@@ -20,9 +20,10 @@ Substrate or any later phase in this batch.
 
 ## v5.5 M92 continuation (2026-08-27)
 
-G95A PASS; G95B-G97J remain pending. The WorldRunArtifact boundary is
-ref-only, hash-verified, and privacy-sanitized over the existing runtime.
-v5.5 remains IN_PROGRESS / NOT_ACCEPTED.
+G95A PASS. G95B is ACTIVE/PASS pending the full quality checkpoint; G95C-G97J
+remain pending. The WorldRunArtifact boundary is ref-only, hash-verified, and
+privacy-sanitized; the ExperimentRegistry is versioned/recoverable and keeps
+run leases outside the runtime. v5.5 remains IN_PROGRESS / NOT_ACCEPTED.
 
 ## Continuation M2?M9 (2026-08-13)
 
