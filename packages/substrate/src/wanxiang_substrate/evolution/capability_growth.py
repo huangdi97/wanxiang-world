@@ -179,9 +179,7 @@ def create_capability_candidate(
         if item.actor_id == actor_id and item.capability == capability
     )
     matching_assessments = tuple(
-        item
-        for item in assessments
-        if item.actor_id == actor_id and item.capability == capability
+        item for item in assessments if item.actor_id == actor_id and item.capability == capability
     )
     if not matching_practice and not composed_from:
         raise EvidenceRequired("capability candidate requires practice or composition evidence")

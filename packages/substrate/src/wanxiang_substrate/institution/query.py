@@ -81,8 +81,30 @@ class InstitutionQuery:
             if m.actor_id == actor_id and m.is_active_at(self._now) and m.role_id in self._roles
         )
 
+    def all_roles(self) -> tuple[Role, ...]:
+        """Return the read-only role projection in deterministic order."""
+        return tuple(sorted(self._roles.values(), key=lambda role: role.role_id.value))
+
     def memberships(self, actor_id: EntityId) -> tuple[Membership, ...]:
         return tuple(m for m in self._memberships.values() if m.actor_id == actor_id)
+
+    def all_memberships(self) -> tuple[Membership, ...]:
+        """Return every membership, including ended history, read-only."""
+        return tuple(
+            sorted(
+                self._memberships.values(),
+                key=lambda membership: membership.membership_id.value,
+            )
+        )
+
+    def delegated_permissions(self) -> tuple[DelegatedPermission, ...]:
+        """Return delegated permissions without deciding their current validity."""
+        return tuple(
+            sorted(
+                self._permissions.values(),
+                key=lambda permission: permission.permission_id.value,
+            )
+        )
 
     def check_permission(
         self, actor_id: EntityId, permission: str, target: str = ""

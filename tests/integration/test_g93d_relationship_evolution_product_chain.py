@@ -146,6 +146,5 @@ def test_relationship_evolution_replays_from_real_product_event(
     assert relationship_behavior_feedback(proposal.after, at_ticks=10).cooperation_bias > 0
     assert runtime.current_state(instance, branch).semantic_hash() == before.semantic_hash()
     assert (
-        runtime.restore_and_replay(instance, branch).state.semantic_hash()
-        == before.semantic_hash()
+        runtime.restore_and_replay(instance, branch).state.semantic_hash() == before.semantic_hash()
     )

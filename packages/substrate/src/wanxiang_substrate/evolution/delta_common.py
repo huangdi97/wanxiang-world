@@ -24,7 +24,15 @@ EvolutionOrigin = Literal[
 type PrimitiveValue = str | int | float | bool | None
 BeliefOperation = Literal["support", "contradict", "refine", "unknown"]
 BeliefStance = Literal["supported", "contested", "unknown"]
-OrganizationLifecycle = Literal["formed", "joined", "left", "role_changed", "dissolved"]
+OrganizationLifecycle = Literal[
+    "formed",
+    "joined",
+    "left",
+    "role_changed",
+    "permission_changed",
+    "dissolved",
+    "split",
+]
 
 
 def text(value: str, field: str) -> None:

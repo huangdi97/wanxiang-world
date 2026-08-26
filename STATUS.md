@@ -1085,6 +1085,18 @@ supplied committed event evidence, while canonical hash/event count stayed
 unchanged. Gate 30 remains pending until G93H; G93E-G97J and Gate 24 remain
 pending. Evidence: `reports/G93D_REPORT.md`.
 
+## v5.5 G93E checkpoint (2026-08-27)
+
+G93E PASS. Organization lifecycle now has explicit create/join/leave/role/
+permission/dissolve/split proposals over the existing institution projection,
+with active-role authority, explicit review, orphan-permission removal,
+resource-conserving split, and retained dissolution resources. The real
+private source → WorldPackage → Preview → PlayableService → SQLite Runtime
+chain supplied event provenance; canonical hash/revision/event count and
+replay stayed unchanged. Gate 30 remains pending until G93H; G93F-G97J and
+Gate 24 remain pending. v5.5 remains NOT_ACCEPTED. Evidence:
+`reports/G93E_REPORT.md`.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/

@@ -2028,3 +2028,15 @@
   replay equality, with read-only cooperation/avoidance behavior feedback.
 - Qualified a private source/playable/runtime event chain with unchanged
   canonical state; Gate 30 remains pending until the M90 long run.
+
+## v5.5 G93E (2026-08-27)
+
+- Added typed organization lifecycle projections and review-gated proposals
+  for creation, membership, roles, delegated permissions, dissolution, and
+  split/resource partitioning over the existing institution read model.
+- Enforced active-role authority and stale proposal checks; member exit removes
+  orphan grants, cross-split grants are dropped, and explicit resource
+  quantities are conserved. No canonical mutation or second store was added.
+- Qualified the lifecycle against a private source → WorldPackage →
+  PlayableService → Preview → SQLite Runtime chain with unchanged canonical
+  hash/revision/event count and replay. Gate 30 remains pending until G93H.

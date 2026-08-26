@@ -199,7 +199,6 @@ def review_persona_adaptation(
         review_required=not approved,
         status="approved" if approved else "rejected",
         rationale=(
-            f"{proposal.rationale}; reviewed:{reviewer}:"
-            f"{'approved' if approved else 'rejected'}"
+            f"{proposal.rationale}; reviewed:{reviewer}:{'approved' if approved else 'rejected'}"
         ),
     )

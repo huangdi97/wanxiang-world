@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G93D: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G93E: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -34,7 +34,7 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 27 | LOD transition continuity | ACCEPTED | G92H source actors retain state/memory refs across observed L0/L3/L4 transitions |
 | 28 | Cost/storage/memory quantification | ACCEPTED | G92H 1,832→31,968 serialized bytes, 60 actor memories, 150 world calls, 30,136 charged storage bytes |
 | 29 | Evolution delta taxonomy separation | ACCEPTED | G93A typed six-kind records, provenance policy, no-generic-blob and real product-chain evidence |
-| 30 | 30-day Actor/Relationship/Organization evolution | PENDING | — |
+| 30 | 30-day Actor/Relationship/Organization evolution | PENDING | G93E lifecycle chain passed; integrated 30-day G93H qualification pending |
 | 31 | Evolution explainability/replay | PENDING | — |
 | 32 | Source/canon immutability | PENDING | — |
 | 33 | Positive/negative pattern benchmark | PENDING | — |
@@ -398,6 +398,20 @@ the approved relationship projection left canonical hash/event count unchanged.
 Gate 30 remains pending until G93H's 30-day Actor/Relationship/Organization
 run. G93E-G97J and Gate 24 remain pending; v5.5 remains
 **IN_PROGRESS / NOT_ACCEPTED**. Evidence: `reports/G93D_REPORT.md`.
+
+## Latest engineering checkpoint — G93E (2026-08-27)
+
+G93E PASS. Organization lifecycle is a typed, proposal-only projection over
+the existing institution query: create/join/leave/role/permission/dissolve/
+split, role authority, resource partitioning, and explicit review are covered.
+Leaving removes memberships and delegated grants; effective permission
+queries reject orphan recipient/granter references. Split drops cross-partition
+grants and conserves resources. A real private source → WorldPackage →
+PlayableService → Preview → SQLite Runtime chain supplied event provenance,
+while canonical hash/revision/event count and replay stayed unchanged. Gate 30
+remains pending until G93H's integrated 30-day run; G93F-G97J and Gate 24
+remain pending. v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**. Evidence:
+`reports/G93E_REPORT.md`.
 
 ## Latest engineering checkpoint — G90F (2026-08-26)
 

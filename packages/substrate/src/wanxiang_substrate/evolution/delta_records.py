@@ -226,12 +226,30 @@ class OrganizationDelta(DeltaRecord):
 
     def __post_init__(self) -> None:
         common_checks(self.delta_id, self.schema_version, self.version, self.provenance)
-        if self.lifecycle not in ("formed", "joined", "left", "role_changed", "dissolved"):
+        if self.lifecycle not in (
+            "formed",
+            "joined",
+            "left",
+            "role_changed",
+            "permission_changed",
+            "dissolved",
+            "split",
+        ):
             raise ContractError(f"invalid organization lifecycle {self.lifecycle!r}")
         text(self.reason, "reason")
         if self.lifecycle == "role_changed" and self.from_role == self.to_role:
             raise ContractError("organization role change must change the role")
-        if self.lifecycle in ("joined", "left", "role_changed") and self.actor_id is None:
+        if (
+            self.lifecycle
+            in (
+                "joined",
+                "left",
+                "role_changed",
+                "permission_changed",
+                "split",
+            )
+            and self.actor_id is None
+        ):
             raise ContractError("organization membership lifecycle requires actor_id")
 
 

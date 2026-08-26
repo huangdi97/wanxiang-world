@@ -133,6 +133,5 @@ def test_persona_adaptation_is_slow_reviewed_and_projection_only(
     assert reviewed.status == "approved"
     assert runtime.current_state(instance, branch).semantic_hash() == before.semantic_hash()
     assert (
-        runtime.restore_and_replay(instance, branch).state.semantic_hash()
-        == before.semantic_hash()
+        runtime.restore_and_replay(instance, branch).state.semantic_hash() == before.semantic_hash()
     )
