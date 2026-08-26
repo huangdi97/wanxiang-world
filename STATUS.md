@@ -1133,6 +1133,18 @@ M90 is complete. Gate 24, G93I-G97J, M91-M94, and final release gates remain
 pending; v5.5 remains NOT_ACCEPTED. Evidence:
 `reports/G93H_REPORT.md`.
 
+## v5.5 G94A / M91 checkpoint (2026-08-27)
+
+G94A PASS and committed as `g94a: Pattern Observation Store`. The immutable
+`PatternObservationStore` derives typed windowed observations, statistics,
+feature means, and committed event refs from one existing branch history. A
+private rights-approved source passed through the real OneClickAuthoring →
+WorldPackage → Preview → PlayableService → SQLite WorldRuntime chain; the
+cache rebuilt identically from reversed event input while canonical hash,
+revision, event refs, source bytes, and replay stayed unchanged. G94B-G97J and
+M91-M94 remain pending; v5.5 remains NOT_ACCEPTED. Evidence:
+`reports/G94A_REPORT.md`.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/

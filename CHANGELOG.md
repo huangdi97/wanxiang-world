@@ -2079,3 +2079,18 @@
   permission evaluation to use the proposal event tick.
 - Gate 30 is accepted and M90 is complete. Gate 24 and later M91-M94 release
   gates remain pending; v5.5 is still NOT_ACCEPTED.
+
+## v5.5 G94A / M91 (2026-08-27)
+
+- Added immutable `PatternObservation`, `PatternStatistics`, and
+  `PatternObservationStore` records. They derive typed behavior, relationship,
+  exchange, and organization observations from committed operations with
+  windowed queries, feature/statistics aggregation, event refs, and a
+  deterministic rebuild hash; no second history or automatic Candidate path
+  exists.
+- Qualified cache rebuild and reversed-event determinism on a private
+  rights-approved source → WorldPackage → Preview → PlayableService → SQLite
+  WorldRuntime chain with unchanged canonical hash, revision, event refs,
+  source bytes, and replay.
+- G94A is PASS and committed as `g94a: Pattern Observation Store`; G94B-G97J
+  and the remaining M91-M94 gates are pending, so v5.5 remains NOT_ACCEPTED.

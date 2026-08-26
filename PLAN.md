@@ -623,6 +623,11 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   append-only event prefix, and replay equality all hold; 7 reviewed deltas
   were validated. Gate 30 is accepted and M90 is complete. G93I-G97J and
   M91-M94 remain pending.
+- G94A: PASS and committed as `g94a: Pattern Observation Store`; immutable
+  windowed observations, feature/statistics queries, event refs, deterministic
+  cache rebuild, and real private source → WorldPackage → Preview →
+  PlayableService → SQLite evidence pass without canonical mutation. G94B-G97J
+  and M91-M94 remain pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.

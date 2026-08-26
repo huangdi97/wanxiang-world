@@ -1,7 +1,7 @@
 """v5.2 minimality budget: code minimality as a continuous acceptance metric.
 
 Reuses the deterministic v5.1 metrics + forensics scanners and the architecture
-guard cycle check, then records a per-milestone incremental budget (M27-M78).
+guard cycle check, then records a per-milestone incremental budget (M27-M91).
 No arbitrary absolute LOC cap: budgets are per-stage *increment* allowances on
 new abstractions (with mandatory justification in V5_2_CODE_MINIMALITY_LEDGER.md)
 and hard invariants (0 cycles, exactly 1 commit path, no second Event/Branch/
@@ -57,7 +57,7 @@ class Budget(TypedDict):
     milestone_budgets: dict[str, MilestoneBudget]
 
 
-# Per-milestone incremental budget notes (M26 baseline -> M90).
+# Per-milestone incremental budget notes (M26 baseline -> M91).
 # key: milestone; value: allowed new production abstractions (types/protocols/
 # classes/services) with justification, plus hard constraints.
 MILESTONE_BUDGETS: dict[str, MilestoneBudget] = {
@@ -475,6 +475,19 @@ MILESTONE_BUDGETS: dict[str, MilestoneBudget] = {
             "all three projection planes change without projection commits",
         ),
     },
+    "M91": {
+        "note": (
+            "PatternObservation, PatternStatistics and PatternObservationStore are "
+            "immutable, rebuildable views over committed history; detectors and "
+            "candidates must consume this cache without creating a second history."
+        ),
+        "new_abstractions_allowance": 3,
+        "hard_constraints": (
+            "derived cache only",
+            "event refs and rebuild determinism",
+            "no automatic Candidate or canonical mutation",
+        ),
+    },
 }
 
 
@@ -502,7 +515,7 @@ def build_budget() -> Budget:
     managers = sum(1 for _label, name in flag_rows if "manager" in name.lower())
 
     payload: Budget = {
-        "milestone": "M90 (v5.5 G93H)",
+        "milestone": "M91 (v5.5 G94A)",
         "production_files": total["files"],
         "production_loc": total["loc"],
         "public_classes": total["classes"],
@@ -532,7 +545,7 @@ def render(budget: Budget) -> str:
         "with mandatory justification in `V5_2_CODE_MINIMALITY_LEDGER.md`) plus",
         "hard invariants that must hold at every milestone.",
         "",
-        "## Current snapshot — M90 / v5.5 G93H",
+        "## Current snapshot — M91 / v5.5 G94A",
         "",
         "| Metric | Count |",
         "|---|---|",
@@ -553,7 +566,7 @@ def render(budget: Budget) -> str:
         "",
         f"Hard invariants hold: **{budget['hard_invariants_ok']}** (0 cycles, 1 commit path).",
         "",
-        "## Historical incremental budgets M26-M90",
+        "## Historical incremental budgets M26-M91",
         "",
         "| Milestone | New-abstraction allowance | Note | Hard constraints |",
         "|---|---|---|---|",

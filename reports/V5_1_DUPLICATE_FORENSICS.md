@@ -65,7 +65,7 @@
 | packages/substrate/src/wanxiang_substrate/spatial/errors.py | InvalidSpatialState | 34 |
 | packages/substrate/src/wanxiang_substrate/spatial/model.py | SpatialSnapshot | 91 |
 
-## store_classes (29)
+## store_classes (30)
 
 | path | name | line |
 |---|---|---|
@@ -86,6 +86,7 @@
 | packages/substrate/src/wanxiang_substrate/capability/runtime_control.py | RuntimeControlLedger | 33 |
 | packages/substrate/src/wanxiang_substrate/draft/store.py | DraftStore | 20 |
 | packages/substrate/src/wanxiang_substrate/evidence/conflict.py | ConflictLedger | 38 |
+| packages/substrate/src/wanxiang_substrate/evolution/pattern_observation.py | PatternObservationStore | 163 |
 | packages/substrate/src/wanxiang_substrate/evolution/promotion/control.py | PromotionControlLedger | 29 |
 | packages/substrate/src/wanxiang_substrate/jobs/store.py | JobStore | 35 |
 | packages/substrate/src/wanxiang_substrate/ledger/completion.py | CompletionReviewLedger | 86 |

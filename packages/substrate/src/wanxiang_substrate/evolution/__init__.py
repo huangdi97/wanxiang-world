@@ -89,6 +89,12 @@ from wanxiang_substrate.evolution.organization_lifecycle import (
     review_organization_proposal,
     split_child_projection,
 )
+from wanxiang_substrate.evolution.pattern_observation import (
+    PatternKind,
+    PatternObservation,
+    PatternObservationStore,
+    PatternStatistics,
+)
 from wanxiang_substrate.evolution.persona_adaptation import (
     PERSONA_TRAITS,
     PersonaAdaptationPolicy,

@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G93H: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G94A: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -439,6 +439,20 @@ count, and replay stayed unchanged. Gate 31 is **ACCEPTED**. Gate 30 remains
 pending until G93H's integrated 30-day run; G93H-G97J, Gate 24, and the
 remaining release gates remain pending. v5.5 remains **IN_PROGRESS /
 NOT_ACCEPTED**. Evidence: `reports/G93G_REPORT.md`.
+
+## Latest engineering checkpoint — G94A / M91 (2026-08-27)
+
+G94A PASS. `PatternObservationStore` derives typed behavior, relationship,
+exchange, and organization observations, windowed statistics, feature means,
+and committed event references from the existing immutable event stream. The
+cache is deterministic under reordered input and remains rebuildable; it owns
+no EventStore, Branch, Candidate, or Commit Authority. A private,
+rights-approved source traversed OneClickAuthoring → WorldPackage → Preview →
+PlayableService → SQLite WorldRuntime, and the observation cache was rebuilt
+from the resulting committed events without changing canonical hash, revision,
+event refs, source bytes, or replay. G94B-G97J and Gates 24, 32-52, and 55-60
+remain pending; v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**. Evidence:
+`reports/G94A_REPORT.md`.
 
 ## Latest engineering checkpoint — G93H / M90 (2026-08-27)
 
