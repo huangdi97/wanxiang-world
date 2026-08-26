@@ -1796,3 +1796,10 @@
 - Added one immutable, optimistic `WorkshopDraftStore` shared by all creation
   modes; stale editor revisions are rejected and canonical world state remains
   outside the product draft.
+
+## v5.5 G90B (2026-08-26)
+
+- Added versioned `CreatorIntent`, explicit constraint extraction, domain
+  suggestions, and a review gate over the existing E5 completion contract.
+- Kept prompt text in a data channel: directive-like input is not executed,
+  and generated claims cannot silently become Canon facts.

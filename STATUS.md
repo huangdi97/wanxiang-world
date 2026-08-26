@@ -880,3 +880,10 @@ Experience, Publishing, Review, and Registry panels over one shared immutable
 `WorkshopDraftStore`. Stale editor writes are rejected by typed revision
 conflict; no canonical state or Commit Authority is added. G90B is next;
 M87 and v5.5 remain NOT_ACCEPTED.
+
+## v5.5 G90B checkpoint (2026-08-26)
+
+G90B PASS: CreatorIntent, explicit constraint extraction, E5 domain/claim
+provenance, review actions, and prompt data-channel separation are implemented.
+Generated output cannot enter Canon or invoke Commit Authority. G90C is next;
+M87 and v5.5 remain NOT_ACCEPTED.

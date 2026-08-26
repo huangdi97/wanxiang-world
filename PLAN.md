@@ -495,6 +495,9 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
 - G90A: PASS and committed as `g90a: Workshop Information Architecture`;
   Source/Prompt/Hybrid share one immutable workshop draft backend. G90B-G97J
   remain pending.
+- G90B: PASS and committed as `g90b: Prompt Genesis Contract`; generated
+  constraints/domain suggestions/claims remain explicit E5 review candidates.
+  G90C-G97J remain pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.
