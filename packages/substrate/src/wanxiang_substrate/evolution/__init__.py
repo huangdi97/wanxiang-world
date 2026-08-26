@@ -6,6 +6,15 @@ from wanxiang_substrate.evolution.actor_evolution import (
     PersonaDelta,
     TrajectoryEntry,
 )
+from wanxiang_substrate.evolution.capability_growth import (
+    CapabilityCandidate,
+    CapabilityPrerequisite,
+    CapabilityPromotionProposal,
+    CapabilityValidation,
+    create_capability_candidate,
+    promote_capability_candidate,
+    validate_capability_candidate,
+)
 from wanxiang_substrate.evolution.cross_world import (
     CrossWorldCandidate,
     CrossWorldDistiller,
@@ -83,7 +92,11 @@ __all__ = [
     "validate_promotion",
     "ActorEvolutionTracker",
     "BeliefDelta",
+    "CapabilityCandidate",
     "CapabilityEvolutionDelta",
+    "CapabilityPrerequisite",
+    "CapabilityPromotionProposal",
+    "CapabilityValidation",
     "BehaviorRecord",
     "CandidateEnvelope",
     "CrossWorldCandidate",
@@ -100,6 +113,7 @@ __all__ = [
     "EvolutionPolicyStack",
     "EvolutionScheduler",
     "EvolutionProvenance",
+    "create_capability_candidate",
     "InstitutionCandidate",
     "InstitutionPromotionChain",
     "MIN_STABILITY",
@@ -116,6 +130,8 @@ __all__ = [
     "RelationshipDelta",
     "StateDelta",
     "TrajectoryEntry",
+    "promote_capability_candidate",
+    "validate_capability_candidate",
     "WorldPolicy",
     "reject_world_platform_mutation",
 ]

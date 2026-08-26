@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G93A: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G93B: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -361,6 +361,19 @@ the six proposals were validated; canonical hash/event count stayed unchanged.
 Gate 29 is **ACCEPTED**. G93B-G97J, Gate 24, and the remaining M90-M94 gates
 remain pending; v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**. Evidence:
 `reports/G93A_REPORT.md`.
+
+## Latest engineering checkpoint — G93B (2026-08-27)
+
+G93B PASS. `CapabilityCandidate` now requires domain support, validates
+prerequisites and composition, aggregates practice evidence, distinguishes
+successful and failed assessments, and creates a proposal-only promotion to
+the existing actor-skill resolver. Impossible capabilities and
+failure-dominant evidence are rejected. A private source-created package ran
+through PlayableService/Preview/SQLite before a validated promotion was
+committed and replayed; the actor skill retained the candidate evidence refs.
+Gate 30 remains pending until G93H's 30-day Actor/Relationship/Organization
+run. G93C-G97J and Gate 24 remain pending; v5.5 remains
+**IN_PROGRESS / NOT_ACCEPTED**. Evidence: `reports/G93B_REPORT.md`.
 
 ## Latest engineering checkpoint — G90F (2026-08-26)
 

@@ -590,6 +590,10 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   evolution records, schema/version/provenance, no-generic-blob validation,
   and the real source -> WorldPackage -> Preview -> PlayableService -> SQLite
   commit-chain evidence pass. Gate 29 is accepted; G93B-G97J remain pending.
+- G93B: PASS and committed as `g93b: Capability Growth`; domain-supported
+  candidates, prerequisites/composition, accumulated practice, success/failure
+  validation, and proposal-only promotion through the existing capability
+  resolver pass. Gate 30 remains pending until G93H; G93C-G97J remain pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.

@@ -1997,3 +1997,14 @@
 - Qualified the taxonomy after a real private source-created WorldPackage
   traversed PlayableService, Preview, and SQLite WorldRuntime. Gate 29 is
   accepted; G93B-G97J and the v5.5 release gates remain pending.
+
+## v5.5 G93B (2026-08-27)
+
+- Added evidence-bound `CapabilityCandidate` growth from domain-supported
+  practice, assessment outcomes, and explicit composition/prerequisites.
+- Added deterministic success/failure validation and proposal-only promotion
+  that reuses the existing capability Commit Authority resolver; impossible
+  capabilities and failure-dominant candidates fail closed.
+- Qualified a private source-created package through PlayableService, Preview,
+  and SQLite Runtime with replay-equal actor-skill promotion. Gate 30 remains
+  pending until the M90 30-day qualification.

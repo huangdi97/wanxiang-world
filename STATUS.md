@@ -1051,6 +1051,18 @@ hash and event count stayed unchanged. Gate 29 is accepted. G93B-G97J and
 Gate 24 remain pending; v5.5 remains NOT_ACCEPTED. Evidence:
 `reports/G93A_REPORT.md`.
 
+## v5.5 G93B checkpoint (2026-08-27)
+
+G93B PASS and committed as `g93b: Capability Growth`. Capability candidates
+now carry domain support, prerequisites, practice/composition evidence,
+success/failure outcomes, deterministic validation, and bounded promotion
+proposals. Impossible domain capabilities, missing prerequisites, and
+failure-dominant evidence are rejected. A private source-created package
+passed through PlayableService, Preview, and SQLite WorldRuntime before a
+validated promotion committed through the existing capability resolver and
+replayed equally. Gate 30 remains pending until G93H; G93C-G97J and Gate 24
+remain pending. Evidence: `reports/G93B_REPORT.md`.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/
