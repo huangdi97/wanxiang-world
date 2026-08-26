@@ -1074,6 +1074,17 @@ lineage, while the approved actor projection replayed with canonical hash and
 event count unchanged. Gate 30 remains pending until G93H; G93D-G97J and Gate
 24 remain pending. Evidence: `reports/G93C_REPORT.md`.
 
+## v5.5 G93D checkpoint (2026-08-27)
+
+G93D PASS and committed as `g93d: Relationship Evolution`. Event-to-rule
+relationship proposals now enforce exact actor/relation identity, bounded
+dimension clamps, stale/ambiguous rejection, provider-only output, and
+replayable projection history through the existing RelationshipGraph. Future
+behavior feedback remains read-only. A real private source-created package
+supplied committed event evidence, while canonical hash/event count stayed
+unchanged. Gate 30 remains pending until G93H; G93E-G97J and Gate 24 remain
+pending. Evidence: `reports/G93D_REPORT.md`.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/

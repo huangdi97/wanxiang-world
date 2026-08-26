@@ -2018,3 +2018,13 @@
   no canonical persona commit path was added.
 - Qualified the proposal against a real private source/playable/runtime event
   chain with unchanged canonical hash and replay. Gate 30 remains pending.
+
+## v5.5 G93D (2026-08-27)
+
+- Added event-to-rule relationship evolution proposals with exact actor/relation
+  checks, bounded dimension clamps, stale/ambiguous rejection, and provider
+  proposal-only policy.
+- Reused the existing RelationshipGraph for reviewed projection history and
+  replay equality, with read-only cooperation/avoidance behavior feedback.
+- Qualified a private source/playable/runtime event chain with unchanged
+  canonical state; Gate 30 remains pending until the M90 long run.

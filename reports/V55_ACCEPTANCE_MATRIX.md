@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G93C: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G93D: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -386,6 +386,18 @@ change left canonical hash/event count and replay unchanged. Gate 30 remains
 pending until G93H's 30-day Actor/Relationship/Organization run. G93D-G97J
 and Gate 24 remain pending; v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**.
 Evidence: `reports/G93C_REPORT.md`.
+
+## Latest engineering checkpoint — G93D (2026-08-27)
+
+G93D PASS. Relationship events now map through exactly-one typed delta rule,
+bounded/clamped dimensions, actor/relation invariants, and proposal-only
+provider output. Reviewed proposals reuse the existing RelationshipGraph
+projection history and replay equal; behavior feedback is read-only. A real
+private source-created product chain supplied committed event evidence and
+the approved relationship projection left canonical hash/event count unchanged.
+Gate 30 remains pending until G93H's 30-day Actor/Relationship/Organization
+run. G93E-G97J and Gate 24 remain pending; v5.5 remains
+**IN_PROGRESS / NOT_ACCEPTED**. Evidence: `reports/G93D_REPORT.md`.
 
 ## Latest engineering checkpoint — G90F (2026-08-26)
 

@@ -598,6 +598,10 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   dimensions, multi-event windows, slow-variable limits, and review-gated
   proposal-only PersonaDelta evidence pass. Gate 30 remains pending until
   G93H; G93D-G97J remain pending.
+- G93D: PASS and committed as `g93d: Relationship Evolution`; typed event/rule
+  proposals, clamps/invariants, provider boundary, behavior feedback, and
+  RelationshipGraph replay history pass. Gate 30 remains pending until G93H;
+  G93E-G97J remain pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.
