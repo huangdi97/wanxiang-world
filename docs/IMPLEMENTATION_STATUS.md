@@ -224,3 +224,12 @@ does not constitute private living-family user validation.
 
 M84/G87A-G87H is active. No stable v5.4.0 tag/release, v5.5 work, or model
 training is authorized until the M84 evidence gates pass.
+
+## M84 stable-release decision (2026-08-26)
+
+M84 clean-clone, regression, source-safety, and GitHub delivery evidence is
+complete through G87E. Stable release remains `NOT_ACCEPTED` because the
+unchanged first real Chinese book report still records zero candidates and
+zero coverage in its rights-approved diagnostic. The accepted second EPUB and
+public historical GEDCOM generalization runs are not a substitute. No stable
+tag/release was created. See `reports/M84_STABLE_BLOCKER.md`.

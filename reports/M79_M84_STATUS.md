@@ -107,3 +107,17 @@ Ruff check, format check, Pyright (`0 errors`), `1219 passed`, one existing
 PostgreSQL-profile skip, two warnings, and the architecture guard. The
 PostgreSQL skip is an external environment boundary, not a GEDCOM product
 success claim.
+
+## M84 final current truth (2026-08-26)
+M84 G87A-G87E engineering evidence is PASS on the GitHub feature branch: the
+final clean clone installed, migrated, bootstrapped, ran clean-room,
+CLI/API/Studio, Python, and TypeScript gates; the required Actions run
+`32879104870` is green across all six jobs. The cross-platform fixture repair
+is committed and pushed.
+
+G87F/G87G are **HELD**. The first real Chinese book remains `NOT_ACCEPTED` in
+`reports/REAL_BOOK_LIVING_WORLD_ACCEPTANCE_2026-08-25.md` with zero candidates
+and zero coverage even in the rights-approved diagnostic. M79's accepted
+second EPUB and M82's accepted public historical GEDCOM do not replace that
+first-source acceptance. No stable tag or stable GitHub Release is authorized.
+See `reports/M84_STABLE_BLOCKER.md`.

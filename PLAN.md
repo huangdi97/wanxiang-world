@@ -413,3 +413,14 @@ Preview, Living Instance, Commit/Replay equality, and branch isolation. The
 official GEDCOM 7 import/locator smoke also passed without vendoring its
 sample. M84 G87A-G87H is now active; no v5.5 or model-training work is
 authorized.
+
+## M84 final certification checkpoint (2026-08-26)
+
+G87A-G87E engineering evidence is PASS: the GitHub feature-branch clean clone
+completed install, migration, bootstrap, clean-room, CLI/API/Studio smoke,
+Python/TypeScript gates, source-safety checks, and a six-job green Actions run.
+G87F-G87G remain held because the original first real Chinese book is still
+`NOT_ACCEPTED` with zero candidates and zero coverage in the unchanged source
+report. M79's second EPUB and M82's public historical GEDCOM cannot substitute
+for that required first-source acceptance. Do not create or move `v5.4.0`;
+preserve the blocker report and stop at this boundary.

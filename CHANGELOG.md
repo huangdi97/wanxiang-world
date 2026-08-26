@@ -1,5 +1,19 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-26 — M84 stable certification held at source-of-truth blocker
+
+- Fixed cross-platform deterministic fixture generation by writing the kernel
+  freeze and lineage fixtures with canonical LF newlines; the fix passed local
+  and GitHub Actions gates.
+- Completed the final GitHub clean-clone install, migration, clean-room,
+  CLI/API/Studio, Python, TypeScript, rights, and source-safety evidence.
+- Kept the original 2026-08-25 first-real-book report unchanged as
+  `NOT_ACCEPTED`: the rights-approved diagnostic still has zero candidates and
+  zero coverage. The accepted second EPUB and public historical GEDCOM do not
+  replace that required first-source acceptance.
+- No `v5.4.0` stable tag or Release was created; no v5.5 work or model training
+  was started. See `reports/M84_STABLE_BLOCKER.md`.
+
 ## 2026-08-25 ? M79 second real-book qualification
 
 - Generic binary EPUB ingestion now preserves raw-byte hashing through the

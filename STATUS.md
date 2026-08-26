@@ -724,3 +724,17 @@ surfaces. The official GEDCOM 7 import/locator smoke passed as a separate
 in-memory test. Evidence: `reports/M82_GEDCOM_QUALIFICATION.md`,
 `artifacts/m79_m84/real_gedcom_product_evidence.json`, and
 `artifacts/m79_m84/gedcom7_official_smoke.json`.
+
+## M84 final current truth (2026-08-26)
+
+G87A-G87E engineering and delivery evidence passed on the current GitHub
+feature branch, including the final clean clone, `1219 passed` Python tests,
+22 TypeScript tests, clean-room certification, CLI/API/Studio smoke, source
+safety, and six green required Actions jobs. G87F/G87G are held: the first
+real Chinese book's unchanged 2026-08-25 report is still `NOT_ACCEPTED` with
+zero candidates and `coverage=0` under the rights-approved diagnostic.
+M79's second EPUB and M82's public historical GEDCOM are separate accepted
+generalization sources and do not clear that blocker. No `v5.4.0` stable tag
+or release was created.
+
+See `reports/M84_STABLE_BLOCKER.md`.
