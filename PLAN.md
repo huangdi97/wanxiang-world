@@ -658,6 +658,11 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   review without a new authority or canonical path. Real SQLite rollback and
   withdrawal evidence preserve event history and replay. G94H-G97J and
   M91-M94 remain pending.
+- G94H: PASS and committed as `g94h: M91 Emergence Qualification`; positive
+  and negative real playable worlds prove one bounded cross-window pattern,
+  the Norm→Institution→Ontology review chain, same-window false-positive
+  rejection, and replay/canonical immutability. Gates 33-37 are accepted; M91
+  is complete in scope. G95A-G97J and M92-M94 remain pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.

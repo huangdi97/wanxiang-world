@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G94G: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G94H: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -37,11 +37,11 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 30 | 30-day Actor/Relationship/Organization evolution | ACCEPTED | G93H M90 30d qualification: 3,000 ticks, nonzero Actor/Relationship/Organization changes, source/package unchanged, append-only history and replay equality |
 | 31 | Evolution explainability/replay | ACCEPTED | G93G typed delta reason/source/event/trajectory explanation projection and real product-chain replay evidence |
 | 32 | Source/canon immutability | PENDING | — |
-| 33 | Positive/negative pattern benchmark | PENDING | — |
-| 34 | Evidence-backed emergence candidate | PENDING | — |
-| 35 | High-level promotion review | PENDING | — |
-| 36 | False-positive controls | PENDING | — |
-| 37 | No universal-emergence claim | PENDING | — |
+| 33 | Positive/negative pattern benchmark | ACCEPTED | G94H real positive/negative playable worlds with cross-window and same-window controls |
+| 34 | Evidence-backed emergence candidate | ACCEPTED | G94H three-window Norm→Institution→Ontology candidate and provenance |
+| 35 | High-level promotion review | ACCEPTED | G94H authorized review plus Constitution-gated ontology validation |
+| 36 | False-positive controls | ACCEPTED | G94H same-window burst remains unqualified and cannot form NormCandidate |
+| 37 | No universal-emergence claim | ACCEPTED | G94H report explicitly limits result to the qualified test scope |
 | 38 | WorldRunArtifact re-verification | PENDING | — |
 | 39 | Recoverable Experiment Registry | PENDING | — |
 | 40 | Fork/intervention parent isolation | PENDING | — |
@@ -439,6 +439,20 @@ count, and replay stayed unchanged. Gate 31 is **ACCEPTED**. Gate 30 remains
 pending until G93H's integrated 30-day run; G93H-G97J, Gate 24, and the
 remaining release gates remain pending. v5.5 remains **IN_PROGRESS /
 NOT_ACCEPTED**. Evidence: `reports/G93G_REPORT.md`.
+
+## Latest engineering checkpoint — G94H / M91 (2026-08-27)
+
+G94H PASS and M91 is complete within scope. A real private rights-approved
+source traversed OneClickAuthoring → WorldPackage → Preview → PlayableService
+→ SQLite WorldRuntime. The positive world produced three disjoint repeated
+cross-window detections, NormCandidates, a reviewed InstitutionCandidate, and a
+reviewed OntologyCandidate; canonical history, Constitution hash, and replay
+remained unchanged. The negative world produced a same-window burst that stayed
+unqualified and could not form a NormCandidate. Gates 33-37 are **ACCEPTED**;
+Gate 24 and Gates 32, 38-52, and 55-60 remain pending. This is bounded evidence
+of one qualified pattern, not a universal-emergence claim. G95A-G97J remain
+pending; v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**. Evidence:
+`reports/G94H_REPORT.md`.
 
 ## Latest engineering checkpoint — G94G / M91 (2026-08-27)
 

@@ -2182,3 +2182,19 @@
   hash, event history, and replay.
 - G94G is PASS and committed as `g94g: Promotion Ladder Enforcement`; G94H-G97J
   and the remaining M91-M94 gates are pending, so v5.5 remains NOT_ACCEPTED.
+
+## v5.5 G94H / M91 (2026-08-27)
+
+- Qualified one bounded positive pattern through the real private
+  rights-approved source → WorldPackage → Preview → PlayableService → SQLite
+  WorldRuntime chain, with three disjoint cross-window detections and the
+  NormCandidate → reviewed InstitutionCandidate → reviewed OntologyCandidate
+  path.
+- Added the negative same-window burst world; it remains unqualified and
+  cannot create a NormCandidate. Candidate review, Constitution validation,
+  canonical event history, and replay remain separated and immutable.
+- Gates 33-37 are ACCEPTED. The result is explicitly scoped evidence of one
+  qualified pattern and makes no universal-emergence claim; M91 is complete in
+  scope while M92-M94 and the remaining release gates stay pending.
+- G94H is PASS and committed as `g94h: M91 Emergence Qualification`; G95A-G97J
+  and the remaining M92-M94 gates are pending, so v5.5 remains NOT_ACCEPTED.

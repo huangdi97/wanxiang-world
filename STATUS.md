@@ -1216,6 +1216,18 @@ A real SQLite runtime preserved canonical hash, event history, and replay after
 the complete control sequence. G94H-G97J and M91-M94 remain pending; v5.5
 remains NOT_ACCEPTED. Evidence: `reports/G94G_REPORT.md`.
 
+## v5.5 G94H / M91 checkpoint (2026-08-27)
+
+G94H PASS and committed as `g94h: M91 Emergence Qualification`; M91 is
+complete within scope. The real private rights-approved source chain produced
+one bounded positive pattern across three disjoint windows, with Norm,
+Institution, and Ontology candidates reviewed and Constitution-gated. A
+negative same-window burst remained unqualified and could not produce a norm.
+Positive/negative evidence, candidate provenance, canonical immutability, and
+replay equality pass; Gates 33-37 are ACCEPTED. This does not claim universal
+emergence. G95A-G97J and M92-M94 remain pending; v5.5 remains NOT_ACCEPTED.
+Evidence: `reports/G94H_REPORT.md`.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/
