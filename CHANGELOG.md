@@ -1725,3 +1725,10 @@
 - Added canonical-state-derived StateDiff categories, epistemic permission
   filtering, deterministic replay comparison, and explicit no-change output.
 - Kept narrative rendering as a separate read-only projection.
+
+## v5.5 G88H / M85 (2026-08-26)
+
+- Qualified a source-created WorldPackage through shared CLI/API/Studio
+  playable entry, embodiment, free action, committed StateDiff, replay, leave,
+  and same-instance Continue.
+- Added sanitized CLI/API evidence and server-side instance authorization.

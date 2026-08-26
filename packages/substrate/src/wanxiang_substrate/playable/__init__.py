@@ -21,6 +21,8 @@ from wanxiang_substrate.playable.models import (
     RuntimeProfile,
     ScenarioProfile,
 )
+from wanxiang_substrate.playable.service import PlayableService
+from wanxiang_substrate.playable.service_model import PlayableActionResult
 from wanxiang_substrate.playable.state_diff import (
     CommittedStateDiff,
     DiffChange,
@@ -49,6 +51,8 @@ __all__ = [
     "IntentCompileResult",
     "IntentCompiler",
     "PlayableStore",
+    "PlayableActionResult",
+    "PlayableService",
     "PlayableWorldProfile",
     "ProjectionProfile",
     "RuntimeProfile",

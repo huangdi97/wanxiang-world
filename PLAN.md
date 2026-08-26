@@ -469,6 +469,8 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   remain pending.
 - G88G: PASS and committed as `g88g: Committed StateDiff v1`; G88H-G97J remain
   pending.
+- G88H: PASS and committed as `g88h: M85 Playable E2E Qualification`; M86
+  G89A-G97J remain pending and execution continues automatically.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.

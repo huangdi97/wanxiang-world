@@ -6,11 +6,11 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | Gate | Area | Status | Evidence |
 |---:|---|---|---|
 | 1 | PlayableWorldProfile from v5.4 world | PENDING | — |
-| 2 | Plaza / Continue / My Worlds / My Characters E2E | PENDING | — |
-| 3 | Character / Observer / Embodiment permissions | PENDING | — |
-| 4 | Free Action proposal-to-commit loop | PENDING | — |
-| 5 | Committed StateDiff | PENDING | — |
-| 6 | Leave / Continue continuity | PENDING | — |
+| 2 | Plaza / Continue / My Worlds / My Characters E2E | ACCEPTED | G88H API/CLI/Studio shared backend E2E |
+| 3 | Character / Observer / Embodiment permissions | ACCEPTED | G88E contracts + G88H embodied API path |
+| 4 | Free Action proposal-to-commit loop | ACCEPTED | G88H IntentCompiler → CommitAuthority |
+| 5 | Committed StateDiff | ACCEPTED | G88H committed event diff and replay hash |
+| 6 | Leave / Continue continuity | ACCEPTED | G88H same instance/branch after leave |
 | 7 | ActorGoalStack persistence/replay | PENDING | — |
 | 8 | Memory / Belief / Truth separation | PENDING | — |
 | 9 | Secret / rumor / future-knowledge isolation | PENDING | — |
@@ -100,6 +100,12 @@ G88F PASS. Text/structured intent compilation, typed clarification/unsupported
 outcomes, hostile-input rejection, and proposal-only authority boundaries pass.
 Gate 4 remains pending until the compiler is connected to the real runtime
 commit/replay path in G88H.
+
+## Latest checkpoint — G88H (2026-08-26)
+
+G88H PASS. Gates 2-6 are now **ACCEPTED** by the source-created-world E2E;
+Gates 7-52 remain pending. Release status remains **IN_PROGRESS /
+NOT_ACCEPTED**.
 
 ## Latest checkpoint — G88G (2026-08-26)
 

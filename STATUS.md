@@ -810,3 +810,9 @@ G88G PASS: CommittedStateDiff is derived from canonical before/after states,
 permission filters private epistemic changes, and keeps narrative rendering as
 a separate read-only projection. Two focused StateDiff tests pass. G88H is
 next.
+
+G88H PASS: M85 Playable E2E completed through the source-created WorldPackage,
+shared CLI/API/Studio PlayableService, character embodiment, committed free
+action, canonical StateDiff, replay, leave, and same-instance Continue. M85 is
+complete; M86 G89A is next. v5.5 remains NOT_ACCEPTED and no v5.6/model
+training scope is active.

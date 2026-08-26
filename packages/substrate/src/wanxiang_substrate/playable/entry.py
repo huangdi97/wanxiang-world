@@ -56,12 +56,13 @@ class CharacterEntryService:
         display_name: str,
         *,
         compatible_profile_ids: tuple[str, ...] = (),
+        character_id: str | None = None,
     ) -> CharacterRecord:
         if not owner_id or not display_name.strip():
             raise ContractError("character creation requires owner and display name")
         number = len(self._store.list_characters(owner_id)) + 1
         character = CharacterRecord(
-            character_id=f"character:{owner_id}:{number}",
+            character_id=character_id or f"character:{owner_id}:{number}",
             owner_id=owner_id,
             display_name=display_name.strip(),
             compatible_profile_ids=compatible_profile_ids,

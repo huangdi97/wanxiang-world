@@ -18,10 +18,18 @@ _HTML = r"""<!doctype html>
 <textarea id="source" aria-label="source text">Paste source text or load a file</textarea><div class="row">
 <input id="file" type="file"><button onclick="runAuthoring()">Run authoring</button><button onclick="loadStatus()">Refresh status</button>
 <button onclick="buildDraft()">Build</button><button onclick="previewDraft()">Preview</button><button onclick="runWorldness()">Worldness / repair</button><button onclick="enterWorld()">Enter living world</button></div>
+<hr><h2>Playable World</h2><div class="row"><input id="playProfile" value="" aria-label="Playable profile id"><input id="playCharacter" value="ent_alice" aria-label="playable character id"><input id="playSession" value="studio_play_session" aria-label="playable session id"><input id="playAction" value="set status to awake" aria-label="free action"></div><div class="row"><button onclick="loadPlaza()">World Plaza</button><button onclick="enterPlayable()">Enter playable world</button><button onclick="freeAction()">Free action</button><button onclick="leavePlayable()">Leave</button><button onclick="continuePlayable()">Continue</button></div>
 <pre id="out">Ready.</pre>
 <script>
 const out=document.getElementById('out'), job=()=>document.getElementById('job').value;
 async function call(path, options={}){const r=await fetch(path,options);const x=await r.json();out.textContent=JSON.stringify(x,null,2);if(!r.ok)throw x;return x}
+const playableHeaders={'content-type':'application/json','x-wanxiang-user':'studio'};
+const playableId=()=>document.getElementById('playProfile').value, playSession=()=>document.getElementById('playSession').value;
+async function loadPlaza(){return call('/experience/plaza',{headers:playableHeaders})}
+async function enterPlayable(){return call('/experience/worlds/'+encodeURIComponent(playableId())+'/enter',{method:'POST',headers:playableHeaders,body:JSON.stringify({mode:'embodiment',session_id:playSession(),character_id:document.getElementById('playCharacter').value})})}
+async function freeAction(){const x=await call('/experience/plaza',{headers:playableHeaders});const id=x.continue&&x.continue.instance_id;return id?call('/experience/instances/'+encodeURIComponent(id)+'/action',{method:'POST',headers:playableHeaders,body:JSON.stringify({text:document.getElementById('playAction').value})}):x}
+async function leavePlayable(){const x=await call('/experience/plaza',{headers:playableHeaders});const id=x.continue&&x.continue.instance_id;return id?call('/experience/instances/'+encodeURIComponent(id)+'/leave',{method:'POST',headers:playableHeaders}):x}
+async function continuePlayable(){const x=await call('/experience/plaza',{headers:playableHeaders});const id=x.continue&&x.continue.instance_id;return id?call('/experience/instances/'+encodeURIComponent(id)+'/continue',{method:'POST',headers:playableHeaders}):x}
 async function loadStatus(){return call('/studio/jobs/'+encodeURIComponent(job()))}
 async function buildDraft(){return call('/studio/jobs/'+encodeURIComponent(job())+'/build',{method:'POST'})}
 async function previewDraft(){return call('/studio/jobs/'+encodeURIComponent(job())+'/preview',{method:'POST'})}

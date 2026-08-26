@@ -6,6 +6,7 @@ from fastapi import APIRouter, Request
 from pydantic import BaseModel, Field
 from wanxiang_substrate.authoring.scenario_engine import ScenarioEngine
 from wanxiang_substrate.authoring.service import AuthoringService
+from wanxiang_substrate.playable import PlayableService
 
 from wanxiang_api.authoring_sources import SourceInput, source_records
 from wanxiang_api.candidate_serializers import candidate_to_dict
@@ -34,8 +35,40 @@ class BatchReviewRequest(BaseModel):
     rationale: str
 
 
+class PlayableProfileRequest(BaseModel):
+    owner_id: str = ""
+    visibility: str = "public"
+    display_name: str | None = None
+    allowed_actions: list[str] = Field(default_factory=lambda: ["set_status"])
+
+
 def _service(request: Request) -> AuthoringService:
     return request.app.state.authoring
+
+
+def _playable(request: Request) -> PlayableService:
+    service = request.app.state.playable
+    if service is None:
+        from fastapi import HTTPException
+
+        raise HTTPException(status_code=503, detail="playable runtime is not configured")
+    return service
+
+
+@router.post("/jobs/{job_id}/playable-profile")
+def register_playable_profile(
+    job_id: str, payload: PlayableProfileRequest, request: Request
+) -> dict[str, object]:
+    authoring = _service(request)
+    package = authoring.package(job_id) or authoring.build_package(job_id)
+    profile = _playable(request).register_package(
+        package,
+        owner_id=payload.owner_id,
+        visibility=payload.visibility,
+        display_name=payload.display_name,
+        allowed_actions=tuple(payload.allowed_actions),
+    )
+    return {"profile": profile.to_dict()}
 
 
 @router.post("/jobs", status_code=201)
