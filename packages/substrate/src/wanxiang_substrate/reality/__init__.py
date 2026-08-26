@@ -77,6 +77,15 @@ from wanxiang_substrate.reality.pressure import (
     PRESSURE_PROFILE_SCHEMA_VERSION,
     PressureProfile,
 )
+from wanxiang_substrate.reality.quest import (
+    CommittedStateEvidence,
+    QuestObjective,
+    QuestObjectiveProgress,
+    QuestProjection,
+    QuestProjectionAdapter,
+    QuestProjectionError,
+    QuestStatus,
+)
 
 __all__ = [
     "ChallengeCompiler",
@@ -130,6 +139,13 @@ __all__ = [
     "PRESSURE_DIMENSIONS",
     "PRESSURE_PROFILE_SCHEMA_VERSION",
     "PressureProfile",
+    "CommittedStateEvidence",
+    "QuestObjective",
+    "QuestObjectiveProgress",
+    "QuestProjection",
+    "QuestProjectionAdapter",
+    "QuestProjectionError",
+    "QuestStatus",
     "RealityBridge",
     "RealityError",
     "RunMetric",

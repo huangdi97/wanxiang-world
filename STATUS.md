@@ -935,6 +935,13 @@ time/event triggers, reversible setup, artifact refs, and existing-runtime
 child-branch isolation are covered without parent history writes. Gate 20
 remains pending until M88 qualification; G91F-G97J remain pending.
 
+## v5.5 G91F checkpoint (2026-08-26)
+
+G91F PASS and committed as `g91f: Quest Projection Adapter`. Quest views,
+optional objectives, committed-state progress, narrative-text rejection, and
+projection-only boundaries are covered. Gates 19-20 remain pending until M88
+qualification; G91G-G97J remain pending.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/

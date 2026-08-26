@@ -244,6 +244,14 @@ the existing runtime are covered. Parent events and state hash remain equal;
 Gate 20 stays pending until M88 full qualification. G91F is next; v5.5
 remains **IN_PROGRESS / NOT_ACCEPTED**.
 
+## Latest engineering checkpoint — G91F (2026-08-26)
+
+G91F PASS. Quest is a projection over Opportunity evidence, with required and
+optional objectives and progress derived only from committed state/event refs.
+Narrative text cannot fake progress and no Quest object can commit. Gates
+19-20 stay pending until M88 qualification. G91G is next; v5.5 remains
+**IN_PROGRESS / NOT_ACCEPTED**.
+
 ## Latest engineering checkpoint — G90F (2026-08-26)
 
 G90F PASS. Publishing profiles now separate visibility, rights summary,

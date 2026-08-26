@@ -537,6 +537,10 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   time/event triggers, reversible artifact-linked setup, and existing-runtime
   child-branch isolation are covered. Gate 20 remains pending until G91H;
   G91F-G97J remain pending.
+- G91F: PASS and committed as `g91f: Quest Projection Adapter`; Quest views,
+  optional objectives, committed-state progress, and narrative-text rejection
+  are covered as projection-only data. Gates 19-20 remain pending until G91H;
+  G91G-G97J remain pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.

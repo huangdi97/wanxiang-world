@@ -1891,3 +1891,10 @@
   forks through the existing runtime branch boundary.
 - Qualified parent event/state isolation on the real reference runtime; no
   intervention is silently written into the parent worldline.
+
+## v5.5 G91F (2026-08-26)
+
+- Added a projection-only Quest adapter over Opportunity evidence refs, with
+  required/optional objectives and progress from committed state/event refs.
+- Rejected narrative text as a progress source and preserved ignored/expired
+  Opportunity status without adding a Quest truth or commit path.
