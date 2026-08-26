@@ -9,6 +9,13 @@ from wanxiang_substrate.workshop.genesis_contract import (
     build_prompt_contract,
     extract_constraints,
 )
+from wanxiang_substrate.workshop.genesis_provider import (
+    LocalPromptGenesisProvider,
+    PromptGenesisCheckpoint,
+    PromptGenesisProvider,
+    PromptGenesisProviderService,
+    PromptGenesisRun,
+)
 from wanxiang_substrate.workshop.home import WorldWorkshop
 from wanxiang_substrate.workshop.models import (
     CreationMode,
@@ -26,6 +33,7 @@ __all__ = [
     "DomainSuggestion",
     "GenesisReviewGate",
     "IntentConstraint",
+    "LocalPromptGenesisProvider",
     "WorkshopDraft",
     "WorkshopDraftStore",
     "WorkshopHome",
@@ -33,6 +41,10 @@ __all__ = [
     "WorkshopStatus",
     "WorldWorkshop",
     "PromptGenesisContract",
+    "PromptGenesisCheckpoint",
+    "PromptGenesisProvider",
+    "PromptGenesisProviderService",
+    "PromptGenesisRun",
     "build_prompt_contract",
     "extract_constraints",
 ]

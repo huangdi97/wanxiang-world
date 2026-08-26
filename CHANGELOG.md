@@ -1803,3 +1803,10 @@
   suggestions, and a review gate over the existing E5 completion contract.
 - Kept prompt text in a data channel: directive-like input is not executed,
   and generated claims cannot silently become Canon facts.
+
+## v5.5 G90C (2026-08-26)
+
+- Reused `ProviderRouter` for Prompt Genesis with typed provider selection,
+  bounded retry checkpoints, and a private-safe deterministic local provider.
+- Rejected invalid intent provenance, non-E5 output, and authority fields;
+  provider output remains candidate-only.

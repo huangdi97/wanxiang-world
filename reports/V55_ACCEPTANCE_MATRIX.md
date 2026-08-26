@@ -184,6 +184,13 @@ Canonical state, event history, candidates, package registry, and Commit
 Authority remain in their existing v5.4 boundaries. Gates 12-15 remain pending
 until G90H exercises the three real creation paths and publishing checks.
 
+## Latest engineering checkpoint — G90C (2026-08-26)
+
+G90C PASS. Prompt Genesis reuses the ProviderRouter with a typed missing-
+provider result, private-safe deterministic local provider, bounded checkpoint,
+and strict E5/candidate-only output validation. Gates 12-15 remain pending
+until the full M87 qualification.
+
 ## Latest engineering checkpoint — G90B (2026-08-26)
 
 G90B PASS. `CreatorIntent` now produces explicit, provenance-bound E5

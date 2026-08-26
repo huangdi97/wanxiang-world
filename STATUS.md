@@ -881,6 +881,13 @@ Experience, Publishing, Review, and Registry panels over one shared immutable
 conflict; no canonical state or Commit Authority is added. G90B is next;
 M87 and v5.5 remain NOT_ACCEPTED.
 
+## v5.5 G90C checkpoint (2026-08-26)
+
+G90C PASS: Prompt Genesis now uses the shared ProviderRouter, supports an
+explicit no-key local provider, records bounded retry/checkpoint evidence, and
+rejects invalid provenance or authority fields. G90D is next; M87 and v5.5
+remain NOT_ACCEPTED.
+
 ## v5.5 G90B checkpoint (2026-08-26)
 
 G90B PASS: CreatorIntent, explicit constraint extraction, E5 domain/claim
