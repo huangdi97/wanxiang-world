@@ -14,6 +14,14 @@ from wanxiang_substrate.long_horizon.horizon import (
     run_population_benchmark,
     windowed_distill,
 )
+from wanxiang_substrate.long_horizon.scheduler import (
+    ActorAvailability,
+    AvailabilityWindow,
+    RecurringSchedule,
+    RecurringScheduler,
+    ScheduledOccurrence,
+    SchedulerCursor,
+)
 
 __all__ = [
     "DerivedWorld",
@@ -28,4 +36,10 @@ __all__ = [
     "run_living_open",
     "run_population_benchmark",
     "windowed_distill",
+    "ActorAvailability",
+    "AvailabilityWindow",
+    "RecurringSchedule",
+    "RecurringScheduler",
+    "ScheduledOccurrence",
+    "SchedulerCursor",
 ]

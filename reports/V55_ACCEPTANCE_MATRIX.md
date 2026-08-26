@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G91H: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G92A: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -270,6 +270,16 @@ semantic hash remained unchanged and child replay matched. Gates 16-20 are
 **ACCEPTED**; M88 is complete. M89-G94 and final release gates remain pending;
 v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**. Evidence:
 `reports/G91H_REPORT.md` and `reports/M88_QUALIFICATION.md`.
+
+## Latest engineering checkpoint — G92A (2026-08-26)
+
+G92A PASS. The long-horizon substrate now emits deterministic recurring
+occurrences from a priority queue, records actor availability and catch-up,
+and advances only monotonically. A real SQLite WorldRuntime qualification
+adapted those occurrences into the existing temporal Commit path; no scheduler
+authority or second event store was introduced. Gate 21 remains pending until
+G92G; G92B-G97J remain pending and v5.5 remains
+**IN_PROGRESS / NOT_ACCEPTED**. Evidence: `reports/G92A_REPORT.md`.
 
 ## Latest engineering checkpoint — G90F (2026-08-26)
 

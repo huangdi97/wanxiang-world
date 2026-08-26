@@ -1913,3 +1913,11 @@
   source-created PlayableService world.
 - Verified the existing runtime child branch preserves parent events and
   semantic hash and replays deterministically; M88 Gates 16-20 are accepted.
+
+## v5.5 G92A (2026-08-26)
+
+- Added deterministic recurring long-horizon schedules with priority ordering,
+  monotonic world time, actor availability windows, catch-up evidence, and
+  immutable queue cursors.
+- Proved scheduler occurrences enter the existing temporal Commit path in a
+  real SQLite WorldRuntime integration; no new authority or event store exists.

@@ -958,6 +958,14 @@ and artifact-linked child branch isolation with parent event/hash/replay proof.
 Gates 16-20 are accepted; M88 is complete. G92A-G97J remain pending and v5.5
 remains NOT_ACCEPTED.
 
+## v5.5 G92A checkpoint (2026-08-26)
+
+G92A PASS and committed as `g92a: Long-Horizon Scheduler`. Deterministic
+recurring priority-queue occurrences, actor availability, monotonic ticks, and
+catch-up are covered by pure tests and a real SQLite WorldRuntime temporal
+commit integration. Gate 21 remains pending until the 24h/7d qualification;
+G92B-G97J remain pending and v5.5 remains NOT_ACCEPTED.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/
