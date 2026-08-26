@@ -545,6 +545,11 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   same-seed/profile traces, metrics, deltas, repeatability, and a
   non-scientific validity envelope are covered. Gates 16-20 remain pending
   until G91H; G91H-G97J remain pending.
+- G91H: PASS and committed as `g91h: M88 Director/Pressure Qualification`;
+  the real playable source→WorldPackage→Preview→PlayableService chain covers
+  modes, pressure, actor ignore, free-will assessment, and experiment child
+  branch isolation. Gates 16-20 are accepted; M88 is complete. G92A-G97J
+  remain pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.

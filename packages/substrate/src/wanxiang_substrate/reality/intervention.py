@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, replace
-from typing import Literal, Protocol
+from typing import Literal
 
 from wanxiang_domain.hierarchy import BranchId
 from wanxiang_domain.ids import WorldInstanceId
 
+from wanxiang_substrate.authoring.living_ports import LivingRuntimePort
 from wanxiang_substrate.reality.errors import ExperimentError
 
 InterventionKind = Literal[
@@ -162,18 +163,12 @@ class InterventionBranch:
     isolated: bool = True
 
 
-class BranchRuntimePort(Protocol):
-    def current_state(self, instance_id: WorldInstanceId, branch_id: BranchId) -> object: ...
-
-    def create_branch(self, instance_id: WorldInstanceId, parent_branch_id: BranchId) -> object: ...
-
-
 class ExperimentInterventionRunner:
     """Uses the existing runtime branch authority for isolated setup only."""
 
     def fork(
         self,
-        runtime: BranchRuntimePort,
+        runtime: LivingRuntimePort,
         instance_id: WorldInstanceId,
         parent_branch_id: BranchId,
         setup: ExperimentSetup,

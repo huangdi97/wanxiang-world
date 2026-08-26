@@ -4,7 +4,7 @@
   "hard_invariants_ok": true,
   "import_cycles": 0,
   "manager_classes": 0,
-  "milestone": "M87 (v5.5 G90H)",
+  "milestone": "M88 (v5.5 G91H)",
   "milestone_budgets": {
     "M26": {
       "hard_constraints": [
@@ -330,16 +330,25 @@
       ],
       "new_abstractions_allowance": 0,
       "note": "Final feature-branch delivery and Actions verification only."
+    },
+    "M88": {
+      "hard_constraints": [
+        "one runtime and branch system",
+        "Director/Quest/intervention remain proposal or projection only",
+        "no pressure-specific Kernel types"
+      ],
+      "new_abstractions_allowance": 25,
+      "note": "PressureProfile, Opportunity lifecycle, Director modes, canon attractor, intervention, Quest projection and deterministic benchmark records reuse the existing reality/runtime branch ports."
     }
   },
   "oversized_modules": 0,
   "ports": 41,
-  "production_files": 490,
-  "production_loc": 50583,
-  "public_classes": 1046,
+  "production_files": 495,
+  "production_loc": 51821,
+  "public_classes": 1071,
   "public_functions": 439,
   "registry_classes": 16,
   "service_classes": 23,
-  "state_schema_models": 28,
+  "state_schema_models": 29,
   "store_classes": 27
 }

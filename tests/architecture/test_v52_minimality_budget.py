@@ -49,7 +49,7 @@ def test_budget_script_runs_and_hard_invariants_hold() -> None:
 def test_budget_counts_are_stable() -> None:
     _run()
     budget = _load()
-    # Current v5.5 G90H/M87 snapshot anchors; the M26-M78 history remains in
+    # Current v5.5 G91H/M88 snapshot anchors; the M26-M88 history remains in
     # the ledger and these counts include the accepted v5.5 projection/product
     # additions.
     assert budget["registry_classes"] == 16
@@ -69,7 +69,9 @@ def test_budget_documents_every_milestone() -> None:
     raw_milestones = budget["milestone_budgets"]
     assert isinstance(raw_milestones, dict)
     milestones = cast(dict[str, dict[str, object]], raw_milestones)
-    assert set(milestones) == {f"M{n}" for n in range(26, 35)} | {f"M{n}" for n in range(51, 79)}
+    assert set(milestones) == (
+        {f"M{n}" for n in range(26, 35)} | {f"M{n}" for n in range(51, 79)} | {"M88"}
+    )
     for ms in (
         "M26",
         "M27",

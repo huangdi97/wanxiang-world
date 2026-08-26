@@ -6,8 +6,8 @@ from typing import cast
 
 from scripts.reference_runtime import build_reference_runtime
 from wanxiang_domain.ids import BranchId, WorldInstanceId
+from wanxiang_substrate.authoring.living_ports import LivingRuntimePort
 from wanxiang_substrate.reality.intervention import (
-    BranchRuntimePort,
     ExperimentInterventionRunner,
     ExperimentSetup,
     Intervention,
@@ -53,7 +53,7 @@ def test_intervention_forks_existing_runtime_without_parent_history_write() -> N
     before_hash = runtime.current_state(created.instance_id, created.root_branch_id).semantic_hash()
     before_events = runtime.events(created.instance_id, created.root_branch_id)
     result = ExperimentInterventionRunner().fork(
-        cast(BranchRuntimePort, runtime),
+        cast(LivingRuntimePort, runtime),
         created.instance_id,
         created.root_branch_id,
         setup,

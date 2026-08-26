@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G90H: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G91H: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -20,11 +20,11 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 13 | From Prompt E5 Candidate/WorldDraft | ACCEPTED | G90H E5 contract, measured WorldDraft coverage, Preview and review gate |
 | 14 | Hybrid E0-E5 provenance | ACCEPTED | G90H source/prompt traces with preserved dissent |
 | 15 | Publish visibility/rights gates | ACCEPTED | G90H private/public/rights/API qualification |
-| 16 | PressureProfile outside Kernel | PENDING | — |
-| 17 | CANON/DIRECTED/LIVING/EXPERIMENT modes | PENDING | — |
-| 18 | Director has no Commit authority | PENDING | — |
-| 19 | Opportunity can be ignored | PENDING | — |
-| 20 | Intervention branch/artifact isolation | PENDING | — |
+| 16 | PressureProfile outside Kernel | ACCEPTED | G91H real playable qualification; substrate-only profile and kernel guard |
+| 17 | CANON/DIRECTED/LIVING/EXPERIMENT modes | ACCEPTED | G91H mode evaluation and audited switch |
+| 18 | Director has no Commit authority | ACCEPTED | G91H proposal-only policy and architecture review |
+| 19 | Opportunity can be ignored | ACCEPTED | G91H actor ignore and projection status |
+| 20 | Intervention branch/artifact isolation | ACCEPTED | G91H real runtime child branch, parent event/hash/replay proof |
 | 21 | 24-hour smoke | PENDING | — |
 | 22 | 7-day runtime | PENDING | — |
 | 23 | 30-day literary run | PENDING | — |
@@ -57,8 +57,8 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 50 | Provider output cannot write reality | PENDING | — |
 | 51 | Browser Experience/Studio E2E | PENDING | — |
 | 52 | Security/private-source/UGC scan | PENDING | — |
-| 53 | v5.4 critical regression | ACCEPTED | G88A baseline: 1219 passed, 1 skipped |
-| 54 | Full Python/TypeScript quality | ACCEPTED | G88A baseline: local Python and prior stable TS evidence |
+| 53 | v5.4 critical regression | ACCEPTED | M88 final regression: 1296 passed, 1 skipped, 2 warnings; PostgreSQL skip is documented external profile |
+| 54 | Full Python/TypeScript quality | ACCEPTED | M88 Ruff/Pyright/Kernel/architecture gates pass; SDK and TypeScript baselines remain stable |
 | 55 | Clean clone | ACCEPTED-INHERITED | v5.4 post-release evidence; v5.5 clean clone pending |
 | 56 | Remote SHA equals local HEAD | PENDING | v5.5 branch not pushed yet |
 | 57 | Required GitHub Actions | PENDING | v5.5 branch not pushed yet |
@@ -259,6 +259,17 @@ fingerprint, and horizon, and emit deterministic metrics, deltas, hashes, and
 validity envelope. The result is explicitly an engineering reference
 benchmark with `scientific_claim=false`. G91H is next; Gates 16-20 remain
 pending and v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**.
+
+## Latest engineering checkpoint — G91H / M88 (2026-08-26)
+
+G91H PASS. A rights-approved source-created WorldPackage entered the real
+PlayableService world; an embodied actor committed an action, switched
+CANON→LIVING, ignored an eligible Opportunity, and created an artifact-linked
+experiment child branch through the existing runtime. Parent events and
+semantic hash remained unchanged and child replay matched. Gates 16-20 are
+**ACCEPTED**; M88 is complete. M89-G94 and final release gates remain pending;
+v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**. Evidence:
+`reports/G91H_REPORT.md` and `reports/M88_QUALIFICATION.md`.
 
 ## Latest engineering checkpoint — G90F (2026-08-26)
 

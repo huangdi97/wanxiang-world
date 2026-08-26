@@ -949,6 +949,15 @@ same-profile pressure/no-pressure traces, deterministic metrics/deltas,
 repeatability, and explicit non-scientific validity scope are covered. Gates
 16-20 remain pending until G91H qualification; G91H-G97J remain pending.
 
+## v5.5 G91H / M88 checkpoint (2026-08-26)
+
+G91H PASS and committed as `g91h: M88 Director/Pressure Qualification`. The
+real source-created playable chain covered PressureProfile, mode switch,
+proposal-only Director, actor Opportunity ignore, Canon free-will assessment,
+and artifact-linked child branch isolation with parent event/hash/replay proof.
+Gates 16-20 are accepted; M88 is complete. G92A-G97J remain pending and v5.5
+remains NOT_ACCEPTED.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/

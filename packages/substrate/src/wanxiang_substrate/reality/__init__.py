@@ -64,7 +64,6 @@ from wanxiang_substrate.reality.fusion import (
     ObservationFusion,
 )
 from wanxiang_substrate.reality.intervention import (
-    BranchRuntimePort,
     ExperimentInterventionRunner,
     ExperimentSetup,
     Intervention,
@@ -102,7 +101,6 @@ __all__ = [
     "CanonConstraint",
     "CanonConstraintKind",
     "CanonDistance",
-    "BranchRuntimePort",
     "BehaviorTrace",
     "DIRECTOR_MODES",
     "DefaultOpportunityDetector",

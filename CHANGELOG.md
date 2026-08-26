@@ -1905,3 +1905,11 @@
   same seed/profile/horizon, metric deltas, trace hashes, and validity envelope.
 - Explicitly scoped the result as an engineering reference benchmark with no
   scientific claim or model training.
+
+## v5.5 G91H / M88 (2026-08-26)
+
+- Qualified Director modes, PressureProfile, Opportunity ignore, Canon free
+  will, Quest projection, and artifact-linked Intervention on the real
+  source-created PlayableService world.
+- Verified the existing runtime child branch preserves parent events and
+  semantic hash and replays deterministically; M88 Gates 16-20 are accepted.

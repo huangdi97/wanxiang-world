@@ -643,3 +643,15 @@ Justification: the package requires playable persistent evolving product
 surfaces while preserving the v5.4 Commit Authority, event store, branch
 repository, source registry, candidate fabric and package registry. Consumers:
 G88A-G90H contract/E2E tests and the v5.5 acceptance matrix.
+
+## M88 entry (G91A-G91H)
+
+The M88 continuation adds 25 bounded Scenario/Domain substrate abstractions:
+pressure profile data, Opportunity lifecycle transitions, four Director mode
+contracts, canon-distance assessment, artifact-linked Intervention setup,
+committed-evidence Quest projection, and a deterministic pressure benchmark.
+They reuse the existing `LivingRuntimePort`, runtime branch repository, and
+event/replay path; the removed duplicate branch port is not part of this
+budget. Justification: M88 needs explicit proposal/projection contracts while
+preserving one canonical runtime and one branch authority. Consumers:
+G91A-G91H unit/integration qualification and the M88 acceptance matrix.

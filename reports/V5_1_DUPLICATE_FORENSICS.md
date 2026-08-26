@@ -23,7 +23,7 @@
 | packages/substrate/src/wanxiang_substrate/sources/registry.py | SourceRegistry | 31 |
 | packages/substrate/src/wanxiang_substrate/workshop/registry.py | WorldRegistryCatalog | 99 |
 
-## state_classes (28)
+## state_classes (29)
 
 | path | name | line |
 |---|---|---|
@@ -49,6 +49,7 @@
 | packages/substrate/src/wanxiang_substrate/projection/errors.py | UnauthorizedProjection | 14 |
 | packages/substrate/src/wanxiang_substrate/projection/model.py | ProjectionSnapshot | 42 |
 | packages/substrate/src/wanxiang_substrate/rc001/instantiate.py | InitialSnapshot | 59 |
+| packages/substrate/src/wanxiang_substrate/reality/quest.py | QuestProjection | 61 |
 | packages/substrate/src/wanxiang_substrate/recovery/errors.py | CorruptSnapshot | 18 |
 | packages/substrate/src/wanxiang_substrate/recovery/errors.py | NoSnapshot | 22 |
 | packages/substrate/src/wanxiang_substrate/session/embodiment.py | EmbodimentState | 26 |
@@ -167,7 +168,7 @@
 | packages/substrate/src/wanxiang_substrate/preview/runtime.py | ReplayResult | 48 |
 | packages/substrate/src/wanxiang_substrate/preview/runtime.py | PreviewRuntimePort | 52 |
 | packages/substrate/src/wanxiang_substrate/reality/bridge.py | ObservationAdapter | 21 |
-| packages/substrate/src/wanxiang_substrate/reality/challenge.py | OpportunityDetector | 49 |
+| packages/substrate/src/wanxiang_substrate/reality/challenge.py | OpportunityDetector | 204 |
 | packages/substrate/src/wanxiang_substrate/runtime_port.py | WorldRuntimePort | 29 |
 | packages/substrate/src/wanxiang_substrate/sources/adapter.py | SourceAdapter | 49 |
 | packages/substrate/src/wanxiang_substrate/workshop/genesis_provider.py | PromptGenesisProvider | 28 |
