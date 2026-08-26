@@ -1,5 +1,6 @@
 """Shared World Workshop information architecture over the existing draft ports."""
 
+from wanxiang_substrate.workshop.editor import EditorValidation, WorkshopEditor, WorkshopPreview
 from wanxiang_substrate.workshop.genesis_contract import (
     CreatorIntent,
     DomainSuggestion,
@@ -40,6 +41,7 @@ __all__ = [
     "CreatorIntent",
     "DraftRevisionConflict",
     "DomainSuggestion",
+    "EditorValidation",
     "GenesisReviewGate",
     "HybridClaim",
     "HybridConflict",
@@ -50,8 +52,10 @@ __all__ = [
     "LocalPromptGenesisProvider",
     "WorkshopDraft",
     "WorkshopDraftStore",
+    "WorkshopEditor",
     "WorkshopHome",
     "WorkshopPanel",
+    "WorkshopPreview",
     "WorkshopStatus",
     "WorldWorkshop",
     "PromptGenesisContract",

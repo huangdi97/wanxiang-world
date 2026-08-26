@@ -184,6 +184,13 @@ Canonical state, event history, candidates, package registry, and Commit
 Authority remain in their existing v5.4 boundaries. Gates 12-15 remain pending
 until G90H exercises the three real creation paths and publishing checks.
 
+## Latest engineering checkpoint — G90E (2026-08-26)
+
+G90E PASS. Scenario/Experience edits share the versioned workshop draft,
+validate package references and product contracts, and produce a hashed
+read-only preview without publish/runtime mutation. Gates 12-15 remain pending
+until the full M87 qualification.
+
 ## Latest engineering checkpoint — G90D (2026-08-26)
 
 G90D PASS. Hybrid Genesis now preserves source/prompt alternatives across E0-E5

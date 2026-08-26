@@ -881,6 +881,13 @@ Experience, Publishing, Review, and Registry panels over one shared immutable
 conflict; no canonical state or Commit Authority is added. G90B is next;
 M87 and v5.5 remain NOT_ACCEPTED.
 
+## v5.5 G90E checkpoint (2026-08-26)
+
+G90E PASS: versioned ScenarioProfile and ExperiencePackage edits now use the
+shared workshop draft, reject stale writes, validate refs, and provide a
+read-only preview without publication or runtime mutation. G90F is next; M87
+and v5.5 remain NOT_ACCEPTED.
+
 ## v5.5 G90D checkpoint (2026-08-26)
 
 G90D PASS: source CandidateEnvelope and Prompt Genesis E5 claims now fuse in a

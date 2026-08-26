@@ -1817,3 +1817,10 @@
   Genesis E5 claims with configurable precedence and preserved dissent.
 - Added conflict and origin traces so generated completion cannot silently
   overwrite explicit source evidence.
+
+## v5.5 G90E (2026-08-26)
+
+- Added shared versioned Scenario/Experience editing over the Workshop draft,
+  reusing existing profile contracts and reference validation.
+- Added a content-hashed read-only Workshop preview that cannot publish or
+  mutate runtime state; stale editor revisions are rejected.

@@ -7,6 +7,9 @@ from typing import Literal
 
 from wanxiang_domain.errors import ContractError
 
+from wanxiang_substrate.playable.experience import ExperiencePackage
+from wanxiang_substrate.playable.models import ScenarioProfile
+
 CreationMode = Literal["source", "prompt", "hybrid"]
 WorkshopStatus = Literal["draft", "review_required", "previewable", "publishable", "published"]
 PanelKind = Literal[
@@ -84,6 +87,8 @@ class WorkshopDraft:
     scenario_ref: str = ""
     experience_ref: str = ""
     publishing_profile_ref: str = ""
+    scenario: ScenarioProfile | None = None
+    experience: ExperiencePackage | None = None
     provenance_refs: tuple[str, ...] = ()
     generated_claim_refs: tuple[str, ...] = ()
     schema_version: int = 1
@@ -125,6 +130,8 @@ class WorkshopDraft:
             "scenario_ref": self.scenario_ref,
             "experience_ref": self.experience_ref,
             "publishing_profile_ref": self.publishing_profile_ref,
+            "scenario": self.scenario.to_dict() if self.scenario else None,
+            "experience": self.experience.to_dict() if self.experience else None,
             "provenance_refs": list(self.provenance_refs),
             "generated_claim_refs": list(self.generated_claim_refs),
         }
