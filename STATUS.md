@@ -881,6 +881,13 @@ Experience, Publishing, Review, and Registry panels over one shared immutable
 conflict; no canonical state or Commit Authority is added. G90B is next;
 M87 and v5.5 remain NOT_ACCEPTED.
 
+## v5.5 G90D checkpoint (2026-08-26)
+
+G90D PASS: source CandidateEnvelope and Prompt Genesis E5 claims now fuse in a
+single traceable review result with configurable source/prompt/dissent
+precedence. Conflicting alternatives are retained; no source or canonical
+truth is overwritten. G90E is next; M87 and v5.5 remain NOT_ACCEPTED.
+
 ## v5.5 G90C checkpoint (2026-08-26)
 
 G90C PASS: Prompt Genesis now uses the shared ProviderRouter, supports an

@@ -17,6 +17,15 @@ from wanxiang_substrate.workshop.genesis_provider import (
     PromptGenesisRun,
 )
 from wanxiang_substrate.workshop.home import WorldWorkshop
+from wanxiang_substrate.workshop.hybrid_genesis import (
+    HybridClaim,
+    HybridConflict,
+    HybridGenesisPolicy,
+    HybridGenesisResult,
+    HybridTrace,
+    claim_from_candidate,
+    fuse_hybrid_genesis,
+)
 from wanxiang_substrate.workshop.models import (
     CreationMode,
     WorkshopDraft,
@@ -32,6 +41,11 @@ __all__ = [
     "DraftRevisionConflict",
     "DomainSuggestion",
     "GenesisReviewGate",
+    "HybridClaim",
+    "HybridConflict",
+    "HybridGenesisPolicy",
+    "HybridGenesisResult",
+    "HybridTrace",
     "IntentConstraint",
     "LocalPromptGenesisProvider",
     "WorkshopDraft",
@@ -47,4 +61,6 @@ __all__ = [
     "PromptGenesisRun",
     "build_prompt_contract",
     "extract_constraints",
+    "claim_from_candidate",
+    "fuse_hybrid_genesis",
 ]

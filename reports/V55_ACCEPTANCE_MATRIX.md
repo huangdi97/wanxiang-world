@@ -184,6 +184,13 @@ Canonical state, event history, candidates, package registry, and Commit
 Authority remain in their existing v5.4 boundaries. Gates 12-15 remain pending
 until G90H exercises the three real creation paths and publishing checks.
 
+## Latest engineering checkpoint — G90D (2026-08-26)
+
+G90D PASS. Hybrid Genesis now preserves source/prompt alternatives across E0-E5
+with configurable precedence, explicit conflict review, and origin traces.
+Generated claims cannot silently overwrite explicit source claims. Gates 12-15
+remain pending until the full M87 qualification.
+
 ## Latest engineering checkpoint — G90C (2026-08-26)
 
 G90C PASS. Prompt Genesis reuses the ProviderRouter with a typed missing-

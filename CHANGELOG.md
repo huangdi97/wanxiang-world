@@ -1810,3 +1810,10 @@
   bounded retry checkpoints, and a private-safe deterministic local provider.
 - Rejected invalid intent provenance, non-E5 output, and authority fields;
   provider output remains candidate-only.
+
+## v5.5 G90D (2026-08-26)
+
+- Added Hybrid Genesis fusion over existing source candidates and Prompt
+  Genesis E5 claims with configurable precedence and preserved dissent.
+- Added conflict and origin traces so generated completion cannot silently
+  overwrite explicit source evidence.
