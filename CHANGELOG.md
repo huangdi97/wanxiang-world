@@ -1760,3 +1760,10 @@
   revisions with confidence and before/after lineage.
 - Rejected future-scoped evidence and retained prior potentially-false beliefs;
   belief projections remain separate from World Truth.
+
+## v5.5 G89E (2026-08-26)
+
+- Added time-scoped RelationshipState v1 with eight bounded social dimensions,
+  event provenance, replayable revisions, and participant/source visibility.
+- Kept relationship projection reads separate from canonical RelationState and
+  rejected global-omniscience access.

@@ -845,3 +845,10 @@ G89D PASS: BeliefRevisionEngine now supports support, contradict, refine, and
 unknown with confidence changes, before/after lineage, false-belief retention,
 and future-evidence rejection. Gate 9 is accepted. G89E is next; v5.5 remains
 NOT_ACCEPTED.
+
+## v5.5 G89E checkpoint (2026-08-26)
+
+G89E PASS: RelationshipState v1 now has eight bounded dimensions, time/event
+ provenance, replayable history, and participant/source visibility filtering.
+Gate 10 is accepted; unrelated observers cannot read private relation state.
+G89F is next; v5.5 remains NOT_ACCEPTED.

@@ -14,6 +14,16 @@ from wanxiang_substrate.actor_continuity.goal_model import (
     ShortTermGoal,
 )
 from wanxiang_substrate.actor_continuity.goal_stack import ActorGoalStack
+from wanxiang_substrate.actor_continuity.relationship_graph import (
+    RelationshipGraph,
+    RelationshipRevisionEvent,
+)
+from wanxiang_substrate.actor_continuity.relationship_model import (
+    Relationship,
+    RelationshipDimensions,
+    RelationshipState,
+    RelationshipVisibility,
+)
 from wanxiang_substrate.actor_continuity.reprioritization_model import (
     GoalEvidence,
     GoalPriorityProposal,
@@ -49,5 +59,11 @@ __all__ = [
     "ShortTermGoal",
     "DeterministicGoalReprioritizationPolicy",
     "ProviderGoalReprioritizationPolicy",
+    "Relationship",
+    "RelationshipDimensions",
+    "RelationshipGraph",
+    "RelationshipRevisionEvent",
+    "RelationshipState",
+    "RelationshipVisibility",
     "apply_goal_reprioritization",
 ]
