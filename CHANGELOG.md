@@ -2150,3 +2150,20 @@
   unchanged canonical hash, revision, and replay.
 - G94E is PASS and committed as `g94e: Institution Candidate`; G94F-G97J and
   the remaining M91-M94 gates are pending, so v5.5 remains NOT_ACCEPTED.
+
+## v5.5 G94F / M91 (2026-08-27)
+
+- Reused the existing `OntologyCandidate` and `OntologyLawEvolution` boundary
+  with a strict culture/ontology policy: three independent norm candidates,
+  three distinct evidence windows, multi-window support, high support and
+  confidence, bounded exceptions, and low derived complexity.
+- Added norm/institution provenance, measured evidence windows, and an explicit
+  authorized review gate. Evidence-backed candidates cannot pass ontology
+  validation before review; review is pure and cannot mutate Constitution or
+  Canon.
+- Qualified three real committed-event windows through the private
+  rights-approved source → WorldPackage → Preview → PlayableService → SQLite
+  chain, with unchanged canonical hash, revision, history, Constitution hash,
+  and replay.
+- G94F is PASS and committed as `g94f: Culture / Ontology Candidate`; G94G-G97J
+  and the remaining M91-M94 gates are pending, so v5.5 remains NOT_ACCEPTED.

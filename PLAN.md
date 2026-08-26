@@ -647,6 +647,11 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   provenance records from NormCandidate with explicit review and no auto-commit
   path. Real playable SQLite evidence and replay/canonical immutability pass.
   G94F-G97J and M91-M94 remain pending.
+- G94F: PASS and committed as `g94f: Culture / Ontology Candidate`; strict
+  high-threshold, cross-window evidence now derives an ontology candidate from
+  independent NormCandidate records with institution provenance. Explicit
+  reviewer approval is required before ontology validation, and Constitution,
+  Canon, and replay remain unchanged. G94G-G97J and M91-M94 remain pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.

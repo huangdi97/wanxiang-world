@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G94E: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G94F: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -439,6 +439,20 @@ count, and replay stayed unchanged. Gate 31 is **ACCEPTED**. Gate 30 remains
 pending until G93H's integrated 30-day run; G93H-G97J, Gate 24, and the
 remaining release gates remain pending. v5.5 remains **IN_PROGRESS /
 NOT_ACCEPTED**. Evidence: `reports/G93G_REPORT.md`.
+
+## Latest engineering checkpoint — G94F / M91 (2026-08-27)
+
+G94F PASS. The existing `OntologyCandidate` now records strict long-window
+evidence, norm/institution provenance, measured complexity/interpretability,
+and an explicit reviewer decision. Creation requires three independent norm
+records spanning three distinct windows, multi-window support, high support and
+confidence, bounded exceptions, and low derived complexity; unreviewed
+evidence-backed candidates are rejected by the existing ontology validator.
+The real private rights-approved source chain produced three detections,
+norms, and a reviewed institution before deriving the ontology candidate;
+Constitution hash, canonical revision/hash, event history, and replay stayed
+unchanged. G94G-G97J and Gates 24, 32-52, and 55-60 remain pending; v5.5
+remains **IN_PROGRESS / NOT_ACCEPTED**. Evidence: `reports/G94F_REPORT.md`.
 
 ## Latest engineering checkpoint — G94E / M91 (2026-08-27)
 

@@ -1190,6 +1190,20 @@ produced a reviewed institution candidate while canonical hash, revision, and
 replay stayed unchanged. G94F-G97J and M91-M94 remain pending; v5.5 remains
 NOT_ACCEPTED. Evidence: `reports/G94E_REPORT.md`.
 
+## v5.5 G94F / M91 checkpoint (2026-08-27)
+
+G94F PASS and committed as `g94f: Culture / Ontology Candidate`. The existing
+OntologyCandidate fabric now requires strict high-threshold evidence across
+three distinct windows and three independent multi-window NormCandidates,
+retains norm/institution provenance, and records derived complexity and
+interpretability. Evidence-backed candidates remain unapproved until an
+authorized reviewer acts; the ontology validator rejects unreviewed evidence
+and never mutates Constitution or Canon. The real private rights-approved
+source → WorldPackage → Preview → PlayableService → SQLite chain produced the
+candidate with unchanged Constitution hash, canonical state/hash, history, and
+replay. G94G-G97J and M91-M94 remain pending; v5.5 remains NOT_ACCEPTED.
+Evidence: `reports/G94F_REPORT.md`.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/

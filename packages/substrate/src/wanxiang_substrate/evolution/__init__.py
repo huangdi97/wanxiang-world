@@ -85,6 +85,11 @@ from wanxiang_substrate.evolution.norm_candidate_model import (
     NormPromotionPolicy,
     NormScope,
 )
+from wanxiang_substrate.evolution.ontology_candidate import (
+    OntologyCandidatePolicy,
+    create_ontology_candidate,
+    review_ontology_candidate,
+)
 from wanxiang_substrate.evolution.ontology_law import (
     LawCandidate,
     OntologyCandidate,
