@@ -1788,3 +1788,11 @@
   actors, actual leave/Continue, and a seven-day accelerated continuity run.
 - Verified derived Goal/Memory/Belief/Relationship counts, replay digest, and
   checkpoint resume digest; M86 Gate 11 is accepted.
+
+## v5.5 G90A (2026-08-26)
+
+- Added the World Workshop home with Source, Prompt, Hybrid, Scenario,
+  Experience, Publishing, Review, and Registry panels.
+- Added one immutable, optimistic `WorkshopDraftStore` shared by all creation
+  modes; stale editor revisions are rejected and canonical world state remains
+  outside the product draft.

@@ -872,3 +872,11 @@ G89H PASS: source-created literary WorldPackage, two PlayableService actors,
 actual Alice leave/Continue, and a seven-day accelerated continuity run all
 passed replay and checkpoint-resume equality. Gate 11 is accepted and M86 is
 complete. G90A is next; v5.5 remains NOT_ACCEPTED.
+
+## v5.5 G90A checkpoint (2026-08-26)
+
+G90A PASS: the World Workshop home exposes Source, Prompt, Hybrid, Scenario,
+Experience, Publishing, Review, and Registry panels over one shared immutable
+`WorkshopDraftStore`. Stale editor writes are rejected by typed revision
+conflict; no canonical state or Commit Authority is added. G90B is next;
+M87 and v5.5 remain NOT_ACCEPTED.

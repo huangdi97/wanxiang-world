@@ -492,6 +492,9 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   timelines and actor/observer redaction are covered. G89H-G97J remain pending.
 - G89H: PASS and committed as `g89h: M86 Character Continuity Qualification`;
   Gate 11 is accepted and M86 is complete. G90A-G97J remain pending.
+- G90A: PASS and committed as `g90a: Workshop Information Architecture`;
+  Source/Prompt/Hybrid share one immutable workshop draft backend. G90B-G97J
+  remain pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.

@@ -175,3 +175,11 @@ instances, leave/Continue boundary, seven-day accelerated Goal/Memory/Belief/
 Relationship run, replay digest, and checkpoint resume all pass. Gate 11 is
 **ACCEPTED** and M86 is complete. Gates 12-52 remain pending; release status
 remains **IN_PROGRESS / NOT_ACCEPTED**.
+
+## Latest engineering checkpoint — G90A (2026-08-26)
+
+G90A PASS. The World Workshop now has a shared Source/Prompt/Hybrid home and
+an optimistic immutable `WorkshopDraftStore` used by all editor panels.
+Canonical state, event history, candidates, package registry, and Commit
+Authority remain in their existing v5.4 boundaries. Gates 12-15 remain pending
+until G90H exercises the three real creation paths and publishing checks.
