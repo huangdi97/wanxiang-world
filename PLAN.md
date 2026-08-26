@@ -457,7 +457,8 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
 
 - G88A: PASS after baseline audit, architecture/quality evidence, package
   integrity, and feature-branch creation; see `reports/G88A_REPORT.md`.
-- G88B-G97J: PENDING; continue in the package order without pausing.
+- G88B: PASS and committed as `g88b: PlayableWorldProfile v1`; G88C-G97J:
+  PENDING; continue in the package order without pausing.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.

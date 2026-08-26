@@ -69,3 +69,9 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 Required release condition: Gates 1-59 must be ACCEPTED with real evidence;
 then and only then may G97H create annotated `v5.5.0-rc1` and a GitHub
 prerelease. Otherwise the final status remains `NOT_ACCEPTED`.
+
+## Latest checkpoint — G88B (2026-08-26)
+
+Gate 1 **ACCEPTED**. Evidence: `reports/G88B_REPORT.md`; four focused contract
+tests pass, including v0-to-v1 compatibility and invalid reference rejection.
+Gates 2-52 remain pending. Release status remains **IN_PROGRESS / NOT_ACCEPTED**.

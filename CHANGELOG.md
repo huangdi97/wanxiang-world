@@ -1646,6 +1646,13 @@
 - The current evidence head `ef8a972` is also pushed; its Actions run
   `32837328145` is green across all six required jobs.
 
+## v5.5 G88B (2026-08-26)
+
+- Added the versioned PlayableWorldProfile experience shell and immutable
+  Scenario/Runtime/Projection profile contracts.
+- Added v0 compatibility normalization, visibility checks, and a v5.4
+  WorldPackage reference adapter without copying canonical state.
+
 ## 2026-08-25 — M79-M84 resumable source-gate hardening
 
 - Hardened `scripts/m79_m84_checkpoint.py` so a supplied path advances only
