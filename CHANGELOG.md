@@ -1883,3 +1883,11 @@
   major divergence.
 - Kept canon guidance proposal-only; actual actor choice and parent history are
   never rewritten by the policy.
+
+## v5.5 G91E (2026-08-26)
+
+- Added explicit time/event `InterventionTrigger`, reversible intervention
+  proposals, immutable artifact-linked `ExperimentSetup`, and an adapter that
+  forks through the existing runtime branch boundary.
+- Qualified parent event/state isolation on the real reference runtime; no
+  intervention is silently written into the parent worldline.

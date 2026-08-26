@@ -236,6 +236,14 @@ observed actor choice. It never forces an action or mutates goals, state, or
 history. Gates 17-19 stay pending until M88 qualification. G91E is next; v5.5
 remains **IN_PROGRESS / NOT_ACCEPTED**.
 
+## Latest engineering checkpoint — G91E (2026-08-26)
+
+G91E PASS. Explicit time/event triggers, reversible artifact-linked
+interventions, immutable experiment setup, and a real child branch created by
+the existing runtime are covered. Parent events and state hash remain equal;
+Gate 20 stays pending until M88 full qualification. G91F is next; v5.5
+remains **IN_PROGRESS / NOT_ACCEPTED**.
+
 ## Latest engineering checkpoint — G90F (2026-08-26)
 
 G90F PASS. Publishing profiles now separate visibility, rights summary,

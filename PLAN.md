@@ -533,6 +533,10 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   canon-distance metrics, soft/hard constraints, free-will preservation, and
   branch recommendations on major divergence are covered without forcing actor
   choice. Gates 17-19 remain pending until G91H; G91E-G97J remain pending.
+- G91E: PASS and committed as `g91e: Experiment Intervention`; explicit
+  time/event triggers, reversible artifact-linked setup, and existing-runtime
+  child-branch isolation are covered. Gate 20 remains pending until G91H;
+  G91F-G97J remain pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.

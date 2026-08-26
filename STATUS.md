@@ -928,6 +928,13 @@ distance, major-divergence branch recommendations, and free-will preservation
 are covered as proposal-only projections. Gates 17-19 remain pending until M88
 qualification; G91E-G97J remain pending.
 
+## v5.5 G91E checkpoint (2026-08-26)
+
+G91E PASS and committed as `g91e: Experiment Intervention`. Explicit
+time/event triggers, reversible setup, artifact refs, and existing-runtime
+child-branch isolation are covered without parent history writes. Gate 20
+remains pending until M88 qualification; G91F-G97J remain pending.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/
