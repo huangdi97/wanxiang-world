@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G94A: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G94B: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -439,6 +439,20 @@ count, and replay stayed unchanged. Gate 31 is **ACCEPTED**. Gate 30 remains
 pending until G93H's integrated 30-day run; G93H-G97J, Gate 24, and the
 remaining release gates remain pending. v5.5 remains **IN_PROGRESS /
 NOT_ACCEPTED**. Evidence: `reports/G93G_REPORT.md`.
+
+## Latest engineering checkpoint — G94B / M91 (2026-08-27)
+
+G94B PASS. `RepeatedPatternDetector` applies deterministic occurrence,
+window-support, confidence, and counterexample thresholds to the G94A derived
+cache. Same-window duplicates do not satisfy multi-window stability, sparse or
+one-off fixtures are returned as unqualified detections with concrete missing
+windows, and no result becomes truth or a Candidate automatically. A private,
+rights-approved source traversed the real OneClickAuthoring → WorldPackage →
+Preview → PlayableService → SQLite WorldRuntime chain; repeated committed
+actions produced a qualified behavior detection while canonical hash, replay,
+and event history stayed unchanged. G94C-G97J and Gates 24, 32-52, and 55-60
+remain pending; v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**. Evidence:
+`reports/G94B_REPORT.md`.
 
 ## Latest engineering checkpoint — G94A / M91 (2026-08-27)
 

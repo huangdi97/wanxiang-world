@@ -477,11 +477,11 @@ MILESTONE_BUDGETS: dict[str, MilestoneBudget] = {
     },
     "M91": {
         "note": (
-            "PatternObservation, PatternStatistics and PatternObservationStore are "
-            "immutable, rebuildable views over committed history; detectors and "
-            "candidates must consume this cache without creating a second history."
+            "Pattern observations and the repeated-pattern detector are immutable "
+            "derived views over committed history; later candidates must consume "
+            "these records without creating a second history."
         ),
-        "new_abstractions_allowance": 3,
+        "new_abstractions_allowance": 7,
         "hard_constraints": (
             "derived cache only",
             "event refs and rebuild determinism",

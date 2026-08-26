@@ -89,6 +89,15 @@ from wanxiang_substrate.evolution.organization_lifecycle import (
     review_organization_proposal,
     split_child_projection,
 )
+from wanxiang_substrate.evolution.pattern_detector import (
+    RepeatedPatternDetector,
+    detect_repeated_patterns,
+)
+from wanxiang_substrate.evolution.pattern_detector_model import (
+    PatternCounterexample,
+    PatternDetection,
+    RepeatedPatternPolicy,
+)
 from wanxiang_substrate.evolution.pattern_observation import (
     PatternKind,
     PatternObservation,

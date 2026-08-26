@@ -1145,6 +1145,17 @@ revision, event refs, source bytes, and replay stayed unchanged. G94B-G97J and
 M91-M94 remain pending; v5.5 remains NOT_ACCEPTED. Evidence:
 `reports/G94A_REPORT.md`.
 
+## v5.5 G94B / M91 checkpoint (2026-08-27)
+
+G94B PASS and committed as `g94b: Repeated Pattern Detector`. The read-only
+detector applies deterministic occurrence, multi-window support, confidence,
+and counterexample thresholds to the G94A derived cache. One-off and
+same-window burst fixtures remain unqualified with concrete missing-window
+counterexamples; repeated committed actions on a private source-created
+playable SQLite world qualify a behavior detection without changing canonical
+hash, replay, or event history. G94C-G97J and M91-M94 remain pending; v5.5
+remains NOT_ACCEPTED. Evidence: `reports/G94B_REPORT.md`.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/

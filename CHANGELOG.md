@@ -2094,3 +2094,17 @@
   source bytes, and replay.
 - G94A is PASS and committed as `g94a: Pattern Observation Store`; G94B-G97J
   and the remaining M91-M94 gates are pending, so v5.5 remains NOT_ACCEPTED.
+
+## v5.5 G94B / M91 (2026-08-27)
+
+- Added immutable `RepeatedPatternPolicy`, `PatternDetection`, and
+  `PatternCounterexample` records plus `RepeatedPatternDetector`. Detection is
+  based on deterministic occurrence counts, distinct window support,
+  confidence, and concrete missing-window counterexamples; same-window bursts
+  and one-off signals do not silently qualify.
+- Qualified the detector against real committed events from a private
+  rights-approved source → WorldPackage → Preview → PlayableService → SQLite
+  WorldRuntime chain. Detection remained read-only and canonical hash, replay,
+  and event history were unchanged.
+- G94B is PASS and committed as `g94b: Repeated Pattern Detector`; G94C-G97J
+  and the remaining M91-M94 gates are pending, so v5.5 remains NOT_ACCEPTED.

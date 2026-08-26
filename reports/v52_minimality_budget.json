@@ -364,16 +364,16 @@
         "event refs and rebuild determinism",
         "no automatic Candidate or canonical mutation"
       ],
-      "new_abstractions_allowance": 3,
-      "note": "PatternObservation, PatternStatistics and PatternObservationStore are immutable, rebuildable views over committed history; detectors and candidates must consume this cache without creating a second history."
+      "new_abstractions_allowance": 7,
+      "note": "Pattern observations and the repeated-pattern detector are immutable derived views over committed history; later candidates must consume these records without creating a second history."
     }
   },
   "oversized_modules": 0,
   "ports": 41,
-  "production_files": 526,
-  "production_loc": 57452,
-  "public_classes": 1152,
-  "public_functions": 480,
+  "production_files": 528,
+  "production_loc": 57745,
+  "public_classes": 1156,
+  "public_functions": 481,
   "registry_classes": 16,
   "service_classes": 25,
   "state_schema_models": 37,

@@ -628,6 +628,11 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   cache rebuild, and real private source → WorldPackage → Preview →
   PlayableService → SQLite evidence pass without canonical mutation. G94B-G97J
   and M91-M94 remain pending.
+- G94B: PASS and committed as `g94b: Repeated Pattern Detector`; deterministic
+  occurrence/window thresholds, confidence, concrete missing-window
+  counterexamples, false-positive fixtures, and real playable committed-event
+  evidence pass without canonical mutation. G94C-G97J and M91-M94 remain
+  pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.
