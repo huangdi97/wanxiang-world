@@ -74,3 +74,23 @@ privacy statement remains:
 `PUBLIC HISTORICAL FAMILY E2E = REAL PRODUCT VALIDATION`  
 `PRIVATE LIVING FAMILY USER VALIDATION = NOT PERFORMED`
 
+## Stable release and post-release verification (2026-08-26)
+
+The M84 stable gates are now accepted. The annotated remote tag `v5.4.0`
+resolves to commit `ef935fc6c24eb47553382d318e1501a795c4da84`, and the formal
+GitHub Release is published at
+`https://github.com/huangdi97/wanxiang-world/releases/tag/v5.4.0` with
+`draft=false` and `prerelease=false`.
+
+The tag was independently checked in a fresh clean clone. The documented
+all-workspace install, Alembic head, seven-part clean-room certification,
+synthetic CLI reference path, Studio socket smoke, Python quality gates,
+kernel guard, and TypeScript lint/typecheck/test/build gates all passed. The
+full Python result was `1219 passed, 1 skipped`; the TypeScript suite was six
+files and 22 tests. The one PostgreSQL skip is the existing local
+`EXTERNAL_BLOCKED` environment boundary; the required remote PostgreSQL job
+was green.
+
+The sanitized machine-readable evidence is
+`artifacts/m79_m84/m84_post_release_verification.json`. No source bytes,
+private path, source digest, or training artifact is included.

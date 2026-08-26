@@ -434,3 +434,15 @@ Preview, Worldness, Living, Commit/Replay, and branch isolation. The original
 NOT_ACCEPTED report remains preserved; the sanitized ACCEPTED evidence is in
 `reports/M84_FIRST_BOOK_REQUALIFICATION.md`. After the documentation commit's
 required Actions are green, proceed to G87F/G87G; do not enter v5.5.
+
+## M84 final release checkpoint (2026-08-26)
+
+M84 G87A-G87H is **PASS**. The first-book requalification and final required
+Actions run `32922253977` passed; remote annotated tag `v5.4.0` points to
+`ef935fc6c24eb47553382d318e1501a795c4da84`; and the formal GitHub Release is
+published. Post-release clean-clone verification passed install, migration,
+clean-room, CLI/Studio, Python, kernel, and TypeScript gates. Evidence:
+`reports/M84_FIRST_BOOK_REQUALIFICATION.md` and
+`artifacts/m79_m84/m84_post_release_verification.json`.
+
+STOP. Do not enter v5.5 and do not train models.

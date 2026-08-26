@@ -747,3 +747,18 @@ WorldPackage, Preview, Worldness, Living, Commit/Replay, and branch isolation.
 The old NOT_ACCEPTED report is unchanged and remains historical evidence;
 current ACCEPTED evidence is in `reports/M84_FIRST_BOOK_REQUALIFICATION.md`.
 Stable tag/release remains pending the documentation commit's green Actions.
+
+## M84 final stable release (2026-08-26)
+
+The documentation commit's required Actions run `32922253977` is green across
+all six jobs. The authorized remote annotated `v5.4.0` tag resolves to
+`ef935fc6c24eb47553382d318e1501a795c4da84`, and the formal GitHub Release is
+published at
+`https://github.com/huangdi97/wanxiang-world/releases/tag/v5.4.0`.
+
+A fresh checkout of the tag passed all post-release verification gates:
+all-workspace install, Alembic `0004_add_world_metadata`, clean-room 7/7,
+real CLI/Studio smoke, Python quality (`1219 passed, 1 skipped`), kernel guard,
+and TypeScript lint/typecheck/22 tests/build. M84 is PASS. No v5.5 work or
+model training was started. See
+`artifacts/m79_m84/m84_post_release_verification.json`.

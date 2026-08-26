@@ -243,3 +243,15 @@ Commit/Replay, and branch isolation. The pre-repair NOT_ACCEPTED report is
 preserved unchanged; sanitized ACCEPTED evidence is recorded in
 `reports/M84_FIRST_BOOK_REQUALIFICATION.md`. Stable release gates may proceed
 after the documentation commit's required Actions are green.
+
+## M84 stable release and post-release verification (2026-08-26)
+
+M84 is PASS. Required Actions run `32922253977` is green across all six jobs;
+the remote annotated `v5.4.0` tag targets
+`ef935fc6c24eb47553382d318e1501a795c4da84`; and the formal GitHub Release is
+published. The tag was verified from a fresh clone with all-workspace install,
+Alembic head, clean-room 7/7, CLI/Studio smoke, Python quality, kernel guard,
+and TypeScript gates. Evidence is sanitized in
+`artifacts/m79_m84/m84_post_release_verification.json`.
+
+STOP boundary: no v5.5 and no model training.

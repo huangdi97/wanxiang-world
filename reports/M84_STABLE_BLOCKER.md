@@ -81,3 +81,16 @@ See `reports/M84_FIRST_BOOK_REQUALIFICATION.md` and
 
 This historical blocker report remains preserved; it is not rewritten into a
 false PASS record.
+
+## Stable release completion (2026-08-26)
+
+After the resolution above, the documentation commit passed required Actions
+run `32922253977` across all six jobs. The authorized annotated `v5.4.0` tag
+was pushed and resolves to
+`ef935fc6c24eb47553382d318e1501a795c4da84`; the formal non-draft,
+non-prerelease GitHub Release is published at
+`https://github.com/huangdi97/wanxiang-world/releases/tag/v5.4.0`.
+
+The stable tag was verified from a fresh clone with clean-room, CLI/Studio,
+Python, kernel, and TypeScript post-release gates. Sanitized evidence is in
+`artifacts/m79_m84/m84_post_release_verification.json`.

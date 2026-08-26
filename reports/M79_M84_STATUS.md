@@ -6,7 +6,7 @@ Scope: v5.4 continuation only; no v5.5 and no model training.
 
 ## Decision
 
-`M82 PASS / M84 ACTIVE`. M79, M80, M81, M82, and M83 are accepted within their
+`M82 PASS / M84 PASS`. M79, M80, M81, M82, and M83 are accepted within their
 documented evidence boundaries. v5.4.0 stable remains unauthorized until the
 M84 clean-clone, full-regression, source-safety, final-branch, tag, and
 post-release gates pass.
@@ -28,7 +28,7 @@ source-specific book logic is used.
 | M81 | G84A-G84F | `PASS` | synthetic adversarial calibration passes; real-source qualification remains pending |
 | M82 | G85A-G85G | `PASS` | real GEDCOM product chain accepted; privacy/user-validation boundary explicit |
 | M83 | G86A-G86G | `PASS` | synthetic structured/mixed path passes |
-| M84 | G87A-G87H | `ACTIVE` | clean clone, full regression, source safety, delivery, stable tag, and post-release gates remain |
+| M84 | G87A-G87H | `PASS` | clean clone, full regression, source safety, delivery, stable tag, and post-release gates accepted |
 
 ## Local engineering gate
 
@@ -134,3 +134,27 @@ isolation. The historical NOT_ACCEPTED report remains unchanged. Evidence:
 
 M84 G87F/G87G may proceed only after this documentation commit receives green
 required Actions; no stable tag has been created yet.
+
+## M84 final stable-release acceptance (2026-08-26)
+
+The first-book requalification documentation commit passed required Actions
+run `32922253977` across all six jobs. The user-authorized annotated tag
+`v5.4.0` was then pushed and resolved remotely to the same commit
+`ef935fc6c24eb47553382d318e1501a795c4da84`. The non-draft, non-prerelease
+GitHub Release is published at
+`https://github.com/huangdi97/wanxiang-world/releases/tag/v5.4.0`.
+
+Post-release verification from a fresh checkout of that tag passed the
+documented all-package install, migration head `0004_add_world_metadata`,
+7/7 clean-room certification, real CLI and Studio socket smoke, Python
+quality (`1219 passed, 1 skipped`), kernel guard, and TypeScript gates (22/22
+tests). The clean clone was removed after verification. The complete
+sanitized evidence is in
+`artifacts/m79_m84/m84_post_release_verification.json`.
+
+M84 is **PASS**. `v5.5` and model training were not started. The historical
+source and privacy boundary remain unchanged:
+
+`PUBLIC HISTORICAL FAMILY E2E = REAL PRODUCT VALIDATION`
+
+`PRIVATE LIVING FAMILY USER VALIDATION = NOT PERFORMED`
