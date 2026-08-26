@@ -762,3 +762,20 @@ real CLI/Studio smoke, Python quality (`1219 passed, 1 skipped`), kernel guard,
 and TypeScript lint/typecheck/22 tests/build. M84 is PASS. No v5.5 work or
 model training was started. See
 `artifacts/m79_m84/m84_post_release_verification.json`.
+
+## v5.5 M85-M94 current continuation (2026-08-26)
+
+The v5.4.0 Stable baseline is accepted and remains frozen. The v5.5 execution
+package is tracked under
+`wanxiang_v55_m85_m94_playable_persistent_evolving_cn/`; its all-in-one master
+template has 6,870 lines and SHA-256
+`C5DE84048E8C271B813F71F168EFB7050B27847863F2E10630D5C1B7C4F75DD5`.
+
+G88A is active on `feature/v5.5-playable-persistent-evolving`. Before v5.5
+work, the current v5.4 checkout passed `uv run python scripts/quality.py`:
+`1219 passed, 1 skipped` (the local PostgreSQL profile is
+`EXTERNAL_BLOCKED`), plus the architecture guard. The v5.4 tag remains
+`ef935fc6c24eb47553382d318e1501a795c4da84`; it will not be moved or
+overwritten. No model training and no v5.6 work are in scope.
+
+The executable status ledger is `reports/V55_ACCEPTANCE_MATRIX.md`.

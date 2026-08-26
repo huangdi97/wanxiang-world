@@ -1,0 +1,54 @@
+继续当前 `wanxiang-world` 仓库。
+
+当前 `v5.4.0` 已正式 Stable，Source → Living World 已真实验证。不要重新执行 M51–M84，不训练模型，不进入 v5.6。
+
+把本执行包完整放入/可读于仓库后，依次读取：
+README_FIRST.md
+00_MASTER_ROADMAP.md
+01_ARCHITECTURE_CONTRACTS.md
+02_PRODUCT_EXPERIENCE_SPEC.md
+03_LONG_HORIZON_EVOLUTION_SPEC.md
+04_WORLD_LAB_SPEC.md
+05_GITHUB_RELEASE_POLICY.md
+06_CODEX_MASTER_PROMPT_CN.md
+07_GOALS_INDEX.md
+08_MILESTONE_GATES.md
+09_USER_ACTIONS.md
+10_FINAL_ACCEPTANCE.md
+11_RESUME_PROTOCOL.md
+全部 goals/
+全部 milestones/
+以及当前仓库的母版、STATUS/PLAN/CHANGELOG/reports/tests/migrations/OpenAPI/Studio/CI/Git history。
+
+然后严格执行 `06_CODEX_MASTER_PROMPT_CN.md`：
+
+从 G88A 连续执行到 G97J，不中途询问是否继续。
+
+核心目标是：
+
+v5.4 Living World
+→ Playable World
+→ Actor Goal / Memory / Belief continuity
+→ Pressure / Director / Opportunity
+→ 24h / 7d / 30d / 90d Long-Horizon Runtime
+→ Actor / Relationship / Organization Evolution
+→ Evidence-backed Emergence
+→ WorldRunArtifact / Lab / Parallel Worldlines
+→ Physical / Visual Provider Bridge
+→ v5.5 Certification
+
+必须保持：
+- Kernel 冻结；
+- Provider/Director/UI 无 Commit 权；
+- World Truth / Memory / Belief 分离；
+- StateDiff 来自 committed events；
+- Prompt Genesis 全部标 E5；
+- Worldness ≠ Scientific Validity；
+- 不训练自有模型；
+- 不把世界专用规则塞进 Kernel；
+- 不上传私有 Source；
+- 每 Goal PASS 后 commit并继续；
+- 最终 feature branch push + GitHub Actions，失败就读日志修复直到绿；
+- 只有 `10_FINAL_ACCEPTANCE.md` required Gate 全部 ACCEPTED 才创建 annotated `v5.5.0-rc1` 和 GitHub prerelease；
+- 否则保持 NOT_ACCEPTED 并给唯一剩余 blockers；
+- G97J STOP，不进入 v5.6。

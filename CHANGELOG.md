@@ -14,6 +14,18 @@
 - No `v5.4.0` stable tag or Release was created; no v5.5 work or model training
   was started. See `reports/M84_STABLE_BLOCKER.md`.
 
+## 2026-08-26 - v5.5 execution package and G88A baseline
+
+- Added the complete v5.5 M85-M94 execution package with 82 executable goals,
+  10 milestone gates, the ordered Codex prompt, and the all-in-one master
+  template.
+- Created `feature/v5.5-playable-persistent-evolving` from the v5.4.0 Stable
+  post-release verification commit.
+- Re-ran the current baseline: architecture conformance PASS; ruff, format,
+  pyright and the full Python suite PASS (`1219 passed, 1 skipped`; local
+  PostgreSQL remains `EXTERNAL_BLOCKED`).
+- No v5.4.0 tag was moved, no model was trained, and no v5.6 work started.
+
 ## 2026-08-25 ? M79 second real-book qualification
 
 - Generic binary EPUB ingestion now preserves raw-byte hashing through the

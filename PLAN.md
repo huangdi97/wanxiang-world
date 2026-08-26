@@ -446,3 +446,18 @@ clean-room, CLI/Studio, Python, kernel, and TypeScript gates. Evidence:
 `artifacts/m79_m84/m84_post_release_verification.json`.
 
 STOP. Do not enter v5.5 and do not train models.
+
+## v5.5 M85-M94 current continuation (user-authorized 2026-08-26)
+
+The v5.4.0 Stable baseline is complete and frozen. This continuation executes
+the checked-in package `wanxiang_v55_m85_m94_playable_persistent_evolving_cn/`
+from G88A through G97J on
+`feature/v5.5-playable-persistent-evolving`. It does not redo M51-M84, train
+models, or enter v5.6. The v5.4.0 tag is immutable.
+
+- G88A: PASS after baseline audit, architecture/quality evidence, package
+  integrity, and feature-branch creation; see `reports/G88A_REPORT.md`.
+- G88B-G97J: PENDING; continue in the package order without pausing.
+- Final release rule: only all required M94 gates ACCEPTED may create
+  annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
+  `NOT_ACCEPTED` and stop at the unique blocker.
