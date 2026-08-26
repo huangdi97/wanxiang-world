@@ -252,6 +252,14 @@ Narrative text cannot fake progress and no Quest object can commit. Gates
 19-20 stay pending until M88 qualification. G91G is next; v5.5 remains
 **IN_PROGRESS / NOT_ACCEPTED**.
 
+## Latest engineering checkpoint — G91G (2026-08-26)
+
+G91G PASS. Matched pressure/no-pressure traces use the same seed, profile
+fingerprint, and horizon, and emit deterministic metrics, deltas, hashes, and
+validity envelope. The result is explicitly an engineering reference
+benchmark with `scientific_claim=false`. G91H is next; Gates 16-20 remain
+pending and v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**.
+
 ## Latest engineering checkpoint — G90F (2026-08-26)
 
 G90F PASS. Publishing profiles now separate visibility, rights summary,

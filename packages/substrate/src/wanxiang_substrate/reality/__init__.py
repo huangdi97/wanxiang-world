@@ -1,5 +1,10 @@
 """Reality bridge substrate (G07A-G07E)."""
 
+from wanxiang_substrate.reality.benchmark import (
+    BehaviorTrace,
+    PressureBehaviorBenchmark,
+    PressureBenchmarkReport,
+)
 from wanxiang_substrate.reality.bridge import (
     FakeSensorAdapter,
     ManualReportAdapter,
@@ -98,6 +103,7 @@ __all__ = [
     "CanonConstraintKind",
     "CanonDistance",
     "BranchRuntimePort",
+    "BehaviorTrace",
     "DIRECTOR_MODES",
     "DefaultOpportunityDetector",
     "DirectorAudit",
@@ -139,6 +145,8 @@ __all__ = [
     "PRESSURE_DIMENSIONS",
     "PRESSURE_PROFILE_SCHEMA_VERSION",
     "PressureProfile",
+    "PressureBehaviorBenchmark",
+    "PressureBenchmarkReport",
     "CommittedStateEvidence",
     "QuestObjective",
     "QuestObjectiveProgress",

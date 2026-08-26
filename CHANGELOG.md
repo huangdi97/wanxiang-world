@@ -1898,3 +1898,10 @@
   required/optional objectives and progress from committed state/event refs.
 - Rejected narrative text as a progress source and preserved ignored/expired
   Opportunity status without adding a Quest truth or commit path.
+
+## v5.5 G91G (2026-08-26)
+
+- Added matched deterministic pressure/no-pressure behavior traces with the
+  same seed/profile/horizon, metric deltas, trace hashes, and validity envelope.
+- Explicitly scoped the result as an engineering reference benchmark with no
+  scientific claim or model training.

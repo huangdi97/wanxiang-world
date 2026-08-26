@@ -942,6 +942,13 @@ optional objectives, committed-state progress, narrative-text rejection, and
 projection-only boundaries are covered. Gates 19-20 remain pending until M88
 qualification; G91G-G97J remain pending.
 
+## v5.5 G91G checkpoint (2026-08-26)
+
+G91G PASS and committed as `g91g: Pressure Behavior Benchmark`. Same-seed,
+same-profile pressure/no-pressure traces, deterministic metrics/deltas,
+repeatability, and explicit non-scientific validity scope are covered. Gates
+16-20 remain pending until G91H qualification; G91H-G97J remain pending.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/

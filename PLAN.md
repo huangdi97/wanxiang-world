@@ -541,6 +541,10 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   optional objectives, committed-state progress, and narrative-text rejection
   are covered as projection-only data. Gates 19-20 remain pending until G91H;
   G91G-G97J remain pending.
+- G91G: PASS and committed as `g91g: Pressure Behavior Benchmark`; matched
+  same-seed/profile traces, metrics, deltas, repeatability, and a
+  non-scientific validity envelope are covered. Gates 16-20 remain pending
+  until G91H; G91H-G97J remain pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.
