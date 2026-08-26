@@ -9,6 +9,7 @@ from wanxiang_domain.errors import ContractError
 
 from wanxiang_substrate.playable.experience import ExperiencePackage
 from wanxiang_substrate.playable.models import ScenarioProfile
+from wanxiang_substrate.workshop.publishing import PublishingProfile
 
 CreationMode = Literal["source", "prompt", "hybrid"]
 WorkshopStatus = Literal["draft", "review_required", "previewable", "publishable", "published"]
@@ -89,6 +90,7 @@ class WorkshopDraft:
     publishing_profile_ref: str = ""
     scenario: ScenarioProfile | None = None
     experience: ExperiencePackage | None = None
+    publishing: PublishingProfile | None = None
     provenance_refs: tuple[str, ...] = ()
     generated_claim_refs: tuple[str, ...] = ()
     schema_version: int = 1
@@ -132,6 +134,7 @@ class WorkshopDraft:
             "publishing_profile_ref": self.publishing_profile_ref,
             "scenario": self.scenario.to_dict() if self.scenario else None,
             "experience": self.experience.to_dict() if self.experience else None,
+            "publishing": self.publishing.to_dict() if self.publishing else None,
             "provenance_refs": list(self.provenance_refs),
             "generated_claim_refs": list(self.generated_claim_refs),
         }

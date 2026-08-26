@@ -881,6 +881,13 @@ Experience, Publishing, Review, and Registry panels over one shared immutable
 conflict; no canonical state or Commit Authority is added. G90B is next;
 M87 and v5.5 remain NOT_ACCEPTED.
 
+## v5.5 G90F checkpoint (2026-08-26)
+
+G90F PASS: PublishingProfile and RightsSummary now enforce public/private/
+unlisted/family-private boundaries, package/public-export rights, metadata,
+and safety extension refs. Blocked rights cannot publish; private worlds never
+enter Plaza. G90G is next; M87 and v5.5 remain NOT_ACCEPTED.
+
 ## v5.5 G90E checkpoint (2026-08-26)
 
 G90E PASS: versioned ScenarioProfile and ExperiencePackage edits now use the

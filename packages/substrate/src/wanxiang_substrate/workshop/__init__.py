@@ -34,6 +34,15 @@ from wanxiang_substrate.workshop.models import (
     WorkshopPanel,
     WorkshopStatus,
 )
+from wanxiang_substrate.workshop.publishing import (
+    PackageMetadata,
+    PublishingDecision,
+    PublishingPolicy,
+    PublishingProfile,
+    RightsSummary,
+    SafetyExtensionPoints,
+)
+from wanxiang_substrate.workshop.publishing_editor import PublishingEditor
 from wanxiang_substrate.workshop.store import DraftRevisionConflict, WorkshopDraftStore
 
 __all__ = [
@@ -63,6 +72,13 @@ __all__ = [
     "PromptGenesisProvider",
     "PromptGenesisProviderService",
     "PromptGenesisRun",
+    "PackageMetadata",
+    "PublishingDecision",
+    "PublishingEditor",
+    "PublishingPolicy",
+    "PublishingProfile",
+    "RightsSummary",
+    "SafetyExtensionPoints",
     "build_prompt_contract",
     "extract_constraints",
     "claim_from_candidate",

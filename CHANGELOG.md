@@ -1824,3 +1824,10 @@
   reusing existing profile contracts and reference validation.
 - Added a content-hashed read-only Workshop preview that cannot publish or
   mutate runtime state; stale editor revisions are rejected.
+
+## v5.5 G90F (2026-08-26)
+
+- Added schema-versioned PublishingProfile, RightsSummary, package metadata,
+  and safety extension points for explicit visibility boundaries.
+- Added rights-aware publication decisions; blocked source rights fail closed
+  and private/family-private profiles are excluded from Plaza listings.
