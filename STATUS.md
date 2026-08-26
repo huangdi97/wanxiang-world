@@ -900,6 +900,13 @@ same-origin source alternatives remain auditable while cross-origin conflicts
 remain explicit. M87 is complete; Gates 12-15 are accepted. G91A is next;
 v5.5 remains NOT_ACCEPTED and no model training or v5.6 scope is active.
 
+## v5.5 G91A checkpoint (2026-08-26)
+
+G91A PASS and committed as `g91a: PressureProfile v1`. The versioned
+Scenario/Domain pressure value object carries all required bounded dimensions
+and provenance without Kernel/domain pollution. Gate 16 remains pending until
+M88 qualification; G91B-G97J remain pending.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/

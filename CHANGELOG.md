@@ -1851,3 +1851,11 @@
   cross-origin conflicts remain explicit review blockers.
 - Gates 12-15 are accepted. M87 is complete; v5.5 remains NOT_ACCEPTED while
   later M88-M94 qualification and final release evidence are pending.
+
+## v5.5 G91A (2026-08-26)
+
+- Added immutable, schema-versioned `PressureProfile` for Scenario/Domain
+  pressure inputs: scarcity, goals, private information, obligation,
+  authority, reward, sanction, reputation, time, risk, and norm.
+- Preserved provenance and deterministic fingerprints, accepted the bounded
+  legacy flat shape, and kept pressure outside the Kernel/domain packages.

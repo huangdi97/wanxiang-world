@@ -46,6 +46,11 @@ from wanxiang_substrate.reality.model import (
     NormalizedReading,
     PhysicalObservation,
 )
+from wanxiang_substrate.reality.pressure import (
+    PRESSURE_DIMENSIONS,
+    PRESSURE_PROFILE_SCHEMA_VERSION,
+    PressureProfile,
+)
 
 __all__ = [
     "ChallengeCompiler",
@@ -75,6 +80,9 @@ __all__ = [
     "OpportunityDetector",
     "PerformanceDirector",
     "PhysicalObservation",
+    "PRESSURE_DIMENSIONS",
+    "PRESSURE_PROFILE_SCHEMA_VERSION",
+    "PressureProfile",
     "RealityBridge",
     "RealityError",
     "RunMetric",

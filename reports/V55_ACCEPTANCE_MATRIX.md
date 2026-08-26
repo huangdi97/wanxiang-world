@@ -203,6 +203,15 @@ gates remain pending. M87 is complete and v5.5 remains **IN_PROGRESS /
 NOT_ACCEPTED**. Evidence: `reports/G90H_REPORT.md` and
 `reports/M87_QUALIFICATION.md`.
 
+## Latest engineering checkpoint — G91A (2026-08-26)
+
+G91A PASS. `PressureProfile` v1 now carries all eleven bounded pressure
+dimensions, Scenario/Domain refs, schema/version, provenance, deterministic
+serialization, and a matched zero-pressure baseline. The type lives only in
+the substrate reality plane; kernel/domain packages remain unchanged. Gate 16
+stays pending until the M88 qualification exercises it in a real playable
+world. G91B is next; v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**.
+
 ## Latest engineering checkpoint — G90F (2026-08-26)
 
 G90F PASS. Publishing profiles now separate visibility, rights summary,
