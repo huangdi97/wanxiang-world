@@ -1,5 +1,13 @@
 """Long-Horizon & Derived Worlds substrate (M40)."""
 
+from wanxiang_substrate.long_horizon.background import (
+    BACKGROUND_MODES,
+    BackgroundMode,
+    BackgroundPolicy,
+    BackgroundRun,
+    BackgroundSimulation,
+    SessionCursor,
+)
 from wanxiang_substrate.long_horizon.horizon import (
     DerivedWorld,
     DistilledPattern,
@@ -42,4 +50,10 @@ __all__ = [
     "RecurringScheduler",
     "ScheduledOccurrence",
     "SchedulerCursor",
+    "BACKGROUND_MODES",
+    "BackgroundMode",
+    "BackgroundPolicy",
+    "BackgroundRun",
+    "BackgroundSimulation",
+    "SessionCursor",
 ]

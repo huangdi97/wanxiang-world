@@ -966,6 +966,14 @@ catch-up are covered by pure tests and a real SQLite WorldRuntime temporal
 commit integration. Gate 21 remains pending until the 24h/7d qualification;
 G92B-G97J remain pending and v5.5 remains NOT_ACCEPTED.
 
+## v5.5 G92B checkpoint (2026-08-26)
+
+G92B PASS: the existing Playable RuntimeProfile now controls paused, realtime,
+accelerated, background, and full-autonomy detached runs. Session cursors are
+worldline-bound and re-entry preserves scheduler/world-time continuity through
+the existing temporal Commit path. Gate 21 remains pending until G92G;
+G92C-G97J remain pending and v5.5 remains NOT_ACCEPTED.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/

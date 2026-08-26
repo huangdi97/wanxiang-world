@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G92A: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G92B: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -280,6 +280,15 @@ adapted those occurrences into the existing temporal Commit path; no scheduler
 authority or second event store was introduced. Gate 21 remains pending until
 G92G; G92B-G97J remain pending and v5.5 remains
 **IN_PROGRESS / NOT_ACCEPTED**. Evidence: `reports/G92A_REPORT.md`.
+
+## Latest engineering checkpoint — G92B (2026-08-26)
+
+G92B PASS. Existing Playable RuntimeProfile values now drive paused, realtime,
+accelerated, background, and full-autonomy offline policy. A leave cursor can
+be consumed without a live user session and re-entered after scheduler
+occurrences are adapted through the existing temporal Commit path. Gate 21
+remains pending until G92G; G92C-G97J remain pending and v5.5 remains
+**IN_PROGRESS / NOT_ACCEPTED**. Evidence: `reports/G92B_REPORT.md`.
 
 ## Latest engineering checkpoint — G90F (2026-08-26)
 

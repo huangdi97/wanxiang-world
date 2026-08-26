@@ -1921,3 +1921,11 @@
   immutable queue cursors.
 - Proved scheduler occurrences enter the existing temporal Commit path in a
   real SQLite WorldRuntime integration; no new authority or event store exists.
+
+## v5.5 G92B (2026-08-26)
+
+- Added RuntimeProfile-bound paused, realtime, accelerated, background, and
+  full-autonomy offline modes with explicit world-time conversion.
+- Added durable leave/re-entry cursors and proved detached occurrences resume
+  through the existing temporal Commit path without a live session or new
+  authority.
