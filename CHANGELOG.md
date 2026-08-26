@@ -1732,3 +1732,10 @@
   playable entry, embodiment, free action, committed StateDiff, replay, leave,
   and same-instance Continue.
 - Added sanitized CLI/API evidence and server-side instance authorization.
+
+## v5.5 G89A (2026-08-26)
+
+- Added immutable ActorGoalStack v1 with life-motive through intent tiers,
+  dependency/priority/deadline contracts, provenance, and revision lineage.
+- Added schema-versioned goal serialization with replay verification and kept
+  goals outside canonical world truth and Commit Authority.

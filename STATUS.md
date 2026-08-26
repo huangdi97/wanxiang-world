@@ -816,3 +816,11 @@ shared CLI/API/Studio PlayableService, character embodiment, committed free
 action, canonical StateDiff, replay, leave, and same-instance Continue. M85 is
 complete; M86 G89A is next. v5.5 remains NOT_ACCEPTED and no v5.6/model
 training scope is active.
+
+## v5.5 G89A checkpoint (2026-08-26)
+
+G89A PASS: ActorGoalStack v1 now has five goal tiers, dependencies, priority,
+deadlines, provenance, immutable revision events, deterministic replay, and
+schema-versioned serialization. Gate 7 is accepted. The stack remains an
+actor-local projection and does not mutate canonical world state. G89B is next;
+v5.5 remains NOT_ACCEPTED and no model training or v5.6 scope is active.

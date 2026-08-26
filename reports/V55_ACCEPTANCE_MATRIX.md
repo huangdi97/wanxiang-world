@@ -113,3 +113,11 @@ G88G PASS. Committed-state categories, epistemic permission filtering,
 no-change semantics, replay determinism, and narrative read-only separation
 pass. Gate 5 remains pending until the full playable E2E emits this diff from a
 real committed event.
+
+## Latest checkpoint — G89A (2026-08-26)
+
+G89A PASS. ActorGoalStack v1 provides five goal tiers, dependency/priority/
+deadline contracts, explicit provenance, immutable revision events, and
+schema-versioned serialization whose snapshot is verified against replay.
+Gate 7 is **ACCEPTED**. Gates 8-11 and the remaining gates remain pending;
+release status remains **IN_PROGRESS / NOT_ACCEPTED**.
