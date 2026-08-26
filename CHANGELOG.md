@@ -1781,3 +1781,10 @@
   Belief, Relationship, and Action/why refs.
 - Added actor/admin cognition access and observer redaction without a projection
   write path or private-reasoning leak.
+
+## v5.5 G89H / M86 (2026-08-26)
+
+- Qualified a source-created literary WorldPackage with two PlayableService
+  actors, actual leave/Continue, and a seven-day accelerated continuity run.
+- Verified derived Goal/Memory/Belief/Relationship counts, replay digest, and
+  checkpoint resume digest; M86 Gate 11 is accepted.

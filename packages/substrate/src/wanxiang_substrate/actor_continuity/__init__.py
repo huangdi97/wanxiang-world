@@ -33,6 +33,15 @@ from wanxiang_substrate.actor_continuity.projection import (
     ActorContinuitySnapshot,
     ContinuityTimelineItem,
 )
+from wanxiang_substrate.actor_continuity.qualification_model import (
+    ContinuityActorBundle,
+    ContinuityCheckpoint,
+    ContinuityQualificationResult,
+)
+from wanxiang_substrate.actor_continuity.qualification_run import (
+    ContinuityQualificationSeed,
+    SevenDayContinuityQualification,
+)
 from wanxiang_substrate.actor_continuity.relationship_graph import (
     RelationshipGraph,
     RelationshipRevisionEvent,
@@ -82,6 +91,11 @@ __all__ = [
     "ActorContinuityProjection",
     "ActorContinuitySnapshot",
     "ContinuityTimelineItem",
+    "ContinuityActorBundle",
+    "ContinuityCheckpoint",
+    "ContinuityQualificationResult",
+    "ContinuityQualificationSeed",
+    "SevenDayContinuityQualification",
     "DeterministicPassportTranslationPolicy",
     "InterworldCompatibility",
     "PassportDecision",

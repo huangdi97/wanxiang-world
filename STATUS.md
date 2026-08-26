@@ -865,3 +865,10 @@ G89G is next; v5.5 remains NOT_ACCEPTED.
 G89G PASS: ActorContinuityProjection now exposes frontend-ready Goal/Memory/
 Belief/Relationship/Action timelines, why refs, and server-side actor/observer
 redaction. G89H is next; Gate 11 remains pending and v5.5 remains NOT_ACCEPTED.
+
+## v5.5 G89H / M86 checkpoint (2026-08-26)
+
+G89H PASS: source-created literary WorldPackage, two PlayableService actors,
+actual Alice leave/Continue, and a seven-day accelerated continuity run all
+passed replay and checkpoint-resume equality. Gate 11 is accepted and M86 is
+complete. G90A is next; v5.5 remains NOT_ACCEPTED.

@@ -15,7 +15,7 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 8 | Memory / Belief / Truth separation | ACCEPTED | G89C EpistemicMemory + G03B replay/authority tests |
 | 9 | Secret / rumor / future-knowledge isolation | ACCEPTED | G89D future guard + G03B/G35G privacy regressions |
 | 10 | RelationshipState time/event provenance | ACCEPTED | G89E time-scoped graph + visibility/replay tests |
-| 11 | 7-day actor continuity | PENDING | — |
+| 11 | 7-day actor continuity | ACCEPTED | G89H source-created two-actor 7-day replay/Continue qualification |
 | 12 | From Source regression | PENDING | — |
 | 13 | From Prompt E5 Candidate/WorldDraft | PENDING | — |
 | 14 | Hybrid E0-E5 provenance | PENDING | — |
@@ -167,3 +167,11 @@ why-action refs with actor/admin cognition access, observer redaction, and
 relationship visibility filtering. Gate 11 remains pending until G89H's
 multi-day continuity qualification; release status remains **IN_PROGRESS /
 NOT_ACCEPTED**.
+
+## Latest checkpoint — G89H / M86 (2026-08-26)
+
+G89H PASS. The source-created literary world, two real PlayableService actor
+instances, leave/Continue boundary, seven-day accelerated Goal/Memory/Belief/
+Relationship run, replay digest, and checkpoint resume all pass. Gate 11 is
+**ACCEPTED** and M86 is complete. Gates 12-52 remain pending; release status
+remains **IN_PROGRESS / NOT_ACCEPTED**.
