@@ -1,11 +1,11 @@
 """Playable experience shell over the v5.4 world runtime."""
 
-from wanxiang_substrate.playable.actions import (
+from wanxiang_substrate.playable.action_model import (
     ActionAffordance,
     ActionProposal,
-    IntentCompiler,
     IntentCompileResult,
 )
+from wanxiang_substrate.playable.actions import IntentCompiler
 from wanxiang_substrate.playable.catalog import SessionCard, WorldCard, WorldPlaza
 from wanxiang_substrate.playable.entry import CharacterEntryService, EntryReceipt, active_lease
 from wanxiang_substrate.playable.experience import (
@@ -21,6 +21,11 @@ from wanxiang_substrate.playable.models import (
     RuntimeProfile,
     ScenarioProfile,
 )
+from wanxiang_substrate.playable.state_diff import (
+    CommittedStateDiff,
+    DiffChange,
+    render_narrative,
+)
 from wanxiang_substrate.playable.store import (
     CharacterRecord,
     ExperienceInstanceRecord,
@@ -30,26 +35,29 @@ from wanxiang_substrate.playable.store import (
 
 __all__ = [
     "PLAYABLE_PROFILE_SCHEMA_VERSION",
-    "InMemoryPlayableStore",
-    "EmbodimentPolicy",
-    "CharacterEntryService",
-    "CharacterRecord",
     "ActionAffordance",
     "ActionProposal",
+    "CharacterEntryService",
+    "CharacterRecord",
+    "CommittedStateDiff",
+    "DiffChange",
+    "EmbodimentPolicy",
     "EntryReceipt",
+    "ExperienceInstanceRecord",
+    "ExperiencePackage",
+    "InMemoryPlayableStore",
     "IntentCompileResult",
     "IntentCompiler",
-    "ExperiencePackage",
-    "ExperienceInstanceRecord",
     "PlayableStore",
     "PlayableWorldProfile",
     "ProjectionProfile",
     "RuntimeProfile",
-    "SessionCard",
     "ScenarioProfile",
+    "SessionCard",
     "WorldCard",
     "WorldPlaza",
     "active_lease",
     "experience_from_profile",
     "profile_from_world_package",
+    "render_narrative",
 ]

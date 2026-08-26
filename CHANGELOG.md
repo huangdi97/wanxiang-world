@@ -1719,3 +1719,9 @@
   ActionProposal contracts.
 - Added typed ambiguity/unsupported/rejection outcomes and hostile-input
   payload checks without a direct commit path.
+
+## v5.5 G88G (2026-08-26)
+
+- Added canonical-state-derived StateDiff categories, epistemic permission
+  filtering, deterministic replay comparison, and explicit no-change output.
+- Kept narrative rendering as a separate read-only projection.

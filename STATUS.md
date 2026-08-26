@@ -805,3 +805,8 @@ G88F PASS: IntentCompiler now produces immutable ActionProposal records for
 text/structured actions with typed clarification, unsupported, and rejection
 outcomes. Nested/malicious payloads are rejected and no proposal can commit.
 G88G is next.
+
+G88G PASS: CommittedStateDiff is derived from canonical before/after states,
+permission filters private epistemic changes, and keeps narrative rendering as
+a separate read-only projection. Two focused StateDiff tests pass. G88H is
+next.

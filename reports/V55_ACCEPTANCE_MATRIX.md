@@ -100,3 +100,10 @@ G88F PASS. Text/structured intent compilation, typed clarification/unsupported
 outcomes, hostile-input rejection, and proposal-only authority boundaries pass.
 Gate 4 remains pending until the compiler is connected to the real runtime
 commit/replay path in G88H.
+
+## Latest checkpoint — G88G (2026-08-26)
+
+G88G PASS. Committed-state categories, epistemic permission filtering,
+no-change semantics, replay determinism, and narrative read-only separation
+pass. Gate 5 remains pending until the full playable E2E emits this diff from a
+real committed event.
