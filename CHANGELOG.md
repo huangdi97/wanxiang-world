@@ -1966,3 +1966,14 @@
   storage metrics, and reference compaction equality.
 - Accepted v5.5 gates 21-22; this remains world-time acceleration evidence, not
   a wall-clock seven-day claim.
+
+## v5.5 G92H (2026-08-26)
+
+- Qualified the same source-created literary WorldPackage through
+  PlayableService and the real SQLite WorldRuntime for accelerated 30d / 3,000
+  world ticks with two actors.
+- Recorded 30 actor-local memories per actor, 30 successful checkpoints,
+  atomic crash rejection, exact cursor resume, restart replay equality,
+  reference-only compaction, LOD continuity, and measured cost/storage growth.
+- Accepted v5.5 gates 23 and 25-28; Gate 24 and M90-M94 remain pending, so no
+  v5.5 release candidate is authorized.

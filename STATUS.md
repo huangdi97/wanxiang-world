@@ -1015,6 +1015,18 @@ actors, daily checkpoints, replay/restart recovery, storage metrics, and
 reference compaction equality. Gates 21-22 are accepted; Gate 23/24 and later
 M89+ gates remain pending, so v5.5 remains NOT_ACCEPTED.
 
+## v5.5 G92H checkpoint (2026-08-26)
+
+G92H PASS and committed as `g92h: 30d Qualification`. The same private,
+rights-approved source-created literary WorldPackage entered PlayableService
+and ran on the real SQLite WorldRuntime for accelerated 30d / 3,000 world
+ticks. Two source actors produced 30 actor-local memories each; 30 successful
+checkpoints, exact cursor resume, atomic crash rejection, restart replay
+equality, reference-only compaction, LOD transitions, and measured
+cost/storage growth passed. Gates 23 and 25-28 are accepted. Gate 24 and
+M90-M94 remain pending, so v5.5 remains NOT_ACCEPTED. Evidence:
+`reports/G92H_REPORT.md`.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/

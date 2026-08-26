@@ -576,6 +576,12 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   WorldRuntime accelerated 24h/7d multi-actor runs, daily checkpoints,
   replay/recovery, storage metrics, and compaction equality are covered. Gates
   21-22 are accepted; G92H-G97J remain pending.
+- G92H: PASS and committed as `g92h: 30d Qualification`; the same
+  source-created literary WorldPackage ran through PlayableService and real
+  SQLite WorldRuntime for accelerated 30d/3,000 ticks with two actors,
+  actor-local memory growth, 30 checkpoints, replay/recovery, compaction,
+  LOD, and cost/storage evidence. Gates 23 and 25-28 are accepted; Gate 24
+  and G93A-G97J remain pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.

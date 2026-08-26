@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G92G: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G92H: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -27,12 +27,12 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 20 | Intervention branch/artifact isolation | ACCEPTED | G91H real runtime child branch, parent event/hash/replay proof |
 | 21 | 24-hour smoke | ACCEPTED | G92G real SQLite accelerated 24h reference with checkpoint/replay/recovery |
 | 22 | 7-day runtime | ACCEPTED | G92G real SQLite accelerated 7d multi-actor run with daily checkpoint/replay/storage evidence |
-| 23 | 30-day literary run | PENDING | — |
+| 23 | 30-day literary run | ACCEPTED | G92H real SQLite source-created literary world, 30d / 3,000 ticks, two actors, replay/recovery equality |
 | 24 | 90-day selected-world run | PENDING | — |
-| 25 | Checkpoint/resume/crash recovery | PENDING | — |
-| 26 | Compaction replay equality | PENDING | — |
-| 27 | LOD transition continuity | PENDING | — |
-| 28 | Cost/storage/memory quantification | PENDING | — |
+| 25 | Checkpoint/resume/crash recovery | ACCEPTED | G92H 30 successful run checkpoints, exact cursor resume, restart hash equality, and atomic crash probe |
+| 26 | Compaction replay equality | ACCEPTED | G92H reference-only compaction with 155-event source count, 12 memory-summary refs, and equal golden hash |
+| 27 | LOD transition continuity | ACCEPTED | G92H source actors retain state/memory refs across observed L0/L3/L4 transitions |
+| 28 | Cost/storage/memory quantification | ACCEPTED | G92H 1,832→31,968 serialized bytes, 60 actor memories, 150 world calls, 30,136 charged storage bytes |
 | 29 | Evolution delta taxonomy separation | PENDING | — |
 | 30 | 30-day Actor/Relationship/Organization evolution | PENDING | — |
 | 31 | Evolution explainability/replay | PENDING | — |
@@ -335,6 +335,18 @@ restart recovery, bounded storage metrics, and reference compaction equality.
 Gates 21-22 are **ACCEPTED**; Gate 23/24 and later M89+ gates remain pending,
 so v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**. Evidence:
 `reports/G92G_REPORT.md`.
+
+## Latest engineering checkpoint — G92H / M89 long-run evidence (2026-08-26)
+
+G92H PASS. The same private, rights-approved source-created literary
+WorldPackage entered PlayableService and ran on the real SQLite WorldRuntime
+for accelerated 30d / 3,000 world ticks. Two source actors produced 30
+actor-local memories each; 30 runtime checkpoints, exact scheduler-cursor
+resume, atomic crash rejection, restart replay equality, reference-only
+compaction, LOD continuity, and measured cost/storage growth all passed. Gates
+23 and 25-28 are **ACCEPTED**. Gate 24 and all M90-M94/final release gates
+remain pending; v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**. Evidence:
+`reports/G92H_REPORT.md`.
 
 ## Latest engineering checkpoint — G90F (2026-08-26)
 
