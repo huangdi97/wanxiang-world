@@ -4,7 +4,7 @@
   "hard_invariants_ok": true,
   "import_cycles": 0,
   "manager_classes": 0,
-  "milestone": "M88 (v5.5 G91H)",
+  "milestone": "M89 (v5.5 G92H)",
   "milestone_budgets": {
     "M26": {
       "hard_constraints": [
@@ -339,16 +339,25 @@
       ],
       "new_abstractions_allowance": 25,
       "note": "PressureProfile, Opportunity lifecycle, Director modes, canon attractor, intervention, Quest projection and deterministic benchmark records reuse the existing reality/runtime branch ports."
+    },
+    "M89": {
+      "hard_constraints": [
+        "one runtime/event store/branch system",
+        "scheduler/LOD/budget/compaction remain proposal or reference-only",
+        "no giant manager and no world-specific Kernel types"
+      ],
+      "new_abstractions_allowance": 39,
+      "note": "Long-horizon scheduler, detached background execution, cursor-only checkpoint/recovery, reference compaction, SimulationLOD, cost budget, and qualification value objects reuse the existing runtime."
     }
   },
   "oversized_modules": 0,
   "ports": 41,
-  "production_files": 495,
-  "production_loc": 51821,
-  "public_classes": 1071,
-  "public_functions": 439,
+  "production_files": 502,
+  "production_loc": 53287,
+  "public_classes": 1108,
+  "public_functions": 440,
   "registry_classes": 16,
-  "service_classes": 23,
-  "state_schema_models": 29,
-  "store_classes": 27
+  "service_classes": 25,
+  "state_schema_models": 30,
+  "store_classes": 29
 }

@@ -582,6 +582,10 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   actor-local memory growth, 30 checkpoints, replay/recovery, compaction,
   LOD, and cost/storage evidence. Gates 23 and 25-28 are accepted; Gate 24
   and G93A-G97J remain pending.
+- M89 qualification: PASS; G92A-G92H, the 26-test focused regression, full
+  Python regression (`1322 passed, 1 skipped, 2 warnings`), architecture/
+  Kernel/duplicate/minimality/SDK gates all pass. Gate 24 and M90-M94 remain
+  pending. Evidence: `reports/M89_QUALIFICATION.md`.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.

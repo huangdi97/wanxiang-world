@@ -57,7 +57,7 @@ class Budget(TypedDict):
     milestone_budgets: dict[str, MilestoneBudget]
 
 
-# Per-milestone incremental budget notes (M26 baseline -> M88).
+# Per-milestone incremental budget notes (M26 baseline -> M89).
 # key: milestone; value: allowed new production abstractions (types/protocols/
 # classes/services) with justification, plus hard constraints.
 MILESTONE_BUDGETS: dict[str, MilestoneBudget] = {
@@ -449,6 +449,19 @@ MILESTONE_BUDGETS: dict[str, MilestoneBudget] = {
             "no pressure-specific Kernel types",
         ),
     },
+    "M89": {
+        "note": (
+            "Long-horizon scheduler, detached background execution, cursor-only "
+            "checkpoint/recovery, reference compaction, SimulationLOD, cost "
+            "budget, and qualification value objects reuse the existing runtime."
+        ),
+        "new_abstractions_allowance": 39,
+        "hard_constraints": (
+            "one runtime/event store/branch system",
+            "scheduler/LOD/budget/compaction remain proposal or reference-only",
+            "no giant manager and no world-specific Kernel types",
+        ),
+    },
 }
 
 
@@ -476,7 +489,7 @@ def build_budget() -> Budget:
     managers = sum(1 for _label, name in flag_rows if "manager" in name.lower())
 
     payload: Budget = {
-        "milestone": "M88 (v5.5 G91H)",
+        "milestone": "M89 (v5.5 G92H)",
         "production_files": total["files"],
         "production_loc": total["loc"],
         "public_classes": total["classes"],
@@ -506,7 +519,7 @@ def render(budget: Budget) -> str:
         "with mandatory justification in `V5_2_CODE_MINIMALITY_LEDGER.md`) plus",
         "hard invariants that must hold at every milestone.",
         "",
-        "## Current snapshot — M88 / v5.5 G91H",
+        "## Current snapshot — M89 / v5.5 G92H",
         "",
         "| Metric | Count |",
         "|---|---|",
@@ -527,7 +540,7 @@ def render(budget: Budget) -> str:
         "",
         f"Hard invariants hold: **{budget['hard_invariants_ok']}** (0 cycles, 1 commit path).",
         "",
-        "## Historical incremental budgets M26-M88",
+        "## Historical incremental budgets M26-M89",
         "",
         "| Milestone | New-abstraction allowance | Note | Hard constraints |",
         "|---|---|---|---|",

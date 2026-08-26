@@ -83,6 +83,12 @@ def test_static_success_candidates_are_documented_only() -> None:
             "packages/substrate/src/wanxiang_substrate/epistemic/belief_revision.py",
             "is_world_truth",
         ),
+        # G92B detached-run result exposes a read-only proof that the run does
+        # not depend on a live user session.
+        (
+            "packages/substrate/src/wanxiang_substrate/long_horizon/background.py",
+            "session_independent",
+        ),
     }
     actual = {(f["file"], f["text"].removeprefix("def ")) for f in findings}
     assert actual == documented, f"unexpected static-success paths: {actual - documented}"

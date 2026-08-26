@@ -23,7 +23,7 @@
 | packages/substrate/src/wanxiang_substrate/sources/registry.py | SourceRegistry | 31 |
 | packages/substrate/src/wanxiang_substrate/workshop/registry.py | WorldRegistryCatalog | 99 |
 
-## state_classes (29)
+## state_classes (30)
 
 | path | name | line |
 |---|---|---|
@@ -45,6 +45,7 @@
 | packages/substrate/src/wanxiang_substrate/evolution/promotion/pipeline.py | GenesisSnapshot | 26 |
 | packages/substrate/src/wanxiang_substrate/genealogy/privacy.py | ConsentState | 19 |
 | packages/substrate/src/wanxiang_substrate/lifecycle/model.py | LifecycleState | 87 |
+| packages/substrate/src/wanxiang_substrate/long_horizon/lod.py | LODState | 88 |
 | packages/substrate/src/wanxiang_substrate/material/errors.py | InvalidMaterialState | 26 |
 | packages/substrate/src/wanxiang_substrate/projection/errors.py | UnauthorizedProjection | 14 |
 | packages/substrate/src/wanxiang_substrate/projection/model.py | ProjectionSnapshot | 42 |
@@ -57,7 +58,7 @@
 | packages/substrate/src/wanxiang_substrate/spatial/errors.py | InvalidSpatialState | 34 |
 | packages/substrate/src/wanxiang_substrate/spatial/model.py | SpatialSnapshot | 91 |
 
-## store_classes (27)
+## store_classes (29)
 
 | path | name | line |
 |---|---|---|
@@ -82,6 +83,8 @@
 | packages/substrate/src/wanxiang_substrate/jobs/store.py | JobStore | 35 |
 | packages/substrate/src/wanxiang_substrate/ledger/completion.py | CompletionReviewLedger | 86 |
 | packages/substrate/src/wanxiang_substrate/ledger/ledger.py | CompletionLedger | 30 |
+| packages/substrate/src/wanxiang_substrate/long_horizon/budget.py | CostBudgetLedger | 98 |
+| packages/substrate/src/wanxiang_substrate/long_horizon/checkpoint.py | RunCheckpointStore | 94 |
 | packages/substrate/src/wanxiang_substrate/playable/store.py | PlayableStore | 57 |
 | packages/substrate/src/wanxiang_substrate/playable/store.py | InMemoryPlayableStore | 79 |
 | packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | CheckpointStore | 31 |
@@ -89,7 +92,7 @@
 | packages/substrate/src/wanxiang_substrate/sources/blob.py | SourceBlobStore | 51 |
 | packages/substrate/src/wanxiang_substrate/workshop/store.py | WorkshopDraftStore | 16 |
 
-## service_classes (23)
+## service_classes (25)
 
 | path | name | line |
 |---|---|---|
@@ -97,6 +100,8 @@
 | packages/substrate/src/wanxiang_substrate/authoring/service.py | AuthoringService | 26 |
 | packages/substrate/src/wanxiang_substrate/jobs/service.py | JobService | 17 |
 | packages/substrate/src/wanxiang_substrate/lifecycle/service.py | LifecycleService | 19 |
+| packages/substrate/src/wanxiang_substrate/long_horizon/checkpoint.py | LongRunCheckpointService | 127 |
+| packages/substrate/src/wanxiang_substrate/long_horizon/compaction.py | CompactionService | 107 |
 | packages/substrate/src/wanxiang_substrate/observation/query.py | PerspectiveService | 29 |
 | packages/substrate/src/wanxiang_substrate/parsing/checkpoint.py | ParseCheckpointService | 14 |
 | packages/substrate/src/wanxiang_substrate/playable/entry.py | CharacterEntryService | 37 |

@@ -15,8 +15,11 @@ CommandEnvelope -> resolver/adjudication -> ProposedWorldDelta -> CommitRequest
   - append: atomic durable append through EventAppendPort (failure exposes no new state)
   - revision advance + audit record
 
-- Entry points found (construct or call .commit): 1
+- Entry points found (construct or call .commit): 4
   - `packages\application\src\wanxiang_application\world_runtime.py`
+  - `packages\runtime\src\wanxiang_runtime\isa_pipeline.py`
+  - `packages\substrate\src\wanxiang_substrate\rc001\chaos.py`
+  - `packages\substrate\src\wanxiang_substrate\rc001\instantiate.py`
 
 - Persistence write owners: apps/api, packages/persistence
 

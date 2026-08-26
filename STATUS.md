@@ -1027,6 +1027,17 @@ cost/storage growth passed. Gates 23 and 25-28 are accepted. Gate 24 and
 M90-M94 remain pending, so v5.5 remains NOT_ACCEPTED. Evidence:
 `reports/G92H_REPORT.md`.
 
+## v5.5 M89 qualification checkpoint (2026-08-26)
+
+M89 is PASS. G92A-G92H all have Goal commits and reproducible evidence. The
+30d literary run accepted Gates 23 and 25-28 in addition to the G92G Gates
+21-22; Gate 24 (90d selected-world run) remains pending by scope. Full Python
+regression is `1322 passed, 1 skipped, 2 warnings`; the skip is the documented
+PostgreSQL `EXTERNAL_BLOCKED` profile. Duplicate abstraction, minimality,
+architecture, Kernel freeze, typecheck, and SDK compatibility checks pass.
+Evidence: `reports/M89_QUALIFICATION.md`. M90-M94 and final release gates are
+not complete; v5.5 remains NOT_ACCEPTED.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/

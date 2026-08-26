@@ -1977,3 +1977,11 @@
   reference-only compaction, LOD continuity, and measured cost/storage growth.
 - Accepted v5.5 gates 23 and 25-28; Gate 24 and M90-M94 remain pending, so no
   v5.5 release candidate is authorized.
+
+## v5.5 M89 qualification (2026-08-26)
+
+- Closed M89 after G92A-G92H, the real 30d literary qualification, full
+  Python regression, architecture/Kernel freeze, duplicate/minimality, and
+  SDK compatibility checks passed.
+- Preserved Gate 24 as pending because the 90d selected-world run belongs to
+  the later scope; v5.5 remains NOT_ACCEPTED and no rc1 was created.

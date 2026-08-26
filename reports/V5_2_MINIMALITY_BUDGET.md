@@ -5,28 +5,28 @@ LOC cap: per-milestone *incremental* allowances on new abstractions (each
 with mandatory justification in `V5_2_CODE_MINIMALITY_LEDGER.md`) plus
 hard invariants that must hold at every milestone.
 
-## Current snapshot — M88 / v5.5 G91H
+## Current snapshot — M89 / v5.5 G92H
 
 | Metric | Count |
 |---|---|
-| Production files | 495 |
-| Production LOC | 51821 |
-| Public classes | 1071 |
-| Public functions | 439 |
+| Production files | 502 |
+| Production LOC | 53287 |
+| Public classes | 1108 |
+| Public functions | 440 |
 | Registries | 16 |
 | Managers | 0 |
-| Services | 23 |
+| Services | 25 |
 | Engines | 5 |
 | Ports | 41 |
-| Stores | 27 |
-| State/schema models | 29 |
+| Stores | 29 |
+| State/schema models | 30 |
 | Import cycles | 0 |
 | Commit paths | 1 |
 | Oversized modules (>300 lines) | 0 |
 
 Hard invariants hold: **True** (0 cycles, 1 commit path).
 
-## Historical incremental budgets M26-M88
+## Historical incremental budgets M26-M89
 
 | Milestone | New-abstraction allowance | Note | Hard constraints |
 |---|---|---|---|
@@ -68,6 +68,7 @@ Hard invariants hold: **True** (0 cycles, 1 commit path).
 | M77 | 0 | Real private-source acceptance and regression evidence only. | same source bytes; all required evidence present; NOT_ACCEPTED remains honest |
 | M78 | 0 | Final feature-branch delivery and Actions verification only. | no v5.5; no model training; stop after delivery |
 | M88 | 25 | PressureProfile, Opportunity lifecycle, Director modes, canon attractor, intervention, Quest projection and deterministic benchmark records reuse the existing reality/runtime branch ports. | one runtime and branch system; Director/Quest/intervention remain proposal or projection only; no pressure-specific Kernel types |
+| M89 | 39 | Long-horizon scheduler, detached background execution, cursor-only checkpoint/recovery, reference compaction, SimulationLOD, cost budget, and qualification value objects reuse the existing runtime. | one runtime/event store/branch system; scheduler/LOD/budget/compaction remain proposal or reference-only; no giant manager and no world-specific Kernel types |
 
 Every new abstraction must answer the four questions in
 `reports/V5_2_CODE_MINIMALITY_LEDGER.md`; otherwise it is not added.
