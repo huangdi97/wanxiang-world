@@ -586,6 +586,10 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   Python regression (`1322 passed, 1 skipped, 2 warnings`), architecture/
   Kernel/duplicate/minimality/SDK gates all pass. Gate 24 and M90-M94 remain
   pending. Evidence: `reports/M89_QUALIFICATION.md`.
+- G93A: PASS and committed as `g93a: Evolution Delta Taxonomy`; six typed
+  evolution records, schema/version/provenance, no-generic-blob validation,
+  and the real source -> WorldPackage -> Preview -> PlayableService -> SQLite
+  commit-chain evidence pass. Gate 29 is accepted; G93B-G97J remain pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.

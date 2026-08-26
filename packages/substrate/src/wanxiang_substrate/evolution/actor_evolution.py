@@ -23,23 +23,9 @@ from wanxiang_substrate.capability.model import (
     CapabilityDelta,
     CapabilityState,
 )
+from wanxiang_substrate.evolution.delta import PersonaDelta
 
 TrajectoryKind = Literal["capability", "persona"]
-
-
-@dataclass(frozen=True, slots=True)
-class PersonaDelta:
-    """An explicit, reasoned persona change (never implied by skill gain)."""
-
-    actor_id: EntityId
-    trait: str
-    to_value: str
-    rationale: str
-    evidence_refs: tuple[str, ...] = ()
-
-    def __post_init__(self) -> None:
-        if not self.trait or not self.rationale:
-            raise ContractError("persona delta requires a trait and rationale")
 
 
 @dataclass(frozen=True, slots=True)

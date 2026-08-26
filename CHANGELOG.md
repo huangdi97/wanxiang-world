@@ -1985,3 +1985,15 @@
   SDK compatibility checks passed.
 - Preserved Gate 24 as pending because the 90d selected-world run belongs to
   the later scope; v5.5 remains NOT_ACCEPTED and no rc1 was created.
+
+## v5.5 G93A (2026-08-27)
+
+- Added six explicit immutable evolution Delta records for State, Belief,
+  Relationship, Capability, Persona, and Organization, each with schema,
+  version, typed fields, and source/event provenance.
+- Added proposal validation and Commit Authority receipts without any
+  canonical mutation or second event store; generic evolution blobs and
+  authority-as-producer proposals are rejected.
+- Qualified the taxonomy after a real private source-created WorldPackage
+  traversed PlayableService, Preview, and SQLite WorldRuntime. Gate 29 is
+  accepted; G93B-G97J and the v5.5 release gates remain pending.

@@ -1038,6 +1038,19 @@ architecture, Kernel freeze, typecheck, and SDK compatibility checks pass.
 Evidence: `reports/M89_QUALIFICATION.md`. M90-M94 and final release gates are
 not complete; v5.5 remains NOT_ACCEPTED.
 
+## v5.5 G93A checkpoint (2026-08-27)
+
+G93A PASS and committed as `g93a: Evolution Delta Taxonomy`. Six explicit
+State/Belief/Relationship/Capability/Persona/Organization records now carry
+schema/version and source/event provenance without a generic evolution blob.
+The proposal policy issues only a receipt for an already committed canonical
+event and rejects Commit Authority as a producer. A real private
+source-created WorldPackage passed through PlayableService, Preview, and the
+SQLite WorldRuntime before the six proposal records were validated; canonical
+hash and event count stayed unchanged. Gate 29 is accepted. G93B-G97J and
+Gate 24 remain pending; v5.5 remains NOT_ACCEPTED. Evidence:
+`reports/G93A_REPORT.md`.
+
 ## v5.5 G90F checkpoint (2026-08-26)
 
 G90F PASS: PublishingProfile and RightsSummary now enforce public/private/

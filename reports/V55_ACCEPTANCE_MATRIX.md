@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G92H: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G93A: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -33,7 +33,7 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 26 | Compaction replay equality | ACCEPTED | G92H reference-only compaction with 155-event source count, 12 memory-summary refs, and equal golden hash |
 | 27 | LOD transition continuity | ACCEPTED | G92H source actors retain state/memory refs across observed L0/L3/L4 transitions |
 | 28 | Cost/storage/memory quantification | ACCEPTED | G92H 1,832→31,968 serialized bytes, 60 actor memories, 150 world calls, 30,136 charged storage bytes |
-| 29 | Evolution delta taxonomy separation | PENDING | — |
+| 29 | Evolution delta taxonomy separation | ACCEPTED | G93A typed six-kind records, provenance policy, no-generic-blob and real product-chain evidence |
 | 30 | 30-day Actor/Relationship/Organization evolution | PENDING | — |
 | 31 | Evolution explainability/replay | PENDING | — |
 | 32 | Source/canon immutability | PENDING | — |
@@ -347,6 +347,20 @@ compaction, LOD continuity, and measured cost/storage growth all passed. Gates
 23 and 25-28 are **ACCEPTED**. Gate 24 and all M90-M94/final release gates
 remain pending; v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**. Evidence:
 `reports/G92H_REPORT.md`.
+
+## Latest engineering checkpoint — G93A (2026-08-27)
+
+G93A PASS. Six explicit immutable evolution Delta records now separate State,
+Belief, Relationship, Capability, Persona, and Organization payloads. All carry
+schema/version and evidence/event provenance; generic evolution blobs are
+rejected. `EvolutionCommitPolicy` validates proposal provenance and creates only
+an explicit receipt for an already committed canonical event, so it cannot
+mutate World Truth or create a second event store. A real private source-created
+WorldPackage traversed PlayableService, Preview, and SQLite WorldRuntime before
+the six proposals were validated; canonical hash/event count stayed unchanged.
+Gate 29 is **ACCEPTED**. G93B-G97J, Gate 24, and the remaining M90-M94 gates
+remain pending; v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**. Evidence:
+`reports/G93A_REPORT.md`.
 
 ## Latest engineering checkpoint — G90F (2026-08-26)
 
