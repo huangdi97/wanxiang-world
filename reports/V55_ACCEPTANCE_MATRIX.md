@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G96H: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G97A: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -69,6 +69,16 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 Required release condition: Gates 1-59 must be ACCEPTED with real evidence;
 then and only then may G97H create annotated `v5.5.0-rc1` and a GitHub
 prerelease. Otherwise the final status remains `NOT_ACCEPTED`.
+
+## Latest checkpoint — G97A / M94 (2026-08-27)
+
+G97A PASS. Evidence: `reports/G97A_REPORT.md`; all 60 gate rows are explicit
+and sequential, threshold lowering is prohibited, and Gate 60 remains LOCKED
+behind acceptance of Gates 1-59. Existing `PENDING` and `ACCEPTED-INHERITED`
+boundaries are preserved. The historical `reports/G95H_REPORT.md` reference
+is absent while `reports/M92_QUALIFICATION.md` exists; this is recorded rather
+than silently repaired into a new acceptance. Release status remains
+**IN_PROGRESS / NOT_ACCEPTED**.
 
 ## Latest checkpoint — G96H / M93 (2026-08-27)
 

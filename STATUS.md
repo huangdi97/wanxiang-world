@@ -1454,3 +1454,14 @@ and canonical hash/event history stayed unchanged. External heavy providers
 remain `EXTERNAL_BLOCKED`. Gate 50 remains ACCEPTED; G97A-G97J, M93-M94, and
 the remaining release gates remain pending. v5.5 remains **IN_PROGRESS /
 NOT_ACCEPTED**. Evidence: `reports/G96H_REPORT.md`.
+
+## v5.5 G97A / M94 checkpoint (2026-08-27)
+
+G97A PASS and committed as `g97a: Certification Matrix Freeze`. The 60-gate v5.5 certification matrix
+was reviewed and frozen with explicit `ACCEPTED`, `ACCEPTED-INHERITED`,
+`PENDING`, and `LOCKED` states; the release condition remains Gates 1-59 all
+accepted before any rc1. Existing missing/blocked evidence remains visible,
+including the missing historical `reports/G95H_REPORT.md` reference and the
+real-book source acceptance blocker. G97B-G97J and the remaining release gates
+remain pending. v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**. Evidence:
+`reports/G97A_REPORT.md`.

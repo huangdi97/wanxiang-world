@@ -1,5 +1,12 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-27 - G97A Certification Matrix Freeze
+
+- Froze the 60-gate v5.5 certification matrix with explicit pending, inherited,
+  accepted, and locked states and preserved the all-gates release condition.
+- Recorded the remaining evidence boundaries without lowering thresholds or
+  converting missing historical artifacts into acceptance.
+
 ## 2026-08-27 - G96H M93 Provider Bridge Qualification
 
 - Qualified the existing PlayableService → Preview → SQLite WorldRuntime

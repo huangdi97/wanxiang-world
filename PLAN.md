@@ -89,6 +89,15 @@ smoke. Replay equality and canonical hash/event history remain unchanged;
 external heavy providers stay `EXTERNAL_BLOCKED`. G97A-G97J and the remaining
 M94 gates remain pending; v5.5 remains IN_PROGRESS / NOT_ACCEPTED.
 
+## v5.5 M94 continuation — G97A (2026-08-27)
+
+G97A is PASS and committed as `g97a: Certification Matrix Freeze`. The 60-gate v5.5 matrix is reviewed
+and frozen with explicit `ACCEPTED`, `ACCEPTED-INHERITED`, `PENDING`, and
+`LOCKED` states; the release condition still requires Gates 1-59 all accepted.
+Known missing/blocked evidence remains visible, including the original real
+book acceptance blocker and the pending long-run/product/security/remote gates.
+G97B-G97J remain pending; v5.5 remains IN_PROGRESS / NOT_ACCEPTED.
+
 ## v5.5 M93 continuation — G96E (2026-08-27)
 
 G96E is PASS and committed as `g96e: Reference Visual Projection Provider`.
