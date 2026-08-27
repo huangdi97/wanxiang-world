@@ -2,6 +2,21 @@
 
 Updated: 2026-08-27 (G95E checkpoint)
 
+## v5.5 G95F checkpoint (2026-08-27)
+
+G95F is PASS and is ready for the Goal checkpoint commit. The World Lab now
+aligns sanitized WorldRunArtifact measurements by shared input and complete
+category/metric/tick keys across Actor, Relation, Institution, Macro, and
+Cost planes. Missing/extra metrics make comparison unqualified, while the API
+report retains every aligned value and numeric series without source payloads.
+The real private rights-approved source chain produced a WorldPackage and
+SQLite runtime baseline/candidate branches with separate artifacts, normal
+Commit Authority evidence, and replay equality. Full quality passed with 1410
+passed, one documented PostgreSQL EXTERNAL_BLOCKED skip, and two warnings.
+Gate 43 is accepted; Gate 41 remains pending because G95D's SQLite
+qualification was intentionally serial. G95G-G97J remain pending and v5.5
+remains NOT_ACCEPTED.
+
 ## v5.5 G95E checkpoint (2026-08-27)
 
 G95E is PASS and is ready for the Goal checkpoint commit. The World Lab now

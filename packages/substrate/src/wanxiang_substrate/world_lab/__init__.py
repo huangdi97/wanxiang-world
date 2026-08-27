@@ -26,6 +26,17 @@ from wanxiang_substrate.world_lab.batch_models import (
     BatchPlan,
     BatchRunResult,
 )
+from wanxiang_substrate.world_lab.comparator import WorldlineComparator
+from wanxiang_substrate.world_lab.comparison_models import (
+    COMPARISON_SCHEMA_VERSION,
+    METRIC_CATEGORIES,
+    CategoryComparison,
+    LabWorldlineComparison,
+    MetricCategory,
+    MetricDifference,
+    TrajectoryPoint,
+    WorldlineMeasurement,
+)
 from wanxiang_substrate.world_lab.fork import (
     FORK_SCHEMA_VERSION,
     ForkedInterventionRun,
@@ -70,6 +81,10 @@ __all__ = [
     "BatchPlan",
     "BatchRunResult",
     "BatchWorldlineExecutor",
+    "COMPARISON_SCHEMA_VERSION",
+    "LabWorldlineComparison",
+    "METRIC_CATEGORIES",
+    "CategoryComparison",
     "ForkInterventionRunner",
     "ForkProvenance",
     "ForkRun",
@@ -78,9 +93,14 @@ __all__ = [
     "InterventionLedgerEntry",
     "InterventionRun",
     "MetricSummary",
+    "MetricCategory",
+    "MetricDifference",
     "REGISTRY_SCHEMA_VERSION",
     "RunStatus",
     "WorldRunArtifact",
+    "WorldlineComparator",
+    "WorldlineMeasurement",
+    "TrajectoryPoint",
     "sanitize_metadata",
     "WorldlineBatchExecutor",
     "aggregate_results",

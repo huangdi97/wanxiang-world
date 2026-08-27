@@ -531,7 +531,7 @@ def build_budget() -> Budget:
     managers = sum(1 for _label, name in flag_rows if "manager" in name.lower())
 
     payload: Budget = {
-        "milestone": "M92 (v5.5 G95E)",
+        "milestone": "M92 (v5.5 G95F)",
         "production_files": total["files"],
         "production_loc": total["loc"],
         "public_classes": total["classes"],
@@ -561,7 +561,7 @@ def render(budget: Budget) -> str:
         "with mandatory justification in `V5_2_CODE_MINIMALITY_LEDGER.md`) plus",
         "hard invariants that must hold at every milestone.",
         "",
-        "## Current snapshot — M92 / v5.5 G95E",
+        "## Current snapshot — M92 / v5.5 G95F",
         "",
         "| Metric | Count |",
         "|---|---|",

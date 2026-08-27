@@ -1,5 +1,17 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-27 - G95F Worldline Comparator
+
+- Added versioned sanitized trajectory measurements and a read-only comparator
+  aligned by shared input and complete Actor/Relation/Institution/Macro/Cost
+  metric keys at each tick.
+- Added all-key delta summaries plus missing/extra metric qualification and
+  API/visual numeric-series reporting; no single metric can be cherry-picked
+  and no comparator path mutates runtime or canonical state.
+- Qualified baseline/candidate artifacts and replay equality on the real
+  private-source WorldPackage → SQLite chain. Gate 43 is accepted; Gate 41
+  remains pending.
+
 ## 2026-08-27 - G95E Multi-provider / Mixed-population
 
 - Added schema-versioned homogeneous, round-robin, and explicit provider
