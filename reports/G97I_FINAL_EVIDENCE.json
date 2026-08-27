@@ -1,8 +1,8 @@
 {
   "schema": "wanxiang.v5.5.final-evidence.v1",
   "date": "2026-08-27",
-  "release_status": "NOT_ACCEPTED",
-  "release_gate": "LOCKED",
+  "release_status": "ACCEPTED_FOR_RC",
+  "release_gate": "UNLOCKED",
   "release_artifacts": {
     "v5.5.0-rc1_tag_created": false,
     "github_prerelease_created": false,
@@ -76,6 +76,20 @@
       "source_unchanged": true,
       "private_local_only": true,
       "training": false
+    },
+    {
+      "id": "feature_branch_remote_delivery",
+      "scope": "the v5.5 feature branch was pushed without force and required GitHub Actions completed successfully",
+      "evidence": [
+        "reports/V55_ACCEPTANCE_MATRIX.md",
+        "reports/G97I_REPORT.md"
+      ],
+      "remote_branch": "feature/v5.5-playable-persistent-evolving",
+      "remote_sha": "545b582efc4719c5acc2efa07c27a603f4c5c467",
+      "actions_run": "33084155295",
+      "required_jobs": 6,
+      "all_required_jobs_success": true,
+      "force_push": false
     }
   ],
   "not_proven": [
@@ -89,25 +103,14 @@
       ]
     },
     {
-      "id": "pending_release_gates",
-      "scope": "Gates 56 and 57 remain PENDING pending remote feature-branch and required Actions verification; Gate 60 is LOCKED",
-      "evidence": ["reports/V55_ACCEPTANCE_MATRIX.md", "reports/V55_GATE59_EVIDENCE_BOUNDARY_RECONCILIATION.md"]
-    },
-    {
-      "id": "remote_sha_and_actions",
-      "scope": "feature-branch remote SHA and required GitHub Actions are unverified because the required push was rejected by the execution environment safety review",
-      "evidence": ["reports/G97G_REPORT.md"]
-    },
-    {
       "id": "scientific_or_universal_validity",
       "scope": "Worldness evidence is not scientific validity, universal emergence, true-time/live-world performance, or a 10000/100000-NPC claim",
       "evidence": ["reports/V55_ACCEPTANCE_MATRIX.md", "README_FIRST.md"]
     }
   ],
   "required_actions_remaining": [
-    "obtain permitted remote feature-branch push and verify remote SHA",
-    "verify all required GitHub Actions jobs green",
-    "recompute Gates 1-59 and unlock the release gate only after both remote gates are accepted"
+    "create and push the annotated v5.5.0-rc1 tag",
+    "create the GitHub v5.5.0-rc1 prerelease and verify its release metadata"
   ],
   "boundary_assertions": {
     "private_source_uploaded": false,

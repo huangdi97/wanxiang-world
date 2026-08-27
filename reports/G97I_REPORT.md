@@ -1,7 +1,7 @@
 # G97I — Final Evidence & Status
 
 Date: 2026-08-27  
-Status: NOT_ACCEPTED — local evidence reconciled, remote release gates remain locked
+Status: ACCEPTED_FOR_RC — Gates 1–59 accepted, rc1 publication pending
 
 ## Evidence classification
 
@@ -48,19 +48,16 @@ isolation evidence. The source remained private and unchanged. See
 - The preserved `reports/REAL_BOOK_LIVING_WORLD_ACCEPTANCE_2026-08-25.md` is a
   historical pre-repair `NOT_ACCEPTED` record and remains unchanged; it is not
   overwritten by the current M84 requalification.
-- Gates 56 and 57 remain `PENDING`; Gate 60 remains `LOCKED`.
-- The feature-branch remote SHA and required GitHub Actions cannot be claimed
-  because the required push was rejected by the execution environment's
-  external-write safety review. No alternate transport or indirect write was
-  attempted.
+- Gates 56 and 57 are `ACCEPTED` from the pushed feature branch and green
+  required Actions run 33084155295; Gate 60 is `UNLOCKED`.
 - No scientific, universal-emergence, true-time/live-world, or
   10,000/100,000-NPC claim is made.
 
 ## Final decision
 
-All final evidence is classified and Gates 1, 32, and 59 are reconciled as
-accepted. The required Gates 1–59 predicate is still false because remote
-delivery Gates 56 and 57 are not yet verified. Therefore the v5.5 release
-status is **IN_PROGRESS / NOT_ACCEPTED**; no `v5.5.0-rc1` tag or GitHub
-prerelease may be created. Existing v5.4 stable history and the original
-real-book evidence are preserved. Do not start v5.6 or model training.
+All final evidence is classified and Gates 1–59 are accepted, including the
+verified remote branch SHA and required Actions run 33084155295. Gate 60 is
+**UNLOCKED / ACCEPTED_FOR_RC**. The annotated `v5.5.0-rc1` tag and GitHub
+prerelease are the only remaining publication actions; existing v5.4 stable
+history and the original real-book evidence are preserved. Do not start v5.6
+or model training.

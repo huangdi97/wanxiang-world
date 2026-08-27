@@ -1,5 +1,15 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-27 - G97I Final Delivery Preflight
+
+- Pushed `feature/v5.5-playable-persistent-evolving` without force and verified
+  remote SHA equality at `545b582efc4719c5acc2efa07c27a603f4c5c467`.
+- Verified Actions run `33084155295`: all six required jobs completed
+  successfully; Gates 56/57 are accepted and Gate 60 is unlocked.
+- rc1 tag and GitHub prerelease remain pending until the final publication
+  command; v5.4 stable history, the historical real-book report, and all
+  no-v5.6/no-training boundaries remain preserved.
+
 ## 2026-08-27 - G97I Evidence Reconciliation
 
 - Reconciled the current M84 same-source first-book Source → Living World

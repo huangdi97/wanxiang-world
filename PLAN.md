@@ -21,10 +21,10 @@ Substrate or any later phase in this batch.
 ## v5.5 M94 closure reconciliation (2026-08-27)
 
 The M84 same-source first-book requalification is accepted and reconciled with
-the preserved historical pre-repair report. G97I evidence now accepts Gates 1,
-32, and 59; Gates 56/57 remain pending for remote SHA and required Actions,
-and Gate 60 remains locked. Continue only with delivery verification and the
-all-Gates-1–59 release predicate. Do not alter v5.4 stable history, the
+the preserved historical pre-repair report. G97I evidence now accepts Gates
+1–59, including remote SHA `545b582e...` and green Actions run 33084155295;
+Gate 60 is unlocked. Continue only with annotated rc1 tag and prerelease
+publication plus final verification. Do not alter v5.4 stable history, the
 historical NOT_ACCEPTED report, thresholds, or the source; do not start v5.6
 or train a model.
 

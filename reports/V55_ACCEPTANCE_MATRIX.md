@@ -1,10 +1,9 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G97I reconciliation: **IN_PROGRESS / NOT_ACCEPTED**. Gates 1, 32,
-and 59 are accepted from current evidence; only remote delivery Gates 56 and
-57 remain pending. Gate 60 is locked until Gates 1–59 are all accepted. This
-ledger is frozen for the v5.5 run; thresholds may not be lowered to obtain a
-release.
+Status at G97I final delivery preflight: **ACCEPTED_FOR_RC**. Gates 1–59 are
+accepted from current evidence, including verified remote SHA and required
+Actions; Gate 60 is unlocked for rc1 publication. This ledger is frozen for
+the v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
 |---:|---|---|---|
@@ -63,15 +62,16 @@ release.
 | 53 | v5.4 critical regression | ACCEPTED | M88 final regression: 1296 passed, 1 skipped, 2 warnings; PostgreSQL skip is documented external profile |
 | 54 | Full Python/TypeScript quality | ACCEPTED | M88 Ruff/Pyright/Kernel/architecture gates pass; SDK and TypeScript baselines remain stable |
 | 55 | Clean clone | ACCEPTED | G97G clean clone install, migration, 1455 Python tests, TypeScript tests/build, and product smokes |
-| 56 | Remote SHA equals local HEAD | PENDING | v5.5 branch push and remote SHA verification remain |
-| 57 | Required GitHub Actions | PENDING | required Actions run on the pushed v5.5 branch remains |
+| 56 | Remote SHA equals local HEAD | ACCEPTED | remote feature branch SHA equals local HEAD 545b582efc4719c5acc2efa07c27a603f4c5c467 |
+| 57 | Required GitHub Actions | ACCEPTED | GitHub Actions run 33084155295; all six required jobs completed success |
 | 58 | Working tree clean | ACCEPTED | G97G checkpoint commit leaves the feature worktree clean; verified by git status |
 | 59 | Evidence boundary separation | ACCEPTED | reports/V55_GATE59_EVIDENCE_BOUNDARY_RECONCILIATION.md; reports/G97I_FINAL_EVIDENCE.json |
-| 60 | Release gate / rc1 only if all ACCEPTED | LOCKED | G97H/G97J |
+| 60 | Release gate / rc1 only if all ACCEPTED | UNLOCKED | Gates 1–59 all ACCEPTED; G97I final delivery preflight |
 
 Required release condition: Gates 1-59 must be ACCEPTED with real evidence;
 then and only then may G97H create annotated `v5.5.0-rc1` and a GitHub
-prerelease. Otherwise the final status remains `NOT_ACCEPTED`.
+prerelease. Current preflight satisfies that predicate; tag and prerelease
+publication remain the only release actions.
 
 ## Latest checkpoint — G97I reconciliation / M94 (2026-08-27)
 
@@ -81,6 +81,15 @@ Gates 1, 32, and 59 are accepted; Gates 56 and 57 remain pending until the
 feature branch is pushed and required Actions are green. Gate 60 remains
 locked, so no `v5.5.0-rc1`, v5.6, or model-training work may begin. Evidence:
 `reports/G97I_REPORT.md`, `reports/V55_REAL_BOOK_EVIDENCE_LINEAGE.md`.
+
+## Latest checkpoint — G97I final delivery preflight / M94 (2026-08-27)
+
+The feature branch `feature/v5.5-playable-persistent-evolving` was pushed
+without force and its remote SHA equals local HEAD
+`545b582efc4719c5acc2efa07c27a603f4c5c467`. GitHub Actions run `33084155295`
+completed successfully with all six required jobs green. Gates 56 and 57 are
+accepted and all Gates 1–59 are now accepted; Gate 60 is `UNLOCKED`. No rc1
+tag or prerelease has been created yet.
 
 ## Latest checkpoint — G97I / M94 (2026-08-27)
 
