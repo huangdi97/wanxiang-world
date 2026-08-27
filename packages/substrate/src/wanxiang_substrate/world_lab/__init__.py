@@ -84,6 +84,7 @@ from wanxiang_substrate.world_lab.qualification_models import (
     QualificationCheck,
     QualificationStatus,
 )
+from wanxiang_substrate.world_lab.reference_physical import ReferencePhysicalProvider
 from wanxiang_substrate.world_lab.registry import ExperimentRegistry
 from wanxiang_substrate.world_lab.registry_models import (
     REGISTRY_SCHEMA_VERSION,
@@ -174,6 +175,7 @@ __all__ = [
     "PhysicalSimulationResolution",
     "PhysicalSnapshot",
     "PhysicalWorldProvider",
+    "ReferencePhysicalProvider",
     "PerspectiveVisualProvider",
     "PhysicalWorldSnapshot",
     "ReadonlyPhysicalSnapshot",

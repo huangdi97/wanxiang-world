@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G96C: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G96D: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -51,7 +51,7 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 44 | ValidationProfile V0-V7, unknown != pass | ACCEPTED | G95G independent profile/report/stack, real private-source chain, and V7 UNKNOWN non-acceptance evidence |
 | 45 | Physical Provider ABI | ACCEPTED | G96A contract + SQLite product-chain boundary evidence |
 | 46 | Visual Provider ABI | ACCEPTED | G96B contract + SQLite projection boundary evidence |
-| 47 | Reference physical provider E2E | PENDING | — |
+| 47 | Reference physical provider E2E | ACCEPTED | G96D deterministic navigation/collision + proposal/evidence/replay product chain |
 | 48 | Reference visual projection E2E | PENDING | — |
 | 49 | Multi-perspective privacy isolation | ACCEPTED | G96C actor-specific audience, rights, occlusion, and event-ref filtering |
 | 50 | Provider output cannot write reality | ACCEPTED | G96A/G96B proposal/projection-only contracts + unchanged SQLite reality |
@@ -69,6 +69,15 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 Required release condition: Gates 1-59 must be ACCEPTED with real evidence;
 then and only then may G97H create annotated `v5.5.0-rc1` and a GitHub
 prerelease. Otherwise the final status remains `NOT_ACCEPTED`.
+
+## Latest checkpoint — G96D / M93 (2026-08-27)
+
+G96D PASS. Evidence: `reports/G96D_REPORT.md`; the deterministic reference
+physical provider resolved navigation/step requests, rejected stale inputs and
+collisions, and emitted typed proposal-only updates with evidence/replay
+hashes. A fresh SQLite WorldRuntime boundary remained unchanged. Gate 47 is
+ACCEPTED; G96E-G97J and Gates 48, 51-52, 56-60 remain pending; release status
+remains **IN_PROGRESS / NOT_ACCEPTED**.
 
 ## Latest checkpoint — G96C / M93 (2026-08-27)
 

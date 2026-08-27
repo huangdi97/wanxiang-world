@@ -1,5 +1,12 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-27 - G96D Reference Physical Provider
+
+- Added a CI-safe deterministic navigation/collision adapter with stale-input
+  rejection and typed proposal-only physical updates.
+- Added evidence/replay hashes and a fresh SQLite product-chain boundary probe;
+  no provider call can mutate canonical reality.
+
 ## 2026-08-27 - G96C Multi-perspective Projection
 
 - Added deterministic actor-scoped audience, rights, radius, and line-of-sight

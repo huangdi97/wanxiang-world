@@ -1401,3 +1401,13 @@ a fresh SQLite product-chain probe, while canonical hash and event history
 remained unchanged. Gate 49 is ACCEPTED; G96D-G97J, M93-M94, and the remaining
 release gates remain pending. v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**.
 Evidence: `reports/G96C_REPORT.md`.
+
+## v5.5 G96D / M93 checkpoint (2026-08-27)
+
+G96D PASS and committed as `g96d: Reference Physical Provider`. The
+deterministic reference physical adapter supports navigation and velocity
+steps, rejects stale snapshots and swept circle collisions, and returns only
+typed proposal operations with evidence/replay hashes. A fresh SQLite runtime
+probe left canonical hash and event history unchanged. Gate 47 is ACCEPTED;
+G96E-G97J, M93-M94, and the remaining release gates remain pending. v5.5
+remains **IN_PROGRESS / NOT_ACCEPTED**. Evidence: `reports/G96D_REPORT.md`.
