@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G95F: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G95G: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -48,7 +48,7 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 41 | Four or more parallel worldlines | PENDING | — |
 | 42 | Multi-provider/policy or mixed population | ACCEPTED | G95E deterministic assignment + same-input mixed-population product-chain evidence |
 | 43 | Worldline trajectory/cost comparator | ACCEPTED | G95F complete five-plane alignment, all-key diffs, and sanitized API/visual real-chain evidence |
-| 44 | ValidationProfile V0-V7, unknown != pass | PENDING | — |
+| 44 | ValidationProfile V0-V7, unknown != pass | ACCEPTED | G95G independent profile/report/stack, real private-source chain, and V7 UNKNOWN non-acceptance evidence |
 | 45 | Physical Provider ABI | PENDING | — |
 | 46 | Visual Provider ABI | PENDING | — |
 | 47 | Reference physical provider E2E | PENDING | — |
@@ -69,6 +69,18 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 Required release condition: Gates 1-59 must be ACCEPTED with real evidence;
 then and only then may G97H create annotated `v5.5.0-rc1` and a GitHub
 prerelease. Otherwise the final status remains `NOT_ACCEPTED`.
+
+## Latest checkpoint — G95G (2026-08-27)
+
+G95G PASS. Evidence: `reports/G95G_REPORT.md`; the independent versioned
+ValidationProfile/Report/Stack covers V0-V7 and fills missing evidence with
+`unknown`. A real private-source WorldPackage → Preview/Living Instance →
+SQLite chain produced complete checks, but V7 external calibration remains
+UNKNOWN, so `ValidationReport.accepted` is false. Gate 44 is accepted for the
+implementation and evidence-semantics boundary; this is not a scientific
+validity claim. Gate 41 remains pending because the G95D SQLite qualification
+was serial; G95H-G97J and Gates 45-52, 56-60 remain pending; release status
+remains **IN_PROGRESS / NOT_ACCEPTED**.
 
 ## Latest checkpoint — G95F (2026-08-27)
 

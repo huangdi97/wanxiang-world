@@ -27,8 +27,10 @@ batch queue, bounded workers, checkpoints, and all-row aggregation; G95E
 provides versioned deterministic provider assignment, same-input mixed
 population execution, proposal-only output validation, and runtime control
 ledger evidence; G95F provides complete five-plane trajectory/cost alignment,
-diff metrics, and sanitized API/visual reports. G95G-G97J remain pending.
-v5.5 remains IN_PROGRESS / NOT_ACCEPTED.
+diff metrics, and sanitized API/visual reports. G95G adds an independent
+versioned V0-V7 ValidationProfile/Report/Stack with conservative
+`unknown != pass` semantics; G95H-G97J remain pending. v5.5 remains
+IN_PROGRESS / NOT_ACCEPTED.
 
 ## Continuation M2?M9 (2026-08-13)
 
@@ -699,6 +701,12 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   pass on real private-source WorldRunArtifact and SQLite replay evidence.
   Gate 43 is accepted; Gate 41 remains pending because G95D's real SQLite
   qualification was serial; G95G-G97J and M92-M94 remain pending.
+- G95G: PASS and committed as `g95g: ValidationProfile v1`; independent
+  schema-versioned V0-V7 profile/check/report/stack, real private-source
+  product-chain evidence, and explicit `unknown != pass` semantics pass.
+  Gate 44 is accepted as an implementation/evidence-semantics gate; the real
+  report remains non-accepted because V7 external calibration is unknown.
+  Gate 41 remains pending and G95H-G97J/M92-M94 remain pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.

@@ -1,6 +1,22 @@
 # Status ? Wanxiang Engineering Program
 
-Updated: 2026-08-27 (G95E checkpoint)
+Updated: 2026-08-27 (G95G checkpoint)
+
+## v5.5 G95G checkpoint (2026-08-27)
+
+G95G is PASS and is ready for the Goal checkpoint commit. The World Lab now
+has a versioned independent ValidationProfile/ValidationCheck/ValidationReport
+covering V0-V7, with explicit Worldness mapping for traceability but no
+Worldness-to-scientific-validity alias. Missing evidence becomes `unknown` and
+only all explicit passes can be accepted. The real private-source
+OneClickAuthoring → WorldPackage → Preview/Living Instance → SQLite chain
+produced complete V0-V7 evidence; V7 is deliberately UNKNOWN because no
+external calibration dataset is in scope, so the report is not accepted.
+Full quality passed with 1416 passed, one documented PostgreSQL
+EXTERNAL_BLOCKED skip, and two warnings. Gate 44 is accepted as an
+implementation/evidence-semantics gate; Gate 41 remains pending because the
+G95D SQLite qualification was intentionally serial. G95H-G97J remain pending
+and v5.5 remains NOT_ACCEPTED.
 
 ## v5.5 G95F checkpoint (2026-08-27)
 

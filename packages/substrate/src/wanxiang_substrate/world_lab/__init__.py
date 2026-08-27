@@ -66,6 +66,17 @@ from wanxiang_substrate.world_lab.registry_models import (
     ExperimentRun,
     RunStatus,
 )
+from wanxiang_substrate.world_lab.validation_models import (
+    DEFAULT_WORLDNESS_MAPPING,
+    VALIDATION_LEVELS,
+    VALIDATION_SCHEMA_VERSION,
+    ValidationCheck,
+    ValidationLevel,
+    ValidationProfile,
+    ValidationReport,
+    ValidationStatus,
+)
+from wanxiang_substrate.world_lab.validation_stack import ValidationStack
 
 __all__ = [
     "ARTIFACT_SCHEMA_VERSION",
@@ -113,4 +124,13 @@ __all__ = [
     "ProviderAssignmentPolicy",
     "ProviderInvocation",
     "ProviderRunInput",
+    "DEFAULT_WORLDNESS_MAPPING",
+    "VALIDATION_LEVELS",
+    "VALIDATION_SCHEMA_VERSION",
+    "ValidationCheck",
+    "ValidationLevel",
+    "ValidationProfile",
+    "ValidationReport",
+    "ValidationStack",
+    "ValidationStatus",
 ]

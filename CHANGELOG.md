@@ -1,5 +1,19 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-27 - G95G ValidationProfile v1
+
+- Added schema-versioned independent V0-V7 ValidationProfile, ValidationCheck,
+  ValidationReport, and ValidationStack contracts with explicit mapping to
+  existing Worldness dimensions for traceability only.
+- Missing evidence is recorded as `unknown`; report acceptance requires every
+  required level to be explicitly `pass`, so Worldness references cannot create
+  scientific-validation success. API/export reports contain sanitized refs and
+  numeric measurements without private source content.
+- Qualified the real private-source authoring → WorldPackage → Preview/Living
+  Instance → SQLite chain. V7 external calibration remains UNKNOWN by design;
+  Gate 44 is accepted as a semantics/implementation gate while the report and
+  v5.5 release remain NOT_ACCEPTED. Gate 41 remains pending.
+
 ## 2026-08-27 - G95F Worldline Comparator
 
 - Added versioned sanitized trajectory measurements and a read-only comparator
