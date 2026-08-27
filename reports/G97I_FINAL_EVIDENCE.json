@@ -1,11 +1,11 @@
 {
   "schema": "wanxiang.v5.5.final-evidence.v1",
   "date": "2026-08-27",
-  "release_status": "ACCEPTED_FOR_RC",
-  "release_gate": "UNLOCKED",
+  "release_status": "ACCEPTED",
+  "release_gate": "ACCEPTED_FOR_RC",
   "release_artifacts": {
-    "v5.5.0-rc1_tag_created": false,
-    "github_prerelease_created": false,
+    "v5.5.0-rc1_tag_created": true,
+    "github_prerelease_created": true,
     "v5.6_started": false,
     "model_training_started": false
   },
@@ -85,8 +85,8 @@
         "reports/G97I_REPORT.md"
       ],
       "remote_branch": "feature/v5.5-playable-persistent-evolving",
-      "remote_sha": "545b582efc4719c5acc2efa07c27a603f4c5c467",
-      "actions_run": "33084155295",
+      "release_commit": "50443c8f7cc58fc4661af2a7d993dc7ec6144e11",
+      "actions_run": "33085230406",
       "required_jobs": 6,
       "all_required_jobs_success": true,
       "force_push": false
@@ -108,10 +108,18 @@
       "evidence": ["reports/V55_ACCEPTANCE_MATRIX.md", "README_FIRST.md"]
     }
   ],
-  "required_actions_remaining": [
-    "create and push the annotated v5.5.0-rc1 tag",
-    "create the GitHub v5.5.0-rc1 prerelease and verify its release metadata"
-  ],
+  "required_actions_remaining": [],
+  "release_delivery": {
+    "tag": "v5.5.0-rc1",
+    "tag_object": "e4768f706f427b3356c94d1e0ec3afe79c17987a",
+    "peeled_commit": "50443c8f7cc58fc4661af2a7d993dc7ec6144e11",
+    "github_release": "https://github.com/huangdi97/wanxiang-world/releases/tag/v5.5.0-rc1",
+    "prerelease": true,
+    "draft": false,
+    "actions_run": "33085230406",
+    "all_required_jobs_success": true,
+    "final_report": "reports/V55_FINAL_RELEASE_REPORT.md"
+  },
   "boundary_assertions": {
     "private_source_uploaded": false,
     "canonical_state_mutated_by_provider_or_ui": false,

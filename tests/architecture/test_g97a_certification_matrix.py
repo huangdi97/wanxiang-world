@@ -31,7 +31,8 @@ def test_v55_matrix_has_frozen_gate_rows_and_release_lock() -> None:
         text,
     )
     assert re.search(
-        r"^Status at [^:]+: \*\*(?:IN_PROGRESS / NOT_ACCEPTED|READY_FOR_RC|ACCEPTED_FOR_RC)\*\*",
+        r"^Status at [^:]+: \*\*(?:IN_PROGRESS / NOT_ACCEPTED|READY_FOR_RC|"
+        r"ACCEPTED_FOR_RC|ACCEPTED)\*\*",
         text,
         re.MULTILINE,
     )

@@ -1,5 +1,14 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-27 - G97I Final Release
+
+- Published annotated `v5.5.0-rc1` and the GitHub prerelease after Gates 1–59
+  were accepted and Gate 60 was unlocked.
+- Verified tag target `50443c8f7cc58fc4661af2a7d993dc7ec6144e11` and Actions run
+  `33085230406` with all six required jobs successful.
+- Preserved the v5.4 stable tag, historical real-book NOT_ACCEPTED report, and
+  all experimental/NOT_PROVEN/EXTERNAL_BLOCKED boundaries; no v5.6 or training.
+
 ## 2026-08-27 - G97I Final Delivery Preflight
 
 - Pushed `feature/v5.5-playable-persistent-evolving` without force and verified

@@ -1,7 +1,7 @@
 # G97I — Final Evidence & Status
 
 Date: 2026-08-27  
-Status: ACCEPTED_FOR_RC — Gates 1–59 accepted, rc1 publication pending
+Status: ACCEPTED — v5.5.0-rc1 prerelease published
 
 ## Evidence classification
 
@@ -49,15 +49,15 @@ isolation evidence. The source remained private and unchanged. See
   historical pre-repair `NOT_ACCEPTED` record and remains unchanged; it is not
   overwritten by the current M84 requalification.
 - Gates 56 and 57 are `ACCEPTED` from the pushed feature branch and green
-  required Actions run 33084155295; Gate 60 is `UNLOCKED`.
+  required Actions run 33085230406; Gate 60 is `ACCEPTED_FOR_RC`.
 - No scientific, universal-emergence, true-time/live-world, or
   10,000/100,000-NPC claim is made.
 
 ## Final decision
 
 All final evidence is classified and Gates 1–59 are accepted, including the
-verified remote branch SHA and required Actions run 33084155295. Gate 60 is
-**UNLOCKED / ACCEPTED_FOR_RC**. The annotated `v5.5.0-rc1` tag and GitHub
-prerelease are the only remaining publication actions; existing v5.4 stable
-history and the original real-book evidence are preserved. Do not start v5.6
-or model training.
+verified remote branch SHA and required Actions run 33085230406. Gate 60 is
+**ACCEPTED_FOR_RC**. The annotated `v5.5.0-rc1` tag and GitHub prerelease were
+created and verified; see `reports/V55_FINAL_RELEASE_REPORT.md`. Existing
+v5.4 stable history and the original real-book evidence are preserved. Do not
+start v5.6 or model training.

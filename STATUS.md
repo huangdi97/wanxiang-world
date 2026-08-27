@@ -1,6 +1,14 @@
 # Status ? Wanxiang Engineering Program
 
-Updated: 2026-08-27 (G97I final delivery preflight)
+Updated: 2026-08-27 (G97I final release)
+
+## v5.5 G97I final release (2026-08-27)
+
+Gates 1–59 are accepted and Gate 60 is `ACCEPTED_FOR_RC`. Annotated
+`v5.5.0-rc1` points to `50443c8f7cc58fc4661af2a7d993dc7ec6144e11`; the GitHub
+prerelease is published. Actions run `33085230406` completed successfully
+with all six required jobs green. Final evidence:
+`reports/V55_FINAL_RELEASE_REPORT.md`.
 
 ## v5.5 G97I final delivery preflight (2026-08-27)
 

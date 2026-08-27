@@ -32,6 +32,7 @@ def test_acceptance_matrix_and_final_ledger_converge() -> None:
     assert (ROOT / "reports" / "V55_GATE1_RECONCILIATION.md").exists()
     assert (ROOT / "reports" / "V55_SOURCE_CANON_IMMUTABILITY_QUALIFICATION.md").exists()
     assert (ROOT / "reports" / "V55_GATE59_EVIDENCE_BOUNDARY_RECONCILIATION.md").exists()
+    assert (ROOT / "reports" / "V55_FINAL_RELEASE_REPORT.md").exists()
 
     artifact = json.loads(
         (ROOT / "artifacts" / "v55" / "source_canon_immutability.json").read_text(encoding="utf-8")
@@ -43,6 +44,9 @@ def test_acceptance_matrix_and_final_ledger_converge() -> None:
     if all_prior_gates_accepted:
         assert rows[60][0] in {"UNLOCKED", "ACCEPTED_FOR_RC", "ACCEPTED"}
         assert ledger["release_gate"] != "LOCKED"
+        if ledger["release_status"] == "ACCEPTED":
+            assert ledger["release_artifacts"]["v5.5.0-rc1_tag_created"] is True
+            assert ledger["release_artifacts"]["github_prerelease_created"] is True
     else:
         assert rows[60][0] == "LOCKED"
         assert ledger["release_status"] == "NOT_ACCEPTED"

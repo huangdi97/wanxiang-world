@@ -18,15 +18,21 @@ Milestones: **M0** (after 00A+00B), **M1** (after 01F).
 Stop condition: M1 PASS with reproducible evidence; do NOT start G02/Living World
 Substrate or any later phase in this batch.
 
+## v5.5 G97I final release (2026-08-27)
+
+Gates 1–59 are accepted and Gate 60 is `ACCEPTED_FOR_RC`. Annotated
+`v5.5.0-rc1` and its GitHub prerelease are published from the verified
+`50443c8f7cc58fc4661af2a7d993dc7ec6144e11` release commit. Final evidence is
+in `reports/V55_FINAL_RELEASE_REPORT.md`. Do not start v5.6 or train a model.
+
 ## v5.5 M94 closure reconciliation (2026-08-27)
 
 The M84 same-source first-book requalification is accepted and reconciled with
-the preserved historical pre-repair report. G97I evidence now accepts Gates
-1–59, including remote SHA `545b582e...` and green Actions run 33084155295;
-Gate 60 is unlocked. Continue only with annotated rc1 tag and prerelease
-publication plus final verification. Do not alter v5.4 stable history, the
-historical NOT_ACCEPTED report, thresholds, or the source; do not start v5.6
-or train a model.
+the preserved historical pre-repair report. G97I evidence accepted Gates 1–59,
+verified remote SHA and green Actions, then published rc1. The final release
+report is authoritative for delivery details. Do not alter v5.4 stable
+history, the historical NOT_ACCEPTED report, thresholds, or the source; do not
+start v5.6 or train a model.
 
 ## v5.5 M92 continuation (2026-08-27)
 

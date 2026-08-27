@@ -1,9 +1,9 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G97I final delivery preflight: **ACCEPTED_FOR_RC**. Gates 1–59 are
-accepted from current evidence, including verified remote SHA and required
-Actions; Gate 60 is unlocked for rc1 publication. This ledger is frozen for
-the v5.5 run; thresholds may not be lowered to obtain a release.
+Status at G97I final release: **ACCEPTED**. Gates 1–59 are accepted from
+current evidence, including verified remote SHA and required Actions; Gate 60
+is `ACCEPTED_FOR_RC` and v5.5.0-rc1 is published as a prerelease. This ledger
+is frozen for the v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
 |---:|---|---|---|
@@ -62,16 +62,16 @@ the v5.5 run; thresholds may not be lowered to obtain a release.
 | 53 | v5.4 critical regression | ACCEPTED | M88 final regression: 1296 passed, 1 skipped, 2 warnings; PostgreSQL skip is documented external profile |
 | 54 | Full Python/TypeScript quality | ACCEPTED | M88 Ruff/Pyright/Kernel/architecture gates pass; SDK and TypeScript baselines remain stable |
 | 55 | Clean clone | ACCEPTED | G97G clean clone install, migration, 1455 Python tests, TypeScript tests/build, and product smokes |
-| 56 | Remote SHA equals local HEAD | ACCEPTED | remote feature branch SHA equals local HEAD 545b582efc4719c5acc2efa07c27a603f4c5c467 |
-| 57 | Required GitHub Actions | ACCEPTED | GitHub Actions run 33084155295; all six required jobs completed success |
+| 56 | Remote SHA equals local HEAD | ACCEPTED | release-target feature-branch SHA equaled local HEAD 50443c8f7cc58fc4661af2a7d993dc7ec6144e11 before tag publication |
+| 57 | Required GitHub Actions | ACCEPTED | release-target Actions run 33085230406; all six required jobs completed success |
 | 58 | Working tree clean | ACCEPTED | G97G checkpoint commit leaves the feature worktree clean; verified by git status |
 | 59 | Evidence boundary separation | ACCEPTED | reports/V55_GATE59_EVIDENCE_BOUNDARY_RECONCILIATION.md; reports/G97I_FINAL_EVIDENCE.json |
-| 60 | Release gate / rc1 only if all ACCEPTED | UNLOCKED | Gates 1–59 all ACCEPTED; G97I final delivery preflight |
+| 60 | Release gate / rc1 only if all ACCEPTED | ACCEPTED_FOR_RC | Gates 1–59 all ACCEPTED; v5.5.0-rc1 tag and prerelease verified |
 
 Required release condition: Gates 1-59 must be ACCEPTED with real evidence;
 then and only then may G97H create annotated `v5.5.0-rc1` and a GitHub
-prerelease. Current preflight satisfies that predicate; tag and prerelease
-publication remain the only release actions.
+prerelease. Current final release satisfies that predicate; tag and prerelease
+publication are verified in `reports/V55_FINAL_RELEASE_REPORT.md`.
 
 ## Latest checkpoint — G97I reconciliation / M94 (2026-08-27)
 
@@ -90,6 +90,14 @@ without force and its remote SHA equals local HEAD
 completed successfully with all six required jobs green. Gates 56 and 57 are
 accepted and all Gates 1–59 are now accepted; Gate 60 is `UNLOCKED`. No rc1
 tag or prerelease has been created yet.
+
+## Latest checkpoint — G97I final release / M94 (2026-08-27)
+
+All Gates 1–59 are `ACCEPTED` and Gate 60 is `ACCEPTED_FOR_RC`. Annotated tag
+`v5.5.0-rc1` points to `50443c8f7cc58fc4661af2a7d993dc7ec6144e11`; the GitHub
+prerelease is published, and Actions run `33085230406` is green across all six
+required jobs. Final release evidence is in
+`reports/V55_FINAL_RELEASE_REPORT.md`.
 
 ## Latest checkpoint — G97I / M94 (2026-08-27)
 
