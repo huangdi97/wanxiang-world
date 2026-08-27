@@ -71,6 +71,15 @@ the reason and exposing no write path. No external runtime is available, so no
 engine E2E is claimed. G96G-G97J and the remaining M93-M94 gates remain
 pending; v5.5 remains IN_PROGRESS / NOT_ACCEPTED.
 
+## v5.5 M93 continuation — G96G (2026-08-27)
+
+G96G is PASS and committed as `g96g: Projection/Reality Consistency`. Visual and physical provider
+outputs are now compared with immutable canonical read models for provenance,
+revision, state-hash, and reference consistency. Stale/divergent outputs only
+produce typed reconciliation actions with an empty `ProposedWorldDelta`; a
+fresh SQLite product-chain probe remains unchanged. G96H-G97J and the remaining
+M93-M94 gates remain pending; v5.5 remains IN_PROGRESS / NOT_ACCEPTED.
+
 ## v5.5 M93 continuation — G96E (2026-08-27)
 
 G96E is PASS and committed as `g96e: Reference Visual Projection Provider`.

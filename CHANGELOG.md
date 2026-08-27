@@ -1,5 +1,13 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-27 - G96G Projection/Reality Consistency
+
+- Added versioned consistency results for visual projections and physical
+  resolutions, including provenance, revision, state-hash, and reference
+  divergence checks.
+- Added proposal-only reconciliation actions; stale or divergent provider
+  output carries an empty `ProposedWorldDelta` and cannot become world fact.
+
 ## 2026-08-27 - G96F External Engine Adapter Audit
 
 - Added typed external-engine capability discovery with explicit

@@ -37,6 +37,14 @@ from wanxiang_substrate.world_lab.comparison_models import (
     TrajectoryPoint,
     WorldlineMeasurement,
 )
+from wanxiang_substrate.world_lab.consistency_models import (
+    REALITY_CONSISTENCY_SCHEMA_VERSION,
+    RealityConsistencyResult,
+    RealityConsistencyStatus,
+    RealityOutputKind,
+    RealityReconciliationProposal,
+    ReconciliationAction,
+)
 from wanxiang_substrate.world_lab.external_engine import (
     EXTERNAL_ENGINE_SCHEMA_VERSION,
     BlockedExternalEngineAdapter,
@@ -92,6 +100,7 @@ from wanxiang_substrate.world_lab.qualification_models import (
     QualificationCheck,
     QualificationStatus,
 )
+from wanxiang_substrate.world_lab.reality_consistency import RealityConsistencyChecker
 from wanxiang_substrate.world_lab.reference_physical import ReferencePhysicalProvider
 from wanxiang_substrate.world_lab.reference_visual import ReferenceVisualProvider
 from wanxiang_substrate.world_lab.registry import ExperimentRegistry
@@ -143,12 +152,19 @@ __all__ = [
     "BatchRunResult",
     "BatchWorldlineExecutor",
     "COMPARISON_SCHEMA_VERSION",
+    "REALITY_CONSISTENCY_SCHEMA_VERSION",
     "BlockedExternalEngineAdapter",
     "EXTERNAL_ENGINE_SCHEMA_VERSION",
     "ExternalEngineAdapter",
     "ExternalEngineAvailability",
     "ExternalEngineCapability",
     "ExternalEngineKind",
+    "RealityConsistencyChecker",
+    "RealityConsistencyResult",
+    "RealityConsistencyStatus",
+    "RealityOutputKind",
+    "RealityReconciliationProposal",
+    "ReconciliationAction",
     "LabWorldlineComparison",
     "METRIC_CATEGORIES",
     "CategoryComparison",

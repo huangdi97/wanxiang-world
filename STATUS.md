@@ -1431,3 +1431,15 @@ credentialed engine is provisioned. The blocked adapter is discovery-only and
 cannot write reality; a fresh SQLite probe stayed unchanged. Gate 50 remains
 ACCEPTED; G96G-G97J, M93-M94, and the remaining release gates remain pending.
 v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**. Evidence: `reports/G96F_REPORT.md`.
+
+## v5.5 G96G / M93 checkpoint (2026-08-27)
+
+G96G PASS and committed as `g96g: Projection/Reality Consistency`.
+`RealityConsistencyChecker` compares
+visual frames and physical resolutions with immutable canonical read models;
+stale revisions, state-hash/reference divergence, rejected outputs, and
+unknown projected references are explicitly reported. Reconciliation remains
+proposal-only with an empty `ProposedWorldDelta`, and a fresh SQLite product
+chain stayed unchanged. Gate 50 remains ACCEPTED; G96H-G97J, M93-M94, and the
+remaining release gates remain pending. v5.5 remains **IN_PROGRESS /
+NOT_ACCEPTED**. Evidence: `reports/G96G_REPORT.md`.
