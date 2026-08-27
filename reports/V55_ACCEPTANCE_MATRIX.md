@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G97C: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G97D: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -45,7 +45,7 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 38 | WorldRunArtifact re-verification | ACCEPTED | G95A artifact unit + real private-source product-chain round-trip/tamper evidence |
 | 39 | Recoverable Experiment Registry | ACCEPTED | G95B versioned definition/run records, atomic claim, revision guard, recovery and snapshot round-trip |
 | 40 | Fork/intervention parent isolation | ACCEPTED | G95C explicit snapshot/event fork, append-only intervention ledger, child replay resume, and real private-source parent-isolation evidence |
-| 41 | Four or more parallel worldlines | PENDING | — |
+| 41 | Four or more parallel worldlines | ACCEPTED | G97D four concurrent isolated SQLite worldlines, 2 seeds × 2 explicit provider policies, complete RunArtifacts, replay equality, and aligned five-plane comparator |
 | 42 | Multi-provider/policy or mixed population | ACCEPTED | G95E deterministic assignment + same-input mixed-population product-chain evidence |
 | 43 | Worldline trajectory/cost comparator | ACCEPTED | G95F complete five-plane alignment, all-key diffs, and sanitized API/visual real-chain evidence |
 | 44 | ValidationProfile V0-V7, unknown != pass | ACCEPTED | G95G independent profile/report/stack, real private-source chain, and V7 UNKNOWN non-acceptance evidence |
@@ -69,6 +69,21 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 Required release condition: Gates 1-59 must be ACCEPTED with real evidence;
 then and only then may G97H create annotated `v5.5.0-rc1` and a GitHub
 prerelease. Otherwise the final status remains `NOT_ACCEPTED`.
+
+## Latest checkpoint — G97D / M94 (2026-08-27)
+
+G97D PASS. Four registry-backed worldlines ran concurrently through the same
+source-created `WorldPackage` and isolated SQLite
+`Preview → PlayableService → Commit Authority → Snapshot/Replay` product
+chain. The batch used seeds 9704/9705 and two explicit multi-provider policies;
+four distinct worker threads reached a shared barrier, all four artifacts were
+hash-verifiable and replay-equal, provider output remained proposal-only, and
+the aligned Actor/Relation/Institution/Macro/Cost comparator retained nonzero
+differences. Gate 41 is now **ACCEPTED**. This is a bounded engineering/lab
+qualification, not a scientific or universal-world claim. The original
+real-book `NOT_ACCEPTED` boundary and all remaining release gates remain in
+force; v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**. Evidence:
+`reports/G97D_REPORT.md`.
 
 ## Latest checkpoint — G97C / M94 (2026-08-27)
 

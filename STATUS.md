@@ -1,6 +1,23 @@
 # Status ? Wanxiang Engineering Program
 
-Updated: 2026-08-27 (G95H / M92 checkpoint)
+Updated: 2026-08-27 (G97D / M94 checkpoint)
+
+## v5.5 G97D / M94 checkpoint (2026-08-27)
+
+G97D is PASS and committed as `g97d: Parallel Worldline Certification`.
+Four registry-backed runs traversed the same source-created WorldPackage and
+isolated SQLite Preview → PlayableService → Commit Authority → Snapshot/Replay
+chain concurrently with `max_parallelism=4`. The 2-seed × 2-explicit-policy
+batch reached one shared initial-state hash, produced at least two final-state
+hashes, and recorded two proposal-only provider invocations per run. All four
+RunArtifacts contain package/scenario/provider/seed/control/commit/snapshot/
+branch/trajectory/validation/metric/privacy evidence and verify their hashes;
+all four replay to the committed semantic hash. The five-plane comparator is
+aligned and qualified with retained differences. Gate 41 is ACCEPTED. This is
+bounded engineering/lab evidence only; the original 323,815-character
+real-book `NOT_ACCEPTED` blocker remains unchanged. G97E-G97J and the remaining
+M94 release gates are pending; v5.5 remains `IN_PROGRESS / NOT_ACCEPTED`.
+Evidence: `reports/G97D_REPORT.md`.
 
 ## v5.5 G97C / M94 checkpoint (2026-08-27)
 

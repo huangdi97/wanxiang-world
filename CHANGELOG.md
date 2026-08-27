@@ -1,5 +1,16 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-27 - G97D Parallel Worldline Certification
+
+- Qualified four concurrent registry-backed worldlines through the same
+  source-created WorldPackage → Preview → PlayableService → SQLite
+  Commit Authority → Snapshot/Replay chain.
+- Recorded two deterministic explicit multi-provider policies across two seeds,
+  complete hash-verifiable RunArtifacts, proposal-only provider evidence, and
+  aligned five-plane comparator differences.
+- Accepted Gate 41 while preserving the original real-book NOT_ACCEPTED
+  boundary; no v5.5 rc1, v5.6 work, model training, or private-source export.
+
 ## 2026-08-27 - G97C Non-literary Long-run Certification
 
 - Qualified a public GEDCOM family world through the shared

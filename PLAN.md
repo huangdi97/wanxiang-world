@@ -124,6 +124,20 @@ G97B; the original real-book NOT_ACCEPTED boundary is unchanged. G97D-G97J
 and the remaining M94 gates remain pending; v5.5 remains IN_PROGRESS /
 NOT_ACCEPTED.
 
+## v5.5 M94 continuation — G97D (2026-08-27)
+
+G97D is PASS and committed as `g97d: Parallel Worldline Certification`.
+Four registry-backed worldlines ran concurrently through the same
+source-created WorldPackage and isolated SQLite Preview → PlayableService →
+Commit Authority → Snapshot/Replay chain. Two seeds and two explicit
+multi-provider policies produced four complete hash-verifiable RunArtifacts;
+provider output remained proposal-only and the aligned five-plane comparator
+retained policy/seed differences. Gate 41 is now ACCEPTED. This is bounded
+engineering/lab evidence, not a scientific or universal-world claim. The
+original real-book NOT_ACCEPTED boundary is unchanged. G97E-G97J and the
+remaining M94 release gates remain pending; v5.5 remains IN_PROGRESS /
+NOT_ACCEPTED.
+
 ## v5.5 M93 continuation — G96E (2026-08-27)
 
 G96E is PASS and committed as `g96e: Reference Visual Projection Provider`.
