@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G97G: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G97H: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -69,6 +69,16 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 Required release condition: Gates 1-59 must be ACCEPTED with real evidence;
 then and only then may G97H create annotated `v5.5.0-rc1` and a GitHub
 prerelease. Otherwise the final status remains `NOT_ACCEPTED`.
+
+## Latest checkpoint — G97H / M94 (2026-08-27)
+
+G97H release preflight is **NOT_ACCEPTED** and the release gate remains
+LOCKED. Gates 1, 32, 56, 57, and 59 are still PENDING, so the required
+all-Gates-1–59 predicate is false. No annotated `v5.5.0-rc1` tag or GitHub
+prerelease was created; existing v5.4 stable history was not rewritten. The
+remote push remains blocked by the execution environment's external-write
+safety review, and the original real-book `NOT_ACCEPTED` boundary remains
+preserved. Evidence: `reports/G97H_REPORT.md`.
 
 ## Latest checkpoint — G97G / M94 (2026-08-27)
 
