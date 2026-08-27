@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G97D: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G97E: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -55,7 +55,7 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 48 | Reference visual projection E2E | ACCEPTED | G96E deterministic structured-scene actor-frame product chain |
 | 49 | Multi-perspective privacy isolation | ACCEPTED | G96C actor-specific audience, rights, occlusion, and event-ref filtering |
 | 50 | Provider output cannot write reality | ACCEPTED | G96A/G96B/G96F/G96G/G96H proposal/projection-only contracts + unchanged SQLite reality |
-| 51 | Browser Experience/Studio E2E | PENDING | — |
+| 51 | Browser Experience/Studio E2E | ACCEPTED | G97E real Chromium/Playwright served Studio UI over migrated SQLite WorldRuntime, Workshop private profile, Plaza privacy, Character/Play/StateDiff/Leave/Continue |
 | 52 | Security/private-source/UGC scan | PENDING | — |
 | 53 | v5.4 critical regression | ACCEPTED | M88 final regression: 1296 passed, 1 skipped, 2 warnings; PostgreSQL skip is documented external profile |
 | 54 | Full Python/TypeScript quality | ACCEPTED | M88 Ruff/Pyright/Kernel/architecture gates pass; SDK and TypeScript baselines remain stable |
@@ -69,6 +69,20 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 Required release condition: Gates 1-59 must be ACCEPTED with real evidence;
 then and only then may G97H create annotated `v5.5.0-rc1` and a GitHub
 prerelease. Otherwise the final status remains `NOT_ACCEPTED`.
+
+## Latest checkpoint — G97E / M94 (2026-08-27)
+
+G97E PASS. A real Chromium Playwright browser drove the served Studio UI and
+same-origin API over a migrated SQLite WorldRuntime: one-click
+authoring/draft/build/preview/publish, Workshop source/private profile, Plaza
+owner-vs-guest visibility, Character creation, embodiment entry, Free Action,
+committed StateDiff, Leave, and Continue. The same instance and post-commit
+state hash were retained after Continue; source text was absent from the
+serialized response evidence. Gate 51 is now **ACCEPTED**. This is product and
+authorization evidence only, not scientific validity or original-book
+acceptance. The original real-book `NOT_ACCEPTED` boundary and remaining
+release gates remain in force; v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**.
+Evidence: `reports/G97E_REPORT.md`.
 
 ## Latest checkpoint — G97D / M94 (2026-08-27)
 

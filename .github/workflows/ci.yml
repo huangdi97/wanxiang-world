@@ -48,6 +48,8 @@ jobs:
           python-version: "3.12"
       - name: Install dependencies
         run: uv sync --all-groups --all-packages
+      - name: Install Chromium for browser product E2E
+        run: uv run playwright install --with-deps chromium
       - name: Lint
         run: uv run ruff check .
       - name: Format check
@@ -157,8 +159,6 @@ jobs:
       - name: Clean-room certification
         run: uv run python scripts/clean_room_certify.py
 
-# Note: Playwright browser E2E is NOT_APPLICABLE for this repository today
-# (no Playwright config / e2e suite exists). The repository's full interactive
-# surface is covered by FastAPI TestClient integration tests (pytest) and the
-# TypeScript SDK Vitest suite.
+# Browser product E2E runs in the Python job after installing Chromium. The
+# test drives the served Studio UI and its shared API/Playable backend.
 

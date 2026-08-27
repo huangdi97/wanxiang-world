@@ -1,6 +1,20 @@
 # Status ? Wanxiang Engineering Program
 
-Updated: 2026-08-27 (G97D / M94 checkpoint)
+Updated: 2026-08-27 (G97E / M94 checkpoint)
+
+## v5.5 G97E / M94 checkpoint (2026-08-27)
+
+G97E is PASS and committed as `g97e: Experience Product E2E`. A real
+Chromium/Playwright browser drove the served Studio UI and same-origin API over
+a migrated SQLite WorldRuntime. The flow completed one-click
+authoring/draft/build/preview/publish, Workshop source/private profile, Plaza
+owner-vs-guest privacy, Character creation, embodiment entry, Free Action with
+committed StateDiff, Leave, and Continue with the same instance and state hash.
+The browser test and full quality passed; CI now installs the locked Chromium
+runtime for this gate. Gate 51 is ACCEPTED. The original 323,815-character
+real-book `NOT_ACCEPTED` blocker remains unchanged. G97F-G97J and the remaining
+M94 release gates are pending; v5.5 remains `IN_PROGRESS / NOT_ACCEPTED`.
+Evidence: `reports/G97E_REPORT.md`.
 
 ## v5.5 G97D / M94 checkpoint (2026-08-27)
 

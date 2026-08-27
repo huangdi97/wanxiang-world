@@ -1,5 +1,16 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-27 - G97E Experience Product E2E
+
+- Added a real Chromium/Playwright browser qualification over the served
+  Studio UI and migrated SQLite WorldRuntime.
+- Covered Studio authoring/build/preview/publish, Workshop private profile,
+  Plaza privacy, Character/Play/StateDiff/Leave/Continue, and same-instance
+  continuity through the browser/API product surface.
+- Accepted Gate 51 while preserving the original real-book NOT_ACCEPTED
+  boundary; CI installs the locked browser runtime and no model training or
+  v5.6 work was started.
+
 ## 2026-08-27 - G97D Parallel Worldline Certification
 
 - Qualified four concurrent registry-backed worldlines through the same

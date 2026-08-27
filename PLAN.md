@@ -138,6 +138,17 @@ original real-book NOT_ACCEPTED boundary is unchanged. G97E-G97J and the
 remaining M94 release gates remain pending; v5.5 remains IN_PROGRESS /
 NOT_ACCEPTED.
 
+## v5.5 M94 continuation — G97E (2026-08-27)
+
+G97E is PASS and committed as `g97e: Experience Product E2E`. A real
+Chromium/Playwright browser drove the served Studio UI and same-origin API over
+a migrated SQLite WorldRuntime through authoring, draft/build/preview/publish,
+Workshop source/private profile, Plaza privacy, Character, embodiment entry,
+Free Action/StateDiff, Leave, and Continue. Gate 51 is now ACCEPTED. The
+original real-book NOT_ACCEPTED boundary is unchanged; G97F-G97J and the
+remaining M94 release gates remain pending; v5.5 remains IN_PROGRESS /
+NOT_ACCEPTED.
+
 ## v5.5 M93 continuation — G96E (2026-08-27)
 
 G96E is PASS and committed as `g96e: Reference Visual Projection Provider`.
