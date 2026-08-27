@@ -1,5 +1,14 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-27 - G97C Non-literary Long-run Certification
+
+- Qualified a public GEDCOM family world through the shared
+  OneClickAuthoring → WorldPackage → Preview → PlayableService → SQLite
+  runtime substrate for 30 accelerated days.
+- Verified the same checkpoint/recovery, replay, branch isolation, LOD,
+  compaction, cost, and storage controls without a literary-specific runtime
+  path; preserved the original real-book NOT_ACCEPTED boundary.
+
 ## 2026-08-27 - G97B Literary 30d/90d Certification
 
 - Added explicit required-horizon semantics so a selected run must provide its

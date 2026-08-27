@@ -111,6 +111,19 @@ original 323,815-character real book, so its separate NOT_ACCEPTED boundary is
 unchanged. G97C-G97J and the remaining M94 gates remain pending; v5.5 remains
 IN_PROGRESS / NOT_ACCEPTED.
 
+## v5.5 M94 continuation — G97C (2026-08-27)
+
+G97C is PASS and committed as `g97c: Non-literary Long-run Certification`.
+A public GEDCOM family world used the shared `family` authoring profile and
+the same WorldPackage → Preview → PlayableService → SQLite WorldRuntime path
+for 30 accelerated days / 3,000 world ticks. It produced 160 main-branch
+events, 30 checkpoints, replay/recovery equality, branch isolation,
+reference-only compaction, L0/L3/L4 LOD, and measured cost/storage evidence.
+No literary-specific runtime path was used. Gate 24 remains accepted from
+G97B; the original real-book NOT_ACCEPTED boundary is unchanged. G97D-G97J
+and the remaining M94 gates remain pending; v5.5 remains IN_PROGRESS /
+NOT_ACCEPTED.
+
 ## v5.5 M93 continuation — G96E (2026-08-27)
 
 G96E is PASS and committed as `g96e: Reference Visual Projection Provider`.

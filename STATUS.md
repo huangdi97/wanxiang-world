@@ -2,6 +2,22 @@
 
 Updated: 2026-08-27 (G95H / M92 checkpoint)
 
+## v5.5 G97C / M94 checkpoint (2026-08-27)
+
+G97C is PASS and committed as `g97c: Non-literary Long-run Certification`.
+A public GEDCOM family source ran through the existing `family` profile and
+the same OneClickAuthoring → WorldPackage → Preview → PlayableService → real
+SQLite WorldRuntime chain for 30 accelerated days / 3,000 ticks. The selected
+actors produced 160 main-branch events, 30 checkpoints, 30 actor-local
+memories each, L0/L3/L4 LOD transitions, storage growth from 2,542 to 33,401
+bytes, and replay/recovery equality. Branch isolation, cursor resume,
+crash-safe checkpoint publication, and reference-only compaction passed. The
+test has no literary-specific runtime path. Gate 24 remains ACCEPTED from
+G97B; the original 323,815-character real-book `NOT_ACCEPTED` blocker remains
+unchanged. G97D-G97J and the remaining M94 release gates are pending; v5.5
+remains `IN_PROGRESS / NOT_ACCEPTED`. Evidence:
+`reports/G97C_REPORT.md`.
+
 ## v5.5 G97B / M94 checkpoint (2026-08-27)
 
 G97B is PASS and committed as `g97b: Literary 30d/90d Certification`. A

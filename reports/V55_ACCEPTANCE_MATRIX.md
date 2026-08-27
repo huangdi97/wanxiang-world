@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G97B: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G97C: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -69,6 +69,23 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 Required release condition: Gates 1-59 must be ACCEPTED with real evidence;
 then and only then may G97H create annotated `v5.5.0-rc1` and a GitHub
 prerelease. Otherwise the final status remains `NOT_ACCEPTED`.
+
+## Latest checkpoint — G97C / M94 (2026-08-27)
+
+G97C PASS. A public GEDCOM family source used `OneClickAuthoring` with the
+`family` profile and traversed the same WorldPackage → Preview →
+PlayableService → real SQLite WorldRuntime path as the literary run. The shared
+long-horizon substrate completed 30d / 3,000 ticks with 160 main-branch
+events, 30 checkpoints, two selected actors with 30 memories each, L0/L3/L4
+LOD transitions, measured storage growth from 2,542 to 33,401 bytes, and
+replay/recovery equality. Parent/child branch isolation, cursor resume,
+crash-safe checkpoint publication, and reference-only compaction passed. The
+test contains no book profile or literary-specific runtime path; the existing
+family/structured adapter and the same Commit Authority are exercised. Gate 24
+remains accepted from G97B; G97D-G97J and the remaining release gates remain
+pending. This generality qualification does not alter the original real-book
+`NOT_ACCEPTED` boundary. v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**.
+Evidence: `reports/G97C_REPORT.md`.
 
 ## Latest checkpoint — G97B / M94 (2026-08-27)
 
