@@ -1,5 +1,13 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-27 - G96B VisualWorldProvider ABI
+
+- Added immutable scene state, actor perspective, asset/event references, and
+  sanitized projection-frame contracts with schema and projection-hash
+  verification.
+- Added a visual provider health/projection protocol and SQLite product-chain
+  evidence showing projection output cannot mutate canonical reality.
+
 ## 2026-08-27 - G96A PhysicalWorldProvider ABI
 
 - Added the versioned physical provider boundary: immutable read snapshots,

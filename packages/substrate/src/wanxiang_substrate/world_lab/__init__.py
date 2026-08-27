@@ -101,6 +101,21 @@ from wanxiang_substrate.world_lab.validation_models import (
     ValidationStatus,
 )
 from wanxiang_substrate.world_lab.validation_stack import ValidationStack
+from wanxiang_substrate.world_lab.visual_models import (
+    VISUAL_PROVIDER_SCHEMA_VERSION,
+    ActorPerspective,
+    VisualActorPerspective,
+    VisualSceneObject,
+    VisualSceneState,
+)
+from wanxiang_substrate.world_lab.visual_outputs import (
+    VisualProjectedObject,
+    VisualProjectionFrame,
+    VisualProjectionStatus,
+    VisualProviderHealth,
+    VisualProviderStatus,
+)
+from wanxiang_substrate.world_lab.visual_provider import VisualWorldProvider
 
 __all__ = [
     "ARTIFACT_SCHEMA_VERSION",
@@ -175,4 +190,15 @@ __all__ = [
     "ValidationReport",
     "ValidationStack",
     "ValidationStatus",
+    "VISUAL_PROVIDER_SCHEMA_VERSION",
+    "ActorPerspective",
+    "VisualActorPerspective",
+    "VisualProjectedObject",
+    "VisualProjectionFrame",
+    "VisualProjectionStatus",
+    "VisualProviderHealth",
+    "VisualProviderStatus",
+    "VisualSceneObject",
+    "VisualSceneState",
+    "VisualWorldProvider",
 ]

@@ -49,13 +49,13 @@ def test_budget_script_runs_and_hard_invariants_hold() -> None:
 def test_budget_counts_are_stable() -> None:
     _run()
     budget = _load()
-    # Current v5.5 G96A/M93 snapshot anchors; the M26-M93 history remains in
+    # Current v5.5 G96B/M93 snapshot anchors; the M26-M93 history remains in
     # the ledger and these counts include the accepted v5.5 projection/product
     # additions.
     assert budget["registry_classes"] == 17
     assert budget["service_classes"] == 25
     assert budget["engine_classes"] == 5
-    assert budget["ports"] == 42
+    assert budget["ports"] == 43
     loc = budget["production_loc"]
     files = budget["production_files"]
     assert isinstance(loc, int) and loc > 0

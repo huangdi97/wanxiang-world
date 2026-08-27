@@ -1378,3 +1378,15 @@ ABI through a protocol-conforming probe with unchanged canonical hash and event
 history. G96B-G97J, M93-M94, and the remaining release gates remain pending;
 v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**. Evidence:
 `reports/G96A_REPORT.md`.
+
+## v5.5 G96B / M93 checkpoint (2026-08-27)
+
+G96B PASS and committed as `g96b: VisualWorldProvider ABI`. The visual bridge
+now carries immutable snapshot-pinned scene state, actor perspective policy,
+content-addressed asset refs, committed event refs, and sanitized
+projection-only frames with deterministic hashes. A fresh SQLite runtime
+projection probe kept canonical state and event history unchanged; audience
+and rights policy did not leak into frame objects. Gates 46 and 50 are
+ACCEPTED; G96C-G97J, M93-M94, and the remaining release gates remain pending.
+v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**. Evidence:
+`reports/G96B_REPORT.md`.
