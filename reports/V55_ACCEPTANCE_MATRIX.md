@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G97A: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G97B: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -28,11 +28,11 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 21 | 24-hour smoke | ACCEPTED | G92G real SQLite accelerated 24h reference with checkpoint/replay/recovery |
 | 22 | 7-day runtime | ACCEPTED | G92G real SQLite accelerated 7d multi-actor run with daily checkpoint/replay/storage evidence |
 | 23 | 30-day literary run | ACCEPTED | G92H real SQLite source-created literary world, 30d / 3,000 ticks, two actors, replay/recovery equality |
-| 24 | 90-day selected-world run | PENDING | — |
-| 25 | Checkpoint/resume/crash recovery | ACCEPTED | G92H 30 successful run checkpoints, exact cursor resume, restart hash equality, and atomic crash probe |
-| 26 | Compaction replay equality | ACCEPTED | G92H reference-only compaction with 155-event source count, 12 memory-summary refs, and equal golden hash |
-| 27 | LOD transition continuity | ACCEPTED | G92H source actors retain state/memory refs across observed L0/L3/L4 transitions |
-| 28 | Cost/storage/memory quantification | ACCEPTED | G92H 1,832→31,968 serialized bytes, 60 actor memories, 150 world calls, 30,136 charged storage bytes |
+| 24 | 90-day selected-world run | ACCEPTED | G97B source-created literary world, 90d / 9,000 ticks, four measured horizon samples, replay/recovery equality |
+| 25 | Checkpoint/resume/crash recovery | ACCEPTED | G92H and G97B successful checkpoints, exact cursor resume, restart hash equality, and atomic crash probes |
+| 26 | Compaction replay equality | ACCEPTED | G92H and G97B reference-only compaction with equal golden hashes and retained event/memory refs |
+| 27 | LOD transition continuity | ACCEPTED | G92H/G97B source actors retain state/memory refs across observed L0/L3/L4 transitions |
+| 28 | Cost/storage/memory quantification | ACCEPTED | G97B 1,832→92,088 serialized bytes, 180 actor memories, 450 world calls, 90,256 charged storage bytes |
 | 29 | Evolution delta taxonomy separation | ACCEPTED | G93A typed six-kind records, provenance policy, no-generic-blob and real product-chain evidence |
 | 30 | 30-day Actor/Relationship/Organization evolution | ACCEPTED | G93H M90 30d qualification: 3,000 ticks, nonzero Actor/Relationship/Organization changes, source/package unchanged, append-only history and replay equality |
 | 31 | Evolution explainability/replay | ACCEPTED | G93G typed delta reason/source/event/trajectory explanation projection and real product-chain replay evidence |
@@ -69,6 +69,24 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 Required release condition: Gates 1-59 must be ACCEPTED with real evidence;
 then and only then may G97H create annotated `v5.5.0-rc1` and a GitHub
 prerelease. Otherwise the final status remains `NOT_ACCEPTED`.
+
+## Latest checkpoint — G97B / M94 (2026-08-27)
+
+G97B PASS. The current source-created literary qualification world traversed
+OneClickAuthoring → WorldPackage → Preview → PlayableService → real SQLite
+WorldRuntime and completed selected accelerated 24h/7d/30d/90d samples. The
+90d run reached 9,000 world ticks with 455 main-branch events, 90 runtime/run
+checkpoints, two source actors with 90 actor-local memories each, L0/L3/L4
+LOD transitions, and measured storage growth from 1,832 to 92,088 bytes. A
+child branch write was isolated from the parent; checkpoint cursor resume,
+crash publication rejection, SQLite restart/replay, and reference-only
+compaction all matched their recorded evidence. Actor persona and Relationship
+projection drift used committed-event refs and left canonical hash/event
+history unchanged. Gate 24 is now **ACCEPTED**. This qualification source is
+private and rights-approved but is not the original 2026-08-25 323,815-character
+book; that real-book NOT_ACCEPTED boundary remains unchanged. G97C-G97J and
+the remaining release gates remain pending; v5.5 remains **IN_PROGRESS /
+NOT_ACCEPTED**. Evidence: `reports/G97B_REPORT.md`.
 
 ## Latest checkpoint — G97A / M94 (2026-08-27)
 

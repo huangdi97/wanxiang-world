@@ -1,5 +1,18 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-27 - G97B Literary 30d/90d Certification
+
+- Added explicit required-horizon semantics so a selected run must provide its
+  declared 24h/7d/30d/90d samples before it can qualify.
+- Qualified a source-created literary world through the existing
+  OneClickAuthoring → WorldPackage → Preview → PlayableService → real SQLite
+  Commit Authority chain for 9,000 accelerated world ticks, with checkpoint,
+  recovery, replay, branch isolation, compaction, LOD, cost/storage, and
+  actor/relationship projection-drift evidence.
+- Accepted Gate 24 while preserving the original real-book NOT_ACCEPTED
+  evidence and the remaining M94 release gates; no v5.5 rc1 or v5.6 work was
+  started.
+
 ## 2026-08-27 - G97A Certification Matrix Freeze
 
 - Froze the 60-gate v5.5 certification matrix with explicit pending, inherited,

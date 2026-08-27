@@ -98,6 +98,19 @@ Known missing/blocked evidence remains visible, including the original real
 book acceptance blocker and the pending long-run/product/security/remote gates.
 G97B-G97J remain pending; v5.5 remains IN_PROGRESS / NOT_ACCEPTED.
 
+## v5.5 M94 continuation — G97B (2026-08-27)
+
+G97B is PASS and committed as `g97b: Literary 30d/90d Certification`. The
+source-created literary qualification world completed explicit 24h/7d/30d/90d
+samples through the real SQLite product chain, reaching 9,000 accelerated
+world ticks with 455 main-branch events, 90 checkpoints, replay/recovery
+equality, branch isolation, reference compaction, L0/L3/L4 LOD, measured
+cost/storage, and event-bound Actor persona plus Relationship projection
+drift. Gate 24 is accepted. The private qualification source is not the
+original 323,815-character real book, so its separate NOT_ACCEPTED boundary is
+unchanged. G97C-G97J and the remaining M94 gates remain pending; v5.5 remains
+IN_PROGRESS / NOT_ACCEPTED.
+
 ## v5.5 M93 continuation — G96E (2026-08-27)
 
 G96E is PASS and committed as `g96e: Reference Visual Projection Provider`.

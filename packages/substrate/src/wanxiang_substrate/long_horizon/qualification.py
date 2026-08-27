@@ -1,4 +1,4 @@
-"""Evidence ledger for accelerated 24h/7d long-horizon qualifications."""
+"""Evidence ledger for accelerated 24h/7d/30d/90d qualifications."""
 
 from __future__ import annotations
 
@@ -9,7 +9,8 @@ from typing import Literal
 from wanxiang_domain.errors import ContractError
 from wanxiang_runtime.state import InMemoryCanonicalState
 
-HorizonLabel = Literal["24h", "7d", "30d"]
+HorizonLabel = Literal["24h", "7d", "30d", "90d"]
+DEFAULT_REQUIRED_HORIZONS: tuple[HorizonLabel, ...] = ("24h", "7d")
 
 
 @dataclass(frozen=True, slots=True)
@@ -48,12 +49,13 @@ class HorizonQualificationReport:
     replay_recovery_equal: bool
     multiple_actor_evidence: bool
     storage_bytes_growth: int
+    required_labels: tuple[HorizonLabel, ...] = DEFAULT_REQUIRED_HORIZONS
 
     @property
     def qualified(self) -> bool:
         labels = {sample.label for sample in self.samples}
         return (
-            {"24h", "7d"}.issubset(labels)
+            set(self.required_labels).issubset(labels)
             and self.replay_recovery_equal
             and self.multiple_actor_evidence
             and self.storage_bytes_growth >= 0
@@ -66,6 +68,7 @@ class HorizonQualificationReport:
             "replay_recovery_equal": self.replay_recovery_equal,
             "multiple_actor_evidence": self.multiple_actor_evidence,
             "storage_bytes_growth": self.storage_bytes_growth,
+            "required_labels": list(self.required_labels),
             "samples": [
                 {
                     "label": sample.label,
@@ -87,7 +90,14 @@ class HorizonQualification:
     """Monotonic metric collector; it never claims scientific validity."""
 
     run_id: str
+    required_labels: tuple[HorizonLabel, ...] = DEFAULT_REQUIRED_HORIZONS
     _samples: list[HorizonSample] = field(default_factory=list[HorizonSample])
+
+    def __post_init__(self) -> None:
+        if not self.run_id.strip():
+            raise ContractError("qualification run_id must be non-empty")
+        if not self.required_labels or len(set(self.required_labels)) != len(self.required_labels):
+            raise ContractError("qualification required labels must be unique and non-empty")
 
     def record(self, sample: HorizonSample) -> None:
         if self._samples and sample.target_tick <= self._samples[-1].target_tick:
@@ -109,6 +119,7 @@ class HorizonQualification:
             replay_recovery_equal=all(item.replay_recovery_equal for item in self._samples),
             multiple_actor_evidence=len(set(last.actor_ids)) >= 2,
             storage_bytes_growth=last.storage_bytes - first.storage_bytes,
+            required_labels=self.required_labels,
         )
 
 
@@ -121,6 +132,7 @@ def state_storage_bytes(state: InMemoryCanonicalState) -> int:
 
 __all__ = [
     "HorizonLabel",
+    "DEFAULT_REQUIRED_HORIZONS",
     "HorizonQualification",
     "HorizonQualificationReport",
     "HorizonSample",

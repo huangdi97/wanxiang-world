@@ -2,6 +2,24 @@
 
 Updated: 2026-08-27 (G95H / M92 checkpoint)
 
+## v5.5 G97B / M94 checkpoint (2026-08-27)
+
+G97B is PASS and committed as `g97b: Literary 30d/90d Certification`. A
+private, rights-approved source-created literary world traversed the existing
+OneClickAuthoring → WorldPackage → Preview → PlayableService → real SQLite
+WorldRuntime path and completed explicit 24h/7d/30d/90d samples. The selected
+90d profile reached 9,000 world ticks, 455 main-branch events, 90 successful
+checkpoints, 90 actor-local memories per source actor, L0/L3/L4 transitions,
+and measured storage growth from 1,832 to 92,088 bytes. Parent/child branch
+isolation, cursor resume, crash-safe checkpoint publication, restart/replay,
+and reference-only compaction all passed. Actor persona and Relationship
+projection drift was derived from committed-event evidence and did not mutate
+canonical hash or event history. Gate 24 is ACCEPTED. This is not the original
+323,815-character real-book run; the original real-book `NOT_ACCEPTED` blocker
+remains unchanged. G97C-G97J and the remaining M94 release gates are pending;
+v5.5 remains `IN_PROGRESS / NOT_ACCEPTED`. Evidence:
+`reports/G97B_REPORT.md`.
+
 ## v5.5 G95H / M92 checkpoint (2026-08-27)
 
 G95H is PASS and is ready for the Goal checkpoint commit. The M92 World Lab
