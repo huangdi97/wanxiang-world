@@ -53,16 +53,45 @@
       "evidence": ["reports/G96F_REPORT.md", "reports/G97G_REPORT.md"]
     }
   ],
+  "accepted_current": [
+    {
+      "id": "first_book_source_to_living_world_requalification",
+      "scope": "same original private 323815-character Chinese source, requalified through the real CLI and API/Studio product chains",
+      "evidence": [
+        "reports/M84_FIRST_BOOK_REQUALIFICATION.md",
+        "artifacts/m79_m84/real_book_reacceptance_product_evidence.json",
+        "reports/V55_REAL_BOOK_EVIDENCE_LINEAGE.md"
+      ],
+      "measured": {
+        "raw_bytes": 937500,
+        "utf8_characters": 323815,
+        "candidates": 11549,
+        "coverage": 0.8333333333333334,
+        "worldness_overall": 0.9733333333333333,
+        "world_package": "world:wd_m84_original_book_cli_rerun",
+        "preview": "preview://preview_1",
+        "living_ready": true,
+        "commit_replay_branch_isolation": true
+      },
+      "source_unchanged": true,
+      "private_local_only": true,
+      "training": false
+    }
+  ],
   "not_proven": [
     {
-      "id": "original_real_book_acceptance",
-      "scope": "the preserved 2026-08-25 private 323815-character source record remains 0 candidates and coverage 0 under the rights-approved diagnostic",
-      "evidence": ["reports/REAL_BOOK_LIVING_WORLD_ACCEPTANCE_2026-08-25.md", "artifacts/real_book_living_world_acceptance_2026-08-25/api_rights_diagnostic.json"]
+      "id": "historical_original_real_book_pre_repair",
+      "scope": "the preserved 2026-08-25 pre-repair private 323815-character source record remains a historical NOT_ACCEPTED record with 0 candidates and coverage 0 under that diagnostic",
+      "evidence": [
+        "reports/REAL_BOOK_LIVING_WORLD_ACCEPTANCE_2026-08-25.md",
+        "artifacts/real_book_living_world_acceptance_2026-08-25/api_rights_diagnostic.json",
+        "reports/V55_REAL_BOOK_EVIDENCE_LINEAGE.md"
+      ]
     },
     {
       "id": "pending_release_gates",
-      "scope": "Gates 1, 32, 56, 57 and 59 are PENDING; Gate 60 is LOCKED",
-      "evidence": ["reports/V55_ACCEPTANCE_MATRIX.md", "reports/G97H_REPORT.md"]
+      "scope": "Gates 56 and 57 remain PENDING pending remote feature-branch and required Actions verification; Gate 60 is LOCKED",
+      "evidence": ["reports/V55_ACCEPTANCE_MATRIX.md", "reports/V55_GATE59_EVIDENCE_BOUNDARY_RECONCILIATION.md"]
     },
     {
       "id": "remote_sha_and_actions",
@@ -78,7 +107,7 @@
   "required_actions_remaining": [
     "obtain permitted remote feature-branch push and verify remote SHA",
     "verify all required GitHub Actions jobs green",
-    "resolve the remaining acceptance gates without changing protected source evidence"
+    "recompute Gates 1-59 and unlock the release gate only after both remote gates are accepted"
   ],
   "boundary_assertions": {
     "private_source_uploaded": false,

@@ -1,5 +1,14 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-27 - G97I Evidence Reconciliation
+
+- Reconciled the current M84 same-source first-book Source → Living World
+  acceptance with the preserved 2026-08-25 pre-repair NOT_ACCEPTED report.
+- Accepted Gates 1, 32, and 59 with current profile, source/canon immutability,
+  and evidence-boundary qualification artifacts.
+- Kept remote SHA/Actions Gates 56/57 pending and Gate 60 locked until real
+  delivery verification; did not alter v5.4 stable history or train a model.
+
 ## 2026-08-27 - G97J STOP
 
 - Stopped the v5.5 sequence with the release predicate honestly

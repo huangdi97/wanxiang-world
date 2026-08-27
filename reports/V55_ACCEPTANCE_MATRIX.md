@@ -1,11 +1,14 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G97J: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
-v5.5 run; thresholds may not be lowered to obtain a release.
+Status at G97I reconciliation: **IN_PROGRESS / NOT_ACCEPTED**. Gates 1, 32,
+and 59 are accepted from current evidence; only remote delivery Gates 56 and
+57 remain pending. Gate 60 is locked until Gates 1–59 are all accepted. This
+ledger is frozen for the v5.5 run; thresholds may not be lowered to obtain a
+release.
 
 | Gate | Area | Status | Evidence |
 |---:|---|---|---|
-| 1 | PlayableWorldProfile from v5.4 world | PENDING | — |
+| 1 | PlayableWorldProfile from v5.4 world | ACCEPTED | reports/V55_GATE1_RECONCILIATION.md; G88B + current profile tests |
 | 2 | Plaza / Continue / My Worlds / My Characters E2E | ACCEPTED | G88H API/CLI/Studio shared backend E2E |
 | 3 | Character / Observer / Embodiment permissions | ACCEPTED | G88E contracts + G88H embodied API path |
 | 4 | Free Action proposal-to-commit loop | ACCEPTED | G88H IntentCompiler → CommitAuthority |
@@ -36,7 +39,7 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 29 | Evolution delta taxonomy separation | ACCEPTED | G93A typed six-kind records, provenance policy, no-generic-blob and real product-chain evidence |
 | 30 | 30-day Actor/Relationship/Organization evolution | ACCEPTED | G93H M90 30d qualification: 3,000 ticks, nonzero Actor/Relationship/Organization changes, source/package unchanged, append-only history and replay equality |
 | 31 | Evolution explainability/replay | ACCEPTED | G93G typed delta reason/source/event/trajectory explanation projection and real product-chain replay evidence |
-| 32 | Source/canon immutability | PENDING | — |
+| 32 | Source/canon immutability | ACCEPTED | reports/V55_SOURCE_CANON_IMMUTABILITY_QUALIFICATION.md; artifacts/v55/source_canon_immutability.json |
 | 33 | Positive/negative pattern benchmark | ACCEPTED | G94H real positive/negative playable worlds with cross-window and same-window controls |
 | 34 | Evidence-backed emergence candidate | ACCEPTED | G94H three-window Norm→Institution→Ontology candidate and provenance |
 | 35 | High-level promotion review | ACCEPTED | G94H authorized review plus Constitution-gated ontology validation |
@@ -60,25 +63,24 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 53 | v5.4 critical regression | ACCEPTED | M88 final regression: 1296 passed, 1 skipped, 2 warnings; PostgreSQL skip is documented external profile |
 | 54 | Full Python/TypeScript quality | ACCEPTED | M88 Ruff/Pyright/Kernel/architecture gates pass; SDK and TypeScript baselines remain stable |
 | 55 | Clean clone | ACCEPTED | G97G clean clone install, migration, 1455 Python tests, TypeScript tests/build, and product smokes |
-| 56 | Remote SHA equals local HEAD | PENDING | v5.5 branch not pushed yet |
-| 57 | Required GitHub Actions | PENDING | v5.5 branch not pushed yet |
+| 56 | Remote SHA equals local HEAD | PENDING | v5.5 branch push and remote SHA verification remain |
+| 57 | Required GitHub Actions | PENDING | required Actions run on the pushed v5.5 branch remains |
 | 58 | Working tree clean | ACCEPTED | G97G checkpoint commit leaves the feature worktree clean; verified by git status |
-| 59 | Evidence boundary separation | PENDING | Final evidence goal |
+| 59 | Evidence boundary separation | ACCEPTED | reports/V55_GATE59_EVIDENCE_BOUNDARY_RECONCILIATION.md; reports/G97I_FINAL_EVIDENCE.json |
 | 60 | Release gate / rc1 only if all ACCEPTED | LOCKED | G97H/G97J |
 
 Required release condition: Gates 1-59 must be ACCEPTED with real evidence;
 then and only then may G97H create annotated `v5.5.0-rc1` and a GitHub
 prerelease. Otherwise the final status remains `NOT_ACCEPTED`.
 
-## Latest checkpoint — G97J / M94 (2026-08-27)
+## Latest checkpoint — G97I reconciliation / M94 (2026-08-27)
 
-G97J STOP. The all-Gates-1–59 release predicate remains false: Gates 1, 32,
-56, 57, and 59 are PENDING and Gate 60 is LOCKED. No `v5.5.0-rc1` tag or
-GitHub prerelease was created. G97G local evidence and G97I final evidence
-remain preserved; the original private real-book `NOT_ACCEPTED` report was
-not changed. The feature-branch push and remote/Actions verification remain
-blocked by the execution environment, so no v5.6 or model-training work may
-begin. Evidence: `reports/G97J_REPORT.md`.
+The current M84 same-source first-book requalification is accepted and the
+historical 2026-08-25 pre-repair `NOT_ACCEPTED` report remains unchanged.
+Gates 1, 32, and 59 are accepted; Gates 56 and 57 remain pending until the
+feature branch is pushed and required Actions are green. Gate 60 remains
+locked, so no `v5.5.0-rc1`, v5.6, or model-training work may begin. Evidence:
+`reports/G97I_REPORT.md`, `reports/V55_REAL_BOOK_EVIDENCE_LINEAGE.md`.
 
 ## Latest checkpoint — G97I / M94 (2026-08-27)
 

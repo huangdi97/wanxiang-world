@@ -1,6 +1,22 @@
 # Status ? Wanxiang Engineering Program
 
-Updated: 2026-08-27 (G97J / M94 checkpoint)
+Updated: 2026-08-27 (G97I evidence reconciliation)
+
+## v5.5 G97I evidence reconciliation (2026-08-27)
+
+The current M84 requalification accepts the same original private 937,500-byte
+/ 323,815-character source through the real CLI and API/Studio Source →
+Living World chains. It records 11,549 candidates, measured coverage
+0.8333333333333334, Worldness 0.9733333333333333, WorldPackage, Preview,
+Living Instance, Commit/Replay, and branch-isolation evidence. The historical
+2026-08-25 pre-repair NOT_ACCEPTED report remains unchanged and is explicitly
+time-scoped in `reports/V55_REAL_BOOK_EVIDENCE_LINEAGE.md`.
+
+Gates 1, 32, and 59 are now accepted with current evidence. Gates 56 and 57
+remain pending until the feature branch remote SHA and required Actions are
+verified; Gate 60 remains locked. No v5.5 rc1, v5.6, or model-training work is
+authorized by this checkpoint. Evidence: `reports/G97I_REPORT.md`,
+`reports/G97I_FINAL_EVIDENCE.json`.
 
 ## v5.5 G97J / M94 STOP (2026-08-27)
 

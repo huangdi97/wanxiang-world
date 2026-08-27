@@ -1,7 +1,7 @@
 # G97I — Final Evidence & Status
 
 Date: 2026-08-27  
-Status: NOT_ACCEPTED — final evidence complete, release remains locked
+Status: NOT_ACCEPTED — local evidence reconciled, remote release gates remain locked
 
 ## Evidence classification
 
@@ -9,7 +9,8 @@ Status: NOT_ACCEPTED — final evidence complete, release remains locked
 separates what is implemented and locally qualified from experimental
 engineering evidence and what is not proven. The evidence does not promote a
 synthetic/public/reference world into the preserved original private-book
-acceptance boundary.
+acceptance boundary. The current M84 same-source requalification is recorded
+separately from the historical pre-repair report.
 
 ### Implemented and locally qualified
 
@@ -31,14 +32,23 @@ are engineering evidence only. Worldness is not scientific validity. Heavy
 external engine/provider execution remains explicitly `EXTERNAL_BLOCKED` when
 not provisioned. No model was trained.
 
+### Current first-book acceptance
+
+The same original private 937,500-byte / 323,815-character source now has a
+current accepted Source → Living World record from M84. The real CLI and
+API/Studio chains produced 11,549 candidates, measured coverage
+`0.8333333333333334`, Worldness overall `0.9733333333333333`, a WorldPackage,
+Preview, published package, Living Instance, Commit/Replay, and branch
+isolation evidence. The source remained private and unchanged. See
+`reports/M84_FIRST_BOOK_REQUALIFICATION.md` and
+`reports/V55_REAL_BOOK_EVIDENCE_LINEAGE.md`.
+
 ### Not proven / not accepted
 
-- The preserved `reports/REAL_BOOK_LIVING_WORLD_ACCEPTANCE_2026-08-25.md`
-  remains the Source of Truth for the original private 323,815-character book:
-  the rights-approved diagnostic still records 0 candidates and coverage 0;
-  no WorldPackage, Preview, Worldness, Living Instance, Commit, or Replay
-  evidence is claimed for that record.
-- Gates 1, 32, 56, 57, and 59 remain `PENDING`; Gate 60 remains `LOCKED`.
+- The preserved `reports/REAL_BOOK_LIVING_WORLD_ACCEPTANCE_2026-08-25.md` is a
+  historical pre-repair `NOT_ACCEPTED` record and remains unchanged; it is not
+  overwritten by the current M84 requalification.
+- Gates 56 and 57 remain `PENDING`; Gate 60 remains `LOCKED`.
 - The feature-branch remote SHA and required GitHub Actions cannot be claimed
   because the required push was rejected by the execution environment's
   external-write safety review. No alternate transport or indirect write was
@@ -48,8 +58,9 @@ not provisioned. No model was trained.
 
 ## Final decision
 
-All final evidence is classified, but the required Gates 1–59 predicate is
-false. Therefore the v5.5 release status is **IN_PROGRESS / NOT_ACCEPTED**;
-no `v5.5.0-rc1` tag or GitHub prerelease may be created. Existing v5.4 stable
-history and the original real-book evidence are preserved. G97J must record
-this checkpoint and STOP without starting v5.6 or model training.
+All final evidence is classified and Gates 1, 32, and 59 are reconciled as
+accepted. The required Gates 1–59 predicate is still false because remote
+delivery Gates 56 and 57 are not yet verified. Therefore the v5.5 release
+status is **IN_PROGRESS / NOT_ACCEPTED**; no `v5.5.0-rc1` tag or GitHub
+prerelease may be created. Existing v5.4 stable history and the original
+real-book evidence are preserved. Do not start v5.6 or model training.

@@ -1,0 +1,46 @@
+{
+  "schema": "wanxiang.v5.5.source-canon-immutability.v1",
+  "qualification": "G97 closure / Gate 32 independent qualification",
+  "status": "ACCEPTED",
+  "source": {
+    "kind": "synthetic_private_qualification",
+    "payload_embedded": false,
+    "payload_unchanged": true,
+    "content_hash_unchanged": true
+  },
+  "product_chain": {
+    "source_to_world_package": true,
+    "world_package_id": "world:wd_job_v55_gate32",
+    "package_manifest_hash_stable": true,
+    "preview_playable_sqlite_commit": true,
+    "committed_event_count_before_derivation": 12,
+    "derived_candidate_count": 5
+  },
+  "derived_evidence": {
+    "pattern_detections": 3,
+    "norm_candidates": 3,
+    "institution_reviewed": true,
+    "ontology_reviewed": true,
+    "constitution_hash_unchanged": true,
+    "canonical_hash_unchanged_after_derivation": true,
+    "event_history_unchanged_after_derivation": true,
+    "replay_equal": true
+  },
+  "branch_isolation": {
+    "parent_history_unchanged": true,
+    "child_diverged": true,
+    "child_replay_equal": true
+  },
+  "cross_goal_evidence": {
+    "G93H": "reports/G93H_REPORT.md",
+    "G94A_G94H": "reports/G94H_REPORT.md",
+    "G97B": "reports/G97B_REPORT.md",
+    "G97C": "reports/G97C_REPORT.md"
+  },
+  "boundary": {
+    "commit_authority_only": true,
+    "provider_or_candidate_canonical_write": false,
+    "source_modified": false,
+    "raw_source_recorded": false
+  }
+}
