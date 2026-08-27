@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G95G: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G95H: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -69,6 +69,17 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 Required release condition: Gates 1-59 must be ACCEPTED with real evidence;
 then and only then may G97H create annotated `v5.5.0-rc1` and a GitHub
 prerelease. Otherwise the final status remains `NOT_ACCEPTED`.
+
+## Latest checkpoint — G95H / M92 (2026-08-27)
+
+G95H PASS. Evidence: `reports/G95H_REPORT.md` and
+`reports/M92_QUALIFICATION.md`; one real private literary source produced a
+four-worldline registry batch, typed intervention fork/resume, complete
+five-plane comparison, and sanitized hash-verifiable RunArtifacts through the
+existing WorldPackage → PlayableService → SQLite chain. M92 is PASS for this
+laboratory scope. Gate 41 remains pending because the real SQLite run was
+serial and does not prove four parallel worldlines; G96A-G97J and Gates 45-52,
+56-60 remain pending; release status remains **IN_PROGRESS / NOT_ACCEPTED**.
 
 ## Latest checkpoint — G95G (2026-08-27)
 

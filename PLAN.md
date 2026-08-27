@@ -29,8 +29,10 @@ population execution, proposal-only output validation, and runtime control
 ledger evidence; G95F provides complete five-plane trajectory/cost alignment,
 diff metrics, and sanitized API/visual reports. G95G adds an independent
 versioned V0-V7 ValidationProfile/Report/Stack with conservative
-`unknown != pass` semantics; G95H-G97J remain pending. v5.5 remains
-IN_PROGRESS / NOT_ACCEPTED.
+`unknown != pass` semantics. G95H qualifies M92 with a four-worldline
+literary batch, intervention, comparison, and sanitized RunArtifacts; M92 is
+PASS while Gate 41's separate parallel SQLite requirement remains pending.
+G96A-G97J remain pending. v5.5 remains IN_PROGRESS / NOT_ACCEPTED.
 
 ## Continuation M2?M9 (2026-08-13)
 
@@ -707,6 +709,12 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   Gate 44 is accepted as an implementation/evidence-semantics gate; the real
   report remains non-accepted because V7 external calibration is unknown.
   Gate 41 remains pending and G95H-G97J/M92-M94 remain pending.
+- G95H: PASS and committed as `g95h: M92 Lab Qualification`; one real
+  rights-approved literary experiment produced four registry-backed completed
+  worldlines, intervention fork/resume, five-plane comparison, and sanitized,
+  hash-verifiable RunArtifacts. M92 is qualified for this lab scope. Gate 41
+  remains pending because the SQLite product-chain run was serial; G96A-G97J
+  and M93-M94 remain pending.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.

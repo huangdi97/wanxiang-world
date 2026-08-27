@@ -59,6 +59,13 @@ from wanxiang_substrate.world_lab.provider_runner import (
     MixedPopulationProviderRunner,
     MultiProviderWorldlineRunner,
 )
+from wanxiang_substrate.world_lab.qualification import WorldLabQualifier
+from wanxiang_substrate.world_lab.qualification_models import (
+    QUALIFICATION_SCHEMA_VERSION,
+    LabQualification,
+    QualificationCheck,
+    QualificationStatus,
+)
 from wanxiang_substrate.world_lab.registry import ExperimentRegistry
 from wanxiang_substrate.world_lab.registry_models import (
     REGISTRY_SCHEMA_VERSION,
@@ -124,6 +131,11 @@ __all__ = [
     "ProviderAssignmentPolicy",
     "ProviderInvocation",
     "ProviderRunInput",
+    "LabQualification",
+    "QUALIFICATION_SCHEMA_VERSION",
+    "QualificationCheck",
+    "QualificationStatus",
+    "WorldLabQualifier",
     "DEFAULT_WORLDNESS_MAPPING",
     "VALIDATION_LEVELS",
     "VALIDATION_SCHEMA_VERSION",

@@ -1,6 +1,21 @@
 # Status ? Wanxiang Engineering Program
 
-Updated: 2026-08-27 (G95G checkpoint)
+Updated: 2026-08-27 (G95H / M92 checkpoint)
+
+## v5.5 G95H / M92 checkpoint (2026-08-27)
+
+G95H is PASS and is ready for the Goal checkpoint commit. The M92 World Lab
+qualification now links one real private rights-approved literary experiment
+to four completed registry-backed worldlines, each with a WorldPackage,
+PlayableService → SQLite runtime evidence, checkpoint, replay equality, and
+sanitized hash-verifiable RunArtifact. It also proves an explicit intervention
+fork/resume and a complete Actor/Relation/Institution/Macro/Cost comparison.
+The qualification export contains no private source payload. Full quality
+passed with 1419 passed, one documented PostgreSQL EXTERNAL_BLOCKED skip, and
+two warnings. M92 is PASS for this laboratory scope; Gate 41 remains pending
+because the real SQLite qualification was intentionally serial and therefore
+does not prove four *parallel* worldlines. G96A-G97J and M93-M94 remain
+pending, and v5.5 remains NOT_ACCEPTED.
 
 ## v5.5 G95G checkpoint (2026-08-27)
 

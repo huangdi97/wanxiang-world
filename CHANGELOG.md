@@ -1,5 +1,17 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-27 - G95H M92 Lab Qualification
+
+- Added the M92 cross-artifact qualification over the existing World Lab:
+  four completed literary batch worldlines, explicit intervention fork/resume,
+  five-plane trajectory/cost comparison, and sanitized hash-verifiable
+  WorldRunArtifact evidence.
+- Qualified the real private-source WorldPackage → PlayableService → SQLite
+  product chain without adding a canonical state, event store, branch owner,
+  or Commit Authority. The exported qualification omits private source
+  payloads; M92 is PASS for laboratory scope while the separate parallel
+  SQLite Gate 41 remains pending.
+
 ## 2026-08-27 - G95G ValidationProfile v1
 
 - Added schema-versioned independent V0-V7 ValidationProfile, ValidationCheck,
