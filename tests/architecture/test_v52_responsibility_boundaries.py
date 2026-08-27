@@ -19,6 +19,11 @@ ALLOWED_ENGINE_NAMES = {
     "ScenarioEngine",
     "BeliefRevisionEngine",
     "create_engine_for",
+    # G96F is a discovery-only external-engine adapter ABI, not a simulation
+    # engine and not a second Commit Authority.
+    "ExternalEngineAdapter",
+    "ExternalEngineCapability",
+    "BlockedExternalEngineAdapter",
 }
 
 

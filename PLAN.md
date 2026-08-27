@@ -62,6 +62,15 @@ probe produced isolated Alice/Bob views without changing canonical state or
 event history. G96D-G97J and the remaining M93-M94 gates remain pending; v5.5
 remains IN_PROGRESS / NOT_ACCEPTED.
 
+## v5.5 M93 continuation — G96F (2026-08-27)
+
+G96F is PASS and committed as `g96f: External Engine Adapter Audit`. The
+discovery-only external engine port now records typed available/unavailable/
+EXTERNAL_BLOCKED capability states, with a local blocked adapter preserving
+the reason and exposing no write path. No external runtime is available, so no
+engine E2E is claimed. G96G-G97J and the remaining M93-M94 gates remain
+pending; v5.5 remains IN_PROGRESS / NOT_ACCEPTED.
+
 ## v5.5 M93 continuation — G96E (2026-08-27)
 
 G96E is PASS and committed as `g96e: Reference Visual Projection Provider`.

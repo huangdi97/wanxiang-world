@@ -37,6 +37,14 @@ from wanxiang_substrate.world_lab.comparison_models import (
     TrajectoryPoint,
     WorldlineMeasurement,
 )
+from wanxiang_substrate.world_lab.external_engine import (
+    EXTERNAL_ENGINE_SCHEMA_VERSION,
+    BlockedExternalEngineAdapter,
+    ExternalEngineAdapter,
+    ExternalEngineAvailability,
+    ExternalEngineCapability,
+    ExternalEngineKind,
+)
 from wanxiang_substrate.world_lab.fork import (
     FORK_SCHEMA_VERSION,
     ForkedInterventionRun,
@@ -135,6 +143,12 @@ __all__ = [
     "BatchRunResult",
     "BatchWorldlineExecutor",
     "COMPARISON_SCHEMA_VERSION",
+    "BlockedExternalEngineAdapter",
+    "EXTERNAL_ENGINE_SCHEMA_VERSION",
+    "ExternalEngineAdapter",
+    "ExternalEngineAvailability",
+    "ExternalEngineCapability",
+    "ExternalEngineKind",
     "LabWorldlineComparison",
     "METRIC_CATEGORIES",
     "CategoryComparison",

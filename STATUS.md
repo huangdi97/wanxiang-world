@@ -1421,3 +1421,13 @@ projection hashes. A fresh SQLite product-chain probe left canonical hash and
 event history unchanged. Gate 48 is ACCEPTED; G96F-G97J, M93-M94, and the
 remaining release gates remain pending. v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**.
 Evidence: `reports/G96E_REPORT.md`.
+
+## v5.5 G96F / M93 checkpoint (2026-08-27)
+
+G96F PASS and committed as `g96f: External Engine Adapter Audit`. The
+external-engine discovery port reports typed availability and preserves
+EXTERNAL_BLOCKED when no Godot/Phaser runtime, browser session, GPU, or
+credentialed engine is provisioned. The blocked adapter is discovery-only and
+cannot write reality; a fresh SQLite probe stayed unchanged. Gate 50 remains
+ACCEPTED; G96G-G97J, M93-M94, and the remaining release gates remain pending.
+v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**. Evidence: `reports/G96F_REPORT.md`.

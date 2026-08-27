@@ -144,7 +144,7 @@
 | packages/substrate/src/wanxiang_substrate/authoring/scenario_engine.py | ScenarioEngine | 78 |
 | packages/substrate/src/wanxiang_substrate/epistemic/belief_revision.py | BeliefRevisionEngine | 91 |
 
-## ports (43)
+## ports (44)
 
 | path | name | line |
 |---|---|---|
@@ -189,6 +189,7 @@
 | packages/substrate/src/wanxiang_substrate/runtime_port.py | WorldRuntimePort | 29 |
 | packages/substrate/src/wanxiang_substrate/sources/adapter.py | SourceAdapter | 49 |
 | packages/substrate/src/wanxiang_substrate/workshop/genesis_provider.py | PromptGenesisProvider | 28 |
+| packages/substrate/src/wanxiang_substrate/world_lab/external_engine.py | ExternalEngineAdapter | 102 |
 | packages/substrate/src/wanxiang_substrate/world_lab/physical_provider.py | PhysicalWorldProvider | 12 |
 | packages/substrate/src/wanxiang_substrate/world_lab/visual_provider.py | VisualWorldProvider | 15 |
 

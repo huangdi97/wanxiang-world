@@ -1,5 +1,12 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-27 - G96F External Engine Adapter Audit
+
+- Added typed external-engine capability discovery with explicit
+  `EXTERNAL_BLOCKED` semantics and a discovery-only blocked adapter.
+- Preserved the no-write boundary and documented that no Godot/Phaser runtime
+  E2E is claimed without a provisioned external environment.
+
 ## 2026-08-27 - G96E Reference Visual Projection Provider
 
 - Added a local non-generative structured-scene adapter with actor views,
