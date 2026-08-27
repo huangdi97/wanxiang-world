@@ -1,6 +1,19 @@
 # Status ? Wanxiang Engineering Program
 
-Updated: 2026-08-27 (G97E / M94 checkpoint)
+Updated: 2026-08-27 (G97F / M94 checkpoint)
+
+## v5.5 G97F / M94 checkpoint (2026-08-27)
+
+G97F is PASS and the security checkpoint is ready for commit. A real migrated
+SQLite API application carried private UGC through Workshop, server-side
+private Plaza authorization, Character/embodiment, committed StateDiff,
+Leave, and Continue without returning the source marker. Prompt injection and
+untrusted executable packages failed closed; API 413/429, archive-ratio, and
+negative-budget controls are covered. Secret findings are zero and the
+independent security/chaos rerun passed 65 tests. Gate 52 is ACCEPTED. The
+original 323,815-character real-book NOT_ACCEPTED blocker remains unchanged;
+G97G-G97J and the remaining M94 release gates are pending, and v5.5 remains
+IN_PROGRESS / NOT_ACCEPTED. Evidence: `reports/G97F_REPORT.md`.
 
 ## v5.5 G97E / M94 checkpoint (2026-08-27)
 

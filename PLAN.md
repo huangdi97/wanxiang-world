@@ -149,6 +149,17 @@ original real-book NOT_ACCEPTED boundary is unchanged; G97F-G97J and the
 remaining M94 release gates remain pending; v5.5 remains IN_PROGRESS /
 NOT_ACCEPTED.
 
+## v5.5 M94 continuation — G97F (2026-08-27)
+
+G97F is PASS and the security checkpoint is ready for commit. The real API
+product chain now has explicit private-UGC response redaction and owner/guest
+authorization evidence, typed prompt-injection and untrusted-executable
+rejection, API 413/429 bounds, configured archive-ratio enforcement, and
+negative-consumption budget protection. The independent security/chaos rerun
+passed 65 tests with zero secret findings; Gate 52 is accepted. The original
+real-book NOT_ACCEPTED boundary remains unchanged, and G97G-G97J plus the
+remaining release gates are pending; v5.5 remains IN_PROGRESS / NOT_ACCEPTED.
+
 ## v5.5 M93 continuation — G96E (2026-08-27)
 
 G96E is PASS and committed as `g96e: Reference Visual Projection Provider`.

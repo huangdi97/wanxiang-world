@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G97E: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G97F: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -56,7 +56,7 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 49 | Multi-perspective privacy isolation | ACCEPTED | G96C actor-specific audience, rights, occlusion, and event-ref filtering |
 | 50 | Provider output cannot write reality | ACCEPTED | G96A/G96B/G96F/G96G/G96H proposal/projection-only contracts + unchanged SQLite reality |
 | 51 | Browser Experience/Studio E2E | ACCEPTED | G97E real Chromium/Playwright served Studio UI over migrated SQLite WorldRuntime, Workshop private profile, Plaza privacy, Character/Play/StateDiff/Leave/Continue |
-| 52 | Security/private-source/UGC scan | PENDING | — |
+| 52 | Security/private-source/UGC scan | ACCEPTED | G97F private UGC product-chain privacy, injection/package fail-closed, 413/429/resource-budget controls, secret/threat/rights scans, and 65-test independent security rerun |
 | 53 | v5.4 critical regression | ACCEPTED | M88 final regression: 1296 passed, 1 skipped, 2 warnings; PostgreSQL skip is documented external profile |
 | 54 | Full Python/TypeScript quality | ACCEPTED | M88 Ruff/Pyright/Kernel/architecture gates pass; SDK and TypeScript baselines remain stable |
 | 55 | Clean clone | ACCEPTED-INHERITED | v5.4 post-release evidence; v5.5 clean clone pending |
@@ -69,6 +69,19 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 Required release condition: Gates 1-59 must be ACCEPTED with real evidence;
 then and only then may G97H create annotated `v5.5.0-rc1` and a GitHub
 prerelease. Otherwise the final status remains `NOT_ACCEPTED`.
+
+## Latest checkpoint — G97F / M94 (2026-08-27)
+
+G97F PASS. A real migrated SQLite API application carried private UGC through
+Workshop, private Plaza authorization, Character/embodiment, committed
+StateDiff, Leave, and Continue; the source marker was absent from serialized
+responses. Prompt injection and untrusted executable UGC failed closed. The
+API returned 413/429 under resource abuse, configured archive-ratio limits are
+enforced, negative budget consumption is rejected, and cost accounting stayed
+atomic. Secret findings were zero and the independent G20C security/chaos
+rerun passed 65 tests. Gate 52 is **ACCEPTED**. The original real-book
+`NOT_ACCEPTED` boundary and the v5.5 release lock remain unchanged; G97G-G97J
+remain pending. Evidence: `reports/G97F_REPORT.md`.
 
 ## Latest checkpoint — G97E / M94 (2026-08-27)
 

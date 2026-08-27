@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import pytest
 from wanxiang_substrate.long_horizon import (
     BackpressurePolicy,
     BudgetKey,
@@ -9,6 +10,7 @@ from wanxiang_substrate.long_horizon import (
     CostLimit,
     CostUsage,
 )
+from wanxiang_substrate.recovery.budget import BudgetTracker, ResourceBudget
 
 
 def _ledger() -> tuple[CostBudgetLedger, tuple[BudgetKey, ...]]:
@@ -54,3 +56,10 @@ def test_exhaustion_degrades_without_partial_charge_and_backpressure_is_graceful
     rejected = ledger.admit(keys, CostUsage(calls=1), requested_lod="L1", queue_depth=4)
     assert deferred.status == "deferred"
     assert rejected.status == "rejected"
+
+
+def test_resource_tracker_rejects_negative_consumption() -> None:
+    tracker = BudgetTracker(ResourceBudget(max_commands=2, max_ticks=2))
+    with pytest.raises(ValueError, match="cannot be negative"):
+        tracker.consume(commands=-1)
+    assert tracker.remaining() == {"commands": 2, "ticks": 2, "model_calls": 0}

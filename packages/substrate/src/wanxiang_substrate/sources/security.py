@@ -65,7 +65,11 @@ def _is_path_traversal(member: str) -> bool:
     return any(part in ("..", "") for part in parts)
 
 
-def check_archive(archive: zipfile.ZipFile) -> tuple[SecurityCheck, ...]:
+def check_archive(
+    archive: zipfile.ZipFile, *, max_uncompressed_ratio: int = DEFAULT_MAX_UNCOMPRESSED_RATIO
+) -> tuple[SecurityCheck, ...]:
+    if max_uncompressed_ratio < 0:
+        raise ValueError("max_uncompressed_ratio must be non-negative")
     checks: list[SecurityCheck] = []
     members = archive.infolist()
     compressed = sum(info.compress_size for info in members)
@@ -74,8 +78,8 @@ def check_archive(archive: zipfile.ZipFile) -> tuple[SecurityCheck, ...]:
     checks.append(
         SecurityCheck(
             "zip_bomb_ratio",
-            ratio <= DEFAULT_MAX_UNCOMPRESSED_RATIO,
-            f"uncompressed/compressed ratio {ratio:.1f} (limit {DEFAULT_MAX_UNCOMPRESSED_RATIO})",
+            ratio <= max_uncompressed_ratio,
+            f"uncompressed/compressed ratio {ratio:.1f} (limit {max_uncompressed_ratio})",
         )
     )
     traversal = [info.filename for info in members if _is_path_traversal(info.filename)]
@@ -149,7 +153,7 @@ class IngestSecurityGate:
         self, archive: zipfile.ZipFile, *, source_label: str = "archive"
     ) -> tuple[SecurityCheck, ...]:
         """Validate an already-open archive and raise typed failures."""
-        checks = check_archive(archive)
+        checks = check_archive(archive, max_uncompressed_ratio=self._max_uncompressed_ratio)
         self._checks = list(checks)
         failed = {check.name for check in checks if not check.ok}
         if "zip_bomb_ratio" in failed:

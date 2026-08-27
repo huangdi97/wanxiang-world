@@ -63,6 +63,13 @@ def test_zip_bomb_rejected(gate: IngestSecurityGate) -> None:
         gate.check_blob(blob, kind="docx")
 
 
+def test_configured_zip_ratio_limit_is_enforced() -> None:
+    blob = _zip([("bomb.txt", b"0" * 400000)], deflate=True)
+    strict = IngestSecurityGate(max_bytes=1024 * 1024, max_uncompressed_ratio=1)
+    with pytest.raises(ZipBomb):
+        strict.check_blob(blob, kind="docx")
+
+
 @pytest.mark.unit
 def test_path_traversal_rejected(gate: IngestSecurityGate) -> None:
     blob = _zip([("../evil.txt", b"x")])

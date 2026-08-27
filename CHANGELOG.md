@@ -1,5 +1,17 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-27 - G97F Security / Safety / Cost / Storage
+
+- Added a real API/Workshop/Playable private-UGC security qualification with
+  server-side owner/guest privacy, serialized-response redaction, typed source
+  injection rejection, and untrusted executable-package denial.
+- Enforced configured archive decompression-ratio limits and rejected negative
+  resource-budget consumption; API 413/429 and atomic cost-budget evidence are
+  recorded.
+- Accepted Gate 52 while preserving the original real-book NOT_ACCEPTED
+  boundary; no private source, secret, model training, v5.6 work, or v5.5 rc1
+  release was performed.
+
 ## 2026-08-27 - G97E Experience Product E2E
 
 - Added a real Chromium/Playwright browser qualification over the served
