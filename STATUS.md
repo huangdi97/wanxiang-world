@@ -1,6 +1,16 @@
 # Status ? Wanxiang Engineering Program
 
-Updated: 2026-08-27 (G97G / M94 checkpoint)
+Updated: 2026-08-27 (G97I / M94 checkpoint)
+
+## v5.5 G97I / M94 checkpoint (2026-08-27)
+
+Final evidence is complete and machine-readable in
+`reports/G97I_FINAL_EVIDENCE.json`, with implemented, experimental, and
+not-proven scopes separated in `reports/G97I_REPORT.md`. The preserved
+original private real-book `NOT_ACCEPTED` record remains unchanged. Gates 1,
+32, 56, 57, and 59 remain pending; Gate 60 remains locked. No rc1 tag or
+GitHub prerelease was created, and no v5.6/model-training work occurred.
+Evidence: `reports/G97I_REPORT.md`.
 
 ## v5.5 G97G / M94 checkpoint (2026-08-27)
 

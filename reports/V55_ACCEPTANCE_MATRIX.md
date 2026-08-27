@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G97H: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G97I: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -69,6 +69,16 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 Required release condition: Gates 1-59 must be ACCEPTED with real evidence;
 then and only then may G97H create annotated `v5.5.0-rc1` and a GitHub
 prerelease. Otherwise the final status remains `NOT_ACCEPTED`.
+
+## Latest checkpoint — G97I / M94 (2026-08-27)
+
+G97I final evidence is complete and machine-readable at
+`reports/G97I_FINAL_EVIDENCE.json`, with a matching narrative report at
+`reports/G97I_REPORT.md`. Implemented, experimental, and not-proven scopes
+are separated. The original private real-book `NOT_ACCEPTED` record remains
+unchanged; Gates 1, 32, 56, 57, and 59 remain PENDING and Gate 60 remains
+LOCKED. No rc1 tag or GitHub prerelease was created. The final status remains
+**IN_PROGRESS / NOT_ACCEPTED**.
 
 ## Latest checkpoint — G97H / M94 (2026-08-27)
 

@@ -1,0 +1,90 @@
+{
+  "schema": "wanxiang.v5.5.final-evidence.v1",
+  "date": "2026-08-27",
+  "release_status": "NOT_ACCEPTED",
+  "release_gate": "LOCKED",
+  "release_artifacts": {
+    "v5.5.0-rc1_tag_created": false,
+    "github_prerelease_created": false,
+    "v5.6_started": false,
+    "model_training_started": false
+  },
+  "implemented": [
+    {
+      "id": "stable_kernel_commit_replay",
+      "scope": "frozen v5.4 Kernel, Reality Root, Commit Authority, Ledger, Branch, Lineage",
+      "evidence": ["scripts/kernel_guard.py", "reports/G97G_REPORT.md"]
+    },
+    {
+      "id": "playable_experience_chain",
+      "scope": "WorldPackage, Preview, PlayableService, Character/embodiment, committed StateDiff, Leave/Continue",
+      "evidence": ["reports/G97E_REPORT.md", "reports/G97G_REPORT.md"]
+    },
+    {
+      "id": "long_horizon_and_world_lab",
+      "scope": "bounded 24h/7d/30d/90d qualification, evolution, RunArtifact, parallel worldlines, validation and provider bridges",
+      "evidence": ["reports/G97B_REPORT.md", "reports/G97C_REPORT.md", "reports/G97D_REPORT.md", "reports/G96H_REPORT.md"]
+    },
+    {
+      "id": "security_safety_and_privacy",
+      "scope": "source/package fail-closed handling, private UGC redaction, resource bounds and proposal-only provider boundaries",
+      "evidence": ["reports/G97F_REPORT.md", "scripts/security_forensics.py"]
+    },
+    {
+      "id": "clean_clone_local_ci",
+      "scope": "clean install, migration/replay/restore, Python test domains, TypeScript checks, Studio and product smokes",
+      "evidence": ["reports/G97G_REPORT.md", "reports/CLEAN_ROOM_CERTIFICATION.md"]
+    }
+  ],
+  "experimental": [
+    {
+      "id": "prompt_genesis",
+      "scope": "E5 prompt-derived candidates and WorldDraft remain provenance-labeled and review-gated",
+      "evidence": ["reports/G90H_REPORT.md", "reports/V55_ACCEPTANCE_MATRIX.md"]
+    },
+    {
+      "id": "reference_and_lab_qualification",
+      "scope": "synthetic/public/reference worlds, deterministic providers and bounded lab worldlines are engineering evidence only",
+      "evidence": ["reports/G97B_REPORT.md", "reports/G97D_REPORT.md", "reports/G96H_REPORT.md"]
+    },
+    {
+      "id": "external_heavy_providers",
+      "scope": "external engine/GPU/provider execution is explicitly EXTERNAL_BLOCKED where not provisioned",
+      "evidence": ["reports/G96F_REPORT.md", "reports/G97G_REPORT.md"]
+    }
+  ],
+  "not_proven": [
+    {
+      "id": "original_real_book_acceptance",
+      "scope": "the preserved 2026-08-25 private 323815-character source record remains 0 candidates and coverage 0 under the rights-approved diagnostic",
+      "evidence": ["reports/REAL_BOOK_LIVING_WORLD_ACCEPTANCE_2026-08-25.md", "artifacts/real_book_living_world_acceptance_2026-08-25/api_rights_diagnostic.json"]
+    },
+    {
+      "id": "pending_release_gates",
+      "scope": "Gates 1, 32, 56, 57 and 59 are PENDING; Gate 60 is LOCKED",
+      "evidence": ["reports/V55_ACCEPTANCE_MATRIX.md", "reports/G97H_REPORT.md"]
+    },
+    {
+      "id": "remote_sha_and_actions",
+      "scope": "feature-branch remote SHA and required GitHub Actions are unverified because the required push was rejected by the execution environment safety review",
+      "evidence": ["reports/G97G_REPORT.md"]
+    },
+    {
+      "id": "scientific_or_universal_validity",
+      "scope": "Worldness evidence is not scientific validity, universal emergence, true-time/live-world performance, or a 10000/100000-NPC claim",
+      "evidence": ["reports/V55_ACCEPTANCE_MATRIX.md", "README_FIRST.md"]
+    }
+  ],
+  "required_actions_remaining": [
+    "obtain permitted remote feature-branch push and verify remote SHA",
+    "verify all required GitHub Actions jobs green",
+    "resolve the remaining acceptance gates without changing protected source evidence"
+  ],
+  "boundary_assertions": {
+    "private_source_uploaded": false,
+    "canonical_state_mutated_by_provider_or_ui": false,
+    "compiler_or_worldness_gate_disabled": false,
+    "coverage_hardcoded": false,
+    "original_source_modified": false
+  }
+}

@@ -1,5 +1,12 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-27 - G97I Final Evidence & Status
+
+- Added machine-readable final evidence separating implemented, experimental,
+  and not-proven boundaries.
+- Preserved the original real-book NOT_ACCEPTED record, pending Gates 1/32/
+  56/57/59, locked Gate 60, and the no-rc1/no-v5.6/no-training decision.
+
 ## 2026-08-27 - G97G Clean Clone + GitHub CI
 
 - Qualified a clean clone through locked Python/pnpm installation, migration,

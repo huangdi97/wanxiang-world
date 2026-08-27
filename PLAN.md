@@ -149,6 +149,15 @@ original real-book NOT_ACCEPTED boundary is unchanged; G97F-G97J and the
 remaining M94 release gates remain pending; v5.5 remains IN_PROGRESS /
 NOT_ACCEPTED.
 
+## v5.5 M94 continuation — G97I (2026-08-27)
+
+G97I final evidence is complete and machine-readable at
+`reports/G97I_FINAL_EVIDENCE.json`, with implemented, experimental, and
+not-proven boundaries separated. Gates 1, 32, 56, 57, and 59 remain pending;
+Gate 60 remains locked. The original real-book NOT_ACCEPTED record and the
+no-rc1/no-v5.6/no-training boundary are preserved. G97J must record the final
+checkpoint and stop.
+
 ## v5.5 M94 continuation — G97G (2026-08-27)
 
 G97G local clean-clone qualification passed: locked Python/pnpm installation,
