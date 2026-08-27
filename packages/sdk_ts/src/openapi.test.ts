@@ -6,7 +6,7 @@ import { API_VERSION_POLICY, parseOpenApi, type OpenApiDocument } from "./openap
 describe("G13D openapi contract", () => {
   it("parses the exported server contract deterministically", () => {
     const ops = parseOpenApi(contract as unknown as OpenApiDocument);
-    expect(ops.length).toBe(45);
+    expect(ops.length).toBe(62);
     const again = parseOpenApi(contract as unknown as OpenApiDocument);
     expect(JSON.stringify(ops)).toBe(JSON.stringify(again));
   });

@@ -1,6 +1,20 @@
 # Status ? Wanxiang Engineering Program
 
-Updated: 2026-08-27 (G97F / M94 checkpoint)
+Updated: 2026-08-27 (G97G / M94 checkpoint)
+
+## v5.5 G97G / M94 checkpoint (2026-08-27)
+
+G97G local clean-clone qualification passed: full Python/pnpm installation,
+clean-room migration/replay/restore, 1455 Python tests with one documented
+PostgreSQL `EXTERNAL_BLOCKED` skip, TypeScript lint/typecheck/test/build,
+Studio socket, Playable, mixed-source, SDK/wxpack, release-build, kernel, and
+architecture smokes. The stale OpenAPI test baseline was updated from 45 to
+the current 62 operations. The required feature-branch push was rejected by
+the execution environment's external-write safety review, so remote SHA and
+GitHub Actions are not claimed and no workaround was attempted. Gate 55 is
+accepted; Gates 56/57 remain pending. The original real-book `NOT_ACCEPTED`
+boundary and v5.5 release lock remain unchanged. Evidence:
+`reports/G97G_REPORT.md`.
 
 ## v5.5 G97F / M94 checkpoint (2026-08-27)
 

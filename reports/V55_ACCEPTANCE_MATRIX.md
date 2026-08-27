@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G97F: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G97G: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -59,16 +59,31 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 52 | Security/private-source/UGC scan | ACCEPTED | G97F private UGC product-chain privacy, injection/package fail-closed, 413/429/resource-budget controls, secret/threat/rights scans, and 65-test independent security rerun |
 | 53 | v5.4 critical regression | ACCEPTED | M88 final regression: 1296 passed, 1 skipped, 2 warnings; PostgreSQL skip is documented external profile |
 | 54 | Full Python/TypeScript quality | ACCEPTED | M88 Ruff/Pyright/Kernel/architecture gates pass; SDK and TypeScript baselines remain stable |
-| 55 | Clean clone | ACCEPTED-INHERITED | v5.4 post-release evidence; v5.5 clean clone pending |
+| 55 | Clean clone | ACCEPTED | G97G clean clone install, migration, 1455 Python tests, TypeScript tests/build, and product smokes |
 | 56 | Remote SHA equals local HEAD | PENDING | v5.5 branch not pushed yet |
 | 57 | Required GitHub Actions | PENDING | v5.5 branch not pushed yet |
-| 58 | Working tree clean | PENDING | G88A commit pending |
+| 58 | Working tree clean | ACCEPTED | G97G checkpoint commit leaves the feature worktree clean; verified by git status |
 | 59 | Evidence boundary separation | PENDING | Final evidence goal |
 | 60 | Release gate / rc1 only if all ACCEPTED | LOCKED | G97H/G97J |
 
 Required release condition: Gates 1-59 must be ACCEPTED with real evidence;
 then and only then may G97H create annotated `v5.5.0-rc1` and a GitHub
 prerelease. Otherwise the final status remains `NOT_ACCEPTED`.
+
+## Latest checkpoint — G97G / M94 (2026-08-27)
+
+G97G local qualification PASS, remote qualification NOT_ACCEPTED. A clean
+clone at `f76b9959cfe6c557c379cf0931d8fb87d5d40eb8` installed the full Python
+and pnpm workspaces, passed clean-room migration/replay/restore certification,
+1455 Python tests with the documented PostgreSQL external skip, all TypeScript
+lint/typecheck/test/build checks, Studio socket, Playable, mixed-source,
+OpenAPI/wxpack, release-build, kernel, and architecture smokes. The stale
+TypeScript OpenAPI count was corrected from 45 to the current 62 operations.
+The required feature-branch push was rejected by the execution environment's
+external-write safety review, so remote SHA and required Actions remain
+unverified; no workaround or remote mutation was attempted. Gate 55 is
+ACCEPTED, Gates 56/57 remain PENDING, and the release lock is unchanged.
+Evidence: `reports/G97G_REPORT.md`.
 
 ## Latest checkpoint — G97F / M94 (2026-08-27)
 

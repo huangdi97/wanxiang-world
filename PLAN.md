@@ -149,6 +149,18 @@ original real-book NOT_ACCEPTED boundary is unchanged; G97F-G97J and the
 remaining M94 release gates remain pending; v5.5 remains IN_PROGRESS /
 NOT_ACCEPTED.
 
+## v5.5 M94 continuation — G97G (2026-08-27)
+
+G97G local clean-clone qualification passed: locked Python/pnpm installation,
+clean-room migration/replay/restore, 1455 Python tests with the documented
+PostgreSQL external skip, TypeScript lint/typecheck/test/build, Studio socket,
+Playable, mixed-source, SDK/OpenAPI/wxpack, release-build, kernel, and
+architecture smokes. The stale OpenAPI baseline was corrected from 45 to the
+current 62 operations. The required feature-branch push was rejected by the
+execution environment's external-write safety review; remote SHA and Actions
+remain unverified and no workaround was attempted. Gate 55 is accepted while
+Gates 56/57 remain pending; G97H-G97J must preserve NOT_ACCEPTED and stop.
+
 ## v5.5 M94 continuation — G97F (2026-08-27)
 
 G97F is PASS and the security checkpoint is ready for commit. The real API

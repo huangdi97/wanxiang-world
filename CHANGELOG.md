@@ -1,5 +1,16 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-27 - G97G Clean Clone + GitHub CI
+
+- Qualified a clean clone through locked Python/pnpm installation, migration,
+  replay/restore, full Python test domains, TypeScript checks, Studio/Playable
+  smokes, SDK/OpenAPI/wxpack, kernel, and architecture gates.
+- Updated the stale TypeScript OpenAPI operation-count expectation from 45 to
+  the current exported 62-operation contract.
+- Kept remote SHA/Actions `PENDING` because the authorized feature-branch push
+  was rejected by the execution environment's external-write safety review;
+  no workaround, release tag, v5.6 work, or model training was performed.
+
 ## 2026-08-27 - G97F Security / Safety / Cost / Storage
 
 - Added a real API/Workshop/Playable private-UGC security qualification with
