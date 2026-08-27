@@ -77,6 +77,7 @@ class VisualSceneObject:
     entity_ref: str
     position: tuple[float, float]
     asset_ref: AssetRef | None = None
+    occlusion_radius: float = 0.0
     audience_refs: tuple[str, ...] = ()
     event_refs: tuple[str, ...] = ()
 
@@ -86,6 +87,10 @@ class VisualSceneObject:
         object.__setattr__(self, "position", _vector(self.position, "position"))
         if self.asset_ref is not None and type(self.asset_ref) is not AssetRef:
             raise ContractError("asset_ref must be an AssetRef")
+        radius = _number(self.occlusion_radius, "occlusion_radius")
+        if radius < 0.0:
+            raise ContractError("occlusion_radius must be non-negative")
+        object.__setattr__(self, "occlusion_radius", radius)
         object.__setattr__(self, "audience_refs", _refs(self.audience_refs, "audience_refs"))
         object.__setattr__(self, "event_refs", _refs(self.event_refs, "event_refs"))
 
@@ -95,6 +100,7 @@ class VisualSceneObject:
             "entity_ref": self.entity_ref,
             "position": list(self.position),
             "asset_ref": _asset_to_dict(self.asset_ref) if self.asset_ref else None,
+            "occlusion_radius": self.occlusion_radius,
             "audience_refs": list(self.audience_refs),
             "event_refs": list(self.event_refs),
         }
@@ -107,6 +113,7 @@ class VisualSceneObject:
             entity_ref=ref(data.get("entity_ref"), "entity_ref"),
             position=_vector(data.get("position"), "position"),
             asset_ref=_asset_from_dict(raw_asset, "asset_ref") if raw_asset is not None else None,
+            occlusion_radius=_number(data.get("occlusion_radius", 0.0), "occlusion_radius"),
             audience_refs=tuple(
                 ref(value, "audience_refs item")
                 for value in sequence(data.get("audience_refs", ()), "audience_refs")

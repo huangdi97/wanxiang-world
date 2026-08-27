@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G96B: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G96C: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -53,7 +53,7 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 46 | Visual Provider ABI | ACCEPTED | G96B contract + SQLite projection boundary evidence |
 | 47 | Reference physical provider E2E | PENDING | — |
 | 48 | Reference visual projection E2E | PENDING | — |
-| 49 | Multi-perspective privacy isolation | PENDING | — |
+| 49 | Multi-perspective privacy isolation | ACCEPTED | G96C actor-specific audience, rights, occlusion, and event-ref filtering |
 | 50 | Provider output cannot write reality | ACCEPTED | G96A/G96B proposal/projection-only contracts + unchanged SQLite reality |
 | 51 | Browser Experience/Studio E2E | PENDING | — |
 | 52 | Security/private-source/UGC scan | PENDING | — |
@@ -69,6 +69,15 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 Required release condition: Gates 1-59 must be ACCEPTED with real evidence;
 then and only then may G97H create annotated `v5.5.0-rc1` and a GitHub
 prerelease. Otherwise the final status remains `NOT_ACCEPTED`.
+
+## Latest checkpoint — G96C / M93 (2026-08-27)
+
+G96C PASS. Evidence: `reports/G96C_REPORT.md`; the deterministic perspective
+provider produced distinct Alice/Bob frames with audience, rights, occlusion,
+and actor-scoped event-ref filtering. A fresh SQLite WorldRuntime product-chain
+probe kept canonical hash and event history unchanged. Gate 49 is ACCEPTED;
+G96D-G97J and Gates 47-48, 51-52, 56-60 remain pending; release status remains
+**IN_PROGRESS / NOT_ACCEPTED**.
 
 ## Latest checkpoint — G96B / M93 (2026-08-27)
 

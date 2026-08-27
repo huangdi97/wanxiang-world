@@ -1225,6 +1225,7 @@
     "wanxiang_substrate.PersonaTrait",
     "wanxiang_substrate.PersonaTraitState",
     "wanxiang_substrate.PerspectiveService",
+    "wanxiang_substrate.PerspectiveVisualProvider",
     "wanxiang_substrate.PhysicalBody",
     "wanxiang_substrate.PhysicalObservation",
     "wanxiang_substrate.PhysicalProviderHealth",

@@ -66,7 +66,7 @@
 | packages/substrate/src/wanxiang_substrate/spatial/errors.py | InvalidSpatialState | 34 |
 | packages/substrate/src/wanxiang_substrate/spatial/model.py | SpatialSnapshot | 91 |
 | packages/substrate/src/wanxiang_substrate/world_lab/physical_models.py | PhysicalSnapshot | 78 |
-| packages/substrate/src/wanxiang_substrate/world_lab/visual_models.py | VisualSceneState | 122 |
+| packages/substrate/src/wanxiang_substrate/world_lab/visual_models.py | VisualSceneState | 129 |
 
 ## store_classes (31)
 

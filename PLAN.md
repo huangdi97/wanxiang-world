@@ -52,6 +52,16 @@ canonical write surface. A real SQLite WorldRuntime projection probe preserved
 canonical hash and event history. G96C-G97J and the remaining M93-M94 gates
 remain pending; v5.5 remains IN_PROGRESS / NOT_ACCEPTED.
 
+## v5.5 M93 continuation — G96C (2026-08-27)
+
+G96C is PASS and committed as `g96c: Multi-perspective Projection`. The
+perspective provider now applies actor audience policy, allow/deny refs,
+rights filtering, deterministic line-of-sight occlusion, and actor-scoped
+event refs before producing a sanitized frame. A fresh SQLite WorldRuntime
+probe produced isolated Alice/Bob views without changing canonical state or
+event history. G96D-G97J and the remaining M93-M94 gates remain pending; v5.5
+remains IN_PROGRESS / NOT_ACCEPTED.
+
 ## Continuation M2?M9 (2026-08-13)
 
 Continuous execution per `05_CODEX_REMAINING_PROGRAM_MASTER_PROMPT.md` and

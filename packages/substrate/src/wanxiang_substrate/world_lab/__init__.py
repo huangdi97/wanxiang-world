@@ -47,6 +47,7 @@ from wanxiang_substrate.world_lab.fork import (
     InterventionLedgerEntry,
     InterventionRun,
 )
+from wanxiang_substrate.world_lab.perspective_provider import PerspectiveVisualProvider
 from wanxiang_substrate.world_lab.physical_models import (
     PHYSICAL_PROVIDER_SCHEMA_VERSION,
     PhysicalBody,
@@ -173,6 +174,7 @@ __all__ = [
     "PhysicalSimulationResolution",
     "PhysicalSnapshot",
     "PhysicalWorldProvider",
+    "PerspectiveVisualProvider",
     "PhysicalWorldSnapshot",
     "ReadonlyPhysicalSnapshot",
     "SimulationRequest",

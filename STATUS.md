@@ -1390,3 +1390,14 @@ and rights policy did not leak into frame objects. Gates 46 and 50 are
 ACCEPTED; G96C-G97J, M93-M94, and the remaining release gates remain pending.
 v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**. Evidence:
 `reports/G96B_REPORT.md`.
+
+## v5.5 G96C / M93 checkpoint (2026-08-27)
+
+G96C PASS and committed as `g96c: Multi-perspective Projection`. The
+actor-scoped visual provider applies audience allow/deny policy, view radius,
+asset rights, deterministic occlusion, and event-ref filtering; projected
+objects contain no audience policy. Alice and Bob received distinct frames in
+a fresh SQLite product-chain probe, while canonical hash and event history
+remained unchanged. Gate 49 is ACCEPTED; G96D-G97J, M93-M94, and the remaining
+release gates remain pending. v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**.
+Evidence: `reports/G96C_REPORT.md`.

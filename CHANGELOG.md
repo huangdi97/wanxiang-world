@@ -1,5 +1,12 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-27 - G96C Multi-perspective Projection
+
+- Added deterministic actor-scoped audience, rights, radius, and line-of-sight
+  filtering with sanitized frame/event references.
+- Added Alice/Bob SQLite product-chain evidence proving private knowledge stays
+  isolated and projection cannot mutate canonical reality.
+
 ## 2026-08-27 - G96B VisualWorldProvider ABI
 
 - Added immutable scene state, actor perspective, asset/event references, and
