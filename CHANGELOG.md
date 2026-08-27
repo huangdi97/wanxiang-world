@@ -1,5 +1,13 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-27 - G97J STOP
+
+- Stopped the v5.5 sequence with the release predicate honestly
+  `IN_PROGRESS / NOT_ACCEPTED`; no rc1 tag or GitHub prerelease was created.
+- Preserved the original real-book NOT_ACCEPTED evidence and recorded the
+  pending source, remote/Actions, and final-boundary blockers.
+- Did not start v5.6, train a model, upload private source, or bypass any gate.
+
 ## 2026-08-27 - G97I Final Evidence & Status
 
 - Added machine-readable final evidence separating implemented, experimental,

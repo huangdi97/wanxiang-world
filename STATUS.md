@@ -1,6 +1,16 @@
 # Status ? Wanxiang Engineering Program
 
-Updated: 2026-08-27 (G97I / M94 checkpoint)
+Updated: 2026-08-27 (G97J / M94 checkpoint)
+
+## v5.5 G97J / M94 STOP (2026-08-27)
+
+G97J STOP: the all-Gates-1–59 release predicate is false. Gates 1, 32, 56,
+57, and 59 remain pending and Gate 60 remains locked. No v5.5.0-rc1 tag or
+GitHub prerelease was created. The original 323,815-character real-book
+NOT_ACCEPTED record is preserved; the feature push/remote SHA/Actions could
+not be verified because the execution environment rejected the required
+external write and lacks its remote-https helper. No workaround, v5.6 work,
+or model training occurred. Evidence: `reports/G97J_REPORT.md`.
 
 ## v5.5 G97I / M94 checkpoint (2026-08-27)
 

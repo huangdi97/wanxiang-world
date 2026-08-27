@@ -149,6 +149,15 @@ original real-book NOT_ACCEPTED boundary is unchanged; G97F-G97J and the
 remaining M94 release gates remain pending; v5.5 remains IN_PROGRESS /
 NOT_ACCEPTED.
 
+## v5.5 M94 continuation — G97J STOP (2026-08-27)
+
+G97J STOP. The all-Gates-1–59 release predicate remains false: Gates 1, 32,
+56, 57, and 59 are pending and Gate 60 is locked. No rc1 tag or GitHub
+prerelease was created. The original real-book NOT_ACCEPTED record and all
+local evidence are preserved; the required feature push/remote SHA/Actions
+remain externally blocked. No v5.6 or model training may begin. Evidence:
+`reports/G97J_REPORT.md`.
+
 ## v5.5 M94 continuation — G97I (2026-08-27)
 
 G97I final evidence is complete and machine-readable at

@@ -25,7 +25,7 @@ def test_v55_matrix_has_frozen_gate_rows_and_release_lock() -> None:
     assert "thresholds may not be lowered" in text
     assert "Gates 1-59 must be ACCEPTED" in text
     assert "| 60 | Release gate / rc1 only if all ACCEPTED | LOCKED |" in text
-    assert "Status at G97I: **IN_PROGRESS / NOT_ACCEPTED**" in text
+    assert "Status at G97J: **IN_PROGRESS / NOT_ACCEPTED**" in text
 
 
 @pytest.mark.architecture
