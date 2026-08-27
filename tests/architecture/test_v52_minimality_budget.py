@@ -49,7 +49,7 @@ def test_budget_script_runs_and_hard_invariants_hold() -> None:
 def test_budget_counts_are_stable() -> None:
     _run()
     budget = _load()
-    # Current v5.5 G96G/M93 snapshot anchors; the M26-M93 history remains in
+    # Current v5.5 G96H/M93 snapshot anchors; the M26-M93 history remains in
     # the ledger and these counts include the accepted v5.5 projection/product
     # additions.
     assert budget["registry_classes"] == 17

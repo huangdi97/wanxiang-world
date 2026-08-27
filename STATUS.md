@@ -1443,3 +1443,14 @@ proposal-only with an empty `ProposedWorldDelta`, and a fresh SQLite product
 chain stayed unchanged. Gate 50 remains ACCEPTED; G96H-G97J, M93-M94, and the
 remaining release gates remain pending. v5.5 remains **IN_PROGRESS /
 NOT_ACCEPTED**. Evidence: `reports/G96G_REPORT.md`.
+
+## v5.5 G96H / M93 checkpoint (2026-08-27)
+
+G96H PASS and committed as `g96h: M93 Provider Bridge Qualification`. A rights-approved source traversed the
+existing OneClickAuthoring → WorldPackage → PlayableService → Preview → real
+SQLite WorldRuntime chain. Reference physical and visual providers crossed the
+same committed state; Alice/Bob perspectives remained isolated, replay matched,
+and canonical hash/event history stayed unchanged. External heavy providers
+remain `EXTERNAL_BLOCKED`. Gate 50 remains ACCEPTED; G97A-G97J, M93-M94, and
+the remaining release gates remain pending. v5.5 remains **IN_PROGRESS /
+NOT_ACCEPTED**. Evidence: `reports/G96H_REPORT.md`.

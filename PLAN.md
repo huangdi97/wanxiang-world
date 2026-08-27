@@ -80,6 +80,15 @@ produce typed reconciliation actions with an empty `ProposedWorldDelta`; a
 fresh SQLite product-chain probe remains unchanged. G96H-G97J and the remaining
 M93-M94 gates remain pending; v5.5 remains IN_PROGRESS / NOT_ACCEPTED.
 
+## v5.5 M93 continuation — G96H (2026-08-27)
+
+G96H is PASS and committed as `g96h: M93 Provider Bridge Qualification`.
+The existing PlayableService → Preview → SQLite WorldRuntime chain now has a
+combined reference physical/visual provider qualification and multi-perspective
+smoke. Replay equality and canonical hash/event history remain unchanged;
+external heavy providers stay `EXTERNAL_BLOCKED`. G97A-G97J and the remaining
+M94 gates remain pending; v5.5 remains IN_PROGRESS / NOT_ACCEPTED.
+
 ## v5.5 M93 continuation — G96E (2026-08-27)
 
 G96E is PASS and committed as `g96e: Reference Visual Projection Provider`.

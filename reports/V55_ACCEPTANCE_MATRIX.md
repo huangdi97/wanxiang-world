@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G96G: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G96H: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -54,7 +54,7 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 47 | Reference physical provider E2E | ACCEPTED | G96D deterministic navigation/collision + proposal/evidence/replay product chain |
 | 48 | Reference visual projection E2E | ACCEPTED | G96E deterministic structured-scene actor-frame product chain |
 | 49 | Multi-perspective privacy isolation | ACCEPTED | G96C actor-specific audience, rights, occlusion, and event-ref filtering |
-| 50 | Provider output cannot write reality | ACCEPTED | G96A/G96B/G96F/G96G proposal/projection-only contracts + unchanged SQLite reality |
+| 50 | Provider output cannot write reality | ACCEPTED | G96A/G96B/G96F/G96G/G96H proposal/projection-only contracts + unchanged SQLite reality |
 | 51 | Browser Experience/Studio E2E | PENDING | — |
 | 52 | Security/private-source/UGC scan | PENDING | — |
 | 53 | v5.4 critical regression | ACCEPTED | M88 final regression: 1296 passed, 1 skipped, 2 warnings; PostgreSQL skip is documented external profile |
@@ -69,6 +69,17 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 Required release condition: Gates 1-59 must be ACCEPTED with real evidence;
 then and only then may G97H create annotated `v5.5.0-rc1` and a GitHub
 prerelease. Otherwise the final status remains `NOT_ACCEPTED`.
+
+## Latest checkpoint — G96H / M93 (2026-08-27)
+
+G96H PASS. Evidence: `reports/G96H_REPORT.md`; a rights-approved source
+crossed OneClickAuthoring → WorldPackage → PlayableService → Preview → real
+SQLite WorldRuntime, then reference physical and visual providers used the
+same committed snapshot. Alice/Bob frames remained actor-isolated, replay
+matched, and provider output left canonical hash/event history unchanged.
+External heavy providers remain `EXTERNAL_BLOCKED`. Gate 50 remains ACCEPTED;
+G97A-G97J and Gates 51-52, 56-60 remain pending; release status remains
+**IN_PROGRESS / NOT_ACCEPTED**.
 
 ## Latest checkpoint — G96G / M93 (2026-08-27)
 

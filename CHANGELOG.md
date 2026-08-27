@@ -1,5 +1,12 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-27 - G96H M93 Provider Bridge Qualification
+
+- Qualified the existing PlayableService → Preview → SQLite WorldRuntime
+  chain with the reference physical and visual providers.
+- Added a multi-perspective smoke preserving actor-specific visibility,
+  proposal/projection-only output, replay equality, and unchanged reality.
+
 ## 2026-08-27 - G96G Projection/Reality Consistency
 
 - Added versioned consistency results for visual projections and physical
