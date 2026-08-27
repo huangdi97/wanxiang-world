@@ -1,5 +1,14 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-27 - G96A PhysicalWorldProvider ABI
+
+- Added the versioned physical provider boundary: immutable read snapshots,
+  deterministic simulation requests, typed proposal-only resolutions with
+  evidence/replay hashes, and explicit health/version capabilities.
+- Contract and real SQLite runtime evidence prove the provider surface cannot
+  mutate canonical state; reference physics, visual projection, and external
+  engine integration remain separate follow-up Goals.
+
 ## 2026-08-27 - G95H M92 Lab Qualification
 
 - Added the M92 cross-artifact qualification over the existing World Lab:

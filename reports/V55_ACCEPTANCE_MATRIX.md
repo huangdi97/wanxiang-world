@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G95H: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G96A: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -49,7 +49,7 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 42 | Multi-provider/policy or mixed population | ACCEPTED | G95E deterministic assignment + same-input mixed-population product-chain evidence |
 | 43 | Worldline trajectory/cost comparator | ACCEPTED | G95F complete five-plane alignment, all-key diffs, and sanitized API/visual real-chain evidence |
 | 44 | ValidationProfile V0-V7, unknown != pass | ACCEPTED | G95G independent profile/report/stack, real private-source chain, and V7 UNKNOWN non-acceptance evidence |
-| 45 | Physical Provider ABI | PENDING | — |
+| 45 | Physical Provider ABI | ACCEPTED | G96A contract + SQLite product-chain boundary evidence |
 | 46 | Visual Provider ABI | PENDING | — |
 | 47 | Reference physical provider E2E | PENDING | — |
 | 48 | Reference visual projection E2E | PENDING | — |
@@ -69,6 +69,16 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 Required release condition: Gates 1-59 must be ACCEPTED with real evidence;
 then and only then may G97H create annotated `v5.5.0-rc1` and a GitHub
 prerelease. Otherwise the final status remains `NOT_ACCEPTED`.
+
+## Latest checkpoint — G96A / M93 (2026-08-27)
+
+G96A PASS. Evidence: `reports/G96A_REPORT.md`; immutable physical snapshot
+and simulation request records cross a versioned `PhysicalWorldProvider`
+protocol, and resolution output is the existing proposal-only
+`ProposedWorldDelta` with replay/evidence refs. A fresh SQLite WorldRuntime
+product-chain probe kept the canonical hash and event history unchanged. Gate
+45 is ACCEPTED; G96B-G97J and Gates 46-52, 56-60 remain pending; release status
+remains **IN_PROGRESS / NOT_ACCEPTED**.
 
 ## Latest checkpoint — G95H / M92 (2026-08-27)
 

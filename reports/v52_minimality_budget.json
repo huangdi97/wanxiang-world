@@ -4,7 +4,7 @@
   "hard_invariants_ok": true,
   "import_cycles": 0,
   "manager_classes": 0,
-  "milestone": "M92 (v5.5 G95H)",
+  "milestone": "M93 (v5.5 G96A)",
   "milestone_budgets": {
     "M26": {
       "hard_constraints": [
@@ -376,16 +376,25 @@
       ],
       "new_abstractions_allowance": 24,
       "note": "World laboratory evidence contracts add a sanitized RunArtifact, versioned experiment metadata, isolated fork/intervention evidence, bounded batch worldlines, provider assignment and trajectory/validation reports over the existing runtime and Commit Authority."
+    },
+    "M93": {
+      "hard_constraints": [
+        "one runtime/event store/branch system",
+        "provider output remains proposal or projection only",
+        "no external engine or GPU dependency is claimed without evidence"
+      ],
+      "new_abstractions_allowance": 30,
+      "note": "Physical/visual provider ABI records, deterministic reference adapters, perspective/privacy projections, external capability status, and reconciliation evidence reuse the existing read and proposal boundaries."
     }
   },
   "oversized_modules": 0,
-  "ports": 41,
-  "production_files": 558,
-  "production_loc": 62733,
-  "public_classes": 1199,
+  "ports": 42,
+  "production_files": 561,
+  "production_loc": 63256,
+  "public_classes": 1205,
   "public_functions": 521,
   "registry_classes": 17,
   "service_classes": 25,
-  "state_schema_models": 37,
+  "state_schema_models": 38,
   "store_classes": 31
 }

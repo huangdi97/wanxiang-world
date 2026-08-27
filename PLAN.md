@@ -34,6 +34,15 @@ literary batch, intervention, comparison, and sanitized RunArtifacts; M92 is
 PASS while Gate 41's separate parallel SQLite requirement remains pending.
 G96A-G97J remain pending. v5.5 remains IN_PROGRESS / NOT_ACCEPTED.
 
+## v5.5 M93 continuation (2026-08-27)
+
+G96A is PASS and committed as `g96a: PhysicalWorldProvider ABI`. The physical
+bridge now has immutable snapshot/request records, typed proposal-only
+resolution with replay evidence, and explicit provider health/version
+capability reporting. A real SQLite WorldRuntime snapshot crossed the ABI
+without changing canonical state or event history. G96B-G97J and the remaining
+M93-M94 gates remain pending; v5.5 remains IN_PROGRESS / NOT_ACCEPTED.
+
 ## Continuation M2?M9 (2026-08-13)
 
 Continuous execution per `05_CODEX_REMAINING_PROGRAM_MASTER_PROMPT.md` and

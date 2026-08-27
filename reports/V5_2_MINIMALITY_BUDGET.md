@@ -5,28 +5,28 @@ LOC cap: per-milestone *incremental* allowances on new abstractions (each
 with mandatory justification in `V5_2_CODE_MINIMALITY_LEDGER.md`) plus
 hard invariants that must hold at every milestone.
 
-## Current snapshot — M92 / v5.5 G95H
+## Current snapshot — M93 / v5.5 G96A
 
 | Metric | Count |
 |---|---|
-| Production files | 558 |
-| Production LOC | 62733 |
-| Public classes | 1199 |
+| Production files | 561 |
+| Production LOC | 63256 |
+| Public classes | 1205 |
 | Public functions | 521 |
 | Registries | 17 |
 | Managers | 0 |
 | Services | 25 |
 | Engines | 5 |
-| Ports | 41 |
+| Ports | 42 |
 | Stores | 31 |
-| State/schema models | 37 |
+| State/schema models | 38 |
 | Import cycles | 0 |
 | Commit paths | 1 |
 | Oversized modules (>300 lines) | 0 |
 
 Hard invariants hold: **True** (0 cycles, 1 commit path).
 
-## Historical incremental budgets M26-M92
+## Historical incremental budgets M26-M93
 
 | Milestone | New-abstraction allowance | Note | Hard constraints |
 |---|---|---|---|
@@ -72,6 +72,7 @@ Hard invariants hold: **True** (0 cycles, 1 commit path).
 | M90 | 2 | Thirty-day actor/relationship/organization qualification compares typed projection snapshots over the existing Commit Authority and replay path; no new runtime state is introduced. | same source and package bytes; append-only canonical history and replay equality; all three projection planes change without projection commits |
 | M91 | 15 | Pattern observations, repeated-pattern detection, and the bounded habit/norm/institution/culture-ontology candidate layers consume immutable derived views over committed history without creating a second history. | derived cache only; event refs and rebuild determinism; no automatic Candidate or canonical mutation |
 | M92 | 24 | World laboratory evidence contracts add a sanitized RunArtifact, versioned experiment metadata, isolated fork/intervention evidence, bounded batch worldlines, provider assignment and trajectory/validation reports over the existing runtime and Commit Authority. | one runtime/event store/branch system; artifacts contain refs and hashes, never private source bytes; provider output remains proposal-only; unknown validation is not pass |
+| M93 | 30 | Physical/visual provider ABI records, deterministic reference adapters, perspective/privacy projections, external capability status, and reconciliation evidence reuse the existing read and proposal boundaries. | one runtime/event store/branch system; provider output remains proposal or projection only; no external engine or GPU dependency is claimed without evidence |
 
 Every new abstraction must answer the four questions in
 `reports/V5_2_CODE_MINIMALITY_LEDGER.md`; otherwise it is not added.

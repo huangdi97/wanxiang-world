@@ -49,13 +49,13 @@ def test_budget_script_runs_and_hard_invariants_hold() -> None:
 def test_budget_counts_are_stable() -> None:
     _run()
     budget = _load()
-    # Current v5.5 G95B/M92 snapshot anchors; the M26-M92 history remains in
+    # Current v5.5 G96A/M93 snapshot anchors; the M26-M93 history remains in
     # the ledger and these counts include the accepted v5.5 projection/product
     # additions.
     assert budget["registry_classes"] == 17
     assert budget["service_classes"] == 25
     assert budget["engine_classes"] == 5
-    assert budget["ports"] == 41
+    assert budget["ports"] == 42
     loc = budget["production_loc"]
     files = budget["production_files"]
     assert isinstance(loc, int) and loc > 0
@@ -72,7 +72,7 @@ def test_budget_documents_every_milestone() -> None:
     assert set(milestones) == (
         {f"M{n}" for n in range(26, 35)}
         | {f"M{n}" for n in range(51, 79)}
-        | {"M88", "M89", "M90", "M91", "M92"}
+        | {"M88", "M89", "M90", "M91", "M92", "M93"}
     )
     for ms in (
         "M26",
@@ -89,6 +89,7 @@ def test_budget_documents_every_milestone() -> None:
         "M90",
         "M91",
         "M92",
+        "M93",
     ):
         spec = milestones[ms]
         allowance = spec["new_abstractions_allowance"]

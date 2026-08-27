@@ -1366,3 +1366,15 @@ G90B PASS: CreatorIntent, explicit constraint extraction, E5 domain/claim
 provenance, review actions, and prompt data-channel separation are implemented.
 Generated output cannot enter Canon or invoke Commit Authority. G90C is next;
 M87 and v5.5 remain NOT_ACCEPTED.
+
+## v5.5 G96A / M93 checkpoint (2026-08-27)
+
+G96A PASS and committed as `g96a: PhysicalWorldProvider ABI`. The M93 physical
+bridge boundary now accepts only immutable, version-pinned read snapshots and
+simulation requests, and returns typed `ProposedWorldDelta` plus evidence and
+replay hashes. Provider health/version is explicit, and the protocol exposes
+no canonical write operation. A fresh SQLite WorldRuntime snapshot crossed the
+ABI through a protocol-conforming probe with unchanged canonical hash and event
+history. G96B-G97J, M93-M94, and the remaining release gates remain pending;
+v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**. Evidence:
+`reports/G96A_REPORT.md`.

@@ -47,6 +47,23 @@ from wanxiang_substrate.world_lab.fork import (
     InterventionLedgerEntry,
     InterventionRun,
 )
+from wanxiang_substrate.world_lab.physical_models import (
+    PHYSICAL_PROVIDER_SCHEMA_VERSION,
+    PhysicalBody,
+    PhysicalSimulationRequest,
+    PhysicalSnapshot,
+    PhysicalWorldSnapshot,
+    ReadonlyPhysicalSnapshot,
+    SimulationRequest,
+)
+from wanxiang_substrate.world_lab.physical_outputs import (
+    PhysicalProviderHealth,
+    PhysicalProviderStatus,
+    PhysicalResolution,
+    PhysicalResolutionStatus,
+    PhysicalSimulationResolution,
+)
+from wanxiang_substrate.world_lab.physical_provider import PhysicalWorldProvider
 from wanxiang_substrate.world_lab.provider_evidence import MultiProviderRun, ProviderInvocation
 from wanxiang_substrate.world_lab.provider_models import (
     PROVIDER_SCHEMA_VERSION,
@@ -131,6 +148,19 @@ __all__ = [
     "ProviderAssignmentPolicy",
     "ProviderInvocation",
     "ProviderRunInput",
+    "PHYSICAL_PROVIDER_SCHEMA_VERSION",
+    "PhysicalBody",
+    "PhysicalProviderHealth",
+    "PhysicalProviderStatus",
+    "PhysicalResolution",
+    "PhysicalResolutionStatus",
+    "PhysicalSimulationRequest",
+    "PhysicalSimulationResolution",
+    "PhysicalSnapshot",
+    "PhysicalWorldProvider",
+    "PhysicalWorldSnapshot",
+    "ReadonlyPhysicalSnapshot",
+    "SimulationRequest",
     "LabQualification",
     "QUALIFICATION_SCHEMA_VERSION",
     "QualificationCheck",

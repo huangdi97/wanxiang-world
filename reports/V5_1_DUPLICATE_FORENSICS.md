@@ -24,7 +24,7 @@
 | packages/substrate/src/wanxiang_substrate/workshop/registry.py | WorldRegistryCatalog | 99 |
 | packages/substrate/src/wanxiang_substrate/world_lab/registry.py | ExperimentRegistry | 28 |
 
-## state_classes (37)
+## state_classes (38)
 
 | path | name | line |
 |---|---|---|
@@ -65,6 +65,7 @@
 | packages/substrate/src/wanxiang_substrate/session/model.py | HandoffState | 54 |
 | packages/substrate/src/wanxiang_substrate/spatial/errors.py | InvalidSpatialState | 34 |
 | packages/substrate/src/wanxiang_substrate/spatial/model.py | SpatialSnapshot | 91 |
+| packages/substrate/src/wanxiang_substrate/world_lab/physical_models.py | PhysicalSnapshot | 78 |
 
 ## store_classes (31)
 
@@ -142,7 +143,7 @@
 | packages/substrate/src/wanxiang_substrate/authoring/scenario_engine.py | ScenarioEngine | 78 |
 | packages/substrate/src/wanxiang_substrate/epistemic/belief_revision.py | BeliefRevisionEngine | 91 |
 
-## ports (41)
+## ports (42)
 
 | path | name | line |
 |---|---|---|
@@ -187,6 +188,7 @@
 | packages/substrate/src/wanxiang_substrate/runtime_port.py | WorldRuntimePort | 29 |
 | packages/substrate/src/wanxiang_substrate/sources/adapter.py | SourceAdapter | 49 |
 | packages/substrate/src/wanxiang_substrate/workshop/genesis_provider.py | PromptGenesisProvider | 28 |
+| packages/substrate/src/wanxiang_substrate/world_lab/physical_provider.py | PhysicalWorldProvider | 12 |
 
 ## oversized_modules (0)
 
