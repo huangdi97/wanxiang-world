@@ -62,6 +62,14 @@ probe produced isolated Alice/Bob views without changing canonical state or
 event history. G96D-G97J and the remaining M93-M94 gates remain pending; v5.5
 remains IN_PROGRESS / NOT_ACCEPTED.
 
+## v5.5 M93 continuation — G96E (2026-08-27)
+
+G96E is PASS and committed as `g96e: Reference Visual Projection Provider`.
+The local non-generative reference adapter now emits structured actor frames
+with snapshot/revision, state/event refs, sanitized objects, frame refs, and
+projection hashes while reusing the G96C privacy policy. G96F-G97J and the
+remaining M93-M94 gates remain pending; v5.5 remains IN_PROGRESS / NOT_ACCEPTED.
+
 ## v5.5 M93 continuation — G96D (2026-08-27)
 
 G96D is PASS and committed as `g96d: Reference Physical Provider`. The CI

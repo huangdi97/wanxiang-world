@@ -1411,3 +1411,13 @@ typed proposal operations with evidence/replay hashes. A fresh SQLite runtime
 probe left canonical hash and event history unchanged. Gate 47 is ACCEPTED;
 G96E-G97J, M93-M94, and the remaining release gates remain pending. v5.5
 remains **IN_PROGRESS / NOT_ACCEPTED**. Evidence: `reports/G96D_REPORT.md`.
+
+## v5.5 G96E / M93 checkpoint (2026-08-27)
+
+G96E PASS and committed as `g96e: Reference Visual Projection Provider`. The
+non-generative local adapter emits structured actor frames with state/snapshot
+provenance, actor-scoped event refs, sanitized objects, frame refs, and
+projection hashes. A fresh SQLite product-chain probe left canonical hash and
+event history unchanged. Gate 48 is ACCEPTED; G96F-G97J, M93-M94, and the
+remaining release gates remain pending. v5.5 remains **IN_PROGRESS / NOT_ACCEPTED**.
+Evidence: `reports/G96E_REPORT.md`.

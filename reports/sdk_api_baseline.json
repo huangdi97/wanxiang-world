@@ -1371,6 +1371,7 @@
     "wanxiang_substrate.ReferencePhysicalProvider",
     "wanxiang_substrate.ReferenceProvider",
     "wanxiang_substrate.ReferenceTextAdapter",
+    "wanxiang_substrate.ReferenceVisualProvider",
     "wanxiang_substrate.Region",
     "wanxiang_substrate.RegistryEntryNotFound",
     "wanxiang_substrate.RegistryLabel",

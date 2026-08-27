@@ -1,6 +1,6 @@
 # v5.5 M85-M94 Acceptance Matrix
 
-Status at G96D: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
+Status at G96E: **IN_PROGRESS / NOT_ACCEPTED**. This ledger is frozen for the
 v5.5 run; thresholds may not be lowered to obtain a release.
 
 | Gate | Area | Status | Evidence |
@@ -52,7 +52,7 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 | 45 | Physical Provider ABI | ACCEPTED | G96A contract + SQLite product-chain boundary evidence |
 | 46 | Visual Provider ABI | ACCEPTED | G96B contract + SQLite projection boundary evidence |
 | 47 | Reference physical provider E2E | ACCEPTED | G96D deterministic navigation/collision + proposal/evidence/replay product chain |
-| 48 | Reference visual projection E2E | PENDING | — |
+| 48 | Reference visual projection E2E | ACCEPTED | G96E deterministic structured-scene actor-frame product chain |
 | 49 | Multi-perspective privacy isolation | ACCEPTED | G96C actor-specific audience, rights, occlusion, and event-ref filtering |
 | 50 | Provider output cannot write reality | ACCEPTED | G96A/G96B proposal/projection-only contracts + unchanged SQLite reality |
 | 51 | Browser Experience/Studio E2E | PENDING | — |
@@ -69,6 +69,15 @@ v5.5 run; thresholds may not be lowered to obtain a release.
 Required release condition: Gates 1-59 must be ACCEPTED with real evidence;
 then and only then may G97H create annotated `v5.5.0-rc1` and a GitHub
 prerelease. Otherwise the final status remains `NOT_ACCEPTED`.
+
+## Latest checkpoint — G96E / M93 (2026-08-27)
+
+G96E PASS. Evidence: `reports/G96E_REPORT.md`; the non-generative reference
+visual provider produced structured actor frames with snapshot/revision,
+state/event refs, sanitized objects, and deterministic hashes using only local
+contracts. A fresh SQLite product-chain probe kept canonical reality unchanged.
+Gate 48 is ACCEPTED; G96F-G97J and Gates 51-52, 56-60 remain pending; release
+status remains **IN_PROGRESS / NOT_ACCEPTED**.
 
 ## Latest checkpoint — G96D / M93 (2026-08-27)
 

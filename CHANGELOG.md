@@ -1,5 +1,12 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-27 - G96E Reference Visual Projection Provider
+
+- Added a local non-generative structured-scene adapter with actor views,
+  snapshot/event provenance, sanitized objects, frame refs, and hashes.
+- Added a fresh SQLite product-chain projection proof with canonical reality
+  unchanged and no renderer/GPU/model dependency.
+
 ## 2026-08-27 - G96D Reference Physical Provider
 
 - Added a CI-safe deterministic navigation/collision adapter with stale-input
