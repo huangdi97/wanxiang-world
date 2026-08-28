@@ -8,6 +8,10 @@ from wanxiang_substrate.quality.experience_models import (
     ExperienceQualityRun,
     measurement_from_dict,
 )
+from wanxiang_substrate.quality.experience_scenarios import (
+    ExperienceBenchmarkScenario,
+    stable_m97_scenarios,
+)
 from wanxiang_substrate.quality.semantic_benchmark import (
     GoldAssertion,
     GoldSet,
@@ -34,10 +38,12 @@ __all__ = [
     "SemanticQualityReport",
     "WorldnessCalibrationReport",
     "ExperienceDimension",
+    "ExperienceBenchmarkScenario",
     "ExperienceMeasurement",
     "ExperienceQualityRun",
     "evaluate_gold_set",
     "measurement_from_dict",
     "run_worldness_calibration",
     "sample_candidates",
+    "stable_m97_scenarios",
 ]

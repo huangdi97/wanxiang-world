@@ -11,6 +11,7 @@ from wanxiang_substrate.quality.experience_models import (
     ExperienceQualityRun,
     measurement_from_dict,
 )
+from wanxiang_substrate.quality.experience_scenarios import stable_m97_scenarios
 
 
 def _run() -> ExperienceQualityRun:
@@ -75,3 +76,10 @@ def test_measurement_reader_keeps_missing_human_value_null() -> None:
     )
     assert measurement.value is None
     assert measurement.status == "missing"
+
+
+def test_m97_freezes_source_and_original_prompt_scenarios() -> None:
+    scenarios = stable_m97_scenarios()
+    assert {scenario.family for scenario in scenarios} == {"source", "prompt"}
+    assert all(scenario.action_script and scenario.human_slots for scenario in scenarios)
+    assert all(scenario.version == "1" for scenario in scenarios)
