@@ -18,6 +18,14 @@ Milestones: **M0** (after 00A+00B), **M1** (after 01F).
 Stop condition: M1 PASS with reproducible evidence; do NOT start G02/Living World
 Substrate or any later phase in this batch.
 
+## V55-FINAL-CLOSURE-R1 (2026-08-28)
+
+R1 closes the evidence-lineage audit without re-running M85–M94: the latest
+authoritative first-book qualification is selected by qualification date, the
+dedicated Gate 59 reconciliation and automated ledger/lineage guard are
+present, and the existing rc1 delivery remains immutable. Do not enter v5.6 or
+train a model.
+
 ## v5.5 G97I final release (2026-08-27)
 
 Gates 1–59 are accepted and Gate 60 is `ACCEPTED_FOR_RC`. Annotated

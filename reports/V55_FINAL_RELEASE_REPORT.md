@@ -34,6 +34,9 @@ proposal-only providers, and persistent playable-world state.
   PostgreSQL `EXTERNAL_BLOCKED` skip, 2 warnings; TypeScript lint/typecheck/
   test/build, architecture/kernel guards, clean-room/release-build smoke,
   Quickstart documentation tests, Studio socket smoke, and Playable E2E passed.
+- The acceptance-ledger consistency guard selects the latest source
+  qualification by qualification date: M84 `ACCEPTED` supersedes the
+  preserved 2026-08-25 pre-repair `NOT_ACCEPTED` record.
 - Historical pre-repair evidence remains preserved and is not overwritten.
 
 ## EXPERIMENTAL
@@ -52,6 +55,9 @@ remain provenance- and review-gated.
 
 External heavy physical/visual engine/provider E2E and the unavailable live
 PostgreSQL profile remain explicitly `EXTERNAL_BLOCKED`.
+
+The evidence-boundary reconciliation is recorded in
+`reports/V55_GATE59_RECONCILIATION.md`.
 
 ## Boundary confirmation
 

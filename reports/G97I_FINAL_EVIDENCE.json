@@ -92,6 +92,26 @@
       "force_push": false
     }
   ],
+  "qualification_lineage": {
+    "records": [
+      {
+        "id": "historical_pre_repair",
+        "qualified_at": "2026-08-25",
+        "status": "NOT_ACCEPTED",
+        "authority_role": "historical_protected_record",
+        "evidence": "reports/REAL_BOOK_LIVING_WORLD_ACCEPTANCE_2026-08-25.md"
+      },
+      {
+        "id": "current_first_book_qualification",
+        "qualified_at": "2026-08-26",
+        "status": "ACCEPTED",
+        "authority_role": "latest_authoritative_qualification",
+        "evidence": "reports/M84_FIRST_BOOK_REQUALIFICATION.md"
+      }
+    ],
+    "latest_authoritative_qualification": "current_first_book_qualification",
+    "selection": "latest qualified record by qualified_at among source qualifications"
+  },
   "not_proven": [
     {
       "id": "historical_original_real_book_pre_repair",

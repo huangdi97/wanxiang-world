@@ -1,5 +1,13 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-28 - V55-FINAL-CLOSURE-R1
+
+- Added the explicit Gate 59 reconciliation report and automated
+  latest-authoritative-qualification lineage selector.
+- Kept the M84 current first-book `ACCEPTED` qualification distinct from the
+  preserved 2026-08-25 historical `NOT_ACCEPTED` record.
+- Preserved v5.4 stable and v5.5.0-rc1 tags/releases; no v5.6 or training.
+
 ## 2026-08-27 - G97I Final Release
 
 - Published annotated `v5.5.0-rc1` and the GitHub prerelease after Gates 1–59

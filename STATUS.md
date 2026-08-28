@@ -1,6 +1,15 @@
 # Status ? Wanxiang Engineering Program
 
-Updated: 2026-08-27 (G97I final release)
+Updated: 2026-08-28 (V55-FINAL-CLOSURE-R1)
+
+## V55-FINAL-CLOSURE-R1 (2026-08-28)
+
+The first-book lineage selector now chooses the latest dated source
+qualification (`current_first_book_qualification`, M84, `ACCEPTED`) rather
+than the preserved historical pre-repair record. Gate 59 has a dedicated
+reconciliation report and automated selector test. The existing v5.5.0-rc1
+tag/release, v5.4 stable tag/release, and historical NOT_ACCEPTED report are
+unchanged.
 
 ## v5.5 G97I final release (2026-08-27)
 

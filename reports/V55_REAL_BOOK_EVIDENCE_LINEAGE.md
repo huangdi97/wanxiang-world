@@ -5,6 +5,25 @@ Date: 2026-08-27
 This lineage reconciles two records for the same private local source without
 rewriting either record.
 
+## Qualification lineage selector
+
+The source qualification records are ordered by their qualification date. The
+latest authoritative qualification is the newest accepted qualification, not
+the oldest protected report:
+
+| Qualification id | Date | Status | Authority role |
+|---|---|---|---|
+| `historical_pre_repair` | 2026-08-25 | `NOT_ACCEPTED` | historical protected record |
+| `current_first_book_qualification` | 2026-08-26 | `ACCEPTED` | latest authoritative qualification |
+
+The later v5.4.0 stable release is a release event based on
+`current_first_book_qualification`; it is not a replacement source
+qualification. The machine selector is recorded in
+`reports/G97I_FINAL_EVIDENCE.json` under `qualification_lineage`.
+The selected `latest_authoritative_qualification` is
+`current_first_book_qualification`; selection is by the greatest
+`qualified_at` value among source qualifications.
+
 | Record | Source identity | Result | Role |
 |---|---|---|---|
 | 2026-08-25 acceptance report | 937,500 bytes; 323,815 UTF-8 characters; private local text | `NOT_ACCEPTED`; rights diagnostic produced 0 candidates and coverage 0 | Historical pre-repair evidence, preserved unchanged |

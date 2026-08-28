@@ -65,7 +65,7 @@ is frozen for the v5.5 run; thresholds may not be lowered to obtain a release.
 | 56 | Remote SHA equals local HEAD | ACCEPTED | release-target feature-branch SHA equaled local HEAD 50443c8f7cc58fc4661af2a7d993dc7ec6144e11 before tag publication |
 | 57 | Required GitHub Actions | ACCEPTED | release-target Actions run 33085230406; all six required jobs completed success |
 | 58 | Working tree clean | ACCEPTED | G97G checkpoint commit leaves the feature worktree clean; verified by git status |
-| 59 | Evidence boundary separation | ACCEPTED | reports/V55_GATE59_EVIDENCE_BOUNDARY_RECONCILIATION.md; reports/G97I_FINAL_EVIDENCE.json |
+| 59 | Evidence boundary separation | ACCEPTED | reports/V55_GATE59_RECONCILIATION.md; reports/G97I_FINAL_EVIDENCE.json |
 | 60 | Release gate / rc1 only if all ACCEPTED | ACCEPTED_FOR_RC | Gates 1–59 all ACCEPTED; v5.5.0-rc1 tag and prerelease verified |
 
 Required release condition: Gates 1-59 must be ACCEPTED with real evidence;
