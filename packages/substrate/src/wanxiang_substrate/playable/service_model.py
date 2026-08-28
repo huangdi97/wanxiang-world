@@ -8,6 +8,7 @@ from typing import Protocol
 from wanxiang_runtime.state import InMemoryCanonicalState
 
 from wanxiang_substrate.playable.action_model import ActionProposal
+from wanxiang_substrate.playable.evidence import PlayerActionEvidence
 from wanxiang_substrate.playable.state_diff import CommittedStateDiff
 
 
@@ -27,6 +28,7 @@ class PlayableActionResult:
     revision: int
     state_hash: str
     diff: CommittedStateDiff
+    evidence: PlayerActionEvidence
 
     def to_dict(self) -> dict[str, object]:
         return {
@@ -35,4 +37,5 @@ class PlayableActionResult:
             "revision": self.revision,
             "state_hash": self.state_hash,
             "diff": self.diff.to_dict(),
+            "evidence": self.evidence.to_dict(),
         }

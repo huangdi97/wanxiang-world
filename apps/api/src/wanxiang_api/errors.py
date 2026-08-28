@@ -6,6 +6,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from wanxiang_domain.errors import (
     Conflict,
+    ContractError,
     DuplicateCommandConflict,
     IncompatibleVersion,
     NotFound,
@@ -17,7 +18,7 @@ from wanxiang_substrate.sources.errors import SourceError
 
 
 def _status(error: WanxiangError) -> int:
-    if isinstance(error, (ValidationRejected, IncompatibleVersion, SourceError)):
+    if isinstance(error, (ContractError, ValidationRejected, IncompatibleVersion, SourceError)):
         return 422
     if isinstance(error, (StaleRevision, DuplicateCommandConflict, Conflict)):
         return 409

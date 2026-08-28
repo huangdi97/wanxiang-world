@@ -12,6 +12,7 @@ from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.playable.actions import IntentCompiler
 from wanxiang_substrate.playable.catalog import WorldPlaza
 from wanxiang_substrate.playable.entry import CharacterEntryService, EntryReceipt, active_lease
+from wanxiang_substrate.playable.evidence import PlayerActionEvidence
 from wanxiang_substrate.playable.experience import (
     EntryMode,
     ExperiencePackage,
@@ -217,6 +218,16 @@ class PlayableService:
             viewer_actor_id=record.actor_id,
             allowed_categories=experience.state_diff_fields,
         )
+        evidence = PlayerActionEvidence.from_committed(
+            result.proposal,
+            command_id=command.command_id.value,
+            event_id=event_id,
+            before_revision=before.revision.value,
+            after_revision=submitted.state.revision.value,
+            before_state_hash=before.semantic_hash(),
+            after_state_hash=submitted.state.semantic_hash(),
+            diff=diff,
+        )
         self.store.save_instance(
             ExperienceInstanceRecord(
                 record.instance_id,
@@ -237,6 +248,7 @@ class PlayableService:
             submitted.state.revision.value,
             submitted.state.semantic_hash(),
             diff,
+            evidence,
         )
 
     def _save_instance(

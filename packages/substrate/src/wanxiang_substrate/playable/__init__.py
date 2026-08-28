@@ -8,6 +8,7 @@ from wanxiang_substrate.playable.action_model import (
 from wanxiang_substrate.playable.actions import IntentCompiler
 from wanxiang_substrate.playable.catalog import SessionCard, WorldCard, WorldPlaza
 from wanxiang_substrate.playable.entry import CharacterEntryService, EntryReceipt, active_lease
+from wanxiang_substrate.playable.evidence import PlayerActionEvidence
 from wanxiang_substrate.playable.experience import (
     EmbodimentPolicy,
     ExperiencePackage,
@@ -52,6 +53,7 @@ __all__ = [
     "IntentCompiler",
     "PlayableStore",
     "PlayableActionResult",
+    "PlayerActionEvidence",
     "PlayableService",
     "PlayableWorldProfile",
     "ProjectionProfile",
