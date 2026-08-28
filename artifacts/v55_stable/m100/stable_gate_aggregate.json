@@ -1,0 +1,441 @@
+{
+  "schema": "wanxiang.v5.5.m100.stable-gate-aggregate.v1",
+  "conclusion": "LOCKED",
+  "generated_build_sha": "1fae5a3775df66d2a3e824de2d15cb02ee41f42a",
+  "evidence_derived": true,
+  "gates": {
+    "61": {
+      "status": "PASS",
+      "evidence": [
+        "artifacts/v55_stable/baseline.json"
+      ],
+      "checks": {
+        "baseline_conclusion": true,
+        "tag_objects": true,
+        "closure_and_tag_ancestry": true,
+        "local_check_set": true,
+        "scope_scan": true
+      }
+    },
+    "62": {
+      "status": "USER_INPUT_REQUIRED",
+      "evidence": [
+        "artifacts/v55_stable/m95/player_acceptance.json"
+      ],
+      "human_required": true,
+      "human_fields_present": false,
+      "automated_route_conclusion": "PASS"
+    },
+    "63": {
+      "status": "USER_INPUT_REQUIRED",
+      "evidence": [
+        "artifacts/v55_stable/m95/player_acceptance.json"
+      ],
+      "human_required": true,
+      "human_fields_present": false,
+      "automated_route_conclusion": "PASS"
+    },
+    "64": {
+      "status": "USER_INPUT_REQUIRED",
+      "evidence": [
+        "artifacts/v55_stable/m95/player_acceptance.json"
+      ],
+      "human_required": true,
+      "human_fields_present": false,
+      "automated_route_conclusion": "PASS"
+    },
+    "65": {
+      "status": "USER_INPUT_REQUIRED",
+      "evidence": [
+        "artifacts/v55_stable/m95/player_acceptance.json"
+      ],
+      "human_required": true,
+      "human_fields_present": false,
+      "automated_route_conclusion": "PASS"
+    },
+    "66": {
+      "status": "USER_INPUT_REQUIRED",
+      "evidence": [
+        "artifacts/v55_stable/m95/player_acceptance.json"
+      ],
+      "human_required": true,
+      "human_fields_present": false,
+      "automated_route_conclusion": "PASS"
+    },
+    "67": {
+      "status": "PASS",
+      "evidence": [
+        "artifacts/v55_stable/m96/original_prompt_world.json"
+      ],
+      "checks": true,
+      "artifact_gate": "PASS",
+      "build_sha": "ad3f779f86c28850b5d0346f6d8022e3386d18dd"
+    },
+    "68": {
+      "status": "PASS",
+      "evidence": [
+        "artifacts/v55_stable/m96/original_prompt_world.json"
+      ],
+      "checks": true,
+      "artifact_gate": "PASS",
+      "build_sha": "ad3f779f86c28850b5d0346f6d8022e3386d18dd"
+    },
+    "69": {
+      "status": "PASS",
+      "evidence": [
+        "artifacts/v55_stable/m96/original_prompt_world.json"
+      ],
+      "checks": true,
+      "artifact_gate": "PASS",
+      "build_sha": "ad3f779f86c28850b5d0346f6d8022e3386d18dd"
+    },
+    "70": {
+      "status": "PASS",
+      "evidence": [
+        "artifacts/v55_stable/m97/experience_quality_baseline.json"
+      ],
+      "checks": true,
+      "artifact_gate": "PASS",
+      "build_sha": "cafc05bd22667288ed5c882910ff25d7cf633fe4"
+    },
+    "71": {
+      "status": "PASS",
+      "evidence": [
+        "artifacts/v55_stable/m97/experience_quality_baseline.json"
+      ],
+      "checks": true,
+      "artifact_gate": "PASS",
+      "build_sha": "cafc05bd22667288ed5c882910ff25d7cf633fe4"
+    },
+    "72": {
+      "status": "PASS",
+      "evidence": [
+        "artifacts/v55_stable/m97/experience_quality_baseline.json"
+      ],
+      "checks": true,
+      "artifact_gate": "PASS",
+      "build_sha": "cafc05bd22667288ed5c882910ff25d7cf633fe4"
+    },
+    "73": {
+      "status": "PASS",
+      "evidence": [
+        "artifacts/v55_stable/m98/run_matrix.json",
+        "artifacts/v55_stable/m98/30d_burn_in.json",
+        "artifacts/v55_stable/m98/90d_burn_in.json",
+        "artifacts/v55_stable/m98/emergence_controls.json",
+        "artifacts/v55_stable/m98/scale_curve.json",
+        "artifacts/v55_stable/m98/capacity_curve.json"
+      ],
+      "derived_check": {
+        "status": "PASS",
+        "declared_rows": 12,
+        "completed_rows": 12,
+        "failed_rows": 0,
+        "aggregation_complete": true,
+        "all_row_checks": true,
+        "build_sha": "6d3f9f3dd98f358b296026b564b9ace2691eda01",
+        "matrix_hash": "6f0459ff2bfbdb6c9c2b46eeeb956025ffdf397a8c3037a4902a2a718a6ad075",
+        "run_refs": [
+          "m98-30d-s9801-baseline-low",
+          "m98-30d-s9801-baseline-high",
+          "m98-30d-s9801-conservative-low",
+          "m98-30d-s9801-conservative-high",
+          "m98-30d-s9802-baseline-low",
+          "m98-30d-s9802-baseline-high",
+          "m98-30d-s9802-conservative-low",
+          "m98-30d-s9802-conservative-high",
+          "m98-30d-s9803-baseline-low",
+          "m98-30d-s9803-baseline-high",
+          "m98-30d-s9803-conservative-low",
+          "m98-30d-s9803-conservative-high"
+        ]
+      },
+      "summary_status_matches": true,
+      "matrix_shape": true
+    },
+    "74": {
+      "status": "PASS",
+      "evidence": [
+        "artifacts/v55_stable/m98/run_matrix.json",
+        "artifacts/v55_stable/m98/30d_burn_in.json",
+        "artifacts/v55_stable/m98/90d_burn_in.json",
+        "artifacts/v55_stable/m98/emergence_controls.json",
+        "artifacts/v55_stable/m98/scale_curve.json",
+        "artifacts/v55_stable/m98/capacity_curve.json"
+      ],
+      "derived_check": {
+        "status": "PASS",
+        "declared_rows": 6,
+        "completed_rows": 6,
+        "failed_rows": 0,
+        "aggregation_complete": true,
+        "all_row_checks": true,
+        "build_sha": "453f8059f4dc3120305392b5e4c9662be6dad01b",
+        "matrix_hash": "6f0459ff2bfbdb6c9c2b46eeeb956025ffdf397a8c3037a4902a2a718a6ad075",
+        "run_refs": [
+          "m98-90d-s9811-baseline",
+          "m98-90d-s9811-stress",
+          "m98-90d-s9812-baseline",
+          "m98-90d-s9812-stress",
+          "m98-90d-s9813-baseline",
+          "m98-90d-s9813-stress"
+        ]
+      },
+      "summary_status_matches": true,
+      "matrix_shape": true
+    },
+    "75": {
+      "status": "PASS",
+      "evidence": [
+        "artifacts/v55_stable/m98/run_matrix.json",
+        "artifacts/v55_stable/m98/30d_burn_in.json",
+        "artifacts/v55_stable/m98/90d_burn_in.json",
+        "artifacts/v55_stable/m98/emergence_controls.json",
+        "artifacts/v55_stable/m98/scale_curve.json",
+        "artifacts/v55_stable/m98/capacity_curve.json"
+      ],
+      "derived_check": {
+        "status": "PASS",
+        "build_sha": "42890140177a9199f628b4b8a5a9160a0e49502c",
+        "seed": 10104,
+        "positive_world_ref": "prv_playable_1",
+        "positive_branch_ref": "br_a601550a7e29462b84ec2f12395816e6",
+        "positive_event_count": 13,
+        "qualified_detection_count": 3,
+        "null_world_ref": "prv_playable_2",
+        "null_branch_ref": "br_22972a9d696f40ddb32219d91c96bf79",
+        "null_event_count": 7,
+        "all_checks": true,
+        "safety_boundary_ok": true,
+        "control_rejected": true
+      },
+      "summary_status_matches": true,
+      "matrix_shape": true
+    },
+    "76": {
+      "status": "PASS",
+      "evidence": [
+        "artifacts/v55_stable/m98/run_matrix.json",
+        "artifacts/v55_stable/m98/30d_burn_in.json",
+        "artifacts/v55_stable/m98/90d_burn_in.json",
+        "artifacts/v55_stable/m98/emergence_controls.json",
+        "artifacts/v55_stable/m98/scale_curve.json",
+        "artifacts/v55_stable/m98/capacity_curve.json"
+      ],
+      "derived_check": {
+        "status": "PASS",
+        "build_sha": "09c161c79f14911c804b3d22c38896c3545c41cf",
+        "template": "m98-standard-scale-template-v1",
+        "template_hash": "e43135ca34d98d5cf6d619b13173eb6dcbc8baa8cabbe0e653141288613ea129",
+        "declared_rows": 15,
+        "completed_rows": 15,
+        "failed_rows": 0,
+        "tier_counts": {
+          "10": 3,
+          "50": 3,
+          "100": 3,
+          "500": 3,
+          "1000": 3
+        },
+        "exact_population_and_full_policy": true,
+        "active_counts_separate": true,
+        "run_refs": [
+          "m98-scale-10-r1",
+          "m98-scale-10-r2",
+          "m98-scale-10-r3",
+          "m98-scale-50-r1",
+          "m98-scale-50-r2",
+          "m98-scale-50-r3",
+          "m98-scale-100-r1",
+          "m98-scale-100-r2",
+          "m98-scale-100-r3",
+          "m98-scale-500-r1",
+          "m98-scale-500-r2",
+          "m98-scale-500-r3",
+          "m98-scale-1000-r1",
+          "m98-scale-1000-r2",
+          "m98-scale-1000-r3"
+        ]
+      },
+      "summary_status_matches": true,
+      "matrix_shape": true
+    },
+    "77": {
+      "status": "PASS",
+      "evidence": [
+        "artifacts/v55_stable/m98/run_matrix.json",
+        "artifacts/v55_stable/m98/30d_burn_in.json",
+        "artifacts/v55_stable/m98/90d_burn_in.json",
+        "artifacts/v55_stable/m98/emergence_controls.json",
+        "artifacts/v55_stable/m98/scale_curve.json",
+        "artifacts/v55_stable/m98/capacity_curve.json"
+      ],
+      "derived_check": {
+        "status": "PASS",
+        "build_sha": "09c161c79f14911c804b3d22c38896c3545c41cf",
+        "declared_rows": 15,
+        "completed_rows": 15,
+        "failed_rows": 0,
+        "required_metric_missing": [],
+        "observed_knee": "500_actor_tier_by_superlinear_recovery",
+        "knee_evidence": {
+          "tier": 500,
+          "metric": "max_recovery_ms",
+          "previous_tier": 100,
+          "population_growth_ratio": 5.0,
+          "recovery_growth_ratio": 9.003203
+        },
+        "no_10k_100k_extrapolation": "forbidden",
+        "provider_cost_usd": 0.0
+      },
+      "summary_status_matches": true,
+      "matrix_shape": true
+    },
+    "78": {
+      "status": "EXTERNAL_BLOCKED",
+      "evidence": [
+        "artifacts/v55_stable/m99/godot_integration.json"
+      ],
+      "checks": {
+        "godot_executable_found": false,
+        "godot4_executable_found": false,
+        "real_engine_e2e": false,
+        "installation_attempted": false,
+        "reference_abi_not_relabelled_as_godot": true
+      },
+      "reason": "No supported Godot executable is available on this host; no engine was downloaded or installed."
+    },
+    "79": {
+      "status": "LOCKED",
+      "evidence": [
+        "G103B-G103D stable preflight is pending"
+      ],
+      "reason": "M100 stable preflight and clean-clone evidence is not yet accepted"
+    }
+  },
+  "ledger_consistency": {
+    "status": "PASS",
+    "ledger_path": "reports/V55_STABLE_ACCEPTANCE_MATRIX.md",
+    "observed": {
+      "61": "PASS",
+      "62": "USER_INPUT_REQUIRED",
+      "63": "USER_INPUT_REQUIRED",
+      "64": "USER_INPUT_REQUIRED",
+      "65": "USER_INPUT_REQUIRED",
+      "66": "USER_INPUT_REQUIRED",
+      "67": "PASS",
+      "68": "PASS",
+      "69": "PASS",
+      "70": "PASS",
+      "71": "PASS",
+      "72": "PASS",
+      "73": "PASS",
+      "74": "PASS",
+      "75": "PASS",
+      "76": "PASS",
+      "77": "PASS",
+      "78": "EXTERNAL_BLOCKED",
+      "79": "LOCKED",
+      "80": "LOCKED"
+    },
+    "expected_from_evidence": {
+      "61": "PASS",
+      "62": "USER_INPUT_REQUIRED",
+      "63": "USER_INPUT_REQUIRED",
+      "64": "USER_INPUT_REQUIRED",
+      "65": "USER_INPUT_REQUIRED",
+      "66": "USER_INPUT_REQUIRED",
+      "67": "PASS",
+      "68": "PASS",
+      "69": "PASS",
+      "70": "PASS",
+      "71": "PASS",
+      "72": "PASS",
+      "73": "PASS",
+      "74": "PASS",
+      "75": "PASS",
+      "76": "PASS",
+      "77": "PASS",
+      "78": "EXTERNAL_BLOCKED",
+      "79": "LOCKED",
+      "80": "LOCKED"
+    }
+  },
+  "stable_release_predicate": {
+    "gate_80": "LOCKED",
+    "all_required_gates": false,
+    "reason": [
+      "Gates 62-66 remain USER_INPUT_REQUIRED",
+      "Gate 79 stable preflight is not yet accepted"
+    ]
+  },
+  "source_artifacts": {
+    "baseline.json": {
+      "path": "artifacts/v55_stable/baseline.json",
+      "sha256": "6f788314de43937daf8a4e5e8be90c787fff5f1ade374d87a956897431e8df42",
+      "schema": "wanxiang.v5.5.stable-baseline.v1",
+      "conclusion": "PASS",
+      "build_sha": null
+    },
+    "m95/player_acceptance.json": {
+      "path": "artifacts/v55_stable/m95/player_acceptance.json",
+      "sha256": "090a636355ff99ded7c23ca112650aa5dfc3ad4ef239c615804b562310516573",
+      "schema": "wanxiang.v5.5.m95.player-acceptance.v1",
+      "conclusion": "USER_INPUT_REQUIRED",
+      "build_sha": null
+    },
+    "m96/original_prompt_world.json": {
+      "path": "artifacts/v55_stable/m96/original_prompt_world.json",
+      "sha256": "e6dac5ea26737635a50396a32c2c5877c54a97e82be4d3975dc34c2564e62bc3",
+      "schema": "wanxiang.v5.5.m96.original-prompt-world.v1",
+      "conclusion": "PASS",
+      "build_sha": "ad3f779f86c28850b5d0346f6d8022e3386d18dd"
+    },
+    "m97/experience_quality_baseline.json": {
+      "path": "artifacts/v55_stable/m97/experience_quality_baseline.json",
+      "sha256": "5f215fb38ad806e9e498f0131735c8bc876ab1a6304ece1a63d3b65d74402a1e",
+      "schema": "wanxiang.v5.5.m97.experience-quality.v1",
+      "conclusion": "PASS",
+      "build_sha": "cafc05bd22667288ed5c882910ff25d7cf633fe4"
+    },
+    "m98/burn_in_summary.json": {
+      "path": "artifacts/v55_stable/m98/burn_in_summary.json",
+      "sha256": "e66a8fc9c340e9c0b25b45bea8778836be0af1cec90a9b253d0504ec825f4abe",
+      "schema": "wanxiang.v5.5.m98.burn-in-summary.v1",
+      "conclusion": "PASS",
+      "build_sha": "9ac66665f7332ae6e1453ad6bdb80e6d193a98fb"
+    },
+    "m99/godot_integration.json": {
+      "path": "artifacts/v55_stable/m99/godot_integration.json",
+      "sha256": "c6f6aa64570f1a825c459fb2572473fb55205ce64adba63eefe998cf1018ad60",
+      "schema": "wanxiang.v5.5.m99.godot-integration.v1",
+      "conclusion": "EXTERNAL_BLOCKED",
+      "build_sha": "9ac66665f7332ae6e1453ad6bdb80e6d193a98fb"
+    }
+  },
+  "boundaries": {
+    "implemented": [
+      "evidence-derived Gates 61-79 aggregate",
+      "stable ledger consistency comparison"
+    ],
+    "validated": [
+      "Gates 61, 67-77 from persisted local evidence",
+      "Gate 78 explicit Godot external block"
+    ],
+    "experimental": [
+      "Prompt Genesis and bounded long-horizon continuity",
+      "World Lab and emergence interpretation"
+    ],
+    "not_proven": [
+      "genuine human experience acceptance",
+      "Stable Gate 79/80",
+      "production or scientific generalization"
+    ],
+    "external_blocked": [
+      "live Git remote refresh",
+      "live PostgreSQL",
+      "heavy physical/visual E2E",
+      "real Godot runtime"
+    ]
+  }
+}

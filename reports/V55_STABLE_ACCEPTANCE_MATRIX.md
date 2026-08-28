@@ -221,6 +221,18 @@ Godot evidence. This explicit block does not prevent G103.
 Machine-readable evidence: artifacts/v55_stable/m99/godot_integration.json.
 Narrative evidence: reports/M99_GODOT_REAL_INTEGRATION.md.
 
+## G103A aggregate decision
+
+The evidence-derived aggregate is LOCKED, with ledger consistency PASS. Gates
+61 and 67-77 are PASS; Gates 62-66 remain USER_INPUT_REQUIRED; Gate 78 is the
+explicit Godot EXTERNAL_BLOCKED result; Gate 79 is still LOCKED; and Gate 80
+is LOCKED. The guard recomputes the M98 predicates from their source artifacts
+and compares the resulting statuses with this ledger, so no release status is
+inferred from prose alone.
+
+Machine-readable evidence: artifacts/v55_stable/m100/stable_gate_aggregate.json.
+Narrative evidence: reports/M100_G103A_STABLE_GATE_AGGREGATE.md.
+
 ## Stable release rule
 
 Gate 80 remains `LOCKED` until Gates 61–77 and 79 are accepted, Gate 78 is

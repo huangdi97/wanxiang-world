@@ -115,8 +115,10 @@ now `PASS`: the complete 15-row SimulationLOD ladder passed at
 super-linear recovery degradation at 500 actors. G101G is now `PASS` and M98
 is complete within its bounded scope. Gates 73–77 are accepted. M99/G102 is
 `EXTERNAL_BLOCKED` because no supported Godot executable is present; Gate 78
-records that explicit block and G103 continues. Gate 79 remains pending. Gate
-80 remains locked because M95 human evidence is still
+records that explicit block and G103 continues. G103A evidence-derived gate
+aggregation is `PASS` for consistency; G103B-G103D remain active for stable
+preflight and clean-clone evidence. Gate 79 remains pending. Gate 80 remains
+locked because M95 human evidence is still
 `USER_INPUT_REQUIRED`. No v5.6 or model-training work occurred.
 
 ## v5.5 G97I final release (2026-08-27)

@@ -44,7 +44,9 @@ curve records the first measured super-linear recovery degradation at 500
 actors. G101G is now `PASS` and M98 is complete within its bounded scope.
 Gates 73–77 are accepted. M99/G102 is `EXTERNAL_BLOCKED` because no supported
 Godot executable is present; Gate 78 records that explicit block and G103
-continues. Gate 79 remains pending. Gate 80 remains locked because
+continues. G103A evidence-derived gate aggregation is now `PASS` for
+consistency; G103B-G103D remain active for stable preflight and clean-clone
+evidence. Gate 79 remains pending. Gate 80 remains locked because
 the M95 human evidence is still missing and the later Stable predicate is
 incomplete. The required live fetch remains `EXTERNAL_BLOCKED` because this
 host lacks the Git HTTPS remote helper; no remote freshness is inferred from a
