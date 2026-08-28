@@ -88,7 +88,7 @@ def _classify(name: str, code: int, output: str) -> str:
             and "playwright" in lowered
         ):
             return "EXTERNAL_BLOCKED"
-    if name.startswith("pnpm_") and code == 127:
+    if name in {"pnpm_install", "ts_lint", "ts_typecheck", "ts_test", "ts_build"} and code == 127:
         lowered = output.lower()
         if "filenotfounderror" in lowered and "winerror 2" in lowered:
             return "EXTERNAL_BLOCKED"
@@ -203,11 +203,13 @@ def run() -> dict[str, Any]:
             "not_proven": [
                 "live PostgreSQL when the service is absent",
                 "heavy browser/visual E2E when Windows process-pipe access is denied",
+                "TypeScript gates when pnpm is unavailable on the host",
                 "production hosting and external infrastructure",
             ],
             "external_blocked": [
                 "live PostgreSQL profile when skipped or unreachable",
                 "browser Studio chain when Playwright cannot create its real process pipe",
+                "pnpm install/lint/typecheck/test/build when pnpm is unavailable",
             ],
         },
     }
