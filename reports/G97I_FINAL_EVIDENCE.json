@@ -112,6 +112,27 @@
     "latest_authoritative_qualification": "current_first_book_qualification",
     "selection": "latest qualified record by qualified_at among source qualifications"
   },
+  "post_release_verification": {
+    "verified_at": "2026-08-28",
+    "closure_commit": "d98d90c927d3325dbe527112ddd14867b19c2177",
+    "remote_branch": "feature/v5.5-playable-persistent-evolving",
+    "remote_branch_sha_matches_clone_head": true,
+    "documented_install": "uv sync --all-groups --all-packages",
+    "quickstart_and_lineage_smoke": {
+      "tests": 4,
+      "passed": 4
+    },
+    "clean_room": {
+      "steps": 7,
+      "passed": 7,
+      "status": "PASS"
+    },
+    "release_manifest_git_sha": "d98d90c927d3325dbe527112ddd14867b19c2177",
+    "release_manifest_migration_head": "0004_add_world_metadata",
+    "actions_run": "33135588700",
+    "all_required_jobs_success": true,
+    "v5_4_stable_tag_and_release_unchanged": true
+  },
   "not_proven": [
     {
       "id": "historical_original_real_book_pre_repair",

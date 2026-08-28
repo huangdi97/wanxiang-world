@@ -1,6 +1,6 @@
 # Wanxiang v5.5.0-rc1 Final Release Report
 
-Date: 2026-08-27
+Date: 2026-08-28 (R1 closure verification)
 Decision: **ACCEPTED**
 Release: [Wanxiang v5.5.0-rc1](https://github.com/huangdi97/wanxiang-world/releases/tag/v5.5.0-rc1)
 
@@ -14,6 +14,25 @@ Release: [Wanxiang v5.5.0-rc1](https://github.com/huangdi97/wanxiang-world/relea
   matched local HEAD before publication.
 - Required CI: [run 33085230406](https://github.com/huangdi97/wanxiang-world/actions/runs/33085230406),
   all six required jobs completed with `success`.
+
+## V55-FINAL-CLOSURE-R1 verification
+
+- Closure commit `d98d90c927d3325dbe527112ddd14867b19c2177` was pushed without
+  force to `feature/v5.5-playable-persistent-evolving`; the remote branch SHA
+  matched exactly.
+- R1 Actions [run 33135588700](https://github.com/huangdi97/wanxiang-world/actions/runs/33135588700)
+  completed `success` for all six required jobs, including Python SQLite,
+  architecture, kernel, PostgreSQL migration, TypeScript, safety, package,
+  and clean-room checks.
+- An isolated shallow clone at the R1 branch SHA passed the documented
+  `uv sync --all-groups --all-packages` install, Quickstart/lineage smoke
+  (`4 passed`), and `scripts/clean_room_certify.py` (`7/7 PASS`). Its release
+  manifest reported the same R1 HEAD and migration head
+  `0004_add_world_metadata`.
+- The remote v5.4.0 stable tag and Release remain present and unchanged:
+  non-draft, non-prerelease, tag object
+  `8b9541ad21a8dda5c3f159fe72186431422a3a06`, peeled commit
+  `ef935fc6c24eb47553382d318e1501a795c4da84`.
 
 ## IMPLEMENTED
 

@@ -10,6 +10,10 @@ than the preserved historical pre-repair record. Gate 59 has a dedicated
 reconciliation report and automated selector test. The existing v5.5.0-rc1
 tag/release, v5.4 stable tag/release, and historical NOT_ACCEPTED report are
 unchanged.
+The R1 closure commit `d98d90c927d3325dbe527112ddd14867b19c2177` is remote,
+and Actions run `33135588700` is green across all six required jobs. A clean
+clone using `uv sync --all-groups --all-packages` passed the four smoke tests
+and clean-room certification 7/7.
 
 ## v5.5 G97I final release (2026-08-27)
 

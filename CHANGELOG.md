@@ -4,6 +4,9 @@
 
 - Added the explicit Gate 59 reconciliation report and automated
   latest-authoritative-qualification lineage selector.
+- Completed post-release verification from an isolated clone at closure commit
+  `d98d90c`: documented all-workspace install, four smoke tests, and clean-room
+  certification 7/7; required Actions run `33135588700` is green.
 - Kept the M84 current first-book `ACCEPTED` qualification distinct from the
   preserved 2026-08-25 historical `NOT_ACCEPTED` record.
 - Preserved v5.4 stable and v5.5.0-rc1 tags/releases; no v5.6 or training.

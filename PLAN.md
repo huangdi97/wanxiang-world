@@ -24,7 +24,9 @@ R1 closes the evidence-lineage audit without re-running M85–M94: the latest
 authoritative first-book qualification is selected by qualification date, the
 dedicated Gate 59 reconciliation and automated ledger/lineage guard are
 present, and the existing rc1 delivery remains immutable. Do not enter v5.6 or
-train a model.
+train a model. The closure commit is remote, its six required Actions jobs are
+green, and the isolated documented-install/Quickstart/lineage/clean-room
+verification is complete.
 
 ## v5.5 G97I final release (2026-08-27)
 
