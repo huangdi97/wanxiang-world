@@ -43,6 +43,13 @@ def _ref_tuple(values: Sequence[object], name: str) -> tuple[str, ...]:
     return tuple(sorted(result))
 
 
+def _ordered_ref_tuple(values: Sequence[object], name: str) -> tuple[str, ...]:
+    result = tuple(_text(value, f"{name} item") for value in values)
+    if len(set(result)) != len(result):
+        raise ContractError(f"{name} must not contain duplicates")
+    return result
+
+
 @dataclass(frozen=True, slots=True)
 class ExperienceMeasurement:
     """One normalized [0,1] measurement and its evidence method."""
@@ -161,7 +168,9 @@ class ExperienceQualityRun:
             raise ContractError("invalid human data status")
         if not self.sanitized:
             raise ContractError("ExperienceQualityRun must be sanitized")
-        object.__setattr__(self, "action_script", _ref_tuple(self.action_script, "action_script"))
+        object.__setattr__(
+            self, "action_script", _ordered_ref_tuple(self.action_script, "action_script")
+        )
         for name in ("event_refs", "state_refs", "replay_refs", "missing_data"):
             object.__setattr__(self, name, _ref_tuple(getattr(self, name), name))
         names = tuple(item.name for item in self.dimensions)

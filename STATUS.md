@@ -47,8 +47,32 @@ continuity. Evidence is in
 
 Prompt Genesis and bounded long-horizon continuity remain
 `EXPERIMENTAL`/`BOUNDED`; no universal creative, scientific, or emergence claim
-is made. G100 is next. Gate 80 remains locked by M95 `USER_INPUT_REQUIRED` and
-the incomplete later Stable gates. No v5.6 or model-training work occurred.
+is made. G100/M97 is complete; G101/M98 is next. Gate 80 remains locked by
+M95 `USER_INPUT_REQUIRED` and the incomplete later Stable gates. No v5.6 or
+model-training work occurred.
+
+## v5.5 Stable Certification — G100 / M97 (2026-08-28)
+
+G100A–G100E / M97 are `PASS` for the bounded Gates 70–72 engineering
+benchmark. The versioned ten-dimension ExperienceQuality schema, two frozen
+benchmark families, missing-aware collector, aggregate, and reproducible
+baseline are implemented in commits `b09d538`, `f60744c`, `24ed765`,
+`ea18256`, and `cafc05b`. The final artifact was generated at build SHA
+`cafc05bd22667288ed5c882910ff25d7cf633fe4` and contains four real local
+Workshop/API/Playable product runs: source and M96 original-prompt worlds,
+with seeds `9701` and `9702` for each family. Automated StateDiff,
+invalid-action rejection, leave/continue, checkpoint/replay, and bounded
+continuity refs are hash-verifiable.
+
+Genuine human session/rating data is explicitly `missing`/`USER_INPUT_REQUIRED`
+in every run and is not inferred from automation. Worldness is a separate
+reference surface, scientific validity is `NOT_ASSESSED`, and no model judge
+or universal quality threshold is used. Prompt Genesis, bounded long-horizon
+continuity, World Lab, and emergence remain `EXPERIMENTAL`/`BOUNDED`.
+Evidence is in `artifacts/v55_stable/m97/experience_quality_baseline.json` and
+`reports/M97_EXPERIENCE_QUALITY_BENCHMARK.md`. G101 / M98 is next; Gates 73–79
+and Gate 80 remain locked by the missing M95 human evidence and later release
+predicates. No v5.6 or model-training work occurred.
 
 ## v5.5 G97I final release (2026-08-27)
 

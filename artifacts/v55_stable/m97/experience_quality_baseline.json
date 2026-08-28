@@ -1,0 +1,1545 @@
+{
+  "schema": "wanxiang.v5.5.m97.experience-quality.v1",
+  "conclusion": "PASS",
+  "gates": {
+    "70": "PASS",
+    "71": "PASS",
+    "72": "PASS"
+  },
+  "build_sha": "cafc05bd22667288ed5c882910ff25d7cf633fe4",
+  "inputs": {
+    "sha256": {
+      "source_sha256": "c38cf7cdcd413a6785e3b655c92c2610ee126e5574b21992be62299b05ae4918",
+      "prompt_sha256": "f4f45e60dc9ae8fa3839b1a8e6b32dd0cd5a51024e7aa4b729a5ed2e029354c1"
+    },
+    "raw_source_emitted": false,
+    "raw_prompt_emitted": false,
+    "source_scope": "creator_owned_synthetic_qualification_only"
+  },
+  "seed_set": [
+    9701,
+    9702
+  ],
+  "scenarios": [
+    {
+      "scenario_id": "scenario:m97:source-qualification-v1",
+      "family": "source",
+      "world_ref": "world:m97:source-qualification-v1",
+      "package_ref": "world:wd_workshop_job_m97_source_qualification",
+      "version": "1",
+      "action_script": [
+        "enter:embodiment",
+        "action:set_status:source_active",
+        "action:set_status:source_progress",
+        "action:set_status:source_complete",
+        "leave",
+        "continue"
+      ],
+      "human_slots": [
+        "session_id",
+        "action_trace",
+        "ratings_1_to_5",
+        "critical_blocker",
+        "free_notes"
+      ],
+      "provenance_policy": "creator_owned_synthetic_source_only"
+    },
+    {
+      "scenario_id": "scenario:m97:original-prompt-v1",
+      "family": "prompt",
+      "world_ref": "world:wd_m96_original_prompt_world",
+      "package_ref": "world:wd_m96_original_prompt_world",
+      "version": "1",
+      "action_script": [
+        "enter:embodiment",
+        "action:set_status:prompt_active",
+        "action:set_status:prompt_progress",
+        "action:set_status:prompt_complete",
+        "leave",
+        "continue"
+      ],
+      "human_slots": [
+        "session_id",
+        "action_trace",
+        "ratings_1_to_5",
+        "critical_blocker",
+        "free_notes"
+      ],
+      "provenance_policy": "creator_intent_hash_only_no_source_book"
+    }
+  ],
+  "runs": [
+    {
+      "schema": "wanxiang.v5.5.experience-quality.v1",
+      "run_id": "run:scenario:m97:source-qualification-v1:seed-9701",
+      "scenario_id": "scenario:m97:source-qualification-v1",
+      "world_family": "source",
+      "world_ref": "world:m97:source-qualification-v1",
+      "package_ref": "world:wd_workshop_job_m97_source_qualification",
+      "scenario_version": "1",
+      "build_sha": "cafc05bd22667288ed5c882910ff25d7cf633fe4",
+      "seed": 9701,
+      "action_script": [
+        "enter:embodiment",
+        "action:set_status:source_active",
+        "action:set_status:source_progress",
+        "action:set_status:source_complete",
+        "leave",
+        "continue"
+      ],
+      "event_refs": [
+        "evt_208a21a0cfca429d941c6b8c859aaf06",
+        "evt_6352800f29dd4e309107451ee6ad497f",
+        "evt_6b50db4db6944c4fb4fd1bc5d7545538"
+      ],
+      "state_refs": [
+        "state:source:9701:action:1:0af1b6f4e3f3dbaab08932e24a816de5692b187a795a7267e7328a00b0991f1a",
+        "state:source:9701:action:2:acd7e450fa58c16d22b81c8f04b74132ca86f5f4495ac2cd07177a6198940fd2",
+        "state:source:9701:action:3:67f60830cfb2328f2afcef792e535f8b22c3a0a79f42a8d99d2c442e6305bc23",
+        "state:source:9701:entry:d560f9f41b9527d31141705f4e7451face3c6a0b08cf013ca1cd9a617ac2ac2b"
+      ],
+      "replay_refs": [
+        "replay:m97:source:67f60830cfb2328f2afcef792e535f8b22c3a0a79f42a8d99d2c442e6305bc23",
+        "snap_3f839063c2bb455d8a36c7ab092b94c6"
+      ],
+      "dimensions": [
+        {
+          "name": "Agency",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "evt_6b50db4db6944c4fb4fd1bc5d7545538",
+                "trace:m97:source:9701"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "committed action and observed invalid-action rejection"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "Coherence",
+          "measurements": [
+            {
+              "method": "invariant_metric",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "replay:m97:source:67f60830cfb2328f2afcef792e535f8b22c3a0a79f42a8d99d2c442e6305bc23",
+                "snap_3f839063c2bb455d8a36c7ab092b94c6"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "replay hash equality"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "CharacterConsistency",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "state:source:9701:action:3:67f60830cfb2328f2afcef792e535f8b22c3a0a79f42a8d99d2c442e6305bc23",
+                "trace:m97:source:9701"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "entry and continuation actor identity equality"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "ConsequenceVisibility",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "state:source:9701:action:3:67f60830cfb2328f2afcef792e535f8b22c3a0a79f42a8d99d2c442e6305bc23",
+                "trace:m97:source:9701"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "observable StateDiff count over committed trace events"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "NarrativeStateAlignment",
+          "measurements": [
+            {
+              "method": "invariant_metric",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "evt_208a21a0cfca429d941c6b8c859aaf06",
+                "state:source:9701:action:3:67f60830cfb2328f2afcef792e535f8b22c3a0a79f42a8d99d2c442e6305bc23"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "event revision and state projection alignment"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "GoalClarity",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "trace:m97:source:9701"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "frozen action script and allowed action visible"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "WorldReactivity",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "state:source:9701:action:1:0af1b6f4e3f3dbaab08932e24a816de5692b187a795a7267e7328a00b0991f1a",
+                "state:source:9701:action:2:acd7e450fa58c16d22b81c8f04b74132ca86f5f4495ac2cd07177a6198940fd2",
+                "state:source:9701:action:3:67f60830cfb2328f2afcef792e535f8b22c3a0a79f42a8d99d2c442e6305bc23",
+                "state:source:9701:entry:d560f9f41b9527d31141705f4e7451face3c6a0b08cf013ca1cd9a617ac2ac2b"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "unique post-action state hashes over action trace"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "MemoryQuality",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "trace:m97:source:9701"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "bounded continuity memory revisions"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "ContinuationQuality",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "state:source:9701:action:3:67f60830cfb2328f2afcef792e535f8b22c3a0a79f42a8d99d2c442e6305bc23",
+                "trace:m97:source:9701"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "leave and continue state identity"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "NoveltyRepetition",
+          "measurements": [
+            {
+              "method": "invariant_metric",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "state:source:9701:action:1:0af1b6f4e3f3dbaab08932e24a816de5692b187a795a7267e7328a00b0991f1a",
+                "state:source:9701:action:2:acd7e450fa58c16d22b81c8f04b74132ca86f5f4495ac2cd07177a6198940fd2",
+                "state:source:9701:action:3:67f60830cfb2328f2afcef792e535f8b22c3a0a79f42a8d99d2c442e6305bc23",
+                "state:source:9701:entry:d560f9f41b9527d31141705f4e7451face3c6a0b08cf013ca1cd9a617ac2ac2b"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "post-action state variation ratio; no universal threshold"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        }
+      ],
+      "worldness_ref": "worldness:m97:source:world:wd_workshop_job_m97_source_qualification",
+      "scientific_validity": "not_assessed",
+      "human_status": "missing",
+      "missing_data": [
+        "human_ratings",
+        "human_session"
+      ],
+      "sanitized": true,
+      "content_hash": "a12e25950d8e158c0e2bf2765fb03144d684ba173beb697ff2365303c15d94a1"
+    },
+    {
+      "schema": "wanxiang.v5.5.experience-quality.v1",
+      "run_id": "run:scenario:m97:source-qualification-v1:seed-9702",
+      "scenario_id": "scenario:m97:source-qualification-v1",
+      "world_family": "source",
+      "world_ref": "world:m97:source-qualification-v1",
+      "package_ref": "world:wd_workshop_job_m97_source_qualification",
+      "scenario_version": "1",
+      "build_sha": "cafc05bd22667288ed5c882910ff25d7cf633fe4",
+      "seed": 9702,
+      "action_script": [
+        "enter:embodiment",
+        "action:set_status:source_active",
+        "action:set_status:source_progress",
+        "action:set_status:source_complete",
+        "leave",
+        "continue"
+      ],
+      "event_refs": [
+        "evt_516d21eee77e4b72a08ecd56b839f406",
+        "evt_652a9c6b95ce4447a939a2ead40fd813",
+        "evt_cfd0a8be58cb41bd8e88185b9696f34c"
+      ],
+      "state_refs": [
+        "state:source:9702:action:1:0af1b6f4e3f3dbaab08932e24a816de5692b187a795a7267e7328a00b0991f1a",
+        "state:source:9702:action:2:acd7e450fa58c16d22b81c8f04b74132ca86f5f4495ac2cd07177a6198940fd2",
+        "state:source:9702:action:3:67f60830cfb2328f2afcef792e535f8b22c3a0a79f42a8d99d2c442e6305bc23",
+        "state:source:9702:entry:d560f9f41b9527d31141705f4e7451face3c6a0b08cf013ca1cd9a617ac2ac2b"
+      ],
+      "replay_refs": [
+        "replay:m97:source:67f60830cfb2328f2afcef792e535f8b22c3a0a79f42a8d99d2c442e6305bc23",
+        "snap_09fb3206005645769454faf34cd5a941"
+      ],
+      "dimensions": [
+        {
+          "name": "Agency",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "evt_516d21eee77e4b72a08ecd56b839f406",
+                "trace:m97:source:9702"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "committed action and observed invalid-action rejection"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "Coherence",
+          "measurements": [
+            {
+              "method": "invariant_metric",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "replay:m97:source:67f60830cfb2328f2afcef792e535f8b22c3a0a79f42a8d99d2c442e6305bc23",
+                "snap_09fb3206005645769454faf34cd5a941"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "replay hash equality"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "CharacterConsistency",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "state:source:9702:action:3:67f60830cfb2328f2afcef792e535f8b22c3a0a79f42a8d99d2c442e6305bc23",
+                "trace:m97:source:9702"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "entry and continuation actor identity equality"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "ConsequenceVisibility",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "state:source:9702:action:3:67f60830cfb2328f2afcef792e535f8b22c3a0a79f42a8d99d2c442e6305bc23",
+                "trace:m97:source:9702"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "observable StateDiff count over committed trace events"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "NarrativeStateAlignment",
+          "measurements": [
+            {
+              "method": "invariant_metric",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "evt_cfd0a8be58cb41bd8e88185b9696f34c",
+                "state:source:9702:action:3:67f60830cfb2328f2afcef792e535f8b22c3a0a79f42a8d99d2c442e6305bc23"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "event revision and state projection alignment"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "GoalClarity",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "trace:m97:source:9702"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "frozen action script and allowed action visible"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "WorldReactivity",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "state:source:9702:action:1:0af1b6f4e3f3dbaab08932e24a816de5692b187a795a7267e7328a00b0991f1a",
+                "state:source:9702:action:2:acd7e450fa58c16d22b81c8f04b74132ca86f5f4495ac2cd07177a6198940fd2",
+                "state:source:9702:action:3:67f60830cfb2328f2afcef792e535f8b22c3a0a79f42a8d99d2c442e6305bc23",
+                "state:source:9702:entry:d560f9f41b9527d31141705f4e7451face3c6a0b08cf013ca1cd9a617ac2ac2b"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "unique post-action state hashes over action trace"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "MemoryQuality",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "trace:m97:source:9702"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "bounded continuity memory revisions"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "ContinuationQuality",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "state:source:9702:action:3:67f60830cfb2328f2afcef792e535f8b22c3a0a79f42a8d99d2c442e6305bc23",
+                "trace:m97:source:9702"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "leave and continue state identity"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "NoveltyRepetition",
+          "measurements": [
+            {
+              "method": "invariant_metric",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "state:source:9702:action:1:0af1b6f4e3f3dbaab08932e24a816de5692b187a795a7267e7328a00b0991f1a",
+                "state:source:9702:action:2:acd7e450fa58c16d22b81c8f04b74132ca86f5f4495ac2cd07177a6198940fd2",
+                "state:source:9702:action:3:67f60830cfb2328f2afcef792e535f8b22c3a0a79f42a8d99d2c442e6305bc23",
+                "state:source:9702:entry:d560f9f41b9527d31141705f4e7451face3c6a0b08cf013ca1cd9a617ac2ac2b"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "post-action state variation ratio; no universal threshold"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        }
+      ],
+      "worldness_ref": "worldness:m97:source:world:wd_workshop_job_m97_source_qualification",
+      "scientific_validity": "not_assessed",
+      "human_status": "missing",
+      "missing_data": [
+        "human_ratings",
+        "human_session"
+      ],
+      "sanitized": true,
+      "content_hash": "14cacc7b5fc0f4a9b548c4ad57e82953965b572d55f57880bb605aeeaadf33fd"
+    },
+    {
+      "schema": "wanxiang.v5.5.experience-quality.v1",
+      "run_id": "run:scenario:m97:original-prompt-v1:seed-9701",
+      "scenario_id": "scenario:m97:original-prompt-v1",
+      "world_family": "prompt",
+      "world_ref": "world:wd_m96_original_prompt_world",
+      "package_ref": "world:wd_m96_original_prompt_world",
+      "scenario_version": "1",
+      "build_sha": "cafc05bd22667288ed5c882910ff25d7cf633fe4",
+      "seed": 9701,
+      "action_script": [
+        "enter:embodiment",
+        "action:set_status:prompt_active",
+        "action:set_status:prompt_progress",
+        "action:set_status:prompt_complete",
+        "leave",
+        "continue"
+      ],
+      "event_refs": [
+        "evt_22ba59b8db8a447dbcc3cea7c1a7aff0",
+        "evt_3ab8da8e5ea04d018ea9e34e54ee423f",
+        "evt_bbda26b7d5a34d59a1eefe2c423d2a4b"
+      ],
+      "state_refs": [
+        "state:prompt:9701:action:1:47c2968112f96f774ee543290c383a414540b541cb7f1feb8f1a843b3079b816",
+        "state:prompt:9701:action:2:14a76c3cc1d1c7fd5dc592e2c491d184e64c81195415e5c467b60b96d09a3858",
+        "state:prompt:9701:action:3:86ccc91dc0e5ca3485c3caa3c6d33fedc6afe4553e8d6957460b8468345f7f3a",
+        "state:prompt:9701:entry:73485cfaaeb2be1aecbd1e43660268216b01e3c23345d624a197f90ab9fb5daa"
+      ],
+      "replay_refs": [
+        "replay:m97:prompt:86ccc91dc0e5ca3485c3caa3c6d33fedc6afe4553e8d6957460b8468345f7f3a",
+        "snap_97828e2c79944826b8478e8328e63b05"
+      ],
+      "dimensions": [
+        {
+          "name": "Agency",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "evt_3ab8da8e5ea04d018ea9e34e54ee423f",
+                "trace:m97:prompt:9701"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "committed action and observed invalid-action rejection"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "Coherence",
+          "measurements": [
+            {
+              "method": "invariant_metric",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "replay:m97:prompt:86ccc91dc0e5ca3485c3caa3c6d33fedc6afe4553e8d6957460b8468345f7f3a",
+                "snap_97828e2c79944826b8478e8328e63b05"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "replay hash equality"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "CharacterConsistency",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "state:prompt:9701:action:3:86ccc91dc0e5ca3485c3caa3c6d33fedc6afe4553e8d6957460b8468345f7f3a",
+                "trace:m97:prompt:9701"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "entry and continuation actor identity equality"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "ConsequenceVisibility",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "state:prompt:9701:action:3:86ccc91dc0e5ca3485c3caa3c6d33fedc6afe4553e8d6957460b8468345f7f3a",
+                "trace:m97:prompt:9701"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "observable StateDiff count over committed trace events"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "NarrativeStateAlignment",
+          "measurements": [
+            {
+              "method": "invariant_metric",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "evt_22ba59b8db8a447dbcc3cea7c1a7aff0",
+                "state:prompt:9701:action:3:86ccc91dc0e5ca3485c3caa3c6d33fedc6afe4553e8d6957460b8468345f7f3a"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "event revision and state projection alignment"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "GoalClarity",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "trace:m97:prompt:9701"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "frozen action script and allowed action visible"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "WorldReactivity",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "state:prompt:9701:action:1:47c2968112f96f774ee543290c383a414540b541cb7f1feb8f1a843b3079b816",
+                "state:prompt:9701:action:2:14a76c3cc1d1c7fd5dc592e2c491d184e64c81195415e5c467b60b96d09a3858",
+                "state:prompt:9701:action:3:86ccc91dc0e5ca3485c3caa3c6d33fedc6afe4553e8d6957460b8468345f7f3a",
+                "state:prompt:9701:entry:73485cfaaeb2be1aecbd1e43660268216b01e3c23345d624a197f90ab9fb5daa"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "unique post-action state hashes over action trace"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "MemoryQuality",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "trace:m97:prompt:9701"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "bounded continuity memory revisions"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "ContinuationQuality",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "state:prompt:9701:action:3:86ccc91dc0e5ca3485c3caa3c6d33fedc6afe4553e8d6957460b8468345f7f3a",
+                "trace:m97:prompt:9701"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "leave and continue state identity"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "NoveltyRepetition",
+          "measurements": [
+            {
+              "method": "invariant_metric",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "state:prompt:9701:action:1:47c2968112f96f774ee543290c383a414540b541cb7f1feb8f1a843b3079b816",
+                "state:prompt:9701:action:2:14a76c3cc1d1c7fd5dc592e2c491d184e64c81195415e5c467b60b96d09a3858",
+                "state:prompt:9701:action:3:86ccc91dc0e5ca3485c3caa3c6d33fedc6afe4553e8d6957460b8468345f7f3a",
+                "state:prompt:9701:entry:73485cfaaeb2be1aecbd1e43660268216b01e3c23345d624a197f90ab9fb5daa"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "post-action state variation ratio; no universal threshold"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        }
+      ],
+      "worldness_ref": "worldness:m97:prompt:world:wd_m96_original_prompt_world",
+      "scientific_validity": "not_assessed",
+      "human_status": "missing",
+      "missing_data": [
+        "human_ratings",
+        "human_session"
+      ],
+      "sanitized": true,
+      "content_hash": "a8df4b7a5489fe7df05d5fa235de1837e60f626df4359a80843c664ac58a25a0"
+    },
+    {
+      "schema": "wanxiang.v5.5.experience-quality.v1",
+      "run_id": "run:scenario:m97:original-prompt-v1:seed-9702",
+      "scenario_id": "scenario:m97:original-prompt-v1",
+      "world_family": "prompt",
+      "world_ref": "world:wd_m96_original_prompt_world",
+      "package_ref": "world:wd_m96_original_prompt_world",
+      "scenario_version": "1",
+      "build_sha": "cafc05bd22667288ed5c882910ff25d7cf633fe4",
+      "seed": 9702,
+      "action_script": [
+        "enter:embodiment",
+        "action:set_status:prompt_active",
+        "action:set_status:prompt_progress",
+        "action:set_status:prompt_complete",
+        "leave",
+        "continue"
+      ],
+      "event_refs": [
+        "evt_5fa5e2f1b969482a9465e991ba1cc0bf",
+        "evt_f30046b24acd4f52b5a3aec03242bc56",
+        "evt_f85f4d85d3b145419cca9356e095de83"
+      ],
+      "state_refs": [
+        "state:prompt:9702:action:1:47c2968112f96f774ee543290c383a414540b541cb7f1feb8f1a843b3079b816",
+        "state:prompt:9702:action:2:14a76c3cc1d1c7fd5dc592e2c491d184e64c81195415e5c467b60b96d09a3858",
+        "state:prompt:9702:action:3:86ccc91dc0e5ca3485c3caa3c6d33fedc6afe4553e8d6957460b8468345f7f3a",
+        "state:prompt:9702:entry:73485cfaaeb2be1aecbd1e43660268216b01e3c23345d624a197f90ab9fb5daa"
+      ],
+      "replay_refs": [
+        "replay:m97:prompt:86ccc91dc0e5ca3485c3caa3c6d33fedc6afe4553e8d6957460b8468345f7f3a",
+        "snap_bc0f89d622054c9dbf562256f166a1d1"
+      ],
+      "dimensions": [
+        {
+          "name": "Agency",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "evt_f85f4d85d3b145419cca9356e095de83",
+                "trace:m97:prompt:9702"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "committed action and observed invalid-action rejection"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "Coherence",
+          "measurements": [
+            {
+              "method": "invariant_metric",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "replay:m97:prompt:86ccc91dc0e5ca3485c3caa3c6d33fedc6afe4553e8d6957460b8468345f7f3a",
+                "snap_bc0f89d622054c9dbf562256f166a1d1"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "replay hash equality"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "CharacterConsistency",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "state:prompt:9702:action:3:86ccc91dc0e5ca3485c3caa3c6d33fedc6afe4553e8d6957460b8468345f7f3a",
+                "trace:m97:prompt:9702"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "entry and continuation actor identity equality"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "ConsequenceVisibility",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "state:prompt:9702:action:3:86ccc91dc0e5ca3485c3caa3c6d33fedc6afe4553e8d6957460b8468345f7f3a",
+                "trace:m97:prompt:9702"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "observable StateDiff count over committed trace events"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "NarrativeStateAlignment",
+          "measurements": [
+            {
+              "method": "invariant_metric",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "evt_5fa5e2f1b969482a9465e991ba1cc0bf",
+                "state:prompt:9702:action:3:86ccc91dc0e5ca3485c3caa3c6d33fedc6afe4553e8d6957460b8468345f7f3a"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "event revision and state projection alignment"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "GoalClarity",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "trace:m97:prompt:9702"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "frozen action script and allowed action visible"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "WorldReactivity",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "state:prompt:9702:action:1:47c2968112f96f774ee543290c383a414540b541cb7f1feb8f1a843b3079b816",
+                "state:prompt:9702:action:2:14a76c3cc1d1c7fd5dc592e2c491d184e64c81195415e5c467b60b96d09a3858",
+                "state:prompt:9702:action:3:86ccc91dc0e5ca3485c3caa3c6d33fedc6afe4553e8d6957460b8468345f7f3a",
+                "state:prompt:9702:entry:73485cfaaeb2be1aecbd1e43660268216b01e3c23345d624a197f90ab9fb5daa"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "unique post-action state hashes over action trace"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "MemoryQuality",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "trace:m97:prompt:9702"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "bounded continuity memory revisions"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "ContinuationQuality",
+          "measurements": [
+            {
+              "method": "behavioral_trace",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "state:prompt:9702:action:3:86ccc91dc0e5ca3485c3caa3c6d33fedc6afe4553e8d6957460b8468345f7f3a",
+                "trace:m97:prompt:9702"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "leave and continue state identity"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        },
+        {
+          "name": "NoveltyRepetition",
+          "measurements": [
+            {
+              "method": "invariant_metric",
+              "status": "measured",
+              "value": 1.0,
+              "evidence_refs": [
+                "state:prompt:9702:action:1:47c2968112f96f774ee543290c383a414540b541cb7f1feb8f1a843b3079b816",
+                "state:prompt:9702:action:2:14a76c3cc1d1c7fd5dc592e2c491d184e64c81195415e5c467b60b96d09a3858",
+                "state:prompt:9702:action:3:86ccc91dc0e5ca3485c3caa3c6d33fedc6afe4553e8d6957460b8468345f7f3a",
+                "state:prompt:9702:entry:73485cfaaeb2be1aecbd1e43660268216b01e3c23345d624a197f90ab9fb5daa"
+              ],
+              "sample_size": 1,
+              "scale": "normalized_0_1",
+              "note": "post-action state variation ratio; no universal threshold"
+            },
+            {
+              "method": "human_rating",
+              "status": "missing",
+              "value": null,
+              "evidence_refs": [],
+              "sample_size": 0,
+              "scale": "normalized_0_1",
+              "note": "genuine human session or rating not available"
+            }
+          ]
+        }
+      ],
+      "worldness_ref": "worldness:m97:prompt:world:wd_m96_original_prompt_world",
+      "scientific_validity": "not_assessed",
+      "human_status": "missing",
+      "missing_data": [
+        "human_ratings",
+        "human_session"
+      ],
+      "sanitized": true,
+      "content_hash": "a58ebc4da2c8f1fb9b2fb02f90393794bcca9e9f07357f5f580cb8eabd377514"
+    }
+  ],
+  "aggregate": {
+    "schema": "wanxiang.v5.5.experience-quality.v1",
+    "aggregate_id": "aggregate:m97:experience-quality-baseline",
+    "run_refs": [
+      "run:scenario:m97:original-prompt-v1:seed-9701",
+      "run:scenario:m97:original-prompt-v1:seed-9702",
+      "run:scenario:m97:source-qualification-v1:seed-9701",
+      "run:scenario:m97:source-qualification-v1:seed-9702"
+    ],
+    "world_families": [
+      "prompt",
+      "source"
+    ],
+    "distributions": {
+      "Agency": {
+        "values": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "measured_count": 4,
+        "missing_count": 4,
+        "not_applicable_count": 0,
+        "method_counts": {
+          "behavioral_trace": 4,
+          "human_rating": 4
+        },
+        "mean": 1.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "Coherence": {
+        "values": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "measured_count": 4,
+        "missing_count": 4,
+        "not_applicable_count": 0,
+        "method_counts": {
+          "human_rating": 4,
+          "invariant_metric": 4
+        },
+        "mean": 1.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "CharacterConsistency": {
+        "values": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "measured_count": 4,
+        "missing_count": 4,
+        "not_applicable_count": 0,
+        "method_counts": {
+          "behavioral_trace": 4,
+          "human_rating": 4
+        },
+        "mean": 1.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "ConsequenceVisibility": {
+        "values": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "measured_count": 4,
+        "missing_count": 4,
+        "not_applicable_count": 0,
+        "method_counts": {
+          "behavioral_trace": 4,
+          "human_rating": 4
+        },
+        "mean": 1.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "NarrativeStateAlignment": {
+        "values": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "measured_count": 4,
+        "missing_count": 4,
+        "not_applicable_count": 0,
+        "method_counts": {
+          "human_rating": 4,
+          "invariant_metric": 4
+        },
+        "mean": 1.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "GoalClarity": {
+        "values": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "measured_count": 4,
+        "missing_count": 4,
+        "not_applicable_count": 0,
+        "method_counts": {
+          "behavioral_trace": 4,
+          "human_rating": 4
+        },
+        "mean": 1.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "WorldReactivity": {
+        "values": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "measured_count": 4,
+        "missing_count": 4,
+        "not_applicable_count": 0,
+        "method_counts": {
+          "behavioral_trace": 4,
+          "human_rating": 4
+        },
+        "mean": 1.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "MemoryQuality": {
+        "values": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "measured_count": 4,
+        "missing_count": 4,
+        "not_applicable_count": 0,
+        "method_counts": {
+          "behavioral_trace": 4,
+          "human_rating": 4
+        },
+        "mean": 1.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "ContinuationQuality": {
+        "values": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "measured_count": 4,
+        "missing_count": 4,
+        "not_applicable_count": 0,
+        "method_counts": {
+          "behavioral_trace": 4,
+          "human_rating": 4
+        },
+        "mean": 1.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "NoveltyRepetition": {
+        "values": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "measured_count": 4,
+        "missing_count": 4,
+        "not_applicable_count": 0,
+        "method_counts": {
+          "human_rating": 4,
+          "invariant_metric": 4
+        },
+        "mean": 1.0,
+        "min": 1.0,
+        "max": 1.0
+      }
+    },
+    "human_status": "missing",
+    "baseline_scope": "bounded_engineering_baseline_no_universal_threshold",
+    "worldness_separate": true,
+    "scientific_validity": "not_assessed",
+    "sanitized": true,
+    "content_hash": "01048db543a74d222a578da2fad368f11fd24a1ae219b96e1a0671cf347384be"
+  },
+  "missing_data": {
+    "human_status": "missing",
+    "human_fields_are_missing_not_inferred": true,
+    "automated_measurements_are_not_human_ratings": true
+  },
+  "separation": {
+    "worldness_is_reference_only": true,
+    "scientific_validity": "not_assessed",
+    "model_judge_used_as_authority": false
+  },
+  "checks": {
+    "two_frozen_families": true,
+    "two_repeats_per_family": true,
+    "all_runs_hash_valid": true,
+    "all_automated_trace_values_present": true,
+    "human_missing_not_inferred": true,
+    "aggregate_hash_valid": true,
+    "worldness_separate": true,
+    "scientific_validity_not_assessed": true,
+    "no_raw_inputs_in_artifact_fields": true
+  },
+  "boundaries": {
+    "implemented": [
+      "versioned ten-dimension ExperienceQuality schema",
+      "source and original-prompt benchmark collection",
+      "missing-aware per-run and aggregate baseline"
+    ],
+    "validated": [
+      "real local Workshop/API/Playable traces",
+      "state-diff, continuation, replay, and bounded continuity refs"
+    ],
+    "experimental": [
+      "bounded quality baseline interpretation"
+    ],
+    "not_proven": [
+      "universal experience quality",
+      "scientific validity",
+      "population-level human preference"
+    ],
+    "external_blocked": []
+  },
+  "generated_at_utc": "2026-08-28T04:50:10Z"
+}

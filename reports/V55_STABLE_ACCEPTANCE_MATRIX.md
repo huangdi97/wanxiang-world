@@ -18,9 +18,9 @@ but is not silently re-scored.
 | 67 | Original Prompt Genesis provenance and E5 boundary | PASS | `artifacts/v55_stable/m96/original_prompt_world.json`, G99B report |
 | 68 | Prompt → Draft → Review → Package → Publish → Play | PASS | `artifacts/v55_stable/m96/original_prompt_world.json`, G99C report |
 | 69 | Bounded original-prompt seven-day run | PASS | `artifacts/v55_stable/m96/original_prompt_world.json`, G99D report |
-| 70 | Versioned ExperienceQuality schema | LOCKED | G100 |
-| 71 | Source and prompt-world quality baselines | LOCKED | G100 |
-| 72 | Worldness, quality, and scientific validity separated | LOCKED | G100 |
+| 70 | Versioned ExperienceQuality schema | PASS | `artifacts/v55_stable/m97/experience_quality_baseline.json`; G100A/G100C |
+| 71 | Source and prompt-world quality baselines | PASS | `artifacts/v55_stable/m97/experience_quality_baseline.json`; G100B/G100D |
+| 72 | Worldness, quality, and scientific validity separated | PASS | `artifacts/v55_stable/m97/experience_quality_baseline.json`; G100E |
 | 73 | Complete 30-day seed/policy/pressure matrix | LOCKED | G101 |
 | 74 | Complete 90-day replay/checkpoint/recovery matrix | LOCKED | G101 |
 | 75 | Bounded emergence repeatability and false-positive controls | LOCKED | G101 |
@@ -64,6 +64,32 @@ with replay equality, child-branch isolation, and actor continuity.
 This acceptance is deliberately bounded: Prompt Genesis and long-horizon
 continuity remain `EXPERIMENTAL`/`BOUNDED`; it does not prove universal
 creative quality, scientific validity, or live-world emergence.
+
+## Gates 70–72 decision
+
+G100A–G100E / M97 are `PASS` for the bounded engineering benchmark. The
+versioned `wanxiang.v5.5.experience-quality.v1` schema defines ten dimensions,
+method/status/evidence semantics, and hash-verifiable per-run and aggregate
+records. The baseline contains four real local product runs: source-driven and
+M96 original-prompt families, with seeds `9701` and `9702` for each family.
+The source input is creator-owned synthetic qualification content only; raw
+source and prompt text are not emitted in the artifact. The artifact was
+generated at build SHA `cafc05bd22667288ed5c882910ff25d7cf633fe4` and records
+source input hash `c38cf7cdcd413a6785e3b655c92c2610ee126e5574b21992be62299b05ae4918`
+and prompt input hash
+`f4f45e60dc9ae8fa3839b1a8e6b32dd0cd5a51024e7aa4b729a5ed2e029354c1`.
+
+All four runs contain automated StateDiff, rejection, leave/continue,
+checkpoint/replay, and bounded continuity evidence. Genuine human session and
+rating fields are explicitly `missing`/`USER_INPUT_REQUIRED`; they are not
+replaced by automated values. Worldness is a separate reference surface and
+`scientific_validity` is `not_assessed`; no model judge is treated as an
+authority and no universal quality threshold is claimed. Prompt Genesis,
+bounded long-horizon continuity, World Lab, and emergence remain
+`EXPERIMENTAL`/`BOUNDED`.
+
+Machine-readable evidence: `artifacts/v55_stable/m97/experience_quality_baseline.json`.
+Narrative evidence: `reports/M97_EXPERIENCE_QUALITY_BENCHMARK.md`.
 
 ## Stable release rule
 

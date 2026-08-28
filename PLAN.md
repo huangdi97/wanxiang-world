@@ -18,7 +18,7 @@ Milestones: **M0** (after 00A+00B), **M1** (after 01F).
 Stop condition: M1 PASS with reproducible evidence; do NOT start G02/Living World
 Substrate or any later phase in this batch.
 
-## v5.5 Stable Certification — G99 / M96 (2026-08-28)
+## v5.5 Stable Certification — G100 / M97 (2026-08-28)
 
 G98A / M95 baseline is `PASS` for Gate 61. G98B instrumentation and G98C route
 readiness are `PASS`; G98D/G98E remain `USER_INPUT_REQUIRED` pending a genuine
@@ -26,9 +26,17 @@ human session. G99A–G99E / M96 are `PASS` for Gates 67–69 with the bounded
 original-prompt artifact at
 `artifacts/v55_stable/m96/original_prompt_world.json` and reports
 `reports/M96_ORIGINAL_PROMPT_WORLD_ACCEPTANCE.md` plus the G99 subgoal records.
-The dedicated branch is `release/v5.5-stable-certification`; G100 is next.
+G100A–G100E / M97 are now `PASS` for Gates 70–72. The versioned
+ExperienceQuality schema and missing-aware aggregate are recorded in
+`artifacts/v55_stable/m97/experience_quality_baseline.json`, with narrative
+evidence in `reports/M97_EXPERIENCE_QUALITY_BENCHMARK.md`. The benchmark has
+four real local product runs across source and original-prompt families, two
+seeds per family, and automated replay/continuity evidence. Genuine human
+session/rating data remains explicitly missing and is not inferred; Worldness
+is separate and scientific validity is `NOT_ASSESSED`.
+The dedicated branch is `release/v5.5-stable-certification`; G101 is next.
 Gate 80 remains locked because the M95 human evidence is still missing and the
-later Stable predicate is incomplete. The required live fetch remains
+later Stable predicate is incomplete. Gates 73–79 remain pending. The required live fetch remains
 `EXTERNAL_BLOCKED` because this host lacks the Git HTTPS remote helper; no
 remote freshness is inferred from a tracking ref. Do not enter v5.6 or train a
 model.
