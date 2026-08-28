@@ -42,6 +42,55 @@ def _tier_summary(rows: list[dict[str, Any]], actor_count: int) -> dict[str, Any
     }
 
 
+def _capacity_interpretation(
+    tier_summaries: list[dict[str, Any]], failed: list[dict[str, Any]]
+) -> dict[str, Any]:
+    """Identify the first measured super-linear degradation point.
+
+    The comparison uses adjacent completed tiers.  A tier is a measured
+    degradation point when recovery duration grows faster than population;
+    this is a diagnostic knee, not a production capacity limit.
+    """
+    knee: dict[str, Any] | None = None
+    knee_rule = " ".join(
+        (
+            "first adjacent tier where max recovery duration growth exceeds",
+            "population growth",
+        )
+    )
+    completed = [
+        item for item in tier_summaries if item.get("completed") == item.get("repetitions")
+    ]
+    for previous, current in zip(completed, completed[1:], strict=True):
+        actor_ratio = current["tier"] / previous["tier"]
+        recovery_ratio = current["max_recovery_ms"] / previous["max_recovery_ms"]
+        if recovery_ratio > actor_ratio:
+            knee = {
+                "tier": current["tier"],
+                "metric": "max_recovery_ms",
+                "previous_tier": previous["tier"],
+                "population_growth_ratio": round(actor_ratio, 6),
+                "recovery_growth_ratio": round(recovery_ratio, 6),
+            }
+            break
+    if failed:
+        observed_knee = "see_failed_tiers"
+    elif knee is None:
+        observed_knee = "not_observed_within_1000_actor_tiers"
+    else:
+        observed_knee = f"{knee['tier']}_actor_tier_by_superlinear_recovery"
+    return {
+        "observed_knee": observed_knee,
+        "degradation_observed": knee is not None,
+        "knee_rule": knee_rule,
+        "knee_evidence": knee,
+        "extrapolation_to_10k_or_100k": "forbidden",
+        "active_vs_full_policy_separated": True,
+        "provider_cost_usd": 0.0,
+        "provider_cost_basis": "local_reference_provider_no_monetary_charge",
+    }
+
+
 def record_results(rows: list[dict[str, Any]], build_sha: str) -> dict[str, Any]:
     failed = [row for row in rows if row["conclusion"] != "PASS"]
     tier_summaries = [
@@ -61,15 +110,7 @@ def record_results(rows: list[dict[str, Any]], build_sha: str) -> dict[str, Any]
         "aggregation_complete": len(rows) == len(TIERS) * REPETITIONS,
         "tier_summaries": tier_summaries,
         "rows": rows,
-        "capacity_interpretation": {
-            "observed_knee": "not_observed_within_1000_actor_tiers"
-            if not failed
-            else "see_failed_tiers",
-            "extrapolation_to_10k_or_100k": "forbidden",
-            "active_vs_full_policy_separated": True,
-            "provider_cost_usd": 0.0,
-            "provider_cost_basis": "local_reference_provider_no_monetary_charge",
-        },
+        "capacity_interpretation": _capacity_interpretation(tier_summaries, failed),
         "boundaries": {
             "implemented": [
                 "10/50/100/500/1000 real SQLite tiers",
@@ -102,8 +143,10 @@ replay/recovery/proposal-only/LOD checks. Build SHA: `{build_sha}`; template
 hash: `{SCALE_TEMPLATE_HASH}`.
 
 All results are bounded local engineering measurements. A passing 1000-actor
-tier is not extrapolated to 10k/100k, and the local reference provider has no
-monetary charge; no production capacity or universal-emergence claim is made.
+tier is not extrapolated to 10k/100k. The reported knee is the first measured
+super-linear recovery-duration point, not a production capacity limit. The
+local reference provider has no monetary charge; no production capacity or
+universal-emergence claim is made.
 
 Machine-readable evidence: `artifacts/v55_stable/m98/scale_curve.json`.
 """,

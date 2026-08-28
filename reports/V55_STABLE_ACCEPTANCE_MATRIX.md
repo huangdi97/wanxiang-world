@@ -24,8 +24,8 @@ but is not silently re-scored.
 | 73 | Complete 30-day seed/policy/pressure matrix | PASS | `artifacts/v55_stable/m98/30d_burn_in.json`; G101B |
 | 74 | Complete 90-day replay/checkpoint/recovery matrix | PASS | `artifacts/v55_stable/m98/90d_burn_in.json`; G101C |
 | 75 | Bounded emergence repeatability and false-positive controls | PASS | `artifacts/v55_stable/m98/emergence_controls.json`; G101D |
-| 76 | Measured 10 → 50 → 100 → 500 → 1000 scale tiers | LOCKED | G101 |
-| 77 | Measured capacity/degradation envelope | LOCKED | G101 |
+| 76 | Measured 10 → 50 → 100 → 500 → 1000 scale tiers | PASS | `artifacts/v55_stable/m98/scale_curve.json`; G101E |
+| 77 | Measured capacity/degradation envelope | LOCKED | G101F |
 | 78 | Real Godot integration, or explicit external block | LOCKED | G102 |
 | 79 | Stable preflight, clean clone, rights/security and evidence integrity | LOCKED | G103 |
 | 80 | Stable release predicate | LOCKED | G103; never inferred from prose |
@@ -107,7 +107,8 @@ zero failed rows.
 
 This is bounded local engineering evidence using creator-owned synthetic input;
 it is not live-customer, production-capacity, scientific, or universal-emergence
-evidence. Gates 74–77 remain locked until their own complete artifacts exist.
+evidence. Gates 74–75 are accepted above; Gates 76–77 require their own
+complete scale artifacts.
 
 Machine-readable evidence: `artifacts/v55_stable/m98/30d_burn_in.json`.
 Narrative evidence: `reports/M98_G101B_30D_BURN_IN.md`.
@@ -127,8 +128,8 @@ zero failed rows.
 
 This is bounded local engineering evidence using creator-owned synthetic input;
 it does not prove production SLO, live-customer capacity, scientific validity,
-or universal emergence. Gates 75–77 remain locked until their own evidence
-exists.
+or universal emergence. Gates 75 is accepted above; Gates 76–77 require their
+own scale evidence.
 
 Machine-readable evidence: `artifacts/v55_stable/m98/90d_burn_in.json`.
 Narrative evidence: `reports/M98_G101C_90D_BURN_IN.md`.
@@ -150,10 +151,30 @@ state hash and event history were unchanged, no Ontology/Law/Institution
 promotion was invoked, and `promotion_boundary_invoked` is explicitly false.
 This is detector calibration and bounded emergence evidence only; it does not
 claim universal emergence, scientific causality, production behavior, or live
-customer outcomes. Gates 76–77 remain locked.
+customer outcomes. Gates 76–77 are evaluated by the scale evidence below.
 
 Machine-readable evidence: `artifacts/v55_stable/m98/emergence_controls.json`.
 Narrative evidence: `reports/M98_G101D_EMERGENCE_CONTROLS.md`.
+
+## Gate 76 decision
+
+G101E / M98 is `PASS` for the complete SimulationLOD scale ladder. One frozen
+`m98-standard-scale-template-v1` fixture and `book` profile ran through
+OneClickAuthoring, PlayableService, Commit Authority, and real migrated SQLite
+runtimes at 10, 50, 100, 500, and 1000 actors, with three independent
+repetitions per tier. The artifact records `15/15` completed rows and zero
+failed rows, exact population/full-policy counts, separate L0/L1 active counts,
+checkpoint creation, replay/recovery equality, provider proposal-only checks,
+and measured database/RSS values. Runtime build SHA is
+`09c161c79f14911c804b3d22c38896c3545c41cf`; fixture template hash is
+`e43135ca34d98d5cf6d619b13173eb6dcbc8baa8cabbe0e653141288613ea129`.
+
+This is bounded local engineering evidence only. It does not establish a
+production capacity limit, live-customer result, scientific validity, or a
+10k/100k actor claim. Gate 76 is accepted from the complete measured ladder.
+
+Machine-readable evidence: `artifacts/v55_stable/m98/scale_curve.json`.
+Narrative evidence: `reports/M98_G101E_SCALE_LADDER.md`.
 
 ## Stable release rule
 
