@@ -195,6 +195,21 @@ SimulationLOD active counts separate from full-policy population counts. Gate
 Machine-readable evidence: artifacts/v55_stable/m98/capacity_curve.json.
 Narrative evidence: reports/M98_G101F_CAPACITY_CURVE.md.
 
+## M98 consolidated decision
+
+G101G / M98 is PASS within the bounded evidence scope. The persisted 30d/90d
+burn-in matrices, bounded emergence controls, complete SimulationLOD scale
+ladder, and capacity/degradation curve each satisfy their machine predicates;
+the consolidated artifact records Gates 73-77 as PASS and retains all run,
+branch, snapshot, input-hash, seed, and build references. This does not alter
+the frozen Gates 1-60 ledger or promote Prompt Genesis, long-horizon/World Lab,
+or emergence beyond EXPERIMENTAL/BOUNDED. Live PostgreSQL, heavy physical/
+visual E2E, live-provider cost, production capacity, and universal emergence
+remain NOT_PROVEN or EXTERNAL_BLOCKED.
+
+Machine-readable evidence: artifacts/v55_stable/m98/burn_in_summary.json.
+Narrative evidence: reports/M98_EMERGENCE_MULTI_RUN_SCALE_BURN_IN.md.
+
 ## Stable release rule
 
 Gate 80 remains `LOCKED` until Gates 61–77 and 79 are accepted, Gate 78 is
