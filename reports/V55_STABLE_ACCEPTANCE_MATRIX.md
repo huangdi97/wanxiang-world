@@ -26,7 +26,7 @@ but is not silently re-scored.
 | 75 | Bounded emergence repeatability and false-positive controls | PASS | `artifacts/v55_stable/m98/emergence_controls.json`; G101D |
 | 76 | Measured 10 → 50 → 100 → 500 → 1000 scale tiers | PASS | `artifacts/v55_stable/m98/scale_curve.json`; G101E |
 | 77 | Measured capacity/degradation envelope | PASS | artifacts/v55_stable/m98/capacity_curve.json; G101F |
-| 78 | Real Godot integration, or explicit external block | LOCKED | G102 |
+| 78 | Real Godot integration, or explicit external block | EXTERNAL_BLOCKED | artifacts/v55_stable/m99/godot_integration.json; G102 |
 | 79 | Stable preflight, clean clone, rights/security and evidence integrity | LOCKED | G103 |
 | 80 | Stable release predicate | LOCKED | G103; never inferred from prose |
 
@@ -209,6 +209,17 @@ remain NOT_PROVEN or EXTERNAL_BLOCKED.
 
 Machine-readable evidence: artifacts/v55_stable/m98/burn_in_summary.json.
 Narrative evidence: reports/M98_EMERGENCE_MULTI_RUN_SCALE_BURN_IN.md.
+
+## Gate 78 decision
+
+G102A-G102D / M99 is EXTERNAL_BLOCKED. The actual host probe found neither
+supported Godot executable, did not download or install an engine, and did not
+claim a real projection or physical action round trip. G102B-G102D therefore
+remain unvalidated; reference physical/visual ABI evidence is not relabeled as
+Godot evidence. This explicit block does not prevent G103.
+
+Machine-readable evidence: artifacts/v55_stable/m99/godot_integration.json.
+Narrative evidence: reports/M99_GODOT_REAL_INTEGRATION.md.
 
 ## Stable release rule
 
