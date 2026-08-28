@@ -18,6 +18,18 @@ Milestones: **M0** (after 00A+00B), **M1** (after 01F).
 Stop condition: M1 PASS with reproducible evidence; do NOT start G02/Living World
 Substrate or any later phase in this batch.
 
+## v5.5 Stable Certification — M95–M100 (2026-08-28)
+
+G98A / M95 baseline is `PASS` for Gate 61. The dedicated branch is
+`release/v5.5-stable-certification`; the machine-readable baseline is
+`artifacts/v55_stable/baseline.json` and the Stable-only ledger is
+`reports/V55_STABLE_ACCEPTANCE_MATRIX.md`. G98B–G98E, G99, G100, G101, G102,
+and G103 remain sequentially pending. Gate 80 is locked until the complete
+Stable predicate is evidenced. The required live fetch is
+`EXTERNAL_BLOCKED` because this host lacks the Git HTTPS remote helper; no
+remote freshness is inferred from a tracking ref. Do not enter v5.6 or train a
+model.
+
 ## V55-FINAL-CLOSURE-R1 (2026-08-28)
 
 R1 closes the evidence-lineage audit without re-running M85–M94: the latest
