@@ -13,6 +13,8 @@ TIERS = (10, 50, 100, 500, 1000)
 REPETITIONS = 3
 ARTIFACT = ROOT / "artifacts" / "v55_stable" / "m98" / "scale_curve.json"
 REPORT = ROOT / "reports" / "M98_G101E_SCALE_LADDER.md"
+CAPACITY_ARTIFACT = ROOT / "artifacts" / "v55_stable" / "m98" / "capacity_curve.json"
+CAPACITY_REPORT = ROOT / "reports" / "M98_G101F_CAPACITY_CURVE.md"
 
 
 def _tier_summary(rows: list[dict[str, Any]], actor_count: int) -> dict[str, Any]:
@@ -123,6 +125,56 @@ def record_results(rows: list[dict[str, Any]], build_sha: str) -> dict[str, Any]
         },
     }
     write_json(ARTIFACT, payload)
+    capacity_payload = {
+        "schema": "wanxiang.v5.5.m98.capacity-curve.v1",
+        "conclusion": payload["conclusion"],
+        "source_scale_artifact": "artifacts/v55_stable/m98/scale_curve.json",
+        "build_sha": build_sha,
+        "template": SCALE_TEMPLATE,
+        "template_hash": SCALE_TEMPLATE_HASH,
+        "tiers": list(TIERS),
+        "repetitions_per_tier": REPETITIONS,
+        "declared_rows": payload["declared_rows"],
+        "completed_rows": payload["completed_rows"],
+        "failed_rows": payload["failed_rows"],
+        "tier_summaries": tier_summaries,
+        "capacity_interpretation": payload["capacity_interpretation"],
+        "rows": [
+            {
+                key: row[key]
+                for key in (
+                    "run_id",
+                    "tier",
+                    "repetition",
+                    "seed",
+                    "build_sha",
+                    "template_hash",
+                    "source_sha256",
+                    "package_sha256",
+                    "world_package_ref",
+                    "scenario_ref",
+                    "world_ref",
+                    "branch_ref",
+                    "snapshot_ref",
+                    "metrics",
+                    "checks",
+                    "boundaries",
+                )
+            }
+            for row in rows
+        ],
+        "boundaries": {
+            "implemented": [
+                "CPU/RSS/database/event/provider/timing/storage measurements",
+                "adjacent-tier degradation comparison",
+            ],
+            "validated": ["only the completed local SQLite/reference-provider rows"],
+            "experimental": ["bounded capacity/degradation interpretation"],
+            "not_proven": ["10k/100k capacity", "universal production envelope"],
+            "external_blocked": ["live provider monetary cost", "live PostgreSQL"],
+        },
+    }
+    write_json(CAPACITY_ARTIFACT, capacity_payload)
     completed = payload["completed_rows"]
     declared = payload["declared_rows"]
     REPORT.write_text(
@@ -152,7 +204,47 @@ Machine-readable evidence: `artifacts/v55_stable/m98/scale_curve.json`.
 """,
         encoding="utf-8",
     )
+    knee = payload["capacity_interpretation"]["knee_evidence"]
+    if isinstance(knee, dict):
+        knee_summary = (
+            f"{payload['capacity_interpretation']['observed_knee']}; "
+            f"population ratio {knee['population_growth_ratio']}; "
+            f"recovery ratio {knee['recovery_growth_ratio']}"
+        )
+    else:
+        knee_summary = "no completed super-linear recovery point was observed"
+    CAPACITY_REPORT.write_text(
+        f"""# M98 G101F Capacity and Degradation Curve
+
+Conclusion: {payload["conclusion"]} — {completed}/{declared} rows completed.
+
+This report is derived from the same frozen standard fixture and the complete
+15-row G101E ladder. Every row records CPU, peak RSS/RAM, database bytes,
+event count/rate, provider calls and cost basis, tick/action p50/p95,
+checkpoint duration/size, replay/recovery duration, and storage growth.
+
+Measured degradation result: {knee_summary}. The rule is the first adjacent
+tier where maximum recovery duration grows faster than population. This is a
+local SQLite/reference-provider observation, not a hard production capacity
+limit.
+
+The local reference provider has no monetary charge. No live-provider cost,
+live-PostgreSQL, scientific-validity, or universal-emergence claim is made;
+10k/100k extrapolation is explicitly forbidden. SimulationLOD active counts
+remain separate from full-policy population counts.
+
+Machine-readable evidence: artifacts/v55_stable/m98/capacity_curve.json
+Source scale evidence: artifacts/v55_stable/m98/scale_curve.json
+""",
+        encoding="utf-8",
+    )
     return payload
 
 
-__all__ = ["REPETITIONS", "TIERS", "record_results"]
+__all__ = [
+    "CAPACITY_ARTIFACT",
+    "CAPACITY_REPORT",
+    "REPETITIONS",
+    "TIERS",
+    "record_results",
+]

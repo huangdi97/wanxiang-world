@@ -38,11 +38,11 @@ The dedicated branch is `release/v5.5-stable-certification`. G101A–G101D
 are `PASS`: the complete versioned 18-row M98 registry is declared, all 12
 30d rows and all 6 declared 90d rows have completed real SQLite burn-in with
 per-row artifact evidence, and bounded recurrence/false-positive controls have
-passed with a separate unqualified null control. G101E is now `PASS`: the
-complete 15-row SimulationLOD ladder passed. G101F remains `ACTIVE` while its
-capacity curve artifact and decision report are being published. G101G remains
-`ACTIVE` for consolidated M98 qualification. Gates 73–76 are accepted; Gates
-77–79 remain pending. Gate 80 remains locked because
+passed with a separate unqualified null control. G101E and G101F are now
+`PASS`: the complete 15-row SimulationLOD ladder passed, and the capacity
+curve records the first measured super-linear recovery degradation at 500
+actors. G101G remains `ACTIVE` for consolidated M98 qualification. Gates
+73–77 are accepted; Gates 78–79 remain pending. Gate 80 remains locked because
 the M95 human evidence is still missing and the later Stable predicate is
 incomplete. The required live fetch remains `EXTERNAL_BLOCKED` because this
 host lacks the Git HTTPS remote helper; no remote freshness is inferred from a

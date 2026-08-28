@@ -111,9 +111,9 @@ formal artifact is `artifacts/v55_stable/m98/emergence_controls.json`, generated
 at build SHA `42890140177a9199f628b4b8a5a9160a0e49502c`.
 Gate 75 is `PASS` for bounded recurrence and false-positive controls. G101E is
 now `PASS`: the complete 15-row SimulationLOD ladder passed at
-10/50/100/500/1000 actors. G101F remains `ACTIVE` while its capacity curve
-artifact and decision report are being published. G101G remains `ACTIVE` for
-consolidated M98 qualification. Gates 73–76 are accepted; Gates 77–79 remain
+10/50/100/500/1000 actors, and G101F is also `PASS` with a measured
+super-linear recovery degradation at 500 actors. G101G remains `ACTIVE` for
+consolidated M98 qualification. Gates 73–77 are accepted; Gates 78–79 remain
 pending. Gate 80 remains locked because M95 human evidence is still
 `USER_INPUT_REQUIRED`. No v5.6 or model-training work occurred.
 

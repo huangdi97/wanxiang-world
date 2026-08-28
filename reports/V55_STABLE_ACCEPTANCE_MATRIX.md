@@ -25,7 +25,7 @@ but is not silently re-scored.
 | 74 | Complete 90-day replay/checkpoint/recovery matrix | PASS | `artifacts/v55_stable/m98/90d_burn_in.json`; G101C |
 | 75 | Bounded emergence repeatability and false-positive controls | PASS | `artifacts/v55_stable/m98/emergence_controls.json`; G101D |
 | 76 | Measured 10 → 50 → 100 → 500 → 1000 scale tiers | PASS | `artifacts/v55_stable/m98/scale_curve.json`; G101E |
-| 77 | Measured capacity/degradation envelope | LOCKED | G101F |
+| 77 | Measured capacity/degradation envelope | PASS | artifacts/v55_stable/m98/capacity_curve.json; G101F |
 | 78 | Real Godot integration, or explicit external block | LOCKED | G102 |
 | 79 | Stable preflight, clean clone, rights/security and evidence integrity | LOCKED | G103 |
 | 80 | Stable release predicate | LOCKED | G103; never inferred from prose |
@@ -175,6 +175,25 @@ production capacity limit, live-customer result, scientific validity, or a
 
 Machine-readable evidence: `artifacts/v55_stable/m98/scale_curve.json`.
 Narrative evidence: `reports/M98_G101E_SCALE_LADDER.md`.
+
+## Gate 77 decision
+
+G101F / M98 is PASS for the measured capacity/degradation envelope. Each of
+the 15 rows records CPU, peak RSS/RAM, database bytes and storage growth,
+event count/rate, local provider calls and cost basis, tick/action p50/p95,
+checkpoint duration/size, replay/recovery duration, and package/world/branch/
+snapshot refs. The first measured super-linear degradation point is the 500
+actor tier by recovery duration: the 100 to 500 population ratio is 5.0,
+while the maximum recovery-duration ratio is 9.003203. This is an observed
+local degradation knee, not a hard production capacity limit. The reference
+provider has no monetary charge, so no real-provider cost claim is made.
+
+The artifact explicitly forbids extrapolation to 10k or 100k actors and keeps
+SimulationLOD active counts separate from full-policy population counts. Gate
+77 is accepted for this bounded SQLite/reference-provider measurement envelope.
+
+Machine-readable evidence: artifacts/v55_stable/m98/capacity_curve.json.
+Narrative evidence: reports/M98_G101F_CAPACITY_CURVE.md.
 
 ## Stable release rule
 
