@@ -1,0 +1,38 @@
+{
+  "schema": "wanxiang.v5.5.m100.clean-clone.v1",
+  "conclusion": "FAIL",
+  "candidate_sha": "250623e937f35f0fbb1ec69cd7db6440043520f3",
+  "run_ref": "wanxiang-m100-clean-2h71k36s",
+  "clone_checkout_sha": null,
+  "commands": [],
+  "command_count": 18,
+  "failed_commands": [
+    "git_clone_no_local"
+  ],
+  "external_blocked_commands": [],
+  "boundaries": {
+    "implemented": [
+      "isolated clone install, migration, runtime, API, Studio and replay paths"
+    ],
+    "validated": [],
+    "experimental_bounded": [
+      "reference provider and research-adjacent behavior"
+    ],
+    "not_proven": [
+      "live customer data, production hosting, and real external provider/hardware"
+    ],
+    "external_blocked": []
+  },
+  "bootstrap": [
+    {
+      "name": "git_clone_no_local",
+      "command": "git clone --no-local E:\\AI\\wanxiang E:\\AI\\wanxiang\\wanxiang-m100-clean-2h71k36s\\clone",
+      "exit_code": 128,
+      "status": "FAIL",
+      "duration_ms": 40.062,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "27ea3e66e9978c96f9b3e22ad39ec65e9714cd7b2b85974be7f9688de3d45122",
+      "output_tail": "fatal: could not create work tree dir 'E:\\AI\\wanxiang\\wanxiang-m100-clean-2h71k36s\\clone': Permission denied\n"
+    }
+  ]
+}

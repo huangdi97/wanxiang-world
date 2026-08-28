@@ -185,12 +185,14 @@ def _commands(migration_url: str) -> tuple[tuple[str, list[str], int, dict[str, 
 
 
 def _write_evidence(payload: dict[str, Any]) -> None:
-    results = payload["commands"]
+    bootstrap = payload.get("bootstrap", [])
+    results = [*bootstrap, *payload["commands"]]
     failures = [item["name"] for item in results if item["status"] == "FAIL"]
     external = [item["name"] for item in results if item["status"] == "EXTERNAL_BLOCKED"]
     payload["failed_commands"] = failures
     payload["external_blocked_commands"] = external
     payload["conclusion"] = "PASS" if not failures else "FAIL"
+    payload["boundaries"]["external_blocked"] = external
     rows = "\n".join(
         f"| {item['name']} | {item['status']} | {item['exit_code']} | {item['duration_ms']} ms |"
         for item in results
@@ -198,7 +200,7 @@ def _write_evidence(payload: dict[str, Any]) -> None:
     write_json(OUTPUT, payload)
     REPORT.write_text(
         f"""# M100 G103D Isolated Clean Clone
-Conclusion: {payload["conclusion"]}; {len(results)}/{payload["command_count"]} commands.
+Conclusion: {payload["conclusion"]}; {len(payload["commands"])}/{payload["command_count"]}.
 Candidate: `{payload["candidate_sha"]}`; clone: `--no-local`, detached exact-SHA, cleanup.
 | Command | Status | Exit | Duration |
 |---|---|---:|---:|
@@ -275,7 +277,6 @@ def run() -> dict[str, Any]:
         payload["boundaries"]["validated"] = [
             item["name"] for item in payload["commands"] if item["status"] == "PASS"
         ]
-        payload["boundaries"]["external_blocked"] = payload["external_blocked_commands"]
         _write_evidence(payload)
         return payload
     finally:
