@@ -1,0 +1,124 @@
+{
+  "schema": "wanxiang.v5.5.m100.semantic-safety.v1",
+  "conclusion": "PASS",
+  "candidate_sha": "57ca7916a63e4332b996f60fe820c84b18c006c5",
+  "commands": [
+    {
+      "name": "security_reliability",
+      "command": "uv run python scripts/security_reliability_certify.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 75804.331,
+      "stdout_sha256": "97ff1dcc72e571239a679f2958ab78042eaf770669614916338b5696b0757101",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_tail": "final security/reliability certification: PASS\n  curated suite: 65 passed, 0 failed, 0 skipped\n  flags-on stable check: True (enabled=7)\n"
+    },
+    {
+      "name": "security_forensics",
+      "command": "uv run python scripts/security_forensics.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 992.901,
+      "stdout_sha256": "aac514e66edfa3bdfefa15e6713598878d8b37316f19ba61fa5b4485a0520077",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_tail": "secret findings=0 gate probes=4 threats=8 rights=6\n"
+    },
+    {
+      "name": "architecture_guard",
+      "command": "uv run python scripts/architecture_check.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 3318.276,
+      "stdout_sha256": "a8086ee14e414dc8e6e6a9b8ab36513fdc665d9560824f33bb330bfa69647fc5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_tail": "Architecture conformance: PASS\n"
+    },
+    {
+      "name": "kernel_guard",
+      "command": "uv run python scripts/kernel_guard.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 460.081,
+      "stdout_sha256": "dd9bd121b3d08abb2ae92d881e30947a55261fc2c180fb5778de3527558a254b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_tail": "kernel guard: 0 violation(s)\n"
+    },
+    {
+      "name": "source_canon_immutability",
+      "command": "uv run pytest -q tests/integration/test_v55_source_canon_immutability_qualification.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 3105.058,
+      "stdout_sha256": "621b6c5dfe5f09b8b2a09c81fb254256352db25b6d626a1d62063a78193631ac",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_tail": ".                                                                        [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487\n  E:\\AI\\wanxiang\\.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487: UserWarning: Skipping collection of '.hypothesis' directory - this usually means you've explicitly set the `norecursedirs` pytest config option, replacing rather than extending the default ignores.\n    warnings.warn(\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n1 passed, 1 warning in 1.31s\n"
+    },
+    {
+      "name": "provider_integration_boundaries",
+      "command": "uv run pytest -q tests/integration/test_g95e_multi_provider_product_chain.py tests/integration/test_g96a_physical_provider_product_chain.py tests/integration/test_g96b_visual_provider_product_chain.py tests/integration/test_g96c_multi_perspective_product_chain.py tests/integration/test_g96d_reference_physical_product_chain.py tests/integration/test_g96e_reference_visual_product_chain.py tests/integration/test_g96f_external_engine_product_chain.py tests/integration/test_g96g_reality_consistency_product_chain.py tests/integration/test_g96h_provider_bridge_qualification.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 5614.141,
+      "stdout_sha256": "88ab01facf544c30d5da575df61bcafc5bfebb2f6ad36c48f6ca82d847fb8f8a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_tail": ".........                                                                [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487\n  E:\\AI\\wanxiang\\.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487: UserWarning: Skipping collection of '.hypothesis' directory - this usually means you've explicitly set the `norecursedirs` pytest config option, replacing rather than extending the default ignores.\n    warnings.warn(\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n9 passed, 1 warning in 3.64s\n"
+    },
+    {
+      "name": "provider_unit_boundaries",
+      "command": "uv run pytest -q tests/unit/substrate/test_g95e_multi_provider.py tests/unit/substrate/test_g96a_physical_provider_abi.py tests/unit/substrate/test_g96b_visual_provider_abi.py tests/unit/substrate/test_g96c_multi_perspective_projection.py tests/unit/substrate/test_g96d_reference_physical_provider.py tests/unit/substrate/test_g96e_reference_visual_provider.py tests/unit/substrate/test_g96f_external_engine_adapter.py tests/unit/substrate/test_g96g_projection_reality_consistency.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 3115.51,
+      "stdout_sha256": "9d11fa9ef4471722822351761a62c51c8434f700ba501fbc6be2f688d27f1eda",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_tail": "...................                                                      [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487\n  E:\\AI\\wanxiang\\.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487: UserWarning: Skipping collection of '.hypothesis' directory - this usually means you've explicitly set the `norecursedirs` pytest config option, replacing rather than extending the default ignores.\n    warnings.warn(\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n19 passed, 1 warning in 1.08s\n"
+    },
+    {
+      "name": "replay_branch_recovery",
+      "command": "uv run pytest -q tests/integration/test_recovery.py tests/unit/runtime/test_branch.py tests/integration/test_g14b_crash_atomicity.py tests/integration/test_g14d_corruption.py tests/integration/test_g16g_backup_restore.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 5570.69,
+      "stdout_sha256": "ca882b13aea55647041ea38ab739a95cd8baab6acc8267b0a475424b9d275f4d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_tail": "........................                                                 [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487\n  E:\\AI\\wanxiang\\.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487: UserWarning: Skipping collection of '.hypothesis' directory - this usually means you've explicitly set the `norecursedirs` pytest config option, replacing rather than extending the default ignores.\n    warnings.warn(\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n24 passed, 1 warning in 3.84s\n"
+    },
+    {
+      "name": "rights_privacy_resources",
+      "command": "uv run pytest -q tests/integration/test_g13f_security.py tests/integration/test_g14g_auth_privacy.py tests/integration/test_g14i_resource_fuzz.py tests/integration/test_g16a_config_secrets.py tests/integration/test_g16f_security_hardening.py tests/integration/test_g97f_security_safety_cost_storage.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 34960.763,
+      "stdout_sha256": "f06612c7e58044ae5b7e103b3e7300463d537c72fb6125b0e8e4cecb7f4aa0f0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_tail": "..........................                                               [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487\n  E:\\AI\\wanxiang\\.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487: UserWarning: Skipping collection of '.hypothesis' directory - this usually means you've explicitly set the `norecursedirs` pytest config option, replacing rather than extending the default ignores.\n    warnings.warn(\n\n.venv\\Lib\\site-packages\\fastapi\\testclient.py:1\n  E:\\AI\\wanxiang\\.venv\\Lib\\site-packages\\fastapi\\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n    from starlette.testclient import TestClient as TestClient  # noqa\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n26 passed, 2 warnings in 33.15s\n"
+    }
+  ],
+  "failed_commands": [],
+  "external_blocked_commands": [],
+  "boundaries": {
+    "implemented": [
+      "server-enforced source, rights, privacy and canonical-state guards",
+      "provider proposal-only and replay/branch/recovery invariants"
+    ],
+    "validated": [
+      "security_reliability",
+      "security_forensics",
+      "architecture_guard",
+      "kernel_guard",
+      "source_canon_immutability",
+      "provider_integration_boundaries",
+      "provider_unit_boundaries",
+      "replay_branch_recovery",
+      "rights_privacy_resources"
+    ],
+    "experimental_bounded": [
+      "reference provider and external-engine adapter semantics"
+    ],
+    "not_proven": [
+      "live customer/source export safety outside the tested local paths",
+      "production hosting and real external provider or hardware behavior"
+    ],
+    "external_blocked": []
+  }
+}
