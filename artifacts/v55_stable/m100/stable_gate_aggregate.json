@@ -1,7 +1,7 @@
 {
   "schema": "wanxiang.v5.5.m100.stable-gate-aggregate.v1",
   "conclusion": "LOCKED",
-  "generated_build_sha": "1fae5a3775df66d2a3e824de2d15cb02ee41f42a",
+  "generated_build_sha": "16f7d89ccf95f405351df6727ddde3184cdd58bc",
   "evidence_derived": true,
   "gates": {
     "61": {
@@ -308,9 +308,18 @@
     "79": {
       "status": "LOCKED",
       "evidence": [
-        "G103B-G103D stable preflight is pending"
+        "artifacts/v55_stable/m100/full_regression.json",
+        "artifacts/v55_stable/m100/semantic_safety.json",
+        "artifacts/v55_stable/m100/clean_clone.json",
+        "artifacts/v55_stable/m100/remote_delivery.json"
       ],
-      "reason": "M100 stable preflight and clean-clone evidence is not yet accepted"
+      "checks": {
+        "full_regression_no_fail": true,
+        "semantic_safety_no_fail": true,
+        "clean_clone_exact_sha": true,
+        "candidate_remote_ci": false
+      },
+      "reason": "G103E candidate remote branch/required CI is not verified"
     }
   },
   "ledger_consistency": {
@@ -366,7 +375,8 @@
     "all_required_gates": false,
     "reason": [
       "Gates 62-66 remain USER_INPUT_REQUIRED",
-      "Gate 79 stable preflight is not yet accepted"
+      "Gate 79 remains LOCKED because candidate remote/required CI is not verified",
+      "No v5.5.0 tag or post-release evidence exists"
     ]
   },
   "source_artifacts": {
@@ -411,6 +421,34 @@
       "schema": "wanxiang.v5.5.m99.godot-integration.v1",
       "conclusion": "EXTERNAL_BLOCKED",
       "build_sha": "9ac66665f7332ae6e1453ad6bdb80e6d193a98fb"
+    },
+    "m100/full_regression.json": {
+      "path": "artifacts/v55_stable/m100/full_regression.json",
+      "sha256": "b5a16e6c76a7e277c10a283e75092c95d5c1b6eee6d55524e4bb663dc413f471",
+      "schema": "wanxiang.v5.5.m100.full-regression.v1",
+      "conclusion": "PASS",
+      "build_sha": null
+    },
+    "m100/semantic_safety.json": {
+      "path": "artifacts/v55_stable/m100/semantic_safety.json",
+      "sha256": "ba4bbbd0cb4857f16b4e2fb28222c3f3105c9ab91f381de1e1fcf437325307e9",
+      "schema": "wanxiang.v5.5.m100.semantic-safety.v1",
+      "conclusion": "PASS",
+      "build_sha": null
+    },
+    "m100/clean_clone.json": {
+      "path": "artifacts/v55_stable/m100/clean_clone.json",
+      "sha256": "e3ed43ea2f49ca9ec4e059e7279f337fe4612f4f205fbb22d7586424d74a7809",
+      "schema": "wanxiang.v5.5.m100.clean-clone.v1",
+      "conclusion": "PASS",
+      "build_sha": null
+    },
+    "m100/remote_delivery.json": {
+      "path": "artifacts/v55_stable/m100/remote_delivery.json",
+      "sha256": "57062879f0b337d873c99b11419b457eda7d4ffc8f648d6573656e900b344a5d",
+      "schema": "wanxiang.v5.5.m100.remote-delivery.v1",
+      "conclusion": "LOCKED",
+      "build_sha": null
     }
   },
   "boundaries": {

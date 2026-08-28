@@ -1,0 +1,104 @@
+{
+  "schema": "wanxiang.v5.5.m100.stable-certification.v1",
+  "goal": "G103I",
+  "sequence_complete": true,
+  "conclusion": "LOCKED",
+  "decision": "NOT_ACCEPTED_FOR_STABLE",
+  "candidate_sha": "16f7d89ccf95f405351df6727ddde3184cdd58bc",
+  "aggregate": {
+    "path": "artifacts/v55_stable/m100/stable_gate_aggregate.json",
+    "sha256": "3881a2923ba6de9962e610f04d20750d31cd7086a52f8f3122ecfd0b0ae3c884",
+    "generated_build_sha": "16f7d89ccf95f405351df6727ddde3184cdd58bc",
+    "conclusion": "LOCKED",
+    "ledger_consistency": "PASS"
+  },
+  "matrix": {
+    "path": "reports/V55_STABLE_ACCEPTANCE_MATRIX.md",
+    "sha256": "f00f37057b33a5630edce647d646815e68c7540d262d0f1dfe5ae6699c13d566"
+  },
+  "gate_status": {
+    "61": "PASS",
+    "62-66": "USER_INPUT_REQUIRED",
+    "67-77": "PASS",
+    "78": "EXTERNAL_BLOCKED",
+    "79": "LOCKED",
+    "80": "LOCKED"
+  },
+  "milestone_status": {
+    "M95": "USER_INPUT_REQUIRED",
+    "M96": "PASS_BOUNDED",
+    "M97": "PASS_BOUNDED",
+    "M98": "PASS_BOUNDED",
+    "M99": "EXTERNAL_BLOCKED",
+    "M100": "LOCKED_FINAL_STOP"
+  },
+  "g103_status": {
+    "G103A": "PASS_CONSISTENCY",
+    "G103B": "PASS_WITH_EXTERNAL_BLOCKED",
+    "G103C": "PASS",
+    "G103D": "PASS_WITH_EXTERNAL_BLOCKED",
+    "G103E": "LOCKED",
+    "G103F": "COMPLETE_NOT_RELEASE",
+    "G103G": "LOCKED",
+    "G103H": "LOCKED_NOT_APPLICABLE",
+    "G103I": "LOCKED_FINAL_STOP"
+  },
+  "evidence": [
+    "artifacts/v55_stable/m100/stable_gate_aggregate.json",
+    "artifacts/v55_stable/m100/full_regression.json",
+    "artifacts/v55_stable/m100/semantic_safety.json",
+    "artifacts/v55_stable/m100/clean_clone.json",
+    "artifacts/v55_stable/m100/remote_delivery.json",
+    "artifacts/v55_stable/m100/release_notes_evidence.json",
+    "artifacts/v55_stable/m100/stable_release_block.json",
+    "artifacts/v55_stable/m100/post_release_verification.json"
+  ],
+  "boundaries": {
+    "implemented": [
+      "v5.5 stable certification runners and evidence-derived ledger",
+      "local regression, semantic/safety, and exact-SHA clean-clone checks"
+    ],
+    "validated": [
+      "Gates 61 and 67-77",
+      "G103A ledger consistency",
+      "G103B/G103C/G103D local evidence with no captured FAIL"
+    ],
+    "experimental_bounded": [
+      "Prompt Genesis",
+      "bounded long-horizon continuity",
+      "World Lab",
+      "emergence"
+    ],
+    "not_proven": [
+      "genuine human-player Gates 62-66",
+      "candidate remote push and candidate Actions conclusions",
+      "v5.5.0 tag-based post-release verification",
+      "universal, scientific, true-time, or production claims"
+    ],
+    "external_blocked": [
+      "real Godot/physical/visual E2E",
+      "live PostgreSQL",
+      "pnpm/TypeScript host tooling in local runs",
+      "Git HTTPS remote helper and candidate remote delivery state"
+    ]
+  },
+  "release_actions": {
+    "annotated_v5.5.0_tag": "NOT_ATTEMPTED",
+    "push": "NOT_ATTEMPTED",
+    "github_release": "NOT_ATTEMPTED",
+    "post_release_verification": "NOT_APPLICABLE"
+  },
+  "preserved": [
+    "v5.4.0 tag/release and tag identity",
+    "v5.5.0-rc1 tag/prerelease and tag identity",
+    "historical NOT_ACCEPTED real-book evidence",
+    "G103D bootstrap failure attempt-01 and attempt-02",
+    "no-v5.6 and no-model-training boundary"
+  ],
+  "reproduce": [
+    "uv run python scripts/m100_stable_gate_aggregate.py",
+    "git rev-parse HEAD",
+    "Get-FileHash artifacts/v55_stable/m100/stable_gate_aggregate.json -Algorithm SHA256",
+    "Get-FileHash reports/V55_STABLE_ACCEPTANCE_MATRIX.md -Algorithm SHA256"
+  ]
+}

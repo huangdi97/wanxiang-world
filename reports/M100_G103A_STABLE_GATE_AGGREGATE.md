@@ -26,9 +26,10 @@ README prose as the source of gate truth.
 
 The ledger consistency check is PASS.
 Gate 78 is an explicit external block because no supported Godot executable is
-available; reference ABI tests were not relabeled as Godot E2E. Gate 79 is
-still LOCKED pending G103B-G103D. Gate 80 is LOCKED and no Stable tag/release
-action is authorized.
+available; reference ABI tests were not relabeled as Godot E2E. G103B-G103D
+have local evidence without captured FAIL, but Gate 79 remains LOCKED because
+G103E did not verify a candidate remote branch and required Actions run. Gate
+80 is LOCKED and no Stable tag/release action is authorized.
 
 Prompt Genesis, bounded long-horizon/World Lab, and emergence remain
 EXPERIMENTAL/BOUNDED. Genuine human M95 evidence remains USER_INPUT_REQUIRED.
