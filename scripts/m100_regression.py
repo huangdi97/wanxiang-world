@@ -17,6 +17,11 @@ OUTPUT = ROOT / "artifacts" / "v55_stable" / "m100" / "full_regression.json"
 REPORT = ROOT / "reports" / "M100_G103B_FULL_REGRESSION.md"
 
 COMMANDS: tuple[tuple[str, list[str], int], ...] = (
+    (
+        "clean_room",
+        ["uv", "run", "python", "scripts/clean_room_certify.py"],
+        900,
+    ),
     ("python_quality", ["uv", "run", "python", "scripts/quality.py"], 1800),
     ("kernel_guard", ["uv", "run", "python", "scripts/kernel_guard.py"], 300),
     ("release_build", ["uv", "run", "python", "scripts/release_build.py"], 300),
@@ -29,11 +34,6 @@ COMMANDS: tuple[tuple[str, list[str], int], ...] = (
     ),
     ("sdk_baseline", ["uv", "run", "python", "scripts/sdk_baseline.py"], 300),
     ("openapi_export", ["uv", "run", "python", "scripts/export_openapi.py"], 300),
-    (
-        "clean_room",
-        ["uv", "run", "python", "scripts/clean_room_certify.py"],
-        900,
-    ),
     (
         "security_reliability",
         ["uv", "run", "python", "scripts/security_reliability_certify.py"],
@@ -74,7 +74,9 @@ def _classify(name: str, code: int, output: str) -> str:
             return "EXTERNAL_BLOCKED"
     if name == "python_quality" and code != 0:
         failed_tests = [
-            line.strip() for line in output.splitlines() if line.strip().startswith("FAILED ")
+            line.strip()
+            for line in output.splitlines()
+            if line.strip().startswith("FAILED ") and not line.strip().startswith("FAILED CHECKS:")
         ]
         lowered = output.lower()
         if (
@@ -85,6 +87,10 @@ def _classify(name: str, code: int, output: str) -> str:
             and "winerror 5" in lowered
             and "playwright" in lowered
         ):
+            return "EXTERNAL_BLOCKED"
+    if name.startswith("pnpm_") and code == 127:
+        lowered = output.lower()
+        if "filenotfounderror" in lowered and "winerror 2" in lowered:
             return "EXTERNAL_BLOCKED"
     return "PASS" if code == 0 else "FAIL"
 
