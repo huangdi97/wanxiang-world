@@ -1,0 +1,221 @@
+{
+  "schema": "wanxiang.v5.5.m100.full-regression.v1",
+  "conclusion": "PASS",
+  "candidate_sha": "a74e0f162d0dfe4911d38b77bae8f874f47bfe23",
+  "commands": [
+    {
+      "name": "clean_room",
+      "command": "uv run python scripts/clean_room_certify.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 2368.692,
+      "stdout_sha256": "ebda5d35c83ae5cb91f6867045c828e24e42427ed077442c990089bc06e87132",
+      "stderr_sha256": "871f397c85bbb7a23428edd75cf50fdd6a21ad536bb84e7a48240df39c2bb78a",
+      "output_tail": "clean-room certification: PASS\n  clean_tree: PASS \n  release_manifest: PASS \n  migration_upgrade: PASS \n  golden_replay: PASS \n  backup_restore_replay: PASS \n  external_sample_pack: PASS \n  reference_world: PASS \nINFO  [alembic.runtime.migration] Context impl SQLiteImpl.\nINFO  [alembic.runtime.migration] Will assume non-transactional DDL.\nINFO  [alembic.runtime.migration] Running upgrade  -> 0001_initial, initial schema for P1 persistence\nINFO  [alembic.runtime.migration] Context impl SQLiteImpl.\nINFO  [alembic.runtime.migration] Will assume non-transactional DDL.\nINFO  [alembic.runtime.migration] Running upgrade 0001_initial -> 0002_add_event_seq_index, add ordered stream index on events\nINFO  [alembic.runtime.migration] Running upgrade 0002_add_event_seq_index -> 0003_add_lineage, add lineage nodes and edges\nINFO  [alembic.runtime.migration] Running upgrade 0003_add_lineage -> 0004_add_world_metadata, add world metadata (definition/constitution/evolution) + lineage kind index\nINFO  [alembic.runtime.migration] Context impl SQLiteImpl.\nINFO  [alembic.runtime.migration] Will assume non-transactional DDL.\nINFO  [alembic.runtime.migration] Running upgrade  -> 0001_initial, initial schema for P1 persistence\nINFO  [alembic.runtime.migration] Running upgrade 0001_initial -> 0002_add_event_seq_index, add ordered stream index on events\nINFO  [alembic.runtime.migration] Running upgrade 0002_add_event_seq_index -> 0003_add_lineage, add lineage nodes and edges\nINFO  [alembic.runtime.migration] Running upgrade 0003_add_lineage -> 0004_add_world_metadata, add world metadata (definition/constitution/evolution) + lineage kind index\nINFO  [alembic.runtime.migration] Context impl SQLiteImpl.\nINFO  [alembic.runtime.migration] Will assume non-transactional DDL.\nINFO  [alembic.runtime.migration] Context impl SQLiteImpl.\nINFO  [alembic.runtime.migration] Will assume non-transactional DDL.\nINFO  [alembic.runtime.migration] Running upgrade  -> 0001_initial, initial schema for P1 persistence\nINFO  [alembic.runtime.migration] Running upgrade 0001_initial -> 0002_add_event_seq_index, add ordered stream index on events\nINFO  [alembic.runtime.migration] Running upgrade 0002_add_event_seq_index -> 0003_add_lineage, add lineage nodes and edges\nINFO  [alembic.runtime.migration] Running upgrade 0003_add_lineage -> 0004_add_world_metadata, add world metadata (definition/constitution/evolution) + lineage kind index\n"
+    },
+    {
+      "name": "python_quality",
+      "command": "uv run python scripts/quality.py",
+      "exit_code": 1,
+      "status": "EXTERNAL_BLOCKED",
+      "duration_ms": 400454.091,
+      "stdout_sha256": "8070c00a6c36ffac9af75cd10c13ee7934e2b9820374b6df633f83bdc6751d86",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_tail": "tdout,\nD:\\Code\\Anaconda\\Lib\\asyncio\\windows_events.py:878: in _start\n    self._proc = windows_utils.Popen(\nD:\\Code\\Anaconda\\Lib\\asyncio\\windows_utils.py:136: in __init__\n    stdin_rh, stdin_wh = pipe(overlapped=(False, True), duplex=True)\n                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n\nduplex = True, overlapped = (False, True), bufsize = 8192\n\n    def pipe(*, duplex=False, overlapped=(True, True), bufsize=BUFSIZE):\n        \"\"\"Like os.pipe() but with overlapped support and using handles not fds.\"\"\"\n        address = tempfile.mktemp(\n            prefix=r'\\\\.\\pipe\\python-pipe-{:d}-{:d}-'.format(\n                os.getpid(), next(_mmap_counter)))\n    \n        if duplex:\n            openmode = _winapi.PIPE_ACCESS_DUPLEX\n            access = _winapi.GENERIC_READ | _winapi.GENERIC_WRITE\n            obsize, ibsize = bufsize, bufsize\n        else:\n            openmode = _winapi.PIPE_ACCESS_INBOUND\n            access = _winapi.GENERIC_WRITE\n            obsize, ibsize = 0, bufsize\n    \n        openmode |= _winapi.FILE_FLAG_FIRST_PIPE_INSTANCE\n    \n        if overlapped[0]:\n            openmode |= _winapi.FILE_FLAG_OVERLAPPED\n    \n        if overlapped[1]:\n            flags_and_attribs = _winapi.FILE_FLAG_OVERLAPPED\n        else:\n            flags_and_attribs = 0\n    \n        h1 = h2 = None\n        try:\n            h1 = _winapi.CreateNamedPipe(\n                address, openmode, _winapi.PIPE_WAIT,\n                1, obsize, ibsize, _winapi.NMPWAIT_WAIT_FOREVER, _winapi.NULL)\n    \n>           h2 = _winapi.CreateFile(\n                address, access, 0, _winapi.NULL, _winapi.OPEN_EXISTING,\n                flags_and_attribs, _winapi.NULL)\nE               PermissionError: [WinError 5] 拒绝访问。\n\nD:\\Code\\Anaconda\\Lib\\asyncio\\windows_utils.py:63: PermissionError\n---------------------------- Captured stderr call -----------------------------\nINFO  [alembic.runtime.migration] Context impl SQLiteImpl.\nINFO  [alembic.runtime.migration] Will assume non-transactional DDL.\nINFO  [alembic.runtime.migration] Running upgrade  -> 0001_initial, initial schema for P1 persistence\nINFO  [alembic.runtime.migration] Running upgrade 0001_initial -> 0002_add_event_seq_index, add ordered stream index on events\nINFO  [alembic.runtime.migration] Running upgrade 0002_add_event_seq_index -> 0003_add_lineage, add lineage nodes and edges\nINFO  [alembic.runtime.migration] Running upgrade 0003_add_lineage -> 0004_add_world_metadata, add world metadata (definition/constitution/evolution) + lineage kind index\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487\n  E:\\AI\\wanxiang\\.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487: UserWarning: Skipping collection of '.hypothesis' directory - this usually means you've explicitly set the `norecursedirs` pytest config option, replacing rather than extending the default ignores.\n    warnings.warn(\n\n.venv\\Lib\\site-packages\\fastapi\\testclient.py:1\n  E:\\AI\\wanxiang\\.venv\\Lib\\site-packages\\fastapi\\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n    from starlette.testclient import TestClient as TestClient  # noqa\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n=========================== short test summary info ===========================\nSKIPPED [1] tests\\integration\\test_g16b_postgres.py:24: EXTERNAL_BLOCKED: no PostgreSQL instance available; set WANXIANG_POSTGRES_TEST_URL to run the live profile (see runbook).\nFAILED tests/integration/test_g97e_browser_experience_product_chain.py::test_browser_drives_studio_workshop_and_private_playable_world\n1 failed, 1466 passed, 1 skipped, 2 warnings in 370.33s (0:06:10)\n\n===== uv run python E:\\AI\\wanxiang\\scripts\\architecture_check.py =====\nArchitecture conformance: PASS\n\nFAILED CHECKS:\n - uv run pytest -q\n"
+    },
+    {
+      "name": "kernel_guard",
+      "command": "uv run python scripts/kernel_guard.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 404.292,
+      "stdout_sha256": "dd9bd121b3d08abb2ae92d881e30947a55261fc2c180fb5778de3527558a254b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_tail": "kernel guard: 0 violation(s)\n"
+    },
+    {
+      "name": "release_build",
+      "command": "uv run python scripts/release_build.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 175.387,
+      "stdout_sha256": "01dc3ce398fa245671629c4b055c9ceb520fd434fc07652021e2853ffdbafa1e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_tail": "{\n  \"version\": \"0.1.0\",\n  \"git_sha\": \"a74e0f162d0dfe4911d38b77bae8f874f47bfe23\",\n  \"migration_head\": \"0004_add_world_metadata\",\n  \"build_inputs\": {\n    \"uv.lock\": \"80d7e86c53b3b4d1ceaa273acd867b1d887ded2586d483d43dcb0b1cc5a48e1c\",\n    \"pnpm-lock.yaml\": \"2fd41976b817f01ad1f3d4ca465d55d2928f304cd7218fc32eee411321536971\",\n    \"docs/spec/WANXIANG_v5_MASTER_SPEC.md\": \"0663027cb69f9fa29a763c33666908191fadd33a47738c4aa9f34ad3b98a5454\",\n    \"alembic.ini\": \"aca4f893fe1fa646e7bc749ba97bde592078cae12b8e16f6e456db6495c6667b\",\n    \"pyproject.toml\": \"9b72e93f8ea4c0d9dc5764bb02a9eb8faf1e2c2f1508a575de308004952e438f\"\n  },\n  \"built_at_utc\": \"2026-08-28T15:21:15Z\",\n  \"release_hash\": \"d99e76effbde52315cb6f87d5646aa1849fb4247d26929706e0da3c4fffb1e4c\"\n}\n"
+    },
+    {
+      "name": "playable_e2e",
+      "command": "uv run python scripts/playable_e2e.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 534.802,
+      "stdout_sha256": "f979e645d412a59abfb100f0058587617f56fed500f086024e947fa05549e2fe",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_tail": "{\"committed_event_id\": \"evt_2864dd647e5e48be808348f21476ea33\", \"continued_instance_id\": \"prv_playable_1\", \"entered_entities\": 2, \"instance_id\": \"prv_playable_1\", \"package_id\": \"world:wd_job_cli_playable\", \"profile_id\": \"experience:world:wd_job_cli_playable\", \"proposal_status\": \"proposed\", \"replay_equal\": true, \"same_instance_after_continue\": true, \"source_path_or_digest_emitted\": false, \"source_profile\": \"book\", \"state_diff_changes\": 1}\n"
+    },
+    {
+      "name": "studio_socket_smoke",
+      "command": "uv run python scripts/studio_socket_smoke.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 1918.229,
+      "stdout_sha256": "f507b78d60eed76774b76fbe6daa53110217cd8e9ef33bbb39b4aaf58bd91972",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_tail": "{\"health\": {\"status\": \"ok\"}, \"port\": 30586, \"socket\": \"passed\", \"studio_status\": true}\n"
+    },
+    {
+      "name": "structured_mixed_smoke",
+      "command": "uv run python scripts/structured_mixed_smoke.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 475.758,
+      "stdout_sha256": "85924f46e6387d2748d718b918fcfc11ca205860e1750d64e9abefbdb2a38320",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_tail": "{\n  \"profile\": \"mixed\",\n  \"draft_id\": \"wd_m83_smoke\",\n  \"source_refs\": [\n    \"book_m83\",\n    \"csv_m83\",\n    \"json_m83\"\n  ],\n  \"candidate_count\": 9,\n  \"fusion_alignment_count\": 3,\n  \"package_id\": \"world:wd_job_m83_smoke\",\n  \"preview_ref\": \"preview://preview_1\",\n  \"json_pointer\": \"json://json_m83#record//people/0/name\",\n  \"json_pointer_value\": \"\\\"Ada\\\"\",\n  \"json_leaf_count\": 2,\n  \"csv_cell\": \"csv://csv_m83#column/row_2/column_3\",\n  \"csv_cell_value\": \"Harbor\",\n  \"one_world_draft\": true\n}\n"
+    },
+    {
+      "name": "sdk_baseline",
+      "command": "uv run python scripts/sdk_baseline.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 756.456,
+      "stdout_sha256": "bb7d3406f867372f151e55ab9dcf7da1f94dc98d86c6a8c797fc8d2ac00726d2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_tail": "routes=62 ts=5 py=2084\n"
+    },
+    {
+      "name": "openapi_export",
+      "command": "uv run python scripts/export_openapi.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 1755.09,
+      "stdout_sha256": "852a73a9dfea9c9844ab984734e52dfaad2915646dc062744014a29906e49c3e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_tail": "exported 59 paths / 62 operations to packages\\sdk_ts\\src\\openapi-contract.json\n"
+    },
+    {
+      "name": "security_reliability",
+      "command": "uv run python scripts/security_reliability_certify.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 71690.781,
+      "stdout_sha256": "97ff1dcc72e571239a679f2958ab78042eaf770669614916338b5696b0757101",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_tail": "final security/reliability certification: PASS\n  curated suite: 65 passed, 0 failed, 0 skipped\n  flags-on stable check: True (enabled=7)\n"
+    },
+    {
+      "name": "security_forensics",
+      "command": "uv run python scripts/security_forensics.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 742.181,
+      "stdout_sha256": "aac514e66edfa3bdfefa15e6713598878d8b37316f19ba61fa5b4485a0520077",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_tail": "secret findings=0 gate probes=4 threats=8 rights=6\n"
+    },
+    {
+      "name": "blackbox_acceptance",
+      "command": "uv run python scripts/blackbox_final_acceptance.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 2681.625,
+      "stdout_sha256": "9362b4451df70be2630cd3d15a3e76bd9734a489fc6d7c9338cd06adb3bb3130",
+      "stderr_sha256": "81cef7849915466850b7dec43dfcc1830c2fb6123dff02b432e40b8d4ca85cb5",
+      "output_tail": "black-box final acceptance: PASS\n  author: PASS\n  operator: PASS\n  end_user: PASS\n  surfaces: PASS\nINFO  [alembic.runtime.migration] Context impl SQLiteImpl.\nINFO  [alembic.runtime.migration] Will assume non-transactional DDL.\nINFO  [alembic.runtime.migration] Running upgrade  -> 0001_initial, initial schema for P1 persistence\nINFO  [alembic.runtime.migration] Running upgrade 0001_initial -> 0002_add_event_seq_index, add ordered stream index on events\nINFO  [alembic.runtime.migration] Running upgrade 0002_add_event_seq_index -> 0003_add_lineage, add lineage nodes and edges\nINFO  [alembic.runtime.migration] Running upgrade 0003_add_lineage -> 0004_add_world_metadata, add world metadata (definition/constitution/evolution) + lineage kind index\nINFO  [alembic.runtime.migration] Context impl SQLiteImpl.\nINFO  [alembic.runtime.migration] Will assume non-transactional DDL.\nINFO  [alembic.runtime.migration] Running upgrade  -> 0001_initial, initial schema for P1 persistence\nINFO  [alembic.runtime.migration] Running upgrade 0001_initial -> 0002_add_event_seq_index, add ordered stream index on events\nINFO  [alembic.runtime.migration] Running upgrade 0002_add_event_seq_index -> 0003_add_lineage, add lineage nodes and edges\nINFO  [alembic.runtime.migration] Running upgrade 0003_add_lineage -> 0004_add_world_metadata, add world metadata (definition/constitution/evolution) + lineage kind index\nINFO  [alembic.runtime.migration] Context impl SQLiteImpl.\nINFO  [alembic.runtime.migration] Will assume non-transactional DDL.\nINFO  [alembic.runtime.migration] Context impl SQLiteImpl.\nINFO  [alembic.runtime.migration] Will assume non-transactional DDL.\nINFO  [alembic.runtime.migration] Context impl SQLiteImpl.\nINFO  [alembic.runtime.migration] Will assume non-transactional DDL.\nINFO  [alembic.runtime.migration] Running upgrade  -> 0001_initial, initial schema for P1 persistence\nINFO  [alembic.runtime.migration] Running upgrade 0001_initial -> 0002_add_event_seq_index, add ordered stream index on events\nINFO  [alembic.runtime.migration] Running upgrade 0002_add_event_seq_index -> 0003_add_lineage, add lineage nodes and edges\nINFO  [alembic.runtime.migration] Running upgrade 0003_add_lineage -> 0004_add_world_metadata, add world metadata (definition/constitution/evolution) + lineage kind index\nINFO  [alembic.runtime.migration] Context impl SQLiteImpl.\nINFO  [alembic.runtime.migration] Will assume non-transactional DDL.\nINFO  [alembic.runtime.migration] Context impl SQLiteImpl.\nINFO  [alembic.runtime.migration] Will assume non-transactional DDL.\nINFO  [alembic.runtime.migration] Running upgrade  -> 0001_initial, initial schema for P1 persistence\nINFO  [alembic.runtime.migration] Running upgrade 0001_initial -> 0002_add_event_seq_index, add ordered stream index on events\nINFO  [alembic.runtime.migration] Running upgrade 0002_add_event_seq_index -> 0003_add_lineage, add lineage nodes and edges\nINFO  [alembic.runtime.migration] Running upgrade 0003_add_lineage -> 0004_add_world_metadata, add world metadata (definition/constitution/evolution) + lineage kind index\n"
+    },
+    {
+      "name": "postgres_profile",
+      "command": "uv run pytest -q tests/integration/test_g16b_postgres.py",
+      "exit_code": 0,
+      "status": "EXTERNAL_BLOCKED",
+      "duration_ms": 1944.263,
+      "stdout_sha256": "29238e912bbfd13b0640befa034154e82601cf94647fa7031f08681d065958b5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_tail": "s...                                                                     [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487\n  E:\\AI\\wanxiang\\.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487: UserWarning: Skipping collection of '.hypothesis' directory - this usually means you've explicitly set the `norecursedirs` pytest config option, replacing rather than extending the default ignores.\n    warnings.warn(\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n=========================== short test summary info ===========================\nSKIPPED [1] tests\\integration\\test_g16b_postgres.py:24: EXTERNAL_BLOCKED: no PostgreSQL instance available; set WANXIANG_POSTGRES_TEST_URL to run the live profile (see runbook).\n3 passed, 1 skipped, 1 warning in 0.41s\n"
+    },
+    {
+      "name": "pnpm_install",
+      "command": "pnpm install --frozen-lockfile",
+      "exit_code": 127,
+      "status": "EXTERNAL_BLOCKED",
+      "duration_ms": 6.718,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "81d7d4c5f1067d8b907de9ae6294d5e8b2e91d4ea733e85ee28cb5b4297e99e3",
+      "output_tail": "FileNotFoundError: [WinError 2] 系统找不到指定的文件。"
+    },
+    {
+      "name": "ts_lint",
+      "command": "pnpm -r lint",
+      "exit_code": 127,
+      "status": "EXTERNAL_BLOCKED",
+      "duration_ms": 5.195,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "81d7d4c5f1067d8b907de9ae6294d5e8b2e91d4ea733e85ee28cb5b4297e99e3",
+      "output_tail": "FileNotFoundError: [WinError 2] 系统找不到指定的文件。"
+    },
+    {
+      "name": "ts_typecheck",
+      "command": "pnpm -r typecheck",
+      "exit_code": 127,
+      "status": "EXTERNAL_BLOCKED",
+      "duration_ms": 5.595,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "81d7d4c5f1067d8b907de9ae6294d5e8b2e91d4ea733e85ee28cb5b4297e99e3",
+      "output_tail": "FileNotFoundError: [WinError 2] 系统找不到指定的文件。"
+    },
+    {
+      "name": "ts_test",
+      "command": "pnpm -r test",
+      "exit_code": 127,
+      "status": "EXTERNAL_BLOCKED",
+      "duration_ms": 5.21,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "81d7d4c5f1067d8b907de9ae6294d5e8b2e91d4ea733e85ee28cb5b4297e99e3",
+      "output_tail": "FileNotFoundError: [WinError 2] 系统找不到指定的文件。"
+    },
+    {
+      "name": "ts_build",
+      "command": "pnpm -r build",
+      "exit_code": 127,
+      "status": "EXTERNAL_BLOCKED",
+      "duration_ms": 5.146,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "81d7d4c5f1067d8b907de9ae6294d5e8b2e91d4ea733e85ee28cb5b4297e99e3",
+      "output_tail": "FileNotFoundError: [WinError 2] 系统找不到指定的文件。"
+    }
+  ],
+  "command_count": 18,
+  "completed_count": 18,
+  "failed_commands": [],
+  "external_blocked_commands": [
+    "python_quality",
+    "postgres_profile",
+    "pnpm_install",
+    "ts_lint",
+    "ts_typecheck",
+    "ts_test",
+    "ts_build"
+  ],
+  "boundaries": {
+    "implemented": [
+      "Python quality/kernel/release/product/safety command matrix",
+      "TypeScript install/lint/typecheck/test/build matrix"
+    ],
+    "validated": [
+      "all commands with PASS status",
+      "full applicable local regression scope"
+    ],
+    "experimental": [],
+    "not_proven": [
+      "live PostgreSQL when the service is absent",
+      "heavy browser/visual E2E when Windows process-pipe access is denied",
+      "TypeScript gates when pnpm is unavailable on the host",
+      "production hosting and external infrastructure"
+    ],
+    "external_blocked": [
+      "live PostgreSQL profile when skipped or unreachable",
+      "browser Studio chain when Playwright cannot create its real process pipe",
+      "pnpm install/lint/typecheck/test/build when pnpm is unavailable"
+    ]
+  }
+}
