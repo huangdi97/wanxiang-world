@@ -17,6 +17,7 @@ from m100_stable_gate_evidence import (
     load,
     m98_gates,
     quality_gates,
+    stable_preflight,
 )
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -54,6 +55,10 @@ def qualify() -> dict[str, Any]:
     m97 = load("m97/experience_quality_baseline.json")
     m98 = load("m98/burn_in_summary.json")
     godot = load("m99/godot_integration.json")
+    full_regression = load("m100/full_regression.json")
+    semantic_safety = load("m100/semantic_safety.json")
+    clean_clone = load("m100/clean_clone.json")
+    remote_delivery = load("m100/remote_delivery.json")
     gates: dict[str, dict[str, Any]] = {"61": gate61(baseline)}
     gates.update(human_gates(player))
     gates.update(
@@ -72,11 +77,7 @@ def qualify() -> dict[str, Any]:
     )
     gates.update(m98_gates(m98))
     gates["78"] = gate78(godot)
-    gates["79"] = {
-        "status": "LOCKED",
-        "evidence": ["G103B-G103D stable preflight is pending"],
-        "reason": "M100 stable preflight and clean-clone evidence is not yet accepted",
-    }
+    gates["79"] = stable_preflight(full_regression, semantic_safety, clean_clone, remote_delivery)
     derived = {gate: item["status"] for gate, item in gates.items()}
     expected_ledger = {**derived, "80": "LOCKED"}
     observed_ledger = ledger_statuses()
@@ -94,6 +95,10 @@ def qualify() -> dict[str, Any]:
         "m97/experience_quality_baseline.json",
         "m98/burn_in_summary.json",
         "m99/godot_integration.json",
+        "m100/full_regression.json",
+        "m100/semantic_safety.json",
+        "m100/clean_clone.json",
+        "m100/remote_delivery.json",
     )
     artifacts = {relative: _record(relative, load(relative)) for relative in relative_names}
     summary: dict[str, Any] = {
@@ -113,7 +118,8 @@ def qualify() -> dict[str, Any]:
             "all_required_gates": stable_predicate,
             "reason": [
                 "Gates 62-66 remain USER_INPUT_REQUIRED",
-                "Gate 79 stable preflight is not yet accepted",
+                "Gate 79 remains LOCKED because candidate remote/required CI is not verified",
+                "No v5.5.0 tag or post-release evidence exists",
             ],
         },
         "source_artifacts": artifacts,
@@ -156,9 +162,10 @@ README prose as the source of gate truth.
 
 The ledger consistency check is {summary["ledger_consistency"]["status"]}.
 Gate 78 is an explicit external block because no supported Godot executable is
-available; reference ABI tests were not relabeled as Godot E2E. Gate 79 is
-still LOCKED pending G103B-G103D. Gate 80 is LOCKED and no Stable tag/release
-action is authorized.
+available; reference ABI tests were not relabeled as Godot E2E. G103B-G103D
+have local evidence without captured FAIL, but Gate 79 remains LOCKED because
+G103E did not verify a candidate remote branch and required Actions run. Gate
+80 is LOCKED and no Stable tag/release action is authorized.
 
 Prompt Genesis, bounded long-horizon/World Lab, and emergence remain
 EXPERIMENTAL/BOUNDED. Genuine human M95 evidence remains USER_INPUT_REQUIRED.

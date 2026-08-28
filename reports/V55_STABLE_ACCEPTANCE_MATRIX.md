@@ -226,12 +226,66 @@ Narrative evidence: reports/M99_GODOT_REAL_INTEGRATION.md.
 The evidence-derived aggregate is LOCKED, with ledger consistency PASS. Gates
 61 and 67-77 are PASS; Gates 62-66 remain USER_INPUT_REQUIRED; Gate 78 is the
 explicit Godot EXTERNAL_BLOCKED result; Gate 79 is still LOCKED; and Gate 80
-is LOCKED. The guard recomputes the M98 predicates from their source artifacts
-and compares the resulting statuses with this ledger, so no release status is
+is LOCKED. G103B-G103D local evidence has no captured FAIL, while G103E could
+not verify a candidate remote branch and required Actions run. The guard
+recomputes the M98 and stable-preflight predicates from source artifacts and
+compares the resulting statuses with this ledger, so no release status is
 inferred from prose alone.
 
 Machine-readable evidence: artifacts/v55_stable/m100/stable_gate_aggregate.json.
 Narrative evidence: reports/M100_G103A_STABLE_GATE_AGGREGATE.md.
+
+## G103B decision
+
+G103B is `PASS` for the full 18-command local regression matrix with no
+captured `FAIL`. PostgreSQL, browser/Playwright where host access was denied,
+and pnpm/TypeScript availability remain explicit `EXTERNAL_BLOCKED` rows; they
+are not relabeled as PASS. Evidence: `artifacts/v55_stable/m100/full_regression.json`
+and `reports/M100_G103B_FULL_REGRESSION.md`.
+
+## G103C decision
+
+G103C is `PASS`: all nine semantic/safety command groups completed with no
+captured `FAIL`, including source/canon immutability, provider proposal-only
+boundaries, replay/branch/recovery, rights/privacy/resources, security, and
+architecture/kernel checks. Evidence:
+`artifacts/v55_stable/m100/semantic_safety.json` and
+`reports/M100_G103C_SEMANTIC_SAFETY.md`.
+
+## G103D decision
+
+G103D is `PASS` for the exact-SHA isolated clone: `git clone --no-local` and
+detached checkout matched the candidate SHA, and all 18 clone commands had no
+captured `FAIL`. Live PostgreSQL and pnpm/TypeScript host gaps remain
+`EXTERNAL_BLOCKED`. Two earlier bootstrap permission failures are preserved as
+attempt-01/02 evidence and are not overwritten. Evidence:
+`artifacts/v55_stable/m100/clean_clone.json` and
+`reports/M100_G103D_CLEAN_CLONE.md`.
+
+## G103E decision
+
+G103E is `LOCKED` with explicit external boundaries. The candidate branch was
+not present in the public GitHub ref query, the Git HTTPS remote helper failed
+for `ls-remote`, and no candidate Actions run/jobs could be verified. No push
+was attempted while Gate 80 is locked. Evidence:
+`artifacts/v55_stable/m100/remote_delivery.json` and
+`reports/M100_G103E_REMOTE_DELIVERY.md`.
+
+## G103F decision
+
+G103F is complete as release evidence, but not a release: notes preserve the
+v5.4.0/rc1 identities, historical `NOT_ACCEPTED` record, and all
+IMPLEMENTED/VALIDATED/EXPERIMENTAL-BOUNDED/NOT_PROVEN/EXTERNAL_BLOCKED
+boundaries. Evidence: `reports/V55_STABLE_RELEASE_NOTES.md` and
+`artifacts/v55_stable/m100/release_notes_evidence.json`.
+
+## G103G-G103H decision
+
+G103G and G103H remain `LOCKED`/`NOT_APPLICABLE`: no `v5.5.0` tag or GitHub
+Release was created, so tag-based post-release verification was not run. The
+local v5.4.0 and v5.5.0-rc1 identities passed and remain unchanged. Evidence:
+`artifacts/v55_stable/m100/stable_release_block.json`,
+`artifacts/v55_stable/m100/post_release_verification.json`, and their reports.
 
 ## Stable release rule
 

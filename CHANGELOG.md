@@ -1,5 +1,19 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-29 - M100 v5.5 Stable Certification (locked)
+
+- Completed G103A–G103I evidence collection: evidence-derived aggregate,
+  full local regression, semantic/safety requalification, exact-SHA clean
+  clone, remote/CI boundary probe, release notes, and post-release stop record.
+- Kept Gates 62–66 `USER_INPUT_REQUIRED`, Gate 78 `EXTERNAL_BLOCKED`, Gate 79
+  `LOCKED`, and Gate 80 `LOCKED`; no stable tag, push, or GitHub Release was
+  attempted.
+- Preserved Prompt Genesis, bounded long-horizon/World Lab, and emergence as
+  `EXPERIMENTAL`/`BOUNDED`; retained live PostgreSQL, Godot/physical/visual,
+  pnpm/TypeScript, and remote CI boundaries without relabeling them as PASS.
+- Preserved v5.4.0, v5.5.0-rc1, historical `NOT_ACCEPTED` evidence, failed
+  attempt records, and the no-v5.6/no-training boundary.
+
 ## 2026-08-28 - V55-FINAL-CLOSURE-R1
 
 - Added the explicit Gate 59 reconciliation report and automated

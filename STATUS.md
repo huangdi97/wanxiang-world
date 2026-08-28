@@ -1,6 +1,6 @@
 # Status ? Wanxiang Engineering Program
 
-Updated: 2026-08-28 (V55-FINAL-CLOSURE-R1)
+Updated: 2026-08-29 (M100 G103I Stable Certification)
 
 ## V55-FINAL-CLOSURE-R1 (2026-08-28)
 
@@ -120,6 +120,30 @@ aggregation is `PASS` for consistency; G103B-G103D remain active for stable
 preflight and clean-clone evidence. Gate 79 remains pending. Gate 80 remains
 locked because M95 human evidence is still
 `USER_INPUT_REQUIRED`. No v5.6 or model-training work occurred.
+
+## v5.5 Stable Certification — M100 G103A–G103I (2026-08-29)
+
+The M100 certification sequence is complete as an honest, bounded record;
+Stable release acceptance is `LOCKED`. G103A's evidence-derived aggregate has
+ledger consistency `PASS`. G103B full regression, G103C semantic/safety
+requalification, and G103D exact-SHA clean-clone certification have no
+captured `FAIL`; live PostgreSQL, pnpm/TypeScript, and other unavailable host
+facilities remain explicit `EXTERNAL_BLOCKED` boundaries. G103E did not push:
+the candidate branch and candidate Actions run were not verified, while the
+Git HTTPS helper failed for `ls-remote`. G103F release notes are prepared;
+G103G did not create `v5.5.0`, and G103H did not run tag-based post-release
+checks because that tag is absent.
+
+The final matrix remains: Gates 61 and 67–77 `PASS`, Gates 62–66
+`USER_INPUT_REQUIRED`, Gate 78 `EXTERNAL_BLOCKED`, Gate 79 `LOCKED`, and Gate
+80 `LOCKED`. Prompt Genesis, bounded long-horizon/World Lab, and emergence
+remain `EXPERIMENTAL`/`BOUNDED`; no universal, scientific, true-time, or
+10,000/100,000-NPC claim is made. v5.4.0, v5.5.0-rc1, and historical
+`NOT_ACCEPTED` evidence remain unchanged. No v5.6 or model-training work
+occurred.
+
+Evidence: `artifacts/v55_stable/m100/stable_certification.json` and
+`reports/V55_STABLE_RELEASE_REPORT.md`.
 
 ## v5.5 G97I final release (2026-08-27)
 

@@ -52,6 +52,20 @@ incomplete. The required live fetch remains `EXTERNAL_BLOCKED` because this
 host lacks the Git HTTPS remote helper; no remote freshness is inferred from a
 tracking ref. Do not enter v5.6 or train a model.
 
+## v5.5 Stable Certification — M100 G103A–G103I (2026-08-29)
+
+The M100 certification sequence is complete as an evidence-boundary record,
+but v5.5 Stable is not accepted. G103A has ledger consistency `PASS`; G103B,
+G103C, and G103D have local PASS evidence with explicit PostgreSQL, pnpm/
+TypeScript, and other host boundaries preserved. G103E is `LOCKED` because the
+candidate release branch and candidate Actions jobs were not verified. G103F
+prepared release notes; G103G and G103H are `LOCKED`/`NOT_APPLICABLE` because
+no `v5.5.0` tag exists. The final aggregate records Gates 62–66 as
+`USER_INPUT_REQUIRED`, Gate 78 as `EXTERNAL_BLOCKED`, Gate 79 as `LOCKED`, and
+Gate 80 as `LOCKED`. No tag, push, GitHub Release, v5.6 branch, or model
+training was performed. Stop here pending genuine M95 human evidence and
+future authorized remote/release verification.
+
 ## V55-FINAL-CLOSURE-R1 (2026-08-28)
 
 R1 closes the evidence-lineage audit without re-running M85–M94: the latest

@@ -156,6 +156,43 @@ def gate78(godot: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def stable_preflight(
+    full_regression: dict[str, Any],
+    semantic_safety: dict[str, Any],
+    clean_clone: dict[str, Any],
+    remote_delivery: dict[str, Any],
+) -> dict[str, Any]:
+    checks = {
+        "full_regression_no_fail": full_regression.get("conclusion") == "PASS"
+        and not full_regression.get("failed_commands"),
+        "semantic_safety_no_fail": semantic_safety.get("conclusion") == "PASS"
+        and not semantic_safety.get("failed_commands"),
+        "clean_clone_exact_sha": clean_clone.get("conclusion") == "PASS"
+        and clean_clone.get("candidate_sha") == clean_clone.get("clone_checkout_sha")
+        and not clean_clone.get("failed_commands"),
+        "candidate_remote_ci": remote_delivery.get("remote_branch_present") is True
+        and remote_delivery.get("candidate_jobs_verified") is True,
+    }
+    local_ok = all(checks[name] for name in checks if name != "candidate_remote_ci")
+    if not local_ok:
+        status, reason = "FAIL", "a local G103B-G103D preflight predicate failed"
+    elif not checks["candidate_remote_ci"]:
+        status, reason = "LOCKED", "G103E candidate remote branch/required CI is not verified"
+    else:
+        status, reason = "PASS", "local preflight and candidate required CI are verified"
+    return {
+        "status": status,
+        "evidence": [
+            "artifacts/v55_stable/m100/full_regression.json",
+            "artifacts/v55_stable/m100/semantic_safety.json",
+            "artifacts/v55_stable/m100/clean_clone.json",
+            "artifacts/v55_stable/m100/remote_delivery.json",
+        ],
+        "checks": checks,
+        "reason": reason,
+    }
+
+
 def ledger_statuses() -> dict[str, str]:
     text = LEDGER.read_text(encoding="utf-8")
     pattern = re.compile(
@@ -173,4 +210,5 @@ __all__ = [
     "load",
     "m98_gates",
     "quality_gates",
+    "stable_preflight",
 ]
