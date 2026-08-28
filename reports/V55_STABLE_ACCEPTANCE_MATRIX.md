@@ -23,7 +23,7 @@ but is not silently re-scored.
 | 72 | Worldness, quality, and scientific validity separated | PASS | `artifacts/v55_stable/m97/experience_quality_baseline.json`; G100E |
 | 73 | Complete 30-day seed/policy/pressure matrix | PASS | `artifacts/v55_stable/m98/30d_burn_in.json`; G101B |
 | 74 | Complete 90-day replay/checkpoint/recovery matrix | PASS | `artifacts/v55_stable/m98/90d_burn_in.json`; G101C |
-| 75 | Bounded emergence repeatability and false-positive controls | LOCKED | G101 |
+| 75 | Bounded emergence repeatability and false-positive controls | PASS | `artifacts/v55_stable/m98/emergence_controls.json`; G101D |
 | 76 | Measured 10 → 50 → 100 → 500 → 1000 scale tiers | LOCKED | G101 |
 | 77 | Measured capacity/degradation envelope | LOCKED | G101 |
 | 78 | Real Godot integration, or explicit external block | LOCKED | G102 |
@@ -132,6 +132,28 @@ exists.
 
 Machine-readable evidence: `artifacts/v55_stable/m98/90d_burn_in.json`.
 Narrative evidence: `reports/M98_G101C_90D_BURN_IN.md`.
+
+## Gate 75 decision
+
+G101D / M98 is `PASS` for bounded recurrence and false-positive controls. A
+real migrated SQLite positive world produced nine committed status actions across
+three one-tick windows, three qualified pattern detections, three eligible norm
+candidates, and reviewed organization, institution, and ontology candidates. A
+separate no-pattern control produced three status actions in one 100-tick window;
+its detector result was unqualified and the existing norm constructor rejected
+the false-positive candidate. The artifact records both world/branch refs,
+observation cache hashes, event refs, candidate evidence hashes, and all machine
+checks at build SHA `42890140177a9199f628b4b8a5a9160a0e49502c`.
+
+Candidate derivation and review remained outside Canonical Reality: the positive
+state hash and event history were unchanged, no Ontology/Law/Institution
+promotion was invoked, and `promotion_boundary_invoked` is explicitly false.
+This is detector calibration and bounded emergence evidence only; it does not
+claim universal emergence, scientific causality, production behavior, or live
+customer outcomes. Gates 76–77 remain locked.
+
+Machine-readable evidence: `artifacts/v55_stable/m98/emergence_controls.json`.
+Narrative evidence: `reports/M98_G101D_EMERGENCE_CONTROLS.md`.
 
 ## Stable release rule
 

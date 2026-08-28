@@ -102,10 +102,17 @@ hash-verified `WorldRunArtifact`. The formal artifact is
 `453f8059f4dc3120305392b5e4c9662be6dad01b`; the matrix hash is
 `6f0459ff2bfbdb6c9c2b46eeeb956025ffdf397a8c3037a4902a2a718a6ad075`.
 Gate 74 is `PASS` with complete `6/6` aggregation and zero failed rows.
-G101D–G101G remain `ACTIVE` for bounded emergence controls, SimulationLOD
-scale ladder, and measured capacity curve. Gates 75–77 and Gate 80 remain
-locked; M95 human evidence is still `USER_INPUT_REQUIRED`. No v5.6 or
-model-training work occurred.
+G101D is now `PASS`: a real SQLite positive world produced three qualified
+repeated-pattern detections and reviewed norm/organization/institution/ontology
+candidates, while a separate one-window null control stayed unqualified and
+rejected norm creation. Candidate derivation left the positive canonical state
+and history unchanged; no Ontology/Law/Institution promotion was invoked. The
+formal artifact is `artifacts/v55_stable/m98/emergence_controls.json`, generated
+at build SHA `42890140177a9199f628b4b8a5a9160a0e49502c`.
+Gate 75 is `PASS` for bounded recurrence and false-positive controls. G101E–G101G
+remain `ACTIVE` for the SimulationLOD scale ladder and measured capacity curve.
+Gates 76–77 and Gate 80 remain locked; M95 human evidence is still
+`USER_INPUT_REQUIRED`. No v5.6 or model-training work occurred.
 
 ## v5.5 G97I final release (2026-08-27)
 

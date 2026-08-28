@@ -1,0 +1,357 @@
+{
+  "schema": "wanxiang.v5.5.m98.emergence-controls.v1",
+  "conclusion": "PASS",
+  "build_sha": "42890140177a9199f628b4b8a5a9160a0e49502c",
+  "seed": 10104,
+  "input_hashes": {
+    "source_sha256": "6b94db569fe76ee8300553c49d189edb683348cb6e60d0243813871ab1b32074"
+  },
+  "positive_world": {
+    "world_ref": "prv_playable_1",
+    "branch_ref": "br_a601550a7e29462b84ec2f12395816e6",
+    "event_count": 13,
+    "observation_window_size": 1,
+    "observation_cache_hash": "d20d2da5a32cb4b71c711075fb95404779f5d9a0ba4ae5808f71f5b46ded12bb",
+    "candidate_evidence": {
+      "pattern_detections": [
+        {
+          "detection_id": "pattern_detection:391ceff2224590e1845adc3d7122df86b9653253b7acf8e576d77c6f64121459",
+          "kind": "behavior",
+          "key": "entity.update:status",
+          "subject_refs": [
+            "ent_bob",
+            "ent_g101d_positive_alice"
+          ],
+          "window_start": 5,
+          "window_end": 8,
+          "window_size": 1,
+          "occurrence_count": 3,
+          "observed_window_count": 3,
+          "evaluated_window_count": 3,
+          "support_ratio": 1.0,
+          "counterexample_rate": 0.0,
+          "confidence": 1.0,
+          "event_refs": [
+            "evt_0f94d63577c4404aad10b9f7dfc1972f",
+            "evt_be9ee4d31f7a4de4b8ec33435501f5a3",
+            "evt_c1fec740ccb947b691b8660edd4c846c"
+          ],
+          "counterexamples": [],
+          "qualified": true
+        },
+        {
+          "detection_id": "pattern_detection:9711bd972d11081965a98bd0100b402f90eaadfbac986b9e01165fc58f07201c",
+          "kind": "behavior",
+          "key": "entity.update:status",
+          "subject_refs": [
+            "ent_bob",
+            "ent_g101d_positive_alice"
+          ],
+          "window_start": 8,
+          "window_end": 11,
+          "window_size": 1,
+          "occurrence_count": 3,
+          "observed_window_count": 3,
+          "evaluated_window_count": 3,
+          "support_ratio": 1.0,
+          "counterexample_rate": 0.0,
+          "confidence": 1.0,
+          "event_refs": [
+            "evt_1b8dc1e64cc246b8b6afc5a25547e56d",
+            "evt_2e1a939f4cc74c93956315e45318a12b",
+            "evt_b2c8f321fdc644e0bd0d6057d42bd55f"
+          ],
+          "counterexamples": [],
+          "qualified": true
+        },
+        {
+          "detection_id": "pattern_detection:7d4a9a3a359da31001e844cfe7d8b2093b54a63b9766b3b9a75641da3fff781b",
+          "kind": "behavior",
+          "key": "entity.update:status",
+          "subject_refs": [
+            "ent_bob",
+            "ent_g101d_positive_alice"
+          ],
+          "window_start": 11,
+          "window_end": 14,
+          "window_size": 1,
+          "occurrence_count": 3,
+          "observed_window_count": 3,
+          "evaluated_window_count": 3,
+          "support_ratio": 1.0,
+          "counterexample_rate": 0.0,
+          "confidence": 1.0,
+          "event_refs": [
+            "evt_01181d2bb9b04b518f05037b5cf32d92",
+            "evt_44f78401a43c410cb83b7a3db289ce72",
+            "evt_b13d1e55d2ca46009eb46e03c0f871c9"
+          ],
+          "counterexamples": [],
+          "qualified": true
+        }
+      ],
+      "norm_candidates": [
+        {
+          "candidate_id": "norm_g101d_watch_1",
+          "pattern_key": "entity.update:status",
+          "detection_id": "pattern_detection:391ceff2224590e1845adc3d7122df86b9653253b7acf8e576d77c6f64121459",
+          "scope": "local",
+          "scope_ref": "world_g101d_positive",
+          "population_refs": [
+            "ent_alice",
+            "ent_bob",
+            "ent_carol"
+          ],
+          "source_event_refs": [
+            "evt_0f94d63577c4404aad10b9f7dfc1972f",
+            "evt_be9ee4d31f7a4de4b8ec33435501f5a3",
+            "evt_c1fec740ccb947b691b8660edd4c846c"
+          ],
+          "exception_event_refs": [],
+          "occurrence_count": 3,
+          "observed_window_count": 3,
+          "support_ratio": 1.0,
+          "exception_rate": 0.0,
+          "confidence": 1.0,
+          "sanction_count": 0,
+          "reward_count": 0,
+          "outcome_correlation": 0.0,
+          "created_at": 8
+        },
+        {
+          "candidate_id": "norm_g101d_watch_2",
+          "pattern_key": "entity.update:status",
+          "detection_id": "pattern_detection:9711bd972d11081965a98bd0100b402f90eaadfbac986b9e01165fc58f07201c",
+          "scope": "local",
+          "scope_ref": "world_g101d_positive",
+          "population_refs": [
+            "ent_alice",
+            "ent_bob",
+            "ent_carol"
+          ],
+          "source_event_refs": [
+            "evt_1b8dc1e64cc246b8b6afc5a25547e56d",
+            "evt_2e1a939f4cc74c93956315e45318a12b",
+            "evt_b2c8f321fdc644e0bd0d6057d42bd55f"
+          ],
+          "exception_event_refs": [],
+          "occurrence_count": 3,
+          "observed_window_count": 3,
+          "support_ratio": 1.0,
+          "exception_rate": 0.0,
+          "confidence": 1.0,
+          "sanction_count": 0,
+          "reward_count": 0,
+          "outcome_correlation": 0.0,
+          "created_at": 11
+        },
+        {
+          "candidate_id": "norm_g101d_watch_3",
+          "pattern_key": "entity.update:status",
+          "detection_id": "pattern_detection:7d4a9a3a359da31001e844cfe7d8b2093b54a63b9766b3b9a75641da3fff781b",
+          "scope": "local",
+          "scope_ref": "world_g101d_positive",
+          "population_refs": [
+            "ent_alice",
+            "ent_bob",
+            "ent_carol"
+          ],
+          "source_event_refs": [
+            "evt_01181d2bb9b04b518f05037b5cf32d92",
+            "evt_44f78401a43c410cb83b7a3db289ce72",
+            "evt_b13d1e55d2ca46009eb46e03c0f871c9"
+          ],
+          "exception_event_refs": [],
+          "occurrence_count": 3,
+          "observed_window_count": 3,
+          "support_ratio": 1.0,
+          "exception_rate": 0.0,
+          "confidence": 1.0,
+          "sanction_count": 0,
+          "reward_count": 0,
+          "outcome_correlation": 0.0,
+          "created_at": 14
+        }
+      ],
+      "norm_evaluations": [
+        {
+          "candidate_id": "norm_g101d_watch_1",
+          "eligible": true,
+          "reasons": []
+        },
+        {
+          "candidate_id": "norm_g101d_watch_2",
+          "eligible": true,
+          "reasons": []
+        },
+        {
+          "candidate_id": "norm_g101d_watch_3",
+          "eligible": true,
+          "reasons": []
+        }
+      ],
+      "organization_candidate": {
+        "proposal_id": "organization_g101d_watch",
+        "provider_ref": "policy:organization",
+        "approved": true,
+        "event_ref": "evt_0f94d63577c4404aad10b9f7dfc1972f",
+        "before_status": "forming",
+        "after_status": "active",
+        "projected_membership_count": 1,
+        "projection_only": true
+      },
+      "institution_candidate": {
+        "candidate_id": "institution_g101d_watch",
+        "rule": "entity.update:status",
+        "evidence_count": 3,
+        "stability_score": 1.0,
+        "approved": true,
+        "reviewed_by": "policy",
+        "role_refs": [
+          "role:watcher"
+        ],
+        "resource_refs": [
+          "resource:archive"
+        ],
+        "process_refs": [
+          "process:handover"
+        ]
+      },
+      "ontology_candidate": {
+        "candidate_id": "ontology_g101d_watch",
+        "concept": "shared:archive-watch",
+        "scope": "world",
+        "stability": 1.0,
+        "complexity": 0.333333,
+        "interpretability": 1.0,
+        "evidence_refs": [
+          "evt_01181d2bb9b04b518f05037b5cf32d92",
+          "evt_0f94d63577c4404aad10b9f7dfc1972f",
+          "evt_1b8dc1e64cc246b8b6afc5a25547e56d",
+          "evt_2e1a939f4cc74c93956315e45318a12b",
+          "evt_44f78401a43c410cb83b7a3db289ce72",
+          "evt_b13d1e55d2ca46009eb46e03c0f871c9",
+          "evt_b2c8f321fdc644e0bd0d6057d42bd55f",
+          "evt_be9ee4d31f7a4de4b8ec33435501f5a3",
+          "evt_c1fec740ccb947b691b8660edd4c846c"
+        ],
+        "evidence_windows": [
+          [
+            5,
+            8
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            11,
+            14
+          ]
+        ],
+        "norm_refs": [
+          "norm_g101d_watch_1",
+          "norm_g101d_watch_2",
+          "norm_g101d_watch_3"
+        ],
+        "institution_refs": [
+          "institution_g101d_watch"
+        ],
+        "provenance_refs": [
+          "evt_01181d2bb9b04b518f05037b5cf32d92",
+          "evt_0f94d63577c4404aad10b9f7dfc1972f",
+          "evt_1b8dc1e64cc246b8b6afc5a25547e56d",
+          "evt_2e1a939f4cc74c93956315e45318a12b",
+          "evt_44f78401a43c410cb83b7a3db289ce72",
+          "evt_b13d1e55d2ca46009eb46e03c0f871c9",
+          "evt_b2c8f321fdc644e0bd0d6057d42bd55f",
+          "evt_be9ee4d31f7a4de4b8ec33435501f5a3",
+          "evt_c1fec740ccb947b691b8660edd4c846c",
+          "pattern_detection:391ceff2224590e1845adc3d7122df86b9653253b7acf8e576d77c6f64121459",
+          "pattern_detection:7d4a9a3a359da31001e844cfe7d8b2093b54a63b9766b3b9a75641da3fff781b",
+          "pattern_detection:9711bd972d11081965a98bd0100b402f90eaadfbac986b9e01165fc58f07201c",
+          "world_g101d_positive"
+        ],
+        "approved": true,
+        "reviewed_by": "policy"
+      },
+      "ontology_validation": true,
+      "candidate_evidence_hash": "6a97b6372f8e630dae416e0553b0d2208bccbc9ef76f2511da5f6b4dd393f68b",
+      "source_hash": "6b94db569fe76ee8300553c49d189edb683348cb6e60d0243813871ab1b32074",
+      "source_ref": "memory://m98/creator-owned-synthetic-source"
+    }
+  },
+  "null_control": {
+    "world_ref": "prv_playable_2",
+    "branch_ref": "br_22972a9d696f40ddb32219d91c96bf79",
+    "event_count": 7,
+    "evidence": {
+      "window_size": 100,
+      "cache_hash": "d26a623678cb44927dd3d81a734a79e67680bc1bac61c03cd687bc0525da9c2c",
+      "status_observation_count": 3,
+      "detection": {
+        "detection_id": "pattern_detection:c80b4813ee11224d30e83821fe30d97362662e248dab1c0f1bbc54e12734cab9",
+        "kind": "behavior",
+        "key": "entity.update:status",
+        "subject_refs": [
+          "ent_bob",
+          "ent_g101d_control_alice"
+        ],
+        "window_start": 0,
+        "window_end": 100,
+        "window_size": 100,
+        "occurrence_count": 3,
+        "observed_window_count": 1,
+        "evaluated_window_count": 1,
+        "support_ratio": 1.0,
+        "counterexample_rate": 0.0,
+        "confidence": 0.9,
+        "event_refs": [
+          "evt_607d7879ed8840f3bae92214d2a4bf57",
+          "evt_910ab2ad637b4cafbc3299da5e828fb3",
+          "evt_9e93ef773fd74f47a7303d7a84951c9f"
+        ],
+        "counterexamples": [],
+        "qualified": false
+      },
+      "norm_candidate_rejected": true,
+      "rejection_reason": "only a qualified pattern detection can form a norm candidate"
+    }
+  },
+  "checks": {
+    "positive_pattern_repeatable": true,
+    "norm_candidates_eligible": true,
+    "organization_candidate_reviewed": true,
+    "institution_candidate_reviewed": true,
+    "ontology_candidate_reviewed": true,
+    "control_not_qualified": true,
+    "control_norm_rejected": true,
+    "candidate_operations_do_not_mutate_canon": true
+  },
+  "safety": {
+    "candidate_layer_only": true,
+    "ontology_law_institution_auto_commit": false,
+    "canonical_state_and_history_unchanged_by_candidate_derivation": true,
+    "promotion_boundary_invoked": false
+  },
+  "evidence_hash": "449f0b8d548a86af6b9e3f032db0935dcc89ee3d57a5b4abc23e9a699c282501",
+  "boundaries": {
+    "implemented": [
+      "repeat-pattern detector over committed event history",
+      "norm/organization/institution/ontology candidate derivation",
+      "null-control rejection and candidate-only safety check"
+    ],
+    "validated": [
+      "bounded positive recurrence and false-positive control"
+    ],
+    "experimental": [
+      "emergence interpretation"
+    ],
+    "not_proven": [
+      "universal emergence",
+      "scientific causality",
+      "production or live-world generalization"
+    ],
+    "external_blocked": []
+  }
+}
