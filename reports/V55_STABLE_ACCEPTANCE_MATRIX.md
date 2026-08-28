@@ -21,7 +21,7 @@ but is not silently re-scored.
 | 70 | Versioned ExperienceQuality schema | PASS | `artifacts/v55_stable/m97/experience_quality_baseline.json`; G100A/G100C |
 | 71 | Source and prompt-world quality baselines | PASS | `artifacts/v55_stable/m97/experience_quality_baseline.json`; G100B/G100D |
 | 72 | Worldness, quality, and scientific validity separated | PASS | `artifacts/v55_stable/m97/experience_quality_baseline.json`; G100E |
-| 73 | Complete 30-day seed/policy/pressure matrix | LOCKED | G101 |
+| 73 | Complete 30-day seed/policy/pressure matrix | PASS | `artifacts/v55_stable/m98/30d_burn_in.json`; G101B |
 | 74 | Complete 90-day replay/checkpoint/recovery matrix | LOCKED | G101 |
 | 75 | Bounded emergence repeatability and false-positive controls | LOCKED | G101 |
 | 76 | Measured 10 → 50 → 100 → 500 → 1000 scale tiers | LOCKED | G101 |
@@ -90,6 +90,27 @@ bounded long-horizon continuity, World Lab, and emergence remain
 
 Machine-readable evidence: `artifacts/v55_stable/m97/experience_quality_baseline.json`.
 Narrative evidence: `reports/M97_EXPERIENCE_QUALITY_BENCHMARK.md`.
+
+## Gate 73 decision
+
+G101A–G101B / M98 are `PASS` for the complete bounded 30-day matrix. The
+versioned matrix declares all 12 rows (three seeds × two policy profiles × two
+pressure profiles), and the runner completed all 12 rows independently on
+migrated SQLite runtimes. Every row has daily checkpoints, horizon samples,
+replay and restart equality, branch isolation, provider proposal-only evidence,
+actor/relationship/organization counts, storage/RSS/timing measurements, and a
+hash-verified sanitized `WorldRunArtifact`. Build SHA is
+`6d3f9f3dd98f358b296026b564b9ace2691eda01`; matrix hash is
+`6f0459ff2bfbdb6c9c2b46eeeb956025ffdf397a8c3037a4902a2a718a6ad075`.
+Partial aggregation is not accepted: the artifact records `12/12` completed and
+zero failed rows.
+
+This is bounded local engineering evidence using creator-owned synthetic input;
+it is not live-customer, production-capacity, scientific, or universal-emergence
+evidence. Gates 74–77 remain locked until their own complete artifacts exist.
+
+Machine-readable evidence: `artifacts/v55_stable/m98/30d_burn_in.json`.
+Narrative evidence: `reports/M98_G101B_30D_BURN_IN.md`.
 
 ## Stable release rule
 
