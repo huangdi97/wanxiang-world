@@ -15,9 +15,9 @@ but is not silently re-scored.
 | 64 | Meaningful agency and valid rejection | USER_INPUT_REQUIRED | Human actions/notes required |
 | 65 | Visible committed consequence / StateDiff | USER_INPUT_REQUIRED | Human packet required |
 | 66 | Leave → continue identity and continuity | USER_INPUT_REQUIRED | Human packet required |
-| 67 | Original Prompt Genesis provenance and E5 boundary | LOCKED | G99 |
-| 68 | Prompt → Draft → Review → Package → Publish → Play | LOCKED | G99 |
-| 69 | Bounded original-prompt seven-day run | LOCKED | G99 |
+| 67 | Original Prompt Genesis provenance and E5 boundary | PASS | `artifacts/v55_stable/m96/original_prompt_world.json`, G99B report |
+| 68 | Prompt → Draft → Review → Package → Publish → Play | PASS | `artifacts/v55_stable/m96/original_prompt_world.json`, G99C report |
+| 69 | Bounded original-prompt seven-day run | PASS | `artifacts/v55_stable/m96/original_prompt_world.json`, G99D report |
 | 70 | Versioned ExperienceQuality schema | LOCKED | G100 |
 | 71 | Source and prompt-world quality baselines | LOCKED | G100 |
 | 72 | Worldness, quality, and scientific validity separated | LOCKED | G100 |
@@ -49,6 +49,21 @@ G98B and G98C are `PASS` for instrumentation and automated route readiness.
 G98D/G98E are `USER_INPUT_REQUIRED`: the build-generated packet contains no
 human identity, ratings, notes, or claimed human result. The automated route is
 retained as product evidence only.
+
+## Gates 67–69 decision
+
+G99A–G99E / M96 are `PASS` for the bounded original-prompt qualification. The
+reproducible run used build SHA `ad3f779f86c28850b5d0346f6d8022e3386d18dd`,
+seed `9601`, creator-intent hash
+`f4f45e60dc9ae8fa3839b1a8e6b32dd0cd5a51024e7aa4b729a5ed2e029354c1`, and the
+deterministic reference provider `local_prompt_genesis_v1`. The complete chain
+is recorded in the machine-readable artifact, including E5 claims, review and
+rights checks, package registry install, Playable StateDiff, seven checkpoints
+with replay equality, child-branch isolation, and actor continuity.
+
+This acceptance is deliberately bounded: Prompt Genesis and long-horizon
+continuity remain `EXPERIMENTAL`/`BOUNDED`; it does not prove universal
+creative quality, scientific validity, or live-world emergence.
 
 ## Stable release rule
 

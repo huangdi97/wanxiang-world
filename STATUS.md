@@ -31,6 +31,25 @@ genuine human ratings/notes are present. The build-generated packet and M95
 acceptance artifact are in `reports/M95_PLAYER_TEST_PACKET.md` and
 `artifacts/v55_stable/m95/player_acceptance.json`; Gate 80 remains locked.
 
+## v5.5 Stable Certification — G99 / M96 (2026-08-28)
+
+G99A–G99E are `PASS` for the bounded original-prompt world qualification.
+Commits `ad3f779` (frozen seed and harness), `b36f12f` (E5 artifact), `e73d2af`
+(publish-chain evidence), and `d4b3fd2` (seven-day evidence) preserve the
+ordered subgoal checkpoints. The run used seed `9601`, creator-intent hash
+`f4f45e60dc9ae8fa3839b1a8e6b32dd0cd5a51024e7aa4b729a5ed2e029354c1`, and
+`local_prompt_genesis_v1`; all generated claims remain E5. It passed review,
+rights/package registry install, Playable StateDiff, leave/continue identity,
+seven checkpoint/replay checks, child-branch isolation, and bounded actor
+continuity. Evidence is in
+`artifacts/v55_stable/m96/original_prompt_world.json` and
+`reports/M96_ORIGINAL_PROMPT_WORLD_ACCEPTANCE.md`.
+
+Prompt Genesis and bounded long-horizon continuity remain
+`EXPERIMENTAL`/`BOUNDED`; no universal creative, scientific, or emergence claim
+is made. G100 is next. Gate 80 remains locked by M95 `USER_INPUT_REQUIRED` and
+the incomplete later Stable gates. No v5.6 or model-training work occurred.
+
 ## v5.5 G97I final release (2026-08-27)
 
 Gates 1–59 are accepted and Gate 60 is `ACCEPTED_FOR_RC`. Annotated
