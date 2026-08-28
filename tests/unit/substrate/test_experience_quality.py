@@ -4,6 +4,11 @@ from __future__ import annotations
 
 import pytest
 from wanxiang_domain.errors import ContractError
+from wanxiang_substrate.quality.experience_aggregate import aggregate_quality_runs
+from wanxiang_substrate.quality.experience_collector import (
+    ExperienceTraceEvidence,
+    collect_experience_quality,
+)
 from wanxiang_substrate.quality.experience_models import (
     QUALITY_DIMENSIONS,
     ExperienceDimension,
@@ -83,3 +88,39 @@ def test_m97_freezes_source_and_original_prompt_scenarios() -> None:
     assert {scenario.family for scenario in scenarios} == {"source", "prompt"}
     assert all(scenario.action_script and scenario.human_slots for scenario in scenarios)
     assert all(scenario.version == "1" for scenario in scenarios)
+
+
+def test_collector_and_aggregate_keep_missing_human_data_explicit() -> None:
+    scenario = stable_m97_scenarios()[0]
+
+    def trace(suffix: str, seed: int) -> ExperienceTraceEvidence:
+        return ExperienceTraceEvidence(
+            run_id=f"run:{scenario.scenario_id}:{suffix}",
+            build_sha="b" * 40,
+            seed=seed,
+            trace_ref=f"trace:m97:{suffix}",
+            worldness_ref=f"worldness:m97:{suffix}",
+            event_refs=(f"event:m97:{suffix}:1", f"event:m97:{suffix}:2"),
+            state_refs=(f"state:m97:{suffix}:before", f"state:m97:{suffix}:after"),
+            replay_refs=(f"replay:m97:{suffix}",),
+            action_committed=True,
+            rejection_observed=True,
+            replay_equal=True,
+            character_identity_stable=True,
+            leave_continue_equal=True,
+            revision_aligned=True,
+            goal_visible=True,
+            state_diff_count=2,
+            after_state_hashes=(f"hash:m97:{suffix}:1", f"hash:m97:{suffix}:2"),
+            memory_revision_count=2,
+        )
+
+    first = collect_experience_quality(scenario, trace("one", 9701))
+    second = collect_experience_quality(scenario, trace("two", 9702))
+    aggregate = aggregate_quality_runs("aggregate:m97:test", (first, second))
+    assert first.human_status == "missing"
+    assert aggregate.human_status == "missing"
+    assert aggregate.verify_hash() is True
+    agency = next(item for item in aggregate.distributions if item.dimension == "Agency")
+    assert agency.mean == 1.0
+    assert agency.method_counts == (("behavioral_trace", 2), ("human_rating", 2))

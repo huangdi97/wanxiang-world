@@ -1,5 +1,14 @@
 """Quality and generalization evidence that remains outside Canon."""
 
+from wanxiang_substrate.quality.experience_aggregate import (
+    ExperienceQualityAggregate,
+    QualityDistribution,
+    aggregate_quality_runs,
+)
+from wanxiang_substrate.quality.experience_collector import (
+    ExperienceTraceEvidence,
+    collect_experience_quality,
+)
 from wanxiang_substrate.quality.experience_models import (
     EXPERIENCE_QUALITY_SCHEMA,
     QUALITY_DIMENSIONS,
@@ -39,8 +48,13 @@ __all__ = [
     "WorldnessCalibrationReport",
     "ExperienceDimension",
     "ExperienceBenchmarkScenario",
+    "ExperienceQualityAggregate",
     "ExperienceMeasurement",
     "ExperienceQualityRun",
+    "ExperienceTraceEvidence",
+    "QualityDistribution",
+    "aggregate_quality_runs",
+    "collect_experience_quality",
     "evaluate_gold_set",
     "measurement_from_dict",
     "run_worldness_calibration",
