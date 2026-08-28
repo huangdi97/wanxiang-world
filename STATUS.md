@@ -74,6 +74,22 @@ Evidence is in `artifacts/v55_stable/m97/experience_quality_baseline.json` and
 and Gate 80 remain locked by the missing M95 human evidence and later release
 predicates. No v5.6 or model-training work occurred.
 
+## v5.5 Stable Certification — G101 / M98 (2026-08-28)
+
+G101A is `PASS`: the versioned M98 registry contains the complete 12-row 30d
+factorial (3 seeds × 2 policy profiles × 2 pressure profiles) and the complete
+6-row 90d subset (3 seeds × baseline policy × baseline/stress pressure). The
+matrix is hash-verifiable and is an experiment declaration only; it does not
+mutate canonical world state or claim that rows have run. Evidence is in
+`artifacts/v55_stable/m98/run_matrix.json` and
+`reports/M98_G101A_RUN_MATRIX.md`.
+
+G101B–G101G / M98 are `ACTIVE`: the real SQLite 30d/90d runs, bounded
+emergence controls, SimulationLOD scale ladder, and measured capacity curve
+remain to be executed. Gates 73–77 and Gate 80 remain locked; M95 human
+evidence is still `USER_INPUT_REQUIRED`. No v5.6 or model-training work
+occurred.
+
 ## v5.5 G97I final release (2026-08-27)
 
 Gates 1–59 are accepted and Gate 60 is `ACCEPTED_FOR_RC`. Annotated

@@ -1,0 +1,160 @@
+{
+  "schema": "wanxiang.v5.5.m98-burn-in-matrix.v1",
+  "matrix_id": "matrix:m98:stable-burn-in:v1",
+  "world_package_ref": "qualification:m98:creator-owned-synthetic-source:v1",
+  "scenario_ref": "scenario:m98:standard-burn-in:v1",
+  "rows": [
+    {
+      "run_id": "m98-30d-s9801-baseline-low",
+      "horizon": "30d",
+      "seed": 9801,
+      "policy_profile": "baseline",
+      "pressure_profile": "low"
+    },
+    {
+      "run_id": "m98-30d-s9801-baseline-high",
+      "horizon": "30d",
+      "seed": 9801,
+      "policy_profile": "baseline",
+      "pressure_profile": "high"
+    },
+    {
+      "run_id": "m98-30d-s9801-conservative-low",
+      "horizon": "30d",
+      "seed": 9801,
+      "policy_profile": "conservative",
+      "pressure_profile": "low"
+    },
+    {
+      "run_id": "m98-30d-s9801-conservative-high",
+      "horizon": "30d",
+      "seed": 9801,
+      "policy_profile": "conservative",
+      "pressure_profile": "high"
+    },
+    {
+      "run_id": "m98-30d-s9802-baseline-low",
+      "horizon": "30d",
+      "seed": 9802,
+      "policy_profile": "baseline",
+      "pressure_profile": "low"
+    },
+    {
+      "run_id": "m98-30d-s9802-baseline-high",
+      "horizon": "30d",
+      "seed": 9802,
+      "policy_profile": "baseline",
+      "pressure_profile": "high"
+    },
+    {
+      "run_id": "m98-30d-s9802-conservative-low",
+      "horizon": "30d",
+      "seed": 9802,
+      "policy_profile": "conservative",
+      "pressure_profile": "low"
+    },
+    {
+      "run_id": "m98-30d-s9802-conservative-high",
+      "horizon": "30d",
+      "seed": 9802,
+      "policy_profile": "conservative",
+      "pressure_profile": "high"
+    },
+    {
+      "run_id": "m98-30d-s9803-baseline-low",
+      "horizon": "30d",
+      "seed": 9803,
+      "policy_profile": "baseline",
+      "pressure_profile": "low"
+    },
+    {
+      "run_id": "m98-30d-s9803-baseline-high",
+      "horizon": "30d",
+      "seed": 9803,
+      "policy_profile": "baseline",
+      "pressure_profile": "high"
+    },
+    {
+      "run_id": "m98-30d-s9803-conservative-low",
+      "horizon": "30d",
+      "seed": 9803,
+      "policy_profile": "conservative",
+      "pressure_profile": "low"
+    },
+    {
+      "run_id": "m98-30d-s9803-conservative-high",
+      "horizon": "30d",
+      "seed": 9803,
+      "policy_profile": "conservative",
+      "pressure_profile": "high"
+    },
+    {
+      "run_id": "m98-90d-s9811-baseline",
+      "horizon": "90d",
+      "seed": 9811,
+      "policy_profile": "baseline",
+      "pressure_profile": "baseline"
+    },
+    {
+      "run_id": "m98-90d-s9811-stress",
+      "horizon": "90d",
+      "seed": 9811,
+      "policy_profile": "baseline",
+      "pressure_profile": "stress"
+    },
+    {
+      "run_id": "m98-90d-s9812-baseline",
+      "horizon": "90d",
+      "seed": 9812,
+      "policy_profile": "baseline",
+      "pressure_profile": "baseline"
+    },
+    {
+      "run_id": "m98-90d-s9812-stress",
+      "horizon": "90d",
+      "seed": 9812,
+      "policy_profile": "baseline",
+      "pressure_profile": "stress"
+    },
+    {
+      "run_id": "m98-90d-s9813-baseline",
+      "horizon": "90d",
+      "seed": 9813,
+      "policy_profile": "baseline",
+      "pressure_profile": "baseline"
+    },
+    {
+      "run_id": "m98-90d-s9813-stress",
+      "horizon": "90d",
+      "seed": 9813,
+      "policy_profile": "baseline",
+      "pressure_profile": "stress"
+    }
+  ],
+  "content_hash": "6f0459ff2bfbdb6c9c2b46eeeb956025ffdf397a8c3037a4902a2a718a6ad075",
+  "build_sha": "6c867656b9a9a450fcb07260011da59be2b4ab88",
+  "declared_counts": {
+    "30d": 12,
+    "90d": 6,
+    "total": 18
+  },
+  "coverage": {
+    "30d": "3 seeds x 2 policy profiles x 2 pressure profiles",
+    "90d": "3 seeds x baseline policy x baseline/stress pressure"
+  },
+  "boundaries": {
+    "implemented": [
+      "versioned M98 run registry and complete row declaration"
+    ],
+    "validated": [
+      "matrix shape, seed coverage, hash verification"
+    ],
+    "experimental": [
+      "bounded burn-in interpretation"
+    ],
+    "not_proven": [
+      "universal scale, production capacity, scientific emergence"
+    ],
+    "external_blocked": []
+  }
+}

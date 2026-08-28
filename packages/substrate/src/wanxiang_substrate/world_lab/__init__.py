@@ -26,6 +26,15 @@ from wanxiang_substrate.world_lab.batch_models import (
     BatchPlan,
     BatchRunResult,
 )
+from wanxiang_substrate.world_lab.burn_in_matrix import (
+    M98_MATRIX_SCHEMA,
+    BurnInHorizon,
+    BurnInMatrix,
+    BurnInRunSpec,
+    PolicyProfile,
+    PressureProfile,
+    stable_m98_matrix,
+)
 from wanxiang_substrate.world_lab.comparator import WorldlineComparator
 from wanxiang_substrate.world_lab.comparison_models import (
     COMPARISON_SCHEMA_VERSION,
@@ -139,6 +148,7 @@ from wanxiang_substrate.world_lab.visual_provider import VisualWorldProvider
 
 __all__ = [
     "ARTIFACT_SCHEMA_VERSION",
+    "M98_MATRIX_SCHEMA",
     "BATCH_SCHEMA_VERSION",
     "FORK_SCHEMA_VERSION",
     "ExperimentDefinition",
@@ -181,6 +191,12 @@ __all__ = [
     "REGISTRY_SCHEMA_VERSION",
     "RunStatus",
     "WorldRunArtifact",
+    "BurnInHorizon",
+    "BurnInMatrix",
+    "BurnInRunSpec",
+    "PolicyProfile",
+    "PressureProfile",
+    "stable_m98_matrix",
     "WorldlineComparator",
     "WorldlineMeasurement",
     "TrajectoryPoint",

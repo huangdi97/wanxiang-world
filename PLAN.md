@@ -18,7 +18,7 @@ Milestones: **M0** (after 00A+00B), **M1** (after 01F).
 Stop condition: M1 PASS with reproducible evidence; do NOT start G02/Living World
 Substrate or any later phase in this batch.
 
-## v5.5 Stable Certification — G100 / M97 (2026-08-28)
+## v5.5 Stable Certification — G101 / M98 (2026-08-28)
 
 G98A / M95 baseline is `PASS` for Gate 61. G98B instrumentation and G98C route
 readiness are `PASS`; G98D/G98E remain `USER_INPUT_REQUIRED` pending a genuine
@@ -34,7 +34,9 @@ four real local product runs across source and original-prompt families, two
 seeds per family, and automated replay/continuity evidence. Genuine human
 session/rating data remains explicitly missing and is not inferred; Worldness
 is separate and scientific validity is `NOT_ASSESSED`.
-The dedicated branch is `release/v5.5-stable-certification`; G101 is next.
+The dedicated branch is `release/v5.5-stable-certification`. G101A is
+`PASS` for the complete versioned 18-row M98 registry; G101B–G101G are now
+`ACTIVE` for the 30d/90d burn-in, controls, scale ladder, and capacity curve.
 Gate 80 remains locked because the M95 human evidence is still missing and the
 later Stable predicate is incomplete. Gates 73–79 remain pending. The required live fetch remains
 `EXTERNAL_BLOCKED` because this host lacks the Git HTTPS remote helper; no
