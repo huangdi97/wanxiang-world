@@ -10,11 +10,11 @@ but is not silently re-scored.
 | Gate | Stable predicate | Status | Evidence |
 |---|---|---|---|
 | 61 | RC1/Final Closure lineage, immutable tags, scope freeze | PASS | `artifacts/v55_stable/baseline.json`, `reports/M95_BASELINE_REPORT.md` |
-| 62 | Genuine human completes the full playable chain | LOCKED | M95 human packet required |
-| 63 | Comprehension threshold with no critical blocker | LOCKED | M95 human packet required |
-| 64 | Meaningful agency and valid rejection | LOCKED | M95 human packet required |
-| 65 | Visible committed consequence / StateDiff | LOCKED | M95 human packet required |
-| 66 | Leave → continue identity and continuity | LOCKED | M95 human packet required |
+| 62 | Genuine human completes the full playable chain | USER_INPUT_REQUIRED | `reports/M95_REAL_PLAYER_EXPERIENCE_ACCEPTANCE.md`, human packet |
+| 63 | Comprehension threshold with no critical blocker | USER_INPUT_REQUIRED | Human ratings required |
+| 64 | Meaningful agency and valid rejection | USER_INPUT_REQUIRED | Human actions/notes required |
+| 65 | Visible committed consequence / StateDiff | USER_INPUT_REQUIRED | Human packet required |
+| 66 | Leave → continue identity and continuity | USER_INPUT_REQUIRED | Human packet required |
 | 67 | Original Prompt Genesis provenance and E5 boundary | LOCKED | G99 |
 | 68 | Prompt → Draft → Review → Package → Publish → Play | LOCKED | G99 |
 | 69 | Bounded original-prompt seven-day run | LOCKED | G99 |
@@ -44,6 +44,11 @@ not presented as a fresh remote observation. The named v5.5 master filename
 requested by the execution prompt is also absent from this checkout; the
 available normative repository spec and v5.5 M85–M94 package were read and the
 absence is recorded as `EXTERNAL_BLOCKED` input resolution, not guessed around.
+
+G98B and G98C are `PASS` for instrumentation and automated route readiness.
+G98D/G98E are `USER_INPUT_REQUIRED`: the build-generated packet contains no
+human identity, ratings, notes, or claimed human result. The automated route is
+retained as product evidence only.
 
 ## Stable release rule
 

@@ -1,0 +1,25 @@
+{
+  "schema": "wanxiang.v5.5.m95.player-acceptance.v1",
+  "conclusion": "USER_INPUT_REQUIRED",
+  "human_required": true,
+  "automated_route_ref": "m95-route:009ad21c3b5fc044",
+  "automated_route_conclusion": "PASS",
+  "human_actions": null,
+  "ratings": null,
+  "free_text_notes": null,
+  "gates_62_to_66": "USER_INPUT_REQUIRED",
+  "defects": [],
+  "boundaries": {
+    "implemented": [
+      "shared API/Studio route evidence trace"
+    ],
+    "validated": [
+      "deterministic product-chain readiness"
+    ],
+    "experimental": [],
+    "not_proven": [
+      "genuine human comprehension, agency ratings, population UX"
+    ],
+    "external_blocked": []
+  }
+}

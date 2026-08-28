@@ -1,0 +1,185 @@
+{
+  "schema": "wanxiang.v5.5.m95.route-readiness.v1",
+  "conclusion": "PASS",
+  "seed": "m95-real-route-seed-2026-08-28",
+  "build_sha": "28701ef2b59c1c90b986a67612421648ac85c145",
+  "run_ref": "m95-route:009ad21c3b5fc044",
+  "profile_id": "experience:world:wd_m95_route_job",
+  "world_package_ref": "world:wd_m95_route_job",
+  "instance_id": "prv_playable_1",
+  "branch_id": "br_754acb70e1dd43e49487889cc0a519d3",
+  "actions": [
+    {
+      "evidence": {
+        "schema_version": 1,
+        "trace_id": "trace:0d95c16de1063c5f3a80e386794834ae0b44de4c4638992b99098b04514f8695",
+        "input_sha256": "e44272769713b771a007e6d5d767d5cc0b05b5734c99bad91d2cb868087159d7",
+        "session_ref": "session:5af3a5c4a2a72caab50c0f22690af2571521400b084b893d26c64a8c9f3e9312",
+        "proposal_ref": "proposal:adef2a70960f853f4da4fa25a602c1f6eddb11c3bc8bc57c6d07e3af438d1d87",
+        "command_id": "cmd_cf79164036f24fa796358a13208b067e",
+        "event_id": "evt_f872ce40ba154466866c5f76b78bbb44",
+        "instance_id": "prv_playable_1",
+        "branch_id": "br_754acb70e1dd43e49487889cc0a519d3",
+        "actor_ref": "actor:8d117b2a27fff40a0614d0238031bf2ea07952ca96b446c72c73e4a9c99e2958",
+        "action_type": "set_status",
+        "proposal_status": "proposed",
+        "before_revision": 3,
+        "after_revision": 4,
+        "before_state_hash": "738fd0b1e6432610436fdc5980c6e14e65400b820fa7e2333f436c12fb03cf53",
+        "after_state_hash": "b92128440812d009341fb7c58777366b4d43819851517412ffde292e7eeed038",
+        "state_diff_event_id": "evt_f872ce40ba154466866c5f76b78bbb44",
+        "projection_ref": "playable-action:evt_f872ce40ba154466866c5f76b78bbb44",
+        "stages": [
+          "input",
+          "proposal",
+          "validate_resolve",
+          "commit_authority",
+          "state_diff",
+          "projection"
+        ],
+        "redactions": [
+          "raw_input",
+          "proposal_payload",
+          "session_id",
+          "actor_id",
+          "source_path",
+          "source_digest"
+        ]
+      },
+      "event_id": "evt_f872ce40ba154466866c5f76b78bbb44",
+      "revision": 4,
+      "state_hash": "b92128440812d009341fb7c58777366b4d43819851517412ffde292e7eeed038",
+      "diff_change_count": 1
+    },
+    {
+      "evidence": {
+        "schema_version": 1,
+        "trace_id": "trace:54f850f22c7b0096ae1a645cd8e1002ce2fe75366c3c6ae524762f00e4506d51",
+        "input_sha256": "b8dee1ee0b9f0c14abe28d2397650fd8741d153c6b24690c80c37306bf517572",
+        "session_ref": "session:5af3a5c4a2a72caab50c0f22690af2571521400b084b893d26c64a8c9f3e9312",
+        "proposal_ref": "proposal:adef2a70960f853f4da4fa25a602c1f6eddb11c3bc8bc57c6d07e3af438d1d87",
+        "command_id": "cmd_1bc02ef3600c40cca2d3644a0560cc88",
+        "event_id": "evt_6a2b0113897f4c35a33a3b3774a399b1",
+        "instance_id": "prv_playable_1",
+        "branch_id": "br_754acb70e1dd43e49487889cc0a519d3",
+        "actor_ref": "actor:8d117b2a27fff40a0614d0238031bf2ea07952ca96b446c72c73e4a9c99e2958",
+        "action_type": "set_status",
+        "proposal_status": "proposed",
+        "before_revision": 4,
+        "after_revision": 5,
+        "before_state_hash": "b92128440812d009341fb7c58777366b4d43819851517412ffde292e7eeed038",
+        "after_state_hash": "a5c228d05ffc73efce7d3c4c4318c69f8818092ea6080584c6bdc114c0b29870",
+        "state_diff_event_id": "evt_6a2b0113897f4c35a33a3b3774a399b1",
+        "projection_ref": "playable-action:evt_6a2b0113897f4c35a33a3b3774a399b1",
+        "stages": [
+          "input",
+          "proposal",
+          "validate_resolve",
+          "commit_authority",
+          "state_diff",
+          "projection"
+        ],
+        "redactions": [
+          "raw_input",
+          "proposal_payload",
+          "session_id",
+          "actor_id",
+          "source_path",
+          "source_digest"
+        ]
+      },
+      "event_id": "evt_6a2b0113897f4c35a33a3b3774a399b1",
+      "revision": 5,
+      "state_hash": "a5c228d05ffc73efce7d3c4c4318c69f8818092ea6080584c6bdc114c0b29870",
+      "diff_change_count": 1
+    },
+    {
+      "evidence": {
+        "schema_version": 1,
+        "trace_id": "trace:74609eaaaaada421e8057db0c430c67fc12d98c6a141783090f32a296495bc27",
+        "input_sha256": "eff19ddeecb9facef684520c3e49567d5396815ed6ff69df3152bb1d25c92c9f",
+        "session_ref": "session:5af3a5c4a2a72caab50c0f22690af2571521400b084b893d26c64a8c9f3e9312",
+        "proposal_ref": "proposal:adef2a70960f853f4da4fa25a602c1f6eddb11c3bc8bc57c6d07e3af438d1d87",
+        "command_id": "cmd_820cdaf1efed4b988404c175e6003d74",
+        "event_id": "evt_b4abdc0fbec14fd292d79f5d736e6011",
+        "instance_id": "prv_playable_1",
+        "branch_id": "br_754acb70e1dd43e49487889cc0a519d3",
+        "actor_ref": "actor:8d117b2a27fff40a0614d0238031bf2ea07952ca96b446c72c73e4a9c99e2958",
+        "action_type": "set_status",
+        "proposal_status": "proposed",
+        "before_revision": 5,
+        "after_revision": 6,
+        "before_state_hash": "a5c228d05ffc73efce7d3c4c4318c69f8818092ea6080584c6bdc114c0b29870",
+        "after_state_hash": "f86006edf114499d999610540041e0697c05f4ea87ed70f55b0b1b524ae300db",
+        "state_diff_event_id": "evt_b4abdc0fbec14fd292d79f5d736e6011",
+        "projection_ref": "playable-action:evt_b4abdc0fbec14fd292d79f5d736e6011",
+        "stages": [
+          "input",
+          "proposal",
+          "validate_resolve",
+          "commit_authority",
+          "state_diff",
+          "projection"
+        ],
+        "redactions": [
+          "raw_input",
+          "proposal_payload",
+          "session_id",
+          "actor_id",
+          "source_path",
+          "source_digest"
+        ]
+      },
+      "event_id": "evt_b4abdc0fbec14fd292d79f5d736e6011",
+      "revision": 6,
+      "state_hash": "f86006edf114499d999610540041e0697c05f4ea87ed70f55b0b1b524ae300db",
+      "diff_change_count": 1
+    }
+  ],
+  "rejection": {
+    "status_code": 422,
+    "code": "contract_error"
+  },
+  "leave": {
+    "status_code": 200,
+    "status": "left"
+  },
+  "continue": {
+    "status_code": 200,
+    "instance_id": "prv_playable_1",
+    "state_hash": "f86006edf114499d999610540041e0697c05f4ea87ed70f55b0b1b524ae300db"
+  },
+  "replay": {
+    "state_hash": "f86006edf114499d999610540041e0697c05f4ea87ed70f55b0b1b524ae300db",
+    "equal_to_last_action": true
+  },
+  "checks": {
+    "three_committed_actions": true,
+    "proposal_commit_diff_projection_trace": true,
+    "rejection_is_client_error": true,
+    "leave_succeeded": true,
+    "continue_same_instance": true,
+    "continue_state_preserved": true,
+    "replay_equal": true
+  },
+  "privacy": {
+    "raw_action_text_emitted": false,
+    "source_payload_emitted": false,
+    "owner_identity_emitted": false,
+    "evidence_is_derived_projection": true
+  },
+  "boundaries": {
+    "implemented": [
+      "shared API/Studio route evidence trace"
+    ],
+    "validated": [
+      "deterministic product-chain readiness"
+    ],
+    "experimental": [],
+    "not_proven": [
+      "genuine human comprehension, agency ratings, population UX"
+    ],
+    "external_blocked": []
+  },
+  "generated_at_utc": "2026-08-28T04:11:00Z"
+}

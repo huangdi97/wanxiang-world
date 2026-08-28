@@ -20,11 +20,13 @@ Substrate or any later phase in this batch.
 
 ## v5.5 Stable Certification — M95–M100 (2026-08-28)
 
-G98A / M95 baseline is `PASS` for Gate 61. The dedicated branch is
+G98A / M95 baseline is `PASS` for Gate 61. G98B instrumentation and G98C route
+readiness are `PASS`; G98D/G98E are `USER_INPUT_REQUIRED` pending a genuine
+human session. The dedicated branch is
 `release/v5.5-stable-certification`; the machine-readable baseline is
 `artifacts/v55_stable/baseline.json` and the Stable-only ledger is
-`reports/V55_STABLE_ACCEPTANCE_MATRIX.md`. G98B–G98E, G99, G100, G101, G102,
-and G103 remain sequentially pending. Gate 80 is locked until the complete
+`reports/V55_STABLE_ACCEPTANCE_MATRIX.md`. G99 is next for independent bounded
+engineering preparation; Gate 80 is locked until the complete
 Stable predicate is evidenced. The required live fetch is
 `EXTERNAL_BLOCKED` because this host lacks the Git HTTPS remote helper; no
 remote freshness is inferred from a tracking ref. Do not enter v5.6 or train a
