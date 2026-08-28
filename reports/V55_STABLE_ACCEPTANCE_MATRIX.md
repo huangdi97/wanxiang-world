@@ -22,7 +22,7 @@ but is not silently re-scored.
 | 71 | Source and prompt-world quality baselines | PASS | `artifacts/v55_stable/m97/experience_quality_baseline.json`; G100B/G100D |
 | 72 | Worldness, quality, and scientific validity separated | PASS | `artifacts/v55_stable/m97/experience_quality_baseline.json`; G100E |
 | 73 | Complete 30-day seed/policy/pressure matrix | PASS | `artifacts/v55_stable/m98/30d_burn_in.json`; G101B |
-| 74 | Complete 90-day replay/checkpoint/recovery matrix | LOCKED | G101 |
+| 74 | Complete 90-day replay/checkpoint/recovery matrix | PASS | `artifacts/v55_stable/m98/90d_burn_in.json`; G101C |
 | 75 | Bounded emergence repeatability and false-positive controls | LOCKED | G101 |
 | 76 | Measured 10 → 50 → 100 → 500 → 1000 scale tiers | LOCKED | G101 |
 | 77 | Measured capacity/degradation envelope | LOCKED | G101 |
@@ -111,6 +111,27 @@ evidence. Gates 74–77 remain locked until their own complete artifacts exist.
 
 Machine-readable evidence: `artifacts/v55_stable/m98/30d_burn_in.json`.
 Narrative evidence: `reports/M98_G101B_30D_BURN_IN.md`.
+
+## Gate 74 decision
+
+G101C / M98 is `PASS` for the complete declared 90-day subset. Six independent
+SQLite runs completed (three seeds × baseline policy × baseline/stress pressure)
+with 90 daily checkpoints each. Every row reached day 90 and recorded replay
+equality, restart reconstruction equality, branch isolation, crash-safe
+checkpoint behavior, proposal-only provider output, and measured storage/RSS/
+timing metrics; each row also has a sanitized hash-verified `WorldRunArtifact`.
+Build SHA is `453f8059f4dc3120305392b5e4c9662be6dad01b`; matrix hash is
+`6f0459ff2bfbdb6c9c2b46eeeb956025ffdf397a8c3037a4902a2a718a6ad075`.
+Partial aggregation is not accepted: the artifact records `6/6` completed and
+zero failed rows.
+
+This is bounded local engineering evidence using creator-owned synthetic input;
+it does not prove production SLO, live-customer capacity, scientific validity,
+or universal emergence. Gates 75–77 remain locked until their own evidence
+exists.
+
+Machine-readable evidence: `artifacts/v55_stable/m98/90d_burn_in.json`.
+Narrative evidence: `reports/M98_G101C_90D_BURN_IN.md`.
 
 ## Stable release rule
 

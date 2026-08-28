@@ -93,10 +93,19 @@ hash-verified `WorldRunArtifact`. The formal artifact is
 `6d3f9f3dd98f358b296026b564b9ace2691eda01`; the matrix hash is
 `6f0459ff2bfbdb6c9c2b46eeeb956025ffdf397a8c3037a4902a2a718a6ad075`.
 Gate 73 is `PASS` with complete `12/12` aggregation and zero failed rows.
-G101C–G101G remain `ACTIVE` for the 90d subset, bounded emergence controls,
-SimulationLOD scale ladder, and measured capacity curve. Gates 74–77 and Gate
-80 remain locked; M95 human evidence is still `USER_INPUT_REQUIRED`. No v5.6
-or model-training work occurred.
+G101C is now `PASS`: all 6 declared 90d rows completed on independent migrated
+SQLite runtimes. Each row reached day 90 and includes daily checkpoints,
+replay/restart equality, branch isolation, crash-safe checkpoint behavior,
+proposal-only provider evidence, measured storage/RSS/timing, and a sanitized,
+hash-verified `WorldRunArtifact`. The formal artifact is
+`artifacts/v55_stable/m98/90d_burn_in.json`, generated at build SHA
+`453f8059f4dc3120305392b5e4c9662be6dad01b`; the matrix hash is
+`6f0459ff2bfbdb6c9c2b46eeeb956025ffdf397a8c3037a4902a2a718a6ad075`.
+Gate 74 is `PASS` with complete `6/6` aggregation and zero failed rows.
+G101D–G101G remain `ACTIVE` for bounded emergence controls, SimulationLOD
+scale ladder, and measured capacity curve. Gates 75–77 and Gate 80 remain
+locked; M95 human evidence is still `USER_INPUT_REQUIRED`. No v5.6 or
+model-training work occurred.
 
 ## v5.5 G97I final release (2026-08-27)
 

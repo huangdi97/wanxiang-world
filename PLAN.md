@@ -34,11 +34,12 @@ four real local product runs across source and original-prompt families, two
 seeds per family, and automated replay/continuity evidence. Genuine human
 session/rating data remains explicitly missing and is not inferred; Worldness
 is separate and scientific validity is `NOT_ASSESSED`.
-The dedicated branch is `release/v5.5-stable-certification`. G101A and G101B
-are `PASS`: the complete versioned 18-row M98 registry is declared and all 12
-30d rows have completed real SQLite burn-in with per-row artifact evidence.
-G101C–G101G are `ACTIVE` for the 90d subset, controls, scale ladder, and
-capacity curve. Gate 73 is accepted; Gates 74–79 remain pending. Gate 80
+The dedicated branch is `release/v5.5-stable-certification`. G101A–G101C
+are `PASS`: the complete versioned 18-row M98 registry is declared, all 12
+30d rows and all 6 declared 90d rows have completed real SQLite burn-in with
+per-row artifact evidence. G101D–G101G are `ACTIVE` for bounded emergence
+controls, the scale ladder, and the capacity curve. Gates 73–74 are accepted;
+Gates 75–79 remain pending. Gate 80
 remains locked because the M95 human evidence is still missing and the later
 Stable predicate is incomplete. The required live fetch remains
 `EXTERNAL_BLOCKED` because this host lacks the Git HTTPS remote helper; no
