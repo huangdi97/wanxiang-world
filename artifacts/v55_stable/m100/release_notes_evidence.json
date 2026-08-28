@@ -1,0 +1,71 @@
+{
+  "schema": "wanxiang.v5.5.m100.release-notes.v1",
+  "conclusion": "LOCKED",
+  "stable_release": "NOT_RELEASED",
+  "gate_80": "LOCKED",
+  "candidate_head_at_evidence": "82e650b5ca2c38344e23b1a77a9268f101407a65",
+  "release_notes_sha256": "ea840f49b2b1ab467a1a8ba094830803357b930a9eaaac87a52b9ec92b716e33",
+  "release_lineage": {
+    "v5.4.0": {
+      "tag_object": "8b9541ad21a8dda5c3f159fe72186431422a3a06",
+      "peeled_commit": "ef935fc6c24eb47553382d318e1501a795c4da84"
+    },
+    "v5.5.0-rc1": {
+      "tag_object": "e4768f706f427b3356c94d1e0ec3afe79c17987a",
+      "peeled_commit": "50443c8f7cc58fc4661af2a7d993dc7ec6144e11"
+    },
+    "historical_not_accepted": "reports/REAL_BOOK_LIVING_WORLD_ACCEPTANCE_2026-08-25.md"
+  },
+  "gate_status": {
+    "61": "PASS",
+    "62-66": "USER_INPUT_REQUIRED",
+    "67-77": "PASS",
+    "78": "EXTERNAL_BLOCKED",
+    "79": "LOCKED",
+    "80": "LOCKED"
+  },
+  "boundary_status": {
+    "implemented": [
+      "WorldPackage, Preview, PlayableService, SQLite WorldRuntime",
+      "Commit Authority, append-only replay, branch isolation",
+      "source/canon immutability and rights/privacy/resource controls",
+      "proposal-only provider boundaries"
+    ],
+    "validated": [
+      "Gates 61 and 67-77",
+      "G103B regression evidence without captured FAIL",
+      "G103C semantic and safety requalification",
+      "G103D exact-SHA isolated clone"
+    ],
+    "experimental_bounded": [
+      "Prompt Genesis",
+      "bounded long-horizon continuity",
+      "World Lab",
+      "emergence"
+    ],
+    "not_proven": [
+      "genuine human-player evidence for Gates 62-66",
+      "universal emergence or scientific validity",
+      "true-time/live-world behavior and production SLO",
+      "post-release v5.5.0 verification"
+    ],
+    "external_blocked": [
+      "real Godot physical/visual E2E",
+      "live PostgreSQL",
+      "local pnpm/TypeScript host tooling",
+      "candidate remote branch and candidate Actions identity"
+    ]
+  },
+  "release_actions": {
+    "annotated_v5.5.0_tag": "NOT_ATTEMPTED",
+    "tag_push": "NOT_ATTEMPTED",
+    "github_release": "NOT_ATTEMPTED",
+    "reason": "Gate 80 is LOCKED; no remote identity is inferred"
+  },
+  "reproduce": [
+    "git rev-parse HEAD",
+    "git rev-parse 'v5.4.0^{commit}'",
+    "git rev-parse 'v5.5.0-rc1^{commit}'",
+    "Get-FileHash reports/V55_STABLE_RELEASE_NOTES.md -Algorithm SHA256"
+  ]
+}
