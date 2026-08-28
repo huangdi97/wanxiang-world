@@ -70,7 +70,7 @@ def stable_m97_scenarios() -> tuple[ExperienceBenchmarkScenario, ...]:
             scenario_id="scenario:m97:source-qualification-v1",
             family="source",
             world_ref="world:m97:source-qualification-v1",
-            package_ref="world:wd_m97_source_qualification",
+            package_ref="world:wd_workshop_job_m97_source_qualification",
             version="1",
             action_script=(
                 "enter:embodiment",
