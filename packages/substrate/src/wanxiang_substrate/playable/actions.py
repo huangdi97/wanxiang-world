@@ -137,10 +137,20 @@ class IntentCompiler:
         if "entity_id" in affordance.required_fields:
             payload["entity_id"] = actor_id
         if "status" in affordance.required_fields:
-            match = re.search(r"(?:status|to)\s*(?:=|is|to)?\s*([\w-]+)\s*$", raw, re.I)
+            match = re.search(
+                r"(?:status|to|状态|设为|设置为|改为|变得|保持)\s*(?:=|is|to|为|成)?\s*([\w-]+|清醒|警觉|休息|平静|紧张)\s*$",
+                raw,
+                re.I,
+            )
             if match is None:
                 return None
-            payload["status"] = match.group(1)
+            payload["status"] = {
+                "清醒": "awake",
+                "警觉": "alert",
+                "休息": "resting",
+                "平静": "calm",
+                "紧张": "tense",
+            }.get(match.group(1), match.group(1))
         if any(field not in payload for field in affordance.required_fields):
             return None
         return payload

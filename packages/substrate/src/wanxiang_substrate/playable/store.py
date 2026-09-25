@@ -43,12 +43,27 @@ class CharacterRecord:
     owner_id: str
     display_name: str
     compatible_profile_ids: tuple[str, ...] = ()
+    identity: str = ""
+    intro: str = ""
+    stance: str = ""
+    starting_location: str = ""
+    knowledge_boundary: str = ""
 
     def __post_init__(self) -> None:
         if not self.character_id or not self.owner_id or not self.display_name.strip():
             raise ContractError("character requires id, owner and display name")
         if len(set(self.compatible_profile_ids)) != len(self.compatible_profile_ids):
             raise ContractError("character profile compatibility refs must be unique")
+        for name in (
+            "identity",
+            "intro",
+            "stance",
+            "starting_location",
+            "knowledge_boundary",
+        ):
+            value = getattr(self, name)
+            if not isinstance(value, str):
+                raise ContractError(f"character {name} must be text")
 
     def compatible_with(self, profile_id: str) -> bool:
         return not self.compatible_profile_ids or profile_id in self.compatible_profile_ids

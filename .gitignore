@@ -51,3 +51,7 @@ tests/_persist_tmp/
 
 # Local cache (workspace sandbox artifact)
 .cache/
+# Impeccable local review renders
+.impeccable/
+# PI-Desktop agent session state (goal artifacts, scratch)
+.pi/

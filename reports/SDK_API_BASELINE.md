@@ -1,15 +1,21 @@
 # SDK API Baseline (G17A)
 
-- API routes: 62
+- API routes: 74
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 2084
+- Python public names (stable packages): 2089
 
 ## API routes
 
+- `GET /`
 - `GET /constitutions/{constitution_id}`
 - `GET /experience/characters`
 - `GET /experience/instances/{instance_id}`
+- `GET /experience/player/characters`
+- `GET /experience/player/instances/{instance_id}`
+- `GET /experience/player/plaza`
+- `GET /experience/player/worlds/{profile_id}`
 - `GET /experience/plaza`
+- `GET /experience/ui`
 - `GET /experience/worlds`
 - `GET /forge/candidates/{candidate_id}/evidence`
 - `GET /forge/conflicts`
@@ -20,6 +26,7 @@
 - `GET /lineage/nodes/{node_id}/descendants`
 - `GET /lineage/nodes/{node_id}/promotion-origin`
 - `GET /lineage/promotion-candidates`
+- `GET /player`
 - `GET /studio/jobs/{job_id}`
 - `GET /studio/jobs/{job_id}/draft`
 - `GET /studio/jobs/{job_id}/living`
@@ -38,6 +45,11 @@
 - `POST /experience/instances/{instance_id}/action`
 - `POST /experience/instances/{instance_id}/continue`
 - `POST /experience/instances/{instance_id}/leave`
+- `POST /experience/player/characters`
+- `POST /experience/player/instances/{instance_id}/action`
+- `POST /experience/player/instances/{instance_id}/continue`
+- `POST /experience/player/instances/{instance_id}/leave`
+- `POST /experience/player/worlds/{profile_id}/enter`
 - `POST /experience/worlds/{profile_id}/enter`
 - `POST /forge/completions/plan`
 - `POST /forge/conflicts`
@@ -86,6 +98,7 @@
 - `wanxiang_application.WorldEnvironment`
 - `wanxiang_application.WorldInstanceStore`
 - `wanxiang_application.WorldRuntime`
+- `wanxiang_application.find_root_branch`
 - `wanxiang_application.register_synthetic_resolvers`
 - `wanxiang_application.snapshot_is_valid`
 - `wanxiang_domain.ActorId`
@@ -370,6 +383,5 @@
 - `wanxiang_substrate.ActorAvailability`
 - `wanxiang_substrate.ActorContinuityProjection`
 - `wanxiang_substrate.ActorContinuitySnapshot`
-- `wanxiang_substrate.ActorEvolutionState`
 
 Machine-readable: reports/sdk_api_baseline.json.

@@ -1,0 +1,78 @@
+{
+  "milestone": "M95",
+  "scope": "persisted_preview_entry_idempotency",
+  "conclusion": "PASS",
+  "status": {
+    "automated_remediation": "PASS",
+    "sqlite_restart_regression": "PASS",
+    "current_http_route": "PASS",
+    "lease_conflict_contract": "PASS",
+    "player_error_surface": "PASS",
+    "browser_journey": "PASS",
+    "human_acceptance": "USER_INPUT_REQUIRED",
+    "gates_62_to_66": "USER_INPUT_REQUIRED",
+    "gate_80": "LOCKED"
+  },
+  "incident": {
+    "route": "POST /experience/player/worlds/{profile_id}/enter",
+    "user_message": "暂时无法完成，请检查连接后重试。",
+    "server_failure": "sqlite3.IntegrityError: UNIQUE constraint failed: world_instances.instance_id",
+    "instance_id": "prv_playable_1"
+  },
+  "fix": {
+    "read_only_runtime_lookup": "WorldRuntime.find_existing_world",
+    "preview_behavior": "reuse existing root branch and skip initial seed commands",
+    "authority_boundary": "new seed commands still go through WorldHost and Commit Authority",
+    "lease_conflict_http_status": 409,
+    "structured_error_mapping": "Player maps embodiment_lease_conflict to a localized conflict message",
+    "player_cache_policy": "no-store"
+  },
+  "inputs": {
+    "database_url": "sqlite:///./.pytest-tmp/m95-human-zh/wanxiang.db",
+    "job_id": "m95_human_zh_job",
+    "package_id": "world:wd_m95_human_zh_job",
+    "profile_id": "experience:world:wd_m95_human_zh_job",
+    "actor_id": "ent_alice",
+    "locale": "zh-CN"
+  },
+  "commands": [
+    {
+      "id": "architecture",
+      "command": "uv run python scripts/architecture_check.py",
+      "result": "PASS"
+    },
+    {
+      "id": "targeted_regression",
+      "command": "uv run pytest tests/unit/substrate/test_compile_preview.py tests/integration/test_playable_service.py tests/api/test_player_experience_remediation.py -q",
+      "result": "8 passed"
+    },
+    {
+      "id": "browser_journey",
+      "command": "uv run pytest tests/integration/test_m95_player_experience_browser.py -q",
+      "result": "1 passed with host Playwright permission"
+    }
+  ],
+  "direct_route": {
+    "plaza_status": 200,
+    "enter_status": 200,
+    "returned_instance_id": "prv_playable_1",
+    "server_log_result": "200 OK; no 500",
+    "duplicate_entry_status": 409,
+    "duplicate_entry_code": "embodiment_lease_conflict",
+    "leave_status": 200,
+    "reentry_status": 200
+  },
+  "boundaries": {
+    "implemented": "durable preview lookup and Player entry retry safety",
+    "validated": "SQLite restart, HTTP route, and browser journey",
+    "experimental": "Prompt Genesis and bounded long-horizon/World Lab/emergence",
+    "not_proven": "human M95 acceptance and Gates 62-66",
+    "external_blocked": "live PostgreSQL and heavy physical/visual E2E"
+  },
+  "release": {
+    "tag_created": false,
+    "github_release_created": false,
+    "v56_started": false,
+    "model_training_started": false
+  }
+}

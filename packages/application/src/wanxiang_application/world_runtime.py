@@ -25,6 +25,7 @@ from wanxiang_runtime.state import InMemoryCanonicalState
 from wanxiang_application.ports import PersistenceBundle
 from wanxiang_application.snapshot_policy import snapshot_is_valid
 from wanxiang_application.state_reader import StateReader
+from wanxiang_application.world_lookup import find_root_branch
 
 DEFAULT_SCHEMA_VERSION = SchemaVersion(1)
 DEFAULT_WORLD_TIME = WorldTime(0)
@@ -97,6 +98,12 @@ class WorldRuntime:
             root_branch_id=root_branch,
             revision=BranchRevision(0),
         )
+
+    def find_existing_world(self, instance_id: WorldInstanceId) -> CreateWorldResult | None:
+        root_branch_id = find_root_branch(self.persistence, instance_id)
+        if root_branch_id is None:
+            return None
+        return CreateWorldResult(instance_id, root_branch_id, BranchRevision(0))
 
     def create_branch(
         self,

@@ -52,6 +52,8 @@ class ReplayResult(Protocol):
 class PreviewRuntimePort(WorldRuntimePort, Protocol):
     """Application-owned runtime methods required by preview composition."""
 
+    def find_existing_world(self, instance_id: WorldInstanceId) -> object | None: ...
+
     def create_world(
         self,
         instance_id: WorldInstanceId | None = None,
@@ -192,6 +194,15 @@ def instantiate_preview(
     ):
         raise ValidationRejected("preview install does not match the package manifest")
     instance_id = WorldInstanceId(f"prv_{install.preview_id}")
+    existing = cast(CreatedWorld | None, runtime.find_existing_world(instance_id))
+    if existing is not None:
+        return PreviewWorld(
+            install,
+            runtime,
+            WorldHost(runtime, existing.instance_id, existing.root_branch_id),
+            existing.instance_id,
+            existing.root_branch_id,
+        )
     created = cast(CreatedWorld, runtime.create_world(instance_id=instance_id))
     host = WorldHost(runtime, created.instance_id, created.root_branch_id)
     identity: dict[str, str] = {}

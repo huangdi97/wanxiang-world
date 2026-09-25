@@ -5,6 +5,11 @@
     "version": "0.1.0"
   },
   "paths": {
+    "/": {
+      "get": {
+        "operationId": "player_ui__get"
+      }
+    },
     "/constitutions/{constitution_id}": {
       "get": {
         "operationId": "get_constitution_constitutions__constitution_id__get"
@@ -38,9 +43,57 @@
         "operationId": "leave_instance_experience_instances__instance_id__leave_post"
       }
     },
+    "/experience/player/characters": {
+      "get": {
+        "operationId": "player_characters_experience_player_characters_get"
+      },
+      "post": {
+        "operationId": "create_player_character_experience_player_characters_post"
+      }
+    },
+    "/experience/player/instances/{instance_id}": {
+      "get": {
+        "operationId": "player_observe_instance_experience_player_instances__instance_id__get"
+      }
+    },
+    "/experience/player/instances/{instance_id}/action": {
+      "post": {
+        "operationId": "player_action_instance_experience_player_instances__instance_id__action_post"
+      }
+    },
+    "/experience/player/instances/{instance_id}/continue": {
+      "post": {
+        "operationId": "player_continue_instance_experience_player_instances__instance_id__continue_post"
+      }
+    },
+    "/experience/player/instances/{instance_id}/leave": {
+      "post": {
+        "operationId": "player_leave_instance_experience_player_instances__instance_id__leave_post"
+      }
+    },
+    "/experience/player/plaza": {
+      "get": {
+        "operationId": "player_plaza_experience_player_plaza_get"
+      }
+    },
+    "/experience/player/worlds/{profile_id}": {
+      "get": {
+        "operationId": "player_world_detail_experience_player_worlds__profile_id__get"
+      }
+    },
+    "/experience/player/worlds/{profile_id}/enter": {
+      "post": {
+        "operationId": "player_enter_world_experience_player_worlds__profile_id__enter_post"
+      }
+    },
     "/experience/plaza": {
       "get": {
         "operationId": "plaza_experience_plaza_get"
+      }
+    },
+    "/experience/ui": {
+      "get": {
+        "operationId": "player_ui_experience_ui_get"
       }
     },
     "/experience/worlds": {
@@ -114,6 +167,11 @@
     "/lineage/promotions": {
       "post": {
         "operationId": "submit_promotion_lineage_promotions_post"
+      }
+    },
+    "/player": {
+      "get": {
+        "operationId": "player_ui_player_get"
       }
     },
     "/studio/jobs": {

@@ -15,6 +15,11 @@ class CharacterCreateRequest(BaseModel):
     display_name: str
     compatible_profile_ids: list[str] = Field(default_factory=list)
     character_id: str | None = None
+    identity: str = ""
+    intro: str = ""
+    stance: str = ""
+    starting_location: str = ""
+    knowledge_boundary: str = ""
 
 
 class EnterExperienceRequest(BaseModel):
@@ -74,6 +79,11 @@ def characters(
                 "character_id": item.character_id,
                 "display_name": item.display_name,
                 "compatible_profile_ids": list(item.compatible_profile_ids),
+                "identity": item.identity,
+                "intro": item.intro,
+                "stance": item.stance,
+                "starting_location": item.starting_location,
+                "knowledge_boundary": item.knowledge_boundary,
             }
             for item in _service(request).entry.my_characters(viewer)
         ]
@@ -91,11 +101,21 @@ def create_character(
         payload.display_name,
         compatible_profile_ids=tuple(payload.compatible_profile_ids),
         character_id=payload.character_id,
+        identity=payload.identity,
+        intro=payload.intro,
+        stance=payload.stance,
+        starting_location=payload.starting_location,
+        knowledge_boundary=payload.knowledge_boundary,
     )
     return {
         "character_id": character.character_id,
         "display_name": character.display_name,
         "compatible_profile_ids": list(character.compatible_profile_ids),
+        "identity": character.identity,
+        "intro": character.intro,
+        "stance": character.stance,
+        "starting_location": character.starting_location,
+        "knowledge_boundary": character.knowledge_boundary,
     }
 
 

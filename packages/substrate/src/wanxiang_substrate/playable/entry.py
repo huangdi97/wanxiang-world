@@ -57,6 +57,11 @@ class CharacterEntryService:
         *,
         compatible_profile_ids: tuple[str, ...] = (),
         character_id: str | None = None,
+        identity: str = "",
+        intro: str = "",
+        stance: str = "",
+        starting_location: str = "",
+        knowledge_boundary: str = "",
     ) -> CharacterRecord:
         if not owner_id or not display_name.strip():
             raise ContractError("character creation requires owner and display name")
@@ -66,6 +71,11 @@ class CharacterEntryService:
             owner_id=owner_id,
             display_name=display_name.strip(),
             compatible_profile_ids=compatible_profile_ids,
+            identity=identity,
+            intro=intro,
+            stance=stance,
+            starting_location=starting_location,
+            knowledge_boundary=knowledge_boundary,
         )
         self._store.save_character(character)
         return character

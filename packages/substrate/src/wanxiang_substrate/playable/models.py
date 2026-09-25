@@ -203,6 +203,9 @@ class PlayableWorldProfile:
     schema_version: int = PLAYABLE_PROFILE_SCHEMA_VERSION
     version: int = 1
     tags: tuple[str, ...] = field(default_factory=tuple)
+    description: str = ""
+    scenario_name: str = ""
+    opening_hint: str = ""
 
     def __post_init__(self) -> None:
         self.validate()
@@ -221,6 +224,9 @@ class PlayableWorldProfile:
             raise ContractError(f"unsupported visibility {self.visibility!r}")
         _text(self.owner_id, "owner_id", allow_empty=True)
         _text(self.display_name, "display_name", allow_empty=True)
+        _text(self.description, "description", allow_empty=True)
+        _text(self.scenario_name, "scenario_name", allow_empty=True)
+        _text(self.opening_hint, "opening_hint", allow_empty=True)
         if self.schema_version != PLAYABLE_PROFILE_SCHEMA_VERSION:
             raise ContractError(f"unsupported playable profile schema {self.schema_version}")
         _version(self.version, "version")
@@ -245,6 +251,9 @@ class PlayableWorldProfile:
             "owner_id": self.owner_id,
             "display_name": self.display_name,
             "tags": list(self.tags),
+            "description": self.description,
+            "scenario_name": self.scenario_name,
+            "opening_hint": self.opening_hint,
         }
 
     @classmethod
@@ -279,4 +288,7 @@ class PlayableWorldProfile:
             schema_version=PLAYABLE_PROFILE_SCHEMA_VERSION,
             version=_version(data.get("version", 1), "version"),
             tags=_texts(data.get("tags", []), "tags"),
+            description=_text(data.get("description", ""), "description", allow_empty=True),
+            scenario_name=_text(data.get("scenario_name", ""), "scenario_name", allow_empty=True),
+            opening_hint=_text(data.get("opening_hint", ""), "opening_hint", allow_empty=True),
         )

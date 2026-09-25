@@ -39,6 +39,9 @@ class PlayableProfileRequest(BaseModel):
     owner_id: str = ""
     visibility: str = "public"
     display_name: str | None = None
+    description: str | None = None
+    scenario_name: str | None = None
+    opening_hint: str | None = None
     allowed_actions: list[str] = Field(default_factory=lambda: ["set_status"])
 
 
@@ -66,6 +69,9 @@ def register_playable_profile(
         owner_id=payload.owner_id,
         visibility=payload.visibility,
         display_name=payload.display_name,
+        description=payload.description,
+        scenario_name=payload.scenario_name,
+        opening_hint=payload.opening_hint,
         allowed_actions=tuple(payload.allowed_actions),
     )
     return {"profile": profile.to_dict()}

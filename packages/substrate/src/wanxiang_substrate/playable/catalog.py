@@ -18,6 +18,9 @@ class WorldCard:
     scenario_ref: str
     visibility: str
     tags: tuple[str, ...]
+    description: str
+    scenario_name: str
+    opening_hint: str
 
     @classmethod
     def from_profile(cls, profile: PlayableWorldProfile) -> WorldCard:
@@ -28,6 +31,9 @@ class WorldCard:
             scenario_ref=profile.scenario_ref,
             visibility=profile.visibility,
             tags=profile.tags,
+            description=profile.description,
+            scenario_name=profile.scenario_name,
+            opening_hint=profile.opening_hint,
         )
 
     def to_dict(self) -> dict[str, object]:
@@ -38,6 +44,9 @@ class WorldCard:
             "scenario_ref": self.scenario_ref,
             "visibility": self.visibility,
             "tags": list(self.tags),
+            "description": self.description,
+            "scenario_name": self.scenario_name,
+            "opening_hint": self.opening_hint,
         }
 
 

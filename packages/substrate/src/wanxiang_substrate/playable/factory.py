@@ -18,6 +18,9 @@ def profile_from_world_package(
     owner_id: str = "",
     visibility: str = "private",
     display_name: str | None = None,
+    description: str | None = None,
+    scenario_name: str | None = None,
+    opening_hint: str | None = None,
 ) -> PlayableWorldProfile:
     """Build only immutable refs from a v5.4 package; no world state is copied."""
 
@@ -35,4 +38,7 @@ def profile_from_world_package(
         visibility=visibility,  # type: ignore[arg-type]
         owner_id=owner_id,
         display_name=display_name or getattr(package.manifest, "name", package_id),
+        description=description or "",
+        scenario_name=scenario_name or "",
+        opening_hint=opening_hint or "",
     )

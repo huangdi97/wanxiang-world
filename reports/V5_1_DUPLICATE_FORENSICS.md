@@ -96,8 +96,8 @@
 | packages/substrate/src/wanxiang_substrate/ledger/ledger.py | CompletionLedger | 30 |
 | packages/substrate/src/wanxiang_substrate/long_horizon/budget.py | CostBudgetLedger | 98 |
 | packages/substrate/src/wanxiang_substrate/long_horizon/checkpoint.py | RunCheckpointStore | 94 |
-| packages/substrate/src/wanxiang_substrate/playable/store.py | PlayableStore | 57 |
-| packages/substrate/src/wanxiang_substrate/playable/store.py | InMemoryPlayableStore | 79 |
+| packages/substrate/src/wanxiang_substrate/playable/store.py | PlayableStore | 72 |
+| packages/substrate/src/wanxiang_substrate/playable/store.py | InMemoryPlayableStore | 94 |
 | packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | CheckpointStore | 31 |
 | packages/substrate/src/wanxiang_substrate/review/decisions.py | ReviewLedger | 37 |
 | packages/substrate/src/wanxiang_substrate/sources/blob.py | SourceBlobStore | 51 |
@@ -117,7 +117,7 @@
 | packages/substrate/src/wanxiang_substrate/observation/query.py | PerspectiveService | 29 |
 | packages/substrate/src/wanxiang_substrate/parsing/checkpoint.py | ParseCheckpointService | 14 |
 | packages/substrate/src/wanxiang_substrate/playable/entry.py | CharacterEntryService | 37 |
-| packages/substrate/src/wanxiang_substrate/playable/service.py | PlayableService | 37 |
+| packages/substrate/src/wanxiang_substrate/playable/service.py | PlayableService | 39 |
 | packages/substrate/src/wanxiang_substrate/projection/service.py | ProjectionService | 32 |
 | packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | CheckpointService | 86 |
 | packages/substrate/src/wanxiang_substrate/recovery/recovery.py | RecoveryService | 31 |
@@ -177,10 +177,10 @@
 | packages/substrate/src/wanxiang_substrate/cosim/adapter.py | SimulationAdapter | 19 |
 | packages/substrate/src/wanxiang_substrate/distill/protocol.py | Distiller | 18 |
 | packages/substrate/src/wanxiang_substrate/packages/registry.py | PackageRegistry | 15 |
-| packages/substrate/src/wanxiang_substrate/playable/service_model.py | SubmittedResult | 14 |
-| packages/substrate/src/wanxiang_substrate/playable/service_model.py | EventLike | 19 |
+| packages/substrate/src/wanxiang_substrate/playable/service_model.py | SubmittedResult | 15 |
+| packages/substrate/src/wanxiang_substrate/playable/service_model.py | EventLike | 20 |
 | packages/substrate/src/wanxiang_substrate/playable/state_diff.py | NarrativeRenderer | 133 |
-| packages/substrate/src/wanxiang_substrate/playable/store.py | PlayableStore | 57 |
+| packages/substrate/src/wanxiang_substrate/playable/store.py | PlayableStore | 72 |
 | packages/substrate/src/wanxiang_substrate/preview/runtime.py | CreatedWorld | 43 |
 | packages/substrate/src/wanxiang_substrate/preview/runtime.py | ReplayResult | 48 |
 | packages/substrate/src/wanxiang_substrate/preview/runtime.py | PreviewRuntimePort | 52 |

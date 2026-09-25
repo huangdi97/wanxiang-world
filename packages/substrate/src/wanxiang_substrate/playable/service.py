@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from typing import cast
 
 from wanxiang_domain.errors import ContractError, NotFound
@@ -47,6 +48,12 @@ class PlayableService:
         self._experiences: dict[str, ExperiencePackage] = {}
         self._installs: dict[str, PreviewInstall] = {}
 
+    @property
+    def packages(self) -> Mapping[str, WorldPackageDraft]:
+        """Expose package metadata to read-only projection adapters."""
+
+        return self._packages
+
     def register_package(
         self,
         package: WorldPackageDraft,
@@ -54,6 +61,9 @@ class PlayableService:
         owner_id: str = "",
         visibility: str = "public",
         display_name: str | None = None,
+        description: str | None = None,
+        scenario_name: str | None = None,
+        opening_hint: str | None = None,
         allowed_actions: tuple[str, ...] = ("set_status",),
     ) -> PlayableWorldProfile:
         profile = profile_from_world_package(
@@ -61,6 +71,9 @@ class PlayableService:
             owner_id=owner_id,
             visibility=visibility,
             display_name=display_name,
+            description=description,
+            scenario_name=scenario_name,
+            opening_hint=opening_hint,
         )
         experience = experience_from_profile(profile, allowed_actions=allowed_actions)
         self.store.save_profile(profile)

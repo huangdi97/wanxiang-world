@@ -12,7 +12,20 @@ def affordances(experience: ExperiencePackage) -> tuple[ActionAffordance, ...]:
         ActionAffordance(
             action,
             required_fields=("entity_id", "status") if action == "set_status" else (),
-            text_aliases=("set status", "status") if action == "set_status" else (),
+            text_aliases=(
+                "set status",
+                "status",
+                "设置状态",
+                "状态",
+                "保持",
+                "清醒",
+                "警觉",
+                "休息",
+                "平静",
+                "紧张",
+            )
+            if action == "set_status"
+            else (),
         )
         for action in experience.allowed_actions
     )
