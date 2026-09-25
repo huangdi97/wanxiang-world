@@ -36,6 +36,8 @@ def _run(name: str, command: list[str], timeout: int = 120) -> dict[str, Any]:
             env=environment,
             capture_output=True,
             text=True,
+            encoding="utf-8",
+            errors="replace",
             timeout=timeout,
             check=False,
         )
@@ -100,7 +102,9 @@ def _write(payload: dict[str, Any]) -> None:
 
 
 def run() -> dict[str, Any]:
-    local_head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+    local_head = subprocess.check_output(
+        ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True, encoding="utf-8"
+    ).strip()
     matrix = (ROOT / "reports" / "V55_STABLE_ACCEPTANCE_MATRIX.md").read_text(encoding="utf-8")
     gate_79 = _matrix_status(matrix, 79)
     gate_80 = _matrix_status(matrix, 80)

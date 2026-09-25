@@ -22,7 +22,9 @@ REPORT = ROOT / "reports" / "M100_G103D_CLEAN_CLONE.md"
 
 
 def _git_sha(path: Path) -> str:
-    return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=path, text=True).strip()
+    return subprocess.check_output(
+        ["git", "rev-parse", "HEAD"], cwd=path, text=True, encoding="utf-8"
+    ).strip()
 
 
 def _classify(name: str, code: int, output: str) -> str:
@@ -80,6 +82,8 @@ def _run(
             env=environment,
             capture_output=True,
             text=True,
+            encoding="utf-8",
+            errors="replace",
             timeout=timeout,
             check=False,
         )
