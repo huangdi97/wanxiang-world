@@ -13,6 +13,8 @@ from pathlib import Path
 from typing import Any
 
 from m98_burn_in_support import write_json
+from m100_clean_clone_report import render_report
+from m100_executable import resolve
 
 ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "artifacts" / "v55_stable" / "m100" / "clean_clone.json"
@@ -73,7 +75,7 @@ def _run(
         environment.update(extra_env)
     try:
         result = subprocess.run(
-            command,
+            resolve(command),
             cwd=cwd,
             env=environment,
             capture_output=True,
@@ -198,24 +200,7 @@ def _write_evidence(payload: dict[str, Any]) -> None:
         for item in results
     )
     write_json(OUTPUT, payload)
-    REPORT.write_text(
-        f"""# M100 G103D Isolated Clean Clone
-Conclusion: {payload["conclusion"]}; {len(payload["commands"])}/{payload["command_count"]}.
-Candidate: `{payload["candidate_sha"]}`; clone: `--no-local`, detached exact-SHA, cleanup.
-| Command | Status | Exit | Duration |
-|---|---|---:|---:|
-{rows}
-Coverage: install, migration, CLI, replay, Playable, Studio, API, SDK, Python, kernel,
-PostgreSQL, TypeScript.
-External: browser/PG/pnpm gaps are EXTERNAL_BLOCKED only with prerequisite evidence; other non-zero
-results FAIL.
-Boundaries: IMPLEMENTED runtime; VALIDATED PASS; EXPERIMENTAL/BOUNDED provider;
-NOT_PROVEN live customer/production/hardware.
-Evidence: artifacts/v55_stable/m100/clean_clone.json
-Reproduce: uv run python scripts/m100_clean_clone.py
-""",
-        encoding="utf-8",
-    )
+    REPORT.write_text(render_report(payload, rows), encoding="utf-8")
 
 
 def run() -> dict[str, Any]:

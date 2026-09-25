@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from m98_burn_in_support import write_json
+from m100_executable import resolve
 
 ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "artifacts" / "v55_stable" / "m100" / "full_regression.json"
@@ -99,7 +100,7 @@ def _run(name: str, command: list[str], timeout: int) -> dict[str, Any]:
     started = time.perf_counter()
     try:
         result = subprocess.run(
-            command,
+            resolve(command),
             cwd=ROOT,
             env={**os.environ, "UV_CACHE_DIR": str(ROOT / ".uv-cache")},
             capture_output=True,
