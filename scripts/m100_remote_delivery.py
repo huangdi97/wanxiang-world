@@ -11,13 +11,19 @@ from pathlib import Path
 from typing import Any, cast
 
 from m98_burn_in_support import write_json
+from m100_remote_delivery_report import render_report
+from m100_workflow_jobs import required_display_names, required_job_ids
 
 ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "artifacts" / "v55_stable" / "m100" / "remote_delivery.json"
 REPORT = ROOT / "reports" / "M100_G103E_REMOTE_DELIVERY.md"
 REPO = "huangdi97/wanxiang-world"
 BRANCH = "release/v5.5-stable-certification"
-REQUIRED_JOBS = ("safety", "python", "postgres", "api-sdk", "ts", "release-smoke")
+WORKFLOW = ROOT / ".github" / "workflows" / "ci.yml"
+# The required set is derived from the workflow definition, never hard-coded:
+# ci.yml overrides several job display names, so literals cannot match.
+REQUIRED_JOB_IDS = required_job_ids(WORKFLOW)
+REQUIRED_JOBS = required_display_names(WORKFLOW)
 
 
 def _run(name: str, command: list[str], timeout: int = 120) -> dict[str, Any]:
@@ -79,42 +85,18 @@ def _mapping(value: Any) -> dict[str, Any]:
     return cast(dict[str, Any], value) if isinstance(value, dict) else {}
 
 
+def _ls_remote_sha(result: dict[str, Any]) -> str:
+    """Return the SHA column of a live `git ls-remote` probe, or an empty string."""
+    for line in str(result.get("output_tail", "")).splitlines():
+        token = line.split("\t")[0].strip()
+        if len(token) == 40 and all(char in "0123456789abcdef" for char in token):
+            return token
+    return ""
+
+
 def _write(payload: dict[str, Any]) -> None:
     write_json(OUTPUT, payload)
-    queries = payload["queries"]
-    query_rows = "\n".join(
-        f"| {item['name']} | {item['status']} | {item['exit_code']} |" for item in queries
-    )
-    REPORT.write_text(
-        f"""# M100 G103E Remote Delivery / Required CI
-
-Conclusion: `{payload["conclusion"]}`; Gate 80: `{payload["gate_80"]}`.
-Local candidate: `{payload["local_head"]}`; branch: `{payload["branch"]}`.
-
-| Read-only query | Status | Exit |
-|---|---|---:|
-{query_rows}
-
-Required workflow jobs: `{", ".join(payload["required_jobs"])}`.
-Candidate branch exists remotely: `{payload["remote_branch_present"]}`;
-candidate Actions run exists: `{payload["candidate_run_present"]}`;
-all required jobs verified for candidate: `{payload["candidate_jobs_verified"]}`.
-
-No push, tag creation, or GitHub Release was attempted: Gate 80 is locked by the
-M95 human-player Gates 62–66 and the stable predicate is not true. The Git remote
-helper/remote branch and candidate Actions identity are not inferred from local
-tracking refs. Existing successful Actions runs, if any, are retained only when
-their SHA is shown in the artifact and are not substituted for this candidate.
-
-Boundaries: IMPLEMENTED = read-only delivery/CI probe; VALIDATED = local SHA and
-workflow definition; NOT_PROVEN = remote candidate push and candidate CI jobs;
-EXTERNAL_BLOCKED = unavailable remote/helper or absent candidate delivery state.
-
-Evidence: `artifacts/v55_stable/m100/remote_delivery.json`
-Reproduce: `uv run python scripts/m100_remote_delivery.py`
-""",
-        encoding="utf-8",
-    )
+    REPORT.write_text(render_report(payload), encoding="utf-8")
 
 
 def run() -> dict[str, Any]:
@@ -159,17 +141,33 @@ def run() -> dict[str, Any]:
         ),
     ]
     remote_ref = _mapping(_json_output(queries[3]))
+    remote_branch_sha = _ls_remote_sha(queries[1])
     branch_runs = _run_list(_json_output(queries[4]))
     recent_runs = _run_list(_json_output(queries[5]))
     candidate_runs = [run for run in branch_runs if run.get("headSha") == local_head]
     candidate_jobs_verified: bool = False
+    candidate_job_conclusions: list[dict[str, str]] = []
+    candidate_run_conclusion: str | None = None
+    candidate_run_sha: str | None = None
+    candidate_run_url: str | None = None
     database_id: str | int | None = None
-    job_probe: dict[str, Any] | None = None
     if candidate_runs:
         database_id = candidate_runs[0].get("databaseId")
         if not isinstance(database_id, (str, int)):
             candidate_runs = []
+            database_id = None
+        else:
+            entry = candidate_runs[0]
+            conclusion = entry.get("conclusion")
+            candidate_run_conclusion = conclusion if isinstance(conclusion, str) else None
+            sha = entry.get("headSha")
+            candidate_run_sha = sha if isinstance(sha, str) else None
+            url = entry.get("url")
+            candidate_run_url = url if isinstance(url, str) else None
     if candidate_runs and database_id is not None:
+        # PERFORMANCE: project the job list to a name/conclusion TSV so the
+        # captured output tail cannot be truncated mid-JSON, which previously
+        # made this predicate silently unsatisfiable.
         job_probe = _run(
             "gh_candidate_run_jobs",
             [
@@ -180,47 +178,75 @@ def run() -> dict[str, Any]:
                 "--repo",
                 REPO,
                 "--json",
-                "jobs,headSha,status,conclusion,url",
+                "jobs",
+                "--jq",
+                ".jobs[] | [.name, .conclusion] | @tsv",
             ],
         )
         queries.append(job_probe)
-        job_data = _mapping(_json_output(job_probe))
-        raw_jobs = job_data.get("jobs", [])
-        jobs = _run_list(raw_jobs)
         names: set[str] = set()
-        for job in jobs:
-            name = job.get("name")
-            if isinstance(name, str):
-                names.add(name)
+        for line in str(job_probe.get("output_tail", "")).splitlines():
+            parts = [part.strip() for part in line.split("\t")]
+            if len(parts) != 2 or not all(parts):
+                continue
+            names.add(parts[0])
+            candidate_job_conclusions.append({"name": parts[0], "conclusion": parts[1]})
         candidate_jobs_verified = (
-            job_data.get("headSha") == local_head
+            job_probe.get("exit_code") == 0
+            and candidate_run_sha == local_head
+            and candidate_run_conclusion == "success"
             and all(name in names for name in REQUIRED_JOBS)
-            and job_data.get("conclusion") == "success"
         )
+    remote_branch_present = bool(remote_branch_sha) or bool(remote_ref.get("object"))
+
+    # SAFETY: the probe never asserts delivery success it did not observe. A
+    # candidate is only PASS when a live remote branch ref exists AND the exact
+    # local SHA has a completed run whose required jobs are all present and green.
+    conclusion = "PASS" if remote_branch_present and candidate_jobs_verified else "LOCKED"
+    candidate_run: dict[str, Any] = {}
+    if candidate_runs:
+        candidate_run = {
+            "database_id": database_id,
+            "head_sha": candidate_run_sha,
+            "conclusion": candidate_run_conclusion,
+            "url": candidate_run_url,
+            "jobs": candidate_job_conclusions,
+        }
     payload: dict[str, Any] = {
         "schema": "wanxiang.v5.5.m100.remote-delivery.v1",
-        "conclusion": "LOCKED",
+        "conclusion": conclusion,
         "local_head": local_head,
         "branch": BRANCH,
         "repo": REPO,
         "gate_79": gate_79,
         "gate_80": gate_80,
         "required_jobs": list(REQUIRED_JOBS),
+        "required_job_ids": list(REQUIRED_JOB_IDS),
         "queries": queries,
-        "remote_branch_present": bool(remote_ref.get("object")),
+        "remote_branch_present": remote_branch_present,
+        "remote_branch_sha": remote_branch_sha,
         "candidate_run_present": bool(candidate_runs),
         "candidate_jobs_verified": candidate_jobs_verified,
+        "candidate_run": candidate_run,
         "recent_remote_runs": recent_runs or [],
-        "push": "NOT_ATTEMPTED",
+        "push": "NOT_PERFORMED_BY_THIS_PROBE",
         "tag": "NOT_ATTEMPTED",
         "github_release": "NOT_ATTEMPTED",
         "boundaries": {
             "implemented": ["read-only remote and required-CI delivery probe"],
-            "validated": ["local candidate SHA and repository workflow job declaration"],
-            "not_proven": ["remote candidate push and candidate Actions conclusions"],
-            "external_blocked": [
-                "remote branch/helper or candidate Actions identity is unavailable"
-            ],
+            "validated": (
+                ["live remote branch ref and candidate required-CI job conclusions"]
+                if candidate_jobs_verified
+                else ["local candidate SHA and repository workflow job declaration"]
+            ),
+            "not_proven": (
+                [] if candidate_jobs_verified else ["candidate Actions required-job conclusions"]
+            ),
+            "external_blocked": (
+                []
+                if candidate_jobs_verified
+                else ["remote branch/helper or candidate Actions identity is unavailable"]
+            ),
         },
     }
     _write(payload)

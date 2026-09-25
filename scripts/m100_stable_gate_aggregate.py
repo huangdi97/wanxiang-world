@@ -27,6 +27,33 @@ OUTPUT = M100_ROOT / "stable_gate_aggregate.json"
 REPORT = ROOT / "reports" / "M100_G103A_STABLE_GATE_AGGREGATE.md"
 
 
+def _tag_exists(tag: str) -> bool:
+    """Report whether a local tag object exists, without creating or moving one."""
+    return (
+        subprocess.run(
+            ["git", "show-ref", "--verify", "--quiet", f"refs/tags/{tag}"],
+            cwd=ROOT,
+            check=False,
+        ).returncode
+        == 0
+    )
+
+
+def _blocking_reasons(derived: dict[str, str]) -> list[str]:
+    """List only the release blockers that the evidence actually supports."""
+    reasons: list[str] = []
+    if any(derived[str(gate)] != "PASS" for gate in range(62, 67)):
+        reasons.append(
+            "Gates 62-66 remain USER_INPUT_REQUIRED: no genuine human player "
+            "evidence has been supplied"
+        )
+    if derived.get("79") != "PASS":
+        reasons.append("Gate 79 Stable preflight is not PASS on persisted evidence")
+    if not _tag_exists("v5.5.0"):
+        reasons.append("No v5.5.0 tag exists; no Stable release was performed")
+    return reasons
+
+
 def _head() -> str:
     return subprocess.run(
         ["git", "rev-parse", "HEAD"],
@@ -116,11 +143,10 @@ def qualify() -> dict[str, Any]:
         "stable_release_predicate": {
             "gate_80": "ACCEPTED_FOR_STABLE" if stable_predicate else "LOCKED",
             "all_required_gates": stable_predicate,
-            "reason": [
-                "Gates 62-66 remain USER_INPUT_REQUIRED",
-                "Gate 79 remains LOCKED because candidate remote/required CI is not verified",
-                "No v5.5.0 tag or post-release evidence exists",
-            ],
+            "blocking_gates": sorted(
+                gate for gate, status in expected_ledger.items() if status != "PASS"
+            ),
+            "reason": _blocking_reasons(derived),
         },
         "source_artifacts": artifacts,
         "boundaries": {
@@ -131,6 +157,11 @@ def qualify() -> dict[str, Any]:
             "validated": [
                 "Gates 61, 67-77 from persisted local evidence",
                 "Gate 78 explicit Godot external block",
+                *(
+                    ["Gate 79 Stable preflight and candidate required CI"]
+                    if derived.get("79") == "PASS"
+                    else []
+                ),
             ],
             "experimental": [
                 "Prompt Genesis and bounded long-horizon continuity",
@@ -138,7 +169,11 @@ def qualify() -> dict[str, Any]:
             ],
             "not_proven": [
                 "genuine human experience acceptance",
-                "Stable Gate 79/80",
+                (
+                    "Stable Gate 80 release predicate"
+                    if not stable_predicate
+                    else "release-post-verification"
+                ),
                 "production or scientific generalization",
             ],
             "external_blocked": [
@@ -160,16 +195,20 @@ README prose as the source of gate truth.
 
 {gate_lines}
 
-The ledger consistency check is {summary["ledger_consistency"]["status"]}.
-Gate 78 is an explicit external block because no supported Godot executable is
-available; reference ABI tests were not relabeled as Godot E2E. G103B-G103D
-have local evidence without captured FAIL, but Gate 79 remains LOCKED because
-G103E did not verify a candidate remote branch and required Actions run. Gate
-80 is LOCKED and no Stable tag/release action is authorized.
+The ledger consistency check is {summary["ledger_consistency"]["status"]}. Gate 78 is
+an explicit external block because no supported Godot executable is available;
+reference ABI tests were not relabeled as Godot E2E. Gate 79 is
+`{derived["79"]}`, derived from the persisted G103B-G103D artifacts and the
+verified candidate required CI. Gate 80 is
+`{summary["stable_release_predicate"]["gate_80"]}`. Blocking gates:
+`{", ".join(summary["stable_release_predicate"]["blocking_gates"])}`.
+
+Release blockers reported by the evidence:
+
+{chr(10).join(f"- {item}" for item in summary["stable_release_predicate"]["reason"])}
 
 Prompt Genesis, bounded long-horizon/World Lab, and emergence remain
-EXPERIMENTAL/BOUNDED. Genuine human M95 evidence remains USER_INPUT_REQUIRED.
-Live PostgreSQL, heavy physical/visual E2E, live remote refresh, and
+EXPERIMENTAL/BOUNDED. Live PostgreSQL, heavy physical/visual E2E, and
 production/scientific claims remain NOT_PROVEN or EXTERNAL_BLOCKED.
 
 Machine-readable evidence: artifacts/v55_stable/m100/stable_gate_aggregate.json
