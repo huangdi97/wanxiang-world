@@ -1,7 +1,7 @@
 {
   "schema": "wanxiang.v5.5.m100.stable-gate-aggregate.v1",
   "conclusion": "LOCKED",
-  "generated_build_sha": "16f7d89ccf95f405351df6727ddde3184cdd58bc",
+  "generated_build_sha": "a9be096ba0cda3b9c05d039e61e27cd529ca6b45",
   "evidence_derived": true,
   "gates": {
     "61": {
@@ -306,7 +306,7 @@
       "reason": "No supported Godot executable is available on this host; no engine was downloaded or installed."
     },
     "79": {
-      "status": "LOCKED",
+      "status": "PASS",
       "evidence": [
         "artifacts/v55_stable/m100/full_regression.json",
         "artifacts/v55_stable/m100/semantic_safety.json",
@@ -317,9 +317,9 @@
         "full_regression_no_fail": true,
         "semantic_safety_no_fail": true,
         "clean_clone_exact_sha": true,
-        "candidate_remote_ci": false
+        "candidate_remote_ci": true
       },
-      "reason": "G103E candidate remote branch/required CI is not verified"
+      "reason": "local preflight and candidate required CI are verified"
     }
   },
   "ledger_consistency": {
@@ -344,7 +344,7 @@
       "76": "PASS",
       "77": "PASS",
       "78": "EXTERNAL_BLOCKED",
-      "79": "LOCKED",
+      "79": "PASS",
       "80": "LOCKED"
     },
     "expected_from_evidence": {
@@ -366,17 +366,23 @@
       "76": "PASS",
       "77": "PASS",
       "78": "EXTERNAL_BLOCKED",
-      "79": "LOCKED",
+      "79": "PASS",
       "80": "LOCKED"
     }
   },
   "stable_release_predicate": {
     "gate_80": "LOCKED",
     "all_required_gates": false,
+    "blocking_gates": [
+      "62",
+      "63",
+      "64",
+      "65",
+      "66"
+    ],
     "reason": [
-      "Gates 62-66 remain USER_INPUT_REQUIRED",
-      "Gate 79 remains LOCKED because candidate remote/required CI is not verified",
-      "No v5.5.0 tag or post-release evidence exists"
+      "Gates 62-66 remain USER_INPUT_REQUIRED: no genuine human player evidence has been supplied",
+      "No v5.5.0 tag exists; no Stable release was performed"
     ]
   },
   "source_artifacts": {
@@ -424,30 +430,30 @@
     },
     "m100/full_regression.json": {
       "path": "artifacts/v55_stable/m100/full_regression.json",
-      "sha256": "b5a16e6c76a7e277c10a283e75092c95d5c1b6eee6d55524e4bb663dc413f471",
+      "sha256": "8ad588a4179eefe808a6c370e7ed7d3929aa5d6353d209ca5f3e2463eae4128e",
       "schema": "wanxiang.v5.5.m100.full-regression.v1",
       "conclusion": "PASS",
       "build_sha": null
     },
     "m100/semantic_safety.json": {
       "path": "artifacts/v55_stable/m100/semantic_safety.json",
-      "sha256": "ba4bbbd0cb4857f16b4e2fb28222c3f3105c9ab91f381de1e1fcf437325307e9",
+      "sha256": "7d1c92934c28df0e09c8b29fc6328899b40ce3dda3249cf9fe0988c0ddeaf7f0",
       "schema": "wanxiang.v5.5.m100.semantic-safety.v1",
       "conclusion": "PASS",
       "build_sha": null
     },
     "m100/clean_clone.json": {
       "path": "artifacts/v55_stable/m100/clean_clone.json",
-      "sha256": "e3ed43ea2f49ca9ec4e059e7279f337fe4612f4f205fbb22d7586424d74a7809",
+      "sha256": "2732178a5bc6b77b8cd0cc17cfc61b1741b835315263117358a172b4f2bd10dc",
       "schema": "wanxiang.v5.5.m100.clean-clone.v1",
       "conclusion": "PASS",
       "build_sha": null
     },
     "m100/remote_delivery.json": {
       "path": "artifacts/v55_stable/m100/remote_delivery.json",
-      "sha256": "57062879f0b337d873c99b11419b457eda7d4ffc8f648d6573656e900b344a5d",
+      "sha256": "313111d4696e407053c486a2d49573cb04302f669f9563dd05084a05a9434620",
       "schema": "wanxiang.v5.5.m100.remote-delivery.v1",
-      "conclusion": "LOCKED",
+      "conclusion": "PASS",
       "build_sha": null
     }
   },
@@ -458,7 +464,8 @@
     ],
     "validated": [
       "Gates 61, 67-77 from persisted local evidence",
-      "Gate 78 explicit Godot external block"
+      "Gate 78 explicit Godot external block",
+      "Gate 79 Stable preflight and candidate required CI"
     ],
     "experimental": [
       "Prompt Genesis and bounded long-horizon continuity",
@@ -466,7 +473,7 @@
     ],
     "not_proven": [
       "genuine human experience acceptance",
-      "Stable Gate 79/80",
+      "Stable Gate 80 release predicate",
       "production or scientific generalization"
     ],
     "external_blocked": [

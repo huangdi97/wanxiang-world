@@ -10,11 +10,11 @@ but is not silently re-scored.
 | Gate | Stable predicate | Status | Evidence |
 |---|---|---|---|
 | 61 | RC1/Final Closure lineage, immutable tags, scope freeze | PASS | `artifacts/v55_stable/baseline.json`, `reports/M95_BASELINE_REPORT.md` |
-| 62 | Genuine human completes the full playable chain | USER_INPUT_REQUIRED | `reports/M95_REAL_PLAYER_EXPERIENCE_ACCEPTANCE.md`, human packet |
-| 63 | Comprehension threshold with no critical blocker | USER_INPUT_REQUIRED | Human ratings required |
-| 64 | Meaningful agency and valid rejection | USER_INPUT_REQUIRED | Human actions/notes required |
-| 65 | Visible committed consequence / StateDiff | USER_INPUT_REQUIRED | Human packet required |
-| 66 | Leave → continue identity and continuity | USER_INPUT_REQUIRED | Human packet required |
+| 62 | Genuine human completes the full playable chain | USER_INPUT_REQUIRED | WAITING_HUMAN: `reports/M95_PLAYER_TEST_PACKET_ZH_CN.md` + `artifacts/v55_stable/m95/player_acceptance.json` (automated route PASS is not human evidence) |
+| 63 | Comprehension threshold with no critical blocker | USER_INPUT_REQUIRED | WAITING_HUMAN: human ratings required |
+| 64 | Meaningful agency and valid rejection | USER_INPUT_REQUIRED | WAITING_HUMAN: human actions/notes required |
+| 65 | Visible committed consequence / StateDiff | USER_INPUT_REQUIRED | WAITING_HUMAN: human packet required |
+| 66 | Leave → continue identity and continuity | USER_INPUT_REQUIRED | WAITING_HUMAN: human packet required |
 | 67 | Original Prompt Genesis provenance and E5 boundary | PASS | `artifacts/v55_stable/m96/original_prompt_world.json`, G99B report |
 | 68 | Prompt → Draft → Review → Package → Publish → Play | PASS | `artifacts/v55_stable/m96/original_prompt_world.json`, G99C report |
 | 69 | Bounded original-prompt seven-day run | PASS | `artifacts/v55_stable/m96/original_prompt_world.json`, G99D report |
@@ -27,8 +27,8 @@ but is not silently re-scored.
 | 76 | Measured 10 → 50 → 100 → 500 → 1000 scale tiers | PASS | `artifacts/v55_stable/m98/scale_curve.json`; G101E |
 | 77 | Measured capacity/degradation envelope | PASS | artifacts/v55_stable/m98/capacity_curve.json; G101F |
 | 78 | Real Godot integration, or explicit external block | EXTERNAL_BLOCKED | artifacts/v55_stable/m99/godot_integration.json; G102 |
-| 79 | Stable preflight, clean clone, rights/security and evidence integrity | LOCKED | G103 |
-| 80 | Stable release predicate | LOCKED | G103; never inferred from prose |
+| 79 | Stable preflight, clean clone, rights/security and evidence integrity | PASS | `artifacts/v55_stable/m100/full_regression.json`, `semantic_safety.json`, `clean_clone.json`, `remote_delivery.json` at candidate `a9be096`; see the Gate 79 decision below |
+| 80 | Stable release predicate | LOCKED | `artifacts/v55_stable/m100/stable_gate_aggregate.json`; blocked by Gates 62–66 WAITING_HUMAN; never inferred from prose |
 
 ## Gate 61 decision
 
@@ -237,11 +237,16 @@ Narrative evidence: reports/M100_G103A_STABLE_GATE_AGGREGATE.md.
 
 ## G103B decision
 
-G103B is `PASS` for the full 18-command local regression matrix with no
-captured `FAIL`. PostgreSQL, browser/Playwright where host access was denied,
-and pnpm/TypeScript availability remain explicit `EXTERNAL_BLOCKED` rows; they
-are not relabeled as PASS. Evidence: `artifacts/v55_stable/m100/full_regression.json`
-and `reports/M100_G103B_FULL_REGRESSION.md`.
+G103B is `PASS` for the full 18-command local regression matrix at candidate
+`a9be096`, with no captured `FAIL`. All five TypeScript gates
+(`pnpm install/lint/typecheck/test/build`) now genuinely execute and pass; the
+only `EXTERNAL_BLOCKED` row is live PostgreSQL, which is absent from this host.
+An earlier run of this matrix is retained in history and showed the two harness
+defects described in the commit log (pnpm not resolved as a Windows `.cmd`
+shim, and child output decoded with the host GBK codec); those were fixed
+rather than reclassified. Evidence:
+`artifacts/v55_stable/m100/full_regression.json` and
+`reports/M100_G103B_FULL_REGRESSION.md`.
 
 ## G103C decision
 
@@ -254,21 +259,25 @@ architecture/kernel checks. Evidence:
 
 ## G103D decision
 
-G103D is `PASS` for the exact-SHA isolated clone: `git clone --no-local` and
-detached checkout matched the candidate SHA, and all 18 clone commands had no
-captured `FAIL`. Live PostgreSQL and pnpm/TypeScript host gaps remain
-`EXTERNAL_BLOCKED`. Two earlier bootstrap permission failures are preserved as
-attempt-01/02 evidence and are not overwritten. Evidence:
-`artifacts/v55_stable/m100/clean_clone.json` and
+G103D is `PASS` for the exact-SHA isolated clone at `a9be096`:
+`git clone --no-local` plus detached checkout matched the candidate SHA, and all
+18 clone commands had no captured `FAIL`. The clone runs the same install,
+migration, replay, Playable, Studio, API, SDK, kernel, Python, and TypeScript
+coverage; live PostgreSQL is the only `EXTERNAL_BLOCKED` row. The older
+attempt-01/02 bootstrap permission failures are preserved as history and are not
+overwritten. Evidence: `artifacts/v55_stable/m100/clean_clone.json` and
 `reports/M100_G103D_CLEAN_CLONE.md`.
 
 ## G103E decision
 
-G103E is `LOCKED` with explicit external boundaries. The candidate branch was
-not present in the public GitHub ref query, the Git HTTPS remote helper failed
-for `ls-remote`, and no candidate Actions run/jobs could be verified. No push
-was attempted while Gate 80 is locked. Evidence:
-`artifacts/v55_stable/m100/remote_delivery.json` and
+G103E is `PASS`: the candidate branch `release/v5.5-stable-certification` is
+present on the public remote at `a9be096ba0cda3b9c05d039e61e27cd529ca6b45` (the
+exact ref and run identity are in
+`artifacts/v55_stable/m100/remote_delivery.json`), and the exact-SHA Actions run
+completed `success` with every workflow-declared job green (see the Gate 79
+decision below). The Git HTTPS remote helper that blocked the previous probe
+works on this host, so this is a live query rather than a local tracking-ref
+inference. Evidence: `artifacts/v55_stable/m100/remote_delivery.json` and
 `reports/M100_G103E_REMOTE_DELIVERY.md`.
 
 ## G103F decision
@@ -295,3 +304,60 @@ full tag/clean-clone/post-release evidence exists. Prompt Genesis, bounded
 long-horizon, World Lab, and emergence remain `EXPERIMENTAL`/`BOUNDED`; heavy
 physical/visual E2E and live PostgreSQL remain `EXTERNAL_BLOCKED` without real
 environments.
+
+## M95-R player remediation and human-gate status (2026-09-25)
+
+The M95-R remediation requested after the previous Stable precheck is now
+committed. The player-facing surface is separated from Studio, `zh-CN` is the
+explicit default player locale, projections are derived from the committed
+event stream, and the Chinese action path still compiles to a proposal that
+passes through Commit Authority. Evidence:
+`reports/M95_EXPERIENCE_REMEDIATION.md`,
+`artifacts/v55_stable/m95/player_experience_remediation.json`, and the
+regression rows recorded by G103B/G103D.
+
+Gates 62–66 remain `USER_INPUT_REQUIRED` and are reported as `WAITING_HUMAN`.
+No human identity, rating, note, or acceptance value has been fabricated: the
+automated route result stays a product-evidence row
+(`artifacts/v55_stable/m95/player_acceptance.json` keeps
+`human_actions`/`ratings`/`free_text_notes` as `null`). A real tester must run
+`reports/M95_PLAYER_TEST_PACKET_ZH_CN.md` against a local build and return the
+completed packet before those gates can move.
+
+## Gate 79 decision (2026-09-25)
+
+Gate 79 is `PASS` at candidate `a9be096ba0cda3b9c05d039e61e27cd529ca6b45`, on
+four pieces of evidence generated at that SHA:
+
+- `artifacts/v55_stable/m100/full_regression.json` — 18/18 local regression
+  commands with no captured `FAIL`; live PostgreSQL is the only
+  `EXTERNAL_BLOCKED` row. All five TypeScript gates genuinely execute.
+- `artifacts/v55_stable/m100/semantic_safety.json` — 9/9 semantic/safety
+  command groups, no `FAIL` and no external block.
+- `artifacts/v55_stable/m100/clean_clone.json` — isolated `--no-local` clone
+  whose detached checkout equals the candidate SHA, 18/18 commands, no `FAIL`.
+- `artifacts/v55_stable/m100/remote_delivery.json` — live remote branch ref plus
+  the exact-SHA Actions run whose every workflow-declared job is green.
+
+The required job set is derived from `.github/workflows/ci.yml` rather than from
+hard-coded literals. Two harness defects that previously made this gate
+unsatisfiable were fixed rather than reclassified: the display-name mismatch,
+and the truncated job probe output (see the commit log and
+`tests/unit/test_m100_workflow_jobs.py`). The gate outcome is recomputed from the
+artifacts by `scripts/m100_stable_gate_aggregate.py`, whose ledger-consistency
+comparison is `PASS`.
+
+## Gate 80 decision (2026-09-25)
+
+Gate 80 remains `LOCKED`. The evidence-derived aggregate reports
+`blocking_gates = 62,63,64,65,66` with the reasons "Gates 62–66 remain
+`USER_INPUT_REQUIRED`: no genuine human player evidence has been supplied" and
+"No `v5.5.0` tag exists; no Stable release was performed". Gate 78 is the
+explicit Godot `EXTERNAL_BLOCKED` row and is non-blocking by the Stable rule. No
+`v5.5.0` annotated tag, tag push, or GitHub Release was created, and the
+authorizing user instruction was to return for confirmation if and only if the
+Gate 80 predicate were fully satisfied.
+
+The candidate branch push was a non-force fast-forward of
+`release/v5.5-stable-certification`; `v5.4.0`, `v5.5.0-rc1`, and the historical
+`NOT_ACCEPTED` record are unchanged.

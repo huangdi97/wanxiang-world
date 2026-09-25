@@ -1,26 +1,26 @@
 {
   "schema": "wanxiang.v5.5.m100.clean-clone.v1",
   "conclusion": "PASS",
-  "candidate_sha": "62740de39eaae46c118a99a2019837315775a44a",
-  "run_ref": "wanxiang-m100-clean-vd_l7dis",
-  "clone_checkout_sha": "62740de39eaae46c118a99a2019837315775a44a",
+  "candidate_sha": "a9be096ba0cda3b9c05d039e61e27cd529ca6b45",
+  "run_ref": "wanxiang-m100-clean-06aki7jg",
+  "clone_checkout_sha": "a9be096ba0cda3b9c05d039e61e27cd529ca6b45",
   "commands": [
     {
       "name": "uv_sync_all_groups_packages",
       "command": "uv sync --all-groups --all-packages",
       "exit_code": 0,
       "status": "PASS",
-      "duration_ms": 12534.821,
+      "duration_ms": 14911.71,
       "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "stderr_sha256": "4d6407f03e22da4cfabf581902ca99ccf12791ea4ef9de5eb58866fe4ac3396c",
-      "output_tail": "warning: `VIRTUAL_ENV=E:\\AI\\wanxiang\\.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\nUsing CPython 3.12.9\nCreating virtual environment at: .venv\nResolved 43 packages in 9ms\n   Building wanxiang-api @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-vd_l7dis/clone/apps/api\n   Building wanxiang-application @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-vd_l7dis/clone/packages/application\n   Building wanxiang-domain @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-vd_l7dis/clone/packages/domain\n   Building wanxiang-observability @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-vd_l7dis/clone/packages/observability\n   Building wanxiang-persistence @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-vd_l7dis/clone/packages/persistence\n   Building wanxiang-research @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-vd_l7dis/clone/packages/research\n   Building wanxiang-runtime @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-vd_l7dis/clone/packages/runtime\n   Building wanxiang-substrate @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-vd_l7dis/clone/packages/substrate\n      Built wanxiang-persistence @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-vd_l7dis/clone/packages/persistence\n      Built wanxiang-application @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-vd_l7dis/clone/packages/application\n      Built wanxiang-observability @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-vd_l7dis/clone/packages/observability\n      Built wanxiang-research @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-vd_l7dis/clone/packages/research\n      Built wanxiang-api @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-vd_l7dis/clone/apps/api\n      Built wanxiang-domain @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-vd_l7dis/clone/packages/domain\n      Built wanxiang-runtime @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-vd_l7dis/clone/packages/runtime\n      Built wanxiang-substrate @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-vd_l7dis/clone/packages/substrate\nPrepared 8 packages in 5.20s\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 42 packages in 6.46s\n + alembic==1.19.1\n + annotated-doc==0.0.5\n + annotated-types==0.8.0\n + anyio==4.14.2\n + certifi==2026.7.22\n + click==8.4.2\n + colorama==0.4.6\n + fastapi==0.141.1\n + greenlet==3.5.5\n + h11==0.16.0\n + httpcore==1.0.9\n + httpx==0.28.1\n + hypothesis==6.165.3\n + idna==3.18\n + iniconfig==2.3.0\n + mako==1.4.1\n + markupsafe==3.0.3\n + nodeenv==1.10.0\n + packaging==26.3\n + playwright==1.62.0\n + pluggy==1.6.0\n + pydantic==2.13.4\n + pydantic-core==2.46.4\n + pyee==13.0.1\n + pygments==2.20.0\n + pyright==1.1.411\n + pytest==9.1.1\n + ruff==0.16.2\n + sortedcontainers==2.4.0\n + sqlalchemy==2.0.51\n + starlette==1.6.0\n + typing-extensions==4.16.0\n + typing-inspection==0.4.3\n + uvicorn==0.52.1\n + wanxiang-api==0.1.0 (from file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-vd_l7dis/clone/apps/api)\n + wanxiang-application==0.1.0 (from file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-vd_l7dis/clone/packages/application)\n + wanxiang-domain==0.1.0 (from file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-vd_l7dis/clone/packages/domain)\n + wanxiang-observability==0.1.0 (from file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-vd_l7dis/clone/packages/observability)\n + wanxiang-persistence==0.1.0 (from file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-vd_l7dis/clone/packages/persistence)\n + wanxiang-research==0.1.0 (from file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-vd_l7dis/clone/packages/research)\n + wanxiang-runtime==0.1.0 (from file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-vd_l7dis/clone/packages/runtime)\n + wanxiang-substrate==0.1.0 (from file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-vd_l7dis/clone/packages/substrate)\n"
+      "stderr_sha256": "7acb87aa8c07215a581d5b76e6e15746bd638a8b8c3391c029b3d83f0c048870",
+      "output_tail": "warning: `VIRTUAL_ENV=E:\\AI\\wanxiang\\.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\nUsing CPython 3.12.9\nCreating virtual environment at: .venv\nResolved 43 packages in 7ms\n   Building wanxiang-api @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-06aki7jg/clone/apps/api\n   Building wanxiang-application @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-06aki7jg/clone/packages/application\n   Building wanxiang-domain @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-06aki7jg/clone/packages/domain\n   Building wanxiang-observability @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-06aki7jg/clone/packages/observability\n   Building wanxiang-persistence @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-06aki7jg/clone/packages/persistence\n   Building wanxiang-research @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-06aki7jg/clone/packages/research\n   Building wanxiang-runtime @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-06aki7jg/clone/packages/runtime\n   Building wanxiang-substrate @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-06aki7jg/clone/packages/substrate\n      Built wanxiang-research @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-06aki7jg/clone/packages/research\n      Built wanxiang-observability @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-06aki7jg/clone/packages/observability\n      Built wanxiang-application @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-06aki7jg/clone/packages/application\n      Built wanxiang-api @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-06aki7jg/clone/apps/api\n      Built wanxiang-runtime @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-06aki7jg/clone/packages/runtime\n      Built wanxiang-persistence @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-06aki7jg/clone/packages/persistence\n      Built wanxiang-domain @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-06aki7jg/clone/packages/domain\n      Built wanxiang-substrate @ file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-06aki7jg/clone/packages/substrate\nPrepared 8 packages in 6.37s\nwarning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.\n         If the cache and target directories are on different filesystems, hardlinking may not be supported.\n         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.\nInstalled 42 packages in 7.76s\n + alembic==1.19.1\n + annotated-doc==0.0.5\n + annotated-types==0.8.0\n + anyio==4.14.2\n + certifi==2026.7.22\n + click==8.4.2\n + colorama==0.4.6\n + fastapi==0.141.1\n + greenlet==3.5.5\n + h11==0.16.0\n + httpcore==1.0.9\n + httpx==0.28.1\n + hypothesis==6.165.3\n + idna==3.18\n + iniconfig==2.3.0\n + mako==1.4.1\n + markupsafe==3.0.3\n + nodeenv==1.10.0\n + packaging==26.3\n + playwright==1.62.0\n + pluggy==1.6.0\n + pydantic==2.13.4\n + pydantic-core==2.46.4\n + pyee==13.0.1\n + pygments==2.20.0\n + pyright==1.1.411\n + pytest==9.1.1\n + ruff==0.16.2\n + sortedcontainers==2.4.0\n + sqlalchemy==2.0.51\n + starlette==1.6.0\n + typing-extensions==4.16.0\n + typing-inspection==0.4.3\n + uvicorn==0.52.1\n + wanxiang-api==0.1.0 (from file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-06aki7jg/clone/apps/api)\n + wanxiang-application==0.1.0 (from file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-06aki7jg/clone/packages/application)\n + wanxiang-domain==0.1.0 (from file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-06aki7jg/clone/packages/domain)\n + wanxiang-observability==0.1.0 (from file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-06aki7jg/clone/packages/observability)\n + wanxiang-persistence==0.1.0 (from file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-06aki7jg/clone/packages/persistence)\n + wanxiang-research==0.1.0 (from file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-06aki7jg/clone/packages/research)\n + wanxiang-runtime==0.1.0 (from file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-06aki7jg/clone/packages/runtime)\n + wanxiang-substrate==0.1.0 (from file:///C:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-06aki7jg/clone/packages/substrate)\n"
     },
     {
       "name": "migration_upgrade_head",
       "command": "uv run alembic upgrade head",
       "exit_code": 0,
       "status": "PASS",
-      "duration_ms": 7338.303,
+      "duration_ms": 6372.135,
       "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stderr_sha256": "07ceb1dde06c8a28001980b716257328bc4b60f29aa144b78c2bd6942ca21e56",
       "output_tail": "warning: `VIRTUAL_ENV=E:\\AI\\wanxiang\\.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\nINFO  [alembic.runtime.migration] Context impl SQLiteImpl.\nINFO  [alembic.runtime.migration] Will assume non-transactional DDL.\nINFO  [alembic.runtime.migration] Running upgrade  -> 0001_initial, initial schema for P1 persistence\nINFO  [alembic.runtime.migration] Running upgrade 0001_initial -> 0002_add_event_seq_index, add ordered stream index on events\nINFO  [alembic.runtime.migration] Running upgrade 0002_add_event_seq_index -> 0003_add_lineage, add lineage nodes and edges\nINFO  [alembic.runtime.migration] Running upgrade 0003_add_lineage -> 0004_add_world_metadata, add world metadata (definition/constitution/evolution) + lineage kind index\n"
@@ -30,7 +30,7 @@
       "command": "uv run python scripts/clean_room_certify.py",
       "exit_code": 0,
       "status": "PASS",
-      "duration_ms": 6844.912,
+      "duration_ms": 5738.089,
       "stdout_sha256": "ebda5d35c83ae5cb91f6867045c828e24e42427ed077442c990089bc06e87132",
       "stderr_sha256": "231e7165983f8cca237edb9cf6b975fa50dc3fc69f708017c157e4c21675c3fd",
       "output_tail": "clean-room certification: PASS\n  clean_tree: PASS \n  release_manifest: PASS \n  migration_upgrade: PASS \n  golden_replay: PASS \n  backup_restore_replay: PASS \n  external_sample_pack: PASS \n  reference_world: PASS \nwarning: `VIRTUAL_ENV=E:\\AI\\wanxiang\\.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\nINFO  [alembic.runtime.migration] Context impl SQLiteImpl.\nINFO  [alembic.runtime.migration] Will assume non-transactional DDL.\nINFO  [alembic.runtime.migration] Running upgrade  -> 0001_initial, initial schema for P1 persistence\nINFO  [alembic.runtime.migration] Context impl SQLiteImpl.\nINFO  [alembic.runtime.migration] Will assume non-transactional DDL.\nINFO  [alembic.runtime.migration] Running upgrade 0001_initial -> 0002_add_event_seq_index, add ordered stream index on events\nINFO  [alembic.runtime.migration] Running upgrade 0002_add_event_seq_index -> 0003_add_lineage, add lineage nodes and edges\nINFO  [alembic.runtime.migration] Running upgrade 0003_add_lineage -> 0004_add_world_metadata, add world metadata (definition/constitution/evolution) + lineage kind index\nINFO  [alembic.runtime.migration] Context impl SQLiteImpl.\nINFO  [alembic.runtime.migration] Will assume non-transactional DDL.\nINFO  [alembic.runtime.migration] Running upgrade  -> 0001_initial, initial schema for P1 persistence\nINFO  [alembic.runtime.migration] Running upgrade 0001_initial -> 0002_add_event_seq_index, add ordered stream index on events\nINFO  [alembic.runtime.migration] Running upgrade 0002_add_event_seq_index -> 0003_add_lineage, add lineage nodes and edges\nINFO  [alembic.runtime.migration] Running upgrade 0003_add_lineage -> 0004_add_world_metadata, add world metadata (definition/constitution/evolution) + lineage kind index\nINFO  [alembic.runtime.migration] Context impl SQLiteImpl.\nINFO  [alembic.runtime.migration] Will assume non-transactional DDL.\nINFO  [alembic.runtime.migration] Context impl SQLiteImpl.\nINFO  [alembic.runtime.migration] Will assume non-transactional DDL.\nINFO  [alembic.runtime.migration] Running upgrade  -> 0001_initial, initial schema for P1 persistence\nINFO  [alembic.runtime.migration] Running upgrade 0001_initial -> 0002_add_event_seq_index, add ordered stream index on events\nINFO  [alembic.runtime.migration] Running upgrade 0002_add_event_seq_index -> 0003_add_lineage, add lineage nodes and edges\nINFO  [alembic.runtime.migration] Running upgrade 0003_add_lineage -> 0004_add_world_metadata, add world metadata (definition/constitution/evolution) + lineage kind index\n"
@@ -40,7 +40,7 @@
       "command": "uv run python scripts/wxworld.py reference --profile book --kind text --source-id m100-clean-source --job-id m100-clean-job --content # M100 Clean Clone\nCharacter: Alice\nCharacter: Bob\nAlice arrived in Beijing in 1985.\nBob visited Beijing.\nrelationship: Alice -> Bob\nrule: visitors register\n",
       "exit_code": 0,
       "status": "PASS",
-      "duration_ms": 1076.642,
+      "duration_ms": 918.672,
       "stdout_sha256": "b910bf35a23b924c982746c6ffed633b29874fa2241a5a1790c24767bd1ea159",
       "stderr_sha256": "0806006b17c54ca7eb372081851c6b5d14fc212a6a2c46a157146032c8ffc943",
       "output_tail": "{\"manifest_hash\": \"d34467ddd4e68cd12e6a86a49cb808b368932c84b0517c605cdcf55548145c1b\", \"package_id\": \"world:wd_m100-clean-job\", \"preview_ref\": \"preview://preview_1\", \"profile\": \"book\", \"publishable\": true, \"published\": false, \"status\": {\"batch_count\": 1, \"candidate_count\": 10, \"checkpoint\": {\"batches\": \"1\", \"candidates\": \"10\", \"completed_batches\": \"0\", \"provider_calls\": \"0\", \"provider_id\": \"\", \"retries\": \"0\", \"segments\": \"7\", \"stage_errors\": \"\"}, \"conflict_count\": 0, \"diagnostics\": [], \"draft_id\": \"wd_m100-clean-job\", \"error\": \"\", \"job_id\": \"m100-clean-job\", \"package_id\": \"world:wd_m100-clean-job\", \"parsed_nodes\": 7, \"preview_id\": \"preview_1\", \"product_state\": \"READY\", \"provider_id\": \"\", \"segment_count\": 7, \"source_ids\": [\"m100-clean-source\"], \"stage\": \"previewed\", \"stage_errors\": [], \"status\": \"running\"}}\nwarning: `VIRTUAL_ENV=E:\\AI\\wanxiang\\.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n"
@@ -50,67 +50,67 @@
       "command": "uv run pytest -q tests/migration/test_lineage_migration.py tests/integration/test_g13e_history.py tests/architecture/test_v52_baseline_fixtures.py",
       "exit_code": 0,
       "status": "PASS",
-      "duration_ms": 5423.287,
-      "stdout_sha256": "0bceef7e5909dd3cc09d867773a616c57e2966f1a5410acedfd50b1ce88a2f29",
+      "duration_ms": 4773.461,
+      "stdout_sha256": "efed1fdc6969d1e1c220133d1e5115b90fc30dd1d8fb10227122282d9c58688a",
       "stderr_sha256": "0806006b17c54ca7eb372081851c6b5d14fc212a6a2c46a157146032c8ffc943",
-      "output_tail": "..................                                                       [100%]\n18 passed in 2.14s\nwarning: `VIRTUAL_ENV=E:\\AI\\wanxiang\\.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n"
+      "output_tail": "..................                                                       [100%]\n18 passed in 2.02s\nwarning: `VIRTUAL_ENV=E:\\AI\\wanxiang\\.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n"
     },
     {
       "name": "playable_e2e",
       "command": "uv run python scripts/playable_e2e.py",
       "exit_code": 0,
       "status": "PASS",
-      "duration_ms": 773.06,
-      "stdout_sha256": "265aa5525d8af1cb76da309850fb76b2ff48fcd72cb050dc89db38546b771885",
+      "duration_ms": 642.144,
+      "stdout_sha256": "b260041c99fdb02fee868226a42a9ad5759d295b66bf3186b3d2f117ce7054b6",
       "stderr_sha256": "0806006b17c54ca7eb372081851c6b5d14fc212a6a2c46a157146032c8ffc943",
-      "output_tail": "{\"committed_event_id\": \"evt_98f03a6baca543a69594b9a6eec61164\", \"continued_instance_id\": \"prv_playable_1\", \"entered_entities\": 2, \"instance_id\": \"prv_playable_1\", \"package_id\": \"world:wd_job_cli_playable\", \"profile_id\": \"experience:world:wd_job_cli_playable\", \"proposal_status\": \"proposed\", \"replay_equal\": true, \"same_instance_after_continue\": true, \"source_path_or_digest_emitted\": false, \"source_profile\": \"book\", \"state_diff_changes\": 1}\nwarning: `VIRTUAL_ENV=E:\\AI\\wanxiang\\.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n"
+      "output_tail": "{\"committed_event_id\": \"evt_278b29ac3a204abb9249fab65287be24\", \"continued_instance_id\": \"prv_playable_1\", \"entered_entities\": 2, \"instance_id\": \"prv_playable_1\", \"package_id\": \"world:wd_job_cli_playable\", \"profile_id\": \"experience:world:wd_job_cli_playable\", \"proposal_status\": \"proposed\", \"replay_equal\": true, \"same_instance_after_continue\": true, \"source_path_or_digest_emitted\": false, \"source_profile\": \"book\", \"state_diff_changes\": 1}\nwarning: `VIRTUAL_ENV=E:\\AI\\wanxiang\\.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n"
     },
     {
       "name": "studio_socket_smoke",
       "command": "uv run python scripts/studio_socket_smoke.py",
       "exit_code": 0,
       "status": "PASS",
-      "duration_ms": 5754.126,
-      "stdout_sha256": "532f64fa45a2c39c16d6106ede21a503d08de8e21cad6e1524da870c4b7f0a46",
+      "duration_ms": 4871.496,
+      "stdout_sha256": "ed6655ed87f1819e1e2735b8e7108c1b29ffb0a57065cf0f5a6d9755e42b499e",
       "stderr_sha256": "0806006b17c54ca7eb372081851c6b5d14fc212a6a2c46a157146032c8ffc943",
-      "output_tail": "{\"health\": {\"status\": \"ok\"}, \"port\": 30609, \"socket\": \"passed\", \"studio_status\": true}\nwarning: `VIRTUAL_ENV=E:\\AI\\wanxiang\\.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n"
+      "output_tail": "{\"health\": {\"status\": \"ok\"}, \"port\": 60161, \"socket\": \"passed\", \"studio_status\": true}\nwarning: `VIRTUAL_ENV=E:\\AI\\wanxiang\\.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n"
     },
     {
       "name": "api_surface",
       "command": "uv run pytest -q tests/api/test_api.py tests/api/test_playable_api.py tests/api/test_lineage_api.py",
       "exit_code": 0,
       "status": "PASS",
-      "duration_ms": 5817.859,
-      "stdout_sha256": "426f2472d0b6e97f3fe3b1791a3aad3aedefa86962a9560525db9ab90ceed75e",
+      "duration_ms": 5001.2,
+      "stdout_sha256": "b9b039fea9e065ad05e7e82ca6b2e8327003e12efcefc69abba3928b6a3e5e24",
       "stderr_sha256": "0806006b17c54ca7eb372081851c6b5d14fc212a6a2c46a157146032c8ffc943",
-      "output_tail": "..........                                                               [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\fastapi\\testclient.py:1\n  C:\\Users\\Kaiser\\AppData\\Local\\Temp\\wanxiang-m100-clean-vd_l7dis\\clone\\.venv\\Lib\\site-packages\\fastapi\\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n    from starlette.testclient import TestClient as TestClient  # noqa\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n10 passed, 1 warning in 3.80s\nwarning: `VIRTUAL_ENV=E:\\AI\\wanxiang\\.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n"
+      "output_tail": "..........                                                               [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\fastapi\\testclient.py:1\n  C:\\Users\\Kaiser\\AppData\\Local\\Temp\\wanxiang-m100-clean-06aki7jg\\clone\\.venv\\Lib\\site-packages\\fastapi\\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n    from starlette.testclient import TestClient as TestClient  # noqa\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n10 passed, 1 warning in 3.53s\nwarning: `VIRTUAL_ENV=E:\\AI\\wanxiang\\.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n"
     },
     {
       "name": "openapi_export",
       "command": "uv run python scripts/export_openapi.py",
       "exit_code": 0,
       "status": "PASS",
-      "duration_ms": 1787.863,
-      "stdout_sha256": "852a73a9dfea9c9844ab984734e52dfaad2915646dc062744014a29906e49c3e",
+      "duration_ms": 1612.603,
+      "stdout_sha256": "5b064ed34745321a52cf3241fa86fafc90a2c817b8cc93be0d8f253905f96b7c",
       "stderr_sha256": "0806006b17c54ca7eb372081851c6b5d14fc212a6a2c46a157146032c8ffc943",
-      "output_tail": "exported 59 paths / 62 operations to packages\\sdk_ts\\src\\openapi-contract.json\nwarning: `VIRTUAL_ENV=E:\\AI\\wanxiang\\.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n"
+      "output_tail": "exported 70 paths / 74 operations to packages\\sdk_ts\\src\\openapi-contract.json\nwarning: `VIRTUAL_ENV=E:\\AI\\wanxiang\\.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n"
     },
     {
       "name": "sdk_baseline",
       "command": "uv run python scripts/sdk_baseline.py",
       "exit_code": 0,
       "status": "PASS",
-      "duration_ms": 2603.051,
-      "stdout_sha256": "bb7d3406f867372f151e55ab9dcf7da1f94dc98d86c6a8c797fc8d2ac00726d2",
+      "duration_ms": 2218.536,
+      "stdout_sha256": "8cf59170338dbac3b0f42d8d09060b9c935e082fe1ba1ecfc3f1d2b0e1c64fcb",
       "stderr_sha256": "0806006b17c54ca7eb372081851c6b5d14fc212a6a2c46a157146032c8ffc943",
-      "output_tail": "routes=62 ts=5 py=2084\nwarning: `VIRTUAL_ENV=E:\\AI\\wanxiang\\.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n"
+      "output_tail": "routes=74 ts=5 py=2089\nwarning: `VIRTUAL_ENV=E:\\AI\\wanxiang\\.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n"
     },
     {
       "name": "kernel_guard",
       "command": "uv run python scripts/kernel_guard.py",
       "exit_code": 0,
       "status": "PASS",
-      "duration_ms": 514.277,
+      "duration_ms": 473.145,
       "stdout_sha256": "dd9bd121b3d08abb2ae92d881e30947a55261fc2c180fb5778de3527558a254b",
       "stderr_sha256": "0806006b17c54ca7eb372081851c6b5d14fc212a6a2c46a157146032c8ffc943",
       "output_tail": "kernel guard: 0 violation(s)\nwarning: `VIRTUAL_ENV=E:\\AI\\wanxiang\\.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n"
@@ -120,81 +120,76 @@
       "command": "uv run python scripts/quality.py",
       "exit_code": 0,
       "status": "PASS",
-      "duration_ms": 415024.451,
-      "stdout_sha256": "4f345c479a6267750a6cc3d37fc7448d006f8c39924f57a094394d11a5edf1df",
+      "duration_ms": 413176.521,
+      "stdout_sha256": "94c5b9707aaa79a9b78692cfbe6515c06708499d9d22254cc9223df34451064e",
       "stderr_sha256": "0806006b17c54ca7eb372081851c6b5d14fc212a6a2c46a157146032c8ffc943",
-      "output_tail": "\n===== uv run ruff check . =====\nAll checks passed!\n\n===== uv run ruff format --check . =====\n2730 files already formatted\n\n===== uv run pyright =====\n0 errors, 0 warnings, 0 informations\n\n===== uv run pytest -q =====\n........................................................................ [  4%]\n........................................................................ [  9%]\n........................................................................ [ 14%]\n........................................................................ [ 19%]\n.s...................................................................... [ 24%]\n........................................................................ [ 29%]\n........................................................................ [ 34%]\n........................................................................ [ 39%]\n........................................................................ [ 44%]\n........................................................................ [ 49%]\n........................................................................ [ 53%]\n........................................................................ [ 58%]\n........................................................................ [ 63%]\n........................................................................ [ 68%]\n........................................................................ [ 73%]\n........................................................................ [ 78%]\n........................................................................ [ 83%]\n........................................................................ [ 88%]\n........................................................................ [ 93%]\n........................................................................ [ 98%]\n............................                                             [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\fastapi\\testclient.py:1\n  C:\\Users\\Kaiser\\AppData\\Local\\Temp\\wanxiang-m100-clean-vd_l7dis\\clone\\.venv\\Lib\\site-packages\\fastapi\\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n    from starlette.testclient import TestClient as TestClient  # noqa\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n=========================== short test summary info ===========================\nSKIPPED [1] tests\\integration\\test_g16b_postgres.py:24: EXTERNAL_BLOCKED: no PostgreSQL instance available; set WANXIANG_POSTGRES_TEST_URL to run the live profile (see runbook).\n1467 passed, 1 skipped, 1 warning in 381.98s (0:06:21)\n\n===== uv run python C:\\Users\\Kaiser\\AppData\\Local\\Temp\\wanxiang-m100-clean-vd_l7dis\\clone\\scripts\\architecture_check.py =====\nArchitecture conformance: PASS\n\nAll quality checks passed.\nwarning: `VIRTUAL_ENV=E:\\AI\\wanxiang\\.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n"
+      "output_tail": "\n===== uv run ruff check . =====\nAll checks passed!\n\n===== uv run ruff format --check . =====\n2769 files already formatted\n\n===== uv run pyright =====\n0 errors, 0 warnings, 0 informations\n\n===== uv run pytest -q =====\n........................................................................ [  4%]\n........................................................................ [  9%]\n........................................................................ [ 14%]\n........................................................................ [ 19%]\n.....s.................................................................. [ 24%]\n........................................................................ [ 29%]\n........................................................................ [ 34%]\n........................................................................ [ 38%]\n........................................................................ [ 43%]\n........................................................................ [ 48%]\n........................................................................ [ 53%]\n........................................................................ [ 58%]\n........................................................................ [ 63%]\n........................................................................ [ 68%]\n........................................................................ [ 73%]\n........................................................................ [ 77%]\n........................................................................ [ 82%]\n........................................................................ [ 87%]\n........................................................................ [ 92%]\n........................................................................ [ 97%]\n......................................                                   [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\fastapi\\testclient.py:1\n  C:\\Users\\Kaiser\\AppData\\Local\\Temp\\wanxiang-m100-clean-06aki7jg\\clone\\.venv\\Lib\\site-packages\\fastapi\\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n    from starlette.testclient import TestClient as TestClient  # noqa\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n=========================== short test summary info ===========================\nSKIPPED [1] tests\\integration\\test_g16b_postgres.py:24: EXTERNAL_BLOCKED: no PostgreSQL instance available; set WANXIANG_POSTGRES_TEST_URL to run the live profile (see runbook).\n1477 passed, 1 skipped, 1 warning in 382.84s (0:06:22)\n\n===== uv run python C:\\Users\\Kaiser\\AppData\\Local\\Temp\\wanxiang-m100-clean-06aki7jg\\clone\\scripts\\architecture_check.py =====\nArchitecture conformance: PASS\n\nAll quality checks passed.\nwarning: `VIRTUAL_ENV=E:\\AI\\wanxiang\\.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n"
     },
     {
       "name": "postgres_profile",
       "command": "uv run pytest -q tests/integration/test_g16b_postgres.py",
       "exit_code": 0,
       "status": "EXTERNAL_BLOCKED",
-      "duration_ms": 1977.316,
-      "stdout_sha256": "2e78868ca21002f0392affa699f5b4c986d7c6ee2137d369915d5d27f083dc44",
+      "duration_ms": 1874.13,
+      "stdout_sha256": "3f064c2dc2455ae05fd04e2e74d6ede53108611da851615c0b8e30f13bc5f321",
       "stderr_sha256": "0806006b17c54ca7eb372081851c6b5d14fc212a6a2c46a157146032c8ffc943",
-      "output_tail": "s...                                                                     [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487\n  C:\\Users\\Kaiser\\AppData\\Local\\Temp\\wanxiang-m100-clean-vd_l7dis\\clone\\.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487: UserWarning: Skipping collection of '.hypothesis' directory - this usually means you've explicitly set the `norecursedirs` pytest config option, replacing rather than extending the default ignores.\n    warnings.warn(\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n=========================== short test summary info ===========================\nSKIPPED [1] tests\\integration\\test_g16b_postgres.py:24: EXTERNAL_BLOCKED: no PostgreSQL instance available; set WANXIANG_POSTGRES_TEST_URL to run the live profile (see runbook).\n3 passed, 1 skipped, 1 warning in 0.41s\nwarning: `VIRTUAL_ENV=E:\\AI\\wanxiang\\.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n"
+      "output_tail": "s...                                                                     [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487\n  C:\\Users\\Kaiser\\AppData\\Local\\Temp\\wanxiang-m100-clean-06aki7jg\\clone\\.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487: UserWarning: Skipping collection of '.hypothesis' directory - this usually means you've explicitly set the `norecursedirs` pytest config option, replacing rather than extending the default ignores.\n    warnings.warn(\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n=========================== short test summary info ===========================\nSKIPPED [1] tests\\integration\\test_g16b_postgres.py:24: EXTERNAL_BLOCKED: no PostgreSQL instance available; set WANXIANG_POSTGRES_TEST_URL to run the live profile (see runbook).\n3 passed, 1 skipped, 1 warning in 0.42s\nwarning: `VIRTUAL_ENV=E:\\AI\\wanxiang\\.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead\n"
     },
     {
       "name": "pnpm_install",
       "command": "pnpm install --frozen-lockfile",
-      "exit_code": 127,
-      "status": "EXTERNAL_BLOCKED",
-      "duration_ms": 4.857,
-      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "stderr_sha256": "81d7d4c5f1067d8b907de9ae6294d5e8b2e91d4ea733e85ee28cb5b4297e99e3",
-      "output_tail": "FileNotFoundError: [WinError 2] 系统找不到指定的文件。"
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 30376.905,
+      "stdout_sha256": "913bb2beff35c9469ab6f5d7ea90882b5f4b1eda80a66bf55ae6fd90beddf4b9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_tail": "Scope: all 2 workspace projects\n? Verifying lockfile against supply-chain policies (196 entries)...\nLockfile is up to date, resolution step is skipped\nProgress: resolved 1, reused 0, downloaded 0, added 0\nPackages: +149\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 149, reused 6, downloaded 0, added 0\nProgress: resolved 149, reused 24, downloaded 0, added 0\nProgress: resolved 149, reused 60, downloaded 0, added 0\nProgress: resolved 149, reused 90, downloaded 1, added 5\n[WARN] Tarball download average speed 46 KiB/s (size 64 KiB) is below 50 KiB/s: https://registry.npmjs.org/@typescript-eslint/scope-manager/-/scope-manager-8.66.0.tgz (GET)\n[WARN] Tarball download average speed 49 KiB/s (size 78 KiB) is below 50 KiB/s: https://registry.npmjs.org/chai/-/chai-5.3.3.tgz (GET)\nProgress: resolved 149, reused 91, downloaded 4, added 9\nProgress: resolved 149, reused 92, downloaded 11, added 9\nProgress: resolved 149, reused 93, downloaded 20, added 9\nProgress: resolved 149, reused 93, downloaded 24, added 12\nProgress: resolved 149, reused 93, downloaded 25, added 12\nProgress: resolved 149, reused 93, downloaded 34, added 13\n[WARN] Request took 10221ms: https://registry.npmjs.org/@typescript-eslint%2Futils\nProgress: resolved 149, reused 93, downloaded 40, added 13\n[WARN] Request took 10630ms: https://registry.npmjs.org/@typescript-eslint%2Fscope-manager\n[WARN] Request took 11051ms: https://registry.npmjs.org/@typescript-eslint%2Fvisitor-keys\nProgress: resolved 149, reused 93, downloaded 44, added 17\n[WARN] Request took 11785ms: https://registry.npmjs.org/@typescript-eslint%2Ftypes\nProgress: resolved 149, reused 93, downloaded 47, added 20\nProgress: resolved 149, reused 93, downloaded 50, added 34\n[WARN] Request took 13629ms: https://registry.npmjs.org/@typescript-eslint%2Feslint-plugin\n[WARN] Request took 12652ms: https://registry.npmjs.org/typescript\n[WARN] Request took 13817ms: https://registry.npmjs.org/@typescript-eslint%2Fparser\n[WARN] Request took 13921ms: https://registry.npmjs.org/@typescript-eslint%2Ftypescript-estree\n✓ Lockfile passes supply-chain policies (196 entries in 15.2s)\nProgress: resolved 149, reused 93, downloaded 51, added 48\nProgress: resolved 149, reused 93, downloaded 51, added 49\nProgress: resolved 149, reused 93, downloaded 51, added 53\nProgress: resolved 149, reused 93, downloaded 51, added 55\nProgress: resolved 149, reused 93, downloaded 51, added 57\nProgress: resolved 149, reused 93, downloaded 52, added 62\nProgress: resolved 149, reused 93, downloaded 53, added 72\nProgress: resolved 149, reused 93, downloaded 53, added 84\nProgress: resolved 149, reused 93, downloaded 54, added 88\nProgress: resolved 149, reused 93, downloaded 54, added 137\nProgress: resolved 149, reused 93, downloaded 54, added 145\nProgress: resolved 149, reused 93, downloaded 55, added 147\nProgress: resolved 149, reused 93, downloaded 56, added 149, done\n.../esbuild@0.21.5/node_modules/esbuild postinstall$ node install.js\n.../esbuild@0.21.5/node_modules/esbuild postinstall: Done\n\nDone in 29.4s using pnpm v11.16.0\n"
     },
     {
       "name": "ts_lint",
       "command": "pnpm -r lint",
-      "exit_code": 127,
-      "status": "EXTERNAL_BLOCKED",
-      "duration_ms": 4.53,
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 18518.516,
       "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "stderr_sha256": "81d7d4c5f1067d8b907de9ae6294d5e8b2e91d4ea733e85ee28cb5b4297e99e3",
-      "output_tail": "FileNotFoundError: [WinError 2] 系统找不到指定的文件。"
+      "stderr_sha256": "050c69da23536758722729aeda55a8d0fb9d557495ef6d33d70873a3b64a71c1",
+      "output_tail": "$ eslint .\n"
     },
     {
       "name": "ts_typecheck",
       "command": "pnpm -r typecheck",
-      "exit_code": 127,
-      "status": "EXTERNAL_BLOCKED",
-      "duration_ms": 4.285,
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 3450.266,
       "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "stderr_sha256": "81d7d4c5f1067d8b907de9ae6294d5e8b2e91d4ea733e85ee28cb5b4297e99e3",
-      "output_tail": "FileNotFoundError: [WinError 2] 系统找不到指定的文件。"
+      "stderr_sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+      "output_tail": "$ tsc --noEmit\n"
     },
     {
       "name": "ts_test",
       "command": "pnpm -r test",
-      "exit_code": 127,
-      "status": "EXTERNAL_BLOCKED",
-      "duration_ms": 4.206,
-      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "stderr_sha256": "81d7d4c5f1067d8b907de9ae6294d5e8b2e91d4ea733e85ee28cb5b4297e99e3",
-      "output_tail": "FileNotFoundError: [WinError 2] 系统找不到指定的文件。"
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 2856.363,
+      "stdout_sha256": "ec35fe092ddb1adf1789f9b1ac4b1cacb027c8303098bf082cb0aaf54a2ace91",
+      "stderr_sha256": "cb7efe2ed065b3202856f854f1645179984b659249d4ea99dde8467ed4a4b173",
+      "output_tail": "\n\u001b[1m\u001b[7m\u001b[36m RUN \u001b[39m\u001b[27m\u001b[22m \u001b[36mv2.1.9 \u001b[39m\u001b[90mC:/Users/Kaiser/AppData/Local/Temp/wanxiang-m100-clean-06aki7jg/clone/packages/sdk_ts\u001b[39m\n\n \u001b[32m✓\u001b[39m src/phaser.test.ts \u001b[2m(\u001b[22m\u001b[2m3 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[90m 4\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m src/projection3d.test.ts \u001b[2m(\u001b[22m\u001b[2m5 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[90m 5\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m src/studio.test.ts \u001b[2m(\u001b[22m\u001b[2m3 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[90m 5\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m src/projection.test.ts \u001b[2m(\u001b[22m\u001b[2m5 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[90m 18\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m src/openapi.test.ts \u001b[2m(\u001b[22m\u001b[2m3 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[90m 6\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m src/index.test.ts \u001b[2m(\u001b[22m\u001b[2m3 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[90m 4\u001b[2mms\u001b[22m\u001b[39m\n\n\u001b[2m Test Files \u001b[22m \u001b[1m\u001b[32m6 passed\u001b[39m\u001b[22m\u001b[90m (6)\u001b[39m\n\u001b[2m      Tests \u001b[22m \u001b[1m\u001b[32m22 passed\u001b[39m\u001b[22m\u001b[90m (22)\u001b[39m\n\u001b[2m   Start at \u001b[22m 05:58:31\n\u001b[2m   Duration \u001b[22m 920ms\u001b[2m (transform 432ms, setup 0ms, collect 817ms, tests 41ms, environment 2ms, prepare 2.13s)\u001b[22m\n\n$ vitest run\n"
     },
     {
       "name": "ts_build",
       "command": "pnpm -r build",
-      "exit_code": 127,
-      "status": "EXTERNAL_BLOCKED",
-      "duration_ms": 4.486,
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 1622.61,
       "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "stderr_sha256": "81d7d4c5f1067d8b907de9ae6294d5e8b2e91d4ea733e85ee28cb5b4297e99e3",
-      "output_tail": "FileNotFoundError: [WinError 2] 系统找不到指定的文件。"
+      "stderr_sha256": "24c42b76aecef2c39c8a5639a3536efb936b03bdac9a8f8be50c0e71ffbc7af8",
+      "output_tail": "$ tsc -p tsconfig.build.json\n"
     }
   ],
   "command_count": 18,
   "failed_commands": [],
   "external_blocked_commands": [
-    "postgres_profile",
-    "pnpm_install",
-    "ts_lint",
-    "ts_typecheck",
-    "ts_test",
-    "ts_build"
+    "postgres_profile"
   ],
   "boundaries": {
     "implemented": [
@@ -212,7 +207,12 @@
       "openapi_export",
       "sdk_baseline",
       "kernel_guard",
-      "python_quality"
+      "python_quality",
+      "pnpm_install",
+      "ts_lint",
+      "ts_typecheck",
+      "ts_test",
+      "ts_build"
     ],
     "experimental_bounded": [
       "reference provider and research-adjacent behavior"
@@ -221,34 +221,29 @@
       "live customer data, production hosting, and real external provider/hardware"
     ],
     "external_blocked": [
-      "postgres_profile",
-      "pnpm_install",
-      "ts_lint",
-      "ts_typecheck",
-      "ts_test",
-      "ts_build"
+      "postgres_profile"
     ]
   },
   "bootstrap": [
     {
       "name": "git_clone_no_local",
-      "command": "git clone --no-local E:\\AI\\wanxiang C:\\Users\\Kaiser\\AppData\\Local\\Temp\\wanxiang-m100-clean-vd_l7dis\\clone",
+      "command": "git clone --no-local E:\\AI\\wanxiang C:\\Users\\Kaiser\\AppData\\Local\\Temp\\wanxiang-m100-clean-06aki7jg\\clone",
       "exit_code": 0,
       "status": "PASS",
-      "duration_ms": 7001.412,
+      "duration_ms": 2881.607,
       "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "stderr_sha256": "026cb36cf0194cf9ac6fa56df45cc0a2ca91e9266eeb8dc289b2a62d6d59903c",
-      "output_tail": "Cloning into 'C:\\Users\\Kaiser\\AppData\\Local\\Temp\\wanxiang-m100-clean-vd_l7dis\\clone'...\nUpdating files:  74% (2121/2855)\nUpdating files:  75% (2142/2855)\nUpdating files:  76% (2170/2855)\nUpdating files:  77% (2199/2855)\nUpdating files:  78% (2227/2855)\nUpdating files:  79% (2256/2855)\nUpdating files:  80% (2284/2855)\nUpdating files:  81% (2313/2855)\nUpdating files:  82% (2342/2855)\nUpdating files:  83% (2370/2855)\nUpdating files:  84% (2399/2855)\nUpdating files:  85% (2427/2855)\nUpdating files:  86% (2456/2855)\nUpdating files:  87% (2484/2855)\nUpdating files:  88% (2513/2855)\nUpdating files:  89% (2541/2855)\nUpdating files:  90% (2570/2855)\nUpdating files:  91% (2599/2855)\nUpdating files:  92% (2627/2855)\nUpdating files:  93% (2656/2855)\nUpdating files:  94% (2684/2855)\nUpdating files:  95% (2713/2855)\nUpdating files:  96% (2741/2855)\nUpdating files:  97% (2770/2855)\nUpdating files:  98% (2798/2855)\nUpdating files:  99% (2827/2855)\nUpdating files: 100% (2855/2855)\nUpdating files: 100% (2855/2855), done.\n"
+      "stderr_sha256": "66e9d9611e2930e1f8aa8eab2dd2a5d533cb6d99c36d8b657f764683ccb10309",
+      "output_tail": "Cloning into 'C:\\Users\\Kaiser\\AppData\\Local\\Temp\\wanxiang-m100-clean-06aki7jg\\clone'...\nUpdating files:  62% (1803/2902)\nUpdating files:  63% (1829/2902)\nUpdating files:  64% (1858/2902)\nUpdating files:  65% (1887/2902)\nUpdating files:  66% (1916/2902)\nUpdating files:  67% (1945/2902)\nUpdating files:  68% (1974/2902)\nUpdating files:  69% (2003/2902)\nUpdating files:  70% (2032/2902)\nUpdating files:  71% (2061/2902)\nUpdating files:  72% (2090/2902)\nUpdating files:  73% (2119/2902)\nUpdating files:  74% (2148/2902)\nUpdating files:  75% (2177/2902)\nUpdating files:  76% (2206/2902)\nUpdating files:  77% (2235/2902)\nUpdating files:  78% (2264/2902)\nUpdating files:  79% (2293/2902)\nUpdating files:  80% (2322/2902)\nUpdating files:  81% (2351/2902)\nUpdating files:  82% (2380/2902)\nUpdating files:  83% (2409/2902)\nUpdating files:  84% (2438/2902)\nUpdating files:  85% (2467/2902)\nUpdating files:  86% (2496/2902)\nUpdating files:  87% (2525/2902)\nUpdating files:  88% (2554/2902)\nUpdating files:  89% (2583/2902)\nUpdating files:  90% (2612/2902)\nUpdating files:  91% (2641/2902)\nUpdating files:  92% (2670/2902)\nUpdating files:  93% (2699/2902)\nUpdating files:  94% (2728/2902)\nUpdating files:  95% (2757/2902)\nUpdating files:  96% (2786/2902)\nUpdating files:  97% (2815/2902)\nUpdating files:  98% (2844/2902)\nUpdating files:  99% (2873/2902)\nUpdating files: 100% (2902/2902)\nUpdating files: 100% (2902/2902), done.\n"
     },
     {
       "name": "git_checkout_exact_sha",
-      "command": "git checkout --detach 62740de39eaae46c118a99a2019837315775a44a",
+      "command": "git checkout --detach a9be096ba0cda3b9c05d039e61e27cd529ca6b45",
       "exit_code": 0,
       "status": "PASS",
-      "duration_ms": 1637.061,
+      "duration_ms": 6189.527,
       "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "stderr_sha256": "9dc923dd80238fe4e6974d0573b1ffd2c463252f05793eecb26003e9867639be",
-      "output_tail": "HEAD is now at 62740de goal g103d: harden clean clone evidence\n"
+      "stderr_sha256": "f9e86d8bbb227f3ef09d9ab7fd9c9d08bc53b63145a16a237c5f47c2cab3ef30",
+      "output_tail": "HEAD is now at a9be096 fix(m100): let clean_room see its own runner's in-flight evidence\n"
     }
   ]
 }

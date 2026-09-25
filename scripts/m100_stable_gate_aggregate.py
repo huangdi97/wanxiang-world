@@ -144,7 +144,9 @@ def qualify() -> dict[str, Any]:
             "gate_80": "ACCEPTED_FOR_STABLE" if stable_predicate else "LOCKED",
             "all_required_gates": stable_predicate,
             "blocking_gates": sorted(
-                gate for gate, status in expected_ledger.items() if status != "PASS"
+                gate
+                for gate, status in expected_ledger.items()
+                if gate != "80" and status not in ("PASS", "EXTERNAL_BLOCKED")
             ),
             "reason": _blocking_reasons(derived),
         },

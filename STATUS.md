@@ -1,6 +1,39 @@
 # Status ? Wanxiang Engineering Program
 
-Updated: 2026-08-29 (M100 G103I Stable Certification)
+Updated: 2026-09-25 (M95-R player remediation; Gate 79 PASS; Gate 80 still LOCKED)
+
+## v5.5 Stable Certification ? M95-R and Gate 79 closure (2026-09-25)
+
+The Chinese Player Experience remediation that followed the first Stable
+precheck is committed on `release/v5.5-stable-certification`: the player surface
+is separated from Studio, `zh-CN` is the explicit default locale, projections
+are read from the committed event stream, and the Chinese action path still
+commits only through Commit Authority. Regression coverage grew accordingly
+(`1477 passed, 1 skipped` in the local matrix's Python row; the skip is the
+documented PostgreSQL `EXTERNAL_BLOCKED` profile).
+
+Gate 79 is now `PASS` at candidate
+`a9be096ba0cda3b9c05d039e61e27cd529ca6b45`, from four artifacts generated at
+that SHA: the 18/18 local regression matrix, the 9/9 semantic/safety matrix, the
+isolated exact-SHA clean clone, and the live remote-delivery probe. The
+candidate branch was pushed non-force and the exact-SHA Actions run
+(`36194471592`) succeeded with every workflow-declared job green.
+
+Two real harness defects were fixed instead of being reclassified: the Gate 79
+required-job predicate compared hard-coded job ids against GitHub display names
+(so it could never be true), and the job probe output was truncated mid-JSON.
+The runner also failed to execute any TypeScript gate on Windows and decoded
+child output with the host GBK codec; both are fixed, and the required job set
+is now derived from `.github/workflows/ci.yml` with unit tests.
+
+Gates 62?66 remain `WAITING_HUMAN` (`USER_INPUT_REQUIRED`): no human identity,
+rating, or note exists in the repository, and none was fabricated. A real tester
+must complete `reports/M95_PLAYER_TEST_PACKET_ZH_CN.md`. Gate 78 stays the
+explicit Godot `EXTERNAL_BLOCKED` row, Gate 80 stays `LOCKED` with
+`blocking_gates = 62,63,64,65,66`, and no `v5.5.0` tag or GitHub Release was
+created. `v5.4.0`, `v5.5.0-rc1`, and the historical `NOT_ACCEPTED` record are
+unchanged. Evidence: `reports/V55_STABLE_ACCEPTANCE_MATRIX.md`,
+`artifacts/v55_stable/m100/**`.
 
 ## V55-FINAL-CLOSURE-R1 (2026-08-28)
 

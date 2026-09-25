@@ -2,7 +2,7 @@
 
 Conclusion: PASS. 18/
 18 commands were executed from candidate SHA
-`a74e0f162d0dfe4911d38b77bae8f874f47bfe23`. The artifact is written after every command, so
+`a9be096ba0cda3b9c05d039e61e27cd529ca6b45`. The artifact is written after every command, so
 an interrupted run remains explicitly incomplete rather than appearing green.
 Python quality includes the full pytest suite, Ruff, Pyright, and architecture
 check. The SDK snapshot was reviewed for additive M97/M98 symbols; its targeted
@@ -10,24 +10,24 @@ contract test passed before this matrix.
 
 | Command | Status | Exit | Duration |
 |---|---|---:|---:|
-| clean_room | PASS | 0 | 2368.692 ms |
-| python_quality | EXTERNAL_BLOCKED | 1 | 400454.091 ms |
-| kernel_guard | PASS | 0 | 404.292 ms |
-| release_build | PASS | 0 | 175.387 ms |
-| playable_e2e | PASS | 0 | 534.802 ms |
-| studio_socket_smoke | PASS | 0 | 1918.229 ms |
-| structured_mixed_smoke | PASS | 0 | 475.758 ms |
-| sdk_baseline | PASS | 0 | 756.456 ms |
-| openapi_export | PASS | 0 | 1755.09 ms |
-| security_reliability | PASS | 0 | 71690.781 ms |
-| security_forensics | PASS | 0 | 742.181 ms |
-| blackbox_acceptance | PASS | 0 | 2681.625 ms |
-| postgres_profile | EXTERNAL_BLOCKED | 0 | 1944.263 ms |
-| pnpm_install | EXTERNAL_BLOCKED | 127 | 6.718 ms |
-| ts_lint | EXTERNAL_BLOCKED | 127 | 5.195 ms |
-| ts_typecheck | EXTERNAL_BLOCKED | 127 | 5.595 ms |
-| ts_test | EXTERNAL_BLOCKED | 127 | 5.21 ms |
-| ts_build | EXTERNAL_BLOCKED | 127 | 5.146 ms |
+| clean_room | PASS | 0 | 2470.582 ms |
+| python_quality | PASS | 0 | 412353.248 ms |
+| kernel_guard | PASS | 0 | 414.594 ms |
+| release_build | PASS | 0 | 170.707 ms |
+| playable_e2e | PASS | 0 | 523.376 ms |
+| studio_socket_smoke | PASS | 0 | 2032.998 ms |
+| structured_mixed_smoke | PASS | 0 | 486.456 ms |
+| sdk_baseline | PASS | 0 | 709.625 ms |
+| openapi_export | PASS | 0 | 1776.312 ms |
+| security_reliability | PASS | 0 | 69817.423 ms |
+| security_forensics | PASS | 0 | 772.195 ms |
+| blackbox_acceptance | PASS | 0 | 2550.938 ms |
+| postgres_profile | EXTERNAL_BLOCKED | 0 | 1727.259 ms |
+| pnpm_install | PASS | 0 | 928.742 ms |
+| ts_lint | PASS | 0 | 2728.458 ms |
+| ts_typecheck | PASS | 0 | 1660.348 ms |
+| ts_test | PASS | 0 | 2078.884 ms |
+| ts_build | PASS | 0 | 1607.177 ms |
 
 PostgreSQL is reported as EXTERNAL_BLOCKED when the real service is skipped or
 unreachable. The browser Studio chain is reported as EXTERNAL_BLOCKED only when

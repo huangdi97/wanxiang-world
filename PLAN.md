@@ -2,6 +2,27 @@
 
 Authoritative execution order for this batch (P0 + P1). Status per Goal.
 
+## Current Phase A closure ? v5.5 Stable, Gate 79 PASS (2026-09-25)
+
+Executed against `WANXIANG_R7_FULL_EXECUTION_GOAL_2026-09-25.md`. Phase A is
+closed as far as the evidence allows:
+
+- M95-R Chinese Player remediation is committed; the player surface is separate
+  from Studio and `zh-CN` is the explicit default player locale.
+- Gate 79 is `PASS` at candidate
+  `a9be096ba0cda3b9c05d039e61e27cd529ca6b45`, from the 18/18 regression matrix,
+  the 9/9 semantic/safety matrix, the isolated exact-SHA clean clone, and the
+  live remote-delivery probe with all workflow-declared jobs green.
+- Gates 62?66 are `WAITING_HUMAN`; the completed packet
+  `reports/M95_PLAYER_TEST_PACKET_ZH_CN.md` must be returned by a real tester.
+- Gate 78 is the explicit Godot `EXTERNAL_BLOCKED` row.
+- Gate 80 is `LOCKED` with `blocking_gates = 62,63,64,65,66`; no `v5.5.0` tag or
+  GitHub Release was created, and the user will be asked before one is.
+
+Next: Phase B (R7 Cordis-native composition runtime, versioned RealityProfile,
+worldline RuntimeLock, execution fabric, DSH provider, Capability Foundry,
+shadow-replay migration), reported under `reports/r7/` and `artifacts/r7/`.
+
 | # | Goal | Scope | Status |
 |---|---|---|---|
 | 1 | GOAL_00A | Repository & Toolchain Foundation | PASS (2026-08-11) |

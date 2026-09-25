@@ -1,28 +1,28 @@
 # M100 G103D Isolated Clean Clone
 Conclusion: PASS; 18/18.
-Candidate: `62740de39eaae46c118a99a2019837315775a44a`; clone: `--no-local`, detached exact-SHA, cleanup.
+Candidate: `a9be096ba0cda3b9c05d039e61e27cd529ca6b45`; clone: `--no-local`, detached exact-SHA, cleanup.
 | Command | Status | Exit | Duration |
 |---|---|---:|---:|
-| git_clone_no_local | PASS | 0 | 7001.412 ms |
-| git_checkout_exact_sha | PASS | 0 | 1637.061 ms |
-| uv_sync_all_groups_packages | PASS | 0 | 12534.821 ms |
-| migration_upgrade_head | PASS | 0 | 7338.303 ms |
-| clean_room | PASS | 0 | 6844.912 ms |
-| quickstart_cli | PASS | 0 | 1076.642 ms |
-| lineage_replay | PASS | 0 | 5423.287 ms |
-| playable_e2e | PASS | 0 | 773.06 ms |
-| studio_socket_smoke | PASS | 0 | 5754.126 ms |
-| api_surface | PASS | 0 | 5817.859 ms |
-| openapi_export | PASS | 0 | 1787.863 ms |
-| sdk_baseline | PASS | 0 | 2603.051 ms |
-| kernel_guard | PASS | 0 | 514.277 ms |
-| python_quality | PASS | 0 | 415024.451 ms |
-| postgres_profile | EXTERNAL_BLOCKED | 0 | 1977.316 ms |
-| pnpm_install | EXTERNAL_BLOCKED | 127 | 4.857 ms |
-| ts_lint | EXTERNAL_BLOCKED | 127 | 4.53 ms |
-| ts_typecheck | EXTERNAL_BLOCKED | 127 | 4.285 ms |
-| ts_test | EXTERNAL_BLOCKED | 127 | 4.206 ms |
-| ts_build | EXTERNAL_BLOCKED | 127 | 4.486 ms |
+| git_clone_no_local | PASS | 0 | 2881.607 ms |
+| git_checkout_exact_sha | PASS | 0 | 6189.527 ms |
+| uv_sync_all_groups_packages | PASS | 0 | 14911.71 ms |
+| migration_upgrade_head | PASS | 0 | 6372.135 ms |
+| clean_room | PASS | 0 | 5738.089 ms |
+| quickstart_cli | PASS | 0 | 918.672 ms |
+| lineage_replay | PASS | 0 | 4773.461 ms |
+| playable_e2e | PASS | 0 | 642.144 ms |
+| studio_socket_smoke | PASS | 0 | 4871.496 ms |
+| api_surface | PASS | 0 | 5001.2 ms |
+| openapi_export | PASS | 0 | 1612.603 ms |
+| sdk_baseline | PASS | 0 | 2218.536 ms |
+| kernel_guard | PASS | 0 | 473.145 ms |
+| python_quality | PASS | 0 | 413176.521 ms |
+| postgres_profile | EXTERNAL_BLOCKED | 0 | 1874.13 ms |
+| pnpm_install | PASS | 0 | 30376.905 ms |
+| ts_lint | PASS | 0 | 18518.516 ms |
+| ts_typecheck | PASS | 0 | 3450.266 ms |
+| ts_test | PASS | 0 | 2856.363 ms |
+| ts_build | PASS | 0 | 1622.61 ms |
 Coverage: install, migration, CLI, replay, Playable, Studio, API, SDK, Python, kernel,
 PostgreSQL, TypeScript.
 External: browser/PG/pnpm gaps are EXTERNAL_BLOCKED only with prerequisite evidence; other non-zero

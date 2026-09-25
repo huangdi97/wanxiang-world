@@ -8,7 +8,7 @@ no internal imports or DB edits.
 | author | PASS | published+installed=True; custom_action=True; no_core_mod=True |
 | operator | PASS | deployed=wld_sf; replay_ok=True; restored_hash_match=True |
 | end_user | PASS | session_independent=True; branch_isolated=True; replay_ok=True |
-| surfaces | PASS | routes=10; write_api_violations=[]; projection_items=21 |
+| surfaces | PASS | routes=74; write_api_violations=[]; projection_items=21 |
 
 ## Verdict
 

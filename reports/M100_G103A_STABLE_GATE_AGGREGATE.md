@@ -22,18 +22,23 @@ README prose as the source of gate truth.
 - Gate 76: PASS
 - Gate 77: PASS
 - Gate 78: EXTERNAL_BLOCKED
-- Gate 79: LOCKED
+- Gate 79: PASS
 
-The ledger consistency check is PASS.
-Gate 78 is an explicit external block because no supported Godot executable is
-available; reference ABI tests were not relabeled as Godot E2E. G103B-G103D
-have local evidence without captured FAIL, but Gate 79 remains LOCKED because
-G103E did not verify a candidate remote branch and required Actions run. Gate
-80 is LOCKED and no Stable tag/release action is authorized.
+The ledger consistency check is PASS. Gate 78 is
+an explicit external block because no supported Godot executable is available;
+reference ABI tests were not relabeled as Godot E2E. Gate 79 is
+`PASS`, derived from the persisted G103B-G103D artifacts and the
+verified candidate required CI. Gate 80 is
+`LOCKED`. Blocking gates:
+`62, 63, 64, 65, 66`.
+
+Release blockers reported by the evidence:
+
+- Gates 62-66 remain USER_INPUT_REQUIRED: no genuine human player evidence has been supplied
+- No v5.5.0 tag exists; no Stable release was performed
 
 Prompt Genesis, bounded long-horizon/World Lab, and emergence remain
-EXPERIMENTAL/BOUNDED. Genuine human M95 evidence remains USER_INPUT_REQUIRED.
-Live PostgreSQL, heavy physical/visual E2E, live remote refresh, and
+EXPERIMENTAL/BOUNDED. Live PostgreSQL, heavy physical/visual E2E, and
 production/scientific claims remain NOT_PROVEN or EXTERNAL_BLOCKED.
 
 Machine-readable evidence: artifacts/v55_stable/m100/stable_gate_aggregate.json

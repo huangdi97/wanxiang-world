@@ -1,18 +1,26 @@
 {
   "schema": "wanxiang.v5.5.m100.remote-delivery.v1",
-  "conclusion": "LOCKED",
-  "local_head": "bb966cb317886b802cef8a221adb45259317e77e",
+  "conclusion": "PASS",
+  "local_head": "a9be096ba0cda3b9c05d039e61e27cd529ca6b45",
   "branch": "release/v5.5-stable-certification",
   "repo": "huangdi97/wanxiang-world",
-  "gate_79": "LOCKED",
+  "gate_79": "PASS",
   "gate_80": "LOCKED",
   "required_jobs": [
-    "safety",
+    "API / package / SDK generation + drift",
+    "PostgreSQL migration + integration",
+    "Release build + clean-room certification smoke",
+    "Repository safety / secret scan / forbidden tracked files",
     "python",
-    "postgres",
+    "ts"
+  ],
+  "required_job_ids": [
     "api-sdk",
-    "ts",
-    "release-smoke"
+    "postgres",
+    "python",
+    "release-smoke",
+    "safety",
+    "ts"
   ],
   "queries": [
     {
@@ -20,7 +28,7 @@
       "command": "git remote -v",
       "exit_code": 0,
       "status": "PASS",
-      "duration_ms": 44.259,
+      "duration_ms": 35.14,
       "stdout_sha256": "ac727052154df26684ac48cd3ad65efe1f362c04c13b423a638b591b96210344",
       "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "output_tail": "origin\thttps://github.com/huangdi97/wanxiang-world.git (fetch)\norigin\thttps://github.com/huangdi97/wanxiang-world.git (push)\n"
@@ -28,58 +36,121 @@
     {
       "name": "git_ls_remote_branch",
       "command": "git ls-remote --heads origin release/v5.5-stable-certification",
-      "exit_code": 128,
-      "status": "EXTERNAL_BLOCKED",
-      "duration_ms": 93.143,
-      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "stderr_sha256": "32afa67195795a5ed147fc90253558da34872b2b4dfa503f1fba3f701d9a42cd",
-      "output_tail": "git: 'remote-https' is not a git command. See 'git --help'.\nfatal: remote helper 'https' aborted session\n"
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 1975.936,
+      "stdout_sha256": "9c01469259dda421933835da3efef5a76ef33c1e6cd14ca71d60350decbdba65",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_tail": "a9be096ba0cda3b9c05d039e61e27cd529ca6b45\trefs/heads/release/v5.5-stable-certification\n"
     },
     {
       "name": "git_ls_remote_stable_tag",
       "command": "git ls-remote --tags origin v5.5.0",
-      "exit_code": 128,
-      "status": "EXTERNAL_BLOCKED",
-      "duration_ms": 86.686,
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 1959.522,
       "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "stderr_sha256": "32afa67195795a5ed147fc90253558da34872b2b4dfa503f1fba3f701d9a42cd",
-      "output_tail": "git: 'remote-https' is not a git command. See 'git --help'.\nfatal: remote helper 'https' aborted session\n"
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_tail": ""
     },
     {
       "name": "gh_remote_branch",
       "command": "gh api repos/huangdi97/wanxiang-world/git/ref/heads/release/v5.5-stable-certification",
-      "exit_code": 1,
-      "status": "EXTERNAL_BLOCKED",
-      "duration_ms": 1380.238,
-      "stdout_sha256": "e2e3c64edab172132f77ce89a0e8c190db1cd30936a096344f45893bd5b75f8a",
-      "stderr_sha256": "d2c8985c89b29a842ac4946d13bdbc297709f44f20bb968faf9682664b211db6",
-      "output_tail": "{\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/git/refs#get-a-reference\",\"status\":\"404\"}gh: Not Found (HTTP 404)\n"
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 772.939,
+      "stdout_sha256": "a9be4bb4ee557e8fd5033a8893f830e163f6e6d5e6504b2acb75175f4508598a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_tail": "{\"ref\":\"refs/heads/release/v5.5-stable-certification\",\"node_id\":\"REF_kwDOT57lb9oALHJlZnMvaGVhZHMvcmVsZWFzZS92NS41LXN0YWJsZS1jZXJ0aWZpY2F0aW9u\",\"url\":\"https://api.github.com/repos/huangdi97/wanxiang-world/git/refs/heads/release/v5.5-stable-certification\",\"object\":{\"sha\":\"a9be096ba0cda3b9c05d039e61e27cd529ca6b45\",\"type\":\"commit\",\"url\":\"https://api.github.com/repos/huangdi97/wanxiang-world/git/commits/a9be096ba0cda3b9c05d039e61e27cd529ca6b45\"}}"
     },
     {
       "name": "gh_candidate_branch_runs",
       "command": "gh run list --repo huangdi97/wanxiang-world --branch release/v5.5-stable-certification --limit 20 --json databaseId,headSha,status,conclusion,name,event,createdAt,url",
-      "exit_code": 1,
-      "status": "EXTERNAL_BLOCKED",
-      "duration_ms": 10086.999,
-      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "stderr_sha256": "d1c4f4d6060e495e3d84ab8e89626b9cfb2656c728fe23a7d647c9ca8efdfcb7",
-      "output_tail": "failed to get runs: Get \"https://api.github.com/repos/huangdi97/wanxiang-world/actions/runs?per_page=20&exclude_pull_requests=true&branch=release%2Fv5.5-stable-certification\": net/http: TLS handshake timeout\n"
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 1236.214,
+      "stdout_sha256": "2f6ea4ecd29e08c3b1f0f494738671caa90e798c0a8853fc21f57806e1be70f0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_tail": "[{\"conclusion\":\"success\",\"createdAt\":\"2026-09-25T21:59:48Z\",\"databaseId\":36194471592,\"event\":\"push\",\"headSha\":\"a9be096ba0cda3b9c05d039e61e27cd529ca6b45\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/36194471592\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-09-25T12:11:39Z\",\"databaseId\":36133534654,\"event\":\"push\",\"headSha\":\"946fdbb50241c120ed281f9b9c9b545b31877302\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/36133534654\"}]\n"
     },
     {
       "name": "gh_recent_runs",
       "command": "gh run list --repo huangdi97/wanxiang-world --limit 20 --json databaseId,headSha,status,conclusion,name,event,createdAt,url",
       "exit_code": 0,
       "status": "PASS",
-      "duration_ms": 3347.476,
-      "stdout_sha256": "4d4882aeb26a23ab18bf8045815a26a16296b9d94455137e12567b3fa6a51afc",
+      "duration_ms": 1967.628,
+      "stdout_sha256": "922f70eeae71bc53bc9eb00f8fa805b289675bc3c8342e8cdd33d78e5bf55099",
       "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "output_tail": "[{\"conclusion\":\"success\",\"createdAt\":\"2026-08-28T02:32:09Z\",\"databaseId\":33136200808,\"event\":\"push\",\"headSha\":\"bf30d16472af1bb179a37239d8bc9eaccbb3cb2a\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/33136200808\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-28T02:19:54Z\",\"databaseId\":33135588700,\"event\":\"push\",\"headSha\":\"d98d90c927d3325dbe527112ddd14867b19c2177\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/33135588700\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-27T15:23:04Z\",\"databaseId\":33087506206,\"event\":\"push\",\"headSha\":\"30c1f243d2b51c2e3fd8d71da40dc0254154c16e\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/33087506206\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-27T15:11:19Z\",\"databaseId\":33086433063,\"event\":\"push\",\"headSha\":\"50443c8f7cc58fc4661af2a7d993dc7ec6144e11\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/33086433063\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-27T14:58:30Z\",\"databaseId\":33085230406,\"event\":\"push\",\"headSha\":\"50443c8f7cc58fc4661af2a7d993dc7ec6144e11\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/33085230406\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-27T14:47:02Z\",\"databaseId\":33084155295,\"event\":\"push\",\"headSha\":\"545b582efc4719c5acc2efa07c27a603f4c5c467\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/33084155295\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-26T03:04:21Z\",\"databaseId\":32925066792,\"event\":\"push\",\"headSha\":\"c90370d4ff1ce84a9b5d83fe8b76781a0347af87\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/32925066792\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-26T02:35:09Z\",\"databaseId\":32923272531,\"event\":\"push\",\"headSha\":\"ef935fc6c24eb47553382d318e1501a795c4da84\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/32923272531\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-26T02:18:48Z\",\"databaseId\":32922253977,\"event\":\"push\",\"headSha\":\"ef935fc6c24eb47553382d318e1501a795c4da84\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/32922253977\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-26T02:08:04Z\",\"databaseId\":32921579753,\"event\":\"push\",\"headSha\":\"404efa30d28976594d5405b28d555ee36d13e09f\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/32921579753\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-25T17:38:50Z\",\"databaseId\":32879104870,\"event\":\"push\",\"headSha\":\"9328114828f72894adc4f0ff68acb7e33d0e2a42\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/32879104870\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-25T16:54:52Z\",\"databaseId\":32874776206,\"event\":\"push\",\"headSha\":\"8c24b7f69fb61cabbf566e1756d7c94cd9df1b50\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/32874776206\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-25T15:19:12Z\",\"databaseId\":32865045075,\"event\":\"push\",\"headSha\":\"e1d0e12b05683a3d4e2b81f6214374831980dc2d\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/32865045075\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-25T15:10:55Z\",\"databaseId\":32864182259,\"event\":\"push\",\"headSha\":\"d9d136176b2df2b0bb4acaf30bb3ea876389ee9e\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/32864182259\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-25T11:17:52Z\",\"databaseId\":32841582948,\"event\":\"push\",\"headSha\":\"0aea64beb0cd8ff47c677f86e45a353f44e502a7\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/32841582948\"},{\"conclusion\":\"failure\",\"createdAt\":\"2026-08-25T11:13:29Z\",\"databaseId\":32841205517,\"event\":\"push\",\"headSha\":\"073b8a6a1ec010b0194e5b08c3ce5839ab04c31a\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/32841205517\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-25T10:43:28Z\",\"databaseId\":32838639668,\"event\":\"push\",\"headSha\":\"3f7100c9ef7e9cc7bb01e181a01fc6eb7d87b9c7\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/32838639668\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-25T10:34:07Z\",\"databaseId\":32837871213,\"event\":\"push\",\"headSha\":\"19e3614a79a9f3e8955f11cc31bae69992291fd3\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/32837871213\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-25T10:27:37Z\",\"databaseId\":32837328145,\"event\":\"push\",\"headSha\":\"ef8a97292b6ab52ded9e2d0af69af333d75e668e\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/32837328145\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-25T10:04:18Z\",\"databaseId\":32835309602,\"event\":\"push\",\"headSha\":\"82918be493721853821562ccb66f67eaa5bf657f\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/32835309602\"}]\n"
+      "output_tail": "[{\"conclusion\":\"success\",\"createdAt\":\"2026-09-25T21:59:48Z\",\"databaseId\":36194471592,\"event\":\"push\",\"headSha\":\"a9be096ba0cda3b9c05d039e61e27cd529ca6b45\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/36194471592\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-09-25T12:11:39Z\",\"databaseId\":36133534654,\"event\":\"push\",\"headSha\":\"946fdbb50241c120ed281f9b9c9b545b31877302\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/36133534654\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-28T02:32:09Z\",\"databaseId\":33136200808,\"event\":\"push\",\"headSha\":\"bf30d16472af1bb179a37239d8bc9eaccbb3cb2a\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/33136200808\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-28T02:19:54Z\",\"databaseId\":33135588700,\"event\":\"push\",\"headSha\":\"d98d90c927d3325dbe527112ddd14867b19c2177\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/33135588700\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-27T15:23:04Z\",\"databaseId\":33087506206,\"event\":\"push\",\"headSha\":\"30c1f243d2b51c2e3fd8d71da40dc0254154c16e\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/33087506206\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-27T15:11:19Z\",\"databaseId\":33086433063,\"event\":\"push\",\"headSha\":\"50443c8f7cc58fc4661af2a7d993dc7ec6144e11\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/33086433063\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-27T14:58:30Z\",\"databaseId\":33085230406,\"event\":\"push\",\"headSha\":\"50443c8f7cc58fc4661af2a7d993dc7ec6144e11\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/33085230406\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-27T14:47:02Z\",\"databaseId\":33084155295,\"event\":\"push\",\"headSha\":\"545b582efc4719c5acc2efa07c27a603f4c5c467\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/33084155295\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-26T03:04:21Z\",\"databaseId\":32925066792,\"event\":\"push\",\"headSha\":\"c90370d4ff1ce84a9b5d83fe8b76781a0347af87\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/32925066792\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-26T02:35:09Z\",\"databaseId\":32923272531,\"event\":\"push\",\"headSha\":\"ef935fc6c24eb47553382d318e1501a795c4da84\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/32923272531\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-26T02:18:48Z\",\"databaseId\":32922253977,\"event\":\"push\",\"headSha\":\"ef935fc6c24eb47553382d318e1501a795c4da84\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/32922253977\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-26T02:08:04Z\",\"databaseId\":32921579753,\"event\":\"push\",\"headSha\":\"404efa30d28976594d5405b28d555ee36d13e09f\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/32921579753\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-25T17:38:50Z\",\"databaseId\":32879104870,\"event\":\"push\",\"headSha\":\"9328114828f72894adc4f0ff68acb7e33d0e2a42\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/32879104870\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-25T16:54:52Z\",\"databaseId\":32874776206,\"event\":\"push\",\"headSha\":\"8c24b7f69fb61cabbf566e1756d7c94cd9df1b50\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/32874776206\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-25T15:19:12Z\",\"databaseId\":32865045075,\"event\":\"push\",\"headSha\":\"e1d0e12b05683a3d4e2b81f6214374831980dc2d\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/32865045075\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-25T15:10:55Z\",\"databaseId\":32864182259,\"event\":\"push\",\"headSha\":\"d9d136176b2df2b0bb4acaf30bb3ea876389ee9e\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/32864182259\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-25T11:17:52Z\",\"databaseId\":32841582948,\"event\":\"push\",\"headSha\":\"0aea64beb0cd8ff47c677f86e45a353f44e502a7\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/32841582948\"},{\"conclusion\":\"failure\",\"createdAt\":\"2026-08-25T11:13:29Z\",\"databaseId\":32841205517,\"event\":\"push\",\"headSha\":\"073b8a6a1ec010b0194e5b08c3ce5839ab04c31a\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/32841205517\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-25T10:43:28Z\",\"databaseId\":32838639668,\"event\":\"push\",\"headSha\":\"3f7100c9ef7e9cc7bb01e181a01fc6eb7d87b9c7\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/32838639668\"},{\"conclusion\":\"success\",\"createdAt\":\"2026-08-25T10:34:07Z\",\"databaseId\":32837871213,\"event\":\"push\",\"headSha\":\"19e3614a79a9f3e8955f11cc31bae69992291fd3\",\"name\":\"ci\",\"status\":\"completed\",\"url\":\"https://github.com/huangdi97/wanxiang-world/actions/runs/32837871213\"}]\n"
+    },
+    {
+      "name": "gh_candidate_run_jobs",
+      "command": "gh run view 36194471592 --repo huangdi97/wanxiang-world --json jobs --jq .jobs[] | [.name, .conclusion] | @tsv",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 2048.558,
+      "stdout_sha256": "51f192b024f6b65287c08b551fb359d0afe515c8bdf320625edf37e0fbbdea8c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "output_tail": "Repository safety / secret scan / forbidden tracked files\tsuccess\nRelease build + clean-room certification smoke\tsuccess\nAPI / package / SDK generation + drift\tsuccess\nPostgreSQL migration + integration\tsuccess\npython\tsuccess\nts\tsuccess\n"
     }
   ],
-  "remote_branch_present": false,
-  "candidate_run_present": false,
-  "candidate_jobs_verified": false,
+  "remote_branch_present": true,
+  "remote_branch_sha": "a9be096ba0cda3b9c05d039e61e27cd529ca6b45",
+  "candidate_run_present": true,
+  "candidate_jobs_verified": true,
+  "candidate_run": {
+    "database_id": 36194471592,
+    "head_sha": "a9be096ba0cda3b9c05d039e61e27cd529ca6b45",
+    "conclusion": "success",
+    "url": "https://github.com/huangdi97/wanxiang-world/actions/runs/36194471592",
+    "jobs": [
+      {
+        "name": "Repository safety / secret scan / forbidden tracked files",
+        "conclusion": "success"
+      },
+      {
+        "name": "Release build + clean-room certification smoke",
+        "conclusion": "success"
+      },
+      {
+        "name": "API / package / SDK generation + drift",
+        "conclusion": "success"
+      },
+      {
+        "name": "PostgreSQL migration + integration",
+        "conclusion": "success"
+      },
+      {
+        "name": "python",
+        "conclusion": "success"
+      },
+      {
+        "name": "ts",
+        "conclusion": "success"
+      }
+    ]
+  },
   "recent_remote_runs": [
+    {
+      "conclusion": "success",
+      "createdAt": "2026-09-25T21:59:48Z",
+      "databaseId": 36194471592,
+      "event": "push",
+      "headSha": "a9be096ba0cda3b9c05d039e61e27cd529ca6b45",
+      "name": "ci",
+      "status": "completed",
+      "url": "https://github.com/huangdi97/wanxiang-world/actions/runs/36194471592"
+    },
+    {
+      "conclusion": "success",
+      "createdAt": "2026-09-25T12:11:39Z",
+      "databaseId": 36133534654,
+      "event": "push",
+      "headSha": "946fdbb50241c120ed281f9b9c9b545b31877302",
+      "name": "ci",
+      "status": "completed",
+      "url": "https://github.com/huangdi97/wanxiang-world/actions/runs/36133534654"
+    },
     {
       "conclusion": "success",
       "createdAt": "2026-08-28T02:32:09Z",
@@ -259,29 +330,9 @@
       "name": "ci",
       "status": "completed",
       "url": "https://github.com/huangdi97/wanxiang-world/actions/runs/32837871213"
-    },
-    {
-      "conclusion": "success",
-      "createdAt": "2026-08-25T10:27:37Z",
-      "databaseId": 32837328145,
-      "event": "push",
-      "headSha": "ef8a97292b6ab52ded9e2d0af69af333d75e668e",
-      "name": "ci",
-      "status": "completed",
-      "url": "https://github.com/huangdi97/wanxiang-world/actions/runs/32837328145"
-    },
-    {
-      "conclusion": "success",
-      "createdAt": "2026-08-25T10:04:18Z",
-      "databaseId": 32835309602,
-      "event": "push",
-      "headSha": "82918be493721853821562ccb66f67eaa5bf657f",
-      "name": "ci",
-      "status": "completed",
-      "url": "https://github.com/huangdi97/wanxiang-world/actions/runs/32835309602"
     }
   ],
-  "push": "NOT_ATTEMPTED",
+  "push": "NOT_PERFORMED_BY_THIS_PROBE",
   "tag": "NOT_ATTEMPTED",
   "github_release": "NOT_ATTEMPTED",
   "boundaries": {
@@ -289,13 +340,9 @@
       "read-only remote and required-CI delivery probe"
     ],
     "validated": [
-      "local candidate SHA and repository workflow job declaration"
+      "live remote branch ref and candidate required-CI job conclusions"
     ],
-    "not_proven": [
-      "remote candidate push and candidate Actions conclusions"
-    ],
-    "external_blocked": [
-      "remote branch/helper or candidate Actions identity is unavailable"
-    ]
+    "not_proven": [],
+    "external_blocked": []
   }
 }
