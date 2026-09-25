@@ -27,6 +27,14 @@
     {
       "allowed": true,
       "modules": [
+        "packages/domain/src/wanxiang_domain/errors.py",
+        "packages/reality/src/wanxiang_reality/errors.py"
+      ],
+      "name": "ContractError"
+    },
+    {
+      "allowed": true,
+      "modules": [
         "packages/substrate/src/wanxiang_substrate/canon_graph/timeline_canon.py",
         "packages/substrate/src/wanxiang_substrate/draft/coverage.py"
       ],

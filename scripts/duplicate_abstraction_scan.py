@@ -35,6 +35,12 @@ ALLOWED_DUPLICATE_NAMES: dict[str, tuple[str, ...]] = {
         "packages/substrate/src/wanxiang_substrate/canon_graph/timeline_canon.py",
         "packages/substrate/src/wanxiang_substrate/sources/canon.py",
     ),
+    # R7: the versioned service-contract error lives in its own package and shares
+    # its name with the domain-layer error that predates it.
+    "ContractError": (
+        "packages/domain/src/wanxiang_domain/errors.py",
+        "packages/reality/src/wanxiang_reality/errors.py",
+    ),
     "CoverageReport": (
         "packages/substrate/src/wanxiang_substrate/canon_graph/timeline_canon.py",
         "packages/substrate/src/wanxiang_substrate/draft/coverage.py",

@@ -10,7 +10,7 @@ package = false
 
 [tool.uv.workspace]
 members = ["packages/*", "apps/*"]
-exclude = ["packages/sdk_ts"]
+exclude = ["packages/sdk_ts", "packages/cordis_host"]
 
 [tool.uv.sources]
 wanxiang-research = { workspace = true }

@@ -10,6 +10,7 @@ members = [
     "wanxiang-domain",
     "wanxiang-observability",
     "wanxiang-persistence",
+    "wanxiang-reality",
     "wanxiang-research",
     "wanxiang-runtime",
     "wanxiang-substrate",
@@ -757,6 +758,11 @@ requires-dist = [
     { name = "wanxiang-domain", editable = "packages/domain" },
     { name = "wanxiang-runtime", editable = "packages/runtime" },
 ]
+
+[[package]]
+name = "wanxiang-reality"
+version = "0.1.0"
+source = { editable = "packages/reality" }
 
 [[package]]
 name = "wanxiang-research"

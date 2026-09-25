@@ -6,9 +6,11 @@
 |---|---|---|
 | apps/api | infrastructure (API composition root) | packages/application, packages/domain, packages/persistence, packages/runtime, packages/substrate |
 | packages/application | application (orchestration facade) | packages/domain, packages/runtime |
+| packages/cordis_host | ? | (none) |
 | packages/domain | core | (none) |
 | packages/observability | infrastructure (telemetry) | (none) |
 | packages/persistence | infrastructure (persistence) | packages/domain, packages/runtime |
+| packages/reality | ? | (none) |
 | packages/research | EXPERIMENTAL (research namespace) | packages/domain |
 | packages/runtime | core | packages/domain |
 | packages/sdk_ts | infrastructure (TS SDK, generated contract) | (none) |
