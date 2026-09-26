@@ -7134,5 +7134,49 @@
         "actor"
       ]
     }
+  ],
+  "runtimeLocks": [
+    {
+      "worldlineId": "wl_spike_main",
+      "lockId": "lock_r7_fixture",
+      "lockVersion": "1",
+      "lockDigest": "0000000000000000000000000000000000000000000000000000000000000000",
+      "realityProfile": {
+        "id": "reality:persistent-v1",
+        "version": "1",
+        "digest": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "worldProfile": {
+        "id": "world:fixture",
+        "version": "1",
+        "digest": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "compositionRuntime": {
+        "name": "cordis",
+        "version": "4.0.0-rc.10"
+      },
+      "serviceContractVersions": {
+        "wanxiang.identity@1": "1",
+        "wanxiang.reality.observe@1": "1",
+        "wanxiang.reality.proposal@1": "1",
+        "wanxiang.reality.policy@1": "1",
+        "wanxiang.authority@1": "1",
+        "wanxiang.history@1": "1",
+        "wanxiang.branch@1": "1",
+        "wanxiang.lineage@1": "1",
+        "wanxiang.replay@1": "1",
+        "wanxiang.evidence@1": "1",
+        "wanxiang.rights@1": "1",
+        "wanxiang.execution@1": "1",
+        "wanxiang.actor@1": "1",
+        "wanxiang.model@1": "1",
+        "wanxiang.capability@1": "1",
+        "wanxiang.reality.profile@1": "1"
+      },
+      "providerVersions": {
+        "history-memory": "1.0.0",
+        "commit-authority": "1.0.0"
+      }
+    }
   ]
 }

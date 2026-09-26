@@ -2,6 +2,7 @@ import cordisPackage from "cordis/package.json";
 
 import { CONTRACT_IDS, SERVICE_CONTRACTS, contractId, seamDigest } from "./contracts";
 import type { Context } from "cordis";
+import type { ProfileRef, RuntimeLockRef } from "./lock";
 
 /**
  * Resolved capability graph export.
@@ -49,6 +50,20 @@ export interface ResolvedGraph {
   readonly providers: readonly GraphProvider[];
   readonly consumers: readonly GraphConsumer[];
   readonly scopes: readonly GraphScope[];
+  /** The lock each worldline pinned; absence is never possible at runtime. */
+  readonly runtimeLocks: readonly GraphRuntimeLock[];
+}
+
+export interface GraphRuntimeLock {
+  readonly worldlineId: string;
+  readonly lockId: string;
+  readonly lockVersion: string;
+  readonly lockDigest: string;
+  readonly realityProfile: ProfileRef;
+  readonly worldProfile: ProfileRef;
+  readonly compositionRuntime: { readonly name: string; readonly version: string };
+  readonly serviceContractVersions: Readonly<Record<string, string>>;
+  readonly providerVersions: Readonly<Record<string, string>>;
 }
 
 export interface GraphInput {
@@ -58,6 +73,7 @@ export interface GraphInput {
     readonly historyProviderId: string;
     readonly historyProviderVersion: string;
     readonly authorityProviderVersion: string;
+    readonly lockRef: RuntimeLockRef;
     readonly consumers: readonly GraphConsumer[];
     readonly ctx: Context;
   }[];
@@ -67,6 +83,7 @@ export function buildResolvedGraph(input: GraphInput): ResolvedGraph {
   const providers: GraphProvider[] = [];
   const consumers: GraphConsumer[] = [];
   const scopes: GraphScope[] = [];
+  const runtimeLocks: GraphRuntimeLock[] = [];
   for (const worldline of input.worldlines) {
     providers.push(
       {
@@ -90,6 +107,17 @@ export function buildResolvedGraph(input: GraphInput): ResolvedGraph {
       worldlineId: worldline.worldlineId,
       services: ["history", "actor"],
     });
+    runtimeLocks.push({
+      worldlineId: worldline.worldlineId,
+      lockId: worldline.lockRef.lockId,
+      lockVersion: worldline.lockRef.lockVersion,
+      lockDigest: worldline.lockRef.lockDigest,
+      realityProfile: worldline.lockRef.realityProfile,
+      worldProfile: worldline.lockRef.worldProfile,
+      compositionRuntime: worldline.lockRef.compositionRuntime,
+      serviceContractVersions: worldline.lockRef.serviceContractVersions,
+      providerVersions: worldline.lockRef.providerVersions,
+    });
   }
   return {
     schema: "wanxiang.r7.composition.resolved-graph.v1",
@@ -108,6 +136,7 @@ export function buildResolvedGraph(input: GraphInput): ResolvedGraph {
     providers,
     consumers,
     scopes,
+    runtimeLocks,
   };
 }
 

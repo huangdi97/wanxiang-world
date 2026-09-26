@@ -5,6 +5,7 @@ import { actorRulePlugin, actorRuleV2Plugin, leakCounters, type ActorRuleConfig 
 import type { CommitOutcome } from "./commit";
 import { RevisionConflictError } from "./history";
 import { createHost, type WanxiangHost } from "./host";
+import { sampleRuntimeLockRef } from "./testing";
 import type { ResolvedGraph } from "./graph";
 
 /**
@@ -238,7 +239,7 @@ function s5ResolvedGraph(graph: ResolvedGraph, artifactPath?: string): ScenarioR
 }
 
 export async function runCompositionSpike(options: SpikeOptions = {}): Promise<SpikeReport> {
-  const host = createHost();
+  const host = createHost({ lockRef: sampleRuntimeLockRef() });
   const cycles = options.lifecycleCycles ?? 1000;
   const scenarios: ScenarioResult[] = [];
   try {

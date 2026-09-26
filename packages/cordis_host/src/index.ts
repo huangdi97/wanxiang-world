@@ -23,6 +23,14 @@ export {
   type WorldEvent,
 } from "./history";
 export {
+  RuntimeLockError,
+  assertSeamsMatchLock,
+  createRuntimeLockRef,
+  validateRuntimeLockRef,
+  type ProfileRef,
+  type RuntimeLockRef,
+} from "./lock";
+export {
   CrossWorldlineGuard,
   PolicyError,
   PolicyRegistry,
@@ -40,3 +48,23 @@ export { AUTHORITY_PROVIDER_VERSION, createHost, type HostOptions, type Wanxiang
 export { buildResolvedGraph, type ResolvedGraph } from "./graph";
 export { actorRulePlugin, actorRuleV2Plugin, leakCounters, type ActorRuleConfig } from "./bundle";
 export { runCompositionSpike, type ScenarioResult, type SpikeReport } from "./spike";
+export {
+  RpcAuthorityBootstrap,
+  RpcHistoryProvider,
+  type AsyncHistoryProvider,
+  type HolderRegistration,
+  type RpcTokenLookup,
+  type RuntimeInfo,
+} from "./bridge";
+export {
+  JSONRPC_VERSION,
+  RPC_COMMIT_DENIED,
+  RPC_REVISION_CONFLICT,
+  RPC_TRANSPORT_FAILURE,
+  RpcMethods,
+  RpcProtocolError,
+  RpcStdioClient,
+  type RpcExitHook,
+  type RpcMethod,
+  type RpcTransportOptions,
+} from "./bridge_protocol";

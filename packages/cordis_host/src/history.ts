@@ -21,6 +21,11 @@ export interface AppendRequest {
   readonly worldlineId: string;
   readonly expectedRevision: number;
   readonly events: readonly WorldEvent[];
+  /**
+   * Set by the seam after the capability check, so a provider that talks to an
+   * external authority knows whose token to present.
+   */
+  readonly authorityHolderId?: string;
 }
 
 export interface AppendResult extends Revision {
@@ -204,6 +209,6 @@ export class HistoryService extends Service {
         "canonical append requires a commit capability issued by the authority",
       );
     }
-    return this.provider.append(request);
+    return this.provider.append({ ...request, authorityHolderId: capability.holderId });
   }
 }

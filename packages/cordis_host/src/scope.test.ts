@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 
+import { sampleRuntimeLockRef } from "./testing";
+
 import { actorRulePlugin, type ActorRuleConfig } from "./bundle";
 import { createHost } from "./host";
 
@@ -14,7 +16,7 @@ const RULE_B: ActorRuleConfig = { worldlineId: "wl_b", actorId: "actor_b", salt:
  */
 describe("R7 world scope isolation", () => {
   it("keeps world B intact when world A unloads", async () => {
-    const host = createHost();
+    const host = createHost({ lockRef: sampleRuntimeLockRef() });
     host.authority.registerAuthorityHolder("world-host", "audit:scope");
     const capability = host.authority.grant("world-host");
     host.openWorld("world_a", "wl_a");
@@ -66,7 +68,7 @@ describe("R7 world scope isolation", () => {
   });
 
   it("keeps a single authority bootstrap across worlds", async () => {
-    const host = createHost();
+    const host = createHost({ lockRef: sampleRuntimeLockRef() });
     const registryBefore = host.root.registry.size;
     host.authority.registerAuthorityHolder("world-host", "audit:scope");
     host.openWorld("world_a", "wl_a");

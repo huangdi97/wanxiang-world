@@ -2,6 +2,7 @@ import { Context, type Fiber } from "cordis";
 
 import { CommitAuthority } from "./authority";
 import { HistoryService, MemoryHistoryProvider, type HistoryProvider } from "./history";
+import type { RuntimeLockRef } from "./lock";
 
 /** A plugin mounted into a worldline scope, as reported in the resolved graph. */
 export interface PluginLoad {
@@ -21,11 +22,13 @@ export interface GraphConsumerRecord {
  * A worldline owns isolated instances of the worldline-scoped seams (`history`,
  * `actor`), so unloading one worldline cannot touch another. The authority stays
  * at the root: there is exactly one commit bootstrap, and a worldline writes only
- * through a capability it was granted.
+ * through a capability it was granted. Every worldline carries the RuntimeLock it
+ * was pinned to.
  */
 export interface WorldlineRuntime {
   readonly worldId: string;
   readonly worldlineId: string;
+  readonly lockRef: RuntimeLockRef;
   readonly ctx: Context;
   readonly history: HistoryService;
   readonly provider: HistoryProvider;
@@ -34,7 +37,7 @@ export interface WorldlineRuntime {
 }
 
 export class ScopeError extends Error {
-  override readonly name = "ScopeError";
+  override readonly name: string = "ScopeError";
 }
 
 export class WorldScopeManager {
@@ -49,7 +52,11 @@ export class WorldScopeManager {
       new MemoryHistoryProvider(),
   ) {}
 
-  openWorldline(worldId: string, worldlineId: string): WorldlineRuntime {
+  openWorldline(
+    worldId: string,
+    worldlineId: string,
+    lockRef: RuntimeLockRef,
+  ): WorldlineRuntime {
     const existing = this.worldlines.get(worldlineId);
     if (existing) return existing;
     const ctx = this.root
@@ -60,6 +67,7 @@ export class WorldScopeManager {
     const runtime: WorldlineRuntime = {
       worldId,
       worldlineId,
+      lockRef,
       ctx,
       history,
       provider,
@@ -103,9 +111,9 @@ export class WorldScopeManager {
    *
    * Only the worldline's own plugin fibers are disposed. Cordis `isolate()`
    * derives a child context that shares the parent fiber, so disposing
-   * `runtime.ctx.fiber` would tear down the whole runtime — including every
-   * other world — which the world-isolation test caught. Committed history is
-   * retained in the provider, so it stays readable and replayable afterwards.
+   * `runtime.ctx.fiber` would tear down the whole runtime — including every other
+   * world — which the world-isolation test caught. Committed history is retained
+   * in the provider, so it stays readable and replayable afterwards.
    */
   async closeWorldline(worldlineId: string): Promise<void> {
     const runtime = this.worldlines.get(worldlineId);

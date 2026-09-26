@@ -1,6 +1,8 @@
 import { Context } from "cordis";
 import { describe, expect, it } from "vitest";
 
+import { sampleRuntimeLockRef } from "./testing";
+
 import { AuthorityError, CommitAuthority } from "./authority";
 import { actorRulePlugin, type ActorRuleConfig } from "./bundle";
 import { CommitDeniedError, HistoryService, MemoryHistoryProvider } from "./history";
@@ -14,7 +16,7 @@ const RULE: ActorRuleConfig = {
 };
 
 function hostWithWorldline(): ReturnType<typeof createHost> {
-  const host = createHost();
+  const host = createHost({ lockRef: sampleRuntimeLockRef() });
   host.openWorld("world_authority", RULE.worldlineId);
   host.authority.registerAuthorityHolder("world-host", "audit:test");
   return host;
@@ -61,7 +63,7 @@ describe("R7 authority hardening", () => {
   });
 
   it("denies a cross-worldline write without touching either history", async () => {
-    const host = createHost();
+    const host = createHost({ lockRef: sampleRuntimeLockRef() });
     host.openWorld("world_a", "wl_a");
     host.openWorld("world_b", "wl_b");
     host.authority.registerAuthorityHolder("world-host", "audit:test");
