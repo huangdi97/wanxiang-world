@@ -3,7 +3,7 @@
 Status: `PASS` for worldline isolation over one Cordis root context.
 
 Reproduce: `pnpm exec vitest run src/scope.test.ts` in `packages/cordis_host`
-(2 tests) — part of the package's 21 passing tests.
+(2 tests) — part of the package's 41 passing tests (7 files).
 
 ## What the scope manager guarantees
 

@@ -1,6 +1,6 @@
 # Status ? Wanxiang Engineering Program
 
-Updated: 2026-09-25 (Phase A v5.5 Gate 79 PASS; Phase B R7 Cordis composition slice)
+Updated: 2026-09-26 (Phase A v5.5 Gate 79 PASS; Phase B R7 lock/bridge/execution/migration/harness slice, CI green at `526b49b`)
 
 ## v5.5 Stable Certification ? M95-R and Gate 79 closure (2026-09-25)
 
@@ -35,7 +35,7 @@ created. `v5.4.0`, `v5.5.0-rc1`, and the historical `NOT_ACCEPTED` record are
 unchanged. Evidence: `reports/V55_STABLE_ACCEPTANCE_MATRIX.md`,
 `artifacts/v55_stable/m100/**`.
 
-## R7 Phase B ? Cordis composition runtime slice (2026-09-25)
+## R7 Phase B — Cordis composition runtime slice (2026-09-25, extended 2026-09-26)
 
 Branch `feature/r7-cordis-native` (cut from the Phase A Stable closure). Cordis
 is adopted directly as the first-generation composition runtime; the repository
@@ -57,11 +57,22 @@ does not grow a Cordis-like kernel.
   than reclassified: batch-dependent state-hash folding, and a worldline unload
   that disposed the shared root fiber and tore down every other world.
 
-Not implemented yet (see `reports/r7/15_R7_FINAL_CLOSURE_REPORT.md`): the JSON-RPC
-bridge to the Python authority, worldline RuntimeLock pinning, Execution Fabric,
-DSH bridge, Capability Foundry, RealityProfile shadow-replay migration, and the
-R7 reference worlds. Final Decision: `NOT_COMPLETE`. No `v5.6` tag, release or
-branch was created.
+Implemented in this slice beyond the composition host: worldline RuntimeLock
+pinning (`createHost` requires a validated lock, asserts seam versions against it
+and the resolved graph records `runtimeLocks`), the cross-language
+history-authority JSON-RPC seam (Python `wanxiang_reality.rpc` server plus TS
+`RpcHistoryProvider`/`RpcAuthorityBootstrap`, with a test that drives the real
+Python process in CI), the irreversible-effect Execution Fabric
+(`packages/execution`: deny-by-default policy, honest traces that are not world
+history, real subprocess provider, append-only outbox), versioned RealityProfile
+migration (per-worldline registry, checkpoint + shadow replay, approval-gated
+apply), and the agent-harness (DSH seam) bridge with a reference harness that
+reports `officialDsh: false`.
+
+Still not implemented (see `reports/r7/15_R7_FINAL_CLOSURE_REPORT.md`): Capability
+Foundry, the official DSH integration (`EXTERNAL_BLOCKED`: no official harness
+binary was provided), the R7 reference worlds, and the R7 clean-clone run. Final
+Decision: `NOT_COMPLETE`. No `v5.6` tag, release or branch was created.
 ## V55-FINAL-CLOSURE-R1 (2026-08-28)
 
 The first-book lineage selector now chooses the latest dated source

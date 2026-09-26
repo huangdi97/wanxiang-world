@@ -1,8 +1,9 @@
 # R7 03 — Versioned Service Seams
 
-Status: `PARTIAL` — the versioned seam identity and the contract catalog exist on
-both sides; the JSON-RPC bridge that lets the Python authority serve the history
-seam is **not** implemented in this slice.
+Status: `IMPLEMENTED` / `VALIDATED` — the versioned seam identity, the contract
+catalog, and the JSON-RPC bridge that lets the Python authority serve the history
+seam all exist and are exercised across languages.
+(See `reports/r7/06_HISTORY_AUTHORITY_RPC_REPORT.md` for the bridge itself.)
 
 ## Contract catalog
 
@@ -27,7 +28,8 @@ wanxiang.rights@1
 Seam digest at this tree:
 `b1864b952a2abd157718b92b99980acb93f2e85b6ed66d67b8bdf019b5a37fc9`
 (sha256 over the sorted `id -> apiVersion` map, recorded in
-`artifacts/r7/composition/resolved_graph.json`).
+`artifacts/r7/composition/resolved_graph.json` and served by
+`wanxiang_reality.rpc`'s `seam.digest`).
 
 ## Provider / consumer rule
 
@@ -42,18 +44,25 @@ provider-internal modules. Two guards enforce it:
 
 ## Consumer-side seam types
 
-`packages/cordis_host/src/history.ts` defines the history seam as an interface
-(`head`, `read`, `append`, `checkpoint`, `worldlines`) plus a provider port. Two
-implementations are planned against that port: the in-process reference provider
-(implemented and certified by the spike) and the JSON-RPC provider bridging to the
-Python authority (not implemented).
+`packages/cordis_host/src/history.ts` defines the history seam as a synchronous
+interface (`head`, `read`, `append`, `checkpoint`, `worldlines`) plus a provider
+port. Two implementations exist against that port:
+
+* the in-process reference provider (`MemoryHistoryProvider`), certified by the
+  spike and by the scope tests;
+* the JSON-RPC provider (`RpcHistoryProvider`), which bridges to the Python
+  authority over the frozen protocol and exposes the same five operations as an
+  additive `AsyncHistoryProvider` interface, because a stdio round trip cannot be
+  synchronous.
 
 ## Boundaries
 
-* IMPLEMENTED: 16 versioned contracts (Python + TS identity map), seam digest,
-  history seam with a provider port, architecture guards on both sides.
-* VALIDATED: Python contract tests (30 in `tests/unit/reality`), TS architecture
-  guard tests, `tsc` + ESLint clean, repository quality gate PASS.
-* NOT_PROVEN: cross-language seam digest equality at runtime (the TS digest is
-  recorded; the Python side computes its own over a richer table, so an automated
-  equality check is still missing), and the JSON-RPC provider.
+* IMPLEMENTED: 16 versioned contracts (Python + TS identity map), seam digest
+  served by both runtimes, history seam with a provider port, async JSON-RPC
+  provider and authority bootstrap, architecture guards on both sides.
+* VALIDATED: Python contract/reality tests (64 in `tests/unit/reality`), TS
+  architecture and bridge tests (`tsc` + ESLint clean, `vitest run` → 7 files /
+  41 tests), cross-language seam digest equality asserted by the bridge test,
+  repository quality gate PASS.
+* NOT_PROVEN: a second real transport (HTTP/socket) for the same seam, and
+  compatibility testing against an older contract revision.

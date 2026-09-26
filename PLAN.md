@@ -987,11 +987,26 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.
 
-## R7 Phase B status (2026-09-25)
+## R7 Phase B status (2026-09-25, extended 2026-09-26)
 
-Cordis composition slice implemented and certified (spike S1?S5, world scope
-isolation, 16 versioned seams, capability hardening). Remaining R7 work is
-tracked as `NOT_IMPLEMENTED` in `reports/r7/15_R7_FINAL_CLOSURE_REPORT.md`:
-JSON-RPC authority bridge, worldline RuntimeLock pinning, Execution Fabric,
-DSH bridge, Capability Foundry, RealityProfile shadow-replay migration, R7
-reference worlds, and the R7 clean-clone run. Final Decision: `NOT_COMPLETE`.
+Cordis composition slice implemented and certified (spike S1–S5, world scope
+isolation, 16 versioned seams, capability hardening). Since then the following
+R7 items landed and are validated by tests, with CI green at `526b49b`:
+
+- worldline RuntimeLock pinning (`createHost` requires a validated lock, asserts
+  seam/contract versions against it, resolved graph records `runtimeLocks`);
+- the cross-language history-authority JSON-RPC seam (Python
+  `wanxiang_reality.rpc` server + TS `RpcHistoryProvider`/`RpcAuthorityBootstrap`,
+  exercised against the real Python process in CI);
+- the irreversible-effect Execution Fabric (`packages/execution`: deny-by-default
+  policy, traces separated from world history, real subprocess provider,
+  append-only outbox with idempotency and ambiguity handling);
+- versioned RealityProfile migration (per-worldline registry, checkpoint +
+  shadow replay, drift compare, approval-gated migrate/fork/reject);
+- the agent-harness (DSH seam) bridge plus a reference harness that reports
+  `officialDsh: false`.
+
+Remaining R7 work is tracked as `NOT_IMPLEMENTED` in
+`reports/r7/15_R7_FINAL_CLOSURE_REPORT.md`: Capability Foundry, official DSH
+integration (`EXTERNAL_BLOCKED`: no official harness binary), R7 reference
+worlds, and the R7 clean-clone run. Final Decision: `NOT_COMPLETE`.
