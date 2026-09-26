@@ -28,6 +28,7 @@ GOLDEN_EDGES: dict[str, tuple[str, ...]] = {
     ),
     "packages/application": ("packages/domain", "packages/runtime"),
     "packages/cordis_host": (),
+    "packages/execution": (),
     "packages/domain": (),
     "packages/observability": (),
     "packages/persistence": ("packages/domain", "packages/runtime"),

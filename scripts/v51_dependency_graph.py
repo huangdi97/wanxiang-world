@@ -21,6 +21,9 @@ TARGETS: dict[str, str] = {
     "packages/persistence": "infrastructure (persistence)",
     "packages/observability": "infrastructure (telemetry)",
     "packages/research": "EXPERIMENTAL (research namespace)",
+    "packages/execution": "EXPERIMENTAL (R7 isolated execution fabric)",
+    "packages/reality": "EXPERIMENTAL (R7 versioned reality semantics)",
+    "packages/cordis_host": "EXPERIMENTAL (R7 Cordis composition host, TS)",
     "apps/api": "infrastructure (API composition root)",
     "packages/sdk_ts": "infrastructure (TS SDK, generated contract)",
 }
