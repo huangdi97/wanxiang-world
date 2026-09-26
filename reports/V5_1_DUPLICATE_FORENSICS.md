@@ -2,10 +2,11 @@
 
 > Deterministic AST scan. Groups: registry/catalog, state models, stores,
 > services/managers, engines, ports, oversized modules, commit paths.
-## registry_classes (17)
+## registry_classes (18)
 
 | path | name | line |
 |---|---|---|
+| packages/reality/src/wanxiang_reality/registry.py | RealityProfileRegistry | 32 |
 | packages/research/src/wanxiang_research/distributed_host.py | LeaseRegistry | 38 |
 | packages/research/src/wanxiang_research/results.py | ExperimentRegistry | 46 |
 | packages/runtime/src/wanxiang_runtime/resolver.py | ResolverRegistry | 29 |
@@ -24,13 +25,14 @@
 | packages/substrate/src/wanxiang_substrate/workshop/registry.py | WorldRegistryCatalog | 99 |
 | packages/substrate/src/wanxiang_substrate/world_lab/registry.py | ExperimentRegistry | 28 |
 
-## state_classes (39)
+## state_classes (40)
 
 | path | name | line |
 |---|---|---|
 | packages/domain/src/wanxiang_domain/entity.py | EntityState | 34 |
 | packages/domain/src/wanxiang_domain/entity.py | RelationState | 49 |
 | packages/domain/src/wanxiang_domain/state.py | CanonicalState | 16 |
+| packages/reality/src/wanxiang_reality/migration.py | LockedSnapshot | 36 |
 | packages/runtime/src/wanxiang_runtime/snapshot.py | StoredSnapshot | 17 |
 | packages/runtime/src/wanxiang_runtime/state.py | InMemoryCanonicalState | 31 |
 | packages/substrate/src/wanxiang_substrate/actor_continuity/projection.py | ActorContinuitySnapshot | 73 |
@@ -144,7 +146,7 @@
 | packages/substrate/src/wanxiang_substrate/authoring/scenario_engine.py | ScenarioEngine | 78 |
 | packages/substrate/src/wanxiang_substrate/epistemic/belief_revision.py | BeliefRevisionEngine | 91 |
 
-## ports (44)
+## ports (48)
 
 | path | name | line |
 |---|---|---|
@@ -152,6 +154,9 @@
 | packages/application/src/wanxiang_application/ports.py | AuditSink | 30 |
 | packages/domain/src/wanxiang_domain/reality_root.py | RealityRootContract | 79 |
 | packages/domain/src/wanxiang_domain/state.py | CanonicalState | 16 |
+| packages/execution/src/wanxiang_execution/outbox_records.py | ExternalEffectHandler | 132 |
+| packages/reality/src/wanxiang_reality/migration.py | ReplaySource | 66 |
+| packages/reality/src/wanxiang_reality/migration_apply.py | MigrationSink | 36 |
 | packages/research/src/wanxiang_research/ai_compiler.py | ExtractionProvider | 25 |
 | packages/research/src/wanxiang_research/digital_human.py | AvatarProvider | 52 |
 | packages/research/src/wanxiang_research/generative_assets.py | AssetGenerator | 81 |
@@ -161,6 +166,7 @@
 | packages/runtime/src/wanxiang_runtime/branch.py | BranchRepository | 14 |
 | packages/runtime/src/wanxiang_runtime/ports.py | EventAppendPort | 25 |
 | packages/runtime/src/wanxiang_runtime/ports.py | EventStore | 39 |
+| packages/runtime/src/wanxiang_runtime/r7_agent_harness_contract.py | AgentHarnessProvider | 130 |
 | packages/runtime/src/wanxiang_runtime/resolver.py | CommandValidator | 23 |
 | packages/runtime/src/wanxiang_runtime/snapshot.py | SnapshotStore | 22 |
 | packages/substrate/src/wanxiang_substrate/actor_continuity/reprioritization_policy.py | GoalReprioritizationPolicy | 20 |
