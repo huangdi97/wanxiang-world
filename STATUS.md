@@ -1,6 +1,6 @@
 # Status ? Wanxiang Engineering Program
 
-Updated: 2026-09-25 (M95-R player remediation; Gate 79 PASS; Gate 80 still LOCKED)
+Updated: 2026-09-25 (Phase A v5.5 Gate 79 PASS; Phase B R7 Cordis composition slice)
 
 ## v5.5 Stable Certification ? M95-R and Gate 79 closure (2026-09-25)
 
@@ -35,6 +35,33 @@ created. `v5.4.0`, `v5.5.0-rc1`, and the historical `NOT_ACCEPTED` record are
 unchanged. Evidence: `reports/V55_STABLE_ACCEPTANCE_MATRIX.md`,
 `artifacts/v55_stable/m100/**`.
 
+## R7 Phase B ? Cordis composition runtime slice (2026-09-25)
+
+Branch `feature/r7-cordis-native` (cut from the Phase A Stable closure). Cordis
+is adopted directly as the first-generation composition runtime; the repository
+does not grow a Cordis-like kernel.
+
+- `packages/cordis_host` (pnpm workspace member) pins `cordis@4.0.0-rc.10` and
+  provides the versioned seam identity (16 contracts + digest), a history seam
+  with a replaceable provider port, explicit CommitCapability hardening with a
+  monotonic hard deny, worldline scopes over `ctx.isolate`, and the resolved
+  capability graph export.
+- `packages/reality` (uv workspace member) provides the versioned service
+  contract catalog and `RealityProfile`/`WorldProfile`/`RuntimeLock` with
+  canonical digests and typed validation.
+- Composition spike S1?S5 is `PASS`: 100-commit continuity with no silent
+  overwrite, actor-rule unload continuity, actor-rule v2 replacement on the same
+  worldline, 1000 mount/unmount cycles with zero leaked timers/listeners/rules,
+  and the graph artifact at `artifacts/r7/composition/resolved_graph.json`.
+- The spike and the scope test each caught a real defect that was fixed rather
+  than reclassified: batch-dependent state-hash folding, and a worldline unload
+  that disposed the shared root fiber and tore down every other world.
+
+Not implemented yet (see `reports/r7/15_R7_FINAL_CLOSURE_REPORT.md`): the JSON-RPC
+bridge to the Python authority, worldline RuntimeLock pinning, Execution Fabric,
+DSH bridge, Capability Foundry, RealityProfile shadow-replay migration, and the
+R7 reference worlds. Final Decision: `NOT_COMPLETE`. No `v5.6` tag, release or
+branch was created.
 ## V55-FINAL-CLOSURE-R1 (2026-08-28)
 
 The first-book lineage selector now chooses the latest dated source

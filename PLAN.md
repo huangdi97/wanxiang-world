@@ -986,3 +986,12 @@ models, or enter v5.6. The v5.4.0 tag is immutable.
 - Final release rule: only all required M94 gates ACCEPTED may create
   annotated `v5.5.0-rc1` and a GitHub prerelease. Otherwise preserve
   `NOT_ACCEPTED` and stop at the unique blocker.
+
+## R7 Phase B status (2026-09-25)
+
+Cordis composition slice implemented and certified (spike S1?S5, world scope
+isolation, 16 versioned seams, capability hardening). Remaining R7 work is
+tracked as `NOT_IMPLEMENTED` in `reports/r7/15_R7_FINAL_CLOSURE_REPORT.md`:
+JSON-RPC authority bridge, worldline RuntimeLock pinning, Execution Fabric,
+DSH bridge, Capability Foundry, RealityProfile shadow-replay migration, R7
+reference worlds, and the R7 clean-clone run. Final Decision: `NOT_COMPLETE`.

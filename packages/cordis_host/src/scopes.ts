@@ -101,9 +101,11 @@ export class WorldScopeManager {
   /**
    * Unload a worldline runtime.
    *
-   * Runtime effects are undone and the isolated services disappear, but the
-   * provider recorded by this worldline is retained so the committed history
-   * remains readable and replayable. This is the invariant certified by S2.
+   * Only the worldline's own plugin fibers are disposed. Cordis `isolate()`
+   * derives a child context that shares the parent fiber, so disposing
+   * `runtime.ctx.fiber` would tear down the whole runtime — including every
+   * other world — which the world-isolation test caught. Committed history is
+   * retained in the provider, so it stays readable and replayable afterwards.
    */
   async closeWorldline(worldlineId: string): Promise<void> {
     const runtime = this.worldlines.get(worldlineId);
@@ -111,7 +113,6 @@ export class WorldScopeManager {
     for (const fiber of [...runtime.fibers]) {
       await fiber.dispose();
     }
-    await runtime.ctx.fiber.dispose();
     this.retained.set(worldlineId, runtime.provider);
     this.worldlines.delete(worldlineId);
   }
