@@ -19,7 +19,7 @@ worktree clean at the time of this report's commit
 ```
 
 The v5.5 Stable work stays on `release/v5.5-stable-certification` (remote, CI
-green); this branch is cut from it and has not been pushed yet.
+green); this branch is cut from it and is pushed as `feature/r7-cordis-native`.
 
 ## 2. v5.5 Stable status
 
@@ -114,7 +114,9 @@ GEDCOM, heritage) is unchanged; the four R7 reference slices were not built.
 ## 16. Remote CI / push status
 
 Phase A: runs `36194471592` and `36196736517` succeeded with all six required
-jobs green. Phase B: branch not pushed, so no CI run covers this branch yet.
+jobs green. Phase B: `feature/r7-cordis-native` is pushed and run `36204929548`
+at `1fe086b` succeeded with all six jobs green, including the `ts` job that now
+executes the Cordis host tests.
 
 ## 17. Remaining BLOCKED / NOT_PROVEN
 
