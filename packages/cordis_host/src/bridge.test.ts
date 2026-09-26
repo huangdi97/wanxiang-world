@@ -1,3 +1,4 @@
+import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -266,19 +267,34 @@ describe("history seam capability stamping", () => {
   });
 });
 
-describe("python authority integration", () => {
+/**
+ * The cross-language test drives the real Python authority process, so it needs
+ * the Python toolchain. CI's `ts` job provisions uv and syncs the workspace,
+ * which means the test runs for real there; a workstation without uv reports a
+ * skip with an explicit reason instead of a misleading failure.
+ */
+const PYTHON_SEAM_SKIP_REASON =
+  "uv is not on PATH: install uv (this repository's CI provisions it) to run the cross-language seam test";
+const pythonToolchainAvailable =
+  spawnSync("uv", ["--version"], { stdio: "ignore" }).status === 0;
+if (!pythonToolchainAvailable) {
+  console.warn(PYTHON_SEAM_SKIP_REASON);
+}
+
+describe.skipIf(!pythonToolchainAvailable)("python authority integration", () => {
   it("matches the python seam digest and commits through a real grant", async () => {
     const transport: RpcTransportOptions = {
       command: ["uv", "run", "python", "-m", "wanxiang_reality.rpc", "--stdio"],
       cwd: resolve(process.cwd(), "..", ".."),
-      requestTimeoutMs: 60_000,
+      // Generous on purpose: a cold `uv run` resolves and syncs before it answers.
+      requestTimeoutMs: 120_000,
     };
     const client = new RpcStdioClient(transport);
     const bootstrap = new RpcAuthorityBootstrap(transport, undefined, client);
     try {
       const info = await bootstrap.info().catch((error: unknown) => {
         const message = error instanceof Error ? error.message : String(error);
-        throw new Error(`python side not available yet: ${message}`);
+        throw new Error(`python authority process failed to start: ${message}`);
       });
       expect(info.server).toBe("wanxiang-reality-rpc");
       expect(await bootstrap.seamDigest()).toBe(seamDigest());

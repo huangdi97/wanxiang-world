@@ -134,6 +134,13 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      # The R7 history seam is cross-language: bridge.test.ts drives the real
+      # Python authority process, so this job needs the Python toolchain too.
+      - uses: astral-sh/setup-uv@v4
+        with:
+          python-version: "3.12"
+      - name: Sync the Python workspace for the cross-language seam test
+        run: uv sync --all-groups --all-packages
       - name: Lint
         run: pnpm -r lint
       - name: Typecheck
