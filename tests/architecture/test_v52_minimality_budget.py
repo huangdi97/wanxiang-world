@@ -51,14 +51,15 @@ def test_budget_counts_are_stable() -> None:
     budget = _load()
     # Current R7 snapshot anchors; the M26-M93 history remains in the ledger and
     # these counts include the accepted v5.5 projection/product additions.
-    # R7 additions over the v5.5 anchors: +1 registry
-    # (wanxiang_reality.registry.RealityProfileRegistry) and +4 ports
-    # (AgentHarnessProvider, ReplaySource, MigrationSink, ExternalEffectHandler);
-    # no engine/service/commit-path abstraction was added.
-    assert budget["registry_classes"] == 18
+    # R7 additions over the v5.5 anchors: +3 registries
+    # (RealityProfileRegistry, VerifiedCapabilityRegistry, ProviderRegistry) and
+    # +5 ports (AgentHarnessProvider, ReplaySource, MigrationSink,
+    # ExternalEffectHandler, Artifact2CapabilityProvider); no
+    # engine/service/commit-path abstraction was added.
+    assert budget["registry_classes"] == 20
     assert budget["service_classes"] == 25
     assert budget["engine_classes"] == 5
-    assert budget["ports"] == 48
+    assert budget["ports"] == 49
     loc = budget["production_loc"]
     files = budget["production_files"]
     assert isinstance(loc, int) and loc > 0

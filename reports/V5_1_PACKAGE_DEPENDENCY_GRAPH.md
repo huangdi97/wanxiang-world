@@ -9,6 +9,7 @@
 | packages/cordis_host | EXPERIMENTAL (R7 Cordis composition host, TS) | (none) |
 | packages/domain | core | (none) |
 | packages/execution | EXPERIMENTAL (R7 isolated execution fabric) | (none) |
+| packages/foundry | EXPERIMENTAL (R7 Capability Foundry / Artifact2Capability) | packages/execution |
 | packages/observability | infrastructure (telemetry) | (none) |
 | packages/persistence | infrastructure (persistence) | packages/domain, packages/runtime |
 | packages/reality | EXPERIMENTAL (R7 versioned reality semantics) | (none) |

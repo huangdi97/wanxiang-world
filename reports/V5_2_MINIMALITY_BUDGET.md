@@ -9,15 +9,15 @@ hard invariants that must hold at every milestone.
 
 | Metric | Count |
 |---|---|
-| Production files | 610 |
-| Production LOC | 71648 |
-| Public classes | 1292 |
-| Public functions | 578 |
-| Registries | 18 |
+| Production files | 623 |
+| Production LOC | 73068 |
+| Public classes | 1322 |
+| Public functions | 585 |
+| Registries | 20 |
 | Managers | 0 |
 | Services | 25 |
 | Engines | 5 |
-| Ports | 48 |
+| Ports | 49 |
 | Stores | 31 |
 | State/schema models | 40 |
 | Import cycles | 0 |

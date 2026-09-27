@@ -35,6 +35,14 @@ ALLOWED_DUPLICATE_NAMES: dict[str, tuple[str, ...]] = {
         "packages/substrate/src/wanxiang_substrate/canon_graph/timeline_canon.py",
         "packages/substrate/src/wanxiang_substrate/sources/canon.py",
     ),
+    # R7: an artifact->executable-capability candidate produced by the Capability
+    # Foundry is a different concern from the actor-local learned-capability
+    # candidate of the evolution pipeline: different packages, different fields,
+    # and the foundry type is proposal-only and never touches canonical state.
+    "CapabilityCandidate": (
+        "packages/foundry/src/wanxiang_foundry/candidate.py",
+        "packages/substrate/src/wanxiang_substrate/evolution/capability_growth.py",
+    ),
     # R7: the versioned service-contract error lives in its own package and shares
     # its name with the domain-layer error that predates it.
     "ContractError": (

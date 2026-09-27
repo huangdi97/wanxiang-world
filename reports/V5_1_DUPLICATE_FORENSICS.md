@@ -2,10 +2,12 @@
 
 > Deterministic AST scan. Groups: registry/catalog, state models, stores,
 > services/managers, engines, ports, oversized modules, commit paths.
-## registry_classes (18)
+## registry_classes (20)
 
 | path | name | line |
 |---|---|---|
+| packages/foundry/src/wanxiang_foundry/provider.py | ProviderRegistry | 45 |
+| packages/foundry/src/wanxiang_foundry/registry.py | VerifiedCapabilityRegistry | 43 |
 | packages/reality/src/wanxiang_reality/registry.py | RealityProfileRegistry | 32 |
 | packages/research/src/wanxiang_research/distributed_host.py | LeaseRegistry | 38 |
 | packages/research/src/wanxiang_research/results.py | ExperimentRegistry | 46 |
@@ -146,7 +148,7 @@
 | packages/substrate/src/wanxiang_substrate/authoring/scenario_engine.py | ScenarioEngine | 78 |
 | packages/substrate/src/wanxiang_substrate/epistemic/belief_revision.py | BeliefRevisionEngine | 91 |
 
-## ports (48)
+## ports (49)
 
 | path | name | line |
 |---|---|---|
@@ -155,6 +157,7 @@
 | packages/domain/src/wanxiang_domain/reality_root.py | RealityRootContract | 79 |
 | packages/domain/src/wanxiang_domain/state.py | CanonicalState | 16 |
 | packages/execution/src/wanxiang_execution/outbox_records.py | ExternalEffectHandler | 132 |
+| packages/foundry/src/wanxiang_foundry/provider.py | Artifact2CapabilityProvider | 19 |
 | packages/reality/src/wanxiang_reality/migration.py | ReplaySource | 66 |
 | packages/reality/src/wanxiang_reality/migration_apply.py | MigrationSink | 36 |
 | packages/research/src/wanxiang_research/ai_compiler.py | ExtractionProvider | 25 |

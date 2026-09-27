@@ -27,6 +27,14 @@
     {
       "allowed": true,
       "modules": [
+        "packages/foundry/src/wanxiang_foundry/candidate.py",
+        "packages/substrate/src/wanxiang_substrate/evolution/capability_growth.py"
+      ],
+      "name": "CapabilityCandidate"
+    },
+    {
+      "allowed": true,
+      "modules": [
         "packages/domain/src/wanxiang_domain/errors.py",
         "packages/reality/src/wanxiang_reality/errors.py"
       ],
