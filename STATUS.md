@@ -73,12 +73,17 @@ the Capability Foundry (`packages/foundry`: Artifact2Capability with isolated
 golden/negative/boundary/security verification, a C3-ceiling verified registry
 and proposal-only invocation).
 
+Clean clone: `RUN (Python scope)` at `d0d8ff1` — a fresh clone of the pushed
+branch built its own environment (`uv sync --all-groups --all-packages`) and ran
+`architecture_check.py` (PASS) plus `uv run pytest -q` (`1664 passed, 1 skipped`).
+The pnpm/TypeScript workspace was not cloned.
+
 Still not implemented (see `reports/r7/15_R7_FINAL_CLOSURE_REPORT.md`): the
 official DSH integration (`EXTERNAL_BLOCKED`: no official harness binary was
-provided), the R7 reference worlds, the R7 clean-clone run, and the hardening
-items (persist the `RuntimeLock` per worldline, Python-side lock enforcement,
-direct-DB bypass guard). Final Decision: `NOT_COMPLETE`. No `v5.6` tag, release or
-branch was created.
+provided), the R7 reference worlds, and the hardening items (persist the
+`RuntimeLock` per worldline, Python-side lock enforcement, direct-DB bypass
+guard). Final Decision: `NOT_COMPLETE`. No `v5.6` tag, release or branch was
+created.
 ## V55-FINAL-CLOSURE-R1 (2026-08-28)
 
 The first-book lineage selector now chooses the latest dated source

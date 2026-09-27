@@ -9,10 +9,11 @@ now implements and validates the Cordis composition runtime with versioned seams
 and lock pinning, the cross-language history-authority bridge, the agent-harness
 (DSH seam) bridge with the host-side consequence path, the versioned RealityProfile
 migration, the isolated Execution Fabric with its irreversible-effect outbox, and
-the Capability Foundry / Artifact2Capability chain. What is still missing is not
-inference work but the R7 reference worlds, the R7 clean-clone certification, the
-official DeepSeek Harness (no binary on this host) and two hardening items listed
-in §17. No R7 claim below is made without a reproducible command or artifact.
+the Capability Foundry / Artifact2Capability chain, and a clean clone of the
+pushed branch passes the full Python gate. What is still missing is not inference
+work but the R7 reference worlds, the official DeepSeek Harness (no binary on this
+host) and the hardening items listed in §17. No R7 claim below is made without a
+reproducible command or artifact.
 
 ## 1. Branch / HEAD / worktree
 
@@ -150,8 +151,21 @@ heritage) is unchanged; the four R7 reference slices were not built.
 
 ## 15. Clean clone
 
-`NOT_RUN for this branch`. The Phase A exact-SHA clean clone is recorded for
-`a9be096`; no R7 clean-clone run exists yet.
+`RUN (Python scope)` at the frozen commit `d0d8ff1`. A fresh clone of the pushed
+branch was made into a scratch directory and its own environment built from
+scratch:
+
+```text
+git clone --branch feature/r7-cordis-native --single-branch <remote> <scratch>/r7_clean_clone
+git rev-parse HEAD                                   -> d0d8ff140d6716a45ff4dd88ded9ceba5325105e
+uv sync --all-groups --all-packages                  -> every workspace package built (+ wanxiang-foundry, + wanxiang-execution, ...)
+uv run python scripts/architecture_check.py          -> Architecture conformance: PASS
+uv run pytest -q                                     -> 1664 passed, 1 skipped (PostgreSQL EXTERNAL_BLOCKED)
+```
+
+Not included in this run: the pnpm/TypeScript workspace (a clone check of the TS
+side would need `pnpm install --frozen-lockfile` in both pnpm members), and no
+release/tag step was performed.
 
 ## 16. Remote CI / push status
 
@@ -160,8 +174,9 @@ Phase A: runs `36194471592`, `36196736517` green. Phase B: `36204929548`
 real gap — the `ts` job had no Python toolchain, so the cross-language test failed
 with `spawn uv ENOENT`. The `ts` job now provisions uv and syncs the Python
 workspace, and run `36268215094` at `526b49b` was green with all six jobs passing
-(`ts`: 41 passed, 0 skipped). The foundry, harness and ledger commits on top of
-that are pushed to `feature/r7-cordis-native`.
+(`ts`: 41 passed, 0 skipped). Run `36344805410` at `d0d8ff1` — the commit that adds
+the Capability Foundry, the host-side harness path and the regenerated goldens — is
+green with all six jobs passing.
 
 ## 17. Remaining BLOCKED / NOT_PROVEN
 
@@ -170,7 +185,7 @@ that are pushed to `feature/r7-cordis-native`.
 * Live PostgreSQL profile — `EXTERNAL_BLOCKED` (no instance).
 * Official DSH integration — `EXTERNAL_BLOCKED`: no official harness binary or
   credentials were provided.
-* R7 reference worlds and the R7 clean-clone run — `NOT_IMPLEMENTED` / `NOT_RUN`.
+* R7 reference worlds — `NOT_IMPLEMENTED`.
 * Hardening still open: persist the `RuntimeLock` per worldline and make the Python
   runtime path refuse to open a worldline without one; add the direct-DB bypass
   guard for the new seams; wire a real external effect handler into the outbox.
@@ -187,13 +202,13 @@ that are pushed to `feature/r7-cordis-native`.
 | F DSH | `PARTIAL` | harness port, protocol, bridges and the host-side consequence path validated, including a real cross-language run; official DSH `EXTERNAL_BLOCKED` |
 | G Capability Foundry | `PASS` (unit scope) | artifact→candidate→isolated verification→C3 registry→proposal-only invocation, with no canonical-write path; no real external artifact was compiled yet |
 | H Experience | `PARTIAL` | zh-CN player path exists from Phase A; two experiences sharing one canonical reality not demonstrated |
-| I Reliability | `PARTIAL` | repository gate + TS gates green; no R7 clean clone; lifecycle leak test green (S4) |
+| I Reliability | `PARTIAL` | repository gate + TS gates green; R7 clean clone passed on the Python scope at `d0d8ff1` (TS workspace not cloned); lifecycle leak test green (S4) |
 | J Evidence Integrity | `PASS` | every claim above cites a command or artifact; nothing human/external is inferred; Phase A gates are unchanged and no gate was re-scored |
 
 ## 19. What a next agent should do first
 
 1. Build the four R7 reference slices on top of the foundry + execution fabric, and
-   run the R7 clean-clone certification on the frozen commit.
+   extend the clean-clone check to the pnpm/TypeScript workspace.
 2. Persist the `RuntimeLock` per worldline and make the Python runtime path refuse
    to open a worldline without one; add the direct-DB bypass guard.
 3. Integrate the official DSH when a binary/credentials are available, and drive
