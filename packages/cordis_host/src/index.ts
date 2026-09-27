@@ -68,3 +68,17 @@ export {
   type RpcMethod,
   type RpcTransportOptions,
 } from "./bridge_protocol";
+export {
+  AgentHarnessClient,
+  HARNESS_PROTOCOL,
+  HarnessConsequencePath,
+  parseDecision,
+  type AgentProposal,
+  type HarnessAcknowledgement,
+  type HarnessConsequence,
+  type HarnessDecision,
+  type HarnessDecisionReport,
+  type HarnessInfo,
+  type HarnessObservationInput,
+  type HarnessProposalRecord,
+} from "./harness";

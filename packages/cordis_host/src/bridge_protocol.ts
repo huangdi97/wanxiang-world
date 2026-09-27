@@ -34,6 +34,9 @@ export const RPC_COMMIT_DENIED = -32002;
  */
 export const RPC_TRANSPORT_FAILURE = -32000;
 
+/** The harness process answered with a protocol error of its own (frozen). */
+export const RPC_HARNESS_FAILED = -32010;
+
 /** Frozen method names. */
 export const RpcMethods = {
   runtimeInfo: "runtime.info",
@@ -47,7 +50,23 @@ export const RpcMethods = {
   historyAppend: "history.append",
 } as const;
 
-export type RpcMethod = (typeof RpcMethods)[keyof typeof RpcMethods];
+/**
+ * Frozen agent-harness method names.
+ *
+ * The harness is a separate process speaking the same newline-delimited
+ * JSON-RPC framing as the authority, so one stdio client serves both; keeping the
+ * two vocabularies apart makes an accidental `history.append` against a harness
+ * impossible to write by mistake.
+ */
+export const HarnessMethods = {
+  info: "harness.info",
+  decide: "harness.decide",
+  consequence: "harness.consequence",
+} as const;
+
+export type RpcMethod =
+  | (typeof RpcMethods)[keyof typeof RpcMethods]
+  | (typeof HarnessMethods)[keyof typeof HarnessMethods];
 
 /** A JSON object decoded from the wire. */
 export type JsonFields = Readonly<Record<string, unknown>>;
