@@ -15,6 +15,7 @@ exclude = ["packages/sdk_ts", "packages/cordis_host"]
 [tool.uv.sources]
 wanxiang-research = { workspace = true }
 wanxiang-domain = { workspace = true }
+wanxiang-execution = { workspace = true }
 
 [dependency-groups]
 dev = [

@@ -9,6 +9,7 @@ members = [
     "wanxiang-application",
     "wanxiang-domain",
     "wanxiang-execution",
+    "wanxiang-foundry",
     "wanxiang-observability",
     "wanxiang-persistence",
     "wanxiang-reality",
@@ -740,6 +741,17 @@ source = { editable = "packages/domain" }
 name = "wanxiang-execution"
 version = "0.1.0"
 source = { editable = "packages/execution" }
+
+[[package]]
+name = "wanxiang-foundry"
+version = "0.1.0"
+source = { editable = "packages/foundry" }
+dependencies = [
+    { name = "wanxiang-execution" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "wanxiang-execution", editable = "packages/execution" }]
 
 [[package]]
 name = "wanxiang-observability"
