@@ -1,6 +1,6 @@
 # Status ? Wanxiang Engineering Program
 
-Updated: 2026-09-26 (Phase A v5.5 Gate 79 PASS; Phase B R7 lock/bridge/execution/migration/harness slice, CI green at `526b49b`)
+Updated: 2026-09-26 (Phase A v5.5 Gate 79 PASS; Phase B R7 lock/bridge/execution/migration/harness/foundry slice, CI green at `526b49b`, foundry + host harness path on top)
 
 ## v5.5 Stable Certification ? M95-R and Gate 79 closure (2026-09-25)
 
@@ -64,15 +64,21 @@ history-authority JSON-RPC seam (Python `wanxiang_reality.rpc` server plus TS
 `RpcHistoryProvider`/`RpcAuthorityBootstrap`, with a test that drives the real
 Python process in CI), the irreversible-effect Execution Fabric
 (`packages/execution`: deny-by-default policy, honest traces that are not world
-history, real subprocess provider, append-only outbox), versioned RealityProfile
-migration (per-worldline registry, checkpoint + shadow replay, approval-gated
-apply), and the agent-harness (DSH seam) bridge with a reference harness that
-reports `officialDsh: false`.
+history, real subprocess provider, append-only outbox), the agent-harness (DSH
+seam) bridge including the host-side consequence path
+(`packages/cordis_host/src/harness.ts` decides and announces committed/rejected
+with no commit path of its own), versioned RealityProfile migration
+(per-worldline registry, checkpoint + shadow replay, approval-gated apply), and
+the Capability Foundry (`packages/foundry`: Artifact2Capability with isolated
+golden/negative/boundary/security verification, a C3-ceiling verified registry
+and proposal-only invocation).
 
-Still not implemented (see `reports/r7/15_R7_FINAL_CLOSURE_REPORT.md`): Capability
-Foundry, the official DSH integration (`EXTERNAL_BLOCKED`: no official harness
-binary was provided), the R7 reference worlds, and the R7 clean-clone run. Final
-Decision: `NOT_COMPLETE`. No `v5.6` tag, release or branch was created.
+Still not implemented (see `reports/r7/15_R7_FINAL_CLOSURE_REPORT.md`): the
+official DSH integration (`EXTERNAL_BLOCKED`: no official harness binary was
+provided), the R7 reference worlds, the R7 clean-clone run, and the hardening
+items (persist the `RuntimeLock` per worldline, Python-side lock enforcement,
+direct-DB bypass guard). Final Decision: `NOT_COMPLETE`. No `v5.6` tag, release or
+branch was created.
 ## V55-FINAL-CLOSURE-R1 (2026-08-28)
 
 The first-book lineage selector now chooses the latest dated source

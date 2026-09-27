@@ -1004,9 +1004,16 @@ R7 items landed and are validated by tests, with CI green at `526b49b`:
 - versioned RealityProfile migration (per-worldline registry, checkpoint +
   shadow replay, drift compare, approval-gated migrate/fork/reject);
 - the agent-harness (DSH seam) bridge plus a reference harness that reports
-  `officialDsh: false`.
+  `officialDsh: false`, and the host-side consequence path
+  (`packages/cordis_host/src/harness.ts`) that decides and announces
+  committed/rejected while holding no commit path;
+- the Capability Foundry (`packages/foundry`): Artifact2Capability with isolated
+  golden/negative/boundary/security verification executed through the Execution
+  Fabric, a C3-ceiling verified capability registry and proposal-only invocation,
+  with no canonical-write path anywhere in the package.
 
-Remaining R7 work is tracked as `NOT_IMPLEMENTED` in
-`reports/r7/15_R7_FINAL_CLOSURE_REPORT.md`: Capability Foundry, official DSH
-integration (`EXTERNAL_BLOCKED`: no official harness binary), R7 reference
-worlds, and the R7 clean-clone run. Final Decision: `NOT_COMPLETE`.
+Remaining R7 work is tracked in `reports/r7/15_R7_FINAL_CLOSURE_REPORT.md`:
+official DSH integration (`EXTERNAL_BLOCKED`: no official harness binary), the R7
+reference worlds, the R7 clean-clone run, and the hardening items (persist the
+`RuntimeLock` per worldline, Python-side lock enforcement, direct-DB bypass
+guard). Final Decision: `NOT_COMPLETE`.

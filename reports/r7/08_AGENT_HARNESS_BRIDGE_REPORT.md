@@ -13,6 +13,8 @@ claimed.
 | `packages/runtime/src/wanxiang_runtime/r7_agent_harness.py` | `JsonRpcAgentHarnessProvider`: newline-delimited JSON-RPC stdio transport with a threaded reader that enforces the request timeout |
 | `scripts/r7_reference_harness.py` | a real harness process implementing the protocol with a deterministic rule; reports `officialDsh: false` |
 | `tests/unit/runtime/test_r7_agent_harness.py` | 14 tests, including a real subprocess run of the reference harness |
+| `packages/cordis_host/src/harness.ts` | `AgentHarnessClient` + `HarnessConsequencePath`: the host-side consequence path (decide, then announce committed/rejected) |
+| `packages/cordis_host/src/harness.test.ts` | 16 tests: stub harness (protocol drift, malformed answer, harness-failed code, abstention) plus a real cross-language run of the reference harness |
 
 Protocol: `wanxiang.r7.agent-harness-rpc.v1`; methods `harness.info`,
 `harness.decide`, `harness.consequence`; errors `-32601` unknown method,
@@ -28,6 +30,12 @@ Protocol: `wanxiang.r7.agent-harness-rpc.v1`; methods `harness.info`,
 - A harness that dies or exceeds the timeout surfaces as `HarnessUnavailable`.
 - The reference harness is explicitly labelled a reference rule harness; nothing
   in the repository presents it as the official DSH.
+- A harness advertising a different protocol is refused instead of guessed, and
+  the host-side path makes exactly one harness call per decision (a double round
+  trip would double-advance a real harness' internal state).
+- The consequence path is binding in both directions: a rejection is announced as
+  a rejection, so a harness can never read success out of silence.
+
 
 ## 3. Evidence
 
@@ -35,6 +43,7 @@ Protocol: `wanxiang.r7.agent-harness-rpc.v1`; methods `harness.info`,
 uv run pytest tests/unit/runtime/test_r7_agent_harness.py -q  -> 14 passed
 uv run ruff check / pyright on the three files                -> clean
 uv run python scripts/r7_reference_harness.py --stdio         -> answers harness.info with officialDsh=false
+pnpm -C packages/cordis_host exec vitest run                  -> 8 files / 57 tests passed (16 in harness.test.ts, incl. the real cross-language run)
 uv run python scripts/quality.py                              -> 1605 passed, architecture PASS
 ```
 
@@ -45,5 +54,9 @@ uv run python scripts/quality.py                              -> 1605 passed, ar
   against the official harness.
 - The consequence announcement path is exercised against the reference harness,
   not against a production agent loop.
-- No agent harness is wired into the Cordis host yet: the bridge is a standalone
-  provider of the runtime package.
+- No official DSH binary, model credentials or hosted agent runtime was used, so
+  the official DSH integration stays `EXTERNAL_BLOCKED`.
+- The host-side consequence path exists and is tested, but no production agent
+  loop drives it yet: the harness is asked to decide and is told the outcome,
+  while the actual commit still happens only through the host's single commit
+  path with a real capability.
