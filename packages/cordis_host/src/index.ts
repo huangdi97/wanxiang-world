@@ -82,3 +82,19 @@ export {
   type HarnessObservationInput,
   type HarnessProposalRecord,
 } from "./harness";
+export {
+  FileLockSource,
+  LOCK_STORE_SCHEMA,
+  RuntimeLockMissingError,
+  RuntimeLockTamperedError,
+  assertProvidersMatchLock,
+  assertStoredLockMatchesWorldline,
+  canonicalJson,
+  decodeStoredLock,
+  lockProjectionDigest,
+  toRuntimeLockRef,
+  type LockSource,
+  type RuntimeLockProjection,
+  type StoredRuntimeLock,
+  type WorldlineLockIdentity,
+} from "./stored_lock";

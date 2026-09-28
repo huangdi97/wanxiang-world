@@ -196,6 +196,16 @@ def _lock_projection(lock: RuntimeLock) -> dict[str, object]:
     }
 
 
+def lock_projection(lock: RuntimeLock) -> dict[str, object]:
+    """Return the frozen JSON projection whose digest is the lock digest.
+
+    This is the exact snake_case payload written by
+    :mod:`wanxiang_reality.lock_store` and read by the TypeScript host, so it
+    must stay byte-for-byte identical to what ``RuntimeLock.lock_digest`` hashes.
+    """
+    return _lock_projection(lock)
+
+
 def profile_hash(profile: RealityProfile) -> str:
     """Return the canonical sha256 digest of the reality profile projection."""
     return canonical_digest(_reality_projection(profile))
