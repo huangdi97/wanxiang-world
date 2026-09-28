@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import pytest
+from tests.helpers.leases import lease_for
 from tests.helpers.replay_fixture import BRANCH, INSTANCE, RULES, SCHEMA, build_fixture_events
 from wanxiang_domain.delta import EntityCreate, ProposedWorldDelta
 from wanxiang_domain.errors import ValidationRejected
@@ -14,6 +15,8 @@ from wanxiang_runtime.branch import fork_branch
 from wanxiang_runtime.ports import InMemoryEventStore
 from wanxiang_runtime.replay import ReplayEngine
 from wanxiang_runtime.state import InMemoryCanonicalState
+
+LEASE = lease_for(INSTANCE, BRANCH)
 
 
 def _parent_metadata() -> BranchMetadata:
@@ -67,7 +70,7 @@ def test_child_commit_does_not_mutate_parent() -> None:
     parent_hash = parent_state.semantic_hash()
     parent_stream = InMemoryEventStore()
     for event in events:
-        parent_stream.append(event)
+        parent_stream.append(event, lease=LEASE)
 
     store = InMemoryEventStore()
     authority = CommitAuthority(store, RULES, SCHEMA, branch_base_revision=BranchRevision(5))

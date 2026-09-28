@@ -14,6 +14,7 @@ import pathlib
 
 import pytest
 from tests.conftest import make_world_runtime
+from tests.helpers.leases import lease_for
 from wanxiang_domain.command import CommandEnvelope
 from wanxiang_domain.delta import ProposedWorldDelta
 from wanxiang_domain.errors import PersistenceError
@@ -112,7 +113,7 @@ def test_crash_before_append_leaves_no_trace() -> None:
 
     retry_event = replace(result.event, event_seq=EventSeq(2), event_id=EventId("evt_retry_g14b"))
     with pytest.raises(DuplicateCommandConflict):
-        store.append(retry_event)
+        store.append(retry_event, lease=lease_for(retry_event.instance_id, retry_event.branch_id))
 
 
 def test_crash_after_append_recovers_from_authoritative_history(

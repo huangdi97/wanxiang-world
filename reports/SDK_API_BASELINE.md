@@ -2,7 +2,7 @@
 
 - API routes: 74
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 2104
+- Python public names (stable packages): 2111
 
 ## API routes
 
@@ -100,6 +100,7 @@
 - `wanxiang_application.WorldRuntime`
 - `wanxiang_application.find_root_branch`
 - `wanxiang_application.register_synthetic_resolvers`
+- `wanxiang_application.replay_branch`
 - `wanxiang_application.snapshot_is_valid`
 - `wanxiang_domain.ActorId`
 - `wanxiang_domain.BranchAncestry`
@@ -256,6 +257,8 @@
 - `wanxiang_runtime.AgentProposal`
 - `wanxiang_runtime.AuditRecord`
 - `wanxiang_runtime.BranchRepository`
+- `wanxiang_runtime.CanonicalWriteLease`
+- `wanxiang_runtime.CanonicalWriteRejected`
 - `wanxiang_runtime.CommandValidator`
 - `wanxiang_runtime.CommitAuthority`
 - `wanxiang_runtime.CommitRequest`
@@ -288,8 +291,10 @@
 - `wanxiang_runtime.SnapshotStore`
 - `wanxiang_runtime.StateDiff`
 - `wanxiang_runtime.StoredSnapshot`
+- `wanxiang_runtime.WanxiangRuntimeError`
 - `wanxiang_runtime.WorldObservation`
 - `wanxiang_runtime.apply_delta`
+- `wanxiang_runtime.authorize_structural_write`
 - `wanxiang_runtime.check_delta_invariants`
 - `wanxiang_runtime.check_entity_exists_for_delete`
 - `wanxiang_runtime.check_entity_exists_for_update`
@@ -303,7 +308,9 @@
 - `wanxiang_runtime.diff_states`
 - `wanxiang_runtime.execute_isa`
 - `wanxiang_runtime.fork_branch`
+- `wanxiang_runtime.mint_canonical_write_lease`
 - `wanxiang_runtime.parse_decision`
+- `wanxiang_runtime.require_canonical_write_lease`
 - `wanxiang_runtime.state_from_primitive`
 - `wanxiang_runtime.state_to_primitive`
 - `wanxiang_substrate.ACCESS_KEY_COMPONENT`
@@ -376,12 +383,5 @@
 - `wanxiang_substrate.APPT_MORNING`
 - `wanxiang_substrate.ARTIFACT_SCHEMA_VERSION`
 - `wanxiang_substrate.ASSESSMENT_COMPONENT`
-- `wanxiang_substrate.ASSESSMENT_OUTCOMES`
-- `wanxiang_substrate.AUTHORING_STAGES`
-- `wanxiang_substrate.AUTHORITY_PERMISSIONS`
-- `wanxiang_substrate.AUTHORIZED_REVIEWERS`
-- `wanxiang_substrate.AccessPolicy`
-- `wanxiang_substrate.AcousticZone`
-- `wanxiang_substrate.ActionAffordance`
 
 Machine-readable: reports/sdk_api_baseline.json.

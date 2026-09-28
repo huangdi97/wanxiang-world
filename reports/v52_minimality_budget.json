@@ -388,13 +388,13 @@
     }
   },
   "oversized_modules": 0,
-  "ports": 49,
-  "production_files": 623,
-  "production_loc": 73068,
-  "public_classes": 1322,
-  "public_functions": 585,
+  "ports": 50,
+  "production_files": 633,
+  "production_loc": 74804,
+  "public_classes": 1342,
+  "public_functions": 598,
   "registry_classes": 20,
   "service_classes": 25,
   "state_schema_models": 40,
-  "store_classes": 31
+  "store_classes": 34
 }

@@ -10,6 +10,10 @@ from wanxiang_domain.ids import BranchId, SnapshotId, WorldInstanceId
 from wanxiang_domain.snapshot import SnapshotMetadata
 from wanxiang_domain.time import WorldTime
 
+from wanxiang_runtime.canonical_write import (
+    CanonicalWriteLease,
+    require_canonical_write_lease,
+)
 from wanxiang_runtime.state import InMemoryCanonicalState
 
 
@@ -21,7 +25,11 @@ class StoredSnapshot:
 
 class SnapshotStore(Protocol):
     def save(
-        self, metadata: SnapshotMetadata, state: InMemoryCanonicalState
+        self,
+        metadata: SnapshotMetadata,
+        state: InMemoryCanonicalState,
+        *,
+        lease: CanonicalWriteLease,
     ) -> SnapshotMetadata: ...
 
     def load(
@@ -70,7 +78,16 @@ class InMemorySnapshotStore:
         default_factory=dict[tuple[str, str], list[StoredSnapshot]]
     )
 
-    def save(self, metadata: SnapshotMetadata, state: InMemoryCanonicalState) -> SnapshotMetadata:
+    def save(
+        self,
+        metadata: SnapshotMetadata,
+        state: InMemoryCanonicalState,
+        *,
+        lease: CanonicalWriteLease,
+    ) -> SnapshotMetadata:
+        require_canonical_write_lease(
+            lease, instance_id=metadata.instance_id, branch_id=metadata.branch_id
+        )
         key = (metadata.instance_id.value, metadata.branch_id.value)
         self._snapshots.setdefault(key, []).append(StoredSnapshot(metadata=metadata, state=state))
         return metadata

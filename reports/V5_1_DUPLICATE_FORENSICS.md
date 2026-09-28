@@ -35,7 +35,7 @@
 | packages/domain/src/wanxiang_domain/entity.py | RelationState | 49 |
 | packages/domain/src/wanxiang_domain/state.py | CanonicalState | 16 |
 | packages/reality/src/wanxiang_reality/migration.py | LockedSnapshot | 36 |
-| packages/runtime/src/wanxiang_runtime/snapshot.py | StoredSnapshot | 17 |
+| packages/runtime/src/wanxiang_runtime/snapshot.py | StoredSnapshot | 21 |
 | packages/runtime/src/wanxiang_runtime/state.py | InMemoryCanonicalState | 31 |
 | packages/substrate/src/wanxiang_substrate/actor_continuity/projection.py | ActorContinuitySnapshot | 73 |
 | packages/substrate/src/wanxiang_substrate/actor_continuity/projection.py | ActorContinuityProjection | 95 |
@@ -72,21 +72,24 @@
 | packages/substrate/src/wanxiang_substrate/world_lab/physical_models.py | PhysicalSnapshot | 78 |
 | packages/substrate/src/wanxiang_substrate/world_lab/visual_models.py | VisualSceneState | 129 |
 
-## store_classes (31)
+## store_classes (34)
 
 | path | name | line |
 |---|---|---|
-| packages/application/src/wanxiang_application/ports.py | WorldInstanceStore | 16 |
+| packages/application/src/wanxiang_application/ports.py | WorldInstanceStore | 17 |
 | packages/domain/src/wanxiang_domain/errors.py | CorruptEventStream | 69 |
-| packages/persistence/src/wanxiang_persistence/event_store.py | SqlAlchemyEventStore | 26 |
-| packages/persistence/src/wanxiang_persistence/snapshot_store.py | SqlAlchemySnapshotStore | 22 |
+| packages/persistence/src/wanxiang_persistence/event_store.py | SqlAlchemyEventStore | 30 |
+| packages/persistence/src/wanxiang_persistence/snapshot_store.py | SqlAlchemySnapshotStore | 26 |
+| packages/reality/src/wanxiang_reality/lock_store.py | LockStore | 181 |
+| packages/reality/src/wanxiang_reality/lock_store.py | FileLockStore | 219 |
+| packages/reality/src/wanxiang_reality/lock_store.py | MemoryLockStore | 267 |
 | packages/research/src/wanxiang_research/persona_memory.py | MemoryStore | 24 |
 | packages/research/src/wanxiang_research/reality_stream.py | SensorStream | 47 |
 | packages/research/src/wanxiang_research/reality_stream.py | SyntheticSensorStream | 51 |
-| packages/runtime/src/wanxiang_runtime/ports.py | EventStore | 39 |
-| packages/runtime/src/wanxiang_runtime/ports.py | InMemoryEventStore | 62 |
-| packages/runtime/src/wanxiang_runtime/snapshot.py | SnapshotStore | 22 |
-| packages/runtime/src/wanxiang_runtime/snapshot.py | InMemorySnapshotStore | 66 |
+| packages/runtime/src/wanxiang_runtime/ports.py | EventStore | 44 |
+| packages/runtime/src/wanxiang_runtime/ports.py | InMemoryEventStore | 67 |
+| packages/runtime/src/wanxiang_runtime/snapshot.py | SnapshotStore | 26 |
+| packages/runtime/src/wanxiang_runtime/snapshot.py | InMemorySnapshotStore | 74 |
 | packages/substrate/src/wanxiang_substrate/assets/storage.py | ObjectStore | 35 |
 | packages/substrate/src/wanxiang_substrate/assets/storage.py | LocalObjectStore | 44 |
 | packages/substrate/src/wanxiang_substrate/assets/storage.py | InMemoryObjectStore | 93 |
@@ -102,7 +105,7 @@
 | packages/substrate/src/wanxiang_substrate/long_horizon/checkpoint.py | RunCheckpointStore | 94 |
 | packages/substrate/src/wanxiang_substrate/playable/store.py | PlayableStore | 72 |
 | packages/substrate/src/wanxiang_substrate/playable/store.py | InMemoryPlayableStore | 94 |
-| packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | CheckpointStore | 31 |
+| packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | CheckpointStore | 32 |
 | packages/substrate/src/wanxiang_substrate/review/decisions.py | ReviewLedger | 37 |
 | packages/substrate/src/wanxiang_substrate/sources/blob.py | SourceBlobStore | 51 |
 | packages/substrate/src/wanxiang_substrate/workshop/store.py | WorkshopDraftStore | 16 |
@@ -123,7 +126,7 @@
 | packages/substrate/src/wanxiang_substrate/playable/entry.py | CharacterEntryService | 37 |
 | packages/substrate/src/wanxiang_substrate/playable/service.py | PlayableService | 39 |
 | packages/substrate/src/wanxiang_substrate/projection/service.py | ProjectionService | 32 |
-| packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | CheckpointService | 86 |
+| packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | CheckpointService | 89 |
 | packages/substrate/src/wanxiang_substrate/recovery/recovery.py | RecoveryService | 31 |
 | packages/substrate/src/wanxiang_substrate/resolution/service.py | AdjudicationService | 14 |
 | packages/substrate/src/wanxiang_substrate/session/service.py | SessionService | 16 |
@@ -148,16 +151,17 @@
 | packages/substrate/src/wanxiang_substrate/authoring/scenario_engine.py | ScenarioEngine | 78 |
 | packages/substrate/src/wanxiang_substrate/epistemic/belief_revision.py | BeliefRevisionEngine | 91 |
 
-## ports (49)
+## ports (50)
 
 | path | name | line |
 |---|---|---|
-| packages/application/src/wanxiang_application/ports.py | WorldInstanceStore | 16 |
-| packages/application/src/wanxiang_application/ports.py | AuditSink | 30 |
+| packages/application/src/wanxiang_application/ports.py | WorldInstanceStore | 17 |
+| packages/application/src/wanxiang_application/ports.py | AuditSink | 33 |
 | packages/domain/src/wanxiang_domain/reality_root.py | RealityRootContract | 79 |
 | packages/domain/src/wanxiang_domain/state.py | CanonicalState | 16 |
 | packages/execution/src/wanxiang_execution/outbox_records.py | ExternalEffectHandler | 132 |
 | packages/foundry/src/wanxiang_foundry/provider.py | Artifact2CapabilityProvider | 19 |
+| packages/reality/src/wanxiang_reality/lock_store.py | LockStore | 181 |
 | packages/reality/src/wanxiang_reality/migration.py | ReplaySource | 66 |
 | packages/reality/src/wanxiang_reality/migration_apply.py | MigrationSink | 36 |
 | packages/research/src/wanxiang_research/ai_compiler.py | ExtractionProvider | 25 |
@@ -166,12 +170,12 @@
 | packages/research/src/wanxiang_research/planner.py | Planner | 25 |
 | packages/research/src/wanxiang_research/reality_stream.py | SensorStream | 47 |
 | packages/research/src/wanxiang_research/sim_federation.py | SimulatorAdapter | 38 |
-| packages/runtime/src/wanxiang_runtime/branch.py | BranchRepository | 14 |
-| packages/runtime/src/wanxiang_runtime/ports.py | EventAppendPort | 25 |
-| packages/runtime/src/wanxiang_runtime/ports.py | EventStore | 39 |
+| packages/runtime/src/wanxiang_runtime/branch.py | BranchRepository | 18 |
+| packages/runtime/src/wanxiang_runtime/ports.py | EventAppendPort | 30 |
+| packages/runtime/src/wanxiang_runtime/ports.py | EventStore | 44 |
 | packages/runtime/src/wanxiang_runtime/r7_agent_harness_contract.py | AgentHarnessProvider | 130 |
 | packages/runtime/src/wanxiang_runtime/resolver.py | CommandValidator | 23 |
-| packages/runtime/src/wanxiang_runtime/snapshot.py | SnapshotStore | 22 |
+| packages/runtime/src/wanxiang_runtime/snapshot.py | SnapshotStore | 26 |
 | packages/substrate/src/wanxiang_substrate/actor_continuity/reprioritization_policy.py | GoalReprioritizationPolicy | 20 |
 | packages/substrate/src/wanxiang_substrate/actor_continuity/reprioritization_policy.py | GoalProposalProvider | 80 |
 | packages/substrate/src/wanxiang_substrate/agency/policy.py | PolicyContext | 13 |
@@ -210,4 +214,4 @@
 
 | path | name | line |
 |---|---|---|
-| packages/runtime/src/wanxiang_runtime/authority.py | commit | 91 |
+| packages/runtime/src/wanxiang_runtime/authority.py | commit | 95 |

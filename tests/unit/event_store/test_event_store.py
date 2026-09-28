@@ -4,17 +4,20 @@ from __future__ import annotations
 
 import pytest
 from tests.contract.test_event_store_contract import BRANCH, INSTANCE, make_event
+from tests.helpers.leases import lease_for
 from wanxiang_domain.errors import CorruptEventStream
 from wanxiang_domain.hierarchy import BranchRevision, EventSeq
 from wanxiang_domain.ids import BranchId, CommandId
 from wanxiang_runtime.ports import InMemoryEventStore
+
+LEASE = lease_for(INSTANCE, BRANCH)
 
 
 @pytest.mark.unit
 def test_streams_are_isolated_per_branch() -> None:
     store = InMemoryEventStore()
     other = BranchId("br_other")
-    store.append(make_event(1, "cmd_1"))
+    store.append(make_event(1, "cmd_1"), lease=LEASE)
     assert store.load(INSTANCE, other) == ()
     assert store.last_event_seq(INSTANCE, other) == EventSeq(0)
 
@@ -22,7 +25,7 @@ def test_streams_are_isolated_per_branch() -> None:
 @pytest.mark.unit
 def test_integrity_check_detects_gap() -> None:
     store = InMemoryEventStore()
-    store.append(make_event(1, "cmd_1"))
+    store.append(make_event(1, "cmd_1"), lease=LEASE)
     # Manually inject an event with a seq gap into the private stream.
     stream = store._streams[(INSTANCE.value, BRANCH.value)]  # type: ignore[attr-defined]
     stream.append(make_event(3, "cmd_3"))

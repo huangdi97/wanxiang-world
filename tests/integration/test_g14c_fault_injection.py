@@ -20,6 +20,7 @@ from wanxiang_domain.event import CommittedEvent
 from wanxiang_domain.hierarchy import BranchRevision, EventSeq
 from wanxiang_domain.ids import BranchId, CommandId, WorldInstanceId
 from wanxiang_domain.time import WorldTime
+from wanxiang_runtime.canonical_write import CanonicalWriteLease
 from wanxiang_runtime.ports import EventStore
 
 
@@ -33,11 +34,11 @@ class FaultyEventStore:
         self.append_attempts = 0
         self.load_attempts = 0
 
-    def append(self, event: CommittedEvent) -> None:
+    def append(self, event: CommittedEvent, *, lease: CanonicalWriteLease) -> None:
         self.append_attempts += 1
         if self.fail_append:
             raise PersistenceError("simulated persistence outage")
-        self._inner.append(event)
+        self._inner.append(event, lease=lease)
 
     def load(
         self,

@@ -5,6 +5,7 @@ from __future__ import annotations
 import pytest
 from sqlalchemy import update
 from tests.conftest import cleanup_db_file, fresh_db_path, make_world_runtime
+from tests.helpers.leases import lease_for
 from tests.helpers.replay_fixture import BRANCH as GOLDEN_BRANCH
 from tests.helpers.replay_fixture import INSTANCE as GOLDEN_INSTANCE
 from tests.helpers.replay_fixture import build_fixture_events
@@ -201,7 +202,7 @@ def test_a9_corrupt_stream_fails_explicitly(world_runtime: WorldRuntime) -> None
 def test_a10_durable_replay_matches_golden(world_runtime: WorldRuntime) -> None:
     store = world_runtime.persistence.event_store
     for event in build_fixture_events():
-        store.append(event)
+        store.append(event, lease=lease_for(GOLDEN_INSTANCE, GOLDEN_BRANCH))
     engine = ReplayEngine(RuntimeVersion(1), SchemaVersion(1))
     final = engine.replay(store.load(GOLDEN_INSTANCE, GOLDEN_BRANCH))
     assert final.semantic_hash() == GOLDEN_HASH

@@ -7,6 +7,7 @@ from collections.abc import Iterator
 
 import pytest
 from tests.conftest import cleanup_db_file, fresh_db_path, make_world_runtime
+from tests.helpers.leases import lease_for
 from wanxiang_application.world_runtime import CreateWorldResult, SubmitCommandResult, WorldRuntime
 from wanxiang_domain.command import CommandEnvelope
 from wanxiang_domain.hierarchy import BranchRevision
@@ -153,7 +154,7 @@ def test_m1_golden_replay_unaffected(world_runtime: WorldRuntime) -> None:
     from tests.helpers.replay_fixture import build_fixture_events
 
     for event in build_fixture_events():
-        world_runtime.persistence.event_store.append(event)
+        world_runtime.persistence.event_store.append(event, lease=lease_for(GI, GB))
     final = ReplayEngine(RuntimeVersion(1), SchemaVersion(1)).replay(
         world_runtime.persistence.event_store.load(GI, GB)
     )
@@ -190,7 +191,9 @@ def test_pre_g02_db_upgrades_cleanly_and_m1_fixture_still_replays() -> None:
         runtime = make_house_runtime(path)
         world = runtime.create_world(instance_id=INSTANCE)
         for event in build_fixture_events():
-            runtime.persistence.event_store.append(event)
+            runtime.persistence.event_store.append(
+                event, lease=lease_for(event.instance_id, event.branch_id)
+            )
         for command in build_house_fixture_commands(world.root_branch_id):
             runtime.submit_command(command)
         move(runtime, world.root_branch_id, 1, "alice", "kitchen", "cmd_pre_g02")

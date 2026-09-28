@@ -7,6 +7,11 @@ from wanxiang_runtime.authority import (
     CommitResult,
 )
 from wanxiang_runtime.branch import InMemoryBranchRepository, fork_branch
+from wanxiang_runtime.canonical_write import (
+    CanonicalWriteLease,
+    CanonicalWriteRejected,
+    WanxiangRuntimeError,
+)
 from wanxiang_runtime.diff import StateDiff, diff_states
 from wanxiang_runtime.invariants import (
     INVARIANTS,
@@ -46,6 +51,8 @@ __all__ = [
     "AgentDecision",
     "AgentHarnessProvider",
     "AgentProposal",
+    "CanonicalWriteLease",
+    "CanonicalWriteRejected",
     "CommitAuthority",
     "CommitRequest",
     "CommitResult",
@@ -69,6 +76,7 @@ __all__ = [
     "SnapshotStore",
     "StateDiff",
     "StoredSnapshot",
+    "WanxiangRuntimeError",
     "WorldObservation",
     "apply_delta",
     "check_delta_invariants",

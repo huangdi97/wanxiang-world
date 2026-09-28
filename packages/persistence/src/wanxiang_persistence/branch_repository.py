@@ -8,6 +8,10 @@ from wanxiang_domain.errors import NotFound
 from wanxiang_domain.hierarchy import BranchAncestry, BranchMetadata, BranchRevision, EventSeq
 from wanxiang_domain.ids import BranchId, WorldInstanceId
 from wanxiang_domain.versions import RuntimeVersion, SchemaVersion
+from wanxiang_runtime.canonical_write import (
+    CanonicalWriteLease,
+    require_canonical_write_lease,
+)
 
 from wanxiang_persistence.database import session_scope
 from wanxiang_persistence.models import BranchRecord
@@ -17,7 +21,10 @@ class SqlAlchemyBranchRepository:
     def __init__(self, session_factory: sessionmaker[Session]) -> None:
         self._session_factory = session_factory
 
-    def save(self, metadata: BranchMetadata) -> None:
+    def save(self, metadata: BranchMetadata, *, lease: CanonicalWriteLease) -> None:
+        require_canonical_write_lease(
+            lease, instance_id=metadata.instance_id, branch_id=metadata.branch_id
+        )
         record = BranchRecord(
             branch_id=metadata.branch_id.value,
             instance_id=metadata.instance_id.value,

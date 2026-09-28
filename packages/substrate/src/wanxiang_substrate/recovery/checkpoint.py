@@ -13,6 +13,7 @@ from dataclasses import dataclass
 
 from wanxiang_domain.hierarchy import BranchRevision, EventSeq
 from wanxiang_domain.ids import BranchId, SnapshotId, WorldInstanceId
+from wanxiang_runtime.canonical_write import CanonicalWriteLease
 from wanxiang_runtime.snapshot import SnapshotStore as RuntimeSnapshotStore
 from wanxiang_runtime.snapshot import create_snapshot_metadata
 from wanxiang_runtime.state import InMemoryCanonicalState
@@ -43,14 +44,16 @@ class CheckpointStore:
         self._latest: dict[str, tuple[int, str]] = {}
         self._by_snapshot: dict[str, tuple[str, str, int]] = {}
 
-    def save(self, metadata: CheckpointMeta, state: InMemoryCanonicalState) -> CheckpointMeta:
+    def save(
+        self, metadata: CheckpointMeta, state: InMemoryCanonicalState, *, lease: CanonicalWriteLease
+    ) -> CheckpointMeta:
         snapshot_meta = create_snapshot_metadata(
             state,
             EventSeq(state.revision.value),
             snapshot_id=SnapshotId(metadata.snapshot_id),
             content_ref=f"checkpoint://{metadata.snapshot_id}",
         )
-        self._store.save(snapshot_meta, state)
+        self._store.save(snapshot_meta, state, lease=lease)
         self._by_snapshot[metadata.snapshot_id] = (
             state.instance_id.value,
             state.branch_id.value,
@@ -96,6 +99,8 @@ class CheckpointService:
         revision: int,
         state: InMemoryCanonicalState,
         snapshot_id: str,
+        *,
+        lease: CanonicalWriteLease,
     ) -> CheckpointMeta:
         expected = state.semantic_hash()
         if state.revision.value != revision:
@@ -103,7 +108,7 @@ class CheckpointService:
                 f"checkpoint revision mismatch: state {state.revision.value} != {revision}"
             )
         meta = CheckpointMeta(instance_id, branch_id, revision, snapshot_id)
-        self._store.save(meta, state)
+        self._store.save(meta, state, lease=lease)
         stored = self._store.load(snapshot_id)
         if stored.semantic_hash() != expected:
             raise CorruptSnapshot("checkpoint did not round-trip")

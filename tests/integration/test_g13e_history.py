@@ -17,6 +17,7 @@ import pytest
 from alembic import command
 from alembic.config import Config
 from tests.conftest import make_world_runtime
+from tests.helpers.leases import lease_for
 from tests.helpers.replay_fixture import BRANCH, INSTANCE, build_fixture_events
 from wanxiang_domain.command import CommandEnvelope
 from wanxiang_domain.entity import FieldValue
@@ -156,7 +157,7 @@ def test_migration_preserves_replay_semantic_hash(persist_db_path: pathlib.Path)
         )
         store = SqlAlchemyEventStore(factory)
         for event in build_fixture_events():
-            store.append(event)
+            store.append(event, lease=lease_for(INSTANCE, BRANCH))
         before = ReplayEngine(RuntimeVersion(1), SchemaVersion(1)).replay(
             store.load(INSTANCE, BRANCH)
         )

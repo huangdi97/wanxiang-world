@@ -12,6 +12,7 @@ from wanxiang_domain.ids import WorldInstanceId
 from wanxiang_domain.time import WorldTime
 from wanxiang_domain.versions import RuntimeVersion, SchemaVersion
 from wanxiang_runtime.branch import InMemoryBranchRepository
+from wanxiang_runtime.canonical_write import CanonicalWriteLease, require_canonical_write_lease
 from wanxiang_runtime.ports import InMemoryEventStore
 from wanxiang_runtime.resolver import ResolverRegistry
 from wanxiang_runtime.snapshot import InMemorySnapshotStore
@@ -39,7 +40,10 @@ class MemoryInstanceStore:
         schema_version: SchemaVersion,
         rule_version: RuntimeVersion,
         created_world_time: WorldTime,
+        *,
+        lease: CanonicalWriteLease,
     ) -> None:
+        require_canonical_write_lease(lease, instance_id=instance_id)
         self._rows[instance_id.value] = (schema_version, rule_version, created_world_time)
 
     def get(self, instance_id: WorldInstanceId) -> tuple[SchemaVersion, RuntimeVersion, WorldTime]:

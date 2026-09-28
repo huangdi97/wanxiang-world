@@ -8,11 +8,15 @@ from wanxiang_domain.errors import NotFound, ValidationRejected
 from wanxiang_domain.hierarchy import BranchAncestry, BranchMetadata, BranchRevision, EventSeq
 from wanxiang_domain.ids import BranchId, WorldInstanceId
 
+from wanxiang_runtime.canonical_write import (
+    CanonicalWriteLease,
+    require_canonical_write_lease,
+)
 from wanxiang_runtime.state import InMemoryCanonicalState
 
 
 class BranchRepository(Protocol):
-    def save(self, metadata: BranchMetadata) -> None: ...
+    def save(self, metadata: BranchMetadata, *, lease: CanonicalWriteLease) -> None: ...
 
     def get(self, branch_id: BranchId) -> BranchMetadata: ...
 
@@ -25,7 +29,10 @@ class InMemoryBranchRepository:
     def __init__(self) -> None:
         self._branches: dict[BranchId, BranchMetadata] = {}
 
-    def save(self, metadata: BranchMetadata) -> None:
+    def save(self, metadata: BranchMetadata, *, lease: CanonicalWriteLease) -> None:
+        require_canonical_write_lease(
+            lease, instance_id=metadata.instance_id, branch_id=metadata.branch_id
+        )
         self._branches[metadata.branch_id] = metadata
 
     def get(self, branch_id: BranchId) -> BranchMetadata:
