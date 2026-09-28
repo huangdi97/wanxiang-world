@@ -6,6 +6,7 @@ outbox records irreversible external effects append-only, suppresses duplicate
 execution by idempotency key and never retries an ambiguous effect.
 """
 
+from wanxiang_execution.effect_observation import EffectObservation, observe_effect
 from wanxiang_execution.errors import (
     AmbiguousEffectResult,
     DuplicateEffectSuppressed,
@@ -20,6 +21,7 @@ from wanxiang_execution.fabric import (
     ExecutionResult,
     LocalProcessProvider,
 )
+from wanxiang_execution.http_effect import HANDLER_ID, HttpEffectHandler
 from wanxiang_execution.local_process import MAX_CAPTURE_BYTES
 from wanxiang_execution.outbox import Outbox
 from wanxiang_execution.outbox_executor import OutboxExecutor
@@ -63,6 +65,9 @@ __all__ = [
     "EXIT_STATUS_FAILED",
     "EXIT_STATUS_POLICY_DENIED",
     "EXIT_STATUS_TIMEOUT",
+    "EffectObservation",
+    "HANDLER_ID",
+    "HttpEffectHandler",
     "MAX_CAPTURE_BYTES",
     "STATUS_AMBIGUOUS",
     "STATUS_APPLIED",
@@ -95,5 +100,6 @@ __all__ = [
     "TrustLevel",
     "authorize",
     "environment_hash",
+    "observe_effect",
     "trace_digest",
 ]
