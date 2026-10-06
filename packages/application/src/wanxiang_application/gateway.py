@@ -139,7 +139,7 @@ class WorldCapabilityGateway:
                 revision=event.revision.value,
                 event_seq=event.event_seq.value,
                 actor_id=event.actor_id.value if event.actor_id is not None else "",
-                world_time=event.world_time.value,
+                world_time=event.world_time.ticks,
             )
             for event in list(events)[:limit]
         )

@@ -235,7 +235,16 @@ def build_distribution(
             "utf-8"
         )
     ).hexdigest()
-    return DistributionBuild(build_id=f"dist:{digest}", **payload)
+    return DistributionBuild(
+        build_id=f"dist:{digest}",
+        experience_id=blueprint.experience_id,
+        experience_version=blueprint.version,
+        world_ref=blueprint.world_ref,
+        adapter_id=adapter.adapter_id,
+        adapter_version=adapter.version,
+        channel=adapter.channel,
+        locale=blueprint.locale_default,
+    )
 
 
 def experience_card(
