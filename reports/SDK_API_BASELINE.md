@@ -2,7 +2,7 @@
 
 - API routes: 74
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 2126
+- Python public names (stable packages): 2129
 
 ## API routes
 
@@ -93,6 +93,7 @@
 - `wanxiang_application.DEFAULT_WORLD_TIME`
 - `wanxiang_application.GatewayHistoryItem`
 - `wanxiang_application.GatewayObservation`
+- `wanxiang_application.GatewayOperation`
 - `wanxiang_application.GatewayProposal`
 - `wanxiang_application.GovernedOperationRequest`
 - `wanxiang_application.Now`
@@ -382,6 +383,5 @@
 - `wanxiang_substrate.ACTOR_A`
 - `wanxiang_substrate.ACTOR_B`
 - `wanxiang_substrate.ACTOR_STATE_COMPONENT`
-- `wanxiang_substrate.ADJUDICATION_SCHEMA`
 
 Machine-readable: reports/sdk_api_baseline.json.

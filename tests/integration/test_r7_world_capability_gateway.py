@@ -4,13 +4,18 @@ from __future__ import annotations
 
 import pytest
 from scripts.reference_runtime import build_reference_runtime
-from wanxiang_application.gateway import AgentSessionIdentity, WorldCapabilityGateway
 from wanxiang_api.experience_player_service import ExperiencePlayerService
+from wanxiang_application.gateway import AgentSessionIdentity, WorldCapabilityGateway
 from wanxiang_domain.errors import ValidationRejected
 from wanxiang_domain.ids import WorldInstanceId
 
 
-def _session(world_id: str, branch_id: str, *, actor_id: str = "act_gateway") -> AgentSessionIdentity:
+def _session(
+    world_id: str,
+    branch_id: str,
+    *,
+    actor_id: str = "act_gateway",
+) -> AgentSessionIdentity:
     return AgentSessionIdentity(
         principal_id="principal:test-agent",
         role="agent",
