@@ -12,7 +12,6 @@ import sys
 from pathlib import Path
 
 import pytest
-
 from scripts.reference_runtime import build_reference_runtime
 from wanxiang_api.experience_player_service import ExperiencePlayerService
 from wanxiang_application.observer_experience import ObserverExperienceService
@@ -50,7 +49,6 @@ from wanxiang_substrate.ledger.ledger import CompletionLedger
 from wanxiang_substrate.ledger.model import ContentItem, ReviewDecision
 from wanxiang_substrate.sources.gate import SourceGate
 from wanxiang_substrate.sources.model import RightsEnvelope, SourceRecord, payload_hash
-
 
 ROOT = Path(__file__).resolve().parents[2]
 HARNESS = ROOT / "scripts" / "r7_reference_harness.py"
