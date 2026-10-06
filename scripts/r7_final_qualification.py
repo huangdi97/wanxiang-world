@@ -86,7 +86,14 @@ def steps() -> tuple[Step, ...]:
         Step("ruff-check", _uv("ruff", "check", ".")),
         Step("ruff-format", _uv("ruff", "format", "--check", ".")),
         Step("pyright", _uv("pyright")),
-        Step("pytest-full", _uv("pytest", "-q")),
+        Step(
+            "playwright-install",
+            _uv("playwright", "install", "--with-deps", "chromium"),
+        ),
+        Step(
+            "pytest-full",
+            ("uv", "run", "--with", "psycopg2-binary", "pytest", "-q"),
+        ),
         Step("r7-unit", _uv("pytest", "-q", *R7_PYTEST_SUITES)),
         Step(
             "runtime-lock",
@@ -113,12 +120,6 @@ def steps() -> tuple[Step, ...]:
         Step("ts-lint", ("pnpm", "-r", "lint"), requires_command="pnpm"),
         Step("ts-test", ("pnpm", "-r", "test"), requires_command="pnpm"),
         Step("ts-build", ("pnpm", "-r", "build"), requires_command="pnpm"),
-        Step(
-            "playwright-install",
-            _uv("playwright", "install", "--with-deps", "chromium"),
-            required=False,
-            requires_command="pnpm",
-        ),
         Step(
             "browser-e2e",
             _uv("pytest", "-q", *BROWSER_TESTS),
