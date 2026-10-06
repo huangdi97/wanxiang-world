@@ -130,7 +130,9 @@ class OfficialDeepSeekHarnessProvider:
         try:
             self._harness = factory(**kwargs)
         except Exception as exc:
-            raise HarnessUnavailable(f"cannot initialize official DeepSeek Harness SDK: {exc}") from exc
+            raise HarnessUnavailable(
+                f"cannot initialize official DeepSeek Harness SDK: {exc}"
+            ) from exc
         return self._harness
 
     def info(self) -> HarnessInfo:
@@ -176,7 +178,9 @@ class OfficialDeepSeekHarnessProvider:
                 session_id=self._session_id(consequence.worldline_id),
             )
         except Exception as exc:
-            raise HarnessUnavailable(f"official DeepSeek Harness consequence failed: {exc}") from exc
+            raise HarnessUnavailable(
+                f"official DeepSeek Harness consequence failed: {exc}"
+            ) from exc
         fields = _parse_json_response(result.final_response, "consequence acknowledgement")
         if fields.get("acknowledged") is not True:
             raise HarnessProtocolError("official DSH did not acknowledge the consequence")
