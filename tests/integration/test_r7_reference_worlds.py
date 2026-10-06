@@ -12,6 +12,7 @@ import sys
 from pathlib import Path
 
 import pytest
+from scripts.reference_runtime import build_reference_runtime
 from wanxiang_api.experience_player_service import ExperiencePlayerService
 from wanxiang_application.observer_experience import ObserverExperienceService
 from wanxiang_domain.errors import ValidationRejected
@@ -49,7 +50,6 @@ from wanxiang_substrate.ledger.model import ContentItem, ReviewDecision
 from wanxiang_substrate.sources.gate import SourceGate
 from wanxiang_substrate.sources.model import RightsEnvelope, SourceRecord, payload_hash
 
-from scripts.reference_runtime import build_reference_runtime
 
 ROOT = Path(__file__).resolve().parents[2]
 HARNESS = ROOT / "scripts" / "r7_reference_harness.py"
@@ -438,7 +438,10 @@ def test_science_capability_real_artifact_verifies_executes_then_requires_author
         provenance=provenance,
         validity=Validity(
             supported_inputs=("non-negative integer",),
-            known_limitations=("reference arithmetic only", "PROCESS is not a hostile-code sandbox"),
+            known_limitations=(
+                "reference arithmetic only",
+                "PROCESS is not a hostile-code sandbox",
+            ),
             environment_hash=canonical_sha256(
                 {
                     "python": f"{sys.version_info.major}.{sys.version_info.minor}",
