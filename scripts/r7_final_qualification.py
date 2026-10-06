@@ -252,9 +252,7 @@ def main(argv: list[str] | None = None) -> int:
     records = [run_step(step) for step in steps()]
     failed = [record for record in records if record["status"] == "FAIL"]
     skipped = [record for record in records if record["status"] == "SKIPPED"]
-    required_skipped = [
-        record for record in skipped if bool(record.get("required", True))
-    ]
+    required_skipped = [record for record in skipped if bool(record.get("required", True))]
     if failed:
         verdict = "FAIL"
     elif required_skipped:

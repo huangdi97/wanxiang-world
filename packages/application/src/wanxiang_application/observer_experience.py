@@ -34,9 +34,7 @@ class ObserverExperienceService:
     def __init__(self, runtime: WorldRuntime) -> None:
         self._runtime = runtime
 
-    def observe(
-        self, instance_id: WorldInstanceId, branch_id: BranchId
-    ) -> ObserverExperienceView:
+    def observe(self, instance_id: WorldInstanceId, branch_id: BranchId) -> ObserverExperienceView:
         """Observe one worldline without owning or mutating canonical state."""
         state = self._runtime.current_state(instance_id, branch_id)
         events = self._runtime.events(instance_id, branch_id)
