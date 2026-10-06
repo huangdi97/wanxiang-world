@@ -14,7 +14,7 @@ from pathlib import Path
 import pytest
 from scripts.reference_runtime import build_reference_runtime
 from wanxiang_api.experience_player_service import ExperiencePlayerService
-from wanxiang_application.observer_experience import ObserverExperienceService
+from wanxiang_application.observer_experience import ObserverExperience
 from wanxiang_domain.errors import ValidationRejected
 from wanxiang_domain.ids import WorldInstanceId
 from wanxiang_execution import ExecutionClass, ExecutionPolicy
@@ -65,7 +65,7 @@ def test_original_world_two_experiences_share_one_canonical_reality() -> None:
     runtime = build_reference_runtime()
     world = runtime.create_world(instance_id=WorldInstanceId("wld_r7_original"))
     player = ExperiencePlayerService(runtime)
-    observer = ObserverExperienceService(runtime)
+    observer = ObserverExperience(runtime)
     branch = player.start_session(world.instance_id)
 
     created = player.act(

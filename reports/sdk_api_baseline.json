@@ -91,7 +91,7 @@
     "wanxiang_application.DEFAULT_SCHEMA_VERSION",
     "wanxiang_application.DEFAULT_WORLD_TIME",
     "wanxiang_application.Now",
-    "wanxiang_application.ObserverExperienceService",
+    "wanxiang_application.ObserverExperience",
     "wanxiang_application.ObserverExperienceView",
     "wanxiang_application.PersistenceBundle",
     "wanxiang_application.RestoreResult",

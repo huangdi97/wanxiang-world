@@ -28,7 +28,7 @@ class ObserverExperienceView:
     latest_event_id: str | None
 
 
-class ObserverExperienceService:
+class ObserverExperience:
     """Read-only Experience sharing the injected runtime with other Experiences."""
 
     def __init__(self, runtime: WorldRuntime) -> None:
@@ -49,4 +49,4 @@ class ObserverExperienceService:
         )
 
 
-__all__ = ["ObserverExperienceService", "ObserverExperienceView"]
+__all__ = ["ObserverExperience", "ObserverExperienceView"]
