@@ -12,6 +12,7 @@ import sys
 from pathlib import Path
 
 import pytest
+
 from scripts.reference_runtime import build_reference_runtime
 from wanxiang_api.experience_player_service import ExperiencePlayerService
 from wanxiang_application.observer_experience import ObserverExperienceService
