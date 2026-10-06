@@ -12,6 +12,10 @@ from wanxiang_runtime.canonical_write import (
     CanonicalWriteRejected,
     WanxiangRuntimeError,
 )
+from wanxiang_runtime.deepseek_harness_provider import (
+    OfficialDeepSeekHarnessProvider,
+    OfficialDshSettings,
+)
 from wanxiang_runtime.diff import StateDiff, diff_states
 from wanxiang_runtime.invariants import (
     INVARIANTS,
@@ -70,6 +74,8 @@ __all__ = [
     "InMemorySnapshotStore",
     "IsaExecutionResult",
     "JsonRpcAgentHarnessProvider",
+    "OfficialDeepSeekHarnessProvider",
+    "OfficialDshSettings",
     "PromotionUseCase",
     "ReplayEngine",
     "ResolverRegistry",

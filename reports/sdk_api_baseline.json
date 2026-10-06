@@ -292,6 +292,8 @@
     "wanxiang_runtime.IsaExecutionResult",
     "wanxiang_runtime.JsonRpcAgentHarnessProvider",
     "wanxiang_runtime.Now",
+    "wanxiang_runtime.OfficialDeepSeekHarnessProvider",
+    "wanxiang_runtime.OfficialDshSettings",
     "wanxiang_runtime.PLATFORM_PROTECTED_ENTITY_PREFIX",
     "wanxiang_runtime.PromotionUseCase",
     "wanxiang_runtime.ReplayEngine",

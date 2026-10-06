@@ -2,7 +2,7 @@
 
 - API routes: 74
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 2129
+- Python public names (stable packages): 2131
 
 ## API routes
 
@@ -292,6 +292,8 @@
 - `wanxiang_runtime.IsaExecutionResult`
 - `wanxiang_runtime.JsonRpcAgentHarnessProvider`
 - `wanxiang_runtime.Now`
+- `wanxiang_runtime.OfficialDeepSeekHarnessProvider`
+- `wanxiang_runtime.OfficialDshSettings`
 - `wanxiang_runtime.PLATFORM_PROTECTED_ENTITY_PREFIX`
 - `wanxiang_runtime.PromotionUseCase`
 - `wanxiang_runtime.ReplayEngine`
@@ -381,7 +383,5 @@
 - `wanxiang_substrate.ACTION_VISIT_SICK`
 - `wanxiang_substrate.ACTOR`
 - `wanxiang_substrate.ACTOR_A`
-- `wanxiang_substrate.ACTOR_B`
-- `wanxiang_substrate.ACTOR_STATE_COMPONENT`
 
 Machine-readable: reports/sdk_api_baseline.json.
