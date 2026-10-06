@@ -14,6 +14,15 @@ from wanxiang_substrate.playable.experience import (
     ExperiencePackage,
     experience_from_profile,
 )
+from wanxiang_substrate.playable.fabric import (
+    DistributionAdapter,
+    DistributionBuild,
+    ExperienceBlueprint,
+    InteractionProfile,
+    WorldExperienceCard,
+    build_distribution,
+    experience_card,
+)
 from wanxiang_substrate.playable.factory import profile_from_world_package
 from wanxiang_substrate.playable.models import (
     PLAYABLE_PROFILE_SCHEMA_VERSION,
@@ -44,11 +53,15 @@ __all__ = [
     "CharacterRecord",
     "CommittedStateDiff",
     "DiffChange",
+    "DistributionAdapter",
+    "DistributionBuild",
     "EmbodimentPolicy",
+    "ExperienceBlueprint",
     "EntryReceipt",
     "ExperienceInstanceRecord",
     "ExperiencePackage",
     "InMemoryPlayableStore",
+    "InteractionProfile",
     "IntentCompileResult",
     "IntentCompiler",
     "PlayableStore",
@@ -61,8 +74,11 @@ __all__ = [
     "ScenarioProfile",
     "SessionCard",
     "WorldCard",
+    "WorldExperienceCard",
     "WorldPlaza",
     "active_lease",
+    "build_distribution",
+    "experience_card",
     "experience_from_profile",
     "profile_from_world_package",
     "render_narrative",

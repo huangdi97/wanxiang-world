@@ -2,7 +2,7 @@
 
 - API routes: 74
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 2113
+- Python public names (stable packages): 2126
 
 ## API routes
 
@@ -86,10 +86,15 @@
 - `wanxiang_application.ACTION_CREATE_ENTITY`
 - `wanxiang_application.ACTION_SET_STATUS`
 - `wanxiang_application.ACTION_TRANSFER_RESOURCE`
+- `wanxiang_application.AgentSessionIdentity`
 - `wanxiang_application.AuditSink`
 - `wanxiang_application.CreateWorldResult`
 - `wanxiang_application.DEFAULT_SCHEMA_VERSION`
 - `wanxiang_application.DEFAULT_WORLD_TIME`
+- `wanxiang_application.GatewayHistoryItem`
+- `wanxiang_application.GatewayObservation`
+- `wanxiang_application.GatewayProposal`
+- `wanxiang_application.GovernedOperationRequest`
 - `wanxiang_application.Now`
 - `wanxiang_application.ObserverExperience`
 - `wanxiang_application.ObserverExperienceView`
@@ -97,6 +102,7 @@
 - `wanxiang_application.RestoreResult`
 - `wanxiang_application.StateReader`
 - `wanxiang_application.SubmitCommandResult`
+- `wanxiang_application.WorldCapabilityGateway`
 - `wanxiang_application.WorldEnvironment`
 - `wanxiang_application.WorldInstanceStore`
 - `wanxiang_application.WorldRuntime`
@@ -377,11 +383,5 @@
 - `wanxiang_substrate.ACTOR_B`
 - `wanxiang_substrate.ACTOR_STATE_COMPONENT`
 - `wanxiang_substrate.ADJUDICATION_SCHEMA`
-- `wanxiang_substrate.AGENCY_SCHEMA_VERSION`
-- `wanxiang_substrate.ALICE`
-- `wanxiang_substrate.ANNOUNCEMENT_COMPONENT`
-- `wanxiang_substrate.APPOINTMENT_COMPONENT`
-- `wanxiang_substrate.APPROVERS`
-- `wanxiang_substrate.APPT_MORNING`
 
 Machine-readable: reports/sdk_api_baseline.json.
