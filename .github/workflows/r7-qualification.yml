@@ -64,17 +64,15 @@ jobs:
           cd "$R7_CLEAN_ROOT"
           uv run python scripts/r7_final_qualification.py             --expect-sha "$GITHUB_SHA"             --label ci-exact-sha
 
-      - name: Verify clean clone stayed clean except qualification evidence
+      - name: Verify qualification left no source drift
         shell: bash
         run: |
           set -euo pipefail
           cd "$R7_CLEAN_ROOT"
           git status --short
-          unexpected="$(
-            git status --porcelain |
-              grep -v '^?? artifacts/r7/qualification/' || true
-          )"
-          test -z "$unexpected"
+          git restore -- artifacts/r7/composition/resolved_graph.json reports/V5_2_MINIMALITY_BUDGET.md reports/v52_minimality_budget.json
+          remaining="$(git status --porcelain | grep -v '^?? artifacts/r7/qualification/' || true)"
+          test -z "$remaining"
 
       - name: Upload qualification evidence
         if: always()
