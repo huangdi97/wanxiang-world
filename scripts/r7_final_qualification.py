@@ -7,8 +7,8 @@ exact-SHA claim is reproducible from a fresh clone.
 
 Steps that need something this host does not have (a browser binary, a tool on
 PATH, a test file that does not exist yet) are reported as SKIPPED with an
-explicit reason instead of being silently treated as passing. A required step that
-fails fails the whole run.
+explicit reason. Optional steps may skip; a skipped *required* step makes the
+qualification NOT_PROVEN and returns non-zero. A failed step makes the run FAIL.
 
 Usage::
 
@@ -252,7 +252,15 @@ def main(argv: list[str] | None = None) -> int:
     records = [run_step(step) for step in steps()]
     failed = [record for record in records if record["status"] == "FAIL"]
     skipped = [record for record in records if record["status"] == "SKIPPED"]
-    verdict = "PASS" if not failed else "FAIL"
+    required_skipped = [
+        record for record in skipped if bool(record.get("required", True))
+    ]
+    if failed:
+        verdict = "FAIL"
+    elif required_skipped:
+        verdict = "NOT_PROVEN"
+    else:
+        verdict = "PASS"
     payload = {
         "schema": SCHEMA,
         "headSha": head,
@@ -286,13 +294,15 @@ def main(argv: list[str] | None = None) -> int:
     )
     print(
         f"qualification: {verdict} ({len(records)} steps, "
-        f"{len(failed)} failed, {len(skipped)} skipped)"
+        f"{len(failed)} failed, {len(skipped)} skipped, "
+        f"{len(required_skipped)} required-skipped)"
     )
     print(f"artifact: {json_path.relative_to(ROOT).as_posix()}")
     for record in failed:
         print(f"FAILED {record['name']}: {str(record.get('outputTail', '')).splitlines()[-1:]}")
     for record in skipped:
-        print(f"SKIPPED {record['name']}: {record.get('reason')}")
+        required = "required" if bool(record.get("required", True)) else "optional"
+        print(f"SKIPPED ({required}) {record['name']}: {record.get('reason')}")
     return 0 if verdict == "PASS" else 1
 
 
