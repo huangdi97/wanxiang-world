@@ -27,8 +27,9 @@ def _tuple_of_strings(value: object, name: str) -> tuple[str, ...]:
         return ()
     if not isinstance(value, (list, tuple)):
         raise ValueError(f"{name} must be a list/tuple of strings")
+    raw_values = cast(list[object] | tuple[object, ...], value)
     values: list[str] = []
-    for item in value:
+    for item in raw_values:
         if not isinstance(item, str):
             raise ValueError(f"{name} must contain only strings")
         values.append(item)
