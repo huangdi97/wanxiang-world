@@ -23,6 +23,23 @@ GatewayOperation = Literal[
     "submit_order",
 ]
 
+OPERATION_SCOPE = {
+    "observe": "world.observe",
+    "inspect_world_metadata": "world.inspect",
+    "inspect_world_schema": "world.inspect",
+    "query_entities": "world.entities",
+    "query_relations": "world.relations",
+    "query_worldline": "world.worldline",
+    "list_capabilities": "world.capabilities",
+    "query_history": "world.history",
+    "query_branch_diff": "world.branch.diff",
+    "propose_action": "world.propose",
+    "request_fork": "world.fork",
+    "request_experiment": "world.experiment",
+    "request_simulation": "world.simulation",
+    "submit_order": "world.order",
+}
+
 
 def _parse_expiry(value: str) -> datetime:
     """Parse an offset-aware ISO-8601 expiry and normalize it to UTC."""
@@ -156,5 +173,6 @@ __all__ = [
     "GatewayOperation",
     "GatewayProposal",
     "GovernedOperationRequest",
+    "OPERATION_SCOPE",
     "WorldSkill",
 ]

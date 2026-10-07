@@ -18,6 +18,7 @@ from wanxiang_domain.ids import ActorId, BranchId, CommandId, WorldInstanceId
 from wanxiang_runtime.state import state_to_primitive
 
 from wanxiang_application.gateway_contract import (
+    OPERATION_SCOPE,
     AgentSessionIdentity,
     GatewayHistoryItem,
     GatewayObservation,
@@ -25,19 +26,18 @@ from wanxiang_application.gateway_contract import (
     GovernedOperationRequest,
     WorldSkill,
 )
+from wanxiang_application.gateway_queries import (
+    inspect_world_metadata,
+    inspect_world_schema,
+    list_capabilities,
+    query_entities,
+    query_relations,
+    query_worldline,
+)
 from wanxiang_application.world_runtime import WorldRuntime
 
 _GatewayNow = Callable[[], datetime]
 _RAW_CANONICAL_RIGHT = "world.canonical.read"
-
-_OPERATION_SCOPE = {
-    "observe": "world.observe",
-    "query_history": "world.history",
-    "query_branch_diff": "world.branch.diff",
-    "propose_action": "world.propose",
-    "request_fork": "world.fork",
-    "request_experiment": "world.experiment",
-}
 
 
 class WorldCapabilityGateway:
@@ -61,112 +61,33 @@ class WorldCapabilityGateway:
         )
 
     def inspect_world_metadata(self, session: AgentSessionIdentity) -> dict[str, object]:
-        """Return stable instance/worldline metadata without exposing a writer."""
         self._require_operation(session, "inspect_world_metadata")
         instance_id, branch_id = self._refs(session)
-        schema_version, rule_version, created_world_time = self._runtime.persistence.instances.get(
-            instance_id
-        )
-        state = self._runtime.current_state(instance_id, branch_id)
-        return {
-            "world_id": instance_id.value,
-            "branch_id": branch_id.value,
-            "revision": state.revision.value,
-            "state_hash": state.semantic_hash(),
-            "schema_version": schema_version.value,
-            "rule_version": rule_version.value,
-            "created_world_time": created_world_time.ticks,
-        }
+        return inspect_world_metadata(self._runtime, instance_id, branch_id)
 
     def inspect_world_schema(self, session: AgentSessionIdentity) -> dict[str, object]:
-        """Describe the bounded public command/state vocabulary for this session."""
         self._require_operation(session, "inspect_world_schema")
         instance_id, _branch_id = self._refs(session)
-        schema_version, rule_version, _created = self._runtime.persistence.instances.get(
-            instance_id
-        )
-        return {
-            "schema_version": schema_version.value,
-            "rule_version": rule_version.value,
-            "action_types": self._runtime.action_types(),
-            "state_shape": ("entities", "relations", "revision"),
-        }
+        return inspect_world_schema(self._runtime, instance_id)
 
     def query_entities(self, session: AgentSessionIdentity) -> tuple[dict[str, object], ...]:
-        """Return a read-only primitive projection of canonical entities."""
         self._require_operation(session, "query_entities")
         instance_id, branch_id = self._refs(session)
-        state = self._runtime.current_state(instance_id, branch_id)
-        items: list[dict[str, object]] = []
-        for entity in state.entities():
-            items.append(
-                {
-                    "id": entity.entity_id.value,
-                    "type": entity.entity_type,
-                    "components": tuple(
-                        {
-                            "id": component.component_id.value,
-                            "type": component.component_type,
-                            "version": component.schema_version.value,
-                            "fields": dict(component.fields),
-                        }
-                        for component in entity.components.values()
-                    ),
-                }
-            )
-        return tuple(items)
+        return query_entities(self._runtime, instance_id, branch_id)
 
     def query_relations(self, session: AgentSessionIdentity) -> tuple[dict[str, object], ...]:
-        """Return a read-only primitive projection of canonical relations."""
         self._require_operation(session, "query_relations")
         instance_id, branch_id = self._refs(session)
-        state = self._runtime.current_state(instance_id, branch_id)
-        items: list[dict[str, object]] = []
-        for relation in state.relations():
-            items.append(
-                {
-                    "id": relation.relation_id.value,
-                    "type": relation.relation_type,
-                    "source": relation.source_id.value,
-                    "target": relation.target_id.value,
-                    "attributes": dict(relation.attributes),
-                }
-            )
-        return tuple(items)
+        return query_relations(self._runtime, instance_id, branch_id)
 
     def query_worldline(self, session: AgentSessionIdentity) -> dict[str, object]:
-        """Return branch identity/ancestry plus the current canonical head."""
         self._require_operation(session, "query_worldline")
         instance_id, branch_id = self._refs(session)
-        branch = self._runtime.persistence.branches.get(branch_id)
-        if branch.instance_id != instance_id:
-            raise PermissionDenied("branch does not belong to the session world")
-        state = self._runtime.current_state(instance_id, branch_id)
-        ancestry = branch.ancestry
-        return {
-            "world_id": instance_id.value,
-            "branch_id": branch_id.value,
-            "revision": state.revision.value,
-            "parent_branch_id": (
-                ancestry.parent_branch_id.value if ancestry.parent_branch_id is not None else None
-            ),
-            "fork_revision": (
-                ancestry.fork_revision.value if ancestry.fork_revision is not None else None
-            ),
-            "fork_event_seq": (
-                ancestry.fork_event_seq.value if ancestry.fork_event_seq is not None else None
-            ),
-        }
+        return query_worldline(self._runtime, instance_id, branch_id)
 
     def list_capabilities(self, session: AgentSessionIdentity) -> dict[str, tuple[str, ...]]:
-        """List the capabilities granted to this session, not a global registry dump."""
         self._require_operation(session, "list_capabilities")
-        return {
-            "session_scopes": tuple(sorted(session.capability_scope)),
-            "action_types": (
-                self._runtime.action_types() if "world.propose" in session.capability_scope else ()
-            ),
-        }
+        return list_capabilities(self._runtime, session)
 
     def query_history(
         self,
@@ -342,7 +263,7 @@ class WorldCapabilityGateway:
         self._refs(session)
         operations = tuple(
             operation
-            for operation, scope in _OPERATION_SCOPE.items()
+            for operation, scope in OPERATION_SCOPE.items()
             if scope in session.capability_scope
         )
         return WorldSkill(
@@ -367,7 +288,7 @@ class WorldCapabilityGateway:
         capability_id: str = "",
     ) -> None:
         self._refs(session)
-        required = _OPERATION_SCOPE[operation]
+        required = OPERATION_SCOPE[operation]
         if required in session.capability_scope:
             return
         if operation == "request_experiment" and capability_id in session.capability_scope:
