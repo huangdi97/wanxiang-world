@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import base64
 import json
-from collections.abc import Callable
+from collections.abc import Callable, Mapping
 from dataclasses import asdict, dataclass, replace
 from datetime import UTC, datetime
 from pathlib import Path
@@ -87,6 +87,25 @@ class ActorTrajectoryLedger:
         self._entries: list[ActorTrajectoryRecord] = []
         if path is not None and path.exists():
             self._load(path)
+
+    def record_payload(self, payload: Mapping[str, object]) -> ActorTrajectoryRecord:
+        """Record a bounded bridge payload; unknown/private-content keys fail closed."""
+        allowed = set(ActorTrajectoryRecord.__dataclass_fields__)
+        unknown = sorted(set(payload) - allowed)
+        if unknown:
+            raise ValueError(f"unknown trajectory payload fields: {unknown}")
+        value = dict(payload)
+        for name in (
+            "observation_refs",
+            "memory_refs",
+            "memory_hashes",
+            "belief_refs",
+            "tool_refs",
+            "world_event_refs",
+            "rights_scope",
+        ):
+            value[name] = tuple(value.get(name, ()))
+        return self.record(ActorTrajectoryRecord(**value))  # type: ignore[arg-type]
 
     def record(self, item: ActorTrajectoryRecord) -> ActorTrajectoryRecord:
         if any(entry.trajectory_id == item.trajectory_id for entry in self._entries):

@@ -8,9 +8,9 @@ consequence; a harness result can never write the event store directly.
 
 from __future__ import annotations
 
-from collections.abc import Mapping
-from dataclasses import dataclass
-from typing import Literal
+from collections.abc import Callable, Mapping
+from dataclasses import dataclass, replace
+from datetime import UTC, datetime\nfrom typing import Literal
 
 from wanxiang_domain.errors import WanxiangError
 from wanxiang_runtime.r7_agent_harness_contract import (
@@ -37,6 +37,7 @@ class HarnessStepResult:
     state_hash: str
     reason: str
     consequence_acknowledged: bool | None
+    trajectory_recorded: bool | None = None
 
 
 class HarnessWorldLoop:
@@ -48,10 +49,12 @@ class HarnessWorldLoop:
         provider: AgentHarnessProvider,
         *,
         gateway: WorldCapabilityGateway | None = None,
+        trajectory_sink: Callable[[Mapping[str, object]], object] | None = None,
     ) -> None:
         self._runtime = runtime
         self._provider = provider
         self._gateway = gateway or WorldCapabilityGateway(runtime)
+        self._trajectory_sink = trajectory_sink
 
     def step(
         self,
@@ -74,7 +77,7 @@ class HarnessWorldLoop:
             )
         )
         if decision.status == "abstained":
-            return HarnessStepResult(
+            result = HarnessStepResult(
                 status="abstained",
                 proposal_id=None,
                 revision=observed.revision,
@@ -82,18 +85,20 @@ class HarnessWorldLoop:
                 reason=decision.reason,
                 consequence_acknowledged=None,
             )
+            return self._attach_trajectory(session, observed, history, None, result)
 
         proposal = decision.proposal
         assert proposal is not None
         expected_digest = proposal_payload_digest(proposal.action_payload)
         if proposal.payload_digest != expected_digest:
-            return self._reject(
+            result = self._reject(
                 session,
                 proposal,
                 observed.revision,
                 observed.state_hash,
                 "proposal payload digest mismatch",
             )
+            return self._attach_trajectory(session, observed, history, proposal, result)
 
         try:
             gateway_proposal = self._gateway.propose_action(
@@ -104,13 +109,14 @@ class HarnessWorldLoop:
             )
             committed = self._runtime.submit_command(gateway_proposal.command)
         except WanxiangError as exc:
-            return self._reject(
+            result = self._reject(
                 session,
                 proposal,
                 observed.revision,
                 observed.state_hash,
                 f"{exc.code}: {exc.message}",
             )
+            return self._attach_trajectory(session, observed, history, proposal, result)
 
         consequence = HarnessConsequence(
             worldline_id=session.branch_id,
@@ -121,7 +127,7 @@ class HarnessWorldLoop:
             reason="accepted by Wanxiang authority",
         )
         acknowledged = self._provider.deliver_consequence(consequence)
-        return HarnessStepResult(
+        result = HarnessStepResult(
             status="committed",
             proposal_id=proposal.proposal_id,
             revision=committed.state.revision.value,
@@ -129,6 +135,60 @@ class HarnessWorldLoop:
             reason=consequence.reason,
             consequence_acknowledged=acknowledged,
         )
+        return self._attach_trajectory(session, observed, history, proposal, result)
+
+    def _attach_trajectory(
+        self,
+        session: AgentSessionIdentity,
+        observed: object,
+        history: tuple[object, ...],
+        proposal: AgentProposal | None,
+        result: HarnessStepResult,
+    ) -> HarnessStepResult:
+        sink = self._trajectory_sink
+        if sink is None:
+            return result
+        world_event_refs: tuple[str, ...] = ()
+        if result.status == "committed":
+            events = self._runtime.events(
+                __import__("wanxiang_domain.ids", fromlist=["WorldInstanceId"]).WorldInstanceId(
+                    session.world_id
+                ),
+                __import__("wanxiang_domain.ids", fromlist=["BranchId"]).BranchId(session.branch_id),
+            )
+            if events:
+                world_event_refs = (events[-1].event_id.value,)
+        proposal_id = proposal.proposal_id if proposal is not None else f"abstain:{result.revision}"
+        payload = {
+            "trajectory_id": f"trajectory:{session.audit_id}:{proposal_id}:{result.status}",
+            "actor_id": session.actor_id or session.principal_id,
+            "world_id": session.world_id,
+            "worldline_id": session.branch_id,
+            "decision_id": proposal_id,
+            "created_at": datetime.now(UTC).isoformat(),
+            "observation_refs": tuple(
+                str(getattr(item, "event_id", "")) for item in history if getattr(item, "event_id", "")
+            ),
+            "memory_refs": (),
+            "memory_hashes": (),
+            "belief_refs": (),
+            "provider_id": self._provider.provider_id,
+            "model_id": "",
+            "tool_refs": (proposal.action,) if proposal is not None else (),
+            "plan_ref": "",
+            "intent_ref": "",
+            "adjudication_ref": f"wanxiang:{result.status}",
+            "outcome_ref": world_event_refs[0] if world_event_refs else f"outcome:{result.status}",
+            "world_event_refs": world_event_refs,
+            "rights_scope": session.rights_scope,
+            "retention_until": "",
+            "redacted": False,
+        }
+        try:
+            sink(payload)
+        except Exception:
+            return replace(result, trajectory_recorded=False)
+        return replace(result, trajectory_recorded=True)
 
     def _reject(
         self,
