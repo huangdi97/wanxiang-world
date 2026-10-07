@@ -1,15 +1,11 @@
-"""R7 service contracts: the stable seams a world composition may bind to.
-
-A contract id is ``<namespace>@<api_version>`` (for example
-``wanxiang.history@1``). The catalog below is the single source of truth for
-``get_contract``, the JSON manifest and its digest.
-"""
+"""R7 service contracts: stable seams a world composition may bind to."""
 
 from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Final
 
+from wanxiang_reality._contract_specs import CONTRACT_SPECS
 from wanxiang_reality.errors import ContractError
 from wanxiang_reality.hashing import canonical_digest
 
@@ -63,7 +59,6 @@ def _contract(
     error_semantics: tuple[str, ...],
     compatibility: str,
 ) -> ServiceContract:
-    """Build one catalog entry with the fixed ``wanxiang.<name>@1`` identity."""
     return ServiceContract(
         namespace=f"wanxiang.{name}",
         service_id=name,
@@ -76,196 +71,8 @@ def _contract(
     )
 
 
-SERVICE_CONTRACTS: Final[tuple[ServiceContract, ...]] = (
-    _contract(
-        "identity",
-        "root",
-        ("identity.authenticate", "identity.delegate"),
-        ("identity-unresolved", "credential-rejected"),
-        "same-major-provider-swap",
-    ),
-    _contract(
-        "reality.observe",
-        "world",
-        ("reality.observe.read", "reality.observe.stream"),
-        ("observation-rejected", "scope-denied"),
-        "additive-minor",
-    ),
-    _contract(
-        "reality.proposal",
-        "world",
-        ("reality.propose.command", "reality.propose.delta"),
-        ("proposal-rejected", "stale-revision"),
-        "additive-minor",
-    ),
-    _contract(
-        "reality.policy",
-        "tenant",
-        ("reality.policy.evaluate", "reality.policy.publish"),
-        ("policy-conflict", "policy-unsatisfied"),
-        "same-major-provider-swap",
-    ),
-    _contract(
-        "authority",
-        "root",
-        ("authority.commit", "authority.audit"),
-        ("not-commit-authority", "stale-revision"),
-        "same-major-provider-swap",
-    ),
-    _contract(
-        "history",
-        "worldline",
-        ("history.append", "history.read"),
-        ("append-conflict", "history-gap"),
-        "same-major-provider-swap",
-    ),
-    _contract(
-        "branch",
-        "worldline",
-        ("branch.fork", "branch.merge"),
-        ("branch-diverged", "stale-branch-revision"),
-        "additive-minor",
-    ),
-    _contract(
-        "lineage",
-        "worldline",
-        ("lineage.trace", "lineage.verify"),
-        ("lineage-broken", "unknown-ancestor"),
-        "same-major-provider-swap",
-    ),
-    _contract(
-        "replay",
-        "worldline",
-        ("replay.from-event", "replay.verify"),
-        ("replay-divergence", "history-unavailable"),
-        "same-major-provider-swap",
-    ),
-    _contract(
-        "evidence",
-        "world",
-        ("evidence.record", "evidence.verify"),
-        ("evidence-missing", "digest-mismatch"),
-        "additive-minor",
-    ),
-    _contract(
-        "rights",
-        "tenant",
-        ("rights.grant", "rights.revoke"),
-        ("right-denied", "right-unknown"),
-        "additive-minor",
-    ),
-    _contract(
-        "execution",
-        "world",
-        ("execution.schedule", "execution.cancel"),
-        ("execution-rejected", "runtime-unavailable"),
-        "same-major-provider-swap",
-    ),
-    _contract(
-        "actor",
-        "world",
-        ("actor.observe", "actor.control"),
-        ("actor-unresolved", "control-denied"),
-        "additive-minor",
-    ),
-    _contract(
-        "model",
-        "tenant",
-        ("model.invoke", "model.qualify"),
-        ("model-unavailable", "qualification-failed"),
-        "same-major-provider-swap",
-    ),
-    _contract(
-        "capability",
-        "root",
-        ("capability.register", "capability.resolve"),
-        ("capability-unknown", "capability-conflict"),
-        "additive-minor",
-    ),
-    _contract(
-        "world.metadata",
-        "world",
-        ("world.metadata.read", "world.metadata.propose"),
-        ("metadata-unavailable", "metadata-change-rejected"),
-        "additive-minor",
-    ),
-    _contract(
-        "snapshot",
-        "worldline",
-        ("snapshot.create", "snapshot.read"),
-        ("snapshot-unavailable", "snapshot-incompatible"),
-        "same-major-provider-swap",
-    ),
-    _contract(
-        "clock",
-        "world",
-        ("clock.read", "clock.advance"),
-        ("clock-unavailable", "clock-transition-rejected"),
-        "additive-minor",
-    ),
-    _contract(
-        "space",
-        "world",
-        ("space.query", "space.resolve"),
-        ("space-unavailable", "space-resolution-failed"),
-        "additive-minor",
-    ),
-    _contract(
-        "memory",
-        "worldline",
-        ("memory.record", "memory.recall"),
-        ("memory-unavailable", "memory-scope-denied"),
-        "additive-minor",
-    ),
-    _contract(
-        "simulation",
-        "world",
-        ("simulation.run", "simulation.checkpoint"),
-        ("simulation-rejected", "simulation-unavailable"),
-        "same-major-provider-swap",
-    ),
-    _contract(
-        "forge.world",
-        "root",
-        ("forge.world.compile", "forge.world.validate"),
-        ("world-compile-failed", "world-package-invalid"),
-        "additive-minor",
-    ),
-    _contract(
-        "forge.capability",
-        "root",
-        ("forge.capability.compile", "forge.capability.verify"),
-        ("capability-compile-failed", "capability-verification-failed"),
-        "additive-minor",
-    ),
-    _contract(
-        "projection",
-        "world",
-        ("projection.describe", "projection.render"),
-        ("projection-unavailable", "projection-unsupported"),
-        "additive-minor",
-    ),
-    _contract(
-        "experience",
-        "world",
-        ("experience.enter", "experience.continue"),
-        ("experience-unavailable", "experience-entry-denied"),
-        "additive-minor",
-    ),
-    _contract(
-        "distribution",
-        "world",
-        ("distribution.build", "distribution.publish"),
-        ("distribution-unsupported", "distribution-policy-denied"),
-        "additive-minor",
-    ),
-    _contract(
-        "reality.profile",
-        "world",
-        ("reality.profile.read", "reality.profile.lock"),
-        ("profile-unknown", "profile-mismatch"),
-        "additive-minor",
-    ),
+SERVICE_CONTRACTS: Final[tuple[ServiceContract, ...]] = tuple(
+    _contract(*spec) for spec in CONTRACT_SPECS
 )
 
 _CONTRACTS_BY_ID: Final[dict[str, ServiceContract]] = {

@@ -1,0 +1,42 @@
+"""Private data table for the R7 versioned service-contract catalog.
+
+The public semantics and validation live in :mod:`wanxiang_reality.contracts`.
+Keeping the declarative rows separate prevents the contract API module from
+becoming an oversized second registry implementation.
+"""
+
+from __future__ import annotations
+
+from typing import Final
+
+_ContractSpec = tuple[str, str, tuple[str, ...], tuple[str, ...], str]
+
+CONTRACT_SPECS: Final[tuple[_ContractSpec, ...]] = (
+    ("identity", "root", ("identity.authenticate", "identity.delegate"), ("identity-unresolved", "credential-rejected"), "same-major-provider-swap"),
+    ("reality.observe", "world", ("reality.observe.read", "reality.observe.stream"), ("observation-rejected", "scope-denied"), "additive-minor"),
+    ("reality.proposal", "world", ("reality.propose.command", "reality.propose.delta"), ("proposal-rejected", "stale-revision"), "additive-minor"),
+    ("reality.policy", "tenant", ("reality.policy.evaluate", "reality.policy.publish"), ("policy-conflict", "policy-unsatisfied"), "same-major-provider-swap"),
+    ("authority", "root", ("authority.commit", "authority.audit"), ("not-commit-authority", "stale-revision"), "same-major-provider-swap"),
+    ("history", "worldline", ("history.append", "history.read"), ("append-conflict", "history-gap"), "same-major-provider-swap"),
+    ("branch", "worldline", ("branch.fork", "branch.merge"), ("branch-diverged", "stale-branch-revision"), "additive-minor"),
+    ("lineage", "worldline", ("lineage.trace", "lineage.verify"), ("lineage-broken", "unknown-ancestor"), "same-major-provider-swap"),
+    ("replay", "worldline", ("replay.from-event", "replay.verify"), ("replay-divergence", "history-unavailable"), "same-major-provider-swap"),
+    ("evidence", "world", ("evidence.record", "evidence.verify"), ("evidence-missing", "digest-mismatch"), "additive-minor"),
+    ("rights", "tenant", ("rights.grant", "rights.revoke"), ("right-denied", "right-unknown"), "additive-minor"),
+    ("execution", "world", ("execution.schedule", "execution.cancel"), ("execution-rejected", "runtime-unavailable"), "same-major-provider-swap"),
+    ("actor", "world", ("actor.observe", "actor.control"), ("actor-unresolved", "control-denied"), "additive-minor"),
+    ("model", "tenant", ("model.invoke", "model.qualify"), ("model-unavailable", "qualification-failed"), "same-major-provider-swap"),
+    ("capability", "root", ("capability.register", "capability.resolve"), ("capability-unknown", "capability-conflict"), "additive-minor"),
+    ("world.metadata", "world", ("world.metadata.read", "world.metadata.propose"), ("metadata-unavailable", "metadata-change-rejected"), "additive-minor"),
+    ("snapshot", "worldline", ("snapshot.create", "snapshot.read"), ("snapshot-unavailable", "snapshot-incompatible"), "same-major-provider-swap"),
+    ("clock", "world", ("clock.read", "clock.advance"), ("clock-unavailable", "clock-transition-rejected"), "additive-minor"),
+    ("space", "world", ("space.query", "space.resolve"), ("space-unavailable", "space-resolution-failed"), "additive-minor"),
+    ("memory", "worldline", ("memory.record", "memory.recall"), ("memory-unavailable", "memory-scope-denied"), "additive-minor"),
+    ("simulation", "world", ("simulation.run", "simulation.checkpoint"), ("simulation-rejected", "simulation-unavailable"), "same-major-provider-swap"),
+    ("forge.world", "root", ("forge.world.compile", "forge.world.validate"), ("world-compile-failed", "world-package-invalid"), "additive-minor"),
+    ("forge.capability", "root", ("forge.capability.compile", "forge.capability.verify"), ("capability-compile-failed", "capability-verification-failed"), "additive-minor"),
+    ("projection", "world", ("projection.describe", "projection.render"), ("projection-unavailable", "projection-unsupported"), "additive-minor"),
+    ("experience", "world", ("experience.enter", "experience.continue"), ("experience-unavailable", "experience-entry-denied"), "additive-minor"),
+    ("distribution", "world", ("distribution.build", "distribution.publish"), ("distribution-unsupported", "distribution-policy-denied"), "additive-minor"),
+    ("reality.profile", "world", ("reality.profile.read", "reality.profile.lock"), ("profile-unknown", "profile-mismatch"), "additive-minor"),
+)
