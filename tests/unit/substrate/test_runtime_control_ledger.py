@@ -56,7 +56,7 @@ def test_activation_reload_rollback_and_failed_transaction_timeline(tmp_path: Pa
 
     restored = RuntimeControlLedger(path)
     assert restored.entries() == ledger.entries()
-    assert restored.active_at(worldline_id="wl-1", world_revision=3)["model"].transaction_id == "tx-3"
+    restored_active = restored.active_at(worldline_id="wl-1", world_revision=3)\n    assert restored_active["model"].transaction_id == "tx-3"
 
 
 def test_deactivation_removes_capability_and_event_query_is_explicit() -> None:
@@ -66,7 +66,7 @@ def test_deactivation_removes_capability_and_event_query_is_explicit() -> None:
 
     assert ledger.active_at(worldline_id="wl-1", world_revision=3)["model"].version == "1.0.0"
     assert "model" not in ledger.active_at(worldline_id="wl-1", world_revision=4)
-    assert tuple(item.transaction_id for item in ledger.configuration_for_event("evt-1")) == ("tx-1",)
+    event_transactions = ledger.configuration_for_event("evt-1")\n    assert tuple(item.transaction_id for item in event_transactions) == ("tx-1",)
 
 
 def test_runtime_control_is_not_a_world_commit_surface() -> None:
