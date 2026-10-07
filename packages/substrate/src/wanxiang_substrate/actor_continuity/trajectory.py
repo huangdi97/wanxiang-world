@@ -125,9 +125,7 @@ class ActorTrajectoryLedger:
     ) -> tuple[ActorTrajectoryRecord, ...]:
         matching = tuple(item for item in self._entries if item.actor_id == actor_id)
         visible = tuple(
-            item
-            for item in matching
-            if set(item.rights_scope).issubset(requester_scopes)
+            item for item in matching if set(item.rights_scope).issubset(requester_scopes)
         )
         if matching and not visible:
             raise PermissionError("trajectory read denied by rights scope")

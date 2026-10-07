@@ -47,9 +47,7 @@ def test_activation_reload_rollback_and_failed_transaction_timeline(tmp_path: Pa
     failed = ledger.record(
         _tx("tx-2", operation="reload", version="2.0.0", status="failed", world_revision=2)
     )
-    rollback = ledger.record(
-        _tx("tx-3", operation="rollback", version="1.0.0", world_revision=3)
-    )
+    rollback = ledger.record(_tx("tx-3", operation="rollback", version="1.0.0", world_revision=3))
 
     assert (first.runtime_revision, failed.runtime_revision, rollback.runtime_revision) == (1, 2, 3)
     assert ledger.active_at(worldline_id="wl-1", world_revision=2)["model"].version == "1.0.0"
