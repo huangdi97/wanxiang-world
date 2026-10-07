@@ -2,216 +2,215 @@
 
 ## Final Decision
 
-`NOT_COMPLETE`
+`WAITING_HUMAN`
 
-Phase A (v5.5 Stable closure, as far as evidence allows) is closed. Phase B (R7)
-now implements and validates the Cordis composition runtime with versioned seams
-and lock pinning, the cross-language history-authority bridge, the agent-harness
-(DSH seam) bridge with the host-side consequence path, the versioned RealityProfile
-migration, the isolated Execution Fabric with its irreversible-effect outbox, and
-the Capability Foundry / Artifact2Capability chain, and a clean clone of the
-pushed branch passes the full Python gate. What is still missing is not inference
-work but the R7 reference worlds, the official DeepSeek Harness (no binary on this
-host) and the hardening items listed in §17. No R7 claim below is made without a
-reproducible command or artifact.
+R7 Phase B is **implementation-complete for every locally executable design
+slice in the R7 Goal**. The overall program cannot be called Stable-complete
+because v5.5 Gates 62–66 still require a genuine human player. Live official
+DeepSeek Harness model-backed qualification and Godot/real-engine qualification
+remain external rows; they are not silently promoted to PASS.
 
-## 1. Branch / HEAD / worktree
+Qualification anchor for the finished R7 implementation:
+`f7b719df2ccdd906bf2c0f9c3474b1cbe219bbbf`.
 
-```text
-branch     feature/r7-cordis-native
-code head  10db4a6 goal R7: architecture goldens and ledgers for the foundry package
-base       48b3402 (release/v5.5-stable-certification)
-worktree   clean: every R7 artefact is committed, no untracked or modified file
-```
+Both workflows on that SHA are green:
 
-## 2. v5.5 Stable status
+- CI run `37582984372`;
+- exact-SHA R7 clean-clone run `37582984421`.
 
-Gate 79 `PASS` at candidate `a9be096` (CI verified again at the evidence commit
-`48b3402`). Gates 62–66 `USER_INPUT_REQUIRED` / `WAITING_HUMAN` — no human rating
-was fabricated. Gate 78 `EXTERNAL_BLOCKED` (no Godot). Gate 80 `LOCKED`; no
-`v5.5.0` tag or release exists. Nothing in Phase A was re-scored by this turn.
+No `v5.5.0` Stable tag and no `v5.6` release/branch were created by this
+closure.
 
-## 3. Cordis runtime exact version
+## 1. Composition / Cordis
 
-`cordis@4.0.0-rc.10`, pinned in `packages/cordis_host/package.json` and reported
-verbatim in `artifacts/r7/composition/resolved_graph.json`
-(`compositionRuntime.version`, `exact: true`). Node `v22.15.0`.
+**PASS.** Cordis `4.0.0-rc.10` is the pinned first-generation composition
+runtime. The repository does not reimplement a parallel Cordis-like kernel.
+S1–S5 cover 100-commit continuity, plugin unload continuity, provider
+replacement on the same worldline, 1000 mount/unmount cycles, scope isolation
+and resolved-graph export.
 
-## 4. WorldProfile / RealityProfile / RuntimeLock
+## 2. RealityProfile / WorldProfile / RuntimeLock
 
-`IMPLEMENTED` / `VALIDATED` — see `reports/r7/01_WORLDLINE_RUNTIME_LOCK_REPORT.md`
-and `reports/r7/05_VERSIONED_REALITY_PROFILE_MIGRATION_REPORT.md`.
-`wanxiang_reality` owns one lock model and a per-worldline profile registry; the
-Cordis host requires a validated `RuntimeLockRef` to open a worldline, asserts live
-seam digests against the pinned contract versions, and records `runtimeLocks` in
-the resolved graph. Remaining: the lock is supplied by the caller rather than
-persisted, and the Python runtime path does not yet refuse to open a worldline
-without one.
+**PASS.** RuntimeLock is persisted per worldline with a frozen schema and
+tamper-evident digest. Python `open_worldline()` fails closed on missing lock
+(unless creating genesis), identity/profile/provider/schema/config drift and
+returns `MIGRATION_REQUIRED` for major RealityProfile change. The Cordis host
+reads the same persisted lock and revalidates it.
 
-## 5. Service seams and providers
+Evidence: `reports/r7/01_WORLDLINE_RUNTIME_LOCK_REPORT.md`.
 
-`IMPLEMENTED` — see `reports/r7/03_SERVICE_SEAMS_REPORT.md` and
-`reports/r7/06_HISTORY_AUTHORITY_RPC_REPORT.md`. 16 versioned contracts with a
-shared seam digest across Python and TypeScript, and the JSON-RPC history
-authority served by `wanxiang_reality.rpc` and driven by the Cordis host through
-`RpcHistoryProvider`/`RpcAuthorityBootstrap`, with `-32001`/`-32002` mapped to
-typed domain errors. The cross-language test runs for real in CI.
+## 3. Service seams / History / Replay / Branch / Lineage
 
-## 6. History / Replay / Branch / Lineage
+**PASS.** Versioned service seams are explicit; providers are replaceable behind
+contracts. History uses expected revision semantics. Plugin unload cannot remove
+committed history. Snapshotless replay is qualified with a fresh empty snapshot
+store and reproduces the canonical state hash/revision from history alone.
+Branch isolation and lineage semantics remain distinct from sandbox/runtime
+snapshots.
 
-`PARTIAL`. The composition spike certifies 100 continuous commits, monotonic
-revision, typed `expectedRevision` conflict, rebuild-from-history equality and a
-1000× mount/unmount leak check. The RPC authority enforces the same revision
-discipline over the wire (batch-vs-incremental hash equality, denied
-duplicate/unauthorised appends). The repository's existing Python event
-store/branch/replay remains the production path and was not modified.
+Evidence: `reports/r7/03_SERVICE_SEAMS_REPORT.md`,
+`reports/r7/06_HISTORY_AUTHORITY_RPC_REPORT.md`,
+`tests/integration/test_r7_snapshotless_replay.py`.
 
-## 7. Authority / Security
+## 4. Authority / Security
 
-`PARTIAL`, and the implemented part is certified: the capability is minted only by
-the authority bootstrap, checked before any provider call, un-forgeable by shape,
-and reachable only from `authority.ts` (architecture test). Hard deny is
-monotonic; cross-worldline and unversioned-overwrite writes are denied before the
-history seam; the RPC append path refuses a request without a granted token and
-changes nothing on denial; the foundry cannot mint or hold a capability at all.
-Not implemented: direct-DB bypass guard for the new seams, monotonic-guard
-coverage for rights/privacy/evidence, and an operator-facing CommitCapability
-audit surface.
+**PASS.** Canonical write is capability/lease protected, minter and persistence
+write surfaces are architecture-golden guarded, ordinary actors/plugins cannot
+append directly, forged/cross-worldline credentials fail, and the Cordis policy
+layer provides monotonic hard-deny coverage for cross-worldline, rights,
+evidence and external-effect violations. An operator-safe authority grant audit
+surface exists.
 
-## 8. Execution Fabric
+Evidence: `reports/r7/06B_AUTHORITY_SECURITY_REPORT.md`.
 
-`IMPLEMENTED` / `VALIDATED` for the implemented scope — see
-`reports/r7/07_EXECUTION_FABRIC_REPORT.md`. `packages/execution` is a leaf
-package: deny-by-default `ExecutionPolicy`, honest `ExecutionTrace` that is
-explicitly not world history, a real local-subprocess provider, and an append-only
-outbox for irreversible external effects with idempotency-key suppression,
-pre-call markers, ambiguity recording and reconciliation. Not claimed:
-container/VM/seccomp-level sandboxing, execution snapshot/resume, and a real
-third-party effect handler.
+## 5. Execution Fabric / irreversible effects
 
-## 9. DSH Bridge
+**PASS for R7 reference scope.** Untrusted/generated work is routed through the
+Execution Fabric with deny-by-default policy and explicit ExecutionTrace that is
+not World History. A real cross-process localhost HTTP effect handler qualifies
+durable intent, idempotency, duplicate suppression, timeout/crash ambiguity,
+restart, retry and reconciliation.
 
-`PARTIAL` — see `reports/r7/08_AGENT_HARNESS_BRIDGE_REPORT.md`. The provider port,
-the frozen `wanxiang.r7.agent-harness-rpc.v1` protocol, the Python
-`JsonRpcAgentHarnessProvider`, and now the host-side consequence path
-(`AgentHarnessClient` + `HarnessConsequencePath` in the Cordis host) all exist and
-are tested, including a real cross-language run against the reference harness
-(which reports `officialDsh: false`). The official DeepSeek Harness was never
-provided in this environment, so no official-DSH integration is claimed.
+Not claimed: hostile-code container/microVM isolation or production
+payment/robot/chain providers.
 
-## 10. Capability Foundry
+Evidence: `reports/r7/07_EXECUTION_FABRIC_REPORT.md`.
 
-`IMPLEMENTED` / `VALIDATED` — see `reports/r7/09_CAPABILITY_FOUNDRY_REPORT.md`. New
-leaf package `packages/foundry` implements the Artifact2Capability chain
-(artifact → candidate → interface/environment → isolated execution of
-golden/negative/boundary/security cases → verification report → versioned
-provenance-bound package → registry → proposal-only invocation). Invariants are
-enforced in code: no canonical-write output class exists, admission requires a
-matching full-pass C3 report, versions coexist without overwrite, revocation is
-recorded, automation stops at C3, verification treats a missing case as failure,
-and nothing in the package can reach canonical state (AST guard test). Not
-claimed: no Paper2Agent binary or model is used, and no capability was produced
-from a real external paper in this slice.
+## 6. Agent / DSH
 
-## 11. RealityProfile Migration
+**PASS for the Wanxiang integration contract; live official runtime remains
+EXTERNAL_BLOCKED.**
 
-`IMPLEMENTED` / `VALIDATED` at unit and property level — see
-`reports/r7/05_VERSIONED_REALITY_PROFILE_MIGRATION_REPORT.md`. Per-worldline
-version pinning with coexistence, checkpoint + shadow replay, drift comparison and
-a typed `migrate`/`fork`/`reject` plan; applying requires an explicit approval and
-an explicit sink. Remaining: no production-scale long-history migration and no
-approval surface in API/CLI.
+The agent-harness seam, JSON-RPC bridge, consequence callback path, payload
+validation and proposal-only behavior are covered with a real subprocess
+reference harness. An optional official `deepseek-harness-sdk` provider is
+implemented and unit-qualified without faking a live model session. It imports
+no Commit Authority/persistence writer.
 
-## 12. Experience / Application
+Live model-backed official DSH E2E still needs an actual official runtime route
+and credentials and remains `EXTERNAL_BLOCKED`.
 
-`UNCHANGED from Phase A`. The M95-R zh-CN player path is committed and passes the
-full regression, but no R7 experience work was done in this slice.
+Evidence: `reports/r7/08_AGENT_HARNESS_BRIDGE_REPORT.md`.
 
-## 13. Reference Worlds
+## 7. Capability Foundry
 
-`NOT_IMPLEMENTED for R7`. The Phase A reference evidence (source, prompt, GEDCOM,
-heritage) is unchanged; the four R7 reference slices were not built.
+**PASS for the tracked reference-artifact path.** Artifact2Capability covers
+candidate/interface/environment, GOLDEN/NEGATIVE/BOUNDARY/SECURITY execution,
+verification report, provenance-bound package, C3 registry admission,
+revocation/version coexistence and proposal-only invocation. Package admission
+binds the declared interface and exact verification cases.
 
-## 14. Tests / Build / Lint / Typecheck
+The science reference slice proves successful capability execution does not
+mutate World history; a later ordinary World action must still pass Authority.
 
-* `uv run python scripts/quality.py` → `1664 passed, 1 skipped`, architecture
-  `PASS` (the skip is the documented PostgreSQL `EXTERNAL_BLOCKED` profile).
-* R7 Python suites: `tests/unit/foundry` 59, `tests/unit/reality` 64,
-  `tests/unit/execution` 50, `tests/unit/runtime/test_r7_agent_harness.py` 14.
-* `packages/cordis_host`: `tsc --noEmit` 0 errors, `eslint .` clean,
-  `vitest run` → 8 files / 57 tests passed, including both real cross-language
-  tests (Python authority and Python reference harness).
-* Lint/format/typecheck: `ruff check .` clean, `ruff format --check .` clean,
-  `pyright` 0 errors repo-wide.
-* Snapshot gates moved with the R7 abstractions and were regenerated, not
-  weakened: `registry_classes` 17 → 20, `ports` 44 → 49, `state_classes` 39 → 40;
-  hard invariants unchanged (0 import cycles, exactly 1 commit path, 0
-  manager-named classes). Duplicate-abstraction scan verdict `PASS`; the SDK
-  baseline change is purely additive (15 added, 0 removed).
+Evidence: `reports/r7/09_CAPABILITY_FOUNDRY_REPORT.md`.
 
-## 15. Clean clone
+## 8. RealityProfile migration
 
-`RUN (Python scope)` at the frozen commit `d0d8ff1`. A fresh clone of the pushed
-branch was made into a scratch directory and its own environment built from
-scratch:
+**PASS for deterministic/reference scope.** Version coexistence, checkpoint,
+shadow replay, drift comparison, typed migrate/fork/reject plan, explicit
+approval and explicit sink are implemented. Major profile change cannot silently
+hot-swap a writable worldline.
 
-```text
-git clone --branch feature/r7-cordis-native --single-branch <remote> <scratch>/r7_clean_clone
-git rev-parse HEAD                                   -> d0d8ff140d6716a45ff4dd88ded9ceba5325105e
-uv sync --all-groups --all-packages                  -> every workspace package built (+ wanxiang-foundry, + wanxiang-execution, ...)
-uv run python scripts/architecture_check.py          -> Architecture conformance: PASS
-uv run pytest -q                                     -> 1664 passed, 1 skipped (PostgreSQL EXTERNAL_BLOCKED)
-```
+Evidence: `reports/r7/10_REALITY_MIGRATION_REPORT.md`.
 
-Not included in this run: the pnpm/TypeScript workspace (a clone check of the TS
-side would need `pnpm install --frozen-lockfile` in both pnpm members), and no
-release/tag step was performed.
+## 9. Experience / Projection / Distribution
 
-## 16. Remote CI / push status
+**PASS for R7 contract/shared-reality scope.** ExperienceBlueprint,
+InteractionProfile, ProjectionProfile, DistributionAdapter, deterministic
+DistributionBuild and WorldExperienceCard are first-class contracts.
+Projection/distribution contain no canonical writer or canonical storage.
 
-Phase A: runs `36194471592`, `36196736517` green. Phase B: `36204929548`
-(`1fe086b`), `36206057016` (`dc06062`) green; `36265050397` (`a7acc21`) exposed a
-real gap — the `ts` job had no Python toolchain, so the cross-language test failed
-with `spawn uv ENOENT`. The `ts` job now provisions uv and syncs the Python
-workspace, and run `36268215094` at `526b49b` was green with all six jobs passing
-(`ts`: 41 passed, 0 skipped). Run `36344805410` at `d0d8ff1` — the commit that adds
-the Capability Foundry, the host-side harness path and the regenerated goldens — is
-green with all six jobs passing.
+The Original/Fiction reference world runs a Player Experience and read-only
+Observer Experience over the same WorldRuntime; a commit is immediately visible
+through both, and branch divergence is worldline divergence rather than copied
+Experience state. The existing product path remains zh-CN-first and
+Player/Studio separated.
 
-## 17. Remaining BLOCKED / NOT_PROVEN
+Evidence: `reports/r7/11_EXPERIENCE_APPLICATION_REPORT.md`.
 
-* Human Gates 62–66 — `WAITING_HUMAN`, needs a real tester.
-* Godot/real-engine E2E — `EXTERNAL_BLOCKED` on this host.
-* Live PostgreSQL profile — `EXTERNAL_BLOCKED` (no instance).
-* Official DSH integration — `EXTERNAL_BLOCKED`: no official harness binary or
-  credentials were provided.
-* R7 reference worlds — `NOT_IMPLEMENTED`.
-* Hardening still open: persist the `RuntimeLock` per worldline and make the Python
-  runtime path refuse to open a worldline without one; add the direct-DB bypass
-  guard for the new seams; wire a real external effect handler into the outbox.
+## 10. World Capability Gateway
 
-## 18. Architecture Gates A–J
+**PASS for Python SDK contract scope.** AgentSessionIdentity binds
+principal/role/world/branch/audit id, expiry and capability/rights/secret scopes.
+WorldSkill describes the bounded interface. The gateway exposes observation,
+history, branch-diff, proposal-only action and governed fork/experiment requests,
+and intentionally exposes no commit/force-commit/raw database/rewrite-history
+operation.
+
+MCP/OpenAPI/CLI/gRPC may adapt this gateway; none is the canonical World
+protocol.
+
+## 11. Reference worlds
+
+**PASS as bounded architecture slices.**
+
+- Original/Fiction: commit, rejection, branch isolation and shared reality.
+- Heritage: rights/source gating, reconstruction-vs-source distinction and
+  review-before-canon.
+- Agent: real cross-process proposal/consequence flow.
+- Science/Capability: C3 verified capability, isolated execution, proposal-only
+  result and separate World commit.
+
+Evidence: `reports/r7/12_REFERENCE_WORLDS_REPORT.md`.
+
+## 12. Observability / operations
+
+**PASS for R7 contract scope.** R7 operational/readiness projections cover
+world/worldline/revision, RuntimeLock/profile/provider graph refs, proposal/
+commit/reject counters, replay/history latency, actor/model/execution accounting,
+migration/outbox status and explicitly mark themselves non-canonical. Developer,
+operator and zh-CN player quickstarts are tracked under `docs/runbooks/`.
+
+## 13. Full regression / exact-SHA clean clone
+
+**PASS.**
+
+At `f7b719df2ccdd906bf2c0f9c3474b1cbe219bbbf`:
+
+- Python CI: `1749 passed, 1 skipped`; Ruff PASS; Pyright 0 errors;
+  architecture PASS; kernel guard 0 violations.
+- Live PostgreSQL CI profile: `4 passed`.
+- TypeScript: SDK 22 tests PASS; Cordis host 74 tests PASS; lint/typecheck/build
+  PASS.
+- Exact-SHA qualification: 19/19 required steps PASS, 0 failed, 0 skipped,
+  including full Python, security, RuntimeLock, migration, reference worlds,
+  pnpm/TS and browser E2E.
+
+Evidence: `reports/r7/13_FULL_REGRESSION_REPORT.md` and
+`reports/r7/14_CLEAN_CLONE_REPORT.md`.
+
+## 14. Architecture Gates A–J
 
 | Gate | Status | Basis |
 |---|---|---|
-| A Composition | `PARTIAL` | provider replaceable within the history port; consumer/provider separation guarded; A/B world scope isolation certified; resolved graph incl. `runtimeLocks` exported |
-| B Persistence | `PARTIAL` | plugin unload does not remove committed history; ≥100 revisions replay-equal; `expectedRevision` defends lost updates (in-process and over RPC); snapshot-deletion rebuild not yet exercised here |
-| C Authority | `PARTIAL` | capability minted only by the bootstrap; hard deny monotonic; cross-worldline denied; RPC append denied without a granted token; foundry holds no capability. Direct-DB bypass guard pending |
-| D Migration | `PASS` (unit scope) | RealityProfile v1/v2 coexistence, checkpoint + shadow replay, drift compare and typed migrate/fork/reject; no production-scale migration run |
-| E External Execution | `PASS` (unit scope) | deny-by-default policy, trace separated from world history, real subprocess provider, outbox idempotency/ambiguity; container-level sandboxing not claimed |
-| F DSH | `PARTIAL` | harness port, protocol, bridges and the host-side consequence path validated, including a real cross-language run; official DSH `EXTERNAL_BLOCKED` |
-| G Capability Foundry | `PASS` (unit scope) | artifact→candidate→isolated verification→C3 registry→proposal-only invocation, with no canonical-write path; no real external artifact was compiled yet |
-| H Experience | `PARTIAL` | zh-CN player path exists from Phase A; two experiences sharing one canonical reality not demonstrated |
-| I Reliability | `PARTIAL` | repository gate + TS gates green; R7 clean clone passed on the Python scope at `d0d8ff1` (TS workspace not cloned); lifecycle leak test green (S4) |
-| J Evidence Integrity | `PASS` | every claim above cites a command or artifact; nothing human/external is inferred; Phase A gates are unchanged and no gate was re-scored |
+| A Composition | **PASS** | replaceable providers, consumer/provider separation, world-scope isolation, resolved graph, 1000-cycle lifecycle |
+| B Persistence | **PASS** | committed history survives unload, 100+ revision replay, expected-revision conflicts, snapshotless reconstruction |
+| C Authority | **PASS** | branded write capability, direct-write surface guard, monotonic hard deny, cross-worldline denial, safe audit view |
+| D Migration | **PASS (bounded)** | v1/v2 coexistence, shadow replay, drift detection, migrate/fork/reject + explicit approval |
+| E External Execution | **PASS (reference scope)** | isolated process provider, trace/history separation, real cross-process outbox/reconciliation path |
+| F DSH | **PASS (integration contract)** | observe/propose/reject/consequence/no-direct-commit; official live model E2E remains external |
+| G Capability Foundry | **PASS (reference scope)** | real tracked Artifact→C3 verification→registry→proposal-only invocation |
+| H Experience | **PASS (reference scope)** | two Experiences share one canonical world; zh-CN product path retained |
+| I Reliability | **PASS** | full CI + exact-SHA full clean clone + lifecycle/security/browser/PostgreSQL |
+| J Evidence Integrity | **PASS** | DESIGN/IMPLEMENTED/VALIDATED/EXTERNAL/HUMAN boundaries remain explicit |
 
-## 19. What a next agent should do first
+## 15. Remaining non-code blockers
 
-1. Build the four R7 reference slices on top of the foundry + execution fabric, and
-   extend the clean-clone check to the pnpm/TypeScript workspace.
-2. Persist the `RuntimeLock` per worldline and make the Python runtime path refuse
-   to open a worldline without one; add the direct-DB bypass guard.
-3. Integrate the official DSH when a binary/credentials are available, and drive
-   the consequence path from a production agent loop.
-4. Add a real third-party external effect handler to the outbox and exercise the
-   reconcile path against it.
+These are not hidden implementation gaps:
+
+1. v5.5 Gates 62–66: `WAITING_HUMAN`; a real tester must complete
+   `reports/M95_PLAYER_TEST_PACKET_ZH_CN.md`.
+2. Gate 78 Godot/real-engine E2E: `EXTERNAL_BLOCKED` until a supported engine
+   route is available.
+3. Live model-backed official DeepSeek Harness E2E: `EXTERNAL_BLOCKED` until
+   the official SDK/runtime route and credentials are available.
+
+The old "live PostgreSQL unavailable" R7 blocker is closed by GitHub Actions:
+PostgreSQL 16 is started as a service and the live integration profile passes.
+
+## 16. Release boundary
+
+R7 design implementation evidence does not bypass v5.5 human acceptance and
+does not authorize a v5.6 release. The repository may now wait on genuine human
+and external qualification without inventing more local architecture work.
