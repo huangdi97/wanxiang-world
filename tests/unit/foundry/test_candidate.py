@@ -75,3 +75,17 @@ def _candidate_artifact() -> ArtifactRef:
         digest=hashlib.sha256(b"repo").hexdigest(),
         rights_basis="Apache-2.0",
     )
+
+
+def test_artifact_kinds_cover_the_full_artifact2capability_design() -> None:
+    assert {kind.value for kind in ArtifactKind} == {
+        "paper",
+        "repo",
+        "api",
+        "manual",
+        "standard",
+        "notebook",
+        "workflow",
+        "dataset",
+        "simulation",
+    }

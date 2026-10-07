@@ -23,8 +23,12 @@ class ArtifactKind(StrEnum):
     PAPER = "paper"
     REPO = "repo"
     API = "api"
+    MANUAL = "manual"
+    STANDARD = "standard"
     NOTEBOOK = "notebook"
     WORKFLOW = "workflow"
+    DATASET = "dataset"
+    SIMULATION = "simulation"
 
 
 @dataclass(frozen=True, slots=True)
