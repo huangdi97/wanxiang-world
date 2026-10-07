@@ -39,6 +39,7 @@ from wanxiang_domain.world_commit import (
 )
 
 from wanxiang_runtime.audit import AuditRecord
+from wanxiang_runtime.invariants import InvariantCheck, check_layered_delta_invariants
 from wanxiang_runtime.canonical_write import (
     CanonicalWriteLease,
     mint_canonical_write_lease,
@@ -85,17 +86,29 @@ class CommitAuthority:
         schema_version: SchemaVersion = DEFAULT_SCHEMA_VERSION,
         branch_base_revision: BranchRevision = DEFAULT_BRANCH_BASE_REVISION,
         now: Now = CommitTimestamp.now,
+        domain_invariants: tuple[InvariantCheck, ...] = (),
+        world_invariants: tuple[InvariantCheck, ...] = (),
     ) -> None:
         self._event_port = event_port
         self._rule_version = rule_version
         self._schema_version = schema_version
         self._branch_base_revision = branch_base_revision
         self._now = now
+        self._domain_invariants = domain_invariants
+        self._world_invariants = world_invariants
 
     def commit(self, state: InMemoryCanonicalState, request: CommitRequest) -> CommitResult:
         request_kind = validate_world_commit_kind(request.kind)
         self._enforce_preconditions(state, request)
-        # apply_delta validates invariants and returns a pure new state.
+        # Kernel -> Domain -> World invariant layers are monotonic: any layer may
+        # deny, and no later layer can turn that denial into an allow.
+        check_layered_delta_invariants(
+            state,
+            request.delta,
+            domain=self._domain_invariants,
+            world=self._world_invariants,
+        )
+        # apply_delta rechecks Kernel invariants and returns a pure new state.
         applied = apply_delta(state, request.delta)
         next_revision = BranchRevision(state.revision.value + 1)
         state_after = applied.with_revision(next_revision)
