@@ -10,11 +10,12 @@ Run it directly: `uv run python scripts/r7_reference_harness.py --stdio`.
 
 from __future__ import annotations
 
-import hashlib
 import json
 import sys
 from collections.abc import Callable, Mapping
 from typing import TextIO, cast
+
+from wanxiang_domain.hashing import semantic_sha256
 
 HARNESS_ID = "wanxiang-reference-rule-harness"
 HARNESS_VERSION = "1.0.0"
@@ -87,10 +88,6 @@ def _context(observation: JsonObject) -> dict[str, str]:
     return {str(key): str(value) for key, value in fields.items()}
 
 
-def _proposal_digest(proposal_id: str, action: str) -> str:
-    return hashlib.sha256(f"{proposal_id}|{action}".encode()).hexdigest()
-
-
 def handle_info(params: JsonObject) -> JsonObject:
     """Harness identity. `officialDsh` is false and stays false."""
     del params
@@ -124,13 +121,30 @@ def handle_decide(params: JsonObject) -> JsonObject:
         }
     action = context.get("pendingAction", "set_status")
     proposal_id = f"prop_{worldline_id}_{revision + 1}"
+    if action == "set_status":
+        payload: JsonObject = {
+            "entity_id": context.get("entityId", "ent_agent"),
+            "status": context.get("targetStatus", "reference-harness-proposed"),
+        }
+    elif action == "create_entity":
+        try:
+            count = int(context.get("count", "0"))
+        except ValueError as exc:
+            raise RpcFault(ERROR_INVALID_PARAMS, "count must be an integer") from exc
+        payload = {
+            "entity_id": context.get("entityId", "ent_agent"),
+            "count": count,
+        }
+    else:
+        payload = {"entity_id": context.get("entityId", "ent_agent")}
     return {
         "status": "proposed",
         "proposal": {
             "proposalId": proposal_id,
             "action": action,
             "rationaleRef": f"{HARNESS_KIND}#advance-to-{target}",
-            "payloadDigest": _proposal_digest(proposal_id, action),
+            "payloadDigest": semantic_sha256(payload),
+            "payload": payload,
         },
         "reason": "rule: advance one step towards the target revision",
     }
