@@ -12,7 +12,6 @@ from collections.abc import Mapping
 from dataclasses import dataclass
 from typing import Literal
 
-from wanxiang_domain.entity import FieldValue
 from wanxiang_domain.errors import WanxiangError
 from wanxiang_runtime.r7_agent_harness_contract import (
     AgentHarnessProvider,
