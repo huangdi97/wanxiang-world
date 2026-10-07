@@ -168,8 +168,11 @@ class VerifiedCapabilityMarketplace:
                 and listing.runtime_class is not resolved_query.execution_class
             ):
                 continue
-            if resolved_query.required_domains and not set(resolved_query.required_domains).issubset(
-                listing.compatible_domains
+            if (
+                resolved_query.required_domains
+                and not set(resolved_query.required_domains).issubset(
+                    listing.compatible_domains
+                )
             ):
                 continue
             if (
