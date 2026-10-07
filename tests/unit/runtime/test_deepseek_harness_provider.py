@@ -87,6 +87,7 @@ def test_official_adapter_parses_proposal_and_uses_worldline_session(tmp_path: P
             )
         ]
     )
+
     def factory(**_: object) -> _FakeHarness:
         return fake
 
@@ -115,6 +116,7 @@ def test_official_adapter_parses_proposal_and_uses_worldline_session(tmp_path: P
 
 def test_official_adapter_requires_exact_json_not_wrapped_text(tmp_path: Path) -> None:
     fake = _FakeHarness(["Here is the requested JSON: {}"])
+
     def factory(**_: object) -> _FakeHarness:
         return fake
 
@@ -130,6 +132,7 @@ def test_official_adapter_requires_exact_json_not_wrapped_text(tmp_path: Path) -
 
 def test_official_adapter_reports_consequence_to_same_worldline_session(tmp_path: Path) -> None:
     fake = _FakeHarness(['{"acknowledged":true}'])
+
     def factory(**_: object) -> _FakeHarness:
         return fake
 
