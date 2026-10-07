@@ -13,6 +13,7 @@ from dataclasses import dataclass, replace
 from datetime import UTC, datetime\nfrom typing import Literal
 
 from wanxiang_domain.errors import WanxiangError
+from wanxiang_domain.ids import BranchId, WorldInstanceId
 from wanxiang_runtime.r7_agent_harness_contract import (
     AgentHarnessProvider,
     AgentProposal,
@@ -21,7 +22,11 @@ from wanxiang_runtime.r7_agent_harness_contract import (
     proposal_payload_digest,
 )
 
-from wanxiang_application.gateway import AgentSessionIdentity, WorldCapabilityGateway
+from wanxiang_application.gateway import (
+    AgentSessionIdentity,
+    GatewayHistoryItem,
+    WorldCapabilityGateway,
+)
 from wanxiang_application.world_runtime import WorldRuntime
 
 _HarnessStepStatus = Literal["abstained", "committed", "rejected"]
@@ -85,7 +90,7 @@ class HarnessWorldLoop:
                 reason=decision.reason,
                 consequence_acknowledged=None,
             )
-            return self._attach_trajectory(session, observed, history, None, result)
+            return self._attach_trajectory(session, history, None, result)
 
         proposal = decision.proposal
         assert proposal is not None
@@ -98,7 +103,7 @@ class HarnessWorldLoop:
                 observed.state_hash,
                 "proposal payload digest mismatch",
             )
-            return self._attach_trajectory(session, observed, history, proposal, result)
+            return self._attach_trajectory(session, history, proposal, result)
 
         try:
             gateway_proposal = self._gateway.propose_action(
@@ -116,7 +121,7 @@ class HarnessWorldLoop:
                 observed.state_hash,
                 f"{exc.code}: {exc.message}",
             )
-            return self._attach_trajectory(session, observed, history, proposal, result)
+            return self._attach_trajectory(session, history, proposal, result)
 
         consequence = HarnessConsequence(
             worldline_id=session.branch_id,
@@ -135,13 +140,12 @@ class HarnessWorldLoop:
             reason=consequence.reason,
             consequence_acknowledged=acknowledged,
         )
-        return self._attach_trajectory(session, observed, history, proposal, result)
+        return self._attach_trajectory(session, history, proposal, result)
 
     def _attach_trajectory(
         self,
         session: AgentSessionIdentity,
-        observed: object,
-        history: tuple[object, ...],
+        history: tuple[GatewayHistoryItem, ...],
         proposal: AgentProposal | None,
         result: HarnessStepResult,
     ) -> HarnessStepResult:
@@ -151,10 +155,8 @@ class HarnessWorldLoop:
         world_event_refs: tuple[str, ...] = ()
         if result.status == "committed":
             events = self._runtime.events(
-                __import__("wanxiang_domain.ids", fromlist=["WorldInstanceId"]).WorldInstanceId(
-                    session.world_id
-                ),
-                __import__("wanxiang_domain.ids", fromlist=["BranchId"]).BranchId(session.branch_id),
+                WorldInstanceId(session.world_id),
+                BranchId(session.branch_id),
             )
             if events:
                 world_event_refs = (events[-1].event_id.value,)
@@ -166,9 +168,7 @@ class HarnessWorldLoop:
             "worldline_id": session.branch_id,
             "decision_id": proposal_id,
             "created_at": datetime.now(UTC).isoformat(),
-            "observation_refs": tuple(
-                str(getattr(item, "event_id", "")) for item in history if getattr(item, "event_id", "")
-            ),
+            "observation_refs": tuple(item.event_id for item in history),
             "memory_refs": (),
             "memory_hashes": (),
             "belief_refs": (),
