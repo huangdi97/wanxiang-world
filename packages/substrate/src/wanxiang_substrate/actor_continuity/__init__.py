@@ -42,10 +42,6 @@ from wanxiang_substrate.actor_continuity.qualification_run import (
     ContinuityQualificationSeed,
     SevenDayContinuityQualification,
 )
-from wanxiang_substrate.actor_continuity.trajectory import (
-    ActorTrajectoryLedger,
-    ActorTrajectoryRecord,
-)
 from wanxiang_substrate.actor_continuity.relationship_graph import (
     RelationshipGraph,
     RelationshipRevisionEvent,
@@ -68,6 +64,10 @@ from wanxiang_substrate.actor_continuity.reprioritization_policy import (
     GoalReprioritizationPolicy,
     ProviderGoalReprioritizationPolicy,
     apply_goal_reprioritization,
+)
+from wanxiang_substrate.actor_continuity.trajectory import (
+    ActorTrajectoryLedger,
+    ActorTrajectoryRecord,
 )
 
 __all__ = [

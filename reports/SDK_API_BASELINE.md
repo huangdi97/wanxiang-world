@@ -2,7 +2,7 @@
 
 - API routes: 74
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 2145
+- Python public names (stable packages): 2147
 
 ## API routes
 
@@ -294,6 +294,7 @@
 - `wanxiang_runtime.HarnessInfo`
 - `wanxiang_runtime.HarnessProtocolError`
 - `wanxiang_runtime.HarnessUnavailable`
+- `wanxiang_runtime.INVARIANTS`
 - `wanxiang_runtime.InMemoryBranchRepository`
 - `wanxiang_runtime.InMemoryCanonicalState`
 - `wanxiang_runtime.InMemoryEventStore`
@@ -318,6 +319,7 @@
 - `wanxiang_runtime.check_delta_invariants`
 - `wanxiang_runtime.check_entity_exists_for_delete`
 - `wanxiang_runtime.check_entity_exists_for_update`
+- `wanxiang_runtime.check_layered_delta_invariants`
 - `wanxiang_runtime.check_no_duplicate_entity`
 - `wanxiang_runtime.check_no_duplicate_relation`
 - `wanxiang_runtime.check_no_mutation_of_protected_entities`
@@ -381,7 +383,5 @@
 - `wanxiang_substrate.ACTION_SCHEDULE_APPOINTMENT`
 - `wanxiang_substrate.ACTION_SEAL`
 - `wanxiang_substrate.ACTION_SEND_LETTER`
-- `wanxiang_substrate.ACTION_SET_ACTOR_STATE`
-- `wanxiang_substrate.ACTION_SET_DEADLINE`
 
 Machine-readable: reports/sdk_api_baseline.json.

@@ -39,11 +39,11 @@ from wanxiang_domain.world_commit import (
 )
 
 from wanxiang_runtime.audit import AuditRecord
-from wanxiang_runtime.invariants import InvariantCheck, check_layered_delta_invariants
 from wanxiang_runtime.canonical_write import (
     CanonicalWriteLease,
     mint_canonical_write_lease,
 )
+from wanxiang_runtime.invariants import InvariantCheck, check_layered_delta_invariants
 from wanxiang_runtime.ports import EventAppendPort
 from wanxiang_runtime.state import InMemoryCanonicalState, apply_delta
 

@@ -8,7 +8,7 @@ checks without changing the authority path.
 from __future__ import annotations
 
 from collections.abc import Callable
-from typing import TYPE_CHECKING, TypeAlias
+from typing import TYPE_CHECKING
 
 from wanxiang_domain.delta import (
     EntityCreate,
@@ -105,7 +105,7 @@ def check_no_relation_to_protected_entities(state: InMemoryCanonicalState, op: o
             raise ConstitutionViolation(f"world delta must not relate platform entity {target}")
 
 
-InvariantCheck: TypeAlias = Callable[["InMemoryCanonicalState", object], None]
+type InvariantCheck = Callable[["InMemoryCanonicalState", object], None]
 
 KERNEL_INVARIANTS: tuple[InvariantCheck, ...] = (
     check_no_duplicate_entity,
