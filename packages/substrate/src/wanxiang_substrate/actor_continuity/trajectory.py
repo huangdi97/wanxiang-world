@@ -29,6 +29,8 @@ class ActorTrajectoryRecord:
     memory_refs: tuple[str, ...] = ()
     memory_hashes: tuple[str, ...] = ()
     belief_refs: tuple[str, ...] = ()
+    goal_refs: tuple[str, ...] = ()
+    context_hash: str = ""
     provider_id: str = ""
     model_id: str = ""
     tool_refs: tuple[str, ...] = ()
@@ -100,6 +102,7 @@ class ActorTrajectoryLedger:
             "memory_refs",
             "memory_hashes",
             "belief_refs",
+            "goal_refs",
             "tool_refs",
             "world_event_refs",
             "rights_scope",
@@ -141,6 +144,8 @@ class ActorTrajectoryLedger:
             observation_refs=(),
             memory_refs=(),
             belief_refs=(),
+            goal_refs=(),
+            context_hash="",
             tool_refs=(),
             plan_ref="",
             intent_ref="",
@@ -206,6 +211,7 @@ class ActorTrajectoryLedger:
                 "memory_refs",
                 "memory_hashes",
                 "belief_refs",
+                "goal_refs",
                 "tool_refs",
                 "world_event_refs",
                 "rights_scope",

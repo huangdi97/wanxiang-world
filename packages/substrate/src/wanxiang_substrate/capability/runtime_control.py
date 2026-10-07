@@ -54,6 +54,10 @@ class RuntimeControlTransaction:
     migration_ref: str = ""
     artifact_hash: str = ""
     execution_trace_ref: str = ""
+    input_artifact_refs: tuple[str, ...] = ()
+    output_artifact_refs: tuple[str, ...] = ()
+    usage: tuple[tuple[str, str], ...] = ()
+    resulting_proposal_refs: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
         if not self.transaction_id or not self.provider_id or not self.capability_name:
@@ -69,6 +73,9 @@ class RuntimeControlTransaction:
         keys = [key for key, _value in self.parameters]
         if len(set(keys)) != len(keys) or any(not key for key in keys):
             raise ValueError("parameters must have unique non-empty keys")
+        usage_keys = [key for key, _value in self.usage]
+        if len(set(usage_keys)) != len(usage_keys) or any(not key for key in usage_keys):
+            raise ValueError("usage must have unique non-empty keys")
 
 
 class RuntimeControlLedger:
@@ -145,8 +152,15 @@ class RuntimeControlLedger:
             if not raw.strip():
                 continue
             value = json.loads(raw)
-            value["permissions"] = tuple(value.get("permissions", ()))
+            for name in (
+                "permissions",
+                "input_artifact_refs",
+                "output_artifact_refs",
+                "resulting_proposal_refs",
+            ):
+                value[name] = tuple(value.get(name, ()))
             value["parameters"] = tuple(tuple(pair) for pair in value.get("parameters", ()))
+            value["usage"] = tuple(tuple(pair) for pair in value.get("usage", ()))
             item = RuntimeControlTransaction(**value)
             expected = len(self._entries) + 1
             if item.runtime_revision != expected:
