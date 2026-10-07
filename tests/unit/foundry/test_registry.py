@@ -83,6 +83,22 @@ def test_mismatched_verification_digest_blocks_admission(
 
 
 @pytest.mark.unit
+def test_mismatched_verification_case_binding_blocks_admission(
+    package_with_digest: _MakePackage, full_pass_report: VerificationReport
+) -> None:
+    registry = VerifiedCapabilityRegistry()
+    package = replace(
+        package_with_digest(full_pass_report.evidence_digest),
+        verification_case_ids=("case-golden",),
+    )
+
+    with pytest.raises(RegistryError, match="verification_case_ids"):
+        registry.admit(package, full_pass_report)
+
+    assert registry.get("cap.demo", "1.0.0") is None
+
+
+@pytest.mark.unit
 def test_two_versions_coexist_without_overwrite(
     package_with_digest: _MakePackage, full_pass_report: VerificationReport
 ) -> None:

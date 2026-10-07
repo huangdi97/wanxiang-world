@@ -69,6 +69,11 @@ class VerifiedCapabilityRegistry:
                 f"package {package.capability_id}@{package.version} not admitted: "
                 "verification_digest does not match the report evidence digest"
             )
+        if set(package.verification_case_ids) != set(report.passed_case_ids):
+            raise RegistryError(
+                f"package {package.capability_id}@{package.version} not admitted: "
+                "verification_case_ids do not match the report's passed cases"
+            )
         key = (package.capability_id, package.version)
         if key in self._entries:
             raise RegistryError(
