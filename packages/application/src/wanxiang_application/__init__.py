@@ -8,6 +8,7 @@ from wanxiang_application.gateway import (
     GatewayProposal,
     GovernedOperationRequest,
     WorldCapabilityGateway,
+    WorldSkill,
 )
 from wanxiang_application.ports import AuditSink, PersistenceBundle, WorldInstanceStore
 from wanxiang_application.synthetic_microworld import (
@@ -41,6 +42,7 @@ __all__ = [
     "SubmitCommandResult",
     "WorldCapabilityGateway",
     "WorldEnvironment",
+    "WorldSkill",
     "WorldInstanceStore",
     "WorldRuntime",
     "register_synthetic_resolvers",
