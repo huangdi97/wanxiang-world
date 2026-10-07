@@ -89,8 +89,7 @@ def test_real_paper_repo_artifacts_become_verified_proposal_only_capability(
             CaseKind.GOLDEN,
             (sys.executable, str(WRAPPER), "2"),
             _text_digest(
-                '{"collisions": 29, "images": 183, "injective": false, '
-                '"q": 2, "weil": 215}\n'
+                '{"collisions": 29, "images": 183, "injective": false, "q": 2, "weil": 215}\n'
             ),
             0,
         ),
@@ -106,8 +105,7 @@ def test_real_paper_repo_artifacts_become_verified_proposal_only_capability(
             CaseKind.BOUNDARY,
             (sys.executable, str(WRAPPER), "3"),
             _text_digest(
-                '{"collisions": 69, "images": 607, "injective": false, '
-                '"q": 3, "weil": 677}\n'
+                '{"collisions": 69, "images": 607, "injective": false, "q": 3, "weil": 677}\n'
             ),
             0,
         ),
