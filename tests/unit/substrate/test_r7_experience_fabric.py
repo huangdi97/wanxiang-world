@@ -5,11 +5,11 @@ from __future__ import annotations
 import pytest
 from wanxiang_domain.errors import ContractError
 from wanxiang_substrate.playable.experience import ExperiencePackage
+from wanxiang_substrate.playable.models import ProjectionProfile
 from wanxiang_substrate.playable.fabric import (
     DistributionAdapter,
     ExperienceBlueprint,
     InteractionProfile,
-    ProjectionProfile,
     build_distribution,
     experience_card,
 )

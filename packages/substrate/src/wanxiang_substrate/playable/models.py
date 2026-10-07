@@ -141,10 +141,15 @@ class RuntimeProfile:
 
 @dataclass(frozen=True, slots=True)
 class ProjectionProfile:
-    """A server-side visibility profile for UI projections."""
+    """Server-side projection policy over canonical read models; never an authority."""
 
     projection_id: str
     version: int = 1
+    provider_ref: str = "native_web"
+    capabilities: tuple[str, ...] = ("text",)
+    state_source: Literal["canonical_read_model", "committed_state_diff"] = "canonical_read_model"
+    write_authority: Literal["none"] = "none"
+    fallback: str = "text"
     visible_fields: tuple[str, ...] = (
         "location",
         "actors",
@@ -159,6 +164,14 @@ class ProjectionProfile:
     def __post_init__(self) -> None:
         _text(self.projection_id, "projection_id")
         _version(self.version, "version")
+        _text(self.provider_ref, "provider_ref")
+        _texts(self.capabilities, "capabilities")
+        if self.state_source not in {"canonical_read_model", "committed_state_diff"}:
+            raise ContractError(f"unsupported projection state_source {self.state_source!r}")
+        if self.write_authority != "none":
+            raise ContractError("projection profiles can never own World write authority")
+        if self.fallback not in self.capabilities:
+            raise ContractError("projection fallback must be one of the declared capabilities")
         _texts(self.visible_fields, "visible_fields")
 
     def to_dict(self) -> dict[str, object]:
@@ -166,6 +179,11 @@ class ProjectionProfile:
             "schema_version": PLAYABLE_PROFILE_SCHEMA_VERSION,
             "projection_id": self.projection_id,
             "version": self.version,
+            "provider_ref": self.provider_ref,
+            "capabilities": list(self.capabilities),
+            "state_source": self.state_source,
+            "write_authority": self.write_authority,
+            "fallback": self.fallback,
             "visible_fields": list(self.visible_fields),
             "show_private_knowledge": self.show_private_knowledge,
             "show_state_diff": self.show_state_diff,
@@ -176,6 +194,15 @@ class ProjectionProfile:
         return cls(
             projection_id=_text(data.get("projection_id"), "projection_id"),
             version=_version(data.get("version", 1), "version"),
+            provider_ref=_text(data.get("provider_ref", "native_web"), "provider_ref"),
+            capabilities=_texts(data.get("capabilities", ["text"]), "capabilities"),
+            state_source=_text(
+                data.get("state_source", "canonical_read_model"), "state_source"
+            ),  # type: ignore[arg-type]
+            write_authority=_text(
+                data.get("write_authority", "none"), "write_authority"
+            ),  # type: ignore[arg-type]
+            fallback=_text(data.get("fallback", "text"), "fallback"),
             visible_fields=_texts(
                 data.get(
                     "visible_fields", ["location", "actors", "relations", "items", "tasks", "time"]
