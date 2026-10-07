@@ -10,7 +10,8 @@ from __future__ import annotations
 
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass, replace
-from datetime import UTC, datetime\nfrom typing import Literal
+from datetime import UTC, datetime
+from typing import Literal
 
 from wanxiang_domain.errors import WanxiangError
 from wanxiang_domain.ids import BranchId, WorldInstanceId
