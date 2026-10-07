@@ -170,7 +170,9 @@ class CapabilityPackage:
                 )
         if not self.source_artifacts:
             raise ArtifactError("a package must carry at least one source artifact")
-        if self.artifact_digest not in {artifact.digest for artifact in self.source_artifacts}:
+        if self.artifact_digest not in {
+            artifact.digest for artifact in self.source_artifacts
+        }:
             raise ArtifactError("primary artifact_digest must match a source artifact")
         if any(not artifact.rights_basis.strip() for artifact in self.source_artifacts):
             raise ArtifactError("every source artifact must carry a declared rights basis")
@@ -204,7 +206,8 @@ class CapabilityPackage:
                     "rights_basis": artifact.rights_basis,
                 }
                 for artifact in sorted(
-                    self.source_artifacts, key=lambda item: (item.kind.value, item.uri, item.digest)
+                    self.source_artifacts,
+                    key=lambda item: (item.kind.value, item.uri, item.digest),
                 )
             ],
             "interface_digest": self.interface_digest,
