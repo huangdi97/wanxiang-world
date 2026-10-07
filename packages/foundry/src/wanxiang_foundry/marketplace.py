@@ -132,9 +132,7 @@ class VerifiedCapabilityMarketplace:
         self._listings[key] = listing
         return listing
 
-    def refresh_lifecycle(
-        self, capability_id: str, version: str
-    ) -> CapabilityMarketplaceListing:
+    def refresh_lifecycle(self, capability_id: str, version: str) -> CapabilityMarketplaceListing:
         key = (capability_id, version)
         listing = self._listings.get(key)
         if listing is None:
@@ -168,17 +166,13 @@ class VerifiedCapabilityMarketplace:
                 and listing.runtime_class is not resolved_query.execution_class
             ):
                 continue
-            if (
+            if resolved_query.required_domains and not set(
                 resolved_query.required_domains
-                and not set(resolved_query.required_domains).issubset(
-                    listing.compatible_domains
-                )
-            ):
+            ).issubset(listing.compatible_domains):
                 continue
             if (
                 resolved_query.compatible_world_version
-                and resolved_query.compatible_world_version
-                not in listing.compatible_world_versions
+                and resolved_query.compatible_world_version not in listing.compatible_world_versions
             ):
                 continue
             results.append(replace(listing, lifecycle_status=status))
