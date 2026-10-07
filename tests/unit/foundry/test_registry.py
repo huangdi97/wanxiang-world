@@ -221,3 +221,20 @@ def test_rollback_refuses_suspended_or_revoked_target(
 
     with pytest.raises(RegistryError, match="non-invocable"):
         registry.rollback("cap.demo", "1.0.0", "cannot select suspended version")
+
+
+@pytest.mark.unit
+def test_deprecating_selected_latest_version_falls_back_to_prior_active_version(
+    package_with_digest: _MakePackage, full_pass_report: VerificationReport
+) -> None:
+    registry = VerifiedCapabilityRegistry()
+    first = package_with_digest(full_pass_report.evidence_digest)
+    second = replace(first, version="2.0.0")
+    registry.admit(first, full_pass_report)
+    registry.admit(second, full_pass_report)
+    assert registry.active("cap.demo") == second
+
+    registry.deprecate("cap.demo", "2.0.0", "superseded but still pin-invocable")
+
+    assert registry.is_invocable("cap.demo", "2.0.0") is True
+    assert registry.active("cap.demo") == first

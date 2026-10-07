@@ -137,7 +137,7 @@ class VerifiedCapabilityRegistry:
             status_reason=reason,
         )
         self._lifecycle.append((capability_id, version, status, reason))
-        if status in {"SUSPENDED", "REVOKED"} and self._preferred.get(capability_id) == version:
+        if status in {"SUSPENDED", "DEPRECATED", "REVOKED"} and self._preferred.get(capability_id) == version:
             self._preferred.pop(capability_id, None)
 
     def suspend(self, capability_id: str, version: str, reason: str) -> None:
