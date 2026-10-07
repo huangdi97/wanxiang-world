@@ -11,9 +11,10 @@ from wanxiang_execution import (
     CheckpointedProcessRunner,
     ExecutionPolicy,
     ExecutionRequest,
+    ExecutionResult,
     FileExecutionCheckpointStore,
     LocalProcessProvider,
-    ExecutionResult,
+    SideEffectClass,
 )
 from wanxiang_execution.errors import ExecutionError
 
@@ -89,3 +90,75 @@ def test_corrupt_checkpoint_blob_fails_closed(tmp_path: Path) -> None:
     with pytest.raises(ExecutionError, match="blob digest mismatch"):
         runner.run(request, tmp_path / "work")
     assert provider.calls == 1
+
+
+def test_checkpoint_survives_coordinator_restart(tmp_path: Path) -> None:
+    provider = _CountingProcessProvider()
+    root = tmp_path / "checkpoints"
+    request = _request("resume-restart")
+
+    first = CheckpointedProcessRunner(
+        provider, FileExecutionCheckpointStore(root)
+    ).run(request, tmp_path / "work")
+    restarted = CheckpointedProcessRunner(
+        provider, FileExecutionCheckpointStore(root)
+    ).run(request, tmp_path / "work-after-restart")
+
+    assert provider.calls == 1
+    assert first.trace.snapshot_ref == restarted.trace.resume_ref
+    assert restarted.observation["resumed"] is True
+
+
+def test_failed_execution_is_not_fast_forwarded(tmp_path: Path) -> None:
+    provider = _CountingProcessProvider()
+    runner = CheckpointedProcessRunner(
+        provider, FileExecutionCheckpointStore(tmp_path / "checkpoints")
+    )
+    request = ExecutionRequest(
+        execution_id="resume-failure",
+        capability_id="cap.r7.resume",
+        capability_version="1.0.0",
+        command=(sys.executable, "-c", "raise SystemExit(7)"),
+        input_refs=(),
+        policy=ExecutionPolicy.default_untrusted(),
+    )
+
+    first = runner.run(request, tmp_path / "work")
+    second = runner.run(request, tmp_path / "work")
+
+    assert first.trace.exit_code == 7
+    assert second.trace.exit_code == 7
+    assert first.trace.snapshot_ref is None
+    assert second.trace.resume_ref is None
+    assert provider.calls == 2
+
+
+def test_non_idempotent_effect_cannot_enter_execution_checkpoint(tmp_path: Path) -> None:
+    provider = _CountingProcessProvider()
+    store = FileExecutionCheckpointStore(tmp_path / "checkpoints")
+    safe = _request("resume-safe-result")
+    result = provider.run(safe, tmp_path / "work")
+    unsafe_policy = ExecutionPolicy(
+        trust=safe.policy.trust,
+        execution_class=safe.policy.execution_class,
+        filesystem=safe.policy.filesystem,
+        network=safe.policy.network,
+        secrets=safe.policy.secrets,
+        cpu_seconds_limit=safe.policy.cpu_seconds_limit,
+        memory_mb_limit=safe.policy.memory_mb_limit,
+        wall_seconds_limit=safe.policy.wall_seconds_limit,
+        reproducibility=safe.policy.reproducibility,
+        cost_class=safe.policy.cost_class,
+        side_effects=SideEffectClass.IRREVERSIBLE_EXTERNAL,
+    )
+    unsafe = ExecutionRequest(
+        execution_id="resume-unsafe-effect",
+        capability_id=safe.capability_id,
+        capability_version=safe.capability_version,
+        command=safe.command,
+        input_refs=safe.input_refs,
+        policy=unsafe_policy,
+    )
+
+    with pytest.raises(ExecutionError, match="outbox"):
+        store.save(unsafe, result)
