@@ -14,6 +14,7 @@ import hashlib
 import json
 from dataclasses import asdict, dataclass, replace
 from pathlib import Path
+from typing import cast
 
 from wanxiang_execution.errors import ExecutionError
 from wanxiang_execution.fabric import ExecutionRequest, ExecutionResult, LocalProcessProvider
@@ -112,10 +113,10 @@ class FileExecutionCheckpointStore:
         self._write_blob(stderr_blob, stderr_bytes)
 
         request_digest = request_fingerprint(request)
-        raw_trace = asdict(result.trace)
+        raw_trace = cast(dict[str, object], asdict(result.trace))
         raw_trace["execution_class"] = result.trace.execution_class.value
         raw_trace["trust"] = result.trace.trust.value
-        base = {
+        base: dict[str, object] = {
             "request_fingerprint": request_digest,
             "trace_digest": trace_digest(result.trace),
             "stdout_blob": stdout_blob,
@@ -124,7 +125,14 @@ class FileExecutionCheckpointStore:
         }
         digest = _canonical_digest(base)
         checkpoint_ref = f"execution-checkpoint:{digest}"
-        checkpoint = ExecutionCheckpoint(checkpoint_ref=checkpoint_ref, **base)
+        checkpoint = ExecutionCheckpoint(
+            checkpoint_ref=checkpoint_ref,
+            request_fingerprint=request_digest,
+            trace_digest=trace_digest(result.trace),
+            stdout_blob=stdout_blob,
+            stderr_blob=stderr_blob,
+            trace=raw_trace,
+        )
         self._write_json(self._checkpoint_path(digest), checkpoint.to_dict())
         self._write_json(
             self._request_path(request_digest),
@@ -217,7 +225,8 @@ class FileExecutionCheckpointStore:
             raise ExecutionError("checkpoint metadata is corrupt") from exc
         if not isinstance(value, dict):
             raise ExecutionError("checkpoint metadata must be an object")
-        return {str(key): item for key, item in value.items()}
+        mapping = cast(dict[object, object], value)
+        return {str(key): item for key, item in mapping.items()}
 
     @staticmethod
     def _verify_checkpoint_digest(payload: dict[str, object], digest: str) -> None:
@@ -237,7 +246,7 @@ class FileExecutionCheckpointStore:
             raise ExecutionError("checkpoint trace must be an object")
         from wanxiang_execution.policy import ExecutionClass, TrustLevel
 
-        fields = dict(value)
+        fields = dict(cast(dict[str, object], value))
         try:
             fields["execution_class"] = ExecutionClass(str(fields["execution_class"]))
             fields["trust"] = TrustLevel(str(fields["trust"]))
