@@ -121,9 +121,7 @@ class VerifiedCapabilityRegistry:
         key = (capability_id, version)
         entry = self._entries.get(key)
         if entry is None:
-            raise RegistryError(
-                f"cannot change unregistered capability {capability_id}@{version}"
-            )
+            raise RegistryError(f"cannot change unregistered capability {capability_id}@{version}")
         if not reason.strip():
             raise RegistryError("lifecycle reason must be a non-empty string")
         if status not in {"ACTIVE", "SUSPENDED", "DEPRECATED", "REVOKED"}:

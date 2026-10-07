@@ -142,9 +142,7 @@ class WorldCapabilityGateway:
         return {
             "session_scopes": tuple(sorted(session.capability_scope)),
             "action_types": (
-                self._runtime.action_types()
-                if "world.propose" in session.capability_scope
-                else ()
+                self._runtime.action_types() if "world.propose" in session.capability_scope else ()
             ),
         }
 
