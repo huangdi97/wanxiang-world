@@ -5,7 +5,6 @@ from __future__ import annotations
 import pytest
 from wanxiang_domain.errors import ContractError
 from wanxiang_substrate.playable.experience import ExperiencePackage
-from wanxiang_substrate.playable.models import ProjectionProfile
 from wanxiang_substrate.playable.fabric import (
     DistributionAdapter,
     ExperienceBlueprint,
@@ -13,6 +12,7 @@ from wanxiang_substrate.playable.fabric import (
     build_distribution,
     experience_card,
 )
+from wanxiang_substrate.playable.models import ProjectionProfile
 
 
 def test_blueprint_adapts_existing_experience_without_owning_world_state() -> None:

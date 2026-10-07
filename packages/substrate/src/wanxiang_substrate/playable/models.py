@@ -147,7 +147,9 @@ class ProjectionProfile:
     version: int = 1
     provider_ref: str = "native_web"
     capabilities: tuple[str, ...] = ("text",)
-    state_source: Literal["canonical_read_model", "committed_state_diff"] = "canonical_read_model"
+    state_source: Literal["canonical_read_model", "committed_state_diff"] = (
+        "canonical_read_model"
+    )
     write_authority: Literal["none"] = "none"
     fallback: str = "text"
     visible_fields: tuple[str, ...] = (
