@@ -51,6 +51,6 @@ describe("R7 World Bootstrap", () => {
         worldlineId: "wl_invalid_lock",
         lockRef: broken,
       }),
-    ).rejects.toThrowError(/failed closed/);
+    ).rejects.toThrowError(/runtime lock pins cordis 0\.0\.1/);
   });
 });
