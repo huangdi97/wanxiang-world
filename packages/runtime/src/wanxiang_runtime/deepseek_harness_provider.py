@@ -166,9 +166,7 @@ class OfficialDeepSeekHarnessProvider:
             )
         except Exception as exc:
             raise HarnessUnavailable(f"official DeepSeek Harness decision failed: {exc}") from exc
-        return parse_decision(
-            _parse_json_response(_final_response(result, "decision"), "decision")
-        )
+        return parse_decision(_parse_json_response(_final_response(result, "decision"), "decision"))
 
     def deliver_consequence(self, consequence: HarnessConsequence) -> bool:
         prompt = (
