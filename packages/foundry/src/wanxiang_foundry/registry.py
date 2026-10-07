@@ -36,8 +36,8 @@ class _AdmittedEntry:
 
     package: CapabilityPackage
     promotion: PromotionGrant
-    revoked: bool
-    revocation_reason: str | None
+    status: str
+    status_reason: str | None
 
 
 class VerifiedCapabilityRegistry:
@@ -46,6 +46,8 @@ class VerifiedCapabilityRegistry:
     def __init__(self) -> None:
         self._entries: dict[tuple[str, str], _AdmittedEntry] = {}
         self._order: list[tuple[str, str]] = []
+        self._preferred: dict[str, str] = {}
+        self._lifecycle: list[tuple[str, str, str, str]] = []
 
     def admit(self, package: CapabilityPackage, report: VerificationReport) -> None:
         """Admit a package only with a matching full-pass C3 report.
@@ -84,10 +86,14 @@ class VerifiedCapabilityRegistry:
             promotion=PromotionGrant(
                 level=PromotionLevel.C3_VERIFIED, evidence_digest=report.evidence_digest
             ),
-            revoked=False,
-            revocation_reason=None,
+            status="ACTIVE",
+            status_reason=None,
         )
         self._order.append(key)
+        self._preferred[package.capability_id] = package.version
+        self._lifecycle.append(
+            (package.capability_id, package.version, "ADMIT", report.evidence_digest)
+        )
 
     def get(self, capability_id: str, version: str) -> CapabilityPackage | None:
         """Return the admitted package for id+version, or None when absent."""
@@ -99,38 +105,78 @@ class VerifiedCapabilityRegistry:
         return tuple(version for (cid, version) in self._order if cid == capability_id)
 
     def active(self, capability_id: str) -> CapabilityPackage | None:
-        """Return the latest admitted, non-revoked package for capability_id."""
+        """Return the explicitly selected, invocable package for capability_id."""
+        preferred = self._preferred.get(capability_id)
+        if preferred is not None and self.is_invocable(capability_id, preferred):
+            return self._entries[(capability_id, preferred)].package
         for key in reversed(self._order):
             if key[0] != capability_id:
                 continue
             entry = self._entries[key]
-            if not entry.revoked:
+            if entry.status == "ACTIVE":
                 return entry.package
         return None
 
-    def revoke(self, capability_id: str, version: str, reason: str) -> None:
-        """Record a revocation without deleting the admitted package.
-
-        Args:
-            capability_id: Capability id.
-            version: Version to revoke.
-            reason: Non-empty revocation reason.
-
-        Raises:
-            RegistryError: If the capability is not admitted, or reason is empty.
-        """
+    def _transition(self, capability_id: str, version: str, status: str, reason: str) -> None:
         key = (capability_id, version)
         entry = self._entries.get(key)
         if entry is None:
-            raise RegistryError(f"cannot revoke unregistered capability {capability_id}@{version}")
+            raise RegistryError(
+                f"cannot change unregistered capability {capability_id}@{version}"
+            )
         if not reason.strip():
-            raise RegistryError("revocation reason must be a non-empty string")
+            raise RegistryError("lifecycle reason must be a non-empty string")
+        if status not in {"ACTIVE", "SUSPENDED", "DEPRECATED", "REVOKED"}:
+            raise RegistryError(f"unknown capability lifecycle status {status!r}")
+        if entry.status == "REVOKED" and status != "REVOKED":
+            raise RegistryError(
+                f"revoked capability {capability_id}@{version} cannot be reactivated"
+            )
         self._entries[key] = _AdmittedEntry(
             package=entry.package,
             promotion=entry.promotion,
-            revoked=True,
-            revocation_reason=reason,
+            status=status,
+            status_reason=reason,
         )
+        self._lifecycle.append((capability_id, version, status, reason))
+        if status in {"SUSPENDED", "REVOKED"} and self._preferred.get(capability_id) == version:
+            self._preferred.pop(capability_id, None)
+
+    def suspend(self, capability_id: str, version: str, reason: str) -> None:
+        """Temporarily make one version non-invocable without deleting evidence."""
+        self._transition(capability_id, version, "SUSPENDED", reason)
+
+    def deprecate(self, capability_id: str, version: str, reason: str) -> None:
+        """Mark a version deprecated; direct pinned invocation remains possible."""
+        self._transition(capability_id, version, "DEPRECATED", reason)
+
+    def restore(self, capability_id: str, version: str, reason: str) -> None:
+        """Restore a suspended/deprecated version; a revoked version stays terminal."""
+        self._transition(capability_id, version, "ACTIVE", reason)
+
+    def revoke(self, capability_id: str, version: str, reason: str) -> None:
+        """Permanently revoke a version while retaining package and evidence."""
+        self._transition(capability_id, version, "REVOKED", reason)
+
+    def rollback(self, capability_id: str, to_version: str, reason: str) -> None:
+        """Select an older invocable version for future calls without rewriting history."""
+        if not reason.strip():
+            raise RegistryError("rollback reason must be a non-empty string")
+        if not self.is_invocable(capability_id, to_version):
+            raise RegistryError(
+                f"cannot rollback to non-invocable capability {capability_id}@{to_version}"
+            )
+        self._preferred[capability_id] = to_version
+        self._lifecycle.append((capability_id, to_version, "ROLLBACK", reason))
+
+    def status(self, capability_id: str, version: str) -> str | None:
+        """Return ACTIVE/SUSPENDED/DEPRECATED/REVOKED, or None when absent."""
+        entry = self._entries.get((capability_id, version))
+        return None if entry is None else entry.status
+
+    def lifecycle(self, capability_id: str) -> tuple[tuple[str, str, str, str], ...]:
+        """Return append-only lifecycle records for one capability."""
+        return tuple(item for item in self._lifecycle if item[0] == capability_id)
 
     def promotions(self, capability_id: str, version: str) -> PromotionGrant | None:
         """Return the recorded promotion grant for id+version, or None."""
@@ -138,6 +184,6 @@ class VerifiedCapabilityRegistry:
         return None if entry is None else entry.promotion
 
     def is_invocable(self, capability_id: str, version: str) -> bool:
-        """Return True only when the capability is admitted and not revoked."""
+        """Return True for admitted ACTIVE/DEPRECATED versions only."""
         entry = self._entries.get((capability_id, version))
-        return entry is not None and not entry.revoked
+        return entry is not None and entry.status in {"ACTIVE", "DEPRECATED"}
