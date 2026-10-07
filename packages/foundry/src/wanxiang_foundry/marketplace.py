@@ -177,7 +177,8 @@ class VerifiedCapabilityMarketplace:
                 continue
             if (
                 resolved_query.compatible_world_version
-                and resolved_query.compatible_world_version not in listing.compatible_world_versions
+                and resolved_query.compatible_world_version
+                not in listing.compatible_world_versions
             ):
                 continue
             results.append(replace(listing, lifecycle_status=status))
