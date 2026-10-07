@@ -56,11 +56,7 @@ class WorldCapabilityGateway:
             branch_id=branch_id.value,
             revision=state.revision.value,
             state_hash=state.semantic_hash(),
-            state=(
-                state_to_primitive(state)
-                if _RAW_CANONICAL_RIGHT in session.rights_scope
-                else {}
-            ),
+            state=state_to_primitive(state) if _RAW_CANONICAL_RIGHT in session.rights_scope else {},
             action_types=self._runtime.action_types(),
         )
 

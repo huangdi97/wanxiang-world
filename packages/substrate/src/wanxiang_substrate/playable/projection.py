@@ -45,9 +45,7 @@ class ProjectionProfile:
     version: int = 1
     provider_ref: str = "native_web"
     capabilities: tuple[str, ...] = ("text",)
-    state_source: Literal["canonical_read_model", "committed_state_diff"] = (
-        "canonical_read_model"
-    )
+    state_source: Literal["canonical_read_model", "committed_state_diff"] = "canonical_read_model"
     write_authority: Literal["none"] = "none"
     fallback: str = "text"
     visible_fields: tuple[str, ...] = (
@@ -96,12 +94,8 @@ class ProjectionProfile:
             version=_version(data.get("version", 1), "version"),
             provider_ref=_text(data.get("provider_ref", "native_web"), "provider_ref"),
             capabilities=_texts(data.get("capabilities", ["text"]), "capabilities"),
-            state_source=_text(
-                data.get("state_source", "canonical_read_model"), "state_source"
-            ),  # type: ignore[arg-type]
-            write_authority=_text(
-                data.get("write_authority", "none"), "write_authority"
-            ),  # type: ignore[arg-type]
+            state_source=_text(data.get("state_source", "canonical_read_model"), "state_source"),  # type: ignore[arg-type]
+            write_authority=_text(data.get("write_authority", "none"), "write_authority"),  # type: ignore[arg-type]
             fallback=_text(data.get("fallback", "text"), "fallback"),
             visible_fields=_texts(
                 data.get(

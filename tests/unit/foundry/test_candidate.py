@@ -67,7 +67,6 @@ def test_candidate_exposes_no_registration_or_commit_path(artifact: ArtifactRef)
 def _candidate_artifact() -> ArtifactRef:
     import hashlib
 
-
     return ArtifactRef(
         kind=ArtifactKind.REPO,
         uri="repo:example",
