@@ -30,7 +30,6 @@ from wanxiang_runtime.r7_agent_harness_contract import (
     parse_decision,
 )
 
-
 _HarnessFactory = Callable[..., object]
 
 
