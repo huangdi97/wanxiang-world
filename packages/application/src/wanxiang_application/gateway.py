@@ -291,12 +291,3 @@ class WorldCapabilityGateway:
         return WorldInstanceId(session.world_id), BranchId(session.branch_id)
 
 
-__all__ = [
-    "AgentSessionIdentity",
-    "GatewayHistoryItem",
-    "GatewayObservation",
-    "GatewayProposal",
-    "GovernedOperationRequest",
-    "WorldCapabilityGateway",
-    "WorldSkill",
-]
