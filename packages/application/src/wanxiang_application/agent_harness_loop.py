@@ -25,14 +25,14 @@ from wanxiang_runtime.r7_agent_harness_contract import (
 from wanxiang_application.gateway import AgentSessionIdentity, WorldCapabilityGateway
 from wanxiang_application.world_runtime import WorldRuntime
 
-HarnessStepStatus = Literal["abstained", "committed", "rejected"]
+_HarnessStepStatus = Literal["abstained", "committed", "rejected"]
 
 
 @dataclass(frozen=True, slots=True)
 class HarnessStepResult:
     """One governed harness turn and the canonical outcome it observed."""
 
-    status: HarnessStepStatus
+    status: _HarnessStepStatus
     proposal_id: str | None
     revision: int
     state_hash: str
@@ -162,4 +162,4 @@ class HarnessWorldLoop:
         self._provider.close()
 
 
-__all__ = ["HarnessStepResult", "HarnessStepStatus", "HarnessWorldLoop"]
+__all__ = ["HarnessStepResult", "HarnessWorldLoop"]
