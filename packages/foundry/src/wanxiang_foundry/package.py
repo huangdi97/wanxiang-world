@@ -185,6 +185,14 @@ class CapabilityPackage:
                 raise ArtifactError(f"{name} must contain non-empty values")
             if len(set(values)) != len(values):
                 raise ArtifactError(f"{name} must not contain duplicates")
+        expected_interface_digest = canonical_sha256(
+            {
+                "inputs": list(self.interface_inputs),
+                "outputs": list(self.interface_outputs),
+            }
+        )
+        if self.interface_digest != expected_interface_digest:
+            raise ArtifactError("interface_digest does not match the declared interface")
         if not self.provenance:
             raise ArtifactError("a package must carry at least one provenance record")
 

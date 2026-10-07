@@ -57,6 +57,16 @@ def test_package_rejects_non_hex_digest(
 
 
 @pytest.mark.unit
+def test_package_rejects_interface_digest_drift(
+    package_with_digest: Callable[[str], CapabilityPackage],
+) -> None:
+    package = package_with_digest("0" * 64)
+
+    with pytest.raises(ArtifactError, match="interface_digest"):
+        replace(package, interface_outputs=("different",))
+
+
+@pytest.mark.unit
 def test_package_rejects_empty_provenance(
     package_with_digest: Callable[[str], CapabilityPackage],
 ) -> None:

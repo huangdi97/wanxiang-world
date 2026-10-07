@@ -8,6 +8,7 @@ from collections.abc import Callable
 import pytest
 from wanxiang_execution import ExecutionClass, ExecutionPolicy
 from wanxiang_foundry.candidate import ArtifactKind, ArtifactRef
+from wanxiang_foundry.digest import canonical_sha256
 from wanxiang_foundry.levels import KnowledgeLevel, PromotionLevel
 from wanxiang_foundry.package import (
     CapabilityPackage,
@@ -133,7 +134,9 @@ def package_with_digest() -> Callable[[str], CapabilityPackage]:
                     rights_basis="CC-BY-4.0",
                 ),
             ),
-            interface_digest=sha256_hex("interface"),
+            interface_digest=canonical_sha256(
+                {"inputs": ["int"], "outputs": ["int"]}
+            ),
             interface_inputs=("int",),
             interface_outputs=("int",),
             verification_case_ids=tuple(f"case-{kind.value}" for kind in CaseKind),
