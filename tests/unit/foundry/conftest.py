@@ -134,9 +134,7 @@ def package_with_digest() -> Callable[[str], CapabilityPackage]:
                     rights_basis="CC-BY-4.0",
                 ),
             ),
-            interface_digest=canonical_sha256(
-                {"inputs": ["int"], "outputs": ["int"]}
-            ),
+            interface_digest=canonical_sha256({"inputs": ["int"], "outputs": ["int"]}),
             interface_inputs=("int",),
             interface_outputs=("int",),
             verification_case_ids=tuple(f"case-{kind.value}" for kind in CaseKind),

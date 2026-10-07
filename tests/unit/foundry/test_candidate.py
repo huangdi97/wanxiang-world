@@ -6,7 +6,7 @@ from dataclasses import replace
 
 import pytest
 from wanxiang_execution import SideEffectClass
-from wanxiang_foundry.candidate import ArtifactRef, CapabilityCandidate
+from wanxiang_foundry.candidate import ArtifactKind, ArtifactRef, CapabilityCandidate
 from wanxiang_foundry.errors import CandidateError
 
 
@@ -67,7 +67,6 @@ def test_candidate_exposes_no_registration_or_commit_path(artifact: ArtifactRef)
 def _candidate_artifact() -> ArtifactRef:
     import hashlib
 
-    from wanxiang_foundry.candidate import ArtifactKind
 
     return ArtifactRef(
         kind=ArtifactKind.REPO,

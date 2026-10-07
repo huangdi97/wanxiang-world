@@ -44,7 +44,7 @@ def test_blueprint_adapts_existing_experience_without_owning_world_state() -> No
 
 def test_projection_profile_reads_committed_reality_and_has_no_write_authority() -> None:
     profile = ProjectionProfile(
-        profile_id="projection:web-text-2d",
+        projection_id="projection:web-text-2d",
         provider_ref="native_web@1",
         capabilities=("text", "map_2d"),
         state_source="canonical_read_model",
@@ -61,14 +61,14 @@ def test_projection_profile_reads_committed_reality_and_has_no_write_authority()
 def test_projection_profile_rejects_invalid_fallback() -> None:
     with pytest.raises(ContractError, match="write authority"):
         ProjectionProfile(
-            profile_id="projection:illegal-writer",
+            projection_id="projection:illegal-writer",
             provider_ref="visual_model@1",
             capabilities=("text",),
             write_authority="commit",  # type: ignore[arg-type]
         )
     with pytest.raises(ContractError, match="fallback"):
         ProjectionProfile(
-            profile_id="projection:3d-only",
+            projection_id="projection:3d-only",
             provider_ref="spatial_provider@1",
             capabilities=("scene_3d",),
             fallback="text",
