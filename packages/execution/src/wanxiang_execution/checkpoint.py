@@ -168,7 +168,7 @@ class FileExecutionCheckpointStore:
             snapshot_ref=checkpoint_ref,
             resume_ref=checkpoint_ref,
         )
-        observation = {
+        observation: dict[str, object] = {
             "kind": "execution-observation",
             "execution_id": request.execution_id,
             "trace_digest": trace_digest(resumed_trace),
