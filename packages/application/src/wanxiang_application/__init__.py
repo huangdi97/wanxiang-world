@@ -18,6 +18,7 @@ from wanxiang_application.synthetic_microworld import (
     ACTION_TRANSFER_RESOURCE,
     register_synthetic_resolvers,
 )
+from wanxiang_application.world_handle import WorldHandle, WorldHandleMetadata
 from wanxiang_application.world_runtime import (
     CreateWorldResult,
     RestoreResult,
@@ -45,6 +46,8 @@ __all__ = [
     "SubmitCommandResult",
     "WorldCapabilityGateway",
     "WorldEnvironment",
+    "WorldHandle",
+    "WorldHandleMetadata",
     "WorldSkill",
     "WorldInstanceStore",
     "WorldRuntime",

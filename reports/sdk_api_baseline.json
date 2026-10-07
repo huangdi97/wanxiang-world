@@ -108,6 +108,8 @@
     "wanxiang_application.SubmitCommandResult",
     "wanxiang_application.WorldCapabilityGateway",
     "wanxiang_application.WorldEnvironment",
+    "wanxiang_application.WorldHandle",
+    "wanxiang_application.WorldHandleMetadata",
     "wanxiang_application.WorldInstanceStore",
     "wanxiang_application.WorldRuntime",
     "wanxiang_application.WorldSkill",

@@ -105,3 +105,5 @@ export {
   type StoredRuntimeLock,
   type WorldlineLockIdentity,
 } from "./stored_lock";
+
+export { BootstrapError, bootstrapWorld, type BootstrappedWorld, type BootstrapHistoryExpectation, type WorldBootstrapRequest } from "./bootstrap";
