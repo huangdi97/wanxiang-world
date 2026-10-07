@@ -1,11 +1,11 @@
-"""WorldRunArtifact pins reproducibility evidence without becoming World truth."""
+"""ReproducibleRunManifest pins reproducibility evidence without becoming World truth."""
 
 from __future__ import annotations
 
-from wanxiang_research.world_run_artifact import WorldRunArtifact
+from wanxiang_research.world_run_artifact import ReproducibleRunManifest
 
 
-def _artifact(**changes: object) -> WorldRunArtifact:
+def _artifact(**changes: object) -> ReproducibleRunManifest:
     values: dict[str, object] = {
         "artifact_id": "run:r7:001",
         "world_id": "world:r7",
@@ -27,7 +27,7 @@ def _artifact(**changes: object) -> WorldRunArtifact:
         "branch_refs": ("branch:main", "branch:alt"),
     }
     values.update(changes)
-    return WorldRunArtifact(**values)  # type: ignore[arg-type]
+    return ReproducibleRunManifest(**values)  # type: ignore[arg-type]
 
 
 def test_fingerprint_is_deterministic_and_manifest_is_non_canonical() -> None:
