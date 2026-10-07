@@ -15,190 +15,352 @@ CONTRACT_SPECS: Final[tuple[_ContractSpec, ...]] = (
     (
         "identity",
         "root",
-        ("identity.authenticate", "identity.delegate",),
-        ("identity-unresolved", "credential-rejected",),
+        (
+            "identity.authenticate",
+            "identity.delegate",
+        ),
+        (
+            "identity-unresolved",
+            "credential-rejected",
+        ),
         "same-major-provider-swap",
     ),
     (
         "reality.observe",
         "world",
-        ("reality.observe.read", "reality.observe.stream",),
-        ("observation-rejected", "scope-denied",),
+        (
+            "reality.observe.read",
+            "reality.observe.stream",
+        ),
+        (
+            "observation-rejected",
+            "scope-denied",
+        ),
         "additive-minor",
     ),
     (
         "reality.proposal",
         "world",
-        ("reality.propose.command", "reality.propose.delta",),
-        ("proposal-rejected", "stale-revision",),
+        (
+            "reality.propose.command",
+            "reality.propose.delta",
+        ),
+        (
+            "proposal-rejected",
+            "stale-revision",
+        ),
         "additive-minor",
     ),
     (
         "reality.policy",
         "tenant",
-        ("reality.policy.evaluate", "reality.policy.publish",),
-        ("policy-conflict", "policy-unsatisfied",),
+        (
+            "reality.policy.evaluate",
+            "reality.policy.publish",
+        ),
+        (
+            "policy-conflict",
+            "policy-unsatisfied",
+        ),
         "same-major-provider-swap",
     ),
     (
         "authority",
         "root",
-        ("authority.commit", "authority.audit",),
-        ("not-commit-authority", "stale-revision",),
+        (
+            "authority.commit",
+            "authority.audit",
+        ),
+        (
+            "not-commit-authority",
+            "stale-revision",
+        ),
         "same-major-provider-swap",
     ),
     (
         "history",
         "worldline",
-        ("history.append", "history.read",),
-        ("append-conflict", "history-gap",),
+        (
+            "history.append",
+            "history.read",
+        ),
+        (
+            "append-conflict",
+            "history-gap",
+        ),
         "same-major-provider-swap",
     ),
     (
         "branch",
         "worldline",
-        ("branch.fork", "branch.merge",),
-        ("branch-diverged", "stale-branch-revision",),
+        (
+            "branch.fork",
+            "branch.merge",
+        ),
+        (
+            "branch-diverged",
+            "stale-branch-revision",
+        ),
         "additive-minor",
     ),
     (
         "lineage",
         "worldline",
-        ("lineage.trace", "lineage.verify",),
-        ("lineage-broken", "unknown-ancestor",),
+        (
+            "lineage.trace",
+            "lineage.verify",
+        ),
+        (
+            "lineage-broken",
+            "unknown-ancestor",
+        ),
         "same-major-provider-swap",
     ),
     (
         "replay",
         "worldline",
-        ("replay.from-event", "replay.verify",),
-        ("replay-divergence", "history-unavailable",),
+        (
+            "replay.from-event",
+            "replay.verify",
+        ),
+        (
+            "replay-divergence",
+            "history-unavailable",
+        ),
         "same-major-provider-swap",
     ),
     (
         "evidence",
         "world",
-        ("evidence.record", "evidence.verify",),
-        ("evidence-missing", "digest-mismatch",),
+        (
+            "evidence.record",
+            "evidence.verify",
+        ),
+        (
+            "evidence-missing",
+            "digest-mismatch",
+        ),
         "additive-minor",
     ),
     (
         "rights",
         "tenant",
-        ("rights.grant", "rights.revoke",),
-        ("right-denied", "right-unknown",),
+        (
+            "rights.grant",
+            "rights.revoke",
+        ),
+        (
+            "right-denied",
+            "right-unknown",
+        ),
         "additive-minor",
     ),
     (
         "execution",
         "world",
-        ("execution.schedule", "execution.cancel",),
-        ("execution-rejected", "runtime-unavailable",),
+        (
+            "execution.schedule",
+            "execution.cancel",
+        ),
+        (
+            "execution-rejected",
+            "runtime-unavailable",
+        ),
         "same-major-provider-swap",
     ),
     (
         "actor",
         "world",
-        ("actor.observe", "actor.control",),
-        ("actor-unresolved", "control-denied",),
+        (
+            "actor.observe",
+            "actor.control",
+        ),
+        (
+            "actor-unresolved",
+            "control-denied",
+        ),
         "additive-minor",
     ),
     (
         "model",
         "tenant",
-        ("model.invoke", "model.qualify",),
-        ("model-unavailable", "qualification-failed",),
+        (
+            "model.invoke",
+            "model.qualify",
+        ),
+        (
+            "model-unavailable",
+            "qualification-failed",
+        ),
         "same-major-provider-swap",
     ),
     (
         "capability",
         "root",
-        ("capability.register", "capability.resolve",),
-        ("capability-unknown", "capability-conflict",),
+        (
+            "capability.register",
+            "capability.resolve",
+        ),
+        (
+            "capability-unknown",
+            "capability-conflict",
+        ),
         "additive-minor",
     ),
     (
         "world.metadata",
         "world",
-        ("world.metadata.read", "world.metadata.propose",),
-        ("metadata-unavailable", "metadata-change-rejected",),
+        (
+            "world.metadata.read",
+            "world.metadata.propose",
+        ),
+        (
+            "metadata-unavailable",
+            "metadata-change-rejected",
+        ),
         "additive-minor",
     ),
     (
         "snapshot",
         "worldline",
-        ("snapshot.create", "snapshot.read",),
-        ("snapshot-unavailable", "snapshot-incompatible",),
+        (
+            "snapshot.create",
+            "snapshot.read",
+        ),
+        (
+            "snapshot-unavailable",
+            "snapshot-incompatible",
+        ),
         "same-major-provider-swap",
     ),
     (
         "clock",
         "world",
-        ("clock.read", "clock.advance",),
-        ("clock-unavailable", "clock-transition-rejected",),
+        (
+            "clock.read",
+            "clock.advance",
+        ),
+        (
+            "clock-unavailable",
+            "clock-transition-rejected",
+        ),
         "additive-minor",
     ),
     (
         "space",
         "world",
-        ("space.query", "space.resolve",),
-        ("space-unavailable", "space-resolution-failed",),
+        (
+            "space.query",
+            "space.resolve",
+        ),
+        (
+            "space-unavailable",
+            "space-resolution-failed",
+        ),
         "additive-minor",
     ),
     (
         "memory",
         "worldline",
-        ("memory.record", "memory.recall",),
-        ("memory-unavailable", "memory-scope-denied",),
+        (
+            "memory.record",
+            "memory.recall",
+        ),
+        (
+            "memory-unavailable",
+            "memory-scope-denied",
+        ),
         "additive-minor",
     ),
     (
         "simulation",
         "world",
-        ("simulation.run", "simulation.checkpoint",),
-        ("simulation-rejected", "simulation-unavailable",),
+        (
+            "simulation.run",
+            "simulation.checkpoint",
+        ),
+        (
+            "simulation-rejected",
+            "simulation-unavailable",
+        ),
         "same-major-provider-swap",
     ),
     (
         "forge.world",
         "root",
-        ("forge.world.compile", "forge.world.validate",),
-        ("world-compile-failed", "world-package-invalid",),
+        (
+            "forge.world.compile",
+            "forge.world.validate",
+        ),
+        (
+            "world-compile-failed",
+            "world-package-invalid",
+        ),
         "additive-minor",
     ),
     (
         "forge.capability",
         "root",
-        ("forge.capability.compile", "forge.capability.verify",),
-        ("capability-compile-failed", "capability-verification-failed",),
+        (
+            "forge.capability.compile",
+            "forge.capability.verify",
+        ),
+        (
+            "capability-compile-failed",
+            "capability-verification-failed",
+        ),
         "additive-minor",
     ),
     (
         "projection",
         "world",
-        ("projection.describe", "projection.render",),
-        ("projection-unavailable", "projection-unsupported",),
+        (
+            "projection.describe",
+            "projection.render",
+        ),
+        (
+            "projection-unavailable",
+            "projection-unsupported",
+        ),
         "additive-minor",
     ),
     (
         "experience",
         "world",
-        ("experience.enter", "experience.continue",),
-        ("experience-unavailable", "experience-entry-denied",),
+        (
+            "experience.enter",
+            "experience.continue",
+        ),
+        (
+            "experience-unavailable",
+            "experience-entry-denied",
+        ),
         "additive-minor",
     ),
     (
         "distribution",
         "world",
-        ("distribution.build", "distribution.publish",),
-        ("distribution-unsupported", "distribution-policy-denied",),
+        (
+            "distribution.build",
+            "distribution.publish",
+        ),
+        (
+            "distribution-unsupported",
+            "distribution-policy-denied",
+        ),
         "additive-minor",
     ),
     (
         "reality.profile",
         "world",
-        ("reality.profile.read", "reality.profile.lock",),
-        ("profile-unknown", "profile-mismatch",),
+        (
+            "reality.profile.read",
+            "reality.profile.lock",
+        ),
+        (
+            "profile-unknown",
+            "profile-mismatch",
+        ),
         "additive-minor",
     ),
 )

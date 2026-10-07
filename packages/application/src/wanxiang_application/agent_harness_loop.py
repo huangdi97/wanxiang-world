@@ -75,9 +75,7 @@ class HarnessWorldLoop:
         history = self._gateway.query_history(session)
         context = dict(allowed_context or {})
         context_hash = semantic_sha256(context)
-        goal_refs = (
-            (f"goal-sha256:{semantic_sha256(goal_hint)}",) if goal_hint else ()
-        )
+        goal_refs = (f"goal-sha256:{semantic_sha256(goal_hint)}",) if goal_hint else ()
         decision = self._provider.decide(
             WorldObservation(
                 worldline_id=session.branch_id,
