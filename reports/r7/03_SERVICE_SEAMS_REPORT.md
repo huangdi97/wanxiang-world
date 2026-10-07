@@ -13,7 +13,7 @@ identity-bearing part (namespace, API version, scope) and recomputes a digest
 over it, so a divergence between the two runtimes is detectable rather than
 assumed away.
 
-16 contracts are declared, each with namespace, API version, schema version,
+27 contracts are declared, each with namespace, API version, schema version,
 scope, capabilities, error semantics and a compatibility rule:
 
 ```text
@@ -22,7 +22,12 @@ wanxiang.reality.observe@1   wanxiang.branch@1         wanxiang.model@1
 wanxiang.reality.proposal@1  wanxiang.lineage@1        wanxiang.capability@1
 wanxiang.reality.policy@1    wanxiang.replay@1         wanxiang.reality.profile@1
 wanxiang.authority@1         wanxiang.evidence@1       wanxiang.execution@1
-wanxiang.rights@1
+wanxiang.rights@1             wanxiang.world.metadata@1
+wanxiang.snapshot@1           wanxiang.clock@1
+wanxiang.space@1              wanxiang.memory@1
+wanxiang.simulation@1         wanxiang.forge.world@1
+wanxiang.forge.capability@1   wanxiang.projection@1
+wanxiang.experience@1         wanxiang.distribution@1
 ```
 
 Seam digest at this tree:
@@ -57,7 +62,7 @@ port. Two implementations exist against that port:
 
 ## Boundaries
 
-* IMPLEMENTED: 16 versioned contracts (Python + TS identity map), seam digest
+* IMPLEMENTED: 27 versioned contracts (Python + generated TS identity/scope projection), seam digest
   served by both runtimes, history seam with a provider port, async JSON-RPC
   provider and authority bootstrap, architecture guards on both sides.
 * VALIDATED: Python contract/reality tests (64 in `tests/unit/reality`), TS
@@ -65,4 +70,7 @@ port. Two implementations exist against that port:
   41 tests), cross-language seam digest equality asserted by the bridge test,
   repository quality gate PASS.
 * NOT_PROVEN: a second real transport (HTTP/socket) for the same seam, and
-  compatibility testing against an older contract revision.
+  compatibility testing against an older contract revision. The expanded
+  first-batch seam catalog now also names metadata/snapshot/clock/space/memory/
+  simulation/Forge/projection/experience/distribution boundaries; naming a seam
+  does not fabricate a provider where a concrete provider is not yet installed.

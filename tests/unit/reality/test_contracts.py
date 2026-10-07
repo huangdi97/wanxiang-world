@@ -35,6 +35,17 @@ REQUIRED_CONTRACT_IDS = {
     "wanxiang.actor@1",
     "wanxiang.model@1",
     "wanxiang.capability@1",
+    "wanxiang.world.metadata@1",
+    "wanxiang.snapshot@1",
+    "wanxiang.clock@1",
+    "wanxiang.space@1",
+    "wanxiang.memory@1",
+    "wanxiang.simulation@1",
+    "wanxiang.forge.world@1",
+    "wanxiang.forge.capability@1",
+    "wanxiang.projection@1",
+    "wanxiang.experience@1",
+    "wanxiang.distribution@1",
     "wanxiang.reality.profile@1",
 }
 
