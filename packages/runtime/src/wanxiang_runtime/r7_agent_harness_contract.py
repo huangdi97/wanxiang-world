@@ -15,6 +15,9 @@ from collections.abc import Mapping
 from dataclasses import dataclass, field
 from typing import Protocol, cast
 
+from wanxiang_domain.entity import FieldValue
+from wanxiang_domain.hashing import semantic_sha256
+
 HARNESS_PROTOCOL = "wanxiang.r7.agent-harness-rpc.v1"
 
 ERROR_UNKNOWN_METHOD = -32601
@@ -64,6 +67,7 @@ class AgentProposal:
     action: str
     rationale_ref: str
     payload_digest: str
+    action_payload: Mapping[str, FieldValue] = field(default_factory=dict[str, FieldValue])
 
     def payload(self) -> dict[str, object]:
         return {
@@ -71,7 +75,13 @@ class AgentProposal:
             "action": self.action,
             "rationaleRef": self.rationale_ref,
             "payloadDigest": self.payload_digest,
+            "payload": dict(self.action_payload),
         }
+
+
+def proposal_payload_digest(payload: Mapping[str, FieldValue]) -> str:
+    """Digest one proposed action payload using Wanxiang canonical semantics."""
+    return semantic_sha256(dict(payload))
 
 
 @dataclass(frozen=True, slots=True)
@@ -152,6 +162,25 @@ class AgentHarnessProvider(Protocol):
         ...
 
 
+
+
+def _parse_action_payload(value: object) -> dict[str, FieldValue]:
+    if value is None:
+        return {}
+    if not isinstance(value, Mapping):
+        raise HarnessProtocolError("harness proposal payload must be an object")
+    result: dict[str, FieldValue] = {}
+    for raw_key, raw_value in cast("Mapping[object, object]", value).items():
+        if not isinstance(raw_key, str) or not raw_key:
+            raise HarnessProtocolError("harness proposal payload keys must be non-empty strings")
+        if raw_value is not None and not isinstance(raw_value, (str, int, float, bool)):
+            raise HarnessProtocolError(
+                f"harness proposal payload value for {raw_key!r} must be primitive"
+            )
+        result[raw_key] = cast("FieldValue", raw_value)
+    return result
+
+
 def parse_decision(result: Mapping[str, object]) -> AgentDecision:
     """Build a decision from a harness response, rejecting anything malformed."""
     status = result.get("status")
@@ -164,17 +193,26 @@ def parse_decision(result: Mapping[str, object]) -> AgentDecision:
             raise HarnessProtocolError("harness proposal must be an object")
         # SAFETY: the proposal arrives over the wire, so it is treated as an
         # untyped mapping and every field is validated as a non-empty string below.
+        raw_fields = cast("Mapping[str, object]", raw)
         fields: dict[str, object] = {
-            key: cast("Mapping[str, object]", raw).get(key)
-            for key in ("proposalId", "action", "rationaleRef", "payloadDigest")
+            key: raw_fields.get(key) for key in ("proposalId", "action", "rationaleRef")
         }
         if not all(isinstance(value, str) and value for value in fields.values()):
             raise HarnessProtocolError("harness proposal is missing required fields")
+        action_payload = _parse_action_payload(raw_fields.get("payload"))
+        raw_digest = raw_fields.get("payloadDigest")
+        if raw_digest is None and action_payload:
+            payload_digest = proposal_payload_digest(action_payload)
+        elif isinstance(raw_digest, str) and raw_digest:
+            payload_digest = raw_digest
+        else:
+            raise HarnessProtocolError("harness proposal requires payloadDigest or a payload")
         proposal = AgentProposal(
             proposal_id=str(fields["proposalId"]),
             action=str(fields["action"]),
             rationale_ref=str(fields["rationaleRef"]),
-            payload_digest=str(fields["payloadDigest"]),
+            payload_digest=payload_digest,
+            action_payload=action_payload,
         )
     reason = result.get("reason")
     return AgentDecision(
