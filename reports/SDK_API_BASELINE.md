@@ -2,7 +2,7 @@
 
 - API routes: 74
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 2136
+- Python public names (stable packages): 2140
 
 ## API routes
 
@@ -96,6 +96,8 @@
 - `wanxiang_application.GatewayOperation`
 - `wanxiang_application.GatewayProposal`
 - `wanxiang_application.GovernedOperationRequest`
+- `wanxiang_application.HarnessStepResult`
+- `wanxiang_application.HarnessWorldLoop`
 - `wanxiang_application.Now`
 - `wanxiang_application.ObserverExperience`
 - `wanxiang_application.ObserverExperienceView`
@@ -107,6 +109,7 @@
 - `wanxiang_application.WorldEnvironment`
 - `wanxiang_application.WorldInstanceStore`
 - `wanxiang_application.WorldRuntime`
+- `wanxiang_application.WorldSkill`
 - `wanxiang_application.find_root_branch`
 - `wanxiang_application.register_synthetic_resolvers`
 - `wanxiang_application.replay_branch`
@@ -326,6 +329,7 @@
 - `wanxiang_runtime.fork_branch`
 - `wanxiang_runtime.mint_canonical_write_lease`
 - `wanxiang_runtime.parse_decision`
+- `wanxiang_runtime.proposal_payload_digest`
 - `wanxiang_runtime.require_canonical_write_lease`
 - `wanxiang_runtime.state_from_primitive`
 - `wanxiang_runtime.state_to_primitive`
@@ -379,9 +383,5 @@
 - `wanxiang_substrate.ACTION_SET_ACTOR_STATE`
 - `wanxiang_substrate.ACTION_SET_DEADLINE`
 - `wanxiang_substrate.ACTION_SET_MODE`
-- `wanxiang_substrate.ACTION_SET_PORTAL_STATE`
-- `wanxiang_substrate.ACTION_SET_RESOLUTION`
-- `wanxiang_substrate.ACTION_SET_SKILL_STATE`
-- `wanxiang_substrate.ACTION_SET_VISIBILITY`
 
 Machine-readable: reports/sdk_api_baseline.json.
