@@ -19,6 +19,11 @@ from wanxiang_foundry.errors import (
 )
 from wanxiang_foundry.fabric_runner import run_cases
 from wanxiang_foundry.invocation import CapabilityOutcome, CapabilityRequest, invoke
+from wanxiang_foundry.marketplace import (
+    CapabilityDiscoveryQuery,
+    CapabilityMarketplaceListing,
+    VerifiedCapabilityMarketplace,
+)
 from wanxiang_foundry.levels import (
     AUTOMATION_MAX_PROMOTION,
     KnowledgeLevel,
@@ -59,6 +64,8 @@ __all__ = [
     "ArtifactRef",
     "CandidateError",
     "CapabilityCandidate",
+    "CapabilityDiscoveryQuery",
+    "CapabilityMarketplaceListing",
     "CapabilityOutcome",
     "CapabilityPackage",
     "CapabilityRequest",
@@ -81,6 +88,7 @@ __all__ = [
     "VerificationCase",
     "VerificationError",
     "VerificationReport",
+    "VerifiedCapabilityMarketplace",
     "VerifiedCapabilityRegistry",
     "WorldEffect",
     "canonical_sha256",
