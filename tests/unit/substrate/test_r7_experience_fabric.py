@@ -53,11 +53,19 @@ def test_projection_profile_reads_committed_reality_and_has_no_write_authority()
 
     assert profile.write_authority == "none"
     assert profile.state_source == "canonical_read_model"
+    assert ProjectionProfile.from_dict(profile.to_dict()) == profile
     assert "state" not in profile.__dataclass_fields__
     assert "event_store" not in profile.__dataclass_fields__
 
 
 def test_projection_profile_rejects_invalid_fallback() -> None:
+    with pytest.raises(ContractError, match="write authority"):
+        ProjectionProfile(
+            profile_id="projection:illegal-writer",
+            provider_ref="visual_model@1",
+            capabilities=("text",),
+            write_authority="commit",  # type: ignore[arg-type]
+        )
     with pytest.raises(ContractError, match="fallback"):
         ProjectionProfile(
             profile_id="projection:3d-only",
