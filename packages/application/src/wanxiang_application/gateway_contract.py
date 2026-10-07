@@ -18,16 +18,6 @@ from wanxiang_domain.errors import ContractError
 
 GatewayOperation = Literal["fork_worldline", "request_experiment"]
 
-_OPERATION_SCOPE = {
-    "observe": "world.observe",
-    "query_history": "world.history",
-    "query_branch_diff": "world.branch.diff",
-    "propose_action": "world.propose",
-    "request_fork": "world.fork",
-    "request_experiment": "world.experiment",
-}
-
-
 def _parse_expiry(value: str) -> datetime:
     """Parse an offset-aware ISO-8601 expiry and normalize it to UTC."""
     normalized = value[:-1] + "+00:00" if value.endswith("Z") else value
@@ -75,6 +65,10 @@ class AgentSessionIdentity:
         if not self.rights_scope:
             raise ContractError("rights_scope must not be empty")
         _parse_expiry(self.session_expiry)
+
+    def expiry_utc(self) -> datetime:
+        """Return the validated session expiry normalized to UTC."""
+        return _parse_expiry(self.session_expiry)
 
 
 @dataclass(frozen=True, slots=True)
