@@ -152,3 +152,72 @@ def test_revoking_unregistered_capability_is_refused() -> None:
 
     with pytest.raises(RegistryError):
         registry.revoke("cap.missing", "1.0.0", "unknown")
+
+
+@pytest.mark.unit
+def test_suspend_restore_deprecate_and_revoke_preserve_evidence(
+    package_with_digest: _MakePackage, full_pass_report: VerificationReport
+) -> None:
+    registry = VerifiedCapabilityRegistry()
+    package = package_with_digest(full_pass_report.evidence_digest)
+    registry.admit(package, full_pass_report)
+
+    registry.suspend("cap.demo", "1.0.0", "upstream incident")
+    assert registry.status("cap.demo", "1.0.0") == "SUSPENDED"
+    assert registry.is_invocable("cap.demo", "1.0.0") is False
+    assert registry.get("cap.demo", "1.0.0") == package
+
+    registry.restore("cap.demo", "1.0.0", "incident cleared")
+    assert registry.status("cap.demo", "1.0.0") == "ACTIVE"
+    assert registry.is_invocable("cap.demo", "1.0.0") is True
+
+    registry.deprecate("cap.demo", "1.0.0", "prefer newer version")
+    assert registry.status("cap.demo", "1.0.0") == "DEPRECATED"
+    assert registry.is_invocable("cap.demo", "1.0.0") is True
+
+    registry.revoke("cap.demo", "1.0.0", "security regression")
+    assert registry.status("cap.demo", "1.0.0") == "REVOKED"
+    assert registry.is_invocable("cap.demo", "1.0.0") is False
+    assert registry.get("cap.demo", "1.0.0") == package
+    with pytest.raises(RegistryError, match="cannot be reactivated"):
+        registry.restore("cap.demo", "1.0.0", "should not be allowed")
+
+    actions = tuple(item[2] for item in registry.lifecycle("cap.demo"))
+    assert actions == ("ADMIT", "SUSPENDED", "ACTIVE", "DEPRECATED", "REVOKED")
+
+
+@pytest.mark.unit
+def test_rollback_selects_old_version_for_future_calls_without_deleting_new_version(
+    package_with_digest: _MakePackage, full_pass_report: VerificationReport
+) -> None:
+    registry = VerifiedCapabilityRegistry()
+    first = package_with_digest(full_pass_report.evidence_digest)
+    second = replace(first, version="2.0.0")
+    registry.admit(first, full_pass_report)
+    registry.admit(second, full_pass_report)
+    assert registry.active("cap.demo") == second
+
+    registry.rollback("cap.demo", "1.0.0", "v2 behavioral regression")
+
+    assert registry.active("cap.demo") == first
+    assert registry.get("cap.demo", "2.0.0") == second
+    assert registry.is_invocable("cap.demo", "2.0.0") is True
+    assert registry.lifecycle("cap.demo")[-1] == (
+        "cap.demo",
+        "1.0.0",
+        "ROLLBACK",
+        "v2 behavioral regression",
+    )
+
+
+@pytest.mark.unit
+def test_rollback_refuses_suspended_or_revoked_target(
+    package_with_digest: _MakePackage, full_pass_report: VerificationReport
+) -> None:
+    registry = VerifiedCapabilityRegistry()
+    package = package_with_digest(full_pass_report.evidence_digest)
+    registry.admit(package, full_pass_report)
+    registry.suspend("cap.demo", "1.0.0", "investigating")
+
+    with pytest.raises(RegistryError, match="non-invocable"):
+        registry.rollback("cap.demo", "1.0.0", "cannot select suspended version")
