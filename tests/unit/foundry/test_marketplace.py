@@ -2,17 +2,24 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
+
 from wanxiang_execution import ExecutionClass
+from wanxiang_foundry import CapabilityPackage, VerifiedCapabilityRegistry
 from wanxiang_foundry.marketplace import (
     CapabilityDiscoveryQuery,
     VerifiedCapabilityMarketplace,
 )
+from wanxiang_foundry.verification import VerificationReport
 
-from tests.unit.foundry.conftest import admitted_package
 
-
-def _marketplace() -> tuple[VerifiedCapabilityMarketplace, object]:
-    registry, package = admitted_package()
+def _marketplace(
+    full_pass_report: VerificationReport,
+    package_with_digest: Callable[[str], CapabilityPackage],
+) -> tuple[VerifiedCapabilityRegistry, VerifiedCapabilityMarketplace, CapabilityPackage]:
+    registry = VerifiedCapabilityRegistry()
+    package = package_with_digest(full_pass_report.evidence_digest)
+    registry.admit(package, full_pass_report)
     marketplace = VerifiedCapabilityMarketplace(registry)
     marketplace.publish(
         package.capability_id,
@@ -28,11 +35,14 @@ def _marketplace() -> tuple[VerifiedCapabilityMarketplace, object]:
         security_status="C3-reference",
         last_verified_at="2026-10-07T00:00:00Z",
     )
-    return marketplace, package
+    return registry, marketplace, package
 
 
-def test_discovery_exposes_verification_runtime_and_validity_without_activation() -> None:
-    marketplace, package = _marketplace()
+def test_discovery_exposes_verification_runtime_and_validity_without_activation(
+    full_pass_report: VerificationReport,
+    package_with_digest: Callable[[str], CapabilityPackage],
+) -> None:
+    _registry, marketplace, package = _marketplace(full_pass_report, package_with_digest)
     found = marketplace.discover(
         CapabilityDiscoveryQuery(
             required_domains=("science",),
@@ -52,17 +62,22 @@ def test_discovery_exposes_verification_runtime_and_validity_without_activation(
     assert not hasattr(marketplace, "commit")
 
 
-def test_commercial_metadata_does_not_change_verification_tier() -> None:
-    marketplace, package = _marketplace()
+def test_commercial_metadata_does_not_change_verification_tier(
+    full_pass_report: VerificationReport,
+    package_with_digest: Callable[[str], CapabilityPackage],
+) -> None:
+    _registry, marketplace, package = _marketplace(full_pass_report, package_with_digest)
     listing = marketplace.get(package.capability_id, package.version)
     assert listing is not None
     assert listing.cost_model == "free/reference"
     assert listing.promotion_level == package.promotion_level
 
 
-def test_revoked_capability_disappears_from_discovery() -> None:
-    marketplace, package = _marketplace()
-    registry = marketplace._registry  # noqa: SLF001 - verify lifecycle binding in qualification
+def test_revoked_capability_disappears_from_discovery(
+    full_pass_report: VerificationReport,
+    package_with_digest: Callable[[str], CapabilityPackage],
+) -> None:
+    registry, marketplace, package = _marketplace(full_pass_report, package_with_digest)
     registry.revoke(package.capability_id, package.version, "security regression")
 
     assert marketplace.discover() == ()
