@@ -1,42 +1,30 @@
 # R7 01 — Worldline RuntimeLock Pinning
 
-Status: `IMPLEMENTED` / `VALIDATED` (unit + TS integration level).
+Status: `IMPLEMENTED / VALIDATED`.
 
-## 1. What changed
+## Implemented
 
-| Artefact | Responsibility |
-|---|---|
-| `packages/cordis_host/src/lock.ts` | `RuntimeLockRef`/`ProfileRef` types, `validateRuntimeLockRef`, `createRuntimeLockRef`, `assertSeamsMatchLock` |
-| `packages/cordis_host/src/host.ts` | `createHost({ lockRef })` — the lock is required, not optional |
-| `packages/cordis_host/src/graph.ts` | the resolved graph records `runtimeLocks` (worldline -> lock, reality/world profile, composition runtime version, service contract versions, provider versions) |
-| `packages/cordis_host/src/testing.ts` | fixture lock/profile helpers for tests |
+- RuntimeLock is persisted per worldline through `wanxiang_reality.lock_store`
+  with frozen JSON schema, explicit revision/write time and canonical digest.
+- Existing locks are immutable except through an explicit exact-revision
+  migration write; provider upgrades never silently rewrite a lock.
+- `open_worldline()` fails closed on missing/tampered/identity/profile/provider/
+  schema/config drift and returns `MIGRATION_REQUIRED` for a major
+  RealityProfile change.
+- The Cordis host reads the same Python-written lock through `FileLockSource`,
+  re-checks digest/live versions and refuses mismatched worldlines.
+- Cross-language tests create a lock via Python CLI and open it in TypeScript.
 
-The lock data model itself lives in Python (`wanxiang_reality.profiles.RuntimeLock`)
-and is consumed as data by TypeScript, so there is exactly one lock model.
+The lock binds world/definition/instance/worldline identity,
+RealityProfile/WorldProfile refs+hashes, composition runtime/version,
+contract/provider/schema versions, artifact hashes, migration lineage and
+runtime config hash.
 
-## 2. Invariants
+Evidence:
+- `packages/reality/src/wanxiang_reality/lock_store.py`
+- `packages/reality/src/wanxiang_reality/worldline_open.py`
+- `packages/cordis_host/src/stored_lock.ts`
+- Python/TypeScript lock tests and exact-SHA qualification.
 
-- A worldline refuses to open without a validated pinned `RuntimeLockRef`.
-- `assertSeamsMatchLock` compares the live seam digests against the contract
-  versions recorded in the lock and fails on any mismatch, so a runtime cannot
-  silently run with drifted contracts.
-- The composition-runtime version is read from `cordis/package.json` and compared
-  exactly, including prerelease versions (`4.0.0-rc.10`).
-- The resolved graph is evidence: it records what the worldline was actually
-  composed from, including `runtimeLocks`.
-
-## 3. Evidence
-
-```text
-pnpm -C packages/cordis_host exec tsc --noEmit        -> exit 0
-pnpm -C packages/cordis_host exec eslint .            -> exit 0
-pnpm -C packages/cordis_host exec vitest run          -> 7 files / 41 tests passed
-artifacts/r7/composition/resolved_graph.json          -> runtimeLocks[] present
-uv run python scripts/quality.py                      -> architecture PASS
-```
-
-## 4. Not claimed
-
-- The lock is not yet persisted per worldline in a store; callers supply it.
-- Only the composition host enforces the lock today; the Python runtime path does
-  not yet refuse to open a worldline without one.
+RuntimeLock is the pinned interpretation/runtime descriptor; it is not world
+truth itself.

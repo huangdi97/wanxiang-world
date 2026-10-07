@@ -1,55 +1,27 @@
-# R7 07 — Isolated Execution Fabric and Irreversible-Effect Outbox
+# R7 07 — Execution Fabric and Irreversible-Effect Boundary
 
-Status: `IMPLEMENTED` / `VALIDATED` (unit level, real subprocess runs).
+Status: `IMPLEMENTED / VALIDATED` for R7 reference scope.
 
-## 1. Package
+`packages/execution` provides deny-by-default policy, a real local subprocess
+provider, bounded output capture, environment scrubbing and ExecutionTrace
+evidence. Execution output is Observation/Proposal and has no canonical writer.
+Process isolation is not claimed as a hostile-code container/microVM sandbox.
 
-New workspace member `packages/execution` (`wanxiang-execution`, no dependencies
-outside the standard library). Production files stay under the 300-line gate.
+The irreversible-effect path is exercised through a real cross-process localhost
+HTTP handler, not an in-function fake. Integration covers durable intent,
+idempotency/duplicate suppression, crash-before-answer ambiguity, timeout,
+bounded retry, restart/journal reconstruction, explicit reconciliation and
+identifiers-only external journal/no secret leakage.
 
-| Module | Responsibility |
-|---|---|
-| `errors.py` | typed execution/outbox errors |
-| `policy.py` | `ExecutionClass`, `TrustLevel`, access enums and pure `authorize()` |
-| `trace.py` | `ExecutionTrace`, `trace_digest`, `environment_hash` |
-| `local_process.py` | child environment allowlist, `subprocess` invocation, capture capping |
-| `fabric.py` | `ExecutionRequest`/`ExecutionResult`, `LocalProcessProvider` |
-| `outbox_records.py` | intent/result/attempt records and the `ExternalEffectHandler` port |
-| `outbox.py` | append-only JSONL outbox with a strict record codec |
-| `outbox_executor.py` | idempotency, pre-call markers, ambiguity, reconciliation, retry budget |
+Evidence:
+- `tests/integration/test_r7_effect_outbox.py`
+- `scripts/r7_effect_sink.py`
+- execution unit/architecture tests.
 
-## 2. Invariants
-
-- Deny by default: an untrusted execution cannot request egress or explicit-grant
-  secrets, and `IRREVERSIBLE_EXTERNAL` side effects are rejected outright.
-- An execution trace is **not** world history: it can never be appended to
-  canonical history, and the module says so in its docstring; the guard test
-  checks that no commit/authority module is imported.
-- The fabric proposes observations only; it holds no commit path.
-- Irreversible external effects go through the outbox: the intent is appended
-  before the handler runs, a duplicate idempotency key is suppressed rather than
-  re-sent, a crash-leftover marker resolves to a recorded `ambiguous` result, and
-  ambiguity is never auto-retried.
-- The package is a leaf: the architecture guard confirms it imports no other
-  wanxiang package, so untrusted capabilities cannot reach the domain or the
-  authority by transitivity.
-
-## 3. Evidence
+This is real reference I/O, not a claim about production payment/SaaS/robot/
+chain/device integration.
 
 ```text
-uv run pytest tests/unit/execution -q                 -> 50 passed
-uv run pytest tests/unit -q                           -> 855 passed (at the R7 slice)
-uv run ruff check .                                   -> All checks passed
-uv run pyright packages/execution tests/unit/execution -> 0 errors
-uv run python scripts/architecture_check.py           -> PASS
-tests/architecture/test_v51_dependency_topology.py    -> packages/execution: (none)
+Execution Success != World Truth
+Committed External Intent != External Effect succeeded
 ```
-
-## 4. Not claimed
-
-- Isolation is a local subprocess with a scrubbed environment, not a container,
-  VM or seccomp sandbox; the trace reports this honestly (`isolation` map).
-- `snapshot_ref`/`resume_ref` are always `None`: snapshot/resume of an execution
-  is not implemented.
-- No external effect handler is wired to a real third-party service yet; tests
-  use local handlers.
