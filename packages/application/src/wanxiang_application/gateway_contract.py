@@ -16,7 +16,12 @@ from wanxiang_domain.command import CommandEnvelope
 from wanxiang_domain.entity import FieldValue
 from wanxiang_domain.errors import ContractError
 
-GatewayOperation = Literal["fork_worldline", "request_experiment"]
+GatewayOperation = Literal[
+    "fork_worldline",
+    "request_experiment",
+    "request_simulation",
+    "submit_order",
+]
 
 
 def _parse_expiry(value: str) -> datetime:

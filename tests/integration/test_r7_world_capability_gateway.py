@@ -27,10 +27,17 @@ def _session(
         capability_scope=(
             "world.observe",
             "world.history",
+            "world.inspect",
+            "world.entities",
+            "world.relations",
+            "world.worldline",
             "world.branch.diff",
+            "world.capabilities",
             "world.propose",
             "world.fork",
             "world.experiment",
+            "world.simulation",
+            "world.order",
             "cap.r7.double",
         ),
         rights_scope=("public",),
@@ -65,6 +72,27 @@ def test_gateway_observe_history_and_proposal_have_no_reality_effect() -> None:
     history = gateway.query_history(session)
     assert [item.revision for item in history] == [1]
 
+    metadata = gateway.inspect_world_metadata(session)
+    assert metadata["world_id"] == world.instance_id.value
+    assert metadata["revision"] == 1
+    assert metadata["state_hash"] == observed.state_hash
+
+    schema = gateway.inspect_world_schema(session)
+    assert schema["schema_version"] == 1
+    assert "set_status" in schema["action_types"]
+
+    entities = gateway.query_entities(session)
+    assert tuple(item["id"] for item in entities) == ("ent_gateway",)
+    assert gateway.query_relations(session) == ()
+
+    worldline = gateway.query_worldline(session)
+    assert worldline["branch_id"] == branch.value
+    assert worldline["parent_branch_id"] is None
+
+    capabilities = gateway.list_capabilities(session)
+    assert "world.observe" in capabilities["session_scopes"]
+    assert "set_status" in capabilities["action_types"]
+
     proposal = gateway.propose_action(
         session,
         expected_revision=1,
@@ -84,6 +112,20 @@ def test_gateway_observe_history_and_proposal_have_no_reality_effect() -> None:
         parameters={"input": 5},
     )
     assert experiment.operation == "request_experiment"
+
+    simulation = gateway.request_simulation(
+        session,
+        simulation_id="sim:r7-counterfactual",
+        parameters={"horizon": 3},
+    )
+    assert simulation.operation == "request_simulation"
+
+    order = gateway.submit_order(
+        session,
+        order_type="external.notification",
+        parameters={"target": "reference-only"},
+    )
+    assert order.operation == "submit_order"
     assert runtime.current_state(world.instance_id, branch).revision.value == 1
 
     skill = gateway.describe_skill(session)

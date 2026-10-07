@@ -60,6 +60,92 @@ class WorldCapabilityGateway:
             action_types=self._runtime.action_types(),
         )
 
+    def inspect_world_metadata(self, session: AgentSessionIdentity) -> dict[str, object]:
+        """Return stable instance/worldline metadata without exposing a writer."""
+        self._require_operation(session, "inspect_world_metadata")
+        instance_id, branch_id = self._refs(session)
+        schema_version, rule_version, created_world_time = self._runtime.persistence.instances.get(
+            instance_id
+        )
+        state = self._runtime.current_state(instance_id, branch_id)
+        return {
+            "world_id": instance_id.value,
+            "branch_id": branch_id.value,
+            "revision": state.revision.value,
+            "state_hash": state.semantic_hash(),
+            "schema_version": schema_version.value,
+            "rule_version": rule_version.value,
+            "created_world_time": created_world_time.ticks,
+        }
+
+    def inspect_world_schema(self, session: AgentSessionIdentity) -> dict[str, object]:
+        """Describe the bounded public command/state vocabulary for this session."""
+        self._require_operation(session, "inspect_world_schema")
+        instance_id, _branch_id = self._refs(session)
+        schema_version, rule_version, _created = self._runtime.persistence.instances.get(instance_id)
+        return {
+            "schema_version": schema_version.value,
+            "rule_version": rule_version.value,
+            "action_types": self._runtime.action_types(),
+            "state_shape": ("entities", "relations", "revision"),
+        }
+
+    def query_entities(self, session: AgentSessionIdentity) -> tuple[dict[str, object], ...]:
+        """Return a read-only primitive projection of canonical entities."""
+        self._require_operation(session, "query_entities")
+        instance_id, branch_id = self._refs(session)
+        state = state_to_primitive(self._runtime.current_state(instance_id, branch_id))
+        entities = state.get("entities")
+        if not isinstance(entities, list):
+            raise ContractError("canonical state projection has invalid entities shape")
+        return tuple(dict(item) for item in entities if isinstance(item, dict))
+
+    def query_relations(self, session: AgentSessionIdentity) -> tuple[dict[str, object], ...]:
+        """Return a read-only primitive projection of canonical relations."""
+        self._require_operation(session, "query_relations")
+        instance_id, branch_id = self._refs(session)
+        state = state_to_primitive(self._runtime.current_state(instance_id, branch_id))
+        relations = state.get("relations")
+        if not isinstance(relations, list):
+            raise ContractError("canonical state projection has invalid relations shape")
+        return tuple(dict(item) for item in relations if isinstance(item, dict))
+
+    def query_worldline(self, session: AgentSessionIdentity) -> dict[str, object]:
+        """Return branch identity/ancestry plus the current canonical head."""
+        self._require_operation(session, "query_worldline")
+        instance_id, branch_id = self._refs(session)
+        branch = self._runtime.persistence.branches.get(branch_id)
+        if branch.instance_id != instance_id:
+            raise PermissionDenied("branch does not belong to the session world")
+        state = self._runtime.current_state(instance_id, branch_id)
+        ancestry = branch.ancestry
+        return {
+            "world_id": instance_id.value,
+            "branch_id": branch_id.value,
+            "revision": state.revision.value,
+            "parent_branch_id": (
+                ancestry.parent_branch_id.value if ancestry.parent_branch_id is not None else None
+            ),
+            "fork_revision": (
+                ancestry.fork_revision.value if ancestry.fork_revision is not None else None
+            ),
+            "fork_event_seq": (
+                ancestry.fork_event_seq.value if ancestry.fork_event_seq is not None else None
+            ),
+        }
+
+    def list_capabilities(self, session: AgentSessionIdentity) -> dict[str, tuple[str, ...]]:
+        """List the capabilities granted to this session, not a global registry dump."""
+        self._require_operation(session, "list_capabilities")
+        return {
+            "session_scopes": tuple(sorted(session.capability_scope)),
+            "action_types": (
+                self._runtime.action_types()
+                if "world.propose" in session.capability_scope
+                else ()
+            ),
+        }
+
     def query_history(
         self,
         session: AgentSessionIdentity,
@@ -177,6 +263,52 @@ class WorldCapabilityGateway:
         return GovernedOperationRequest(
             request_id=f"governed:{CommandId.generate().value}",
             operation="request_experiment",
+            world_id=instance_id.value,
+            branch_id=branch_id.value,
+            audit_id=session.audit_id,
+            parameters=payload,
+        )
+
+    def request_simulation(
+        self,
+        session: AgentSessionIdentity,
+        *,
+        simulation_id: str,
+        parameters: Mapping[str, FieldValue],
+    ) -> GovernedOperationRequest:
+        """Create a governed simulation request; it does not run or commit by itself."""
+        self._require_operation(session, "request_simulation")
+        instance_id, branch_id = self._refs(session)
+        if not simulation_id.strip():
+            raise ContractError("simulation_id must be non-empty")
+        payload = dict(parameters)
+        payload["simulation_id"] = simulation_id
+        return GovernedOperationRequest(
+            request_id=f"governed:{CommandId.generate().value}",
+            operation="request_simulation",
+            world_id=instance_id.value,
+            branch_id=branch_id.value,
+            audit_id=session.audit_id,
+            parameters=payload,
+        )
+
+    def submit_order(
+        self,
+        session: AgentSessionIdentity,
+        *,
+        order_type: str,
+        parameters: Mapping[str, FieldValue],
+    ) -> GovernedOperationRequest:
+        """Create a governed order request; an external success is not a World commit."""
+        self._require_operation(session, "submit_order")
+        instance_id, branch_id = self._refs(session)
+        if not order_type.strip():
+            raise ContractError("order_type must be non-empty")
+        payload = dict(parameters)
+        payload["order_type"] = order_type
+        return GovernedOperationRequest(
+            request_id=f"governed:{CommandId.generate().value}",
+            operation="submit_order",
             world_id=instance_id.value,
             branch_id=branch_id.value,
             audit_id=session.audit_id,
