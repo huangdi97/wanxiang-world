@@ -17,6 +17,18 @@ and projections participate without ever becoming commit authority.
   PostgreSQL integration, SDK/API drift checks, TypeScript checks, and
   release/clean-room certification smoke.
 
+## R7 engineering branch
+
+The production-baseline statement above is intentionally unchanged. Active R7
+engineering lives on `feature/r7-cordis-native`: direct Cordis composition,
+versioned RealityProfile/WorldProfile/RuntimeLock, Capability Foundry, Execution
+Fabric, World Capability Gateway and Experience/Application contracts.
+
+Start with `docs/architecture/R7_CORDIS_NATIVE_ARCHITECTURE.md` and the
+SHA-sensitive `reports/r7/15_R7_FINAL_CLOSURE_REPORT.md`. R7 implementation
+evidence does not create a v5.6 release and does not bypass the separate v5.5
+human acceptance gates.
+
 ## Reading order (new session)
 
 1. `README_FIRST.md` (latest program execution pack)
