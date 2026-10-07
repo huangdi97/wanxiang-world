@@ -60,11 +60,11 @@ export interface PolicyProposal {
   readonly requestingWorldlineId: string;
   readonly requestedBy: string;
   readonly kind: string;
-  readonly rightsApproved?: boolean;
-  readonly evidenceRequired?: boolean;
-  readonly evidencePresent?: boolean;
-  readonly externalEffect?: boolean;
-  readonly externalEffectViaOutbox?: boolean;
+  readonly rightsApproved?: boolean | undefined;
+  readonly evidenceRequired?: boolean | undefined;
+  readonly evidencePresent?: boolean | undefined;
+  readonly externalEffect?: boolean | undefined;
+  readonly externalEffectViaOutbox?: boolean | undefined;
 }
 
 export class PolicyRegistry {
