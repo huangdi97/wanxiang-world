@@ -381,5 +381,7 @@
 - `wanxiang_substrate.ACTION_SEAL`
 - `wanxiang_substrate.ACTION_SEND_LETTER`
 - `wanxiang_substrate.ACTION_SET_ACTOR_STATE`
+- `wanxiang_substrate.ACTION_SET_DEADLINE`
+- `wanxiang_substrate.ACTION_SET_MODE`
 
 Machine-readable: reports/sdk_api_baseline.json.
