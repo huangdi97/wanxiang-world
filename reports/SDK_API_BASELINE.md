@@ -2,7 +2,7 @@
 
 - API routes: 74
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 2147
+- Python public names (stable packages): 2151
 
 ## API routes
 
@@ -233,6 +233,10 @@
 - `wanxiang_domain.snapshot_to_primitive`
 - `wanxiang_domain.validate_id`
 - `wanxiang_domain.validate_world_commit_kind`
+- `wanxiang_execution.CheckpointedProcessRunner`
+- `wanxiang_execution.ExecutionCheckpoint`
+- `wanxiang_execution.FileExecutionCheckpointStore`
+- `wanxiang_execution.request_fingerprint`
 - `wanxiang_observability.ComponentStatus`
 - `wanxiang_observability.ConfigError`
 - `wanxiang_observability.JsonFormatter`
@@ -379,9 +383,5 @@
 - `wanxiang_substrate.ACTION_REJECT_ORDER`
 - `wanxiang_substrate.ACTION_RELAY_MESSAGE`
 - `wanxiang_substrate.ACTION_REPORT_ORDER`
-- `wanxiang_substrate.ACTION_REST`
-- `wanxiang_substrate.ACTION_SCHEDULE_APPOINTMENT`
-- `wanxiang_substrate.ACTION_SEAL`
-- `wanxiang_substrate.ACTION_SEND_LETTER`
 
 Machine-readable: reports/sdk_api_baseline.json.
