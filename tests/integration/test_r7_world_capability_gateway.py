@@ -79,7 +79,7 @@ def test_gateway_observe_history_and_proposal_have_no_reality_effect() -> None:
 
     schema = gateway.inspect_world_schema(session)
     assert schema["schema_version"] == 1
-    assert "set_status" in schema["action_types"]
+    assert schema["action_types"] == runtime.action_types()
 
     entities = gateway.query_entities(session)
     assert tuple(item["id"] for item in entities) == ("ent_gateway",)

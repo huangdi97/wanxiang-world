@@ -96,21 +96,43 @@ class WorldCapabilityGateway:
         """Return a read-only primitive projection of canonical entities."""
         self._require_operation(session, "query_entities")
         instance_id, branch_id = self._refs(session)
-        state = state_to_primitive(self._runtime.current_state(instance_id, branch_id))
-        entities = state.get("entities")
-        if not isinstance(entities, list):
-            raise ContractError("canonical state projection has invalid entities shape")
-        return tuple(dict(item) for item in entities if isinstance(item, dict))
+        state = self._runtime.current_state(instance_id, branch_id)
+        items: list[dict[str, object]] = []
+        for entity in state.entities():
+            items.append(
+                {
+                    "id": entity.entity_id.value,
+                    "type": entity.entity_type,
+                    "components": tuple(
+                        {
+                            "id": component.component_id.value,
+                            "type": component.component_type,
+                            "version": component.schema_version.value,
+                            "fields": dict(component.fields),
+                        }
+                        for component in entity.components.values()
+                    ),
+                }
+            )
+        return tuple(items)
 
     def query_relations(self, session: AgentSessionIdentity) -> tuple[dict[str, object], ...]:
         """Return a read-only primitive projection of canonical relations."""
         self._require_operation(session, "query_relations")
         instance_id, branch_id = self._refs(session)
-        state = state_to_primitive(self._runtime.current_state(instance_id, branch_id))
-        relations = state.get("relations")
-        if not isinstance(relations, list):
-            raise ContractError("canonical state projection has invalid relations shape")
-        return tuple(dict(item) for item in relations if isinstance(item, dict))
+        state = self._runtime.current_state(instance_id, branch_id)
+        items: list[dict[str, object]] = []
+        for relation in state.relations():
+            items.append(
+                {
+                    "id": relation.relation_id.value,
+                    "type": relation.relation_type,
+                    "source": relation.source_id.value,
+                    "target": relation.target_id.value,
+                    "attributes": dict(relation.attributes),
+                }
+            )
+        return tuple(items)
 
     def query_worldline(self, session: AgentSessionIdentity) -> dict[str, object]:
         """Return branch identity/ancestry plus the current canonical head."""
