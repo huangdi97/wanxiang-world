@@ -13,6 +13,7 @@ from wanxiang_execution import (
     ExecutionRequest,
     FileExecutionCheckpointStore,
     LocalProcessProvider,
+    ExecutionResult,
 )
 from wanxiang_execution.errors import ExecutionError
 
@@ -21,7 +22,7 @@ class _CountingProcessProvider(LocalProcessProvider):
     def __init__(self) -> None:
         self.calls = 0
 
-    def run(self, request: ExecutionRequest, workspace_dir: Path):  # type: ignore[no-untyped-def]
+    def run(self, request: ExecutionRequest, workspace_dir: Path) -> ExecutionResult:
         self.calls += 1
         return super().run(request, workspace_dir)
 
