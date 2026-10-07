@@ -2,11 +2,13 @@
 
 from __future__ import annotations
 
+from datetime import UTC, datetime
+
 import pytest
 from scripts.reference_runtime import build_reference_runtime
 from wanxiang_api.experience_player_service import ExperiencePlayerService
 from wanxiang_application.gateway import AgentSessionIdentity, WorldCapabilityGateway
-from wanxiang_domain.errors import ValidationRejected
+from wanxiang_domain.errors import PermissionDenied, ValidationRejected
 from wanxiang_domain.ids import WorldInstanceId
 
 
@@ -22,10 +24,19 @@ def _session(
         world_id=world_id,
         branch_id=branch_id,
         actor_id=actor_id,
-        capability_scope=("world.observe", "world.propose"),
+        capability_scope=(
+            "world.observe",
+            "world.history",
+            "world.branch.diff",
+            "world.propose",
+            "world.fork",
+            "world.experiment",
+            "cap.r7.double",
+        ),
         rights_scope=("public",),
         secret_scope=(),
         audit_id="audit:r7-gateway",
+        session_expiry="2099-01-01T00:00:00Z",
     )
 
 
@@ -74,6 +85,12 @@ def test_gateway_observe_history_and_proposal_have_no_reality_effect() -> None:
     assert experiment.operation == "request_experiment"
     assert runtime.current_state(world.instance_id, branch).revision.value == 1
 
+    skill = gateway.describe_skill(session)
+    assert skill.allowed_actions == runtime.action_types()
+    assert "propose_action" in skill.allowed_operations
+    assert skill.actor_lease_present is True
+    assert skill.secret_scope_present is False
+
     assert not hasattr(gateway, "commit")
     assert not hasattr(gateway, "force_commit")
 
@@ -116,4 +133,46 @@ def test_gateway_branch_diff_and_actor_lease_guard() -> None:
             expected_revision=1,
             action_type="set_status",
             payload={"entity_id": "ent_gateway_diff", "status": "forbidden"},
+        )
+
+@pytest.mark.integration
+def test_gateway_scope_and_expiry_fail_closed() -> None:
+    runtime = build_reference_runtime()
+    world = runtime.create_world(instance_id=WorldInstanceId("wld_gateway_scope"))
+    branch = world.root_branch_id
+    gateway = WorldCapabilityGateway(
+        runtime,
+        now=lambda: datetime(2026, 10, 7, tzinfo=UTC),
+    )
+
+    expired = AgentSessionIdentity(
+        principal_id="principal:expired",
+        role="agent",
+        world_id=world.instance_id.value,
+        branch_id=branch.value,
+        audit_id="audit:expired",
+        session_expiry="2026-10-06T00:00:00Z",
+        capability_scope=("world.observe",),
+        rights_scope=("public",),
+    )
+    with pytest.raises(PermissionDenied, match="expired"):
+        gateway.observe(expired)
+
+    scoped = AgentSessionIdentity(
+        principal_id="principal:scoped",
+        role="agent",
+        world_id=world.instance_id.value,
+        branch_id=branch.value,
+        audit_id="audit:scoped",
+        session_expiry="2099-01-01T00:00:00Z",
+        capability_scope=("world.observe",),
+        rights_scope=("public",),
+    )
+    assert gateway.observe(scoped).revision == 0
+    with pytest.raises(PermissionDenied, match="world.propose"):
+        gateway.propose_action(
+            scoped,
+            expected_revision=0,
+            action_type="create_entity",
+            payload={"entity_id": "ent_forbidden", "count": 0},
         )
