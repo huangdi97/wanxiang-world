@@ -97,12 +97,12 @@ def test_checkpoint_survives_coordinator_restart(tmp_path: Path) -> None:
     root = tmp_path / "checkpoints"
     request = _request("resume-restart")
 
-    first = CheckpointedProcessRunner(
-        provider, FileExecutionCheckpointStore(root)
-    ).run(request, tmp_path / "work")
-    restarted = CheckpointedProcessRunner(
-        provider, FileExecutionCheckpointStore(root)
-    ).run(request, tmp_path / "work-after-restart")
+    first = CheckpointedProcessRunner(provider, FileExecutionCheckpointStore(root)).run(
+        request, tmp_path / "work"
+    )
+    restarted = CheckpointedProcessRunner(provider, FileExecutionCheckpointStore(root)).run(
+        request, tmp_path / "work-after-restart"
+    )
 
     assert provider.calls == 1
     assert first.trace.snapshot_ref == restarted.trace.resume_ref
