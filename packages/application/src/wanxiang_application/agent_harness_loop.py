@@ -98,7 +98,12 @@ class HarnessWorldLoop:
                 consequence_acknowledged=None,
             )
             return self._attach_trajectory(
-                session, history, None, result, context_hash=context_hash, goal_refs=goal_refs
+                session,
+                history,
+                None,
+                result,
+                context_hash=context_hash,
+                goal_refs=goal_refs,
             )
 
         proposal = decision.proposal
@@ -137,7 +142,14 @@ class HarnessWorldLoop:
                 observed.state_hash,
                 f"{exc.code}: {exc.message}",
             )
-            return self._attach_trajectory(session, history, proposal, result)
+            return self._attach_trajectory(
+                session,
+                history,
+                proposal,
+                result,
+                context_hash=context_hash,
+                goal_refs=goal_refs,
+            )
 
         consequence = HarnessConsequence(
             worldline_id=session.branch_id,
@@ -156,7 +168,14 @@ class HarnessWorldLoop:
             reason=consequence.reason,
             consequence_acknowledged=acknowledged,
         )
-        return self._attach_trajectory(session, history, proposal, result)
+        return self._attach_trajectory(
+            session,
+            history,
+            proposal,
+            result,
+            context_hash=context_hash,
+            goal_refs=goal_refs,
+        )
 
     def _attach_trajectory(
         self,
