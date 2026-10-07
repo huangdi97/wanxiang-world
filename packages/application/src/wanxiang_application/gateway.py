@@ -23,7 +23,7 @@ from wanxiang_runtime.state import state_to_primitive
 from wanxiang_application.world_runtime import WorldRuntime
 
 GatewayOperation = Literal["fork_worldline", "request_experiment"]
-GatewayNow = Callable[[], datetime]
+_GatewayNow = Callable[[], datetime]
 
 _OPERATION_SCOPE = {
     "observe": "world.observe",
@@ -158,7 +158,7 @@ class GovernedOperationRequest:
 class WorldCapabilityGateway:
     """Python SDK adapter for agent-native world access without direct commit."""
 
-    def __init__(self, runtime: WorldRuntime, *, now: GatewayNow | None = None) -> None:
+    def __init__(self, runtime: WorldRuntime, *, now: _GatewayNow | None = None) -> None:
         self._runtime = runtime
         self._now = now or (lambda: datetime.now(UTC))
 
