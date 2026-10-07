@@ -31,7 +31,7 @@ wanxiang.experience@1         wanxiang.distribution@1
 ```
 
 Seam digest at this tree:
-`b1864b952a2abd157718b92b99980acb93f2e85b6ed66d67b8bdf019b5a37fc9`
+`8510a63bc6084d8f0fb721206528d90bfd06ae3678b4e4cf701e62c63179a560`
 (sha256 over the sorted `id -> apiVersion` map, recorded in
 `artifacts/r7/composition/resolved_graph.json` and served by
 `wanxiang_reality.rpc`'s `seam.digest`).

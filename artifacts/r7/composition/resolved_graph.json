@@ -8,7 +8,7 @@
   "runtime": {
     "node": "v22.15.0"
   },
-  "seamDigest": "b1864b952a2abd157718b92b99980acb93f2e85b6ed66d67b8bdf019b5a37fc9",
+  "seamDigest": "8510a63bc6084d8f0fb721206528d90bfd06ae3678b4e4cf701e62c63179a560",
   "contracts": [
     {
       "id": "wanxiang.identity@1",
@@ -87,6 +87,61 @@
     },
     {
       "id": "wanxiang.reality.profile@1",
+      "apiVersion": "1",
+      "scope": "world"
+    },
+    {
+      "id": "wanxiang.world.metadata@1",
+      "apiVersion": "1",
+      "scope": "world"
+    },
+    {
+      "id": "wanxiang.snapshot@1",
+      "apiVersion": "1",
+      "scope": "worldline"
+    },
+    {
+      "id": "wanxiang.clock@1",
+      "apiVersion": "1",
+      "scope": "world"
+    },
+    {
+      "id": "wanxiang.space@1",
+      "apiVersion": "1",
+      "scope": "world"
+    },
+    {
+      "id": "wanxiang.memory@1",
+      "apiVersion": "1",
+      "scope": "worldline"
+    },
+    {
+      "id": "wanxiang.simulation@1",
+      "apiVersion": "1",
+      "scope": "world"
+    },
+    {
+      "id": "wanxiang.forge.world@1",
+      "apiVersion": "1",
+      "scope": "root"
+    },
+    {
+      "id": "wanxiang.forge.capability@1",
+      "apiVersion": "1",
+      "scope": "root"
+    },
+    {
+      "id": "wanxiang.projection@1",
+      "apiVersion": "1",
+      "scope": "world"
+    },
+    {
+      "id": "wanxiang.experience@1",
+      "apiVersion": "1",
+      "scope": "world"
+    },
+    {
+      "id": "wanxiang.distribution@1",
       "apiVersion": "1",
       "scope": "world"
     }
