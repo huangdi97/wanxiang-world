@@ -289,5 +289,3 @@ class WorldCapabilityGateway:
         if session.expiry_utc() <= self._now().astimezone(UTC):
             raise PermissionDenied(f"session {session.audit_id} has expired")
         return WorldInstanceId(session.world_id), BranchId(session.branch_id)
-
-

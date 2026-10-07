@@ -23,6 +23,7 @@ GatewayOperation = Literal[
     "submit_order",
 ]
 
+
 def _parse_expiry(value: str) -> datetime:
     """Parse an offset-aware ISO-8601 expiry and normalize it to UTC."""
     normalized = value[:-1] + "+00:00" if value.endswith("Z") else value
