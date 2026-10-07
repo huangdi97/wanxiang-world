@@ -61,6 +61,7 @@ def test_gateway_observe_history_and_proposal_have_no_reality_effect() -> None:
     observed = gateway.observe(session)
     assert observed.revision == 1
     assert observed.state_hash == runtime.current_state(world.instance_id, branch).semantic_hash()
+    assert dict(observed.state) == {}
     history = gateway.query_history(session)
     assert [item.revision for item in history] == [1]
 
@@ -177,3 +178,38 @@ def test_gateway_scope_and_expiry_fail_closed() -> None:
             action_type="create_entity",
             payload={"entity_id": "ent_forbidden", "count": 0},
         )
+
+
+@pytest.mark.integration
+def test_gateway_raw_canonical_state_requires_explicit_right() -> None:
+    runtime = build_reference_runtime()
+    world = runtime.create_world(instance_id=WorldInstanceId("wld_gateway_rights"))
+    branch = world.root_branch_id
+    player = ExperiencePlayerService(runtime)
+    player.act(
+        world.instance_id,
+        branch,
+        0,
+        "create_entity",
+        {"entity_id": "ent_gateway_rights", "count": 1},
+        "act_gateway",
+        "cmd_gateway_rights_seed",
+    )
+    gateway = WorldCapabilityGateway(runtime)
+    public_session = _session(world.instance_id.value, branch.value)
+    assert dict(gateway.observe(public_session).state) == {}
+
+    privileged = AgentSessionIdentity(
+        principal_id="principal:auditor",
+        role="auditor",
+        world_id=world.instance_id.value,
+        branch_id=branch.value,
+        audit_id="audit:canonical-read",
+        session_expiry="2099-01-01T00:00:00Z",
+        capability_scope=("world.observe",),
+        rights_scope=("world.canonical.read",),
+    )
+    raw = dict(gateway.observe(privileged).state)
+    assert raw["instance_id"] == world.instance_id.value
+    assert raw["branch_id"] == branch.value
+    assert raw["revision"] == 1
