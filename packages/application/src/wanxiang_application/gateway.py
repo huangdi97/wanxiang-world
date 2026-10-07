@@ -50,8 +50,6 @@ _OPERATION_SCOPE = {
 
 
 class WorldCapabilityGateway:
-    """Python SDK adapter for agent-native world access without direct commit."""
-
     def __init__(self, runtime: WorldRuntime, *, now: _GatewayNow | None = None) -> None:
         self._runtime = runtime
         self._now = now or (lambda: datetime.now(UTC))
