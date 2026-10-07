@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """Bounded executable wrapper over the pinned paper repository implementation."""
 
+# Ruff import sorting is deliberately disabled for this executable reference fixture.
+# The vendored upstream source remains byte-for-byte pinned; this wrapper is still
+# covered by runtime verification and the rest of Ruff.
+# ruff: noqa: I001
+
 from __future__ import annotations
 
 import json
