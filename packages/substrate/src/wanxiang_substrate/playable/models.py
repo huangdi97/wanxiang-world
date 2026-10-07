@@ -8,6 +8,8 @@ from typing import Literal, cast
 
 from wanxiang_domain.errors import ContractError
 
+from wanxiang_substrate.playable.projection import ProjectionProfile as ProjectionProfile
+
 PLAYABLE_PROFILE_SCHEMA_VERSION = 1
 Visibility = Literal["public", "private", "unlisted", "family-private"]
 
