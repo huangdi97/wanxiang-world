@@ -105,7 +105,7 @@ def check_no_relation_to_protected_entities(state: InMemoryCanonicalState, op: o
             raise ConstitutionViolation(f"world delta must not relate platform entity {target}")
 
 
-InvariantCheck: TypeAlias = Callable[[InMemoryCanonicalState, object], None]
+InvariantCheck: TypeAlias = Callable[["InMemoryCanonicalState", object], None]
 
 KERNEL_INVARIANTS: tuple[InvariantCheck, ...] = (
     check_no_duplicate_entity,
