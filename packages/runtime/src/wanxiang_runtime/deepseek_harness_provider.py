@@ -166,8 +166,10 @@ class OfficialDeepSeekHarnessProvider:
             "return EXACTLY one JSON object and no markdown. Either return "
             '{"status":"abstained","proposal":null,"reason":"..."} or '
             '{"status":"proposed","proposal":{"proposalId":"...","action":"...",'
-            '"rationaleRef":"...","payloadDigest":"<sha256-or-stable-digest>"},'
-            '"reason":"..."}. Do not claim that the world changed. Observation: '
+            '"rationaleRef":"...","payload":{"field":"primitive-value"}},'
+            '"reason":"..."}. The payload must contain only JSON primitive values. '
+            "Wanxiang will derive/verify the payload digest and independently validate "
+            "the proposal before any commit. Do not claim that the world changed. Observation: "
             + json.dumps(payload, sort_keys=True, ensure_ascii=False)
         )
         try:
