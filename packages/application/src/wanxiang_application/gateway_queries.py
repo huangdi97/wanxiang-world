@@ -151,5 +151,4 @@ def _describe_skill(runtime: WorldRuntime, session: AgentSessionIdentity) -> Wor
     )
 
 
-__all__ = [
-                            ]
+__all__ = []
