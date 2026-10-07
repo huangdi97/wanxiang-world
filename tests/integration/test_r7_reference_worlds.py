@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import hashlib
 import sys
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
@@ -505,4 +506,30 @@ def test_science_capability_real_artifact_verifies_executes_then_requires_author
         "cmd_r7_science_commit",
     )
     assert committed["revision"] == 2
-    assert len(runtime.events(world.instance_id, branch)) == 2
+    history_after_v1 = runtime.events(world.instance_id, branch)
+    assert len(history_after_v1) == 2
+
+    # Capability upgrade is registry/runtime evolution, not history rewriting.
+    package_v2 = replace(package, version="2.0.0")
+    registry.admit(package_v2, report)
+    assert registry.active(package.capability_id) == package_v2
+
+    outcome_v2 = invoke(
+        registry,
+        package_v2,
+        CapabilityRequest(
+            execution_id="r7-science-invoke-v2",
+            command=(sys.executable, str(SCIENCE_CAPABILITY), "7"),
+        ),
+        policy,
+        tmp_path / "invocation-v2",
+    )
+    assert outcome_v2.capability_version == "2.0.0"
+    assert outcome.capability_version == "1.0.0"
+    # Re-executing v2 does not retroactively replace the old World history.
+    assert runtime.events(world.instance_id, branch) == history_after_v1
+
+    registry.rollback(package.capability_id, "1.0.0", "v2 reference rollback")
+    assert registry.active(package.capability_id) == package
+    assert registry.get(package.capability_id, "2.0.0") == package_v2
+    assert registry.lifecycle(package.capability_id)[-1][2] == "ROLLBACK"
