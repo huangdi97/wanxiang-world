@@ -27,10 +27,12 @@ def _tuple_of_strings(value: object, name: str) -> tuple[str, ...]:
         return ()
     if not isinstance(value, (list, tuple)):
         raise ValueError(f"{name} must be a list/tuple of strings")
-    values = tuple(value)
-    if any(not isinstance(item, str) for item in values):
-        raise ValueError(f"{name} must contain only strings")
-    return cast(tuple[str, ...], values)
+    values: list[str] = []
+    for item in value:
+        if not isinstance(item, str):
+            raise ValueError(f"{name} must contain only strings")
+        values.append(item)
+    return tuple(values)
 
 
 def _string(value: object, name: str, *, required: bool = False) -> str:
@@ -242,7 +244,7 @@ class ActorTrajectoryLedger:
         if self._path is None:
             return
         self._path.parent.mkdir(parents=True, exist_ok=True)
-        lines = []
+        lines: list[str] = []
         for item in self._entries:
             raw = json.dumps(asdict(item), sort_keys=True, separators=(",", ":")).encode()
             lines.append(base64.b64encode(self._encode(raw)).decode("ascii"))
