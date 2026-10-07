@@ -13,6 +13,4 @@ from wanxiang_reality._contract_specs_extended import EXTENDED_CONTRACT_SPECS
 
 _ContractSpec = tuple[str, str, tuple[str, ...], tuple[str, ...], str]
 
-CONTRACT_SPECS: Final[tuple[_ContractSpec, ...]] = (
-    CORE_CONTRACT_SPECS + EXTENDED_CONTRACT_SPECS
-)
+CONTRACT_SPECS: Final[tuple[_ContractSpec, ...]] = CORE_CONTRACT_SPECS + EXTENDED_CONTRACT_SPECS
