@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from wanxiang_research.flags import DEFAULT_FLAGS, FeatureFlags, ResearchFlag
 from wanxiang_research.results import ExperimentRegistry, ExperimentResult
-from wanxiang_research.world_run_artifact import WorldRunArtifact
+from wanxiang_research.world_run_artifact import ReproducibleRunManifest
 
 __all__ = [
     "DEFAULT_FLAGS",
@@ -12,5 +12,5 @@ __all__ = [
     "ExperimentResult",
     "FeatureFlags",
     "ResearchFlag",
-    "WorldRunArtifact",
+    "ReproducibleRunManifest",
 ]
