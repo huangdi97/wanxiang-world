@@ -9,6 +9,7 @@ from wanxiang_substrate.playable.fabric import (
     DistributionAdapter,
     ExperienceBlueprint,
     InteractionProfile,
+    ProjectionProfile,
     build_distribution,
     experience_card,
 )
@@ -39,6 +40,31 @@ def test_blueprint_adapts_existing_experience_without_owning_world_state() -> No
     assert blueprint.same_worldline_required is True
     assert "state" not in blueprint.__dataclass_fields__
     assert "event_store" not in blueprint.__dataclass_fields__
+
+
+def test_projection_profile_reads_committed_reality_and_has_no_write_authority() -> None:
+    profile = ProjectionProfile(
+        profile_id="projection:web-text-2d",
+        provider_ref="native_web@1",
+        capabilities=("text", "map_2d"),
+        state_source="canonical_read_model",
+        fallback="text",
+    )
+
+    assert profile.write_authority == "none"
+    assert profile.state_source == "canonical_read_model"
+    assert "state" not in profile.__dataclass_fields__
+    assert "event_store" not in profile.__dataclass_fields__
+
+
+def test_projection_profile_rejects_invalid_fallback() -> None:
+    with pytest.raises(ContractError, match="fallback"):
+        ProjectionProfile(
+            profile_id="projection:3d-only",
+            provider_ref="spatial_provider@1",
+            capabilities=("scene_3d",),
+            fallback="text",
+        )
 
 
 def test_distribution_build_is_deterministic_and_contains_only_refs() -> None:

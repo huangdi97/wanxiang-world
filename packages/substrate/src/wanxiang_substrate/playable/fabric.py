@@ -29,6 +29,7 @@ ExperienceType = Literal[
     "agent_benchmark",
     "hybrid_reality",
 ]
+ProjectionCapability = Literal["text", "map_2d", "scene_3d", "video", "ar", "vr"]
 DistributionChannel = Literal[
     "web",
     "toy",
@@ -68,6 +69,32 @@ class InteractionProfile:
         _unique_non_empty(self.allowed_actions, "allowed_actions")
         if self.authority_mode not in {"proposal_only", "world_authority"}:
             raise ContractError(f"unsupported authority_mode {self.authority_mode!r}")
+
+
+@dataclass(frozen=True, slots=True)
+class ProjectionProfile:
+    """Replaceable projection policy; reads World truth and owns no write authority."""
+
+    profile_id: str
+    provider_ref: str
+    capabilities: tuple[ProjectionCapability, ...]
+    version: int = 1
+    state_source: Literal["canonical_read_model", "committed_state_diff"] = (
+        "canonical_read_model"
+    )
+    write_authority: Literal["none"] = "none"
+    fallback: ProjectionCapability = "text"
+
+    def __post_init__(self) -> None:
+        if not self.profile_id.strip() or not self.provider_ref.strip() or self.version < 1:
+            raise ContractError("projection profile id/provider/version are required")
+        _unique_non_empty(self.capabilities, "projection capabilities")
+        if self.state_source not in {"canonical_read_model", "committed_state_diff"}:
+            raise ContractError(f"unsupported projection state_source {self.state_source!r}")
+        if self.write_authority != "none":
+            raise ContractError("projection profiles can never own World write authority")
+        if self.fallback not in self.capabilities:
+            raise ContractError("projection fallback must be one of the declared capabilities")
 
 
 @dataclass(frozen=True, slots=True)
@@ -276,6 +303,7 @@ __all__ = [
     "DistributionBuild",
     "ExperienceBlueprint",
     "InteractionProfile",
+    "ProjectionProfile",
     "WorldExperienceCard",
     "build_distribution",
     "experience_card",
