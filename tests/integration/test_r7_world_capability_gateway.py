@@ -81,9 +81,23 @@ def test_gateway_observe_history_and_proposal_have_no_reality_effect() -> None:
     assert schema["schema_version"] == 1
     assert schema["action_types"] == runtime.action_types()
 
-    entities = gateway.query_entities(session)
+    with pytest.raises(PermissionDenied, match="world.canonical.read"):
+        gateway.query_entities(session)
+    with pytest.raises(PermissionDenied, match="world.canonical.read"):
+        gateway.query_relations(session)
+    privileged = AgentSessionIdentity(
+        principal_id="principal:reader",
+        role="auditor",
+        world_id=world.instance_id.value,
+        branch_id=branch.value,
+        audit_id="audit:r7-reader",
+        session_expiry="2099-01-01T00:00:00Z",
+        capability_scope=("world.entities", "world.relations"),
+        rights_scope=("world.canonical.read",),
+    )
+    entities = gateway.query_entities(privileged)
     assert tuple(item["id"] for item in entities) == ("ent_gateway",)
-    assert gateway.query_relations(session) == ()
+    assert gateway.query_relations(privileged) == ()
 
     worldline = gateway.query_worldline(session)
     assert worldline["branch_id"] == branch.value
@@ -165,7 +179,18 @@ def test_gateway_branch_diff_and_actor_lease_guard() -> None:
     )
 
     gateway = WorldCapabilityGateway(runtime)
-    session = _session(world.instance_id.value, branch.value)
+    session = AgentSessionIdentity(
+        principal_id="principal:diff-reader",
+        role="auditor",
+        world_id=world.instance_id.value,
+        branch_id=branch.value,
+        actor_id="act_gateway",
+        capability_scope=("world.branch.diff", "world.propose"),
+        rights_scope=("world.canonical.read",),
+        secret_scope=(),
+        audit_id="audit:r7-diff",
+        session_expiry="2099-01-01T00:00:00Z",
+    )
     diff = gateway.query_branch_diff(session, child.branch_id.value)
     assert diff["updated_entities"] == ("ent_gateway_diff",)
 

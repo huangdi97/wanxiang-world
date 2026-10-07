@@ -1,9 +1,4 @@
-"""World Capability Gateway: agent-native query/proposal boundary over one WorldRuntime.
-
-The gateway intentionally has no commit method. It turns an authenticated world
-session into read/query views and proposal/governance requests; canonical writes
-remain owned by WorldRuntime -> CommitAuthority.
-"""
+"""Agent-native query/proposal boundary; canonical writes stay in CommitAuthority."""
 
 from __future__ import annotations
 
@@ -79,11 +74,13 @@ class WorldCapabilityGateway:
 
     def query_entities(self, session: AgentSessionIdentity) -> tuple[dict[str, object], ...]:
         self._require_operation(session, "query_entities")
+        self._require_canonical_read(session)
         instance_id, branch_id = self._refs(session)
         return GatewayQueries.query_entities(self._runtime, instance_id, branch_id)
 
     def query_relations(self, session: AgentSessionIdentity) -> tuple[dict[str, object], ...]:
         self._require_operation(session, "query_relations")
+        self._require_canonical_read(session)
         instance_id, branch_id = self._refs(session)
         return GatewayQueries.query_relations(self._runtime, instance_id, branch_id)
 
@@ -132,6 +129,7 @@ class WorldCapabilityGateway:
         other_branch_id: str,
     ) -> dict[str, tuple[str, ...]]:
         self._require_operation(session, "query_branch_diff")
+        self._require_canonical_read(session)
         instance_id, branch_id = self._refs(session)
         other = BranchId(other_branch_id)
         diff = self._runtime.diff(instance_id, branch_id, other)
@@ -281,6 +279,11 @@ class WorldCapabilityGateway:
         if operation == "request_experiment" and capability_id in session.capability_scope:
             return
         raise PermissionDenied(f"session {session.audit_id} lacks capability scope {required!r}")
+
+    @staticmethod
+    def _require_canonical_read(session: AgentSessionIdentity) -> None:
+        if _RAW_CANONICAL_RIGHT not in session.rights_scope:
+            raise PermissionDenied("raw canonical query requires world.canonical.read right")
 
     def _refs(self, session: AgentSessionIdentity) -> tuple[WorldInstanceId, BranchId]:
         if session.expiry_utc() <= self._now().astimezone(UTC):
