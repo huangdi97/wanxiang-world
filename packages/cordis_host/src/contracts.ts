@@ -40,16 +40,18 @@ export function getContract(id: string): ServiceContractRef {
 }
 
 /**
- * Host-local digest of the generated seam identity map.
+ * Host-local digest of the frozen cross-language seam identity map.
  *
- * Cross-language drift is prevented by regenerating the projection from the
- * authoritative Python contract table and requiring a clean Git diff in CI.
+ * The JSON-RPC wire contract intentionally hashes only identity + API version.
+ * Scope is generated from the same Python source and used by composition, but
+ * it is not part of the frozen history-authority wire digest. This preserves
+ * protocol compatibility while still letting CI detect scope drift through the
+ * generated projection's clean-tree check and scope-specific tests.
  */
 export function seamDigest(): string {
   const payload = CONTRACTS.map((ref) => ({
     id: contractId(ref),
     apiVersion: ref.apiVersion,
-    scope: ref.scope,
   })).sort((left, right) => (left.id < right.id ? -1 : 1));
   return createHash("sha256").update(JSON.stringify(payload)).digest("hex");
 }
