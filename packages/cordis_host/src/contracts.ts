@@ -1,12 +1,13 @@
 import { createHash } from "node:crypto";
 
+import { GENERATED_SERVICE_CONTRACTS } from "./contracts.generated";
+
 /**
  * R7 versioned service contracts as consumed by the composition host.
  *
- * Only the identity-bearing part of each contract is duplicated here (namespace,
- * API version, scope). The full contract bodies live once, in the Python package
- * `wanxiang_reality.contracts`; the host verifies that its seam versions match
- * the RuntimeLock a worldline pinned, so the two sides cannot drift silently.
+ * The full contract bodies live once in Python `wanxiang_reality.contracts`.
+ * This host consumes a generated namespace/API-version/scope projection, so
+ * composition scope cannot drift from the authoritative contract table.
  */
 export type ContractScope = "root" | "tenant" | "world" | "worldline";
 
@@ -20,24 +21,8 @@ export class ContractError extends Error {
   override readonly name = "ContractError";
 }
 
-const CONTRACTS: readonly ServiceContractRef[] = [
-  { namespace: "wanxiang.identity", apiVersion: "1", scope: "tenant" },
-  { namespace: "wanxiang.reality.observe", apiVersion: "1", scope: "worldline" },
-  { namespace: "wanxiang.reality.proposal", apiVersion: "1", scope: "worldline" },
-  { namespace: "wanxiang.reality.policy", apiVersion: "1", scope: "worldline" },
-  { namespace: "wanxiang.authority", apiVersion: "1", scope: "root" },
-  { namespace: "wanxiang.history", apiVersion: "1", scope: "worldline" },
-  { namespace: "wanxiang.branch", apiVersion: "1", scope: "worldline" },
-  { namespace: "wanxiang.lineage", apiVersion: "1", scope: "world" },
-  { namespace: "wanxiang.replay", apiVersion: "1", scope: "worldline" },
-  { namespace: "wanxiang.evidence", apiVersion: "1", scope: "world" },
-  { namespace: "wanxiang.rights", apiVersion: "1", scope: "world" },
-  { namespace: "wanxiang.execution", apiVersion: "1", scope: "root" },
-  { namespace: "wanxiang.actor", apiVersion: "1", scope: "worldline" },
-  { namespace: "wanxiang.model", apiVersion: "1", scope: "root" },
-  { namespace: "wanxiang.capability", apiVersion: "1", scope: "world" },
-  { namespace: "wanxiang.reality.profile", apiVersion: "1", scope: "world" },
-];
+const CONTRACTS: readonly ServiceContractRef[] = GENERATED_SERVICE_CONTRACTS;
+
 
 export const SERVICE_CONTRACTS: readonly ServiceContractRef[] = CONTRACTS;
 
@@ -55,16 +40,16 @@ export function getContract(id: string): ServiceContractRef {
 }
 
 /**
- * Digest of the seam identity map (id -> apiVersion).
+ * Host-local digest of the generated seam identity map.
  *
- * The Python side computes the same digest over its contract table, so a
- * divergence between the two language runtimes is detectable instead of being
- * assumed away.
+ * Cross-language drift is prevented by regenerating the projection from the
+ * authoritative Python contract table and requiring a clean Git diff in CI.
  */
 export function seamDigest(): string {
   const payload = CONTRACTS.map((ref) => ({
     id: contractId(ref),
     apiVersion: ref.apiVersion,
+    scope: ref.scope,
   })).sort((left, right) => (left.id < right.id ? -1 : 1));
   return createHash("sha256").update(JSON.stringify(payload)).digest("hex");
 }

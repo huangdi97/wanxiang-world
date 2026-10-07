@@ -105,6 +105,8 @@ jobs:
           python-version: "3.12"
       - name: Install dependencies
         run: uv sync --all-groups --all-packages
+      - name: R7 service-contract projection
+        run: uv run python scripts/export_r7_service_contracts.py
       - name: SDK baseline
         run: uv run python scripts/sdk_baseline.py
       - name: OpenAPI export
