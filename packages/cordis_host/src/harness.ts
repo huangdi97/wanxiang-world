@@ -27,11 +27,14 @@ export interface HarnessInfo {
   readonly officialDsh: boolean;
 }
 
+export type ProposalFieldValue = string | number | boolean | null;
+
 export interface AgentProposal {
   readonly proposalId: string;
   readonly action: string;
   readonly rationaleRef: string;
   readonly payloadDigest: string;
+  readonly payload: Readonly<Record<string, ProposalFieldValue>>;
 }
 
 export type HarnessDecision =
@@ -87,6 +90,33 @@ function parseInfo(result: unknown): HarnessInfo {
   };
 }
 
+function parseProposalPayload(raw: unknown): Readonly<Record<string, ProposalFieldValue>> {
+  if (raw === undefined) return {};
+  const fields = asJsonObject(raw, "harness.decide proposal.payload");
+  const payload: Record<string, ProposalFieldValue> = {};
+  for (const [key, value] of Object.entries(fields)) {
+    if (key.length === 0) {
+      throw new RpcProtocolError(
+        RPC_TRANSPORT_FAILURE,
+        "harness.decide proposal.payload keys must be non-empty",
+      );
+    }
+    if (
+      value !== null
+      && typeof value !== "string"
+      && typeof value !== "number"
+      && typeof value !== "boolean"
+    ) {
+      throw new RpcProtocolError(
+        RPC_TRANSPORT_FAILURE,
+        `harness.decide proposal.payload.${key} must be a JSON primitive`,
+      );
+    }
+    payload[key] = value;
+  }
+  return payload;
+}
+
 function parseProposal(raw: unknown): AgentProposal {
   const fields = asJsonObject(raw, "harness.decide proposal");
   return {
@@ -94,6 +124,7 @@ function parseProposal(raw: unknown): AgentProposal {
     action: requireText(fields, "action", "harness.decide proposal"),
     rationaleRef: requireText(fields, "rationaleRef", "harness.decide proposal"),
     payloadDigest: requireText(fields, "payloadDigest", "harness.decide proposal"),
+    payload: parseProposalPayload(fields["payload"]),
   };
 }
 
@@ -210,6 +241,7 @@ export interface HarnessProposalRecord {
   readonly action: string;
   readonly rationaleRef: string;
   readonly payloadDigest: string;
+  readonly payload: Readonly<Record<string, ProposalFieldValue>>;
 }
 
 export interface HarnessDecisionReport {
@@ -245,6 +277,7 @@ function materialise(worldlineId: string, decision: HarnessDecision): HarnessDec
       action: decision.proposal.action,
       rationaleRef: decision.proposal.rationaleRef,
       payloadDigest: decision.proposal.payloadDigest,
+      payload: decision.proposal.payload,
     },
     reason: decision.reason,
   };
