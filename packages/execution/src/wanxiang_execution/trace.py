@@ -52,8 +52,11 @@ class ExecutionTrace:
         stderr_bytes: Full captured stderr size in bytes, before capping.
         stdout_digest: sha256 of the full (uncapped) stdout text.
         stderr_digest: sha256 of the full (uncapped) stderr text.
-        snapshot_ref: Always None; snapshot capture is not implemented here.
-        resume_ref: Always None; resume is not implemented here.
+        snapshot_ref: Optional execution-boundary checkpoint reference. The local
+            process checkpoint coordinator uses this for a completed result boundary;
+            it is not a process-memory/VM snapshot and never a World checkpoint.
+        resume_ref: Optional checkpoint reference when an identical completed
+            side-effect-free execution was fast-forwarded without re-execution.
         isolation: Honest enforcement level per dimension, e.g.
             ``{"process": "enforced", "filesystem_scratch": "enforced",
             "environment": "scrubbed", "network": "not_enforced",
