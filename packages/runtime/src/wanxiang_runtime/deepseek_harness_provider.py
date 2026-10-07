@@ -31,12 +31,8 @@ from wanxiang_runtime.r7_agent_harness_contract import (
 )
 
 
-class _RunResult(Protocol):
-    final_response: str
-
-
 class _SdkHarness(Protocol):
-    def run(self, prompt: str, *, session_id: str) -> _RunResult: ...
+    def run(self, prompt: str, *, session_id: str) -> object: ...
     def close(self) -> None: ...
 
 
@@ -82,6 +78,13 @@ def _sdk_version() -> str:
         return importlib.metadata.version("deepseek-harness-sdk")
     except importlib.metadata.PackageNotFoundError:
         return "unknown"
+
+
+def _final_response(result: object, what: str) -> str:
+    value = getattr(result, "final_response", None)
+    if not isinstance(value, str):
+        raise HarnessProtocolError(f"official DSH {what} has no string final_response")
+    return value
 
 
 def _parse_json_response(text: str, what: str) -> dict[str, object]:
@@ -163,7 +166,9 @@ class OfficialDeepSeekHarnessProvider:
             )
         except Exception as exc:
             raise HarnessUnavailable(f"official DeepSeek Harness decision failed: {exc}") from exc
-        return parse_decision(_parse_json_response(result.final_response, "decision"))
+        return parse_decision(
+            _parse_json_response(_final_response(result, "decision"), "decision")
+        )
 
     def deliver_consequence(self, consequence: HarnessConsequence) -> bool:
         prompt = (
@@ -181,7 +186,10 @@ class OfficialDeepSeekHarnessProvider:
             raise HarnessUnavailable(
                 f"official DeepSeek Harness consequence failed: {exc}"
             ) from exc
-        fields = _parse_json_response(result.final_response, "consequence acknowledgement")
+        fields = _parse_json_response(
+            _final_response(result, "consequence acknowledgement"),
+            "consequence acknowledgement",
+        )
         if fields.get("acknowledged") is not True:
             raise HarnessProtocolError("official DSH did not acknowledge the consequence")
         return True
