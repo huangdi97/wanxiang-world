@@ -82,7 +82,9 @@ class WorldCapabilityGateway:
         """Describe the bounded public command/state vocabulary for this session."""
         self._require_operation(session, "inspect_world_schema")
         instance_id, _branch_id = self._refs(session)
-        schema_version, rule_version, _created = self._runtime.persistence.instances.get(instance_id)
+        schema_version, rule_version, _created = self._runtime.persistence.instances.get(
+            instance_id
+        )
         return {
             "schema_version": schema_version.value,
             "rule_version": rule_version.value,
