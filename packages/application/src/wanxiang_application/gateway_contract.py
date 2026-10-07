@@ -18,7 +18,7 @@ from wanxiang_domain.errors import ContractError
 
 GatewayOperation = Literal["fork_worldline", "request_experiment"]
 
-OPERATION_SCOPE = {
+_OPERATION_SCOPE = {
     "observe": "world.observe",
     "query_history": "world.history",
     "query_branch_diff": "world.branch.diff",
@@ -28,7 +28,7 @@ OPERATION_SCOPE = {
 }
 
 
-def parse_expiry(value: str) -> datetime:
+def _parse_expiry(value: str) -> datetime:
     """Parse an offset-aware ISO-8601 expiry and normalize it to UTC."""
     normalized = value[:-1] + "+00:00" if value.endswith("Z") else value
     try:
@@ -74,7 +74,7 @@ class AgentSessionIdentity:
             raise ContractError("capability_scope must not be empty")
         if not self.rights_scope:
             raise ContractError("rights_scope must not be empty")
-        parse_expiry(self.session_expiry)
+        _parse_expiry(self.session_expiry)
 
 
 @dataclass(frozen=True, slots=True)
@@ -156,7 +156,5 @@ __all__ = [
     "GatewayOperation",
     "GatewayProposal",
     "GovernedOperationRequest",
-    "OPERATION_SCOPE",
     "WorldSkill",
-    "parse_expiry",
 ]
