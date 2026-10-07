@@ -162,7 +162,6 @@ class AgentHarnessProvider(Protocol):
         ...
 
 
-
 def _parse_action_payload(value: object) -> dict[str, FieldValue]:
     if value is None:
         return {}
