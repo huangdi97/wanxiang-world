@@ -226,7 +226,6 @@ class WorldCapabilityGateway:
         simulation_id: str,
         parameters: Mapping[str, FieldValue],
     ) -> GovernedOperationRequest:
-        """Create a governed simulation request; it does not run or commit by itself."""
         self._require_operation(session, "request_simulation")
         instance_id, branch_id = self._refs(session)
         if not simulation_id.strip():
@@ -249,7 +248,6 @@ class WorldCapabilityGateway:
         order_type: str,
         parameters: Mapping[str, FieldValue],
     ) -> GovernedOperationRequest:
-        """Create a governed order request; an external success is not a World commit."""
         self._require_operation(session, "submit_order")
         instance_id, branch_id = self._refs(session)
         if not order_type.strip():
