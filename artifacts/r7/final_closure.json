@@ -1,0 +1,49 @@
+{
+  "schema": "wanxiang.r7.final-closure.v1",
+  "qualification_anchor": "f7b719df2ccdd906bf2c0f9c3474b1cbe219bbbf",
+  "branch": "feature/r7-cordis-native",
+  "phase_b_local_implementation": "COMPLETE",
+  "overall_decision": "WAITING_HUMAN",
+  "ci": {
+    "workflow_run": 37582984372,
+    "status": "PASS"
+  },
+  "exact_sha_qualification": {
+    "workflow_run": 37582984421,
+    "status": "PASS",
+    "steps": 19,
+    "failed": 0,
+    "skipped": 0,
+    "artifact_id": 11465099366
+  },
+  "gates": {
+    "A": "PASS",
+    "B": "PASS",
+    "C": "PASS",
+    "D": "PASS_BOUNDED",
+    "E": "PASS_REFERENCE",
+    "F": "PASS_INTEGRATION_CONTRACT",
+    "G": "PASS_REFERENCE",
+    "H": "PASS_REFERENCE",
+    "I": "PASS",
+    "J": "PASS"
+  },
+  "external_or_human": [
+    {
+      "id": "v5.5-gates-62-66",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "id": "gate-78-godot",
+      "status": "EXTERNAL_BLOCKED"
+    },
+    {
+      "id": "official-dsh-live-e2e",
+      "status": "EXTERNAL_BLOCKED"
+    }
+  ],
+  "release": {
+    "v5_5_0_tag_created": false,
+    "v5_6_created": false
+  }
+}
