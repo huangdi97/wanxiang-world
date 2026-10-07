@@ -3,10 +3,10 @@
 
 from __future__ import annotations
 
-import importlib.util
 import json
 import os
 import sys
+from importlib import util
 from pathlib import Path
 
 
@@ -14,10 +14,10 @@ UPSTREAM = Path(__file__).parent / "upstream" / "optimality_search.py"
 
 
 def _load_upstream() -> object:
-    spec = importlib.util.spec_from_file_location("r7_pointcounts_optimality", UPSTREAM)
+    spec = util.spec_from_file_location("r7_pointcounts_optimality", UPSTREAM)
     if spec is None or spec.loader is None:
         raise RuntimeError("cannot load pinned upstream optimality_search.py")
-    module = importlib.util.module_from_spec(spec)
+    module = util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
 
