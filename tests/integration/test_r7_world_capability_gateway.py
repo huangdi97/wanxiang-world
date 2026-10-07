@@ -135,6 +135,7 @@ def test_gateway_branch_diff_and_actor_lease_guard() -> None:
             payload={"entity_id": "ent_gateway_diff", "status": "forbidden"},
         )
 
+
 @pytest.mark.integration
 def test_gateway_scope_and_expiry_fail_closed() -> None:
     runtime = build_reference_runtime()

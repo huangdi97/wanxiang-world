@@ -163,7 +163,6 @@ class AgentHarnessProvider(Protocol):
 
 
 
-
 def _parse_action_payload(value: object) -> dict[str, FieldValue]:
     if value is None:
         return {}
@@ -177,7 +176,7 @@ def _parse_action_payload(value: object) -> dict[str, FieldValue]:
             raise HarnessProtocolError(
                 f"harness proposal payload value for {raw_key!r} must be primitive"
             )
-        result[raw_key] = cast("FieldValue", raw_value)
+        result[raw_key] = raw_value
     return result
 
 
