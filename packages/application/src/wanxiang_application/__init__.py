@@ -1,5 +1,6 @@
 """Wanxiang application layer: use cases and orchestration."""
 
+from wanxiang_application.agent_harness_loop import HarnessStepResult, HarnessWorldLoop
 from wanxiang_application.environment import WorldEnvironment
 from wanxiang_application.gateway import (
     AgentSessionIdentity,
@@ -35,6 +36,8 @@ __all__ = [
     "GatewayHistoryItem",
     "GatewayObservation",
     "GatewayProposal",
+    "HarnessStepResult",
+    "HarnessWorldLoop",
     "GovernedOperationRequest",
     "CreateWorldResult",
     "PersistenceBundle",
