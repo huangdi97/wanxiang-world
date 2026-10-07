@@ -21,6 +21,7 @@ from wanxiang_runtime.authority import (
 from wanxiang_runtime.branch import fork_branch
 from wanxiang_runtime.canonical_write import CanonicalWriteLease
 from wanxiang_runtime.diff import StateDiff, diff_states
+from wanxiang_runtime.invariants import InvariantCheck
 from wanxiang_runtime.resolver import ResolverRegistry
 from wanxiang_runtime.snapshot import create_snapshot_metadata
 from wanxiang_runtime.state import InMemoryCanonicalState
@@ -60,12 +61,16 @@ class WorldRuntime:
         schema_version: SchemaVersion = DEFAULT_SCHEMA_VERSION,
         resolvers: ResolverRegistry | None = None,
         now: Now = CommitTimestamp.now,
+        domain_invariants: tuple[InvariantCheck, ...] = (),
+        world_invariants: tuple[InvariantCheck, ...] = (),
     ) -> None:
         self.persistence = persistence
         self._rule_version = rule_version
         self._schema_version = schema_version
         self._resolvers = resolvers or ResolverRegistry()
         self._now = now
+        self._domain_invariants = domain_invariants
+        self._world_invariants = world_invariants
         self._state_reader = StateReader(persistence, rule_version, schema_version)
 
     def _structural_lease(
@@ -184,6 +189,8 @@ class WorldRuntime:
             self._schema_version,
             branch_base_revision=BranchRevision(base),
             now=self._now,
+            domain_invariants=self._domain_invariants,
+            world_invariants=self._world_invariants,
         )
         result = authority.commit(
             state,

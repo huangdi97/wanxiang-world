@@ -11,13 +11,11 @@ from wanxiang_runtime.invariants import InvariantCheck
 
 
 def test_domain_invariant_denial_blocks_commit_without_advancing_history() -> None:
-    runtime = build_reference_runtime()
-
     def deny_forbidden_status(_state: object, op: object) -> None:
         if "forbidden-domain" in repr(op):
             raise ConstitutionViolation("domain invariant denied")
 
-    runtime.authority._domain_invariants = (deny_forbidden_status,)  # noqa: SLF001
+    runtime = build_reference_runtime(domain_invariants=(deny_forbidden_status,))
     world = runtime.create_world(instance_id=WorldInstanceId("wld_r7_domain_invariant"))
     player = ExperiencePlayerService(runtime)
     branch = world.root_branch_id
@@ -59,9 +57,10 @@ def test_world_invariant_layer_runs_after_domain_and_before_commit() -> None:
 
     domain_check: InvariantCheck = domain  # type: ignore[assignment]
     world_check: InvariantCheck = world  # type: ignore[assignment]
-    runtime = build_reference_runtime()
-    runtime.authority._domain_invariants = (domain_check,)  # noqa: SLF001
-    runtime.authority._world_invariants = (world_check,)  # noqa: SLF001
+    runtime = build_reference_runtime(
+        domain_invariants=(domain_check,),
+        world_invariants=(world_check,),
+    )
     created = runtime.create_world(instance_id=WorldInstanceId("wld_r7_world_invariant"))
     player = ExperiencePlayerService(runtime)
     player.act(

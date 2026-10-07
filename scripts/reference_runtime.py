@@ -10,6 +10,7 @@ from wanxiang_domain.time import WorldTime
 from wanxiang_domain.versions import RuntimeVersion, SchemaVersion
 from wanxiang_runtime.branch import InMemoryBranchRepository
 from wanxiang_runtime.canonical_write import CanonicalWriteLease, require_canonical_write_lease
+from wanxiang_runtime.invariants import InvariantCheck
 from wanxiang_runtime.ports import InMemoryEventStore
 from wanxiang_runtime.resolver import ResolverRegistry
 from wanxiang_runtime.snapshot import InMemorySnapshotStore
@@ -38,7 +39,11 @@ class MemoryInstances:
         return self._rows[instance_id.value]
 
 
-def build_reference_runtime() -> WorldRuntime:
+def build_reference_runtime(
+    *,
+    domain_invariants: tuple[InvariantCheck, ...] = (),
+    world_invariants: tuple[InvariantCheck, ...] = (),
+) -> WorldRuntime:
     registry = ResolverRegistry()
     register_synthetic_resolvers(registry)
     register_preview_resolvers(registry)
@@ -52,6 +57,8 @@ def build_reference_runtime() -> WorldRuntime:
         RuntimeVersion(1),
         schema_version=SchemaVersion(1),
         resolvers=registry,
+        domain_invariants=domain_invariants,
+        world_invariants=world_invariants,
     )
 
 

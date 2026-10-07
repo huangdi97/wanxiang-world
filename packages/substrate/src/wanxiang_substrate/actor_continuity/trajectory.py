@@ -13,8 +13,70 @@ from collections.abc import Callable, Mapping
 from dataclasses import asdict, dataclass, replace
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import cast
 
 _BytesTransform = Callable[[bytes], bytes]
+
+
+def _identity_bytes(value: bytes) -> bytes:
+    return value
+
+
+def _tuple_of_strings(value: object, name: str) -> tuple[str, ...]:
+    if value is None:
+        return ()
+    if not isinstance(value, (list, tuple)):
+        raise ValueError(f"{name} must be a list/tuple of strings")
+    values = tuple(value)
+    if any(not isinstance(item, str) for item in values):
+        raise ValueError(f"{name} must contain only strings")
+    return cast(tuple[str, ...], values)
+
+
+def _string(value: object, name: str, *, required: bool = False) -> str:
+    if value is None and not required:
+        return ""
+    if not isinstance(value, str):
+        raise ValueError(f"{name} must be a string")
+    if required and not value.strip():
+        raise ValueError(f"{name} must be non-empty")
+    return value
+
+
+def _record_from_payload(payload: Mapping[str, object]) -> ActorTrajectoryRecord:
+    allowed = set(ActorTrajectoryRecord.__dataclass_fields__)
+    unknown = sorted(set(payload) - allowed)
+    if unknown:
+        raise ValueError(f"unknown trajectory payload fields: {unknown}")
+    redacted = payload.get("redacted", False)
+    if not isinstance(redacted, bool):
+        raise ValueError("redacted must be bool")
+    return ActorTrajectoryRecord(
+        trajectory_id=_string(payload.get("trajectory_id"), "trajectory_id", required=True),
+        actor_id=_string(payload.get("actor_id"), "actor_id", required=True),
+        world_id=_string(payload.get("world_id"), "world_id", required=True),
+        worldline_id=_string(payload.get("worldline_id"), "worldline_id", required=True),
+        decision_id=_string(payload.get("decision_id"), "decision_id", required=True),
+        created_at=_string(payload.get("created_at"), "created_at", required=True),
+        observation_refs=_tuple_of_strings(payload.get("observation_refs"), "observation_refs"),
+        memory_refs=_tuple_of_strings(payload.get("memory_refs"), "memory_refs"),
+        memory_hashes=_tuple_of_strings(payload.get("memory_hashes"), "memory_hashes"),
+        belief_refs=_tuple_of_strings(payload.get("belief_refs"), "belief_refs"),
+        goal_refs=_tuple_of_strings(payload.get("goal_refs"), "goal_refs"),
+        context_hash=_string(payload.get("context_hash"), "context_hash"),
+        provider_id=_string(payload.get("provider_id"), "provider_id"),
+        model_id=_string(payload.get("model_id"), "model_id"),
+        tool_refs=_tuple_of_strings(payload.get("tool_refs"), "tool_refs"),
+        plan_ref=_string(payload.get("plan_ref"), "plan_ref"),
+        intent_ref=_string(payload.get("intent_ref"), "intent_ref"),
+        adjudication_ref=_string(payload.get("adjudication_ref"), "adjudication_ref"),
+        outcome_ref=_string(payload.get("outcome_ref"), "outcome_ref"),
+        world_event_refs=_tuple_of_strings(payload.get("world_event_refs"), "world_event_refs"),
+        rights_scope=_tuple_of_strings(payload.get("rights_scope"), "rights_scope")
+        or ("trajectory.read",),
+        retention_until=_string(payload.get("retention_until"), "retention_until"),
+        redacted=redacted,
+    )
 
 
 @dataclass(frozen=True, slots=True)
@@ -84,31 +146,15 @@ class ActorTrajectoryLedger:
         if (encode is None) != (decode is None):
             raise ValueError("encode/decode transforms must be supplied together")
         self._path = path
-        self._encode = encode or (lambda value: value)
-        self._decode = decode or (lambda value: value)
+        self._encode: _BytesTransform = encode or _identity_bytes
+        self._decode: _BytesTransform = decode or _identity_bytes
         self._entries: list[ActorTrajectoryRecord] = []
         if path is not None and path.exists():
             self._load(path)
 
     def record_payload(self, payload: Mapping[str, object]) -> ActorTrajectoryRecord:
         """Record a bounded bridge payload; unknown/private-content keys fail closed."""
-        allowed = set(ActorTrajectoryRecord.__dataclass_fields__)
-        unknown = sorted(set(payload) - allowed)
-        if unknown:
-            raise ValueError(f"unknown trajectory payload fields: {unknown}")
-        value = dict(payload)
-        for name in (
-            "observation_refs",
-            "memory_refs",
-            "memory_hashes",
-            "belief_refs",
-            "goal_refs",
-            "tool_refs",
-            "world_event_refs",
-            "rights_scope",
-        ):
-            value[name] = tuple(value.get(name, ()))
-        return self.record(ActorTrajectoryRecord(**value))  # type: ignore[arg-type]
+        return self.record(_record_from_payload(payload))
 
     def record(self, item: ActorTrajectoryRecord) -> ActorTrajectoryRecord:
         if any(entry.trajectory_id == item.trajectory_id for entry in self._entries):
@@ -207,19 +253,11 @@ class ActorTrajectoryLedger:
             if not raw:
                 continue
             decoded = self._decode(base64.b64decode(raw))
-            value = json.loads(decoded.decode("utf-8"))
-            for name in (
-                "observation_refs",
-                "memory_refs",
-                "memory_hashes",
-                "belief_refs",
-                "goal_refs",
-                "tool_refs",
-                "world_event_refs",
-                "rights_scope",
-            ):
-                value[name] = tuple(value.get(name, ()))
-            self._entries.append(ActorTrajectoryRecord(**value))
+            loaded: object = json.loads(decoded.decode("utf-8"))
+            if not isinstance(loaded, dict):
+                raise ValueError("trajectory JSONL row must be an object")
+            payload = cast(dict[str, object], loaded)
+            self._entries.append(_record_from_payload(payload))
 
 
 __all__ = ["ActorTrajectoryLedger", "ActorTrajectoryRecord"]
