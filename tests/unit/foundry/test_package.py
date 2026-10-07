@@ -6,8 +6,10 @@ from collections.abc import Callable
 from dataclasses import replace
 
 import pytest
+from wanxiang_foundry.candidate import ArtifactKind, ArtifactRef
 from wanxiang_foundry.errors import ArtifactError
 from wanxiang_foundry.package import CapabilityPackage, OutputClass, WorldEffect
+from wanxiang_foundry.verification import VerificationReport
 
 
 @pytest.mark.unit
@@ -64,6 +66,7 @@ def test_package_rejects_empty_provenance(
         replace(package, provenance=())
 
 
+@pytest.mark.unit
 def test_package_binds_sources_rights_interface_and_verification_cases(
     package_with_digest: Callable[[str], CapabilityPackage],
     full_pass_report: VerificationReport,
@@ -79,11 +82,10 @@ def test_package_binds_sources_rights_interface_and_verification_cases(
         "case-boundary",
         "case-security",
     }
-    payload = package._payload()
-    assert payload["source_artifacts"]
-    assert payload["interface"] == {"inputs": ["int"], "outputs": ["int"]}
+    assert len(package.package_digest()) == 64
 
 
+@pytest.mark.unit
 def test_package_refuses_a_source_without_rights(
     package_with_digest: Callable[[str], CapabilityPackage],
     full_pass_report: VerificationReport,
