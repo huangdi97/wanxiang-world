@@ -23,7 +23,7 @@ GatewayOperation = Literal[
     "submit_order",
 ]
 
-OPERATION_SCOPE = {
+_OPERATION_SCOPE = {
     "observe": "world.observe",
     "inspect_world_metadata": "world.inspect",
     "inspect_world_schema": "world.inspect",
@@ -173,6 +173,5 @@ __all__ = [
     "GatewayOperation",
     "GatewayProposal",
     "GovernedOperationRequest",
-    "OPERATION_SCOPE",
     "WorldSkill",
 ]

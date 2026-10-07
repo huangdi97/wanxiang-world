@@ -7,13 +7,18 @@ so the public adapter stays within the repository maintainability budget.
 
 from __future__ import annotations
 
-from wanxiang_application.gateway_contract import AgentSessionIdentity, WorldSkill
-from wanxiang_application.world_runtime import WorldRuntime
 from wanxiang_domain.errors import PermissionDenied
 from wanxiang_domain.ids import BranchId, WorldInstanceId
 
+from wanxiang_application.gateway_contract import (
+    _OPERATION_SCOPE,
+    AgentSessionIdentity,
+    WorldSkill,
+)
+from wanxiang_application.world_runtime import WorldRuntime
 
-def inspect_world_metadata(
+
+def _inspect_world_metadata(
     runtime: WorldRuntime,
     instance_id: WorldInstanceId,
     branch_id: BranchId,
@@ -33,7 +38,7 @@ def inspect_world_metadata(
     }
 
 
-def inspect_world_schema(
+def _inspect_world_schema(
     runtime: WorldRuntime,
     instance_id: WorldInstanceId,
 ) -> dict[str, object]:
@@ -46,7 +51,7 @@ def inspect_world_schema(
     }
 
 
-def query_entities(
+def _query_entities(
     runtime: WorldRuntime,
     instance_id: WorldInstanceId,
     branch_id: BranchId,
@@ -70,7 +75,7 @@ def query_entities(
     )
 
 
-def query_relations(
+def _query_relations(
     runtime: WorldRuntime,
     instance_id: WorldInstanceId,
     branch_id: BranchId,
@@ -88,7 +93,7 @@ def query_relations(
     )
 
 
-def query_worldline(
+def _query_worldline(
     runtime: WorldRuntime,
     instance_id: WorldInstanceId,
     branch_id: BranchId,
@@ -114,7 +119,7 @@ def query_worldline(
     }
 
 
-def list_capabilities(
+def _list_capabilities(
     runtime: WorldRuntime,
     session: AgentSessionIdentity,
 ) -> dict[str, tuple[str, ...]]:
@@ -126,7 +131,7 @@ def list_capabilities(
     }
 
 
-def describe_skill(runtime: WorldRuntime, session: AgentSessionIdentity) -> WorldSkill:
+def _describe_skill(runtime: WorldRuntime, session: AgentSessionIdentity) -> WorldSkill:
     return WorldSkill(
         world_id=session.world_id,
         branch_id=session.branch_id,
@@ -134,10 +139,7 @@ def describe_skill(runtime: WorldRuntime, session: AgentSessionIdentity) -> Worl
         role=session.role,
         allowed_operations=tuple(
             operation
-            for operation, scope in __import__(
-                "wanxiang_application.gateway_contract",
-                fromlist=["OPERATION_SCOPE"],
-            ).OPERATION_SCOPE.items()
+            for operation, scope in _OPERATION_SCOPE.items()
             if scope in session.capability_scope
         ),
         allowed_actions=(
@@ -150,11 +152,4 @@ def describe_skill(runtime: WorldRuntime, session: AgentSessionIdentity) -> Worl
 
 
 __all__ = [
-    "describe_skill",
-    "inspect_world_metadata",
-    "inspect_world_schema",
-    "list_capabilities",
-    "query_entities",
-    "query_relations",
-    "query_worldline",
-]
+                            ]
