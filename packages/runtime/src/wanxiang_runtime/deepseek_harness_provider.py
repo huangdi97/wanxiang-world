@@ -18,7 +18,7 @@ import json
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Protocol, cast
+from typing import cast
 
 from wanxiang_runtime.r7_agent_harness_contract import (
     AgentDecision,
@@ -31,12 +31,25 @@ from wanxiang_runtime.r7_agent_harness_contract import (
 )
 
 
-class _SdkHarness(Protocol):
-    def run(self, prompt: str, *, session_id: str) -> object: ...
-    def close(self) -> None: ...
+_HarnessFactory = Callable[..., object]
 
 
-_HarnessFactory = Callable[..., _SdkHarness]
+def _run_sdk(harness: object, prompt: str, *, session_id: str) -> object:
+    run = getattr(harness, "run", None)
+    if not callable(run):
+        raise HarnessUnavailable("official DeepSeek Harness SDK has no callable run method")
+    invoke = cast("Callable[..., object]", run)
+    return invoke(prompt, session_id=session_id)
+
+
+def _close_sdk(harness: object) -> None:
+    close = getattr(harness, "close", None)
+    if close is None:
+        return
+    if not callable(close):
+        raise HarnessUnavailable("official DeepSeek Harness SDK has a non-callable close member")
+    invoke = cast("Callable[[], object]", close)
+    invoke()
 
 
 @dataclass(frozen=True, slots=True)
@@ -112,9 +125,9 @@ class OfficialDeepSeekHarnessProvider:
         self._settings = settings
         self._factory = harness_factory
         self._version = sdk_version
-        self._harness: _SdkHarness | None = None
+        self._harness: object | None = None
 
-    def _ensure_harness(self) -> _SdkHarness:
+    def _ensure_harness(self) -> object:
         if self._harness is not None:
             return self._harness
         factory = self._factory or _load_factory()
@@ -160,7 +173,8 @@ class OfficialDeepSeekHarnessProvider:
             + json.dumps(payload, sort_keys=True, ensure_ascii=False)
         )
         try:
-            result = self._ensure_harness().run(
+            result = _run_sdk(
+                self._ensure_harness(),
                 prompt,
                 session_id=self._session_id(observation.worldline_id),
             )
@@ -176,7 +190,8 @@ class OfficialDeepSeekHarnessProvider:
             + json.dumps(consequence.payload(), sort_keys=True, ensure_ascii=False)
         )
         try:
-            result = self._ensure_harness().run(
+            result = _run_sdk(
+                self._ensure_harness(),
                 prompt,
                 session_id=self._session_id(consequence.worldline_id),
             )
@@ -196,7 +211,7 @@ class OfficialDeepSeekHarnessProvider:
         harness = self._harness
         self._harness = None
         if harness is not None:
-            harness.close()
+            _close_sdk(harness)
 
     @staticmethod
     def _session_id(worldline_id: str) -> str:
