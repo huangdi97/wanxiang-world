@@ -53,6 +53,7 @@ rl.on("line", (line) => {
         action: "set_status",
         rationaleRef: "stub#rule",
         payloadDigest: "d".repeat(64),
+        payload: {},
       },
       reason: "stub rule",
     });
@@ -236,8 +237,12 @@ describe.skipIf(!pythonToolchainAvailable)("python reference harness integration
 
       const path = new HarnessConsequencePath(real);
       const report = await path.decide("wl-int", 0, { targetRevision: "2" });
+      const expectedPayload = {
+        entity_id: "ent_agent",
+        status: "reference-harness-proposed",
+      };
       const expectedDigest = createHash("sha256")
-        .update("prop_wl-int_1|set_status")
+        .update(JSON.stringify([expectedPayload]))
         .digest("hex");
       expect(report.proposal).toEqual({
         worldlineId: "wl-int",
@@ -245,6 +250,7 @@ describe.skipIf(!pythonToolchainAvailable)("python reference harness integration
         action: "set_status",
         rationaleRef: "reference-rule-harness#advance-to-2",
         payloadDigest: expectedDigest,
+        payload: expectedPayload,
       });
 
       const reached = await path.decide("wl-int", 2, { targetRevision: "2" });
