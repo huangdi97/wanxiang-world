@@ -7,7 +7,7 @@ so the public adapter stays within the repository maintainability budget.
 
 from __future__ import annotations
 
-from wanxiang_application.gateway_contract import AgentSessionIdentity
+from wanxiang_application.gateway_contract import AgentSessionIdentity, WorldSkill
 from wanxiang_application.world_runtime import WorldRuntime
 from wanxiang_domain.errors import PermissionDenied
 from wanxiang_domain.ids import BranchId, WorldInstanceId
@@ -126,7 +126,31 @@ def list_capabilities(
     }
 
 
+def describe_skill(runtime: WorldRuntime, session: AgentSessionIdentity) -> WorldSkill:
+    return WorldSkill(
+        world_id=session.world_id,
+        branch_id=session.branch_id,
+        principal_id=session.principal_id,
+        role=session.role,
+        allowed_operations=tuple(
+            operation
+            for operation, scope in __import__(
+                "wanxiang_application.gateway_contract",
+                fromlist=["OPERATION_SCOPE"],
+            ).OPERATION_SCOPE.items()
+            if scope in session.capability_scope
+        ),
+        allowed_actions=(
+            runtime.action_types() if "world.propose" in session.capability_scope else ()
+        ),
+        rights_scope=session.rights_scope,
+        actor_lease_present=bool(session.actor_id),
+        secret_scope_present=bool(session.secret_scope),
+    )
+
+
 __all__ = [
+    "describe_skill",
     "inspect_world_metadata",
     "inspect_world_schema",
     "list_capabilities",

@@ -27,6 +27,7 @@ from wanxiang_application.gateway_contract import (
     WorldSkill,
 )
 from wanxiang_application.gateway_queries import (
+    describe_skill,
     inspect_world_metadata,
     inspect_world_schema,
     list_capabilities,
@@ -259,26 +260,8 @@ class WorldCapabilityGateway:
         )
 
     def describe_skill(self, session: AgentSessionIdentity) -> WorldSkill:
-        """Describe the bounded interface this session may use."""
         self._refs(session)
-        operations = tuple(
-            operation
-            for operation, scope in OPERATION_SCOPE.items()
-            if scope in session.capability_scope
-        )
-        return WorldSkill(
-            world_id=session.world_id,
-            branch_id=session.branch_id,
-            principal_id=session.principal_id,
-            role=session.role,
-            allowed_operations=operations,
-            allowed_actions=self._runtime.action_types()
-            if "world.propose" in session.capability_scope
-            else (),
-            rights_scope=session.rights_scope,
-            actor_lease_present=bool(session.actor_id),
-            secret_scope_present=bool(session.secret_scope),
-        )
+        return describe_skill(self._runtime, session)
 
     def _require_operation(
         self,
