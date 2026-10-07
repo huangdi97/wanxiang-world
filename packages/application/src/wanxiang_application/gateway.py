@@ -18,14 +18,14 @@ from wanxiang_domain.ids import ActorId, BranchId, CommandId, WorldInstanceId
 from wanxiang_runtime.state import state_to_primitive
 
 from wanxiang_application.gateway_contract import (
-    OPERATION_SCOPE,
+    _OPERATION_SCOPE,
     AgentSessionIdentity,
     GatewayHistoryItem,
     GatewayObservation,
     GatewayProposal,
     GovernedOperationRequest,
     WorldSkill,
-    parse_expiry,
+    _parse_expiry,
 )
 from wanxiang_application.world_runtime import WorldRuntime
 
@@ -180,7 +180,7 @@ class WorldCapabilityGateway:
         self._refs(session)
         operations = tuple(
             operation
-            for operation, scope in OPERATION_SCOPE.items()
+            for operation, scope in _OPERATION_SCOPE.items()
             if scope in session.capability_scope
         )
         return WorldSkill(
@@ -189,11 +189,9 @@ class WorldCapabilityGateway:
             principal_id=session.principal_id,
             role=session.role,
             allowed_operations=operations,
-            allowed_actions=(
-                self._runtime.action_types()
-                if "world.propose" in session.capability_scope
-                else ()
-            ),
+            allowed_actions=self._runtime.action_types()
+            if "world.propose" in session.capability_scope
+            else (),
             rights_scope=session.rights_scope,
             actor_lease_present=bool(session.actor_id),
             secret_scope_present=bool(session.secret_scope),
@@ -207,7 +205,7 @@ class WorldCapabilityGateway:
         capability_id: str = "",
     ) -> None:
         self._refs(session)
-        required = OPERATION_SCOPE[operation]
+        required = _OPERATION_SCOPE[operation]
         if required in session.capability_scope:
             return
         if operation == "request_experiment" and capability_id in session.capability_scope:
@@ -215,7 +213,7 @@ class WorldCapabilityGateway:
         raise PermissionDenied(f"session {session.audit_id} lacks capability scope {required!r}")
 
     def _refs(self, session: AgentSessionIdentity) -> tuple[WorldInstanceId, BranchId]:
-        if parse_expiry(session.session_expiry) <= self._now().astimezone(UTC):
+        if _parse_expiry(session.session_expiry) <= self._now().astimezone(UTC):
             raise PermissionDenied(f"session {session.audit_id} has expired")
         return WorldInstanceId(session.world_id), BranchId(session.branch_id)
 
