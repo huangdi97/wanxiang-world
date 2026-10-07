@@ -95,6 +95,7 @@
     "wanxiang_application.GatewayObservation",
     "wanxiang_application.GatewayOperation",
     "wanxiang_application.GatewayProposal",
+    "wanxiang_application.GatewayQueries",
     "wanxiang_application.GovernedOperationRequest",
     "wanxiang_application.HarnessStepResult",
     "wanxiang_application.HarnessWorldLoop",

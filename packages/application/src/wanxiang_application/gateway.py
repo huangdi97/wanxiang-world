@@ -18,7 +18,6 @@ from wanxiang_domain.ids import ActorId, BranchId, CommandId, WorldInstanceId
 from wanxiang_runtime.state import state_to_primitive
 
 from wanxiang_application.gateway_contract import (
-    _OPERATION_SCOPE,
     AgentSessionIdentity,
     GatewayHistoryItem,
     GatewayObservation,
@@ -26,19 +25,28 @@ from wanxiang_application.gateway_contract import (
     GovernedOperationRequest,
     WorldSkill,
 )
-from wanxiang_application.gateway_queries import (
-    _describe_skill,
-    _inspect_world_metadata,
-    _inspect_world_schema,
-    _list_capabilities,
-    _query_entities,
-    _query_relations,
-    _query_worldline,
-)
+from wanxiang_application.gateway_queries import GatewayQueries
 from wanxiang_application.world_runtime import WorldRuntime
 
 _GatewayNow = Callable[[], datetime]
 _RAW_CANONICAL_RIGHT = "world.canonical.read"
+
+_OPERATION_SCOPE = {
+    "observe": "world.observe",
+    "inspect_world_metadata": "world.inspect",
+    "inspect_world_schema": "world.inspect",
+    "query_entities": "world.entities",
+    "query_relations": "world.relations",
+    "query_worldline": "world.worldline",
+    "list_capabilities": "world.capabilities",
+    "query_history": "world.history",
+    "query_branch_diff": "world.branch.diff",
+    "propose_action": "world.propose",
+    "request_fork": "world.fork",
+    "request_experiment": "world.experiment",
+    "request_simulation": "world.simulation",
+    "submit_order": "world.order",
+}
 
 
 class WorldCapabilityGateway:
@@ -64,31 +72,31 @@ class WorldCapabilityGateway:
     def inspect_world_metadata(self, session: AgentSessionIdentity) -> dict[str, object]:
         self._require_operation(session, "inspect_world_metadata")
         instance_id, branch_id = self._refs(session)
-        return _inspect_world_metadata(self._runtime, instance_id, branch_id)
+        return GatewayQueries.inspect_world_metadata(self._runtime, instance_id, branch_id)
 
     def inspect_world_schema(self, session: AgentSessionIdentity) -> dict[str, object]:
         self._require_operation(session, "inspect_world_schema")
         instance_id, _branch_id = self._refs(session)
-        return _inspect_world_schema(self._runtime, instance_id)
+        return GatewayQueries.inspect_world_schema(self._runtime, instance_id)
 
     def query_entities(self, session: AgentSessionIdentity) -> tuple[dict[str, object], ...]:
         self._require_operation(session, "query_entities")
         instance_id, branch_id = self._refs(session)
-        return _query_entities(self._runtime, instance_id, branch_id)
+        return GatewayQueries.query_entities(self._runtime, instance_id, branch_id)
 
     def query_relations(self, session: AgentSessionIdentity) -> tuple[dict[str, object], ...]:
         self._require_operation(session, "query_relations")
         instance_id, branch_id = self._refs(session)
-        return _query_relations(self._runtime, instance_id, branch_id)
+        return GatewayQueries.query_relations(self._runtime, instance_id, branch_id)
 
     def query_worldline(self, session: AgentSessionIdentity) -> dict[str, object]:
         self._require_operation(session, "query_worldline")
         instance_id, branch_id = self._refs(session)
-        return _query_worldline(self._runtime, instance_id, branch_id)
+        return GatewayQueries.query_worldline(self._runtime, instance_id, branch_id)
 
     def list_capabilities(self, session: AgentSessionIdentity) -> dict[str, tuple[str, ...]]:
         self._require_operation(session, "list_capabilities")
-        return _list_capabilities(self._runtime, session)
+        return GatewayQueries.list_capabilities(self._runtime, session)
 
     def query_history(
         self,
@@ -261,7 +269,7 @@ class WorldCapabilityGateway:
 
     def describe_skill(self, session: AgentSessionIdentity) -> WorldSkill:
         self._refs(session)
-        return _describe_skill(self._runtime, session)
+        return GatewayQueries.describe_skill(self._runtime, session, _OPERATION_SCOPE)
 
     def _require_operation(
         self,
