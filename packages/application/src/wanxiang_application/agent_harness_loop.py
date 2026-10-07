@@ -14,6 +14,7 @@ from datetime import UTC, datetime
 from typing import Literal
 
 from wanxiang_domain.errors import WanxiangError
+from wanxiang_domain.hashing import semantic_sha256
 from wanxiang_domain.ids import BranchId, WorldInstanceId
 from wanxiang_runtime.r7_agent_harness_contract import (
     AgentHarnessProvider,
@@ -72,13 +73,18 @@ class HarnessWorldLoop:
         """Observe -> decide -> governed proposal -> commit/reject -> consequence."""
         observed = self._gateway.observe(session)
         history = self._gateway.query_history(session)
+        context = dict(allowed_context or {})
+        context_hash = semantic_sha256(context)
+        goal_refs = (
+            (f"goal-sha256:{semantic_sha256(goal_hint)}",) if goal_hint else ()
+        )
         decision = self._provider.decide(
             WorldObservation(
                 worldline_id=session.branch_id,
                 revision=observed.revision,
                 state_hash=observed.state_hash,
                 allowed_history=tuple(item.event_id for item in history),
-                allowed_context=dict(allowed_context or {}),
+                allowed_context=context,
                 goal_hint=goal_hint,
             )
         )
@@ -91,7 +97,9 @@ class HarnessWorldLoop:
                 reason=decision.reason,
                 consequence_acknowledged=None,
             )
-            return self._attach_trajectory(session, history, None, result)
+            return self._attach_trajectory(
+                session, history, None, result, context_hash=context_hash, goal_refs=goal_refs
+            )
 
         proposal = decision.proposal
         assert proposal is not None
@@ -104,7 +112,14 @@ class HarnessWorldLoop:
                 observed.state_hash,
                 "proposal payload digest mismatch",
             )
-            return self._attach_trajectory(session, history, proposal, result)
+            return self._attach_trajectory(
+                session,
+                history,
+                proposal,
+                result,
+                context_hash=context_hash,
+                goal_refs=goal_refs,
+            )
 
         try:
             gateway_proposal = self._gateway.propose_action(
@@ -149,6 +164,9 @@ class HarnessWorldLoop:
         history: tuple[GatewayHistoryItem, ...],
         proposal: AgentProposal | None,
         result: HarnessStepResult,
+        *,
+        context_hash: str,
+        goal_refs: tuple[str, ...],
     ) -> HarnessStepResult:
         sink = self._trajectory_sink
         if sink is None:
@@ -173,6 +191,8 @@ class HarnessWorldLoop:
             "memory_refs": (),
             "memory_hashes": (),
             "belief_refs": (),
+            "goal_refs": goal_refs,
+            "context_hash": context_hash,
             "provider_id": self._provider.provider_id,
             "model_id": "",
             "tool_refs": (proposal.action,) if proposal is not None else (),
