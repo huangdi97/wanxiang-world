@@ -1,4 +1,4 @@
-"""Reproducible WorldRunArtifact: one saved, comparable, forkable world run.
+"""ReproducibleRunManifest: one saved, comparable, forkable world run.
 
 The artifact is a product/research manifest over existing truth systems. It does
 not copy canonical state: it pins version/runtime/history/trajectory/control refs
@@ -13,7 +13,7 @@ from wanxiang_domain.hashing import semantic_sha256
 
 
 @dataclass(frozen=True, slots=True)
-class WorldRunArtifact:
+class ReproducibleRunManifest:
     artifact_id: str
     world_id: str
     worldline_id: str
@@ -101,4 +101,4 @@ class WorldRunArtifact:
         }
 
 
-__all__ = ["WorldRunArtifact"]
+__all__ = ["ReproducibleRunManifest"]
