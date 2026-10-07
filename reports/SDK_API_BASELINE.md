@@ -2,7 +2,7 @@
 
 - API routes: 74
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 2131
+- Python public names (stable packages): 2136
 
 ## API routes
 
@@ -229,11 +229,15 @@
 - `wanxiang_domain.snapshot_to_primitive`
 - `wanxiang_domain.validate_id`
 - `wanxiang_domain.validate_world_commit_kind`
+- `wanxiang_observability.ComponentStatus`
 - `wanxiang_observability.ConfigError`
 - `wanxiang_observability.JsonFormatter`
 - `wanxiang_observability.KeyValueFormatter`
 - `wanxiang_observability.Metrics`
+- `wanxiang_observability.MigrationStatus`
 - `wanxiang_observability.Observability`
+- `wanxiang_observability.R7OpsView`
+- `wanxiang_observability.R7ReadinessView`
 - `wanxiang_observability.Span`
 - `wanxiang_observability.WanxiangSettings`
 - `wanxiang_observability.configure_logging`
@@ -241,6 +245,7 @@
 - `wanxiang_observability.is_secret_name`
 - `wanxiang_observability.load_settings`
 - `wanxiang_observability.now_ms`
+- `wanxiang_observability.r7_readiness`
 - `wanxiang_observability.redact_secret_values`
 - `wanxiang_observability.redact_values`
 - `wanxiang_observability.secret_key_names`
@@ -378,10 +383,5 @@
 - `wanxiang_substrate.ACTION_SET_RESOLUTION`
 - `wanxiang_substrate.ACTION_SET_SKILL_STATE`
 - `wanxiang_substrate.ACTION_SET_VISIBILITY`
-- `wanxiang_substrate.ACTION_START_SKILL`
-- `wanxiang_substrate.ACTION_TRANSFER`
-- `wanxiang_substrate.ACTION_VISIT_SICK`
-- `wanxiang_substrate.ACTOR`
-- `wanxiang_substrate.ACTOR_A`
 
 Machine-readable: reports/sdk_api_baseline.json.

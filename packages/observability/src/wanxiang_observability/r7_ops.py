@@ -138,12 +138,7 @@ def r7_readiness(
     blockers: tuple[str, ...] = (),
 ) -> R7ReadinessView:
     """Build a deterministic readiness projection from operational inputs."""
-    ready = (
-        world_host == "ready"
-        and providers == "ready"
-        and migration == "ready"
-        and not blockers
-    )
+    ready = world_host == "ready" and providers == "ready" and migration == "ready" and not blockers
     return R7ReadinessView(ready, world_host, providers, migration, blockers)
 
 
