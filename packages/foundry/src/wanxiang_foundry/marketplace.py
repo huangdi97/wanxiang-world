@@ -11,6 +11,7 @@ from __future__ import annotations
 from dataclasses import dataclass, replace
 
 from wanxiang_execution import ExecutionClass
+
 from wanxiang_foundry.errors import RegistryError
 from wanxiang_foundry.levels import KnowledgeLevel, PromotionLevel
 from wanxiang_foundry.registry import VerifiedCapabilityRegistry
@@ -149,27 +150,31 @@ class VerifiedCapabilityMarketplace:
         return self._listings.get((capability_id, version))
 
     def discover(
-        self, query: CapabilityDiscoveryQuery = CapabilityDiscoveryQuery()
+        self, query: CapabilityDiscoveryQuery | None = None
     ) -> tuple[CapabilityMarketplaceListing, ...]:
+        resolved_query = query or CapabilityDiscoveryQuery()
         results: list[CapabilityMarketplaceListing] = []
         for key, listing in self._listings.items():
             status = self._registry.status(*key)
             if status not in {"ACTIVE", "DEPRECATED"}:
                 continue
-            if status == "DEPRECATED" and not query.include_deprecated:
+            if status == "DEPRECATED" and not resolved_query.include_deprecated:
                 continue
             package = self._registry.get(*key)
             if package is None or package.package_digest() != listing.package_digest:
                 raise RegistryError("marketplace package binding no longer verifies")
-            if query.execution_class is not None and listing.runtime_class is not query.execution_class:
+            if (
+                resolved_query.execution_class is not None
+                and listing.runtime_class is not resolved_query.execution_class
+            ):
                 continue
-            if query.required_domains and not set(query.required_domains).issubset(
+            if resolved_query.required_domains and not set(resolved_query.required_domains).issubset(
                 listing.compatible_domains
             ):
                 continue
             if (
-                query.compatible_world_version
-                and query.compatible_world_version not in listing.compatible_world_versions
+                resolved_query.compatible_world_version
+                and resolved_query.compatible_world_version not in listing.compatible_world_versions
             ):
                 continue
             results.append(replace(listing, lifecycle_status=status))
