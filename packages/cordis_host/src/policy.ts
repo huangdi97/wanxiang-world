@@ -60,6 +60,11 @@ export interface PolicyProposal {
   readonly requestingWorldlineId: string;
   readonly requestedBy: string;
   readonly kind: string;
+  readonly rightsApproved?: boolean;
+  readonly evidenceRequired?: boolean;
+  readonly evidencePresent?: boolean;
+  readonly externalEffect?: boolean;
+  readonly externalEffectViaOutbox?: boolean;
 }
 
 export class PolicyRegistry {
@@ -110,6 +115,52 @@ export class UnversionedWriteGuard implements PolicyProvider {
       reason: versioned
         ? "proposal carries an expected revision"
         : "unversioned overwrite of canonical history is never allowed",
+    };
+  }
+}
+
+/** Refuses a write that has an explicit rights/privacy denial. */
+export class RightsGuard implements PolicyProvider {
+  readonly providerId = "policy.rights-guard";
+
+  evaluate(proposal: PolicyProposal): PolicyDecision {
+    const approved = proposal.rightsApproved !== false;
+    return {
+      providerId: this.providerId,
+      kind: approved ? "ALLOW" : "HARD_DENY",
+      reason: approved
+        ? "no explicit rights/privacy denial"
+        : "rights/privacy policy denied the proposal",
+    };
+  }
+}
+
+/** Refuses a write when the caller declares evidence mandatory but supplies none. */
+export class EvidenceGuard implements PolicyProvider {
+  readonly providerId = "policy.evidence-guard";
+
+  evaluate(proposal: PolicyProposal): PolicyDecision {
+    const missing = proposal.evidenceRequired === true && proposal.evidencePresent !== true;
+    return {
+      providerId: this.providerId,
+      kind: missing ? "HARD_DENY" : "ALLOW",
+      reason: missing ? "mandatory evidence is missing" : "evidence requirement satisfied",
+    };
+  }
+}
+
+/** Refuses irreversible effects that bypass the durable outbox boundary. */
+export class ExternalEffectGuard implements PolicyProvider {
+  readonly providerId = "policy.external-effect-guard";
+
+  evaluate(proposal: PolicyProposal): PolicyDecision {
+    const bypass = proposal.externalEffect === true && proposal.externalEffectViaOutbox !== true;
+    return {
+      providerId: this.providerId,
+      kind: bypass ? "HARD_DENY" : "ALLOW",
+      reason: bypass
+        ? "irreversible external effect must be committed through the outbox boundary"
+        : "no external-effect boundary violation",
     };
   }
 }

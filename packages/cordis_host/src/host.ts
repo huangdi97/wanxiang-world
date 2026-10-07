@@ -11,7 +11,14 @@ import {
   RuntimeLockError,
   type RuntimeLockRef,
 } from "./lock";
-import { CrossWorldlineGuard, PolicyRegistry, UnversionedWriteGuard } from "./policy";
+import {
+  CrossWorldlineGuard,
+  EvidenceGuard,
+  ExternalEffectGuard,
+  PolicyRegistry,
+  RightsGuard,
+  UnversionedWriteGuard,
+} from "./policy";
 import { WorldScopeManager, type WorldlineRuntime } from "./scopes";
 import {
   assertProvidersMatchLock,
@@ -105,6 +112,9 @@ export function createHost(options: HostOptions): WanxiangHost {
   const policy = new PolicyRegistry();
   policy.register(new CrossWorldlineGuard());
   policy.register(new UnversionedWriteGuard());
+  policy.register(new RightsGuard());
+  policy.register(new EvidenceGuard());
+  policy.register(new ExternalEffectGuard());
   const factory: (worldlineId: string) => HistoryProvider =
     options.providerFactory ?? (() => new MemoryHistoryProvider());
   const authorityProviderVersion = options.authorityProviderVersion ?? AUTHORITY_PROVIDER_VERSION;

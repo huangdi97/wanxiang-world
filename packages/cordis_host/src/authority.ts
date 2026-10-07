@@ -21,6 +21,12 @@ export interface AuthorityGrant {
   readonly auditRef: string;
 }
 
+export interface AuthorityGrantAuditView {
+  readonly holderId: string;
+  readonly issuedAtMs: number;
+  readonly auditRef: string;
+}
+
 /**
  * Explicit authority bootstrap.
  *
@@ -75,6 +81,15 @@ export class CommitAuthority extends Service {
   /** Audit trail of every capability ever minted, including revoked holders. */
   grantAudit(): readonly AuthorityGrant[] {
     return [...this.grants];
+  }
+
+  /** Operator-safe audit view that never exposes the capability object itself. */
+  grantAuditView(): readonly AuthorityGrantAuditView[] {
+    return this.grants.map(({ capability, holderId, auditRef }) => ({
+      holderId,
+      issuedAtMs: capability.issuedAtMs,
+      auditRef,
+    }));
   }
 
   /** Report whether a value can actually write canonical history. */

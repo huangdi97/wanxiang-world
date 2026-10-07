@@ -8,7 +8,11 @@ export {
   type ContractScope,
   type ServiceContractRef,
 } from "./contracts";
-export { AuthorityError, CommitAuthority } from "./authority";
+export {
+  AuthorityError,
+  CommitAuthority,
+  type AuthorityGrantAuditView,
+} from "./authority";
 export type { IssuedCapability } from "./internal/capability-core";
 export {
   CommitDeniedError,
@@ -32,8 +36,11 @@ export {
 } from "./lock";
 export {
   CrossWorldlineGuard,
+  EvidenceGuard,
+  ExternalEffectGuard,
   PolicyError,
   PolicyRegistry,
+  RightsGuard,
   UnversionedWriteGuard,
   resolveDecisions,
   type DecisionKind,

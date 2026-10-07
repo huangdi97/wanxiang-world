@@ -24,6 +24,11 @@ export interface CommitRequest {
   readonly ruleId: string;
   readonly capability: unknown;
   readonly kind?: string;
+  readonly rightsApproved?: boolean;
+  readonly evidenceRequired?: boolean;
+  readonly evidencePresent?: boolean;
+  readonly externalEffect?: boolean;
+  readonly externalEffectViaOutbox?: boolean;
 }
 
 export interface CommitOutcome {
@@ -72,6 +77,11 @@ export function commitThroughAuthority(
     requestingWorldlineId: request.requestingWorldlineId,
     requestedBy: request.requestedBy,
     kind: request.kind ?? "actor-rule",
+    rightsApproved: request.rightsApproved,
+    evidenceRequired: request.evidenceRequired,
+    evidencePresent: request.evidencePresent,
+    externalEffect: request.externalEffect,
+    externalEffectViaOutbox: request.externalEffectViaOutbox,
   };
   const resolution = deps.policy.evaluate(proposal);
   if (resolution.resolution === "DENY") {
