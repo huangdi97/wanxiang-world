@@ -18,18 +18,25 @@ from wanxiang_domain.ids import ActorId, BranchId, CommandId, WorldInstanceId
 from wanxiang_runtime.state import state_to_primitive
 
 from wanxiang_application.gateway_contract import (
-    _OPERATION_SCOPE,
     AgentSessionIdentity,
     GatewayHistoryItem,
     GatewayObservation,
     GatewayProposal,
     GovernedOperationRequest,
     WorldSkill,
-    _parse_expiry,
 )
 from wanxiang_application.world_runtime import WorldRuntime
 
 _GatewayNow = Callable[[], datetime]
+
+_OPERATION_SCOPE = {
+    "observe": "world.observe",
+    "query_history": "world.history",
+    "query_branch_diff": "world.branch.diff",
+    "propose_action": "world.propose",
+    "request_fork": "world.fork",
+    "request_experiment": "world.experiment",
+}
 
 
 class WorldCapabilityGateway:
@@ -213,7 +220,7 @@ class WorldCapabilityGateway:
         raise PermissionDenied(f"session {session.audit_id} lacks capability scope {required!r}")
 
     def _refs(self, session: AgentSessionIdentity) -> tuple[WorldInstanceId, BranchId]:
-        if _parse_expiry(session.session_expiry) <= self._now().astimezone(UTC):
+        if session.expiry_utc() <= self._now().astimezone(UTC):
             raise PermissionDenied(f"session {session.audit_id} has expired")
         return WorldInstanceId(session.world_id), BranchId(session.branch_id)
 
