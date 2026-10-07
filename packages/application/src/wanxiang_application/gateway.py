@@ -7,14 +7,15 @@ remain owned by WorldRuntime -> CommitAuthority.
 
 from __future__ import annotations
 
-from collections.abc import Mapping
+from collections.abc import Callable, Mapping
 from dataclasses import dataclass
+from datetime import UTC, datetime
 from types import MappingProxyType
 from typing import Literal
 
 from wanxiang_domain.command import CommandEnvelope
 from wanxiang_domain.entity import FieldValue
-from wanxiang_domain.errors import ContractError, ValidationRejected
+from wanxiang_domain.errors import ContractError, PermissionDenied, ValidationRejected
 from wanxiang_domain.hierarchy import BranchRevision
 from wanxiang_domain.ids import ActorId, BranchId, CommandId, WorldInstanceId
 from wanxiang_runtime.state import state_to_primitive
@@ -22,6 +23,16 @@ from wanxiang_runtime.state import state_to_primitive
 from wanxiang_application.world_runtime import WorldRuntime
 
 GatewayOperation = Literal["fork_worldline", "request_experiment"]
+GatewayNow = Callable[[], datetime]
+
+_OPERATION_SCOPE = {
+    "observe": "world.observe",
+    "query_history": "world.history",
+    "query_branch_diff": "world.branch.diff",
+    "propose_action": "world.propose",
+    "request_fork": "world.fork",
+    "request_experiment": "world.experiment",
+}
 
 
 @dataclass(frozen=True, slots=True)
@@ -33,19 +44,66 @@ class AgentSessionIdentity:
     world_id: str
     branch_id: str
     audit_id: str
+    session_expiry: str
     actor_id: str = ""
     capability_scope: tuple[str, ...] = ()
     rights_scope: tuple[str, ...] = ()
     secret_scope: tuple[str, ...] = ()
 
     def __post_init__(self) -> None:
-        for name in ("principal_id", "role", "world_id", "branch_id", "audit_id"):
+        for name in (
+            "principal_id",
+            "role",
+            "world_id",
+            "branch_id",
+            "audit_id",
+            "session_expiry",
+        ):
             if not str(getattr(self, name)).strip():
                 raise ContractError(f"{name} must be non-empty")
         for name in ("capability_scope", "rights_scope", "secret_scope"):
             values = getattr(self, name)
             if len(set(values)) != len(values) or any(not value.strip() for value in values):
                 raise ContractError(f"{name} must contain unique non-empty values")
+        if not self.capability_scope:
+            raise ContractError("capability_scope must not be empty")
+        if not self.rights_scope:
+            raise ContractError("rights_scope must not be empty")
+        _parse_expiry(self.session_expiry)
+
+
+
+
+@dataclass(frozen=True, slots=True)
+class WorldSkill:
+    """Agent-facing use contract for one world session; never an authority token."""
+
+    world_id: str
+    branch_id: str
+    principal_id: str
+    role: str
+    allowed_operations: tuple[str, ...]
+    allowed_actions: tuple[str, ...]
+    rights_scope: tuple[str, ...]
+    actor_lease_present: bool
+    secret_scope_present: bool
+    approval_required: tuple[str, ...] = ("fork_worldline", "request_experiment")
+    error_codes: tuple[str, ...] = (
+        "contract_error",
+        "permission_denied",
+        "validation_rejected",
+    )
+
+
+def _parse_expiry(value: str) -> datetime:
+    normalized = value[:-1] + "+00:00" if value.endswith("Z") else value
+    try:
+        parsed = datetime.fromisoformat(normalized)
+    except ValueError as exc:
+        raise ContractError("session_expiry must be an ISO-8601 timestamp") from exc
+    if parsed.tzinfo is None:
+        raise ContractError("session_expiry must include a timezone")
+    return parsed.astimezone(UTC)
 
 
 @dataclass(frozen=True, slots=True)
@@ -100,10 +158,12 @@ class GovernedOperationRequest:
 class WorldCapabilityGateway:
     """Python SDK adapter for agent-native world access without direct commit."""
 
-    def __init__(self, runtime: WorldRuntime) -> None:
+    def __init__(self, runtime: WorldRuntime, *, now: GatewayNow | None = None) -> None:
         self._runtime = runtime
+        self._now = now or (lambda: datetime.now(UTC))
 
     def observe(self, session: AgentSessionIdentity) -> GatewayObservation:
+        self._require_operation(session, "observe")
         instance_id, branch_id = self._refs(session)
         state = self._runtime.current_state(instance_id, branch_id)
         return GatewayObservation(
@@ -122,6 +182,7 @@ class WorldCapabilityGateway:
         after_revision: int = 0,
         limit: int = 100,
     ) -> tuple[GatewayHistoryItem, ...]:
+        self._require_operation(session, "query_history")
         if after_revision < 0:
             raise ContractError("after_revision must be >= 0")
         if limit < 1 or limit > 500:
@@ -147,6 +208,7 @@ class WorldCapabilityGateway:
     def query_branch_diff(
         self, session: AgentSessionIdentity, other_branch_id: str
     ) -> dict[str, tuple[str, ...]]:
+        self._require_operation(session, "query_branch_diff")
         instance_id, branch_id = self._refs(session)
         other = BranchId(other_branch_id)
         diff = self._runtime.diff(instance_id, branch_id, other)
@@ -166,6 +228,7 @@ class WorldCapabilityGateway:
         action_type: str,
         payload: Mapping[str, FieldValue],
     ) -> GatewayProposal:
+        self._require_operation(session, "propose_action")
         instance_id, branch_id = self._refs(session)
         if not session.actor_id:
             raise ValidationRejected("an action proposal requires an actor lease")
@@ -192,6 +255,7 @@ class WorldCapabilityGateway:
     def request_fork(
         self, session: AgentSessionIdentity, *, at_revision: int | None = None
     ) -> GovernedOperationRequest:
+        self._require_operation(session, "request_fork")
         instance_id, branch_id = self._refs(session)
         if at_revision is not None and at_revision < 0:
             raise ContractError("at_revision must be >= 0")
@@ -214,6 +278,7 @@ class WorldCapabilityGateway:
         capability_id: str,
         parameters: Mapping[str, FieldValue],
     ) -> GovernedOperationRequest:
+        self._require_operation(session, "request_experiment", capability_id=capability_id)
         instance_id, branch_id = self._refs(session)
         if not capability_id.strip():
             raise ContractError("capability_id must be non-empty")
@@ -228,8 +293,48 @@ class WorldCapabilityGateway:
             parameters=payload,
         )
 
-    @staticmethod
-    def _refs(session: AgentSessionIdentity) -> tuple[WorldInstanceId, BranchId]:
+    def describe_skill(self, session: AgentSessionIdentity) -> WorldSkill:
+        """Describe the bounded interface this session may use."""
+        self._refs(session)
+        operations = tuple(
+            operation
+            for operation, scope in _OPERATION_SCOPE.items()
+            if scope in session.capability_scope
+        )
+        return WorldSkill(
+            world_id=session.world_id,
+            branch_id=session.branch_id,
+            principal_id=session.principal_id,
+            role=session.role,
+            allowed_operations=operations,
+            allowed_actions=self._runtime.action_types()
+            if "world.propose" in session.capability_scope
+            else (),
+            rights_scope=session.rights_scope,
+            actor_lease_present=bool(session.actor_id),
+            secret_scope_present=bool(session.secret_scope),
+        )
+
+    def _require_operation(
+        self,
+        session: AgentSessionIdentity,
+        operation: str,
+        *,
+        capability_id: str = "",
+    ) -> None:
+        self._refs(session)
+        required = _OPERATION_SCOPE[operation]
+        if required in session.capability_scope:
+            return
+        if operation == "request_experiment" and capability_id in session.capability_scope:
+            return
+        raise PermissionDenied(
+            f"session {session.audit_id} lacks capability scope {required!r}"
+        )
+
+    def _refs(self, session: AgentSessionIdentity) -> tuple[WorldInstanceId, BranchId]:
+        if _parse_expiry(session.session_expiry) <= self._now().astimezone(UTC):
+            raise PermissionDenied(f"session {session.audit_id} has expired")
         return WorldInstanceId(session.world_id), BranchId(session.branch_id)
 
 
@@ -240,4 +345,5 @@ __all__ = [
     "GatewayProposal",
     "GovernedOperationRequest",
     "WorldCapabilityGateway",
+    "WorldSkill",
 ]
