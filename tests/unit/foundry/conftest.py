@@ -125,7 +125,18 @@ def package_with_digest() -> Callable[[str], CapabilityPackage]:
             capability_id="cap.demo",
             version="1.0.0",
             artifact_digest=sha256_hex("artifact"),
+            source_artifacts=(
+                ArtifactRef(
+                    kind=ArtifactKind.PAPER,
+                    uri="paper:10.1000/example",
+                    digest=sha256_hex("artifact"),
+                    rights_basis="CC-BY-4.0",
+                ),
+            ),
             interface_digest=sha256_hex("interface"),
+            interface_inputs=("int",),
+            interface_outputs=("int",),
+            verification_case_ids=tuple(f"case-{kind.value}" for kind in CaseKind),
             provenance=(
                 ProvenanceRecord(
                     layer=ProvenanceLayer.SOURCE_METHOD,

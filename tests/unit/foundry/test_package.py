@@ -62,3 +62,38 @@ def test_package_rejects_empty_provenance(
 
     with pytest.raises(ArtifactError):
         replace(package, provenance=())
+
+
+def test_package_binds_sources_rights_interface_and_verification_cases(
+    package_with_digest: Callable[[str], CapabilityPackage],
+    full_pass_report: VerificationReport,
+) -> None:
+    package = package_with_digest(full_pass_report.evidence_digest)
+
+    assert package.source_artifacts[0].rights_basis == "CC-BY-4.0"
+    assert package.interface_inputs == ("int",)
+    assert package.interface_outputs == ("int",)
+    assert set(package.verification_case_ids) == {
+        "case-golden",
+        "case-negative",
+        "case-boundary",
+        "case-security",
+    }
+    payload = package._payload()
+    assert payload["source_artifacts"]
+    assert payload["interface"] == {"inputs": ["int"], "outputs": ["int"]}
+
+
+def test_package_refuses_a_source_without_rights(
+    package_with_digest: Callable[[str], CapabilityPackage],
+    full_pass_report: VerificationReport,
+) -> None:
+    package = package_with_digest(full_pass_report.evidence_digest)
+    bad_source = ArtifactRef(
+        kind=ArtifactKind.PAPER,
+        uri="paper:restricted",
+        digest=package.artifact_digest,
+        rights_basis="",
+    )
+    with pytest.raises(ArtifactError, match="rights basis"):
+        replace(package, source_artifacts=(bad_source,))

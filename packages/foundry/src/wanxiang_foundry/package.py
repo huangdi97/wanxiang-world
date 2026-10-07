@@ -15,6 +15,7 @@ from enum import StrEnum
 
 from wanxiang_execution import ExecutionClass
 
+from wanxiang_foundry.candidate import ArtifactRef
 from wanxiang_foundry.digest import canonical_sha256, is_hex_digest
 from wanxiang_foundry.errors import ArtifactError
 from wanxiang_foundry.levels import KnowledgeLevel, PromotionLevel
@@ -124,8 +125,11 @@ class CapabilityPackage:
     Attributes:
         capability_id: Non-empty capability id.
         version: Non-empty version string.
-        artifact_digest: sha256 hex digest of the source artifact.
+        artifact_digest: sha256 hex digest of the primary source artifact.
+        source_artifacts: Captured source bindings including URI, digest and rights basis.
         interface_digest: sha256 hex digest of the declared interface.
+        interface_inputs/interface_outputs: Human-readable interface declarations.
+        verification_case_ids: The exact cases whose report admitted this package.
         provenance: Non-empty tuple of provenance records.
         validity: Declared input domain and limits.
         runtime: Execution requirement.
@@ -138,7 +142,11 @@ class CapabilityPackage:
     capability_id: str
     version: str
     artifact_digest: str
+    source_artifacts: tuple[ArtifactRef, ...]
     interface_digest: str
+    interface_inputs: tuple[str, ...]
+    interface_outputs: tuple[str, ...]
+    verification_case_ids: tuple[str, ...]
     provenance: tuple[ProvenanceRecord, ...]
     validity: Validity
     runtime: RuntimeRequirement
@@ -160,6 +168,21 @@ class CapabilityPackage:
                 raise ArtifactError(
                     f"{name} must be a 64-char lowercase hex sha256: got {digest!r}"
                 )
+        if not self.source_artifacts:
+            raise ArtifactError("a package must carry at least one source artifact")
+        if self.artifact_digest not in {artifact.digest for artifact in self.source_artifacts}:
+            raise ArtifactError("primary artifact_digest must match a source artifact")
+        if any(not artifact.rights_basis.strip() for artifact in self.source_artifacts):
+            raise ArtifactError("every source artifact must carry a declared rights basis")
+        for name, values in (
+            ("interface_inputs", self.interface_inputs),
+            ("interface_outputs", self.interface_outputs),
+            ("verification_case_ids", self.verification_case_ids),
+        ):
+            if not values or any(not value.strip() for value in values):
+                raise ArtifactError(f"{name} must contain non-empty values")
+            if len(set(values)) != len(values):
+                raise ArtifactError(f"{name} must not contain duplicates")
         if not self.provenance:
             raise ArtifactError("a package must carry at least one provenance record")
 
@@ -173,7 +196,23 @@ class CapabilityPackage:
             "capability_id": self.capability_id,
             "version": self.version,
             "artifact_digest": self.artifact_digest,
+            "source_artifacts": [
+                {
+                    "kind": artifact.kind.value,
+                    "uri": artifact.uri,
+                    "digest": artifact.digest,
+                    "rights_basis": artifact.rights_basis,
+                }
+                for artifact in sorted(
+                    self.source_artifacts, key=lambda item: (item.kind.value, item.uri, item.digest)
+                )
+            ],
             "interface_digest": self.interface_digest,
+            "interface": {
+                "inputs": list(self.interface_inputs),
+                "outputs": list(self.interface_outputs),
+            },
+            "verification_case_ids": list(self.verification_case_ids),
             "provenance_digest": provenance_digest(self.provenance),
             "provenance": [
                 {

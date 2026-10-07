@@ -433,7 +433,11 @@ def test_science_capability_real_artifact_verifies_executes_then_requires_author
         capability_id=candidate.capability_id,
         version=candidate.proposed_version,
         artifact_digest=artifact.digest,
+        source_artifacts=(artifact,),
         interface_digest=canonical_sha256(dict(candidate.proposed_interface)),
+        interface_inputs=("non-negative integer",),
+        interface_outputs=("doubled integer",),
+        verification_case_ids=tuple(case.case_id for case in cases),
         provenance=provenance,
         validity=Validity(
             supported_inputs=("non-negative integer",),
