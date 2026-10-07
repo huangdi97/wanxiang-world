@@ -37,8 +37,7 @@ def _run_sdk(harness: object, prompt: str, *, session_id: str) -> object:
     run = getattr(harness, "run", None)
     if not callable(run):
         raise HarnessUnavailable("official DeepSeek Harness SDK has no callable run method")
-    invoke = cast("Callable[..., object]", run)
-    return invoke(prompt, session_id=session_id)
+    return run(prompt, session_id=session_id)
 
 
 def _close_sdk(harness: object) -> None:
@@ -82,7 +81,7 @@ def _load_factory() -> _HarnessFactory:
     factory = getattr(module, "DeepSeekHarness", None)
     if factory is None or not callable(factory):
         raise HarnessUnavailable("deepseek_harness.DeepSeekHarness is unavailable")
-    return cast(_HarnessFactory, factory)
+    return factory
 
 
 def _sdk_version() -> str:
