@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pytest
 from wanxiang_substrate.capability.runtime_control import (
     RuntimeControlLedger,
     RuntimeControlTransaction,
@@ -73,3 +74,17 @@ def test_runtime_control_is_not_a_world_commit_surface() -> None:
     ledger = RuntimeControlLedger()
     assert not hasattr(ledger, "commit")
     assert not hasattr(ledger, "append_world_event")
+
+
+def test_runtime_control_rejects_secret_bearing_parameters() -> None:
+    with pytest.raises(ValueError, match="secret-bearing"):
+        RuntimeControlTransaction(
+            transaction_id="tx-secret",
+            operation="activate",
+            provider_id="provider.model",
+            capability_name="model",
+            version="1.0.0",
+            rationale="qualification",
+            created_at="2026-10-07T00:00:00Z",
+            parameters=(("api_key", "must-not-land-in-ledger"),),
+        )

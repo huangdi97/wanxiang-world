@@ -41,7 +41,8 @@ def test_unauthorized_read_is_filtered_and_authorized_read_returns_refs_only() -
     ledger = ActorTrajectoryLedger()
     ledger.record(_record())
 
-    assert ledger.read("actor-1", requester_scopes=("trajectory.read",)) == ()
+    with pytest.raises(PermissionError, match="rights scope"):
+        ledger.read("actor-1", requester_scopes=("trajectory.read",))
     visible = ledger.read("actor-1", requester_scopes=("trajectory.read.private",))
     assert visible[0].memory_refs == ("memory:private:1",)
     assert not hasattr(visible[0], "prompt")

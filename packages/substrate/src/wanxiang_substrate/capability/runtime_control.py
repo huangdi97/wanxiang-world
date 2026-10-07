@@ -73,6 +73,9 @@ class RuntimeControlTransaction:
         keys = [key for key, _value in self.parameters]
         if len(set(keys)) != len(keys) or any(not key for key in keys):
             raise ValueError("parameters must have unique non-empty keys")
+        sensitive_terms = ("secret", "token", "password", "api_key", "private_key")
+        if any(any(term in key.lower() for term in sensitive_terms) for key in keys):
+            raise ValueError("runtime control parameters must not contain secret-bearing keys")
         usage_keys = [key for key, _value in self.usage]
         if len(set(usage_keys)) != len(usage_keys) or any(not key for key in usage_keys):
             raise ValueError("usage must have unique non-empty keys")
