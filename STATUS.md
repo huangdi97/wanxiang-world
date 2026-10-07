@@ -1,6 +1,31 @@
 # Status ? Wanxiang Engineering Program
 
-Updated: 2026-09-26 (Phase A v5.5 Gate 79 PASS; Phase B R7 lock/bridge/execution/migration/harness/foundry slice, CI green at `526b49b`, foundry + host harness path on top)
+Updated: 2026-10-07 (R7 locally executable design complete; overall WAITING_HUMAN)
+
+## R7 current closure — locally executable design complete (2026-10-07)
+
+Branch `feature/r7-cordis-native`; qualification anchor
+`f7b719df2ccdd906bf2c0f9c3474b1cbe219bbbf`.
+
+R7 Phase B has implemented and validated every locally executable item in the
+R7 Goal: direct Cordis composition, versioned service seams, persisted
+RuntimeLock + fail-closed worldline open, history/replay/branch/lineage,
+write-surface/CommitAuthority hardening, Execution Fabric + real cross-process
+outbox/reconciliation reference path, official-DSH adapter plus reference
+harness bridge, Capability Foundry, RealityProfile migration, World Capability
+Gateway, Experience/Projection/Distribution contracts, four reference worlds,
+ops/readiness projections, and exact-SHA full clean-clone qualification.
+
+CI run `37582984372` and R7 qualification run `37582984421` are green at the
+anchor. Main Python suite: `1749 passed, 1 skipped`; live PostgreSQL profile:
+`4 passed`; Cordis host: 74 tests; SDK TS: 22 tests; exact-SHA qualification:
+19/19 PASS with 0 failed/0 skipped.
+
+Overall program decision remains `WAITING_HUMAN`: v5.5 Gates 62–66 require a
+genuine tester. Godot/real-engine and live model-backed official DSH remain
+external qualification rows. No v5.5 Stable tag or v5.6 release was created.
+
+Authoritative R7 closure: `reports/r7/15_R7_FINAL_CLOSURE_REPORT.md`.
 
 ## v5.5 Stable Certification ? M95-R and Gate 79 closure (2026-09-25)
 
