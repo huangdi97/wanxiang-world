@@ -141,7 +141,6 @@ class RuntimeProfile:
         )
 
 
-from wanxiang_substrate.playable.projection import ProjectionProfile
 @dataclass(frozen=True, slots=True)
 class PlayableWorldProfile:
     """The immutable product entry descriptor for one world experience."""
