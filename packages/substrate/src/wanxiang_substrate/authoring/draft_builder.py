@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import replace
+import json
 from typing import cast
 
 from wanxiang_substrate.authoring.fusion import FusionResult, fuse_candidates
@@ -150,6 +151,23 @@ def build_pipeline_build(
             "segments": str(len(segments)),
             "batches": str(distillation.batch_count),
             "provider_id": distillation.provider_id,
+            "scene_evidence_v1": json.dumps(
+                [
+                    {
+                        "candidate_id": candidate.candidate_id,
+                        "name": field(candidate, "name"),
+                        "source_refs": list(candidate.source_refs),
+                        "confidence": candidate.confidence,
+                        "place_role": field(candidate, "place_role"),
+                        "subject_xref": field(candidate, "subject_xref"),
+                    }
+                    for candidate in fusion.candidates
+                    if candidate.kind == "place" and field(candidate, "name")
+                ],
+                ensure_ascii=False,
+                sort_keys=True,
+                separators=(",", ":"),
+            ),
             "gedcom_version": next(
                 (
                     item.partition(":")[2]
