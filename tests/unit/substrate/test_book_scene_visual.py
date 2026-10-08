@@ -136,6 +136,14 @@ def test_network_and_cost_are_denied_until_explicitly_authorized() -> None:
         _render_visual_plan(plan, provider=provider)
     with pytest.raises(ValueError, match="exceeds budget"):
         _render_visual_plan(plan, provider=provider, allow_network=True, max_cost_units=1)
+    with pytest.raises(ValueError, match="private-safe"):
+        _render_visual_plan(
+            plan,
+            provider=provider,
+            allow_network=True,
+            max_cost_units=2,
+            private_source=True,
+        )
 
     rendered = _render_visual_plan(
         plan,
