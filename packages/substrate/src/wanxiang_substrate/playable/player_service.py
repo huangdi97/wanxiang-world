@@ -37,7 +37,7 @@ def player_world(
         service.packages.get(profile_id),
         locale=locale,
         include_visual=include_visual,
-        visual_assets=service.visual_assets(profile_id),
+        visual_assets=service.visual_assets(profile_id, viewer_id=viewer_id),
     )
 
 
@@ -82,7 +82,7 @@ def player_observe(
         diff=diff,
         locale=locale,
         events_since_revision=effective_events_since_revision,
-        visual_assets=service.visual_assets(record.profile_id),
+        visual_assets=service.visual_assets(record.profile_id, viewer_id=viewer_id),
     )
     view["session"] = _session_summary(record, view, events, actor_starting_location)
     return view
