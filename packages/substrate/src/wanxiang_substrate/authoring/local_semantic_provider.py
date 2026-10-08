@@ -13,7 +13,7 @@ from wanxiang_substrate.sources.errors import SemanticProviderSchemaError
 _CHINESE = r"\u4e00-\u9fff"
 _CUE = r"说|道|问|答|称|表示|指出|认为|告诉|回忆|喊|叫道|开口"
 _TITLE = r"同志|先生|女士|书记|局长|主任|市长|县长|部长|厅长|科长|处长|校长|老师"
-_PLACE_SUFFIX = r"省|市|县|区|镇|乡|村|路|街|院|厂|公司|学校|大学|医院|站|馆|楼|山|河|桥|城"
+_PLACE_SUFFIX = r"省|市|县|区|镇|乡|村|路|街|巷|院|厂|公司|学校|大学|医院|站|馆|楼|山|河|桥|城|宫|府|寺|塔|谷|岛|港|湖|园|殿|门|亭|洞|关|寨|庄|阁|堂"
 _EVENT_CUES = (
     "到达",
     "离开",
@@ -159,6 +159,19 @@ class LocalSemanticProvider:
             )
         for place in places:
             proposals.append(self._proposal("place", {"name": place}, locator, 0.66))
+        for source_place, target_place, relation_type in self._place_relations(text):
+            proposals.append(
+                self._proposal(
+                    "place_relation",
+                    {
+                        "source_place": source_place,
+                        "target_place": target_place,
+                        "relation_type": relation_type,
+                    },
+                    locator,
+                    0.72,
+                )
+            )
         for organization in self._organizations(text):
             proposals.append(self._proposal("organization", {"name": organization}, locator, 0.64))
         event_date = self._date(text)
@@ -229,6 +242,31 @@ class LocalSemanticProvider:
             )
         )
         return tuple(dict.fromkeys(_clean(place, 48) for place in found if _clean(place, 48)))
+
+    def _place_relations(self, text: str) -> tuple[tuple[str, str, str], ...]:
+        place = rf"([{_CHINESE}]{{2,20}}?(?:{_PLACE_SUFFIX}))"
+        found: list[tuple[str, str, str]] = []
+        patterns = (
+            (rf"从\s*{place}\s*(?:到|至|前往)\s*{place}", "route"),
+            (rf"{place}\s*(?:通往|通向|连接)\s*{place}", "connected"),
+            (rf"{place}\s*(?:毗邻|邻近)\s*{place}", "adjacent"),
+            (rf"{place}\s*位于\s*{place}", "located_in"),
+        )
+        for pattern, relation_type in patterns:
+            for match in re.finditer(pattern, text):
+                source_place = _clean(match.group(1), 48)
+                target_place = _clean(match.group(2), 48)
+                if source_place and target_place and source_place != target_place:
+                    found.append((source_place, target_place, relation_type))
+        for match in re.finditer(
+            r"\bfrom\s+([A-Z][A-Za-z ]{1,32}?)\s+to\s+([A-Z][A-Za-z ]{1,32}?)(?=[,.;]|\s+(?:and|then)\b|$)",
+            text,
+        ):
+            source_place = _clean(match.group(1), 48)
+            target_place = _clean(match.group(2), 48)
+            if source_place and target_place and source_place != target_place:
+                found.append((source_place, target_place, "route"))
+        return tuple(dict.fromkeys(found))
 
     def _organizations(self, text: str) -> tuple[str, ...]:
         pattern = rf"([{_CHINESE}]{{2,20}}?(?:公司|集团|委员会|政府|法院|公安局|银行|部门|机关))"
