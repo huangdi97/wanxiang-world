@@ -54,11 +54,8 @@ def _local_shell_image(tmp_path: Path) -> str:
 
     root = tmp_path / "rootfs"
     root.mkdir()
-    shell = Path("/bin/sh").resolve()
+    shell = Path("/bin/sh")
     _copy_with_parents(shell, root)
-    # Preserve /bin/sh path expected inside the container.
-    (root / "bin").mkdir(exist_ok=True)
-    shutil.copy2(shell, root / "bin" / "sh")
 
     ldd = subprocess.run(
         ["ldd", str(shell)],
@@ -71,7 +68,7 @@ def _local_shell_image(tmp_path: Path) -> str:
     for line in ldd.stdout.splitlines():
         for token in line.replace("=>", " ").split():
             if token.startswith("/") and Path(token).exists():
-                libraries.add(Path(token).resolve())
+                libraries.add(Path(token))
     if not libraries:
         pytest.fail("could not discover /bin/sh runtime libraries")
     for library in sorted(libraries):
@@ -113,7 +110,12 @@ def test_container_provider_enforces_no_network_read_only_root_and_proposal_only
             execution_id="r7_container_live",
             capability_id="cap.r7.container-probe",
             capability_version="1.0.0",
-            command=("/bin/sh", "-c", "printf 'container-ok'; touch /workspace/ok"),
+            command=(
+                "/bin/sh",
+                "-c",
+                "if touch /forbidden 2>/dev/null; then exit 9; fi; "
+                "touch /workspace/ok; printf 'container-ok'",
+            ),
             input_refs=(),
             policy=policy,
             environment={"R7_CONTAINER_PROBE": "1"},
