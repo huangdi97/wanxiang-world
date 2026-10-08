@@ -93,7 +93,12 @@
 - 推送：`git push origin feature/r7-cordis-native`（非 force），远端 SHA == 推送后本地 SHA。
 - CI：等待该 SHA 的 `ci` 与 `r7-qualification` 完成后记录结论。
 - PR：本分支无现存 PR → 创建 PR（base 按仓库默认，链接见「交付记录」）。
+## 交付记录（Phase F/G 实时更新）
 
+- 验证基线：`9c71a5c29624b44497ab989af3948f8bf41a765a`（远端与本地一致）
+- 交付 commits：`05a205f`（账本/组合图刷新）、`03f2c1f`（M95 验证证据与截图）、`405370a`（本报告）
+- 工作树最终状态：仅用户放置的接续文档 `WANXIANG_R7_NEW_CONVERSATION_HANDOFF_2026-10-08.md` 保持未跟踪保留
+- 推送 SHA / CI 结论 / PR 链接：见本报告提交后的更新记录
 ## Phase G — 最终交付与剩余阻塞项
 
 交付物（均已入库）：
