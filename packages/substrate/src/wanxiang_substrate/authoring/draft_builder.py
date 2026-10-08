@@ -165,6 +165,38 @@ def build_pipeline_build(
                         "confidence": candidate.confidence,
                         "place_role": field(candidate, "place_role"),
                         "subject_xref": field(candidate, "subject_xref"),
+                        "cooccurring_candidates": [
+                            {
+                                "candidate_id": other.candidate_id,
+                                "kind": other.kind,
+                                "label": field(
+                                    other,
+                                    "display_name",
+                                    "name",
+                                    "event_type",
+                                    "statement",
+                                ),
+                                "confidence": other.confidence,
+                            }
+                            for other in fusion.candidates
+                            if other.candidate_id != candidate.candidate_id
+                            and set(other.source_refs).intersection(candidate.source_refs)
+                            and other.kind
+                            in {
+                                "identity",
+                                "character",
+                                "organization",
+                                "object",
+                                "event",
+                            }
+                            and field(
+                                other,
+                                "display_name",
+                                "name",
+                                "event_type",
+                                "statement",
+                            )
+                        ][:16],
                     }
                     for candidate in fusion.candidates
                     if candidate.kind == "place" and field(candidate, "name")
