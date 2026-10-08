@@ -104,6 +104,7 @@ class OneClickAuthoring:
                 visual_plan,
                 cache=self.visual_cache,
                 private_source=any(source.access != "public" for source in sources),
+                rights=visual_plan.delivery_rights,
             )
             if visual_plan is not None
             else None
