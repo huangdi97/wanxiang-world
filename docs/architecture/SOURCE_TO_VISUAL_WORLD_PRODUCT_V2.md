@@ -233,3 +233,95 @@ Not yet externally proven:
 - human cross-book visual acceptance
 
 These gaps are not a reason to return to bespoke per-world coding.
+
+
+## 13. October 2026 provider research and product placement
+
+This section records external capability research; these providers are optional adapters, not dependencies of Wanxiang truth.
+
+### World Labs Marble / World API — T3 persistent spatial asset candidate
+
+Official World Labs material describes the World API as a public API for generating explorable 3D worlds from text, images, panoramas, multi-view inputs and video. Resulting worlds can render on the web and export into downstream tools. For Wanxiang this maps cleanly to a high-value-location **persistent spatial asset provider**: generate once under rights/budget policy, store/export the result, bind its manifest to source/world revision, then reuse it. It must not become Commit Authority.
+
+Reference: https://www.worldlabs.ai/blog/announcing-the-world-api
+
+### Tencent HunyuanWorld 2.0 — T3 persistent 3D / reconstruction candidate
+
+Tencent's official HunyuanWorld site describes text/image/video inputs, navigable persistent 3D worlds, 3DGS/Mesh outputs, free walking/physical collision and engine integration. This also belongs at T3: selected locations can be upgraded from T1/T2 visual scenes to persistent 3D assets without changing Source -> World semantics.
+
+Reference: https://3d-models.hunyuan.tencent.com/world/
+
+### Google DeepMind Genie 3 / Project Genie — T4 live generative projection
+
+DeepMind's official Genie material describes real-time interactive generated worlds at roughly 20-24 FPS / 720p, with consistency over minutes rather than indefinite world persistence. It also lists limited action space and multi-agent interaction as open limitations. Therefore Genie-like systems are **not** the default Wanxiang world substrate. They fit T4 as an optional sensory/live projection whose events must reconcile back through Wanxiang authority.
+
+Reference: https://deepmind.google/models/genie/
+
+### Selection rule
+
+Default consumer flow remains T0 -> T1, with T2/T3 on demand. T4 is opt-in research/premium projection. A stronger provider never changes Canon/History ownership.
+
+## 14. Source-grounded visual atlas
+
+The first atlas version has two modes:
+
+- **Gallery mode (default):** every source-attested place may have a visual scene, but no spatial relation is implied.
+- **Evidence-link mode:** only explicit source candidates such as "从 A 到 B", "A 通往 B", adjacency or containment become place links.
+
+Wanxiang must never draw edges because two places happened to appear in adjacent chapters or because the visual model placed them near each other. Local semantic extraction now emits explicit `place_relation` candidates for narrow source patterns, and the draft preserves them in `scene_topology_evidence_v1`. The Player receives these as a relation strip; a future graph layout may place the nodes visually, but graph geometry remains presentation, not geography.
+
+## 15. Rights and privacy are independent gates
+
+Source rights now distinguish:
+
+- ingest
+- private analysis
+- external model processing
+- package inclusion
+- public export
+- training
+
+A remote visual provider requires all of:
+1. caller explicitly allows network,
+2. source explicitly allows external model processing,
+3. provider is private-safe when the source is private/restricted,
+4. generation stays within the declared cost budget.
+
+Generated asset delivery rights derive from source policy. A private/source-gated book cannot become a public visual asset just because generation succeeded.
+
+## 16. One-click product experience
+
+The browser Studio flow is now:
+
+~~~text
+upload/paste book
+ -> local/private-safe semantic provider by default in Studio
+ -> OneClick WorldPackage + VisualPlan
+ -> generate/cache T0 preview assets
+ -> browser workflow calls the existing playable-profile API
+ -> create a private Studio preview profile
+ -> profile id is populated automatically
+ -> player can open the generated world
+~~~
+
+The core `/studio/one-click` API intentionally remains authoring-only so API clients can review/customize immutable profile metadata before registration. UI convenience must not collapse the authoring/publication boundary.
+
+## 17. Implementation delta after V2 draft
+
+Additional implemented work:
+- shared application visual cache between OneClick and PlayableService
+- generation only on cache miss; refresh/replay/read do not trigger a provider call
+- source-content fingerprint allows identical source content to reuse scene assets across different job/source ids
+- content digest is verified before storage
+- delivery-rights metadata is carried into AssetRef
+- private-source provider safety and external-processing rights are enforced in code
+- entry-location vs canonical-location vs world-preview grounding is explicit in Player
+- source-grounded place topology candidates and Player relation strip
+- Chinese private-safe semantic-to-visual integration coverage
+- Studio browser automatically creates a private playable preview while core API remains composable
+
+Still requiring external/runtime evidence before any stronger claim:
+- an authorized real remote T1 image provider run
+- an authorized real T3 world-generation provider run
+- long-book quality evaluation on rights-safe corpora
+- human cross-book visual/immersion acceptance
