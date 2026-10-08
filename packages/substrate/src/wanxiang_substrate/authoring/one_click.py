@@ -39,6 +39,7 @@ class OneClickResult:
     orchestration: OrchestrationRun | None = None
     visual_plan: _SourceVisualPlan | None = None
     visual_assets: tuple[_SceneVisualAsset, ...] = ()
+    stored_visual_assets: tuple[_StoredSceneVisual, ...] = ()
     visual_asset_refs: tuple[AssetRef, ...] = ()
     visual_provider_calls: int = 0
     visual_cache_hits: int = 0
@@ -56,6 +57,7 @@ class OneClickAuthoring:
     ) -> None:
         self.service = service or AuthoringService()
         self.orchestrator = AuthoringOrchestrator(providers=self.service.providers)
+        self._visual_cache = _SceneVisualCache()
         self.visual_cache = visual_cache or _VisualAssetCache()
 
     def run(
