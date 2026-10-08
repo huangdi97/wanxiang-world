@@ -4,6 +4,8 @@ This route is intentionally separate from R7 and the v5.5 stable experience.
 The Babylon dependency is version-pinned CDN for prototype only, not production.
 """
 
+# ruff: noqa: E501  # Inline HTML/CSS/JS resource (same pattern as Player UI assets).
+
 IMMERSIVE_PLAYER_HTML = r"""<!doctype html>
 <html lang="zh-CN">
 <head>
