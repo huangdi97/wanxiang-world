@@ -15,7 +15,7 @@ from wanxiang_substrate.compile.assembler import WorldPackageDraft
 
 
 @dataclass(frozen=True, slots=True)
-class SourceSceneRequest:
+class _SourceSceneRequest:
     """A book-derived visual candidate request, not a canonical scene."""
 
     place_name: str
@@ -25,13 +25,13 @@ class SourceSceneRequest:
 
 
 @dataclass(frozen=True, slots=True)
-class SourceVisualPlan:
+class _SourceVisualPlan:
     """Explicit budget/rights result for the generic book-to-visual pipeline."""
 
     package_id: str
     source_digest: str
     status: str
-    scene_requests: tuple[SourceSceneRequest, ...]
+    scene_requests: tuple[_SourceSceneRequest, ...]
     deferred_scene_count: int
 
     @property
@@ -40,9 +40,9 @@ class SourceVisualPlan:
         return 0
 
 
-def plan_book_scene_assets(
+def _plan_book_scene_assets(
     package: WorldPackageDraft, *, max_preview_scenes: int = 3
-) -> SourceVisualPlan:
+) -> _SourceVisualPlan:
     """Select a small reusable, source-pinned scene set for any book package.
 
     Places are declared source-derived *names*, not inferred spatial coordinates.
@@ -68,17 +68,17 @@ def plan_book_scene_assets(
     source_digest = hashlib.sha256(source_identity.encode("utf-8")).hexdigest()
 
     if not package.rights_ok:
-        return SourceVisualPlan(package.package_id, source_digest, "RIGHTS_BLOCKED", (), 0)
+        return _SourceVisualPlan(package.package_id, source_digest, "RIGHTS_BLOCKED", (), 0)
     if not package.source_versions:
-        return SourceVisualPlan(package.package_id, source_digest, "SOURCE_PINS_MISSING", (), 0)
+        return _SourceVisualPlan(package.package_id, source_digest, "SOURCE_PINS_MISSING", (), 0)
 
     # No invented map nodes: a sparse or unrecognized book stays honestly sparse.
     distinct_places = tuple(dict.fromkeys(p.strip() for p in package.draft.places if p.strip()))
     if not distinct_places:
-        return SourceVisualPlan(package.package_id, source_digest, "PLACES_NOT_EXTRACTED", (), 0)
+        return _SourceVisualPlan(package.package_id, source_digest, "PLACES_NOT_EXTRACTED", (), 0)
 
     selected = distinct_places[:max_preview_scenes]
-    requests: list[SourceSceneRequest] = []
+    requests: list[_SourceSceneRequest] = []
     for place in selected:
         stable_key = hashlib.sha256(
             json.dumps((source_digest, place), ensure_ascii=False).encode("utf-8")
@@ -97,7 +97,7 @@ def plan_book_scene_assets(
             ),
         )
         requests.append(
-            SourceSceneRequest(
+            _SourceSceneRequest(
                 place_name=place,
                 stable_key=stable_key,
                 spec=spec,
@@ -107,7 +107,7 @@ def plan_book_scene_assets(
             )
         )
     status = "READY_FOR_ASSET_PROVIDER" if requests else "BUDGET_ZERO"
-    return SourceVisualPlan(
+    return _SourceVisualPlan(
         package_id=package.package_id,
         source_digest=source_digest,
         status=status,
