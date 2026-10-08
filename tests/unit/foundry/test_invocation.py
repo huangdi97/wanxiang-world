@@ -8,7 +8,6 @@ from dataclasses import replace
 from pathlib import Path
 
 import pytest
-
 from wanxiang_execution import ExecutionClass, ExecutionPolicy
 from wanxiang_foundry.errors import InvocationError
 from wanxiang_foundry.invocation import CapabilityRequest, invoke
