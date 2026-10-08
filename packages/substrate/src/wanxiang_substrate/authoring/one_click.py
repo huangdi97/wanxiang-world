@@ -12,6 +12,7 @@ from wanxiang_substrate.authoring.orchestrator import (
     ProviderRequest,
 )
 from wanxiang_substrate.authoring.service import AuthoringService
+from wanxiang_substrate.assets.book_scene_plan import SourceVisualPlan, plan_book_scene_assets
 from wanxiang_substrate.compile import PackageValidationResult
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.preview import PreviewInstall, PreviewWorld, instantiate_preview
@@ -28,6 +29,7 @@ class OneClickResult:
     package: WorldPackageDraft
     preview: PreviewInstall
     orchestration: OrchestrationRun | None = None
+    visual_plan: SourceVisualPlan | None = None
 
 
 class OneClickAuthoring:
@@ -77,7 +79,8 @@ class OneClickAuthoring:
         if package is None:
             raise ContractError(f"one-click job {job_id!r} did not produce a package")
         preview = self.service.preview(job_id)
-        return OneClickResult(job_id, profile, package, preview, orchestration)
+        visual_plan = plan_book_scene_assets(package) if profile == "book" else None
+        return OneClickResult(job_id, profile, package, preview, orchestration, visual_plan)
 
     def enter_living_instance(
         self, result: OneClickResult, runtime: PreviewRuntimePort
