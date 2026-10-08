@@ -82,7 +82,7 @@ def _plan_book_scene_assets(
 
     selected = distinct_places[:max_preview_scenes]
     style_key = hashlib.sha256(
-        f"{source_digest}:story-visual-profile:v1".encode("utf-8")
+        f"{source_digest}:story-visual-profile:v1".encode()
     ).hexdigest()[:24]
     raw_evidence = package.draft.compiler_metadata.get("scene_evidence_v1", "[]")
     try:
