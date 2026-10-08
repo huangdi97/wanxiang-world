@@ -1,5 +1,7 @@
 """Source-agnostic, no-cost scene planning; no real visuals claimed."""
 
+import json
+
 import pytest
 from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
@@ -13,6 +15,7 @@ def package_from_book(
     *,
     rights_ok: bool = True,
     source_pinned: bool = True,
+    compiler_metadata: dict[str, str] | None = None,
 ) -> WorldPackageDraft:
     draft = WorldDraft(
         draft_id=book,
@@ -20,6 +23,7 @@ def package_from_book(
         status="CREATED",
         places=places,
         entities=(("person-a", "甲"),),
+        compiler_metadata=compiler_metadata or {},
     )
     manifest = PackageManifest(
         package_id=f"world:{book}",
@@ -83,3 +87,44 @@ def test_plan_is_content_addressed_and_avoids_duplicate_place_spend() -> None:
     assert len({item.cache_key for item in first.scene_requests}) == 2
     with pytest.raises(ValueError):
         _plan_book_scene_assets(package, max_preview_scenes=13)
+
+
+def test_long_book_preview_ranks_places_by_evidence_coverage_not_name_order() -> None:
+    evidence = [
+        {
+            "candidate_id": "place-garden",
+            "name": "园林",
+            "source_refs": ["book#chapter-1"],
+            "confidence": 0.7,
+            "cooccurring_candidates": [],
+        },
+        {
+            "candidate_id": "place-gate",
+            "name": "城门",
+            "source_refs": [
+                "book#chapter-2",
+                "book#chapter-8",
+                "book#chapter-19",
+            ],
+            "confidence": 0.65,
+            "cooccurring_candidates": [{"kind": "character", "label": "守门人"}],
+        },
+        {
+            "candidate_id": "place-study",
+            "name": "书房",
+            "source_refs": ["book#chapter-3", "book#chapter-9"],
+            "confidence": 0.8,
+            "cooccurring_candidates": [],
+        },
+    ]
+    package = package_from_book(
+        "long-book",
+        ("园林", "书房", "城门", "码头"),
+        compiler_metadata={
+            "scene_evidence_v1": json.dumps(evidence, ensure_ascii=False),
+        },
+    )
+    plan = _plan_book_scene_assets(package, max_preview_scenes=2)
+
+    assert [scene.place_name for scene in plan.scene_requests] == ["城门", "书房"]
+    assert plan.deferred_scene_count == 2
