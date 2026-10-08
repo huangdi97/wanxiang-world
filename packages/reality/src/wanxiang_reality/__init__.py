@@ -1,5 +1,12 @@
 """Wanxiang R7 versioned reality semantics: contracts, profiles, runtime lock."""
 
+from wanxiang_reality.bundles import (
+    BundlePatch,
+    ResolvedBundleStack,
+    RuntimeArtifact,
+    WorldBundle,
+    resolve_bundle_stack,
+)
 from wanxiang_reality.contracts import (
     SERVICE_CONTRACTS,
     ServiceContract,
@@ -83,6 +90,7 @@ __all__ = [
     "SERVICE_CONTRACTS",
     "WORLDLINE_OPEN_SCHEMA",
     "Approval",
+    "BundlePatch",
     "ContractError",
     "DriftReport",
     "FileLockStore",
@@ -106,6 +114,8 @@ __all__ = [
     "ProfilePin",
     "RealityProfile",
     "RealityProfileRegistry",
+    "ResolvedBundleStack",
+    "RuntimeArtifact",
     "ReplayOutcome",
     "RpcError",
     "RuntimeFacts",
@@ -116,6 +126,7 @@ __all__ = [
     "Version",
     "VersionError",
     "WanxiangRealityError",
+    "WorldBundle",
     "WorldProfile",
     "WorldlineLockIdentity",
     "WorldlineOpenError",
@@ -136,6 +147,7 @@ __all__ = [
     "reference_reality_profile",
     "reference_schema_versions",
     "reference_world_profile",
+    "resolve_bundle_stack",
     "seam_digest",
     "serve_stdio",
 ]

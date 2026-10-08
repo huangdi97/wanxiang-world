@@ -2,7 +2,7 @@
 
 - API routes: 74
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 2149
+- Python public names (stable packages): 2154
 
 ## API routes
 
@@ -272,6 +272,11 @@
 - `wanxiang_persistence.branch_lineage_from_branches`
 - `wanxiang_persistence.create_engine_for`
 - `wanxiang_persistence.session_scope`
+- `wanxiang_reality.BundlePatch`
+- `wanxiang_reality.ResolvedBundleStack`
+- `wanxiang_reality.RuntimeArtifact`
+- `wanxiang_reality.WorldBundle`
+- `wanxiang_reality.resolve_bundle_stack`
 - `wanxiang_runtime.AgentDecision`
 - `wanxiang_runtime.AgentHarnessProvider`
 - `wanxiang_runtime.AgentProposal`
@@ -383,5 +388,50 @@
 - `wanxiang_substrate.ACTION_REPORT_ORDER`
 - `wanxiang_substrate.ACTION_REST`
 - `wanxiang_substrate.ACTION_SCHEDULE_APPOINTMENT`
+- `wanxiang_substrate.ACTION_SEAL`
+- `wanxiang_substrate.ACTION_SEND_LETTER`
+- `wanxiang_substrate.ACTION_SET_ACTOR_STATE`
+- `wanxiang_substrate.ACTION_SET_DEADLINE`
+- `wanxiang_substrate.ACTION_SET_MODE`
+- `wanxiang_substrate.ACTION_SET_PORTAL_STATE`
+- `wanxiang_substrate.ACTION_SET_RESOLUTION`
+- `wanxiang_substrate.ACTION_SET_SKILL_STATE`
+- `wanxiang_substrate.ACTION_SET_VISIBILITY`
+- `wanxiang_substrate.ACTION_START_SKILL`
+- `wanxiang_substrate.ACTION_TRANSFER`
+- `wanxiang_substrate.ACTION_VISIT_SICK`
+- `wanxiang_substrate.ACTOR`
+- `wanxiang_substrate.ACTOR_A`
+- `wanxiang_substrate.ACTOR_B`
+- `wanxiang_substrate.ACTOR_STATE_COMPONENT`
+- `wanxiang_substrate.ADJUDICATION_SCHEMA`
+- `wanxiang_substrate.AGENCY_SCHEMA_VERSION`
+- `wanxiang_substrate.ALICE`
+- `wanxiang_substrate.ANNOUNCEMENT_COMPONENT`
+- `wanxiang_substrate.APPOINTMENT_COMPONENT`
+- `wanxiang_substrate.APPROVERS`
+- `wanxiang_substrate.APPT_MORNING`
+- `wanxiang_substrate.ARTIFACT_SCHEMA_VERSION`
+- `wanxiang_substrate.ASSESSMENT_COMPONENT`
+- `wanxiang_substrate.ASSESSMENT_OUTCOMES`
+- `wanxiang_substrate.AUTHORING_STAGES`
+- `wanxiang_substrate.AUTHORITY_PERMISSIONS`
+- `wanxiang_substrate.AUTHORIZED_REVIEWERS`
+- `wanxiang_substrate.AccessPolicy`
+- `wanxiang_substrate.AcousticZone`
+- `wanxiang_substrate.ActionAffordance`
+- `wanxiang_substrate.ActionDefinition`
+- `wanxiang_substrate.ActionExplanation`
+- `wanxiang_substrate.ActionProof`
+- `wanxiang_substrate.ActionProposal`
+- `wanxiang_substrate.ActionRegistry`
+- `wanxiang_substrate.ActionSpace`
+- `wanxiang_substrate.ActionValidator`
+- `wanxiang_substrate.ActivationSet`
+- `wanxiang_substrate.Activity`
+- `wanxiang_substrate.ActivityKind`
+- `wanxiang_substrate.ActivityScore`
+- `wanxiang_substrate.ActorActivityInput`
+- `wanxiang_substrate.ActorAvailability`
 
 Machine-readable: reports/sdk_api_baseline.json.
