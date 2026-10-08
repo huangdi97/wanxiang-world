@@ -81,7 +81,7 @@ function showError(s){notice.textContent=s;note.textContent=s}
 function showView(v){
   worldView=v;
   const name=String(v.world&&v.world.name||"未知世界");
-  facts.textContent="世界："+name+"　角色："+String(v.player&&v.player.name||"未知")+"　世界时刻："+String(v.time&&v.time.ticks??0)+"　天气："+String(v.weather||"未记录");
+  facts.textContent="世界："+name+"　角色："+String(v.player&&v.player.name||"未知")+"　世界时刻："+String((v.time&&v.time.ticks)||0)+"　天气："+String(v.weather||"未记录");
   const change=v.recent_changes&&v.recent_changes[0];
   label.textContent=String(v.location||"场景位置尚未记录")+" · "+String(v.region||"江南机关城");
   if(change&&change.summary){note.textContent="服务器世界后果："+String(change.summary)}
