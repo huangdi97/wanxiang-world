@@ -22,6 +22,8 @@ class _SourceSceneRequest:
     stable_key: str
     spec: SemanticSceneSpec
     cache_key: str
+    source_refs: tuple[str, ...] = ()
+    confidence: float = 0.0
 
 
 @dataclass(frozen=True, slots=True)
@@ -78,8 +80,38 @@ def _plan_book_scene_assets(
         return _SourceVisualPlan(package.package_id, source_digest, "PLACES_NOT_EXTRACTED", (), 0)
 
     selected = distinct_places[:max_preview_scenes]
+    raw_evidence = package.draft.compiler_metadata.get("scene_evidence_v1", "[]")
+    try:
+        decoded = json.loads(raw_evidence)
+    except (TypeError, ValueError):
+        decoded = []
+    evidence_rows = decoded if isinstance(decoded, list) else []
+
     requests: list[_SourceSceneRequest] = []
     for place in selected:
+        matching = [
+            row
+            for row in evidence_rows
+            if isinstance(row, dict) and row.get("name") == place
+        ]
+        source_refs = tuple(
+            sorted(
+                {
+                    str(ref)
+                    for row in matching
+                    for ref in row.get("source_refs", [])
+                    if isinstance(ref, str) and ref
+                }
+            )
+        )
+        confidence = max(
+            (
+                float(row.get("confidence", 0.0))
+                for row in matching
+                if isinstance(row.get("confidence", 0.0), (int, float))
+            ),
+            default=0.0,
+        )
         stable_key = hashlib.sha256(
             json.dumps((source_digest, place), ensure_ascii=False).encode("utf-8")
         ).hexdigest()[:24]
@@ -92,6 +124,8 @@ def _plan_book_scene_assets(
             requirements=(
                 f"source_place_name:{place}",
                 f"source_identity_digest:{source_digest}",
+                *(f"source_locator:{ref}" for ref in source_refs),
+                f"source_confidence:{confidence:.3f}",
                 "noncanonical_asset_candidate",
                 "no_unverified_character_placement",
             ),
@@ -104,6 +138,8 @@ def _plan_book_scene_assets(
                 cache_key=hashlib.sha256(
                     f"{source_digest}:{stable_key}:illustrated-environment:v1".encode()
                 ).hexdigest(),
+                source_refs=source_refs,
+                confidence=confidence,
             )
         )
     status = "READY_FOR_ASSET_PROVIDER" if requests else "BUDGET_ZERO"
