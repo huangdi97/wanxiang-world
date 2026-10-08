@@ -53,13 +53,13 @@ def test_budget_counts_are_stable() -> None:
     # these counts include the accepted v5.5 projection/product additions.
     # R7 additions over the v5.5 anchors: +3 registries
     # (RealityProfileRegistry, VerifiedCapabilityRegistry, ProviderRegistry) and
-    # +6 ports (AgentHarnessProvider, ReplaySource, MigrationSink,
-    # ExternalEffectHandler, Artifact2CapabilityProvider, LockStore); no
-    # engine/service/commit-path abstraction was added.
+    # +7 ports (AgentHarnessProvider, ReplaySource, MigrationSink,
+    # ExternalEffectHandler, Artifact2CapabilityProvider, LockStore,
+    # ExecutionProvider); no engine/service/commit-path abstraction was added.
     assert budget["registry_classes"] == 20
     assert budget["service_classes"] == 25
     assert budget["engine_classes"] == 5
-    assert budget["ports"] == 50
+    assert budget["ports"] == 51
     loc = budget["production_loc"]
     files = budget["production_files"]
     assert isinstance(loc, int) and loc > 0

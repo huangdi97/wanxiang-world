@@ -77,7 +77,7 @@ def _local_shell_image(tmp_path: Path) -> str:
     archive = tmp_path / "rootfs.tar"
     with tarfile.open(archive, "w") as tar:
         for path in sorted(root.rglob("*")):
-            tar.add(path, arcname=str(path.relative_to(root)))
+            tar.add(path, arcname=str(path.relative_to(root)), recursive=False)
 
     tag = "wanxiang/r7-container-probe:local"
     with archive.open("rb") as stream:

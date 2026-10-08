@@ -50,7 +50,7 @@ class WorldBundle:
     reality_profile_ref: str
     required_seams: tuple[str, ...] = ()
     providers: tuple[str, ...] = ()
-    dimensions: dict[str, str] = field(default_factory=dict)
+    dimensions: dict[str, str] = field(default_factory=dict[str, str])
     artifacts: tuple[RuntimeArtifact, ...] = ()
 
     def __post_init__(self) -> None:
@@ -77,7 +77,7 @@ class BundlePatch:
 
     add_providers: tuple[str, ...] = ()
     remove_providers: tuple[str, ...] = ()
-    dimension_overrides: dict[str, str] = field(default_factory=dict)
+    dimension_overrides: dict[str, str] = field(default_factory=dict[str, str])
 
     def __post_init__(self) -> None:
         _require_sorted_unique("add_providers", self.add_providers)

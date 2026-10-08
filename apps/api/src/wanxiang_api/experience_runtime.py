@@ -144,14 +144,16 @@ def _projection_revision(projection: Any) -> int:
     revision = getattr(projection, "revision", None)
     if isinstance(revision, int):
         return revision
-    if hasattr(revision, "value") and isinstance(revision.value, int):
-        return revision.value
+    revision_value = getattr(revision, "value", None)
+    if isinstance(revision_value, int):
+        return revision_value
     snapshot = getattr(projection, "snapshot", None)
     snapshot_revision = getattr(snapshot, "revision", None)
     if isinstance(snapshot_revision, int):
         return snapshot_revision
-    if hasattr(snapshot_revision, "value") and isinstance(snapshot_revision.value, int):
-        return snapshot_revision.value
+    snapshot_revision_value = getattr(snapshot_revision, "value", None)
+    if isinstance(snapshot_revision_value, int):
+        return snapshot_revision_value
     raise ValueError("player projection does not expose a revision")
 
 

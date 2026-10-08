@@ -667,3 +667,17 @@ or invoke Commit Authority. Private source bytes and provider hidden state are
 excluded from exported artifacts. Justification: M92 requires reproducible
 worldline experimentation and honest validity boundaries without creating a
 second runtime, branch, event store, or source registry.
+
+
+## R7 entry — Cordis-native composition / versioned reality closure
+
+R7 adds a bounded set of replaceable provider seams around the existing single
+Commit Authority and canonical history. The new `ExecutionProvider` protocol is
+the seventh R7 port beyond the v5.5 anchor, alongside AgentHarnessProvider,
+ReplaySource, MigrationSink, ExternalEffectHandler, Artifact2CapabilityProvider
+and LockStore. It exists so ExecutionPolicy selects a provider without callers
+importing Docker/process implementations directly. This raises the deterministic
+port snapshot from 50 to 51 while preserving the hard invariants: zero import
+cycles, exactly one commit path, no manager class, no second Event/Branch/State
+system, and capability/execution outputs remain Observation/Proposal until the
+existing authority commits them.

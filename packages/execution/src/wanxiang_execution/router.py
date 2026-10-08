@@ -28,6 +28,7 @@ class ExecutionProvider(Protocol):
 
     def run(self, request: ExecutionRequest, workspace_dir: Path) -> ExecutionResult:
         """Run one already-declared execution request."""
+        ...
 
 
 class ExecutionRouter:
