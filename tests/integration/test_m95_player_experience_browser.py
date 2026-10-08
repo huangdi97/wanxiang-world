@@ -194,6 +194,11 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                     "document.querySelector('#detail-scenario')?.textContent === '潮汐门初启'"
                 )
                 assert page.locator("#detail-mode").text_content() == "角色体验"
+                detail_visual = page.locator("#detail-visual-image")
+                assert detail_visual.is_visible()
+                assert (detail_visual.get_attribute("src") or "").startswith(
+                    "data:image/svg+xml;base64,"
+                )
                 assert not page_errors, page_errors
                 assert page.locator('input[name="character"]').count() == 1, page.locator(
                     "#detail-view"
@@ -203,6 +208,11 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 page.locator("#enter-world").click()
                 page.wait_for_function(
                     "document.querySelector('#play-world-name')?.textContent === '江南机关城'"
+                )
+                scene_visual = page.locator("#scene-visual-image")
+                assert scene_visual.is_visible()
+                assert (scene_visual.get_attribute("src") or "").startswith(
+                    "data:image/svg+xml;base64,"
                 )
                 page.locator("#action-input").fill("让自己保持清醒")
                 page.locator("#send-action").click()
