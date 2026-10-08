@@ -119,6 +119,7 @@ def player_observation(
     *,
     actor_id: str = "",
     actor_name: str = "",
+    actor_starting_location: str = "",
     diff: CommittedStateDiff | None = None,
     locale: str | None = None,
     events_since_revision: int | None = None,
@@ -137,9 +138,10 @@ def player_observation(
     relations = [_relation_card(item, names, actor_id, copy) for item in state.relations()]
     actor = next((item for item in entities if item.entity_id.value == actor_id), None)
     actor_fields = _entity_fields(actor)
-    location = _first_text(actor_fields, ("location", "place")) or _first_text_from_entities(
+    canonical_location = _first_text(actor_fields, ("location", "place")) or _first_text_from_entities(
         entities, ("location", "place")
     )
+    location = canonical_location or actor_starting_location or None
     environment = _first_text_from_entities(entities, ("environment", "setting"))
     weather = _first_text_from_entities(entities, ("weather", "climate"))
     current_event = _event_card(entities, names, copy)
@@ -156,7 +158,9 @@ def player_observation(
     player = {
         "name": actor_name or (_entity_name(actor, copy) if actor else copy.text("your_character")),
         "status": _status_label(actor_fields, copy),
-        "location": _first_text(actor_fields, ("location", "place")),
+        "location": _first_text(actor_fields, ("location", "place"))
+        or actor_starting_location
+        or None,
         "items": _named_entities(entities, {"item", "object", "material"}, copy),
         "goals": _named_entities(entities, {"task", "opportunity", "challenge"}, copy),
         "relations": [dict(item) for item in relations if item.get("involves_actor") is True],
@@ -171,7 +175,7 @@ def player_observation(
             plan = _plan_book_scene_assets(package)
             assets = _render_visual_plan(plan)
         chosen = next((asset for asset in assets if asset.place_name == location), None)
-        grounding = "current_location"
+        grounding = "current_location" if canonical_location else "entry_location"
         if chosen is None and assets:
             chosen = assets[0]
             grounding = "world_preview"
