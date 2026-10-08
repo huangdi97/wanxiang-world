@@ -2,7 +2,10 @@
 
 # pyright: reportPrivateUsage=false
 
+from wanxiang_substrate.authoring.local_semantic_provider import LocalSemanticProvider
 from wanxiang_substrate.authoring.one_click import OneClickAuthoring
+from wanxiang_substrate.authoring.providers import ProviderRouter
+from wanxiang_substrate.authoring.service import AuthoringService
 from wanxiang_substrate.playable.models import PlayableWorldProfile
 from wanxiang_substrate.playable.player_projection import player_world_detail
 from wanxiang_substrate.sources.model import RightsEnvelope, SourceRecord, payload_hash
@@ -120,3 +123,45 @@ def test_reimport_same_book_content_reuses_visual_cache_across_job_ids() -> None
     assert first.visual_plan is not None
     assert second.visual_plan is not None
     assert first.visual_plan.source_digest == second.visual_plan.source_digest
+
+
+def test_chinese_book_local_semantic_provider_builds_visual_scene_without_external_api() -> None:
+    text = (
+        "# 第一章\n"
+        "角色：沈砚\n"
+        "沈砚来到江南城。\n"
+        "规则：入城者必须登记。\n"
+    )
+    source = SourceRecord(
+        source_id="zh_book_source",
+        kind="text",
+        content_hash=payload_hash(text),
+        content_ref="memory://zh_book_source",
+        stage="E3",
+        rights=RightsEnvelope(owner="synthetic", usage="test", approved=True),
+        payload=text,
+        provenance="synthetic:source-to-visual:zh",
+        access="private",
+    )
+    service = AuthoringService(
+        providers=ProviderRouter((LocalSemanticProvider(),)),
+    )
+    result = OneClickAuthoring(service).run(
+        "visual_chinese",
+        (source,),
+        profile="book",
+        semantic_provider="local",
+    )
+
+    assert result.visual_plan is not None
+    assert result.visual_plan.status == "READY_FOR_ASSET_PROVIDER"
+    assert "江南城" in result.package.draft.places
+    scene = next(
+        item for item in result.visual_plan.scene_requests if item.place_name == "江南城"
+    )
+    assert scene.source_refs
+    assert scene.confidence > 0
+    assert result.visual_assets
+    assert any(asset.place_name == "江南城" for asset in result.visual_assets)
+    assert result.visual_provider_calls >= 1
+    assert result.visual_cost_units == 0
