@@ -16,6 +16,7 @@ from dataclasses import dataclass
 from html import escape
 from typing import Protocol
 
+from wanxiang_substrate.assets.storage import AssetRef, InMemoryObjectStore, ObjectStore
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest, _SourceVisualPlan
 from wanxiang_substrate.assets.storage import AssetRef, InMemoryObjectStore, ObjectStore
 
@@ -35,6 +36,47 @@ class _SceneVisualAsset:
     def data_uri(self) -> str:
         payload = base64.b64encode(self.content).decode("ascii")
         return f"data:{self.media_type};base64,{payload}"
+
+
+@dataclass(frozen=True, slots=True)
+class _StoredSceneVisual:
+    visual: _SceneVisualAsset
+    asset_ref: AssetRef
+
+
+class _SceneVisualCache:
+    """Content-addressed visual cache over the existing ObjectStore seam."""
+
+    def __init__(self, store: ObjectStore | None = None) -> None:
+        self.store = store or InMemoryObjectStore()
+        self._by_cache_key: dict[str, _StoredSceneVisual] = {}
+
+    def store_visual(
+        self,
+        visual: _SceneVisualAsset,
+        *,
+        rights: str = "source-gated",
+    ) -> _StoredSceneVisual:
+        existing = self._by_cache_key.get(visual.cache_key)
+        if existing is not None:
+            self.store.stat(existing.asset_ref)
+            return existing
+        ref = self.store.put(
+            visual.content,
+            content_type=visual.media_type,
+            rights=rights,
+        )
+        stored = _StoredSceneVisual(visual, ref)
+        self._by_cache_key[visual.cache_key] = stored
+        return stored
+
+    def materialize(
+        self,
+        visuals: tuple[_SceneVisualAsset, ...],
+        *,
+        rights: str = "source-gated",
+    ) -> tuple[_StoredSceneVisual, ...]:
+        return tuple(self.store_visual(visual, rights=rights) for visual in visuals)
 
 
 class _SceneImageProvider(Protocol):
