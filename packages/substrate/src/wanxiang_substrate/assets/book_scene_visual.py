@@ -139,7 +139,5 @@ def _render_visual_plan(
         raise ValueError("network visual provider requires explicit allow_network")
     expected_cost = selected_provider.cost_units_per_asset * len(plan.scene_requests)
     if expected_cost > max_cost_units:
-        raise ValueError(
-            f"visual provider cost {expected_cost} exceeds budget {max_cost_units}"
-        )
+        raise ValueError(f"visual provider cost {expected_cost} exceeds budget {max_cost_units}")
     return tuple(selected_provider.produce(request) for request in plan.scene_requests)
