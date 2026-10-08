@@ -42,6 +42,17 @@ def one_click(payload: OneClickRequest, request: Request) -> dict[str, object]:
         "preview_ref": result.preview.scoped_ref,
         "publishable": validation.publish_ok,
         "publish_reasons": list(validation.reasons),
+        "visual_plan": (
+            {
+                "status": result.visual_plan.status,
+                "source_digest": result.visual_plan.source_digest,
+                "selected_scenes": len(result.visual_plan.scene_requests),
+                "deferred_scenes": result.visual_plan.deferred_scene_count,
+                "image_provider_calls": result.visual_plan.image_provider_calls,
+            }
+            if result.visual_plan is not None
+            else None
+        ),
         "status": service.status(result.job_id).to_dict(),
     }
 
