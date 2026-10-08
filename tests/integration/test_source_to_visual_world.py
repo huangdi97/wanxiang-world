@@ -58,6 +58,10 @@ def test_two_books_automatically_create_different_visual_assets_without_custom_c
     assert history.visual_plan.status == "READY_FOR_ASSET_PROVIDER"
     assert fiction.visual_assets
     assert history.visual_assets
+    assert fiction.stored_visual_assets
+    assert history.stored_visual_assets
+    assert fiction.stored_visual_assets[0].asset_ref.content_hash == fiction.visual_assets[0].content_sha256
+    assert history.stored_visual_assets[0].asset_ref.content_hash == history.visual_assets[0].content_sha256
     assert fiction.visual_plan.scene_requests[0].source_refs
     assert history.visual_plan.scene_requests[0].source_refs
     assert fiction.visual_plan.scene_requests[0].confidence > 0
