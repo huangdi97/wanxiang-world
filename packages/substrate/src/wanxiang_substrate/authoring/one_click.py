@@ -100,7 +100,11 @@ class OneClickAuthoring:
         preview = self.service.preview(job_id)
         visual_plan = _plan_book_scene_assets(package) if profile == "book" else None
         materialized = (
-            _materialize_visual_plan(visual_plan, cache=self.visual_cache)
+            _materialize_visual_plan(
+                visual_plan,
+                cache=self.visual_cache,
+                private_source=any(source.access != "public" for source in sources),
+            )
             if visual_plan is not None
             else None
         )
