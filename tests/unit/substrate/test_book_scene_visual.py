@@ -8,6 +8,7 @@ from wanxiang_substrate.assets.book_scene_plan import (
 )
 from wanxiang_substrate.assets.book_scene_visual import (
     _ProceduralSvgSceneProvider,
+    _SceneVisualCache,
     _render_visual_plan,
 )
 from wanxiang_substrate.assets.foundry import SemanticSceneSpec
@@ -118,3 +119,17 @@ def test_network_and_cost_are_denied_until_explicitly_authorized() -> None:
         max_cost_units=2,
     )
     assert rendered[0].place_name == "远方"
+
+
+def test_visual_cache_reuses_content_addressed_asset_identity() -> None:
+    plan = _plan(_request("旧城", "old-city"))
+    visual = _render_visual_plan(plan)[0]
+    cache = _SceneVisualCache()
+    first = cache.store_visual(visual)
+    second = cache.store_visual(visual)
+
+    assert first == second
+    assert first.asset_ref.asset_id == second.asset_ref.asset_id
+    assert first.asset_ref.content_hash == visual.content_sha256
+    assert first.asset_ref.rights == "source-gated"
+    assert cache.store.get(first.asset_ref) == visual.content
