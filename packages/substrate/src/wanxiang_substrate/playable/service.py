@@ -11,11 +11,10 @@ from wanxiang_runtime.state import state_to_primitive
 
 from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
 from wanxiang_substrate.assets.book_scene_visual import (
+    _materialize_visual_plan,
     _SceneVisualAsset,
-    _SceneVisualCache,
-    _render_visual_plan,
+    _VisualAssetCache,
 )
-from wanxiang_substrate.assets.storage import ObjectStore
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.playable.actions import IntentCompiler
 from wanxiang_substrate.playable.catalog import WorldPlaza
@@ -51,11 +50,11 @@ class PlayableService:
         runtime: PreviewRuntimePort,
         store: PlayableStore | None = None,
         *,
-        visual_store: ObjectStore | None = None,
+        visual_cache: _VisualAssetCache | None = None,
     ) -> None:
         self.runtime = runtime
         self.store = store or InMemoryPlayableStore()
-        self._visual_cache = _SceneVisualCache(visual_store)
+        self._visual_cache = visual_cache or _VisualAssetCache()
         self._visual_assets: dict[str, tuple[_SceneVisualAsset, ...]] = {}
         self.plaza = WorldPlaza(self.store)
         self.entry = CharacterEntryService(self.store)
@@ -100,9 +99,8 @@ class PlayableService:
         self._packages[profile.profile_id] = package
         self._experiences[profile.profile_id] = experience
         visual_plan = _plan_book_scene_assets(package)
-        visual_assets = _render_visual_plan(visual_plan)
-        self._visual_cache.materialize(visual_assets)
-        self._visual_assets[profile.profile_id] = visual_assets
+        materialized = _materialize_visual_plan(visual_plan, cache=self._visual_cache)
+        self._visual_assets[profile.profile_id] = materialized.assets
         self._installs[profile.profile_id] = PreviewInstall(
             preview_id=f"playable_{len(self._installs) + 1}",
             package_id=package.package_id,
