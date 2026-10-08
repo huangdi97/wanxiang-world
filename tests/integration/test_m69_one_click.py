@@ -320,4 +320,5 @@ def test_book_one_click_auto_registers_private_visual_player_preview() -> None:
     visual_scene = entered.json()["view"]["visual_scene"]
     assert visual_scene is not None
     assert visual_scene["place_name"] == "Garden"
+    assert visual_scene["grounding"] == "entry_location"
     assert visual_scene["data_uri"].startswith("data:image/svg+xml;base64,")
