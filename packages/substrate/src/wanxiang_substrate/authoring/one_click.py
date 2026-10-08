@@ -39,7 +39,6 @@ class OneClickResult:
     orchestration: OrchestrationRun | None = None
     visual_plan: _SourceVisualPlan | None = None
     visual_assets: tuple[_SceneVisualAsset, ...] = ()
-    stored_visual_assets: tuple[_StoredSceneVisual, ...] = ()
     visual_asset_refs: tuple[AssetRef, ...] = ()
     visual_provider_calls: int = 0
     visual_cache_hits: int = 0
@@ -57,7 +56,6 @@ class OneClickAuthoring:
     ) -> None:
         self.service = service or AuthoringService()
         self.orchestrator = AuthoringOrchestrator(providers=self.service.providers)
-        self._visual_cache = _SceneVisualCache()
         self.visual_cache = visual_cache or _VisualAssetCache()
 
     def run(
@@ -107,17 +105,17 @@ class OneClickAuthoring:
             else None
         )
         return OneClickResult(
-            job_id,
-            profile,
-            package,
-            preview,
-            orchestration,
-            visual_plan,
-            materialized.assets if materialized is not None else (),
-            materialized.asset_refs if materialized is not None else (),
-            materialized.provider_calls if materialized is not None else 0,
-            materialized.cache_hits if materialized is not None else 0,
-            materialized.cost_units if materialized is not None else 0,
+            job_id=job_id,
+            source_profile=profile,
+            package=package,
+            preview=preview,
+            orchestration=orchestration,
+            visual_plan=visual_plan,
+            visual_assets=materialized.assets if materialized is not None else (),
+            visual_asset_refs=materialized.asset_refs if materialized is not None else (),
+            visual_provider_calls=materialized.provider_calls if materialized is not None else 0,
+            visual_cache_hits=materialized.cache_hits if materialized is not None else 0,
+            visual_cost_units=materialized.cost_units if materialized is not None else 0,
         )
 
     def enter_living_instance(
