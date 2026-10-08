@@ -131,11 +131,7 @@ def _plan_book_scene_assets(
                 else ()
             )
             raw_confidence = row.get("confidence", 0.0)
-            confidence = (
-                float(raw_confidence)
-                if isinstance(raw_confidence, (int, float))
-                else 0.0
-            )
+            confidence = float(raw_confidence) if isinstance(raw_confidence, (int, float)) else 0.0
             topology_relations.append(
                 _SourceTopologyRelation(
                     source_place=source_place,
@@ -145,15 +141,11 @@ def _plan_book_scene_assets(
                     confidence=confidence,
                 )
             )
-    delivery_rights = package.draft.compiler_metadata.get(
-        "visual_asset_rights_v1", "source-gated"
-    )
+    delivery_rights = package.draft.compiler_metadata.get("visual_asset_rights_v1", "source-gated")
     if delivery_rights not in {"public", "source-gated"}:
         delivery_rights = "source-gated"
     external_processing_allowed = (
-        package.draft.compiler_metadata.get(
-            "external_visual_processing_allowed_v1", "false"
-        )
+        package.draft.compiler_metadata.get("external_visual_processing_allowed_v1", "false")
         == "true"
     )
     style_key = hashlib.sha256(f"{source_digest}:story-visual-profile:v1".encode()).hexdigest()[:24]
@@ -168,9 +160,7 @@ def _plan_book_scene_assets(
 
     def place_rank(place: str) -> tuple[int, float, int, int, str, int]:
         matching = [
-            row
-            for row in evidence_rows
-            if isinstance(row, dict) and row.get("name") == place
+            row for row in evidence_rows if isinstance(row, dict) and row.get("name") == place
         ]
         refs = {
             ref
@@ -206,9 +196,7 @@ def _plan_book_scene_assets(
     requests: list[_SourceSceneRequest] = []
     for place in selected:
         matching = [
-            row
-            for row in evidence_rows
-            if isinstance(row, dict) and row.get("name") == place
+            row for row in evidence_rows if isinstance(row, dict) and row.get("name") == place
         ]
         source_refs = tuple(
             sorted(
