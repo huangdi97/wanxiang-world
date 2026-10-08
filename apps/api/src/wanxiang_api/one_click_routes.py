@@ -58,15 +58,19 @@ def one_click(payload: OneClickRequest, request: Request) -> dict[str, object]:
                 "cost_units": result.visual_cost_units,
                 "preview_assets": [
                     {
-                        "place_name": stored.visual.place_name,
-                        "media_type": stored.visual.media_type,
-                        "data_uri": stored.visual.data_uri(),
-                        "content_sha256": stored.visual.content_sha256,
-                        "asset_id": stored.asset_ref.asset_id,
-                        "asset_rights": stored.asset_ref.rights,
-                        "illustrative": stored.visual.illustrative,
+                        "place_name": asset.place_name,
+                        "media_type": asset.media_type,
+                        "data_uri": asset.data_uri(),
+                        "content_sha256": asset.content_sha256,
+                        "asset_id": asset_ref.asset_id,
+                        "asset_rights": asset_ref.rights,
+                        "illustrative": asset.illustrative,
                     }
-                    for stored in result.stored_visual_assets
+                    for asset, asset_ref in zip(
+                        result.visual_assets,
+                        result.visual_asset_refs,
+                        strict=True,
+                    )
                 ],
             }
             if result.visual_plan is not None
