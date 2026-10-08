@@ -9,7 +9,12 @@ from dataclasses import dataclass
 from wanxiang_domain.errors import ContractError
 
 from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets, _SourceVisualPlan
-from wanxiang_substrate.assets.book_scene_visual import _render_visual_plan, _SceneVisualAsset
+from wanxiang_substrate.assets.book_scene_visual import (
+    _materialize_visual_plan,
+    _SceneVisualAsset,
+    _VisualAssetCache,
+)
+from wanxiang_substrate.assets.storage import AssetRef
 from wanxiang_substrate.authoring.orchestrator import (
     AuthoringOrchestrator,
     OrchestrationRun,
@@ -34,14 +39,24 @@ class OneClickResult:
     orchestration: OrchestrationRun | None = None
     visual_plan: _SourceVisualPlan | None = None
     visual_assets: tuple[_SceneVisualAsset, ...] = ()
+    visual_asset_refs: tuple[AssetRef, ...] = ()
+    visual_provider_calls: int = 0
+    visual_cache_hits: int = 0
+    visual_cost_units: int = 0
 
 
 class OneClickAuthoring:
     """Book/family/structured/mixed flows share the same backend pipeline."""
 
-    def __init__(self, service: AuthoringService | None = None) -> None:
+    def __init__(
+        self,
+        service: AuthoringService | None = None,
+        *,
+        visual_cache: _VisualAssetCache | None = None,
+    ) -> None:
         self.service = service or AuthoringService()
         self.orchestrator = AuthoringOrchestrator(providers=self.service.providers)
+        self.visual_cache = visual_cache or _VisualAssetCache()
 
     def run(
         self,
@@ -84,7 +99,11 @@ class OneClickAuthoring:
             raise ContractError(f"one-click job {job_id!r} did not produce a package")
         preview = self.service.preview(job_id)
         visual_plan = _plan_book_scene_assets(package) if profile == "book" else None
-        visual_assets = _render_visual_plan(visual_plan) if visual_plan is not None else ()
+        materialized = (
+            _materialize_visual_plan(visual_plan, cache=self.visual_cache)
+            if visual_plan is not None
+            else None
+        )
         return OneClickResult(
             job_id,
             profile,
@@ -92,7 +111,11 @@ class OneClickAuthoring:
             preview,
             orchestration,
             visual_plan,
-            visual_assets,
+            materialized.assets if materialized is not None else (),
+            materialized.asset_refs if materialized is not None else (),
+            materialized.provider_calls if materialized is not None else 0,
+            materialized.cache_hits if materialized is not None else 0,
+            materialized.cost_units if materialized is not None else 0,
         )
 
     def enter_living_instance(
