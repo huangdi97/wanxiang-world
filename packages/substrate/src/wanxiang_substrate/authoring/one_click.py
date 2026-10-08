@@ -6,7 +6,7 @@ from dataclasses import dataclass
 
 from wanxiang_domain.errors import ContractError
 
-from wanxiang_substrate.assets.book_scene_plan import SourceVisualPlan, plan_book_scene_assets
+from wanxiang_substrate.assets.book_scene_plan import _SourceVisualPlan, _plan_book_scene_assets
 from wanxiang_substrate.authoring.orchestrator import (
     AuthoringOrchestrator,
     OrchestrationRun,
@@ -29,7 +29,7 @@ class OneClickResult:
     package: WorldPackageDraft
     preview: PreviewInstall
     orchestration: OrchestrationRun | None = None
-    visual_plan: SourceVisualPlan | None = None
+    visual_plan: _SourceVisualPlan | None = None
 
 
 class OneClickAuthoring:
@@ -79,7 +79,7 @@ class OneClickAuthoring:
         if package is None:
             raise ContractError(f"one-click job {job_id!r} did not produce a package")
         preview = self.service.preview(job_id)
-        visual_plan = plan_book_scene_assets(package) if profile == "book" else None
+        visual_plan = _plan_book_scene_assets(package) if profile == "book" else None
         return OneClickResult(job_id, profile, package, preview, orchestration, visual_plan)
 
     def enter_living_instance(
