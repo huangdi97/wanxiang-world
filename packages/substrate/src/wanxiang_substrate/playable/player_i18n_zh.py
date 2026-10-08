@@ -95,6 +95,7 @@ STRINGS: dict[str, str] = {
     "scene_heading": "此刻现场",
     "visual_gallery_heading": "世界视觉图册",
     "visual_current_scene": "此刻场景 · {place}",
+    "visual_entry_scene": "入场地点 · {place}",
     "visual_world_preview": "世界视觉预览 · {place}",
     "environment_label": "环境",
     "weather_label": "天气",
