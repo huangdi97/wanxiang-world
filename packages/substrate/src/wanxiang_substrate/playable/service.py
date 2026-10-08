@@ -117,7 +117,11 @@ class PlayableService:
         self._packages[profile.profile_id] = package
         self._experiences[profile.profile_id] = experience
         visual_plan = _plan_book_scene_assets(package)
-        materialized = _materialize_visual_plan(visual_plan, cache=self._visual_cache)
+        materialized = _materialize_visual_plan(
+            visual_plan,
+            cache=self._visual_cache,
+            rights=visual_plan.delivery_rights,
+        )
         self._visual_assets[profile.profile_id] = materialized.assets
         self._visual_asset_refs[profile.profile_id] = materialized.asset_refs
         self._installs[profile.profile_id] = PreviewInstall(
@@ -139,7 +143,11 @@ class PlayableService:
         self._packages[profile.profile_id] = package
         self._experiences[profile.profile_id] = experience or experience_from_profile(profile)
         visual_plan = _plan_book_scene_assets(package)
-        materialized = _materialize_visual_plan(visual_plan, cache=self._visual_cache)
+        materialized = _materialize_visual_plan(
+            visual_plan,
+            cache=self._visual_cache,
+            rights=visual_plan.delivery_rights,
+        )
         self._visual_assets[profile.profile_id] = materialized.assets
         self._visual_asset_refs[profile.profile_id] = materialized.asset_refs
         self._installs[profile.profile_id] = PreviewInstall(
