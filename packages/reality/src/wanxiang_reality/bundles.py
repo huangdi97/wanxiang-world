@@ -85,7 +85,11 @@ class BundlePatch:
         overlap = sorted(set(self.add_providers) & set(self.remove_providers))
         if overlap:
             raise ProfileError(f"bundle patch adds and removes the same providers: {overlap}")
-        if any(not key.strip() or not value.strip() for key, value in self.dimension_overrides.items()):
+        invalid_dimension = any(
+            not key.strip() or not value.strip()
+            for key, value in self.dimension_overrides.items()
+        )
+        if invalid_dimension:
             raise ProfileError("bundle patch dimension overrides must be non-empty")
 
 

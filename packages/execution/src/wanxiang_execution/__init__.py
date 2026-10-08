@@ -6,13 +6,13 @@ outbox records irreversible external effects append-only, suppresses duplicate
 execution by idempotency key and never retries an ambiguous effect.
 """
 
-from wanxiang_execution.container import DockerContainerProvider
 from wanxiang_execution.checkpoint import (
     CheckpointedProcessRunner,
     ExecutionCheckpoint,
     FileExecutionCheckpointStore,
     request_fingerprint,
 )
+from wanxiang_execution.container import DockerContainerProvider
 from wanxiang_execution.effect_observation import EffectObservation, observe_effect
 from wanxiang_execution.errors import (
     AmbiguousEffectResult,

@@ -15,7 +15,6 @@ import os
 import shutil
 import subprocess
 import time
-from collections.abc import Mapping
 from pathlib import Path
 
 from wanxiang_execution.errors import ExecutionError, PolicyViolation
@@ -78,7 +77,12 @@ class DockerContainerProvider:
         container_name = f"wanxiang-{request.execution_id}".lower()
         args = self._docker_args(request, container_name)
         started = time.monotonic()
-        outcome = self._run_docker(args, request.stdin_text, request.policy.wall_seconds_limit, container_name)
+        outcome = self._run_docker(
+            args,
+            request.stdin_text,
+            request.policy.wall_seconds_limit,
+            container_name,
+        )
         wall_ms = int((time.monotonic() - started) * 1000)
         return self._build_result(request, outcome, wall_ms)
 
