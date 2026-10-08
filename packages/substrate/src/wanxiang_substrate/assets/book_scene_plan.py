@@ -28,6 +28,17 @@ class _SourceSceneRequest:
 
 
 @dataclass(frozen=True, slots=True)
+class _SourceTopologyRelation:
+    """An explicit, source-grounded relation between named places."""
+
+    source_place: str
+    target_place: str
+    relation_type: str
+    source_refs: tuple[str, ...] = ()
+    confidence: float = 0.0
+
+
+@dataclass(frozen=True, slots=True)
 class _SourceVisualPlan:
     """Explicit budget/rights result for the generic book-to-visual pipeline."""
 
@@ -38,6 +49,7 @@ class _SourceVisualPlan:
     deferred_scene_count: int
     delivery_rights: str = "source-gated"
     external_processing_allowed: bool = False
+    topology_relations: tuple[_SourceTopologyRelation, ...] = ()
 
     @property
     def image_provider_calls(self) -> int:
@@ -91,6 +103,49 @@ def _plan_book_scene_assets(
         return _SourceVisualPlan(package.package_id, source_digest, "PLACES_NOT_EXTRACTED", (), 0)
 
     selected = distinct_places[:max_preview_scenes]
+    raw_topology = package.draft.compiler_metadata.get("scene_topology_evidence_v1", "[]")
+    try:
+        decoded_topology = json.loads(raw_topology)
+    except (TypeError, ValueError):
+        decoded_topology = []
+    topology_relations: list[_SourceTopologyRelation] = []
+    if isinstance(decoded_topology, list):
+        known_places = set(distinct_places)
+        for row in decoded_topology:
+            if not isinstance(row, dict):
+                continue
+            source_place = row.get("source_place")
+            target_place = row.get("target_place")
+            relation_type = row.get("relation_type")
+            if (
+                not isinstance(source_place, str)
+                or not isinstance(target_place, str)
+                or not isinstance(relation_type, str)
+                or source_place not in known_places
+                or target_place not in known_places
+            ):
+                continue
+            refs = row.get("source_refs", [])
+            source_refs = (
+                tuple(sorted(ref for ref in refs if isinstance(ref, str) and ref))
+                if isinstance(refs, list)
+                else ()
+            )
+            raw_confidence = row.get("confidence", 0.0)
+            confidence = (
+                float(raw_confidence)
+                if isinstance(raw_confidence, (int, float))
+                else 0.0
+            )
+            topology_relations.append(
+                _SourceTopologyRelation(
+                    source_place=source_place,
+                    target_place=target_place,
+                    relation_type=relation_type,
+                    source_refs=source_refs,
+                    confidence=confidence,
+                )
+            )
     delivery_rights = package.draft.compiler_metadata.get(
         "visual_asset_rights_v1", "source-gated"
     )
@@ -188,4 +243,5 @@ def _plan_book_scene_assets(
         deferred_scene_count=len(distinct_places) - len(requests),
         delivery_rights=delivery_rights,
         external_processing_allowed=external_processing_allowed,
+        topology_relations=tuple(dict.fromkeys(topology_relations)),
     )
