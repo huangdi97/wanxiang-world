@@ -93,3 +93,30 @@ def test_two_books_automatically_create_different_visual_assets_without_custom_c
     assert isinstance(history_scenes, list)
     assert str(fiction_scenes[0]["data_uri"]).startswith("data:image/svg+xml;base64,")
     assert str(history_scenes[0]["data_uri"]).startswith("data:image/svg+xml;base64,")
+
+
+def test_reimport_same_book_content_reuses_visual_cache_across_job_ids() -> None:
+    from wanxiang_substrate.assets.book_scene_visual import _VisualAssetCache
+
+    cache = _VisualAssetCache()
+    first_source = _book("same_content_a", "Alice", "Garden")
+    second_source = _book("same_content_b", "Alice", "Garden")
+    first = OneClickAuthoring(visual_cache=cache).run(
+        "visual_cache_a",
+        (first_source,),
+        profile="book",
+    )
+    second = OneClickAuthoring(visual_cache=cache).run(
+        "visual_cache_b",
+        (second_source,),
+        profile="book",
+    )
+
+    assert first.visual_provider_calls == 1
+    assert first.visual_cache_hits == 0
+    assert second.visual_provider_calls == 0
+    assert second.visual_cache_hits == 1
+    assert first.visual_assets[0].content_sha256 == second.visual_assets[0].content_sha256
+    assert first.visual_plan is not None
+    assert second.visual_plan is not None
+    assert first.visual_plan.source_digest == second.visual_plan.source_digest
