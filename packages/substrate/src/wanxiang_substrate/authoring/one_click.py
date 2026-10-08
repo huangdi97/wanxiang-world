@@ -8,8 +8,8 @@ from dataclasses import dataclass
 
 from wanxiang_domain.errors import ContractError
 
-from wanxiang_substrate.assets.book_scene_plan import _SourceVisualPlan, _plan_book_scene_assets
-from wanxiang_substrate.assets.book_scene_visual import _SceneVisualAsset, _render_visual_plan
+from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets, _SourceVisualPlan
+from wanxiang_substrate.assets.book_scene_visual import _render_visual_plan, _SceneVisualAsset
 from wanxiang_substrate.authoring.orchestrator import (
     AuthoringOrchestrator,
     OrchestrationRun,
