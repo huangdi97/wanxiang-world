@@ -56,11 +56,12 @@
 | 隐私泄露 | 页面无 `state_hash/event_id/branch_id/profile_id/cmd_/evt_/WorldPackage` | `edge_probe.json`（`no_runtime_id_leak: true`） |
 | action 响应 | `committed`，view 为投影（`recent_changes/narrative`），不暴露原始 state | `edge_probe.json` |
 
-**发现并修复的 P2 证据漂移**：全量测试揭示 v5.1/v5.2 取证与预算账本（
-`reports/V5_1_DUPLICATE_FORENSICS.md`、`reports/V5_2_MINIMALITY_BUDGET.md`、
+**发现并修复的 P2 证据漂移**：全量测试揭示 v5.1/v5.2 取证与预算账本
+（`reports/V5_1_DUPLICATE_FORENSICS.md`、`reports/V5_2_MINIMALITY_BUDGET.md`、
 `reports/v52_minimality_budget.json`）的 git 内容落后当前树（如 `production_files` 633→655、
-缺 R7 `FileExecutionCheckpointStore`/`ActorTrajectoryLedger` 等）。已用仓库自带确定性扫描器
-重新生成并以当前真相提交（见修复 commit 列表）。
+缺 R7 `FileExecutionCheckpointStore`/`ActorTrajectoryLedger` 等），
+且 `artifacts/r7/composition/resolved_graph.json` 携带旧 scope 映射。
+已用仓库自带确定性扫描器/组合 spike 重新生成并以当前真相提交（commit `05a205f`）。
 
 ## Phase D — 质量门与验证
 
@@ -88,17 +89,22 @@
 
 1. `05a205f` — `m95: regenerate stale v5.1/v5.2 ledger and R7 composition graph to current tree`
 2. `03f2c1f` — `m95: add local agent verification evidence, screenshots and readiness artifact`
-3. 本报告 commit（SHA 见「交付记录」）
+3. `405370a` — `m95: local agent verification phase a-g report`
+4. `ae5e33c` — `m95: add delivery record section to verification report`
 
 - 推送：`git push origin feature/r7-cordis-native`（非 force），远端 SHA == 推送后本地 SHA。
 - CI：等待该 SHA 的 `ci` 与 `r7-qualification` 完成后记录结论。
 - PR：本分支无现存 PR → 创建 PR（base 按仓库默认，链接见「交付记录」）。
+
 ## 交付记录（Phase F/G 实时更新）
 
 - 验证基线：`9c71a5c29624b44497ab989af3948f8bf41a765a`（远端与本地一致）
-- 交付 commits：`05a205f`（账本/组合图刷新）、`03f2c1f`（M95 验证证据与截图）、`405370a`（本报告）
+- 交付 commits：`05a205f`（账本/组合图刷新）、`03f2c1f`（M95 验证证据与截图）、`405370a`（本报告）、`ae5e33c`（交付记录）
 - 工作树最终状态：仅用户放置的接续文档 `WANXIANG_R7_NEW_CONVERSATION_HANDOFF_2026-10-08.md` 保持未跟踪保留
-- 推送 SHA / CI 结论 / PR 链接：见本报告提交后的更新记录
+- 推送 SHA：`ae5e33c85357b61f1f1b1bb8fd033fa31f9c11ed`（远端 == 本地，非 force）
+- exact-SHA CI：`ci` = **SUCCESS**、`r7-qualification` = **SUCCESS**（run 37739783845 / 37739783870）
+- **PR**：https://github.com/huangdi97/wanxiang-world/pull/1 （base `master`，OPEN）
+
 ## Phase G — 最终交付与剩余阻塞项
 
 交付物（均已入库）：

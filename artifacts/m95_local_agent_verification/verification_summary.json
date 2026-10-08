@@ -226,5 +226,28 @@
     "live_dsh": "EXTERNAL_BLOCKED",
     "postgres_live": "EXTERNAL_BLOCKED (SQLite profile green)",
     "v5_5_0_stable": "NOT_CREATED"
+  },
+  "delivery": {
+    "push_sha": "ae5e33c85357b61f1f1b1bb8fd033fa31f9c11ed",
+    "ci": {
+      "ci": "SUCCESS",
+      "r7_qualification": "SUCCESS",
+      "runs": [
+        "37739783845",
+        "37739783870"
+      ]
+    },
+    "pr": {
+      "number": 1,
+      "state": "OPEN",
+      "base": "master",
+      "url": "https://github.com/huangdi97/wanxiang-world/pull/1"
+    },
+    "fix_commits": [
+      "05a205f",
+      "03f2c1f",
+      "405370a",
+      "ae5e33c"
+    ]
   }
 }
