@@ -2,14 +2,20 @@
 
 # pyright: reportPrivateUsage=false
 
+import hashlib
+
+import pytest
+
 from wanxiang_substrate.assets.book_scene_plan import (
     _SourceSceneRequest,
     _SourceVisualPlan,
 )
 from wanxiang_substrate.assets.book_scene_visual import (
+    _materialize_visual_plan,
     _ProceduralSvgSceneProvider,
-    _SceneVisualCache,
     _render_visual_plan,
+    _SceneVisualAsset,
+    _VisualAssetCache,
 )
 from wanxiang_substrate.assets.foundry import SemanticSceneSpec
 
@@ -98,14 +104,24 @@ class _RemoteLikeProvider:
     cost_units_per_asset = 2
     private_safe = False
 
-    def produce(self, request: _SourceSceneRequest):
-        return _ProceduralSvgSceneProvider().produce(request)
+    def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
+        base = _ProceduralSvgSceneProvider().produce(request)
+        return _SceneVisualAsset(
+            scene_key=base.scene_key,
+            place_name=base.place_name,
+            provider_id=self.provider_id,
+            media_type=base.media_type,
+            content=base.content,
+            content_sha256=hashlib.sha256(base.content).hexdigest(),
+            cache_key=f"{request.cache_key}:{self.provider_id}",
+            illustrative=base.illustrative,
+            style_key=base.style_key,
+        )
 
 
 def test_network_and_cost_are_denied_until_explicitly_authorized() -> None:
     plan = _plan(_request("远方", "remote"))
     provider = _RemoteLikeProvider()
-    import pytest
 
     with pytest.raises(ValueError, match="allow_network"):
         _render_visual_plan(plan, provider=provider)
@@ -121,15 +137,41 @@ def test_network_and_cost_are_denied_until_explicitly_authorized() -> None:
     assert rendered[0].place_name == "远方"
 
 
-def test_visual_cache_reuses_content_addressed_asset_identity() -> None:
+def test_visual_cache_reuses_content_addressed_asset_identity_and_avoids_provider_call() -> None:
     plan = _plan(_request("旧城", "old-city"))
-    visual = _render_visual_plan(plan)[0]
-    cache = _SceneVisualCache()
-    first = cache.store_visual(visual)
-    second = cache.store_visual(visual)
+    cache = _VisualAssetCache()
 
-    assert first == second
-    assert first.asset_ref.asset_id == second.asset_ref.asset_id
-    assert first.asset_ref.content_hash == visual.content_sha256
-    assert first.asset_ref.rights == "source-gated"
-    assert cache.store.get(first.asset_ref) == visual.content
+    first = _materialize_visual_plan(plan, cache=cache)
+    second = _materialize_visual_plan(plan, cache=cache)
+
+    assert first.provider_calls == 1
+    assert first.cache_hits == 0
+    assert second.provider_calls == 0
+    assert second.cache_hits == 1
+    assert first.assets == second.assets
+    assert first.asset_refs == second.asset_refs
+    assert first.asset_refs[0].content_hash == first.assets[0].content_sha256
+    assert first.asset_refs[0].rights == "source-gated"
+    assert cache.store.get(first.asset_refs[0]) == first.assets[0].content
+
+
+class _BadDigestProvider(_RemoteLikeProvider):
+    requires_network = False
+    cost_units_per_asset = 0
+
+    def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
+        good = super().produce(request)
+        return _SceneVisualAsset(
+            scene_key=good.scene_key,
+            place_name=good.place_name,
+            provider_id=good.provider_id,
+            media_type=good.media_type,
+            content=good.content,
+            content_sha256="0" * 64,
+            cache_key=good.cache_key,
+        )
+
+
+def test_provider_output_integrity_is_verified_before_storage() -> None:
+    with pytest.raises(ValueError, match="invalid content digest"):
+        _materialize_visual_plan(_plan(_request("荒原", "bad")), provider=_BadDigestProvider())
