@@ -1,42 +1,44 @@
 # R7 13 — Full Regression Report
 
-Qualification anchor: `f7b719df2ccdd906bf2c0f9c3474b1cbe219bbbf`.
+Implementation code anchor: `8ebbc4f04a265ab4d9c380fc8da7bbabfe86ce8f`.
 
 Status: `PASS`.
 
-GitHub Actions run `37582984372` completed successfully with all declared
-jobs green.
+GitHub Actions CI run `37722944558` completed successfully with all six
+declared jobs green.
 
 ## Python / architecture
 
 The main Python job reports:
 
-- `1749 passed, 1 skipped`;
-- the one skip is the local-no-PostgreSQL test path, not a failed R7 assertion;
+- `1802 passed, 1 skipped`;
+- the one skip is the ordinary SQLite/no-PostgreSQL path and is not a failed R7
+  assertion;
+- the dedicated PostgreSQL 16 job separately runs the live profile: `4 passed`;
 - `ruff check .` PASS;
-- `ruff format --check .` PASS;
-- `pyright` 0 errors / 0 warnings;
+- `ruff format --check .` PASS (`2921 files already formatted`);
+- Pyright: `0 errors, 0 warnings, 0 informations`;
 - `scripts/architecture_check.py` PASS;
-- `scripts/kernel_guard.py` 0 violations.
+- `scripts/kernel_guard.py`: 0 violations.
 
-The dedicated PostgreSQL job brought up PostgreSQL 16 and ran the live profile:
-`4 passed`.
+The post-closure tests include Profile/Bundle/Lock/Artifact composition,
+World Bootstrap/WorldHandle, expanded Gateway scope/rights, execution
+checkpoint/resume, real Docker reference isolation, marketplace/paper-capability
+binding, layered invariants, three-ledger provenance and ExperienceRuntime.
 
 ## TypeScript / Cordis / SDK
 
-The TS job reports:
+The exact-SHA qualification reports:
 
-- pnpm lint PASS;
-- TypeScript typecheck PASS;
-- SDK TS: 6 files / 22 tests PASS;
-- Cordis host: 9 files / 74 tests PASS;
-- build PASS;
-- real cross-language Python seams are exercised in the Cordis test suite.
+- SDK TypeScript: 6 files / 22 tests PASS;
+- Cordis host: 10 files / 77 tests PASS;
+- lint/typecheck/build PASS;
+- cross-language Python history/authority and harness seams remain exercised.
 
 ## Packaging / safety
 
-The same run passed API/package/SDK generation drift, release build,
-clean-room certification smoke, repository secret scan and forbidden-file
-checks.
+The same CI run passes service-contract projection, SDK/OpenAPI drift, package
+authoring/certification, release-build clean-room smoke, repository secret scan
+and forbidden-file checks.
 
-No v5.5 Stable tag or v5.6 release is inferred from these engineering gates.
+No Stable/v5.6 release status is inferred from these engineering gates.

@@ -1,9 +1,11 @@
 # Blockers ? Wanxiang Engineering Program
 
-Updated 2026-10-07: R7 locally executable implementation is closed at
-`f7b719d` with green CI and exact-SHA qualification. Remaining
-open rows are genuine human/external qualification or older unrelated corpus
-work; they are not converted into implementation work.
+Updated 2026-10-08: the extended R7 locally executable implementation is
+qualified at code anchor `8ebbc4f04a265ab4d9c380fc8da7bbabfe86ce8f`
+(CI `37722944558`, exact-SHA qualification `37722944544`). The documentation
+sync HEAD must independently remain green. Open rows below are genuine
+human/external qualification or older unrelated corpus work, not hidden local
+implementation gaps.
 
 | Date | Goal | Type | Description | Status |
 |---|---|---|---|---|

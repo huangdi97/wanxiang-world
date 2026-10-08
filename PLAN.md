@@ -1,26 +1,32 @@
 # Plan ? Wanxiang Engineering Program (M0 + M1 Batch)
 
-Authoritative execution order for this batch (P0 + P1). Status per Goal.
+## Current R7 execution state — extended closure candidate (2026-10-08)
 
-## Current R7 execution state — closure reached (2026-10-07)
+All locally executable R7 design work from the canonical master/Goal is now
+represented in the branch, including the post-closure Profile/Bundle/Lock/
+Artifact, World Bootstrap/WorldHandle, expanded Gateway/WorldSkill,
+three-ledger/invariant provenance, checkpoint/resume, provider-neutral execution
+routing, live reference-container isolation, verified capability marketplace,
+real paper/repository capability reference, and explicit ExperienceRuntime.
 
-All locally executable R7 design slices are implemented and qualified at
-`f7b719df2ccdd906bf2c0f9c3474b1cbe219bbbf`. Architecture Gates A–J are PASS within their explicitly bounded
-reference/integration scopes. The exact-SHA clean-clone workflow runs Python,
-security, RuntimeLock, migration, reference-world, pnpm/TypeScript, browser and
-live PostgreSQL qualification.
+The implementation code anchor `8ebbc4f04a265ab4d9c380fc8da7bbabfe86ce8f`
+has green CI (`37722944558`) and exact-SHA R7 qualification
+(`37722944544`, 19/19 required steps, no skips). After this documentation
+synchronization, do not reuse that evidence blindly: the branch HEAD itself must
+again be green before treating the final closure as qualified.
 
-There is no remaining local "invent another subsystem" task. Next actions are
-evidence-gated only:
+No new subsystem should be invented merely to keep coding. The intentional
+future-only items in R7 (microVM/VM fleet, distributed scheduler, mandatory
+Wasm Component ABI, second composition host) remain demand-triggered, not
+missing closure work. Cordis remains exactly pinned to the qualified version;
+a future host/Cordis-major upgrade is a Class-D migration requiring clean-room
+replay, compatibility and lifecycle qualification.
 
-- obtain genuine human M95 results for Gates 62–66;
-- run Godot/real-engine Gate 78 when a supported runtime is available;
-- run live model-backed official DeepSeek Harness E2E when official runtime +
-  credentials are available;
-- after human acceptance, follow the existing v5.5 Gate 80 release procedure;
-- do not start v5.6 automatically.
-
-See `reports/r7/15_R7_FINAL_CLOSURE_REPORT.md`.
+Remaining actions are evidence-gated:
+- genuine human M95 Gates 62–66;
+- Godot/real-engine Gate 78 when a supported route exists;
+- live model-backed official DeepSeek Harness when runtime + credentials exist;
+- then the existing v5.5 Gate-80 release procedure; never auto-start v5.6.
 
 ## Current Phase A closure ? v5.5 Stable, Gate 79 PASS (2026-09-25)
 

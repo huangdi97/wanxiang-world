@@ -1,6 +1,42 @@
 # Status ? Wanxiang Engineering Program
 
-Updated: 2026-10-07 (R7 locally executable design complete; overall WAITING_HUMAN)
+Updated: 2026-10-08 (R7 extended local design closure qualified; overall WAITING_HUMAN)
+
+## R7 extended closure — all locally executable R7 design slices implemented
+
+The post-closure design sweep is now implemented through code anchor
+`8ebbc4f04a265ab4d9c380fc8da7bbabfe86ce8f` on
+`feature/r7-cordis-native`. This extends the earlier R7 closure with the
+remaining design-level composition/product/execution surfaces instead of
+inventing a second World runtime:
+
+- Profile / Bundle / Lock / Artifact composition, fail-closed World Bootstrap
+  and bounded WorldHandle;
+- expanded World Capability Gateway + scoped WorldSkill;
+- three-ledger provenance, layered Kernel/Domain/World invariants and sanitized
+  WorldRunArtifact;
+- execution checkpoint/resume, provider-neutral ExecutionRouter and a real
+  no-pull Docker container qualification path;
+- C3 Verified Capability Marketplace plus a real tracked paper/repository
+  Artifact2Capability reference;
+- explicit ExperienceRuntime over the existing canonical player/authority path.
+
+At the code anchor, CI run `37722944558` is green across all six jobs and R7
+exact-SHA run `37722944544` is green. Python reports `1802 passed, 1 skipped`
+(the ordinary SQLite job's documented PostgreSQL skip; the dedicated live
+PostgreSQL job separately passes 4/4); Pyright has 0 errors/warnings; architecture
+PASS; kernel guard 0 violations. Exact-SHA qualification is 19/19 PASS with
+0 failed/0 skipped. TypeScript exact-SHA evidence reports SDK 22/22 and Cordis
+host 77/77.
+
+The final documentation synchronization commit is valid only when the same two
+workflows are green on that exact documentation HEAD; verify GitHub Actions
+rather than assuming the prior code-anchor evidence transfers automatically.
+
+Overall program decision remains `WAITING_HUMAN`: v5.5 Gates 62–66 still need
+a genuine tester. Godot/real-engine and live model-backed official DSH remain
+explicit external qualification rows. No v5.5 Stable tag and no v5.6 release
+has been created.
 
 ## R7 current closure — locally executable design complete (2026-10-07)
 

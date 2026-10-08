@@ -25,3 +25,27 @@ chain/device integration.
 Execution Success != World Truth
 Committed External Intent != External Effect succeeded
 ```
+
+
+## Extended R7 execution closure (2026-10-08)
+
+The Execution Fabric now also contains a provider-neutral `ExecutionRouter`.
+Callers select an `ExecutionPolicy`; they do not import a Docker/process
+implementation directly. Local process and Docker container providers declare
+their execution classes behind the same seam.
+
+A real CI container qualification builds a local rootfs image without registry
+pulls and verifies read-only root filesystem, no external network, no host
+mounts, dropped Linux capabilities, bounded resources and proposal-only output.
+This is stronger reference isolation than the original subprocess slice, while
+still **not** claiming that Docker alone is a hostile-code security proof.
+
+Execution checkpoint/resume is implemented at a completed boundary: identical,
+side-effect-free work can fast-forward from content-addressed trace/output
+evidence after restart. Secret-bearing or externally side-effecting executions
+are deliberately excluded and continue through the Outbox/reconciliation path.
+
+The design boundary remains:
+`ExecutionTrace != World History`,
+`container snapshot != World Branch`,
+`execution success != World truth`.
