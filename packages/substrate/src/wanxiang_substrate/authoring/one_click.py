@@ -6,13 +6,13 @@ from dataclasses import dataclass
 
 from wanxiang_domain.errors import ContractError
 
+from wanxiang_substrate.assets.book_scene_plan import SourceVisualPlan, plan_book_scene_assets
 from wanxiang_substrate.authoring.orchestrator import (
     AuthoringOrchestrator,
     OrchestrationRun,
     ProviderRequest,
 )
 from wanxiang_substrate.authoring.service import AuthoringService
-from wanxiang_substrate.assets.book_scene_plan import SourceVisualPlan, plan_book_scene_assets
 from wanxiang_substrate.compile import PackageValidationResult
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.preview import PreviewInstall, PreviewWorld, instantiate_preview
