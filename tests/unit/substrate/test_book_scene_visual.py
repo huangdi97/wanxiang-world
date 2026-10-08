@@ -34,13 +34,19 @@ def _request(place: str, key: str) -> _SourceSceneRequest:
     )
 
 
-def _plan(*requests: _SourceSceneRequest) -> _SourceVisualPlan:
+def _plan(
+    *requests: _SourceSceneRequest,
+    external_processing_allowed: bool = False,
+    delivery_rights: str = "source-gated",
+) -> _SourceVisualPlan:
     return _SourceVisualPlan(
         package_id="world:test",
         source_digest="a" * 64,
         status="READY_FOR_ASSET_PROVIDER",
         scene_requests=requests,
         deferred_scene_count=0,
+        delivery_rights=delivery_rights,
+        external_processing_allowed=external_processing_allowed,
     )
 
 
@@ -120,7 +126,10 @@ class _RemoteLikeProvider:
 
 
 def test_network_and_cost_are_denied_until_explicitly_authorized() -> None:
-    plan = _plan(_request("远方", "remote"))
+    plan = _plan(
+        _request("远方", "remote"),
+        external_processing_allowed=True,
+    )
     provider = _RemoteLikeProvider()
 
     with pytest.raises(ValueError, match="allow_network"):
@@ -175,3 +184,13 @@ class _BadDigestProvider(_RemoteLikeProvider):
 def test_provider_output_integrity_is_verified_before_storage() -> None:
     with pytest.raises(ValueError, match="invalid content digest"):
         _materialize_visual_plan(_plan(_request("荒原", "bad")), provider=_BadDigestProvider())
+
+
+def test_remote_provider_is_blocked_by_source_rights_even_with_network_permission() -> None:
+    with pytest.raises(ValueError, match="external visual processing"):
+        _render_visual_plan(
+            _plan(_request("私密地点", "private-remote")),
+            provider=_RemoteLikeProvider(),
+            allow_network=True,
+            max_cost_units=2,
+        )
