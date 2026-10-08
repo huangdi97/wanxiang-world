@@ -86,8 +86,7 @@ class BundlePatch:
         if overlap:
             raise ProfileError(f"bundle patch adds and removes the same providers: {overlap}")
         invalid_dimension = any(
-            not key.strip() or not value.strip()
-            for key, value in self.dimension_overrides.items()
+            not key.strip() or not value.strip() for key, value in self.dimension_overrides.items()
         )
         if invalid_dimension:
             raise ProfileError("bundle patch dimension overrides must be non-empty")
@@ -136,9 +135,7 @@ def resolve_bundle_stack(
 
     reality_refs = {bundle.reality_profile_ref for bundle in bundles}
     if len(reality_refs) != 1:
-        raise ProfileError(
-            "bundle stack cannot silently combine multiple RealityProfile refs"
-        )
+        raise ProfileError("bundle stack cannot silently combine multiple RealityProfile refs")
     reality_profile_ref = next(iter(reality_refs))
 
     seams: set[str] = set()
@@ -159,17 +156,13 @@ def resolve_bundle_stack(
         for artifact in bundle.artifacts:
             existing_artifact = artifacts.get(artifact.package_name)
             if existing_artifact is not None and existing_artifact != artifact:
-                raise ProfileError(
-                    f"bundle artifact conflict for {artifact.package_name!r}"
-                )
+                raise ProfileError(f"bundle artifact conflict for {artifact.package_name!r}")
             artifacts[artifact.package_name] = artifact
 
     resolved_patch = patch or BundlePatch()
     unresolved = sorted(set(conflicts) - set(resolved_patch.dimension_overrides))
     if unresolved:
-        raise ProfileError(
-            f"bundle dimension conflicts require explicit overrides: {unresolved}"
-        )
+        raise ProfileError(f"bundle dimension conflicts require explicit overrides: {unresolved}")
     for name, value in resolved_patch.dimension_overrides.items():
         dimensions[name] = value
 

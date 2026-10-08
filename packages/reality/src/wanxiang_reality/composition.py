@@ -37,15 +37,11 @@ def build_runtime_lock_from_stack(
 
     missing_seams = sorted(set(resolved.required_seams) - set(service_contract_versions))
     if missing_seams:
-        raise RuntimeLockError(
-            f"resolved bundle stack has unpinned service seams: {missing_seams}"
-        )
+        raise RuntimeLockError(f"resolved bundle stack has unpinned service seams: {missing_seams}")
 
     missing_providers = sorted(set(resolved.world_profile.providers) - set(provider_versions))
     if missing_providers:
-        raise RuntimeLockError(
-            f"resolved bundle stack has unpinned providers: {missing_providers}"
-        )
+        raise RuntimeLockError(f"resolved bundle stack has unpinned providers: {missing_providers}")
 
     artifact_hashes = resolved.artifact_hashes()
     if not artifact_hashes:
