@@ -29,6 +29,7 @@ class _SceneVisualAsset:
     content_sha256: str
     cache_key: str
     illustrative: bool = True
+    style_key: str = ""
 
     def data_uri(self) -> str:
         payload = base64.b64encode(self.content).decode("ascii")
@@ -53,14 +54,16 @@ class _ProceduralSvgSceneProvider:
     private_safe = True
 
     def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
-        digest = hashlib.sha256(request.cache_key.encode("utf-8")).digest()
-        sky_hue = 185 + digest[0] % 36
-        ground_hue = 72 + digest[1] % 28
-        accent_hue = 20 + digest[2] % 40
-        ridge_a = 175 + digest[3] % 70
-        ridge_b = 320 + digest[4] % 110
-        tower_x = 250 + digest[5] % 420
-        water = digest[6] % 3 != 0
+        layout_digest = hashlib.sha256(request.cache_key.encode("utf-8")).digest()
+        style_seed = request.style_key or request.cache_key
+        style_digest = hashlib.sha256(style_seed.encode("utf-8")).digest()
+        sky_hue = 185 + style_digest[0] % 36
+        ground_hue = 72 + style_digest[1] % 28
+        accent_hue = 20 + style_digest[2] % 40
+        ridge_a = 175 + layout_digest[3] % 70
+        ridge_b = 320 + layout_digest[4] % 110
+        tower_x = 250 + layout_digest[5] % 420
+        water = layout_digest[6] % 3 != 0
         place = escape(request.place_name)
         water_layer = (
             '<path d="M0 690 C260 610 610 760 1200 600 L1200 900 L0 900Z" '
@@ -117,6 +120,7 @@ class _ProceduralSvgSceneProvider:
             content=content,
             content_sha256=content_sha,
             cache_key=f"{request.cache_key}:{self.provider_id}",
+            style_key=request.style_key,
         )
 
 
