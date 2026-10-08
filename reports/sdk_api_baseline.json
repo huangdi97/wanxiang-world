@@ -235,6 +235,8 @@
     "wanxiang_domain.snapshot_to_primitive",
     "wanxiang_domain.validate_id",
     "wanxiang_domain.validate_world_commit_kind",
+    "wanxiang_execution.DockerContainerProvider",
+    "wanxiang_execution.authorize_for",
     "wanxiang_observability.ComponentStatus",
     "wanxiang_observability.ConfigError",
     "wanxiang_observability.JsonFormatter",

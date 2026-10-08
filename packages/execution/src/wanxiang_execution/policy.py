@@ -161,23 +161,13 @@ class ExecutionPolicy:
         )
 
 
-def authorize(policy: ExecutionPolicy) -> None:
-    """Authorize a policy for the local fabric, or refuse it explicitly.
-
-    Args:
-        policy: Declared execution policy for one request.
-
-    Raises:
-        PolicyViolation: If the policy requests an execution class this fabric
-            does not implement, untrusted network egress, secret access
-            (no secret broker exists), or irreversible external side effects
-            (those must go through the outbox, never through the fabric).
-    """
-    if policy.execution_class is not ExecutionClass.PROCESS:
+def authorize_for(policy: ExecutionPolicy, execution_class: ExecutionClass) -> None:
+    """Authorize shared execution invariants for one concrete provider class."""
+    if policy.execution_class is not execution_class:
         raise PolicyViolation(
-            "execution_class is not implemented by this fabric: "
+            "execution_class is not implemented by this provider: "
             f"requested execution_class={policy.execution_class.value!r}, "
-            f"only {ExecutionClass.PROCESS.value!r} is available"
+            f"provider execution_class={execution_class.value!r}"
         )
     if policy.trust is not TrustLevel.TRUSTED and policy.network is NetworkAccess.EGRESS:
         raise PolicyViolation(
@@ -194,3 +184,8 @@ def authorize(policy: ExecutionPolicy) -> None:
             "irreversible external effects must go through the outbox, not the fabric: "
             f"requested side_effects={policy.side_effects.value!r}"
         )
+
+
+def authorize(policy: ExecutionPolicy) -> None:
+    """Authorize a policy for the local-process provider."""
+    authorize_for(policy, ExecutionClass.PROCESS)

@@ -6,6 +6,7 @@ outbox records irreversible external effects append-only, suppresses duplicate
 execution by idempotency key and never retries an ambiguous effect.
 """
 
+from wanxiang_execution.container import DockerContainerProvider
 from wanxiang_execution.checkpoint import (
     CheckpointedProcessRunner,
     ExecutionCheckpoint,
@@ -51,6 +52,7 @@ from wanxiang_execution.policy import (
     SideEffectClass,
     TrustLevel,
     authorize,
+    authorize_for,
 )
 from wanxiang_execution.trace import (
     EXIT_STATUS_COMPLETED,
@@ -83,6 +85,7 @@ __all__ = [
     "STATUS_FAILED",
     "TIMEOUT_EXIT_CODE",
     "AmbiguousEffectResult",
+    "DockerContainerProvider",
     "DuplicateEffectSuppressed",
     "ExecutionClass",
     "ExecutionError",
@@ -108,6 +111,7 @@ __all__ = [
     "SideEffectClass",
     "TrustLevel",
     "authorize",
+    "authorize_for",
     "environment_hash",
     "observe_effect",
     "request_fingerprint",

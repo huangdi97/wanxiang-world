@@ -2,7 +2,7 @@
 
 - API routes: 74
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 2154
+- Python public names (stable packages): 2156
 
 ## API routes
 
@@ -235,6 +235,8 @@
 - `wanxiang_domain.snapshot_to_primitive`
 - `wanxiang_domain.validate_id`
 - `wanxiang_domain.validate_world_commit_kind`
+- `wanxiang_execution.DockerContainerProvider`
+- `wanxiang_execution.authorize_for`
 - `wanxiang_observability.ComponentStatus`
 - `wanxiang_observability.ConfigError`
 - `wanxiang_observability.JsonFormatter`
@@ -433,5 +435,53 @@
 - `wanxiang_substrate.ActivityScore`
 - `wanxiang_substrate.ActorActivityInput`
 - `wanxiang_substrate.ActorAvailability`
+- `wanxiang_substrate.ActorContinuityProjection`
+- `wanxiang_substrate.ActorContinuitySnapshot`
+- `wanxiang_substrate.ActorEvolutionState`
+- `wanxiang_substrate.ActorEvolutionTracker`
+- `wanxiang_substrate.ActorGoal`
+- `wanxiang_substrate.ActorGoalStack`
+- `wanxiang_substrate.ActorGoalStatus`
+- `wanxiang_substrate.ActorPerspective`
+- `wanxiang_substrate.ActorTrajectoryLedger`
+- `wanxiang_substrate.ActorTrajectoryRecord`
+- `wanxiang_substrate.AdapterContractError`
+- `wanxiang_substrate.AdapterRegistry`
+- `wanxiang_substrate.Adjudication`
+- `wanxiang_substrate.AdjudicationService`
+- `wanxiang_substrate.Adjudicator`
+- `wanxiang_substrate.AdjudicatorRegistry`
+- `wanxiang_substrate.AdmissionDecision`
+- `wanxiang_substrate.AdmissionStatus`
+- `wanxiang_substrate.Affordance`
+- `wanxiang_substrate.AgencyError`
+- `wanxiang_substrate.AgencyQuery`
+- `wanxiang_substrate.AggregateHumanStatus`
+- `wanxiang_substrate.AliasClaim`
+- `wanxiang_substrate.Appointment`
+- `wanxiang_substrate.AppointmentState`
+- `wanxiang_substrate.ArbitrationResult`
+- `wanxiang_substrate.AssembledWorldPack`
+- `wanxiang_substrate.AssessmentEvidence`
+- `wanxiang_substrate.AssetAdapter`
+- `wanxiang_substrate.AssetCandidate`
+- `wanxiang_substrate.AssetCorrupt`
+- `wanxiang_substrate.AssetFoundry`
+- `wanxiang_substrate.AssetGenerator`
+- `wanxiang_substrate.AssetKind`
+- `wanxiang_substrate.AssetNotFound`
+- `wanxiang_substrate.AssetRef`
+- `wanxiang_substrate.AssetRightsDenied`
+- `wanxiang_substrate.AssetStoreError`
+- `wanxiang_substrate.AssignmentMode`
+- `wanxiang_substrate.AuditEntry`
+- `wanxiang_substrate.AuthoringBudget`
+- `wanxiang_substrate.AuthoringDAG`
+- `wanxiang_substrate.AuthoringOrchestrator`
+- `wanxiang_substrate.AuthoringService`
+- `wanxiang_substrate.AuthoringSnapshot`
+- `wanxiang_substrate.AutoApprovalPolicy`
+- `wanxiang_substrate.AutonomousScheduler`
+- `wanxiang_substrate.AvailabilityWindow`
 
 Machine-readable: reports/sdk_api_baseline.json.
