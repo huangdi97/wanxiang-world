@@ -38,15 +38,6 @@ def one_click(payload: OneClickRequest, request: Request) -> dict[str, object]:
         semantic_provider=payload.semantic_provider,
     )
     validation = service.package_validation(result.job_id)
-    playable_profile: dict[str, object] | None = None
-    playable = request.app.state.playable
-    if playable is not None:
-        profile = playable.register_package(
-            result.package,
-            owner_id="studio",
-            visibility="private",
-        )
-        playable_profile = profile.to_dict()
     return {
         "job_id": result.job_id,
         "profile": result.source_profile,
@@ -56,7 +47,6 @@ def one_click(payload: OneClickRequest, request: Request) -> dict[str, object]:
         "preview_ref": result.preview.scoped_ref,
         "publishable": validation.publish_ok,
         "publish_reasons": list(validation.reasons),
-        "playable_profile": playable_profile,
         "visual_plan": (
             {
                 "status": result.visual_plan.status,
