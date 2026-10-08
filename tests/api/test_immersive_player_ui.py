@@ -1,7 +1,6 @@
 """Guard opt-in visual player boundaries; not M95 human evidence."""
 
 from fastapi.routing import APIRoute
-
 from wanxiang_api.immersive_player_ui import immersive_player_html
 from wanxiang_api.player_ui_asset import player_html
 from wanxiang_api.player_ui_routes import router
