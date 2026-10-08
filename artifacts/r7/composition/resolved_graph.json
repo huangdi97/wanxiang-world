@@ -13,22 +13,22 @@
     {
       "id": "wanxiang.identity@1",
       "apiVersion": "1",
-      "scope": "tenant"
+      "scope": "root"
     },
     {
       "id": "wanxiang.reality.observe@1",
       "apiVersion": "1",
-      "scope": "worldline"
+      "scope": "world"
     },
     {
       "id": "wanxiang.reality.proposal@1",
       "apiVersion": "1",
-      "scope": "worldline"
+      "scope": "world"
     },
     {
       "id": "wanxiang.reality.policy@1",
       "apiVersion": "1",
-      "scope": "worldline"
+      "scope": "tenant"
     },
     {
       "id": "wanxiang.authority@1",
@@ -48,7 +48,7 @@
     {
       "id": "wanxiang.lineage@1",
       "apiVersion": "1",
-      "scope": "world"
+      "scope": "worldline"
     },
     {
       "id": "wanxiang.replay@1",
@@ -63,32 +63,27 @@
     {
       "id": "wanxiang.rights@1",
       "apiVersion": "1",
-      "scope": "world"
+      "scope": "tenant"
     },
     {
       "id": "wanxiang.execution@1",
       "apiVersion": "1",
-      "scope": "root"
+      "scope": "world"
     },
     {
       "id": "wanxiang.actor@1",
       "apiVersion": "1",
-      "scope": "worldline"
+      "scope": "world"
     },
     {
       "id": "wanxiang.model@1",
       "apiVersion": "1",
-      "scope": "root"
+      "scope": "tenant"
     },
     {
       "id": "wanxiang.capability@1",
       "apiVersion": "1",
-      "scope": "world"
-    },
-    {
-      "id": "wanxiang.reality.profile@1",
-      "apiVersion": "1",
-      "scope": "world"
+      "scope": "root"
     },
     {
       "id": "wanxiang.world.metadata@1",
@@ -142,6 +137,11 @@
     },
     {
       "id": "wanxiang.distribution@1",
+      "apiVersion": "1",
+      "scope": "world"
+    },
+    {
+      "id": "wanxiang.reality.profile@1",
       "apiVersion": "1",
       "scope": "world"
     }
@@ -7226,6 +7226,17 @@
         "wanxiang.actor@1": "1",
         "wanxiang.model@1": "1",
         "wanxiang.capability@1": "1",
+        "wanxiang.world.metadata@1": "1",
+        "wanxiang.snapshot@1": "1",
+        "wanxiang.clock@1": "1",
+        "wanxiang.space@1": "1",
+        "wanxiang.memory@1": "1",
+        "wanxiang.simulation@1": "1",
+        "wanxiang.forge.world@1": "1",
+        "wanxiang.forge.capability@1": "1",
+        "wanxiang.projection@1": "1",
+        "wanxiang.experience@1": "1",
+        "wanxiang.distribution@1": "1",
         "wanxiang.reality.profile@1": "1"
       },
       "providerVersions": {
