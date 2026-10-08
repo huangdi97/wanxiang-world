@@ -79,6 +79,7 @@ def player_observe(
         events,
         actor_id=record.actor_id,
         actor_name=actor_name,
+        actor_starting_location=actor_starting_location,
         diff=diff,
         locale=locale,
         events_since_revision=effective_events_since_revision,
