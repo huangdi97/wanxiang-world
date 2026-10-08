@@ -69,3 +69,32 @@ def test_non_ready_plan_never_generates_pixels() -> None:
         deferred_scene_count=0,
     )
     assert _render_visual_plan(blocked) == ()
+
+
+class _RemoteLikeProvider:
+    provider_id = "remote-test"
+    requires_network = True
+    cost_units_per_asset = 2
+    private_safe = False
+
+    def produce(self, request: _SourceSceneRequest):
+        return _ProceduralSvgSceneProvider().produce(request)
+
+
+def test_network_and_cost_are_denied_until_explicitly_authorized() -> None:
+    plan = _plan(_request("远方", "remote"))
+    provider = _RemoteLikeProvider()
+    import pytest
+
+    with pytest.raises(ValueError, match="allow_network"):
+        _render_visual_plan(plan, provider=provider)
+    with pytest.raises(ValueError, match="exceeds budget"):
+        _render_visual_plan(plan, provider=provider, allow_network=True, max_cost_units=1)
+
+    rendered = _render_visual_plan(
+        plan,
+        provider=provider,
+        allow_network=True,
+        max_cost_units=2,
+    )
+    assert rendered[0].place_name == "远方"
