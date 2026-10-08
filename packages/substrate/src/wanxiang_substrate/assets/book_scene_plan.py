@@ -24,6 +24,7 @@ class _SourceSceneRequest:
     cache_key: str
     source_refs: tuple[str, ...] = ()
     confidence: float = 0.0
+    style_key: str = ""
 
 
 @dataclass(frozen=True, slots=True)
@@ -80,6 +81,9 @@ def _plan_book_scene_assets(
         return _SourceVisualPlan(package.package_id, source_digest, "PLACES_NOT_EXTRACTED", (), 0)
 
     selected = distinct_places[:max_preview_scenes]
+    style_key = hashlib.sha256(
+        f"{source_digest}:story-visual-profile:v1".encode("utf-8")
+    ).hexdigest()[:24]
     raw_evidence = package.draft.compiler_metadata.get("scene_evidence_v1", "[]")
     try:
         decoded = json.loads(raw_evidence)
@@ -140,6 +144,7 @@ def _plan_book_scene_assets(
                 ).hexdigest(),
                 source_refs=source_refs,
                 confidence=confidence,
+                style_key=style_key,
             )
         )
     status = "READY_FOR_ASSET_PROVIDER" if requests else "BUDGET_ZERO"
