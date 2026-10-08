@@ -171,8 +171,7 @@ def build_pipeline_build(
                 "true"
                 if records
                 and all(
-                    record.rights is not None
-                    and record.rights.allows("external_model_processing")
+                    record.rights is not None and record.rights.allows("external_model_processing")
                     for record in records
                 )
                 else "false"
