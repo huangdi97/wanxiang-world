@@ -15,6 +15,7 @@ from wanxiang_substrate.assets.book_scene_visual import (
     _SceneVisualAsset,
     _VisualAssetCache,
 )
+from wanxiang_substrate.assets.storage import AssetRef
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.playable.actions import IntentCompiler
 from wanxiang_substrate.playable.catalog import WorldPlaza
@@ -56,6 +57,7 @@ class PlayableService:
         self.store = store or InMemoryPlayableStore()
         self._visual_cache = visual_cache or _VisualAssetCache()
         self._visual_assets: dict[str, tuple[_SceneVisualAsset, ...]] = {}
+        self._visual_asset_refs: dict[str, tuple[AssetRef, ...]] = {}
         self.plaza = WorldPlaza(self.store)
         self.entry = CharacterEntryService(self.store)
         self._packages: dict[str, WorldPackageDraft] = {}
@@ -68,10 +70,24 @@ class PlayableService:
 
         return self._packages
 
-    def visual_assets(self, profile_id: str) -> tuple[_SceneVisualAsset, ...]:
-        """Return cached projection assets; reading a world never generates new media."""
+    def visual_assets(
+        self,
+        profile_id: str,
+        *,
+        viewer_id: str,
+    ) -> tuple[_SceneVisualAsset, ...]:
+        """Return cached visuals only when their delivery rights allow this viewer."""
 
-        return self._visual_assets.get(profile_id, ())
+        profile = self.plaza.require_access(profile_id, viewer_id)
+        assets = self._visual_assets.get(profile_id, ())
+        refs = self._visual_asset_refs.get(profile_id, ())
+        if profile.owner_id and viewer_id == profile.owner_id:
+            return assets
+        return tuple(
+            asset
+            for asset, ref in zip(assets, refs, strict=True)
+            if ref.rights == "public"
+        )
 
     def register_package(
         self,
@@ -101,6 +117,7 @@ class PlayableService:
         visual_plan = _plan_book_scene_assets(package)
         materialized = _materialize_visual_plan(visual_plan, cache=self._visual_cache)
         self._visual_assets[profile.profile_id] = materialized.assets
+        self._visual_asset_refs[profile.profile_id] = materialized.asset_refs
         self._installs[profile.profile_id] = PreviewInstall(
             preview_id=f"playable_{len(self._installs) + 1}",
             package_id=package.package_id,
