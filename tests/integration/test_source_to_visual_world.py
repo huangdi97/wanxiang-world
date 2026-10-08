@@ -164,9 +164,7 @@ def test_chinese_book_local_semantic_provider_builds_visual_scene_without_extern
         and relation.relation_type == "route"
         for relation in result.visual_plan.topology_relations
     )
-    scene = next(
-        item for item in result.visual_plan.scene_requests if item.place_name == "江南城"
-    )
+    scene = next(item for item in result.visual_plan.scene_requests if item.place_name == "江南城")
     assert scene.source_refs
     assert scene.confidence > 0
     assert result.visual_assets
