@@ -1,5 +1,7 @@
 """FastAPI application factory for the Wanxiang world API."""
 
+# pyright: reportPrivateUsage=false
+
 from __future__ import annotations
 
 from fastapi import FastAPI, Request
@@ -16,6 +18,7 @@ from wanxiang_persistence.event_store import SqlAlchemyEventStore
 from wanxiang_persistence.instance_repository import WorldInstanceRepository
 from wanxiang_persistence.snapshot_store import SqlAlchemySnapshotStore
 from wanxiang_runtime.resolver import ResolverRegistry
+from wanxiang_substrate.assets.book_scene_visual import _VisualAssetCache
 from wanxiang_substrate.authoring import AuthoringService, LocalSemanticProvider
 from wanxiang_substrate.authoring.providers import ProviderRouter
 from wanxiang_substrate.lineage import LineageGraph
@@ -93,6 +96,7 @@ def create_app(
     # no-key deterministic baseline and can return SEMANTIC_PROVIDER_REQUIRED.
     providers = ProviderRouter((LocalSemanticProvider(), LocalPromptGenesisProvider()))
     app.state.authoring = AuthoringService(providers=providers)
+    app.state.visual_asset_cache = _VisualAssetCache()
     app.state.workshop = WorkshopService(app.state.authoring, providers=providers)
     app.state.playable = PlayableService(runtime) if runtime is not None else None
     install_error_handler(app)
