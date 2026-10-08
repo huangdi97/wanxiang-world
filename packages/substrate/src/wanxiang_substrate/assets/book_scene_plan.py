@@ -102,7 +102,6 @@ def _plan_book_scene_assets(
     if not distinct_places:
         return _SourceVisualPlan(package.package_id, source_digest, "PLACES_NOT_EXTRACTED", (), 0)
 
-    selected = distinct_places[:max_preview_scenes]
     raw_topology = package.draft.compiler_metadata.get("scene_topology_evidence_v1", "[]")
     try:
         decoded_topology = json.loads(raw_topology)
@@ -164,6 +163,36 @@ def _plan_book_scene_assets(
     except (TypeError, ValueError):
         decoded = []
     evidence_rows = decoded if isinstance(decoded, list) else []
+
+    def place_rank(place: str) -> tuple[int, float, int, str, str]:
+        matching = [
+            row
+            for row in evidence_rows
+            if isinstance(row, dict) and row.get("name") == place
+        ]
+        refs = {
+            ref
+            for row in matching
+            for ref in row.get("source_refs", [])
+            if isinstance(ref, str) and ref
+        }
+        confidence = max(
+            (
+                float(row.get("confidence", 0.0))
+                for row in matching
+                if isinstance(row.get("confidence", 0.0), (int, float))
+            ),
+            default=0.0,
+        )
+        context_count = sum(
+            len(row.get("cooccurring_candidates", []))
+            for row in matching
+            if isinstance(row.get("cooccurring_candidates", []), list)
+        )
+        first_ref = min(refs, default="")
+        return (-len(refs), -confidence, -context_count, first_ref, place)
+
+    selected = tuple(sorted(distinct_places, key=place_rank))[:max_preview_scenes]
 
     requests: list[_SourceSceneRequest] = []
     for place in selected:
