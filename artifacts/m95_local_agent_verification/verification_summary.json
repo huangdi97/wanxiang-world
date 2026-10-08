@@ -228,13 +228,14 @@
     "v5_5_0_stable": "NOT_CREATED"
   },
   "delivery": {
-    "push_sha": "ae5e33c85357b61f1f1b1bb8fd033fa31f9c11ed",
+    "push_sha": "d9b9f3d63f69cbc398d877944a0d8248f7291dda",
     "ci": {
       "ci": "SUCCESS",
       "r7_qualification": "SUCCESS",
       "runs": [
-        "37739783845",
-        "37739783870"
+        "37740713349",
+        "37740708641",
+        "37740708623"
       ]
     },
     "pr": {
@@ -247,7 +248,8 @@
       "05a205f",
       "03f2c1f",
       "405370a",
-      "ae5e33c"
+      "ae5e33c",
+      "d9b9f3d"
     ]
   }
 }
