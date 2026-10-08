@@ -15,7 +15,7 @@ from wanxiang_domain.event import CommittedEvent
 from wanxiang_runtime.state import InMemoryCanonicalState
 
 from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
-from wanxiang_substrate.assets.book_scene_visual import _SceneVisualAsset, _render_visual_plan
+from wanxiang_substrate.assets.book_scene_visual import _render_visual_plan, _SceneVisualAsset
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.playable.models import PlayableWorldProfile
 from wanxiang_substrate.playable.player_i18n import _copy_for
