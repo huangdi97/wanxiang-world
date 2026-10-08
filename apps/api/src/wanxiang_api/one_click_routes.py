@@ -49,6 +49,16 @@ def one_click(payload: OneClickRequest, request: Request) -> dict[str, object]:
                 "selected_scenes": len(result.visual_plan.scene_requests),
                 "deferred_scenes": result.visual_plan.deferred_scene_count,
                 "image_provider_calls": result.visual_plan.image_provider_calls,
+                "preview_assets": [
+                    {
+                        "place_name": asset.place_name,
+                        "media_type": asset.media_type,
+                        "data_uri": asset.data_uri(),
+                        "content_sha256": asset.content_sha256,
+                        "illustrative": asset.illustrative,
+                    }
+                    for asset in result.visual_assets
+                ],
             }
             if result.visual_plan is not None
             else None
