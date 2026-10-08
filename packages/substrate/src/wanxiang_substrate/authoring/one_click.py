@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from wanxiang_domain.errors import ContractError
 
 from wanxiang_substrate.assets.book_scene_plan import _SourceVisualPlan, _plan_book_scene_assets
+from wanxiang_substrate.assets.book_scene_visual import _SceneVisualAsset, _render_visual_plan
 from wanxiang_substrate.authoring.orchestrator import (
     AuthoringOrchestrator,
     OrchestrationRun,
@@ -30,6 +31,7 @@ class OneClickResult:
     preview: PreviewInstall
     orchestration: OrchestrationRun | None = None
     visual_plan: _SourceVisualPlan | None = None
+    visual_assets: tuple[_SceneVisualAsset, ...] = ()
 
 
 class OneClickAuthoring:
@@ -80,7 +82,16 @@ class OneClickAuthoring:
             raise ContractError(f"one-click job {job_id!r} did not produce a package")
         preview = self.service.preview(job_id)
         visual_plan = _plan_book_scene_assets(package) if profile == "book" else None
-        return OneClickResult(job_id, profile, package, preview, orchestration, visual_plan)
+        visual_assets = _render_visual_plan(visual_plan) if visual_plan is not None else ()
+        return OneClickResult(
+            job_id,
+            profile,
+            package,
+            preview,
+            orchestration,
+            visual_plan,
+            visual_assets,
+        )
 
     def enter_living_instance(
         self, result: OneClickResult, runtime: PreviewRuntimePort
