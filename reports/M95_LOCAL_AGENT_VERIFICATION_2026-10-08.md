@@ -101,8 +101,8 @@
 - 验证基线：`9c71a5c29624b44497ab989af3948f8bf41a765a`（远端与本地一致）
 - 交付 commits：`05a205f`（账本/组合图刷新）、`03f2c1f`（M95 验证证据与截图）、`405370a`（本报告）、`ae5e33c`（交付记录）、`d9b9f3d`（PR/CI 记录）、`c781a0c`/`be36f3b`（交付记录对齐）、`aed23c0`（最终记录定稿）
 - 工作树最终状态：仅用户放置的接续文档 `WANXIANG_R7_NEW_CONVERSATION_HANDOFF_2026-10-08.md` 保持未跟踪保留
-- 推送 SHA：`aed23c0b80e27dec3152b005d235a2c1b9e6a757`（最终交付 head，远端 == 本地，非 force）
-- exact-SHA CI：`ci` = **SUCCESS**、`r7-qualification` = **SUCCESS**（run 37744693092 / 37744693146 / 37744699402）
+- 推送 SHA：`302e10f9759a20f194a704e34f9055163792da84`（最终 head，远端 == 本地，非 force）
+- exact-SHA CI：`ci` = **SUCCESS**、`r7-qualification` = **SUCCESS**（run 37745505044 / 37745499048 / 37745499054）
 - **PR**：https://github.com/huangdi97/wanxiang-world/pull/1 （base `master`，OPEN，MERGEABLE）
 
 ## Phase G — 最终交付与剩余阻塞项
