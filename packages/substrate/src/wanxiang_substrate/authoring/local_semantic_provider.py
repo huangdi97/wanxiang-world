@@ -13,7 +13,10 @@ from wanxiang_substrate.sources.errors import SemanticProviderSchemaError
 _CHINESE = r"\u4e00-\u9fff"
 _CUE = r"说|道|问|答|称|表示|指出|认为|告诉|回忆|喊|叫道|开口"
 _TITLE = r"同志|先生|女士|书记|局长|主任|市长|县长|部长|厅长|科长|处长|校长|老师"
-_PLACE_SUFFIX = r"省|市|县|区|镇|乡|村|路|街|巷|院|厂|公司|学校|大学|医院|站|馆|楼|山|河|桥|城|宫|府|寺|塔|谷|岛|港|湖|园|殿|门|亭|洞|关|寨|庄|阁|堂"
+_PLACE_SUFFIX = (
+    r"省|市|县|区|镇|乡|村|路|街|巷|院|厂|公司|学校|大学|医院|站|馆|楼|"
+    r"山|河|桥|城|宫|府|寺|塔|谷|岛|港|湖|园|殿|门|亭|洞|关|寨|庄|阁|堂"
+)
 _EVENT_CUES = (
     "到达",
     "离开",
@@ -259,7 +262,10 @@ class LocalSemanticProvider:
                 if source_place and target_place and source_place != target_place:
                     found.append((source_place, target_place, relation_type))
         for match in re.finditer(
-            r"\bfrom\s+([A-Z][A-Za-z ]{1,32}?)\s+to\s+([A-Z][A-Za-z ]{1,32}?)(?=[,.;]|\s+(?:and|then)\b|$)",
+            (
+                r"\bfrom\s+([A-Z][A-Za-z ]{1,32}?)\s+to\s+"
+                r"([A-Z][A-Za-z ]{1,32}?)(?=[,.;]|\s+(?:and|then)\b|$)"
+            ),
             text,
         ):
             source_place = _clean(match.group(1), 48)
