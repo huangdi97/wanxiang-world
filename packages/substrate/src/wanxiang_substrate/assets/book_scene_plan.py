@@ -164,7 +164,9 @@ def _plan_book_scene_assets(
         decoded = []
     evidence_rows = decoded if isinstance(decoded, list) else []
 
-    def place_rank(place: str) -> tuple[int, float, int, str, str]:
+    place_positions = {place: index for index, place in enumerate(distinct_places)}
+
+    def place_rank(place: str) -> tuple[int, float, int, int, str, int]:
         matching = [
             row
             for row in evidence_rows
@@ -190,7 +192,14 @@ def _plan_book_scene_assets(
             if isinstance(row.get("cooccurring_candidates", []), list)
         )
         first_ref = min(refs, default="")
-        return (-len(refs), -confidence, -context_count, first_ref, place)
+        return (
+            -len(refs),
+            -confidence,
+            -context_count,
+            0 if refs else 1,
+            first_ref,
+            place_positions[place],
+        )
 
     selected = tuple(sorted(distinct_places, key=place_rank))[:max_preview_scenes]
 
