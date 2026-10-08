@@ -8,6 +8,8 @@ and name both the reason and the offending policy field.
 
 from __future__ import annotations
 
+import hashlib
+import json
 from dataclasses import dataclass
 from enum import StrEnum
 
@@ -189,3 +191,31 @@ def authorize_for(policy: ExecutionPolicy, execution_class: ExecutionClass) -> N
 def authorize(policy: ExecutionPolicy) -> None:
     """Authorize a policy for the local-process provider."""
     authorize_for(policy, ExecutionClass.PROCESS)
+
+
+def policy_projection(policy: ExecutionPolicy) -> dict[str, object]:
+    """Return the complete provider-neutral policy projection used for binding."""
+    return {
+        "trust": policy.trust.value,
+        "execution_class": policy.execution_class.value,
+        "filesystem": policy.filesystem.value,
+        "network": policy.network.value,
+        "secrets": policy.secrets.value,
+        "cpu_seconds_limit": policy.cpu_seconds_limit,
+        "memory_mb_limit": policy.memory_mb_limit,
+        "wall_seconds_limit": policy.wall_seconds_limit,
+        "reproducibility": policy.reproducibility,
+        "cost_class": policy.cost_class,
+        "side_effects": policy.side_effects.value,
+    }
+
+
+def policy_fingerprint(policy: ExecutionPolicy) -> str:
+    """Bind a capability runtime requirement to the full execution policy."""
+    payload = json.dumps(
+        policy_projection(policy),
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=False,
+    )
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()

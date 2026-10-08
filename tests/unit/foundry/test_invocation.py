@@ -109,3 +109,19 @@ def test_invocation_refuses_runtime_class_drift(
 
     with pytest.raises(InvocationError, match="execution class"):
         invoke(registry, package, _request(), container_policy, tmp_path)
+
+
+@pytest.mark.unit
+def test_invocation_refuses_policy_fingerprint_drift(
+    package_with_digest: _MakePackage,
+    full_pass_report: VerificationReport,
+    untrusted_policy: ExecutionPolicy,
+    tmp_path: Path,
+) -> None:
+    registry = VerifiedCapabilityRegistry()
+    package = package_with_digest(full_pass_report.evidence_digest)
+    registry.admit(package, full_pass_report)
+    drifted = replace(untrusted_policy, memory_mb_limit=untrusted_policy.memory_mb_limit + 1)
+
+    with pytest.raises(InvocationError, match="policy"):
+        invoke(registry, package, _request(), drifted, tmp_path)

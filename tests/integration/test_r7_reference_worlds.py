@@ -18,7 +18,7 @@ from wanxiang_api.experience_player_service import ExperiencePlayerService
 from wanxiang_application.observer_experience import ObserverExperience
 from wanxiang_domain.errors import ValidationRejected
 from wanxiang_domain.ids import WorldInstanceId
-from wanxiang_execution import ExecutionClass, ExecutionPolicy
+from wanxiang_execution import ExecutionClass, ExecutionPolicy, policy_fingerprint
 from wanxiang_foundry import (
     ArtifactKind,
     ArtifactRef,
@@ -419,17 +419,7 @@ def test_science_capability_real_artifact_verifies_executes_then_requires_author
             "process-boundary reference Execution Fabric provider",
         ),
     )
-    policy_fingerprint = canonical_sha256(
-        {
-            "trust": policy.trust.value,
-            "execution_class": policy.execution_class.value,
-            "filesystem": policy.filesystem.value,
-            "network": policy.network.value,
-            "secrets": policy.secrets.value,
-            "side_effects": policy.side_effects.value,
-            "wall_seconds_limit": policy.wall_seconds_limit,
-        }
-    )
+    runtime_policy_fingerprint = policy_fingerprint(policy)
     package = CapabilityPackage(
         capability_id=candidate.capability_id,
         version=candidate.proposed_version,
@@ -455,7 +445,7 @@ def test_science_capability_real_artifact_verifies_executes_then_requires_author
         ),
         runtime=RuntimeRequirement(
             execution_class=ExecutionClass.PROCESS,
-            policy_fingerprint=policy_fingerprint,
+            policy_fingerprint=runtime_policy_fingerprint,
         ),
         world_effect=WorldEffect(allowed_output_class=OutputClass.OBSERVATION),
         knowledge_level=KnowledgeLevel.K3_VERIFIED_ENVIRONMENTAL,

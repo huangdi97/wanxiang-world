@@ -13,7 +13,7 @@ import sys
 from pathlib import Path
 
 import pytest
-from wanxiang_execution import ExecutionClass, ExecutionPolicy
+from wanxiang_execution import ExecutionClass, ExecutionPolicy, policy_fingerprint
 from wanxiang_foundry import (
     ArtifactKind,
     ArtifactRef,
@@ -181,17 +181,7 @@ def test_real_paper_repo_artifacts_become_verified_proposal_only_capability(
         ),
         runtime=RuntimeRequirement(
             execution_class=ExecutionClass.PROCESS,
-            policy_fingerprint=canonical_sha256(
-                {
-                    "trust": policy.trust.value,
-                    "execution_class": policy.execution_class.value,
-                    "filesystem": policy.filesystem.value,
-                    "network": policy.network.value,
-                    "secrets": policy.secrets.value,
-                    "side_effects": policy.side_effects.value,
-                    "wall_seconds_limit": policy.wall_seconds_limit,
-                }
-            ),
+            policy_fingerprint=policy_fingerprint(policy),
         ),
         world_effect=WorldEffect(allowed_output_class=OutputClass.OBSERVATION),
         knowledge_level=KnowledgeLevel.K3_VERIFIED_ENVIRONMENTAL,

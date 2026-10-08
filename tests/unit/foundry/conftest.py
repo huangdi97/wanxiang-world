@@ -6,7 +6,7 @@ import hashlib
 from collections.abc import Callable
 
 import pytest
-from wanxiang_execution import ExecutionClass, ExecutionPolicy
+from wanxiang_execution import ExecutionClass, ExecutionPolicy, policy_fingerprint
 from wanxiang_foundry.candidate import ArtifactKind, ArtifactRef
 from wanxiang_foundry.digest import canonical_sha256
 from wanxiang_foundry.levels import KnowledgeLevel, PromotionLevel
@@ -159,7 +159,7 @@ def package_with_digest() -> Callable[[str], CapabilityPackage]:
             ),
             runtime=RuntimeRequirement(
                 execution_class=ExecutionClass.PROCESS,
-                policy_fingerprint=sha256_hex("policy"),
+                policy_fingerprint=policy_fingerprint(ExecutionPolicy.default_untrusted()),
             ),
             world_effect=WorldEffect(allowed_output_class=OutputClass.OBSERVATION),
             knowledge_level=KnowledgeLevel.K3_VERIFIED_ENVIRONMENTAL,

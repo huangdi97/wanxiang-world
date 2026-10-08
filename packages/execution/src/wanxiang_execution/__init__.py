@@ -53,6 +53,8 @@ from wanxiang_execution.policy import (
     TrustLevel,
     authorize,
     authorize_for,
+    policy_fingerprint,
+    policy_projection,
 )
 from wanxiang_execution.router import ExecutionProvider, ExecutionRouter
 from wanxiang_execution.trace import (
@@ -116,6 +118,8 @@ __all__ = [
     "authorize",
     "authorize_for",
     "environment_hash",
+    "policy_fingerprint",
+    "policy_projection",
     "observe_effect",
     "request_fingerprint",
     "trace_digest",

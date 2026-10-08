@@ -22,6 +22,7 @@ from wanxiang_execution import (
     ExecutionResult,
     ExecutionRouter,
     LocalProcessProvider,
+    policy_fingerprint,
     trace_digest,
 )
 
@@ -107,6 +108,11 @@ def invoke(
             "capability execution class does not match invocation policy: "
             f"package={package.runtime.execution_class.value!r}, "
             f"policy={policy.execution_class.value!r}"
+        )
+    actual_policy_fingerprint = policy_fingerprint(policy)
+    if package.runtime.policy_fingerprint != actual_policy_fingerprint:
+        raise InvocationError(
+            "capability execution policy does not match its verified runtime requirement"
         )
     execution_request = ExecutionRequest(
         execution_id=request.execution_id,
