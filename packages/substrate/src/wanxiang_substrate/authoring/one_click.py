@@ -1,5 +1,7 @@
 """One-click source family flows and living-instance handoff (M69)."""
 
+# pyright: reportPrivateUsage=false
+
 from __future__ import annotations
 
 from dataclasses import dataclass
