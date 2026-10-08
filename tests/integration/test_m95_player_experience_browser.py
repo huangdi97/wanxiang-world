@@ -199,6 +199,8 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 assert (detail_visual.get_attribute("src") or "").startswith(
                     "data:image/svg+xml;base64,"
                 )
+                assert page.locator("#visual-gallery-wrap").is_visible()
+                assert page.locator("#visual-gallery .visual-thumb").count() >= 1
                 assert not page_errors, page_errors
                 assert page.locator('input[name="character"]').count() == 1, page.locator(
                     "#detail-view"
@@ -214,6 +216,7 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 assert (scene_visual.get_attribute("src") or "").startswith(
                     "data:image/svg+xml;base64,"
                 )
+                assert "世界视觉预览" in page.locator("#scene-visual-caption").inner_text()
                 page.locator("#action-input").fill("让自己保持清醒")
                 page.locator("#send-action").click()
                 page.wait_for_function("document.body.innerText.includes('清醒')")
