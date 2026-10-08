@@ -105,6 +105,7 @@ STRINGS: dict[str, str] = {
     "scene_heading": "Live scene",
     "visual_gallery_heading": "Visual world atlas",
     "visual_current_scene": "Current scene · {place}",
+    "visual_entry_scene": "Entry place · {place}",
     "visual_world_preview": "World visual preview · {place}",
     "environment_label": "Environment",
     "weather_label": "Weather",
