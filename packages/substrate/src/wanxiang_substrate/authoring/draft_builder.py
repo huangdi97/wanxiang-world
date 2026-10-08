@@ -226,6 +226,26 @@ def build_pipeline_build(
                 sort_keys=True,
                 separators=(",", ":"),
             ),
+            "scene_topology_evidence_v1": json.dumps(
+                [
+                    {
+                        "candidate_id": candidate.candidate_id,
+                        "source_place": field(candidate, "source_place"),
+                        "target_place": field(candidate, "target_place"),
+                        "relation_type": field(candidate, "relation_type"),
+                        "source_refs": list(candidate.source_refs),
+                        "confidence": candidate.confidence,
+                    }
+                    for candidate in fusion.candidates
+                    if candidate.kind
+                    in {"place_relation", "topology", "connectivity", "containment"}
+                    and field(candidate, "source_place")
+                    and field(candidate, "target_place")
+                ],
+                ensure_ascii=False,
+                sort_keys=True,
+                separators=(",", ":"),
+            ),
             "gedcom_version": next(
                 (
                     item.partition(":")[2]
