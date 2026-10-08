@@ -120,9 +120,8 @@ class PlayableService:
         self._packages[profile.profile_id] = package
         self._experiences[profile.profile_id] = experience or experience_from_profile(profile)
         visual_plan = _plan_book_scene_assets(package)
-        visual_assets = _render_visual_plan(visual_plan)
-        self._visual_cache.materialize(visual_assets)
-        self._visual_assets[profile.profile_id] = visual_assets
+        materialized = _materialize_visual_plan(visual_plan, cache=self._visual_cache)
+        self._visual_assets[profile.profile_id] = materialized.assets
         self._installs[profile.profile_id] = PreviewInstall(
             f"playable_{len(self._installs) + 1}",
             package.package_id,
