@@ -6,6 +6,7 @@ import wanxiang_substrate.playable.player_i18n as _player_i18n
 from fastapi import APIRouter, Header
 from fastapi.responses import HTMLResponse
 
+from wanxiang_api.immersive_player_ui import immersive_player_html
 from wanxiang_api.player_ui_asset import player_html
 
 router = APIRouter()
@@ -23,3 +24,9 @@ def player_ui(
         player_html(_player_i18n._normalize_locale(requested)),
         headers={"Cache-Control": "no-store"},
     )
+
+
+@router.get("/experience/visual", response_class=HTMLResponse, include_in_schema=False)
+def immersive_player_ui() -> HTMLResponse:
+    """Optional WebGL experiment; never substitutes for M95/Stable acceptance."""
+    return HTMLResponse(immersive_player_html(), headers={"Cache-Control": "no-store"})
