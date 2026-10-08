@@ -175,7 +175,7 @@ def _materialize_visual_plan(
     cache: _VisualAssetCache | None = None,
     allow_network: bool = False,
     max_cost_units: int = 0,
-    rights: str = "source-gated",
+    rights: str | None = None,
 ) -> _VisualMaterialization:
     """Generate only cache misses, under explicit network/cost governance."""
     if plan.status not in {"READY_FOR_ASSET_PROVIDER", "BUDGET_ZERO"}:
@@ -184,8 +184,11 @@ def _materialize_visual_plan(
     selected_provider = provider or _ProceduralSvgSceneProvider()
     if selected_provider.requires_network and not allow_network:
         raise ValueError("network visual provider requires explicit allow_network")
+    if selected_provider.requires_network and not plan.external_processing_allowed:
+        raise ValueError("source rights do not allow external visual processing")
 
     asset_cache = cache or _VisualAssetCache()
+    delivery_rights = rights or plan.delivery_rights
     resolved_assets: list[_SceneVisualAsset] = []
     resolved_refs: list[AssetRef] = []
     misses: list[_SourceSceneRequest] = []
@@ -213,7 +216,7 @@ def _materialize_visual_plan(
             raise ValueError("visual provider returned mismatched cache_key")
         if hashlib.sha256(asset.content).hexdigest() != asset.content_sha256:
             raise ValueError("visual provider returned invalid content digest")
-        ref = asset_cache.put(asset, rights=rights)
+        ref = asset_cache.put(asset, rights=delivery_rights)
         generated[request.stable_key] = (asset, ref)
 
     for request in plan.scene_requests:
