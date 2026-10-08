@@ -39,6 +39,11 @@ from wanxiang_domain.world_commit import (
 )
 
 from wanxiang_runtime.audit import AuditRecord
+from wanxiang_runtime.canonical_write import (
+    CanonicalWriteLease,
+    mint_canonical_write_lease,
+)
+from wanxiang_runtime.invariants import InvariantCheck, check_layered_delta_invariants
 from wanxiang_runtime.ports import EventAppendPort
 from wanxiang_runtime.state import InMemoryCanonicalState, apply_delta
 
@@ -81,17 +86,29 @@ class CommitAuthority:
         schema_version: SchemaVersion = DEFAULT_SCHEMA_VERSION,
         branch_base_revision: BranchRevision = DEFAULT_BRANCH_BASE_REVISION,
         now: Now = CommitTimestamp.now,
+        domain_invariants: tuple[InvariantCheck, ...] = (),
+        world_invariants: tuple[InvariantCheck, ...] = (),
     ) -> None:
         self._event_port = event_port
         self._rule_version = rule_version
         self._schema_version = schema_version
         self._branch_base_revision = branch_base_revision
         self._now = now
+        self._domain_invariants = domain_invariants
+        self._world_invariants = world_invariants
 
     def commit(self, state: InMemoryCanonicalState, request: CommitRequest) -> CommitResult:
         request_kind = validate_world_commit_kind(request.kind)
         self._enforce_preconditions(state, request)
-        # apply_delta validates invariants and returns a pure new state.
+        # Kernel -> Domain -> World invariant layers are monotonic: any layer may
+        # deny, and no later layer can turn that denial into an allow.
+        check_layered_delta_invariants(
+            state,
+            request.delta,
+            domain=self._domain_invariants,
+            world=self._world_invariants,
+        )
+        # apply_delta rechecks Kernel invariants and returns a pure new state.
         applied = apply_delta(state, request.delta)
         next_revision = BranchRevision(state.revision.value + 1)
         state_after = applied.with_revision(next_revision)
@@ -116,8 +133,16 @@ class CommitAuthority:
             trace_id=trace_id,
             commit_timestamp=self._now(),
         )
+        # R7 Gate C: the authority mints exactly one lease for this worldline and
+        # presents it to the append port. The audit ref ties the credential to the
+        # authority rule version and the command that produced the event.
+        lease = mint_canonical_write_lease(
+            instance_id=request.instance_id,
+            branch_id=request.branch_id,
+            audit_ref=f"authority:{self._rule_version.value}#{request.command_id.value}",
+        )
         # Atomic append: if this raises, no new state is exposed.
-        self._event_port.append(event)
+        self._event_port.append(event, lease=lease)
         audit = AuditRecord(
             trace_id=trace_id,
             command_id=request.command_id,
@@ -156,3 +181,27 @@ class CommitAuthority:
             )
         if request.delta.is_empty():
             raise ValidationRejected("cannot commit an empty ProposedWorldDelta")
+
+
+def authorize_structural_write(
+    *,
+    instance_id: WorldInstanceId,
+    branch_id: BranchId,
+    audit_ref: str,
+) -> CanonicalWriteLease:
+    """Authority-side grant of a lease for a structural canonical row.
+
+    Structural rows (world instance, branch, snapshot, audit trace) are written by
+    the application runtime rather than by a single `commit`, but only the Commit
+    Authority may turn "write this row" into a credential. This module is therefore
+    the sole production caller of `mint_canonical_write_lease`; a caller must ask
+    the authority for a lease and may never mint one itself.
+
+    Args:
+        instance_id: The world instance the granted lease authorizes.
+        branch_id: The worldline the granted lease authorizes.
+        audit_ref: Deterministic provenance string recorded with the credential.
+    """
+    return mint_canonical_write_lease(
+        instance_id=instance_id, branch_id=branch_id, audit_ref=audit_ref
+    )

@@ -25,6 +25,7 @@ from scripts.architecture_forensics import (
     import_edges,
     persistence_leakage,
 )
+from tests.helpers.leases import lease_for
 from wanxiang_application.state_reader import StateReader
 from wanxiang_application.world_runtime import WorldRuntime
 from wanxiang_substrate.projection.service import ProjectionService
@@ -190,6 +191,6 @@ def test_canonical_mutation_only_through_commit_authority(
         trace_id=TraceId("trace_g13c_rogue"),
     )
     with pytest.raises(DuplicateCommandConflict):
-        store.append(rogue_event)
+        store.append(rogue_event, lease=lease_for(instance_id, branch_id))
     events_after = world_runtime.persistence.event_store.load(instance_id, branch_id)
     assert len(events_after) == 1

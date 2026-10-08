@@ -1,0 +1,117 @@
+{
+  "source": {
+    "kind": "epub",
+    "private_local_only": true,
+    "raw_bytes_read": 2919697,
+    "path_or_digest_publicly_emitted": false,
+    "rights": {
+      "private_analysis": true,
+      "external_model_processing": false,
+      "package_inclusion": true,
+      "public_export": false,
+      "training": false
+    }
+  },
+  "cli": {
+    "product_chain": [
+      "source_gate",
+      "epub_parse",
+      "semantic_distillation",
+      "world_draft",
+      "world_package",
+      "preview",
+      "publish",
+      "living_instance",
+      "worldness"
+    ],
+    "parsed_nodes": 28510,
+    "segments": 28510,
+    "batches": 1188,
+    "completed_batches": 1188,
+    "provider_calls": 1188,
+    "retries": 0,
+    "candidate_count": 25315,
+    "coverage": 0.8333333333333334,
+    "package_present": true,
+    "preview_present": true,
+    "published": true,
+    "worldness_passed": true,
+    "worldness_overall": 0.9733333333333333,
+    "living_ready": true,
+    "commit_replay_equal": true,
+    "branch_isolated": true
+  },
+  "api_and_studio": {
+    "one_click": "accepted",
+    "build": "accepted",
+    "preview": "accepted",
+    "publish": true,
+    "worldness": "accepted",
+    "enter": "accepted",
+    "living_record": true,
+    "studio_ui_http_status": 200,
+    "studio_binary_upload_control": true,
+    "studio_worldness_control": true,
+    "studio_living_control": true,
+    "candidate_count": 25315,
+    "candidate_kind_counts": {
+      "character": 8605,
+      "event": 3968,
+      "identity": 8605,
+      "organization": 8,
+      "place": 1158,
+      "relation": 1182,
+      "rule": 572,
+      "time": 1217
+    },
+    "draft_counts": {
+      "entities": 4786,
+      "relations": 1182,
+      "places": 740,
+      "events": 670,
+      "completion_items": 0
+    },
+    "provider_ids": [
+      "deterministic",
+      "local_semantic_v1"
+    ],
+    "nonempty_locator_count": 25315,
+    "format_locator_count": 25315,
+    "evidence_locator_count": 24664,
+    "structure": {
+      "chapter_segments": 475,
+      "section_segments": 0,
+      "paragraph_segments": 28035,
+      "spine_href_locator_segments": 28510,
+      "cross_chapter_identity_key_count": 789,
+      "identity_keys_with_locator_provenance": 4785
+    },
+    "coverage": 0.8333333333333334,
+    "worldness": {
+      "passed": true,
+      "overall": 0.9733333333333333,
+      "living_ready": true,
+      "publishable": true,
+      "commit_committed": true,
+      "proposal_validated": true,
+      "replay_equal": true,
+      "branch_isolated": true,
+      "repair_converged": true,
+      "repair_candidate_count": 0
+    },
+    "perception": {
+      "entity_count": 4786,
+      "relation_count": 1182
+    }
+  },
+  "safety": {
+    "source_modified": false,
+    "source_copied_to_git": false,
+    "hand_filled_candidates": false,
+    "hardcoded_coverage": false,
+    "compiler_gate_disabled": false,
+    "worldness_gate_disabled": false,
+    "source_specific_parser": false,
+    "training_run": false
+  }
+}

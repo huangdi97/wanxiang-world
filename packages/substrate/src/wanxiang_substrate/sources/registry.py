@@ -34,18 +34,21 @@ class SourceRegistry:
     def __init__(self) -> None:
         self._records: dict[str, SourceRecord] = {}
         self._audit: dict[str, tuple[AuditEntry, ...]] = {}
-        self._by_hash: dict[str, str] = {}
+        self._by_fingerprint: dict[str, str] = {}
 
     def register(self, record: SourceRecord) -> SourceRecord:
-        existing_id = self._by_hash.get(record.content_hash)
+        # Identity = kind + content hash + version (G55A): a changed source
+        # version is a new registration, never a silent overwrite.
+        existing_id = self._by_fingerprint.get(record.fingerprint())
         if existing_id is not None and existing_id != record.source_id:
             raise DuplicateSource(
-                f"content {record.content_hash[:12]} already registered as {existing_id}"
+                f"content {record.content_hash[:12]} version {record.version!r} "
+                f"already registered as {existing_id}"
             )
         if record.source_id in self._records:
             raise DuplicateSource(f"source {record.source_id!r} already registered")
         self._records[record.source_id] = record
-        self._by_hash[record.content_hash] = record.source_id
+        self._by_fingerprint[record.fingerprint()] = record.source_id
         self._audit[record.source_id] = (
             AuditEntry(record.source_id, "none", record.stage, "system", 1, record.provenance),
         )
@@ -81,6 +84,10 @@ class SourceRegistry:
             rights=record.rights,
             payload=record.payload,
             provenance=record.provenance,
+            version=record.version,
+            access=record.access,
+            reliability=record.reliability,
+            schema_version=record.schema_version,
         )
         self._records[source_id] = updated
         history = self._audit[source_id]

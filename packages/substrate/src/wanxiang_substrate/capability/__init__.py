@@ -29,6 +29,10 @@ from wanxiang_substrate.capability.resolver import (
     ACTION_RECORD_PRACTICE,
     register_capability_resolvers,
 )
+from wanxiang_substrate.capability.runtime_control import (
+    RuntimeControlLedger,
+    RuntimeControlTransaction,
+)
 
 __all__ = [
     "ACTION_APPLY_DELTA",
@@ -47,6 +51,8 @@ __all__ = [
     "LearningPolicy",
     "PRACTICE_RECORD_COMPONENT",
     "PracticeRecord",
+    "RuntimeControlLedger",
+    "RuntimeControlTransaction",
     "UnsupportedAssessment",
     "assessment_component",
     "capability_entity_id",

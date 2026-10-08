@@ -1,0 +1,30 @@
+{
+  "abi_golden_hash": "1ec5768b1785852039bccffc3ffd3cf65bdbd5c179807f5f88b9bd7cb882cae5",
+  "branch_fork": {
+    "child_branch_id": "br_golden_child",
+    "child_replay_state_hash": "7d17aba7b9b76f04174f28a05ed7139505ab1784d0377ebe1966f7ef8d69fd00",
+    "fork_revision": 2,
+    "parent_state_hash_unchanged": "b579c472eeeacccef26122b7eb1f0d1ccab2744ebfe47253e162c57dd432fb1f"
+  },
+  "combined": "cd945b5693d1359df1a8db967c098b761da91564913c04e0cc18f03760379b89",
+  "event_hashes": [
+    "56385dd8fe1cc7e3f83942cb7e5b218a7f36d2417fe369cc1ea888927d38d539",
+    "1315380fdf63619599440e072eb6d258958a7504666527457d22499dbb64e0e5",
+    "05552376f8c0fe675bc85551d7b7f92c8de2582cd6f69e7aac129e691021af39",
+    "408f2c3beb864cfe300803efd435472394e604345412df6c24d6a53db039e6b4",
+    "2df8dac2a153d2dfe729900dda52217d79b16bc5d0d69f6b3b19e7cd4e656b53"
+  ],
+  "instance_id": "wld_golden",
+  "kernel_freeze_version": 1,
+  "package": {
+    "content_hash": "642f901942ce056bb1a7cda6b51e8f587987153af39f5f59218674800279df83",
+    "package_id": "world_ref",
+    "version": "1.0.0"
+  },
+  "replay_final_state_hash": "7d17aba7b9b76f04174f28a05ed7139505ab1784d0377ebe1966f7ef8d69fd00",
+  "root_branch_id": "br_golden",
+  "worldline": {
+    "content_hash": "bbc5d6e3d014358d5f99c6c692be13ce2e23f6fa1c3c8d6dc7211b7008e4ab91",
+    "definition_id": "wdef_kernel_freeze"
+  }
+}

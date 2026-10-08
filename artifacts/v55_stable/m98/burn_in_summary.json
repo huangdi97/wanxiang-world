@@ -1,0 +1,252 @@
+{
+  "schema": "wanxiang.v5.5.m98.burn-in-summary.v1",
+  "conclusion": "PASS",
+  "generated_build_sha": "9ac66665f7332ae6e1453ad6bdb80e6d193a98fb",
+  "reproducible_command": "uv run python scripts/m98_burn_in_summary.py",
+  "matrix": {
+    "matrix_id": "matrix:m98:stable-burn-in:v1",
+    "content_hash": "6f0459ff2bfbdb6c9c2b46eeeb956025ffdf397a8c3037a4902a2a718a6ad075",
+    "shape": {
+      "status": "PASS",
+      "declared_rows": 18,
+      "expected_rows": 18,
+      "content_hash": "6f0459ff2bfbdb6c9c2b46eeeb956025ffdf397a8c3037a4902a2a718a6ad075",
+      "30d_shape": true,
+      "90d_shape": true
+    }
+  },
+  "gates": {
+    "73": {
+      "status": "PASS",
+      "declared_rows": 12,
+      "completed_rows": 12,
+      "failed_rows": 0,
+      "aggregation_complete": true,
+      "all_row_checks": true,
+      "build_sha": "6d3f9f3dd98f358b296026b564b9ace2691eda01",
+      "matrix_hash": "6f0459ff2bfbdb6c9c2b46eeeb956025ffdf397a8c3037a4902a2a718a6ad075",
+      "run_refs": [
+        "m98-30d-s9801-baseline-low",
+        "m98-30d-s9801-baseline-high",
+        "m98-30d-s9801-conservative-low",
+        "m98-30d-s9801-conservative-high",
+        "m98-30d-s9802-baseline-low",
+        "m98-30d-s9802-baseline-high",
+        "m98-30d-s9802-conservative-low",
+        "m98-30d-s9802-conservative-high",
+        "m98-30d-s9803-baseline-low",
+        "m98-30d-s9803-baseline-high",
+        "m98-30d-s9803-conservative-low",
+        "m98-30d-s9803-conservative-high"
+      ]
+    },
+    "74": {
+      "status": "PASS",
+      "declared_rows": 6,
+      "completed_rows": 6,
+      "failed_rows": 0,
+      "aggregation_complete": true,
+      "all_row_checks": true,
+      "build_sha": "453f8059f4dc3120305392b5e4c9662be6dad01b",
+      "matrix_hash": "6f0459ff2bfbdb6c9c2b46eeeb956025ffdf397a8c3037a4902a2a718a6ad075",
+      "run_refs": [
+        "m98-90d-s9811-baseline",
+        "m98-90d-s9811-stress",
+        "m98-90d-s9812-baseline",
+        "m98-90d-s9812-stress",
+        "m98-90d-s9813-baseline",
+        "m98-90d-s9813-stress"
+      ]
+    },
+    "75": {
+      "status": "PASS",
+      "build_sha": "42890140177a9199f628b4b8a5a9160a0e49502c",
+      "seed": 10104,
+      "positive_world_ref": "prv_playable_1",
+      "positive_branch_ref": "br_a601550a7e29462b84ec2f12395816e6",
+      "positive_event_count": 13,
+      "qualified_detection_count": 3,
+      "null_world_ref": "prv_playable_2",
+      "null_branch_ref": "br_22972a9d696f40ddb32219d91c96bf79",
+      "null_event_count": 7,
+      "all_checks": true,
+      "safety_boundary_ok": true,
+      "control_rejected": true
+    },
+    "76": {
+      "status": "PASS",
+      "build_sha": "09c161c79f14911c804b3d22c38896c3545c41cf",
+      "template": "m98-standard-scale-template-v1",
+      "template_hash": "e43135ca34d98d5cf6d619b13173eb6dcbc8baa8cabbe0e653141288613ea129",
+      "declared_rows": 15,
+      "completed_rows": 15,
+      "failed_rows": 0,
+      "tier_counts": {
+        "10": 3,
+        "50": 3,
+        "100": 3,
+        "500": 3,
+        "1000": 3
+      },
+      "exact_population_and_full_policy": true,
+      "active_counts_separate": true,
+      "run_refs": [
+        "m98-scale-10-r1",
+        "m98-scale-10-r2",
+        "m98-scale-10-r3",
+        "m98-scale-50-r1",
+        "m98-scale-50-r2",
+        "m98-scale-50-r3",
+        "m98-scale-100-r1",
+        "m98-scale-100-r2",
+        "m98-scale-100-r3",
+        "m98-scale-500-r1",
+        "m98-scale-500-r2",
+        "m98-scale-500-r3",
+        "m98-scale-1000-r1",
+        "m98-scale-1000-r2",
+        "m98-scale-1000-r3"
+      ]
+    },
+    "77": {
+      "status": "PASS",
+      "build_sha": "09c161c79f14911c804b3d22c38896c3545c41cf",
+      "declared_rows": 15,
+      "completed_rows": 15,
+      "failed_rows": 0,
+      "required_metric_missing": [],
+      "observed_knee": "500_actor_tier_by_superlinear_recovery",
+      "knee_evidence": {
+        "tier": 500,
+        "metric": "max_recovery_ms",
+        "previous_tier": 100,
+        "population_growth_ratio": 5.0,
+        "recovery_growth_ratio": 9.003203
+      },
+      "no_10k_100k_extrapolation": "forbidden",
+      "provider_cost_usd": 0.0
+    }
+  },
+  "source_artifacts": {
+    "run_matrix.json": {
+      "path": "artifacts/v55_stable/m98/run_matrix.json",
+      "schema": "wanxiang.v5.5.m98-burn-in-matrix.v1",
+      "conclusion": "DECLARATION",
+      "build_sha": "6c867656b9a9a450fcb07260011da59be2b4ab88"
+    },
+    "30d_burn_in.json": {
+      "path": "artifacts/v55_stable/m98/30d_burn_in.json",
+      "schema": "wanxiang.v5.5.m98.30d-burn-in.v1",
+      "conclusion": "PASS",
+      "build_sha": "6d3f9f3dd98f358b296026b564b9ace2691eda01"
+    },
+    "90d_burn_in.json": {
+      "path": "artifacts/v55_stable/m98/90d_burn_in.json",
+      "schema": "wanxiang.v5.5.m98.90d-burn-in.v1",
+      "conclusion": "PASS",
+      "build_sha": "453f8059f4dc3120305392b5e4c9662be6dad01b"
+    },
+    "emergence_controls.json": {
+      "path": "artifacts/v55_stable/m98/emergence_controls.json",
+      "schema": "wanxiang.v5.5.m98.emergence-controls.v1",
+      "conclusion": "PASS",
+      "build_sha": "42890140177a9199f628b4b8a5a9160a0e49502c"
+    },
+    "scale_curve.json": {
+      "path": "artifacts/v55_stable/m98/scale_curve.json",
+      "schema": "wanxiang.v5.5.m98.scale-curve.v1",
+      "conclusion": "PASS",
+      "build_sha": "09c161c79f14911c804b3d22c38896c3545c41cf"
+    },
+    "capacity_curve.json": {
+      "path": "artifacts/v55_stable/m98/capacity_curve.json",
+      "schema": "wanxiang.v5.5.m98.capacity-curve.v1",
+      "conclusion": "PASS",
+      "build_sha": "09c161c79f14911c804b3d22c38896c3545c41cf"
+    }
+  },
+  "run_refs": {
+    "30d": [
+      "m98-30d-s9801-baseline-low",
+      "m98-30d-s9801-baseline-high",
+      "m98-30d-s9801-conservative-low",
+      "m98-30d-s9801-conservative-high",
+      "m98-30d-s9802-baseline-low",
+      "m98-30d-s9802-baseline-high",
+      "m98-30d-s9802-conservative-low",
+      "m98-30d-s9802-conservative-high",
+      "m98-30d-s9803-baseline-low",
+      "m98-30d-s9803-baseline-high",
+      "m98-30d-s9803-conservative-low",
+      "m98-30d-s9803-conservative-high"
+    ],
+    "90d": [
+      "m98-90d-s9811-baseline",
+      "m98-90d-s9811-stress",
+      "m98-90d-s9812-baseline",
+      "m98-90d-s9812-stress",
+      "m98-90d-s9813-baseline",
+      "m98-90d-s9813-stress"
+    ],
+    "scale": [
+      "m98-scale-10-r1",
+      "m98-scale-10-r2",
+      "m98-scale-10-r3",
+      "m98-scale-50-r1",
+      "m98-scale-50-r2",
+      "m98-scale-50-r3",
+      "m98-scale-100-r1",
+      "m98-scale-100-r2",
+      "m98-scale-100-r3",
+      "m98-scale-500-r1",
+      "m98-scale-500-r2",
+      "m98-scale-500-r3",
+      "m98-scale-1000-r1",
+      "m98-scale-1000-r2",
+      "m98-scale-1000-r3"
+    ],
+    "emergence_positive": [
+      "prv_playable_1",
+      "br_a601550a7e29462b84ec2f12395816e6"
+    ],
+    "emergence_null": [
+      "prv_playable_2",
+      "br_22972a9d696f40ddb32219d91c96bf79"
+    ]
+  },
+  "boundaries": {
+    "implemented": [
+      "versioned 30d/90d multi-run burn-in",
+      "bounded emergence and null-control qualification",
+      "10/50/100/500/1000 SimulationLOD scale curve",
+      "capacity/degradation metric aggregation"
+    ],
+    "validated": [
+      "Gates 73-77 from complete persisted evidence",
+      "real local SQLite/Commit Authority/replay/recovery paths"
+    ],
+    "experimental": [
+      "bounded long-horizon interpretation",
+      "bounded emergence interpretation",
+      "local capacity/degradation interpretation"
+    ],
+    "not_proven": [
+      "universal emergence",
+      "scientific causality",
+      "production or live-customer capacity",
+      "10k/100k actor capacity"
+    ],
+    "external_blocked": [
+      "live PostgreSQL",
+      "heavy physical/visual E2E",
+      "live external-provider monetary cost"
+    ]
+  },
+  "stable_release_boundary": {
+    "gate_80": "LOCKED",
+    "reason": [
+      "M95 genuine human-player evidence remains USER_INPUT_REQUIRED",
+      "Gates 78-79 are not yet accepted"
+    ]
+  }
+}

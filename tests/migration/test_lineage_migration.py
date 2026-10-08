@@ -16,6 +16,7 @@ from tests.conftest import (
     make_sqlite_engine_and_factory,
     upgrade_db,
 )
+from tests.helpers.leases import lease_for
 from tests.helpers.replay_fixture import BRANCH, INSTANCE, build_fixture_events
 from wanxiang_domain.hierarchy import BranchRevision, EventSeq
 from wanxiang_domain.ids import BranchId
@@ -27,6 +28,8 @@ from wanxiang_runtime.replay import ReplayEngine
 from wanxiang_substrate.lineage import LineageEdge, LineageGraph, LineageNode
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
+
+LEASE = lease_for(INSTANCE, BRANCH)
 
 
 def _config() -> Config:
@@ -56,7 +59,7 @@ def test_old_db_upgrade_keeps_branch_history() -> None:
         )
         store = SqlAlchemyEventStore(factory)
         for event in build_fixture_events():
-            store.append(event)
+            store.append(event, lease=LEASE)
         command.upgrade(_config(), "head")
     finally:
         os.environ.pop("WANXIANG_DATABASE_URL", None)
@@ -109,7 +112,8 @@ def test_lineage_repository_round_trip() -> None:
             runtime_version=1,
             rights_ref="rights:cc0",
             provenance=("ref://a",),
-        )
+        ),
+        lease=LEASE,
     )
     repo.save_node(
         LineageNode(
@@ -121,9 +125,13 @@ def test_lineage_repository_round_trip() -> None:
             domain_version=2,
             runtime_version=2,
             evolution_policy="living_open",
-        )
+        ),
+        lease=LEASE,
     )
-    repo.save_edge(LineageEdge("wd_root", "wl_derived", edge_kind="promotion", origin_ref="cand_1"))
+    repo.save_edge(
+        LineageEdge("wd_root", "wl_derived", edge_kind="promotion", origin_ref="cand_1"),
+        lease=LEASE,
+    )
     graph = repo.load_graph()
     assert graph.get_node("wd_root") is not None
     derived = graph.get_node("wl_derived")

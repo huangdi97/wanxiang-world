@@ -30,6 +30,7 @@ def test_postgres_live_integration_profile(persist_db_path: pathlib.Path) -> Non
     # operator provides a reachable instance.
     from alembic import command as alembic_command
     from alembic.config import Config as AlembicConfig
+    from tests.helpers.leases import lease_for
     from tests.helpers.replay_fixture import BRANCH, INSTANCE, build_fixture_events
     from wanxiang_domain.versions import RuntimeVersion, SchemaVersion
     from wanxiang_persistence.database import create_engine_for
@@ -52,7 +53,7 @@ def test_postgres_live_integration_profile(persist_db_path: pathlib.Path) -> Non
     )
     store = SqlAlchemyEventStore(factory)
     for event in build_fixture_events():
-        store.append(event)
+        store.append(event, lease=lease_for(INSTANCE, BRANCH))
     final = ReplayEngine(RuntimeVersion(1), SchemaVersion(1)).replay(store.load(INSTANCE, BRANCH))
     assert final.revision.value == 5
 
@@ -103,6 +104,7 @@ def test_portable_persistence_path_has_no_sqlite_specific_sql() -> None:
 
 def test_semantic_hashes_storage_independent(persist_db_path: pathlib.Path) -> None:
     from tests.conftest import upgrade_db
+    from tests.helpers.leases import lease_for
     from tests.helpers.replay_fixture import BRANCH, INSTANCE, build_fixture_events
     from wanxiang_domain.versions import RuntimeVersion, SchemaVersion
     from wanxiang_persistence.database import create_engine_for
@@ -115,7 +117,7 @@ def test_semantic_hashes_storage_independent(persist_db_path: pathlib.Path) -> N
     )
     store = SqlAlchemyEventStore(factory)
     for event in build_fixture_events():
-        store.append(event)
+        store.append(event, lease=lease_for(INSTANCE, BRANCH))
     final = ReplayEngine(RuntimeVersion(1), SchemaVersion(1)).replay(store.load(INSTANCE, BRANCH))
     # Storage-independent expectation: the golden hash.
     assert (

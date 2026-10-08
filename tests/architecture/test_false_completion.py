@@ -70,6 +70,25 @@ def test_static_success_candidates_are_documented_only() -> None:
             "packages/substrate/src/wanxiang_substrate/evolution/policy_stack.py",
             "assert_world_cannot_mutate_platform",
         ),
+        # G55C/G55D/G55E/G55F stateless reference adapters: resume() is a
+        # documented no-op (idempotent); progress is owned by JobService.
+        ("packages/substrate/src/wanxiang_substrate/sources/adapter.py", "resume"),
+        ("packages/substrate/src/wanxiang_substrate/sources/book.py", "resume"),
+        ("packages/substrate/src/wanxiang_substrate/sources/structured.py", "resume"),
+        ("packages/substrate/src/wanxiang_substrate/sources/asset.py", "resume"),
+        # Actor cognition records expose an immutable false predicate so the
+        # projection can never be mistaken for canonical World Truth.
+        ("packages/substrate/src/wanxiang_substrate/epistemic/model.py", "is_world_truth"),
+        (
+            "packages/substrate/src/wanxiang_substrate/epistemic/belief_revision.py",
+            "is_world_truth",
+        ),
+        # G92B detached-run result exposes a read-only proof that the run does
+        # not depend on a live user session.
+        (
+            "packages/substrate/src/wanxiang_substrate/long_horizon/background.py",
+            "session_independent",
+        ),
     }
     actual = {(f["file"], f["text"].removeprefix("def ")) for f in findings}
     assert actual == documented, f"unexpected static-success paths: {actual - documented}"

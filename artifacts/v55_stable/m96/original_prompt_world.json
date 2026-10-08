@@ -1,0 +1,446 @@
+{
+  "schema": "wanxiang.v5.5.m96.original-prompt-world.v1",
+  "conclusion": "PASS",
+  "gates": {
+    "67": "PASS",
+    "68": "PASS",
+    "69": "PASS"
+  },
+  "build_sha": "ad3f779f86c28850b5d0346f6d8022e3386d18dd",
+  "seed": 9601,
+  "prompt": {
+    "sha256": "f4f45e60dc9ae8fa3839b1a8e6b32dd0cd5a51024e7aa4b729a5ed2e029354c1",
+    "intent_id": "m96_original_intent",
+    "source_channel": "creator_intent",
+    "raw_text_emitted": false
+  },
+  "genesis": {
+    "provider_id": "local_prompt_genesis_v1",
+    "deterministic_reference": true,
+    "profile": "local_prompt_genesis_v1",
+    "proposal_count": 1,
+    "claim_ids": [
+      "prompt_claim_freeform"
+    ],
+    "evidence_class": "E5"
+  },
+  "draft": {
+    "workshop_id": "m96_original_prompt_world",
+    "world_draft_id": "world:wd_m96_original_prompt_world",
+    "world_draft_revision": 1,
+    "source_refs": [
+      [
+        "prompt:m96_original_intent",
+        "1"
+      ]
+    ],
+    "entity_count": 2,
+    "place_count": 1
+  },
+  "review": {
+    "actions": [
+      "review_e5",
+      "accept_constraints",
+      "preview"
+    ],
+    "ready_for_preview": true
+  },
+  "package": {
+    "package_id": "world:wd_m96_original_prompt_world",
+    "manifest_hash": "bc15ba0ff706b6d55e5f911b052a959c0d1b2230f219d81d8692346ed1ebc371",
+    "evidence_coverage": 1.0
+  },
+  "publish": {
+    "publishable": true,
+    "visible_in_plaza": true,
+    "rights": {
+      "source_refs": [],
+      "package_allowed_refs": [],
+      "public_export_allowed_refs": [],
+      "blocked_refs": [],
+      "review_refs": [
+        "m96_original_intent"
+      ],
+      "creator_intent_only": true,
+      "package_allowed": true,
+      "public_export_allowed": true
+    },
+    "registry_entry": {
+      "entry_id": "world:wd_m96_original_prompt_world@1.0.0",
+      "package_id": "world:wd_m96_original_prompt_world",
+      "version": "1.0.0",
+      "display_name": "Jiangnan Mechanisms",
+      "label": "community",
+      "visibility": "public",
+      "owner_id": "m96-author",
+      "categories": [
+        "workshop"
+      ],
+      "tags": [
+        "source"
+      ],
+      "compatibility": [
+        "v5.4"
+      ],
+      "provenance_refs": [
+        "m96_original_intent"
+      ],
+      "manifest_hash": "bc15ba0ff706b6d55e5f911b052a959c0d1b2230f219d81d8692346ed1ebc371",
+      "listed": true,
+      "executable_trust": "untrusted"
+    },
+    "opened": {
+      "entry": {
+        "entry_id": "world:wd_m96_original_prompt_world@1.0.0",
+        "package_id": "world:wd_m96_original_prompt_world",
+        "version": "1.0.0",
+        "display_name": "Jiangnan Mechanisms",
+        "label": "community",
+        "visibility": "public",
+        "owner_id": "m96-author",
+        "categories": [
+          "workshop"
+        ],
+        "tags": [
+          "source"
+        ],
+        "compatibility": [
+          "v5.4"
+        ],
+        "provenance_refs": [
+          "m96_original_intent"
+        ],
+        "manifest_hash": "bc15ba0ff706b6d55e5f911b052a959c0d1b2230f219d81d8692346ed1ebc371",
+        "listed": true,
+        "executable_trust": "untrusted"
+      },
+      "opened_by": "m96-author",
+      "executable_loaded": false
+    },
+    "install": {
+      "install_id": "install:world:wd_m96_original_prompt_world@1.0.0",
+      "package": "world:wd_m96_original_prompt_world",
+      "version": "1.0.0",
+      "pins": [
+        [
+          "world:wd_m96_original_prompt_world",
+          "1.0.0"
+        ]
+      ],
+      "lock_hash": "95609eb4f528d48d027970d46f3ae06a8e4af6a33d8b97540887869a627df8c6",
+      "schema_pins": [
+        [
+          "world:wd_m96_original_prompt_world",
+          1
+        ]
+      ],
+      "domain_pins": [],
+      "rights_refs": [
+        "m96_original_intent"
+      ],
+      "evidence_refs": [
+        "m96_original_intent"
+      ],
+      "asset_refs": [],
+      "created_from": "world:wd_m96_original_prompt_world@1.0.0"
+    }
+  },
+  "play": {
+    "profile_id": "experience:world:wd_m96_original_prompt_world",
+    "instance_id": "prv_playable_1",
+    "branch_id": "br_f92fc49c93f34d6781a371221ae559b0",
+    "action": {
+      "event_id": "evt_d5d7725b0e0d446e97f346579a188a50",
+      "state_hash": "3b501a04583c2ff0bdbce792cd81e93a768a78775ca45e793f4ae8101da1074b",
+      "trace": {
+        "schema_version": 1,
+        "trace_id": "trace:8eaca2f17839cfbff5ff8ffb954d1955468e20571c8f749e607659a4a7f5ac2f",
+        "input_sha256": "bad9e31d15c56619478c770f7b72c1bf451a8448ec5a62adc939dd00b58c7acd",
+        "session_ref": "session:b3f96361bf5a6ff1337c1d34feedb7da7c88e2bdba3ce5ddb4b65ce84b3444f2",
+        "proposal_ref": "proposal:2451037ca4af41a5ddf2a721d6d7ade79a4b3a664bc1ae6363f6a6089074e55c",
+        "command_id": "cmd_7926e8ae208748ac8479d1247f979f9f",
+        "event_id": "evt_d5d7725b0e0d446e97f346579a188a50",
+        "instance_id": "prv_playable_1",
+        "branch_id": "br_f92fc49c93f34d6781a371221ae559b0",
+        "actor_ref": "actor:4f2c2bad06534911f57fa51ba22c6b6c19eeeb28a0c5e5b8e71fae40704efe6c",
+        "action_type": "set_status",
+        "proposal_status": "proposed",
+        "before_revision": 3,
+        "after_revision": 4,
+        "before_state_hash": "73485cfaaeb2be1aecbd1e43660268216b01e3c23345d624a197f90ab9fb5daa",
+        "after_state_hash": "3b501a04583c2ff0bdbce792cd81e93a768a78775ca45e793f4ae8101da1074b",
+        "state_diff_event_id": "evt_d5d7725b0e0d446e97f346579a188a50",
+        "projection_ref": "playable-action:evt_d5d7725b0e0d446e97f346579a188a50",
+        "stages": [
+          "input",
+          "proposal",
+          "validate_resolve",
+          "commit_authority",
+          "state_diff",
+          "projection"
+        ],
+        "redactions": [
+          "raw_input",
+          "proposal_payload",
+          "session_id",
+          "actor_id",
+          "source_path",
+          "source_digest"
+        ]
+      }
+    },
+    "leave_status": "left",
+    "continued_instance_id": "prv_playable_1"
+  },
+  "bounded_7d": {
+    "days": 7,
+    "commit_event_count": 11,
+    "day_events": [
+      "evt_6af6dc8066704ddc822233f13317b6ff",
+      "evt_74aea3fa351b495f938d18065c64f345",
+      "evt_a76cb0d6573b45f5ae84b3e78b8a4356",
+      "evt_cd0da516e5bd4c7ca9d4a52e97d1b9f5",
+      "evt_54e43fcbb0e44982bd463cd352726a0a",
+      "evt_6c3635137ec7472a94c46d70751f6c50",
+      "evt_e61c5203a2bc4f6b9c4bdddb0449e2ab"
+    ],
+    "checkpoints": [
+      {
+        "day": 1,
+        "snapshot_id": "snap_633305f9d6474e09b1771176564dfaa3",
+        "revision": 5,
+        "state_hash": "5e7a366f7444697652719db397005e533387de44bc9758e347d5f2ab8e19a038",
+        "replay_hash": "5e7a366f7444697652719db397005e533387de44bc9758e347d5f2ab8e19a038",
+        "replay_equal": true
+      },
+      {
+        "day": 2,
+        "snapshot_id": "snap_7b0e4bfa18ca4871a1aff1a4c5edb43d",
+        "revision": 6,
+        "state_hash": "61bf4c1f67d6e5d18fe474fae1e4b79792e36509e92a18a09aba4a8718d523d1",
+        "replay_hash": "61bf4c1f67d6e5d18fe474fae1e4b79792e36509e92a18a09aba4a8718d523d1",
+        "replay_equal": true
+      },
+      {
+        "day": 3,
+        "snapshot_id": "snap_f15555e4b65545e7a7efe76a6d9c567c",
+        "revision": 7,
+        "state_hash": "4b2f5146e8d4cb3a9f44769fda42f6a13aeb4b493c5df631bc850a21648e1b39",
+        "replay_hash": "4b2f5146e8d4cb3a9f44769fda42f6a13aeb4b493c5df631bc850a21648e1b39",
+        "replay_equal": true
+      },
+      {
+        "day": 4,
+        "snapshot_id": "snap_7ba83f99654b4f1eaaa4405e7196e032",
+        "revision": 8,
+        "state_hash": "aca8a44f8271a335bfe8e3c797c92a2195790c5bda2f2ad552382f26be9140ff",
+        "replay_hash": "aca8a44f8271a335bfe8e3c797c92a2195790c5bda2f2ad552382f26be9140ff",
+        "replay_equal": true
+      },
+      {
+        "day": 5,
+        "snapshot_id": "snap_cf349760f96d487ebc7847dffdedb000",
+        "revision": 9,
+        "state_hash": "18026e53e37cc455e2308677d1150c206570fc8872d72fa93e91efcee6cae7a3",
+        "replay_hash": "18026e53e37cc455e2308677d1150c206570fc8872d72fa93e91efcee6cae7a3",
+        "replay_equal": true
+      },
+      {
+        "day": 6,
+        "snapshot_id": "snap_882626136b0e4272a4be8018f3c32730",
+        "revision": 10,
+        "state_hash": "9348011a9ae3dda9ce60d988278c753e2244b6b1a3eb6bd134b8d9b4ee8de0d4",
+        "replay_hash": "9348011a9ae3dda9ce60d988278c753e2244b6b1a3eb6bd134b8d9b4ee8de0d4",
+        "replay_equal": true
+      },
+      {
+        "day": 7,
+        "snapshot_id": "snap_448bbb09a18043f8aaca5131c67c88a9",
+        "revision": 11,
+        "state_hash": "96a8447d6835978655f310117fb069a09f6464705e395f529de25b1d36c83951",
+        "replay_hash": "96a8447d6835978655f310117fb069a09f6464705e395f529de25b1d36c83951",
+        "replay_equal": true
+      }
+    ],
+    "child_branch_id": "br_782ad758fde14167b68078294145d62d",
+    "branch_isolated": true,
+    "continuity": {
+      "source_package_ref": "world:wd_m96_original_prompt_world",
+      "world_instance_refs": [
+        "prv_playable_1"
+      ],
+      "actor_ids": [
+        "ent_prompt_actor_1",
+        "ent_prompt_actor_2"
+      ],
+      "days_completed": 7,
+      "final_digest": "03a227c9b697d83742dbfa6fe55a64d2568dd42845ec74c9a7e96b8f61354671",
+      "replay_digest": "03a227c9b697d83742dbfa6fe55a64d2568dd42845ec74c9a7e96b8f61354671",
+      "leave_reenter_digest": "03a227c9b697d83742dbfa6fe55a64d2568dd42845ec74c9a7e96b8f61354671",
+      "replay_equal": true,
+      "leave_reenter_equal": true,
+      "goal_revision_count": 16,
+      "memory_count": 14,
+      "belief_revision_count": 14,
+      "relationship_revision_count": 7
+    },
+    "run_artifact": {
+      "schema_version": 1,
+      "artifact_id": "artifact:m96:original-prompt",
+      "world_package_ref": "world:wd_m96_original_prompt_world",
+      "world_package_version": "1.0.0",
+      "scenario_ref": "experience:world:wd_m96_original_prompt_world",
+      "scenario_version": "1",
+      "constitution_version": "1",
+      "runtime_profile_ref": "reference-runtime:m96-v1",
+      "provider_versions": [
+        [
+          "prompt_genesis",
+          "local_prompt_genesis_v1"
+        ],
+        [
+          "runtime",
+          "reference-v1"
+        ]
+      ],
+      "seed": 9601,
+      "control_ledger_refs": [],
+      "commit_refs": [
+        "evt_0877e02dc7f644b5af5618cfcdca81b7",
+        "evt_46e75fe3185249a887f98b00f8dbc83f",
+        "evt_54e43fcbb0e44982bd463cd352726a0a",
+        "evt_6af6dc8066704ddc822233f13317b6ff",
+        "evt_6c3635137ec7472a94c46d70751f6c50",
+        "evt_74aea3fa351b495f938d18065c64f345",
+        "evt_a76cb0d6573b45f5ae84b3e78b8a4356",
+        "evt_cd0da516e5bd4c7ca9d4a52e97d1b9f5",
+        "evt_d120ace65d9b4e6fafdab852bce7d475",
+        "evt_d5d7725b0e0d446e97f346579a188a50",
+        "evt_e61c5203a2bc4f6b9c4bdddb0449e2ab",
+        "evt_f82d169a06ad4c11b3a05a94b7e1469f"
+      ],
+      "snapshot_refs": [
+        "snap_448bbb09a18043f8aaca5131c67c88a9",
+        "snap_633305f9d6474e09b1771176564dfaa3",
+        "snap_7b0e4bfa18ca4871a1aff1a4c5edb43d",
+        "snap_7ba83f99654b4f1eaaa4405e7196e032",
+        "snap_882626136b0e4272a4be8018f3c32730",
+        "snap_cf349760f96d487ebc7847dffdedb000",
+        "snap_f15555e4b65545e7a7efe76a6d9c567c"
+      ],
+      "branch_refs": [
+        "br_782ad758fde14167b68078294145d62d",
+        "br_f92fc49c93f34d6781a371221ae559b0"
+      ],
+      "actor_trajectory_refs": [
+        [
+          "ent_prompt_actor_1",
+          "96a8447d6835978655f310117fb069a09f6464705e395f529de25b1d36c83951"
+        ],
+        [
+          "ent_prompt_actor_2",
+          "96a8447d6835978655f310117fb069a09f6464705e395f529de25b1d36c83951"
+        ]
+      ],
+      "intervention_refs": [],
+      "validation_results": [
+        [
+          "branch",
+          "isolated"
+        ],
+        [
+          "prompt_claims",
+          "E5"
+        ],
+        [
+          "registry",
+          "published_and_installed"
+        ],
+        [
+          "replay",
+          "equal"
+        ],
+        [
+          "review",
+          "accepted"
+        ]
+      ],
+      "metrics": [
+        [
+          "actor_count",
+          2.0
+        ],
+        [
+          "bounded_days",
+          7.0
+        ],
+        [
+          "checkpoint_count",
+          7.0
+        ],
+        [
+          "child_branch_event_count",
+          1.0
+        ],
+        [
+          "event_count",
+          11.0
+        ]
+      ],
+      "privacy_metadata": [
+        [
+          "creation_mode",
+          "prompt"
+        ],
+        [
+          "rights_scope",
+          "creator_intent_only"
+        ]
+      ],
+      "redacted_fields": [
+        "private_source",
+        "prompt_text",
+        "source_payload"
+      ],
+      "sanitized": true,
+      "content_hash": "ea900b578d49e841edb3722f8b9e6609a29ef6dce5d9a36d4d0f73086b3ac906"
+    }
+  },
+  "checks": {
+    "intent_hash_matches": true,
+    "genesis_provider_present": true,
+    "all_generated_claims_e5": true,
+    "review_ready": true,
+    "package_hash_valid": true,
+    "publishable": true,
+    "registry_opened": true,
+    "install_hash_valid": true,
+    "play_commit_has_diff": true,
+    "leave_continue_same_state": true,
+    "seven_checkpoints": true,
+    "seven_day_replay": true,
+    "branch_isolated": true,
+    "continuity_replay_equal": true,
+    "continuity_leave_reenter_equal": true,
+    "run_artifact_hash_valid": true
+  },
+  "boundaries": {
+    "implemented": [
+      "prompt genesis to review/package/publish/play chain"
+    ],
+    "validated": [
+      "bounded reference-provider product chain",
+      "seven-day replay and branch checks"
+    ],
+    "experimental": [
+      "Prompt Genesis output and bounded long-horizon continuity"
+    ],
+    "not_proven": [
+      "universal creative quality",
+      "scientific validity",
+      "live-world emergence"
+    ],
+    "external_blocked": []
+  },
+  "generated_at_utc": "2026-08-28T04:24:24Z"
+}

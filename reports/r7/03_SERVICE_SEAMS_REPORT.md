@@ -1,0 +1,76 @@
+# R7 03 — Versioned Service Seams
+
+Status: `IMPLEMENTED` / `VALIDATED` — the versioned seam identity, the contract
+catalog, and the JSON-RPC bridge that lets the Python authority serve the history
+seam all exist and are exercised across languages.
+(See `reports/r7/06_HISTORY_AUTHORITY_RPC_REPORT.md` for the bridge itself.)
+
+## Contract catalog
+
+The full contract bodies live once, in the Python package
+`wanxiang_reality.contracts`; the TypeScript host duplicates only the
+identity-bearing part (namespace, API version, scope) and recomputes a digest
+over it, so a divergence between the two runtimes is detectable rather than
+assumed away.
+
+27 contracts are declared, each with namespace, API version, schema version,
+scope, capabilities, error semantics and a compatibility rule:
+
+```text
+wanxiang.identity@1          wanxiang.history@1        wanxiang.actor@1
+wanxiang.reality.observe@1   wanxiang.branch@1         wanxiang.model@1
+wanxiang.reality.proposal@1  wanxiang.lineage@1        wanxiang.capability@1
+wanxiang.reality.policy@1    wanxiang.replay@1         wanxiang.reality.profile@1
+wanxiang.authority@1         wanxiang.evidence@1       wanxiang.execution@1
+wanxiang.rights@1             wanxiang.world.metadata@1
+wanxiang.snapshot@1           wanxiang.clock@1
+wanxiang.space@1              wanxiang.memory@1
+wanxiang.simulation@1         wanxiang.forge.world@1
+wanxiang.forge.capability@1   wanxiang.projection@1
+wanxiang.experience@1         wanxiang.distribution@1
+```
+
+Seam digest at this tree:
+`8510a63bc6084d8f0fb721206528d90bfd06ae3678b4e4cf701e62c63179a560`
+(sha256 over the sorted `id -> apiVersion` map, recorded in
+`artifacts/r7/composition/resolved_graph.json` and served by
+`wanxiang_reality.rpc`'s `seam.digest`).
+
+## Provider / consumer rule
+
+Consumers depend on a seam, never on a provider implementation or on
+provider-internal modules. Two guards enforce it:
+
+* `packages/cordis_host/src/architecture.test.ts` — only `authority.ts` may reach
+  the capability mint; `bundle.ts` (the reference plugin) must not mention the
+  concrete history provider or the mint, and must import the authority seam.
+* The Python side keeps the existing repository guards green
+  (`uv run python scripts/architecture_check.py` → PASS).
+
+## Consumer-side seam types
+
+`packages/cordis_host/src/history.ts` defines the history seam as a synchronous
+interface (`head`, `read`, `append`, `checkpoint`, `worldlines`) plus a provider
+port. Two implementations exist against that port:
+
+* the in-process reference provider (`MemoryHistoryProvider`), certified by the
+  spike and by the scope tests;
+* the JSON-RPC provider (`RpcHistoryProvider`), which bridges to the Python
+  authority over the frozen protocol and exposes the same five operations as an
+  additive `AsyncHistoryProvider` interface, because a stdio round trip cannot be
+  synchronous.
+
+## Boundaries
+
+* IMPLEMENTED: 27 versioned contracts (Python + generated TS identity/scope projection), seam digest
+  served by both runtimes, history seam with a provider port, async JSON-RPC
+  provider and authority bootstrap, architecture guards on both sides.
+* VALIDATED: Python contract/reality tests (64 in `tests/unit/reality`), TS
+  architecture and bridge tests (`tsc` + ESLint clean, `vitest run` → 7 files /
+  41 tests), cross-language seam digest equality asserted by the bridge test,
+  repository quality gate PASS.
+* NOT_PROVEN: a second real transport (HTTP/socket) for the same seam, and
+  compatibility testing against an older contract revision. The expanded
+  first-batch seam catalog now also names metadata/snapshot/clock/space/memory/
+  simulation/Forge/projection/experience/distribution boundaries; naming a seam
+  does not fabricate a provider where a concrete provider is not yet installed.

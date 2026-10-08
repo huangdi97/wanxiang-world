@@ -6,6 +6,21 @@
       "file": "packages\\application\\src\\wanxiang_application\\world_runtime.py",
       "constructs_authority": true,
       "commit_calls": 1
+    },
+    {
+      "file": "packages\\runtime\\src\\wanxiang_runtime\\isa_pipeline.py",
+      "constructs_authority": false,
+      "commit_calls": 1
+    },
+    {
+      "file": "packages\\substrate\\src\\wanxiang_substrate\\rc001\\chaos.py",
+      "constructs_authority": false,
+      "commit_calls": 2
+    },
+    {
+      "file": "packages\\substrate\\src\\wanxiang_substrate\\rc001\\instantiate.py",
+      "constructs_authority": false,
+      "commit_calls": 1
     }
   ],
   "direct_append_calls": [],

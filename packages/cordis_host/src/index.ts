@@ -1,0 +1,109 @@
+export {
+  CONTRACT_IDS,
+  SERVICE_CONTRACTS,
+  ContractError,
+  contractId,
+  getContract,
+  seamDigest,
+  type ContractScope,
+  type ServiceContractRef,
+} from "./contracts";
+export {
+  AuthorityError,
+  CommitAuthority,
+  type AuthorityGrantAuditView,
+} from "./authority";
+export type { IssuedCapability } from "./internal/capability-core";
+export {
+  CommitDeniedError,
+  HistoryError,
+  HistoryService,
+  MemoryHistoryProvider,
+  RevisionConflictError,
+  type AppendRequest,
+  type AppendResult,
+  type HistoryProvider,
+  type Revision,
+  type WorldEvent,
+} from "./history";
+export {
+  RuntimeLockError,
+  assertSeamsMatchLock,
+  createRuntimeLockRef,
+  validateRuntimeLockRef,
+  type ProfileRef,
+  type RuntimeLockRef,
+} from "./lock";
+export {
+  CrossWorldlineGuard,
+  EvidenceGuard,
+  ExternalEffectGuard,
+  PolicyError,
+  PolicyRegistry,
+  RightsGuard,
+  UnversionedWriteGuard,
+  resolveDecisions,
+  type DecisionKind,
+  type PolicyDecision,
+  type PolicyProposal,
+  type PolicyProvider,
+  type ResolutionResult,
+} from "./policy";
+export { commitThroughAuthority, proposalDigest, type ActorRule, type CommitOutcome } from "./commit";
+export { ScopeError, WorldScopeManager, type PluginLoad, type WorldlineRuntime } from "./scopes";
+export { AUTHORITY_PROVIDER_VERSION, createHost, type HostOptions, type WanxiangHost } from "./host";
+export { buildResolvedGraph, type ResolvedGraph } from "./graph";
+export { actorRulePlugin, actorRuleV2Plugin, leakCounters, type ActorRuleConfig } from "./bundle";
+export { runCompositionSpike, type ScenarioResult, type SpikeReport } from "./spike";
+export {
+  RpcAuthorityBootstrap,
+  RpcHistoryProvider,
+  type AsyncHistoryProvider,
+  type HolderRegistration,
+  type RpcTokenLookup,
+  type RuntimeInfo,
+} from "./bridge";
+export {
+  JSONRPC_VERSION,
+  RPC_COMMIT_DENIED,
+  RPC_REVISION_CONFLICT,
+  RPC_TRANSPORT_FAILURE,
+  RpcMethods,
+  RpcProtocolError,
+  RpcStdioClient,
+  type RpcExitHook,
+  type RpcMethod,
+  type RpcTransportOptions,
+} from "./bridge_protocol";
+export {
+  AgentHarnessClient,
+  HARNESS_PROTOCOL,
+  HarnessConsequencePath,
+  parseDecision,
+  type AgentProposal,
+  type HarnessAcknowledgement,
+  type HarnessConsequence,
+  type HarnessDecision,
+  type HarnessDecisionReport,
+  type HarnessInfo,
+  type HarnessObservationInput,
+  type HarnessProposalRecord,
+} from "./harness";
+export {
+  FileLockSource,
+  LOCK_STORE_SCHEMA,
+  RuntimeLockMissingError,
+  RuntimeLockTamperedError,
+  assertProvidersMatchLock,
+  assertStoredLockMatchesWorldline,
+  canonicalJson,
+  decodeStoredLock,
+  lockProjectionDigest,
+  toRuntimeLockRef,
+  type LockSource,
+  type RuntimeLockProjection,
+  type StoredRuntimeLock,
+  type WorldlineLockIdentity,
+} from "./stored_lock";
+
+export { BootstrapError, bootstrapWorld, type BootstrappedWorld, type BootstrapHistoryExpectation, type WorldBootstrapRequest } from "./bootstrap";

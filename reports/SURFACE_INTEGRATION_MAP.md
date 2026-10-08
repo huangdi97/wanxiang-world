@@ -4,6 +4,7 @@ API route -> handler -> authoritative application use-case -> canonical state.
 
 | Method | Path | Handler | Runtime use case |
 |---|---|---|---|
+| ? | ? | reset_action_rate_limiter | static response |
 | ? | ? | _runtime | static response |
 | GET | /healthz | healthz | static response |
 | POST | /worlds | create_world | create_world |

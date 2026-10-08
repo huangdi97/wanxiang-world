@@ -30,6 +30,8 @@ class BudgetTracker:
         self._model_calls = 0
 
     def consume(self, commands: int = 0, ticks: int = 0, model_calls: int = 0) -> None:
+        if commands < 0 or ticks < 0 or model_calls < 0:
+            raise ValueError("resource consumption cannot be negative")
         next_commands = self._commands + commands
         next_ticks = self._ticks + ticks
         next_model_calls = self._model_calls + model_calls

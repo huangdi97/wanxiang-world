@@ -21,11 +21,16 @@ from wanxiang_domain.event import CommittedEvent
 from wanxiang_domain.hierarchy import EventSeq
 from wanxiang_domain.ids import BranchId, CommandId, WorldInstanceId
 
+from wanxiang_runtime.canonical_write import (
+    CanonicalWriteLease,
+    require_canonical_write_lease,
+)
+
 
 class EventAppendPort(Protocol):
     """Append committed events durably and load them back."""
 
-    def append(self, event: CommittedEvent) -> None: ...
+    def append(self, event: CommittedEvent, *, lease: CanonicalWriteLease) -> None: ...
 
     def load(
         self, instance_id: WorldInstanceId, branch_id: BranchId
@@ -39,7 +44,7 @@ class EventAppendPort(Protocol):
 class EventStore(Protocol):
     """Full event-stream contract: ordered append, range load, idempotency, integrity."""
 
-    def append(self, event: CommittedEvent) -> None: ...
+    def append(self, event: CommittedEvent, *, lease: CanonicalWriteLease) -> None: ...
 
     def load(
         self,
@@ -71,7 +76,12 @@ class InMemoryEventStore:
         self._by_command: dict[str, CommittedEvent] = {}
         self.fail_append = False
 
-    def append(self, event: CommittedEvent) -> None:
+    def append(self, event: CommittedEvent, *, lease: CanonicalWriteLease | None = None) -> None:
+        # SECURITY: the credential is checked before any store mutation, so an
+        # unleased append can never advance seq, id or command state.
+        require_canonical_write_lease(
+            lease, instance_id=event.instance_id, branch_id=event.branch_id
+        )
         if self.fail_append:
             raise PersistenceError("simulated append failure")
         key = (event.instance_id.value, event.branch_id.value)

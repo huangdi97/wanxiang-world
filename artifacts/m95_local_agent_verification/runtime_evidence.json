@@ -1,0 +1,71 @@
+{
+  "base": "http://127.0.0.1:8056",
+  "stages": [
+    {
+      "stage": "plaza",
+      "file": "stage_01_plaza.png"
+    },
+    {
+      "stage": "world_detail",
+      "file": "stage_02_world_detail.png"
+    },
+    {
+      "stage": "enter_world",
+      "file": "stage_03_enter_world.png"
+    },
+    {
+      "stage": "action_committed",
+      "file": "stage_04_action_committed.png"
+    },
+    {
+      "stage": "leave_plaza",
+      "file": "stage_05_leave_plaza.png"
+    },
+    {
+      "stage": "continue_same_instance",
+      "file": "stage_06_continue_same_instance.png"
+    }
+  ],
+  "evidence": {
+    "title": "万相｜进入世界",
+    "lang": "zh-CN",
+    "locale": "zh-CN",
+    "action_response": {
+      "status": 200,
+      "committed_status": "committed",
+      "changed": true,
+      "instance_id": "prv_playable_1",
+      "view_has_session": true,
+      "view_has_state": false
+    },
+    "continue": {
+      "active": true,
+      "world_name": "江南机关城"
+    },
+    "page_errors": [],
+    "outcomes": [
+      {
+        "step": "world_detail",
+        "assert": "seeded character visible",
+        "status": "PASS"
+      },
+      {
+        "step": "action",
+        "assert": "committed + 世界变化",
+        "status": "PASS"
+      },
+      {
+        "step": "leave",
+        "assert": "leave ok",
+        "status": "PASS"
+      },
+      {
+        "step": "continue",
+        "assert": "same instance resumed",
+        "status": "PASS"
+      }
+    ],
+    "profile_id": "experience:world:wd_m95_human_zh_job",
+    "instance_id": "prv_playable_1"
+  }
+}

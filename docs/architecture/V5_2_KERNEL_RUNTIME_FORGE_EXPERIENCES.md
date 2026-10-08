@@ -26,12 +26,17 @@
 
 ## No-God-Engine rule
 
-The only production classes with "Engine" in the name are:
+The production classes/functions with "Engine" in the name are bounded and
+explicitly owned by one responsibility:
 - `wanxiang_runtime.replay.ReplayEngine` (Kernel replay; required).
 - `wanxiang_research.planner.PlannerEngine` (EXPERIMENTAL research; flag OFF).
 - `wanxiang_persistence.database.create_engine_for` (SQLAlchemy factory function).
+- `wanxiang_substrate.authoring.completion_engine.CompletionEngine` (Forge
+  completion proposals; candidate-only).
+- `wanxiang_substrate.authoring.scenario_engine.ScenarioEngine` (Forge scenario
+  and genesis drafts; candidate-only).
 
 Forbidden: RealityRootEngine, SemanticISAEngine, WorldlineEngine, LineageManager,
-EvolutionManager, DistillationEngine ? any new God Object requires a Kernel
-Change Proposal (01_KERNEL_FREEZE_POLICY after M35; ADR + guard + negative test
-before then).
+EvolutionManager, DistillationEngine, or any cross-responsibility God Object.
+Any new engine-shaped abstraction requires a Kernel Change Proposal
+(01_KERNEL_FREEZE_POLICY after M35; ADR + guard + negative test before then).

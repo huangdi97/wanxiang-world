@@ -1,0 +1,119 @@
+{
+  "sampling": {
+    "seed": 83,
+    "requested": 12,
+    "selected_ids": [
+      "alias_ada",
+      "boundary_ada",
+      "event_departure",
+      "event_return",
+      "event_unknown",
+      "id_ada",
+      "org_guild",
+      "place_harbor",
+      "relation_ada_bob"
+    ],
+    "strata": {
+      "conflict_merge": [
+        "relation_ada_bob"
+      ],
+      "fill": [
+        "event_departure",
+        "event_unknown",
+        "org_guild",
+        "event_return",
+        "place_harbor"
+      ],
+      "high_impact": [
+        "alias_ada"
+      ],
+      "low_confidence": [
+        "boundary_ada"
+      ],
+      "random": [
+        "id_ada"
+      ]
+    }
+  },
+  "report": {
+    "protocol_version": "m80-v1",
+    "sample_count": 9,
+    "labeled_count": 9,
+    "metrics": {
+      "identity_precision": {
+        "numerator": 1,
+        "denominator": 1,
+        "value": 1.0,
+        "direction": "higher_is_better"
+      },
+      "alias_merge_precision": {
+        "numerator": 1,
+        "denominator": 1,
+        "value": 1.0,
+        "direction": "higher_is_better"
+      },
+      "false_merge_rate": {
+        "numerator": 0,
+        "denominator": 1,
+        "value": 0.0,
+        "direction": "lower_is_better"
+      },
+      "duplicate_rate": {
+        "numerator": 0,
+        "denominator": 1,
+        "value": 0.0,
+        "direction": "lower_is_better"
+      },
+      "missing_evidence_rate": {
+        "numerator": 0,
+        "denominator": 9,
+        "value": 0.0,
+        "direction": "lower_is_better"
+      },
+      "event_precision": {
+        "numerator": 3,
+        "denominator": 3,
+        "value": 1.0,
+        "direction": "higher_is_better"
+      },
+      "participant_correctness": {
+        "numerator": 3,
+        "denominator": 3,
+        "value": 1.0,
+        "direction": "higher_is_better"
+      },
+      "temporal_ordering": {
+        "numerator": 2,
+        "denominator": 2,
+        "value": 1.0,
+        "direction": "higher_is_better"
+      },
+      "uncertainty_honesty": {
+        "numerator": 3,
+        "denominator": 3,
+        "value": 1.0,
+        "direction": "higher_is_better"
+      },
+      "relation_place_org_precision": {
+        "numerator": 3,
+        "denominator": 3,
+        "value": 1.0,
+        "direction": "higher_is_better"
+      },
+      "knowledge_boundary_safety": {
+        "numerator": 1,
+        "denominator": 1,
+        "value": 1.0,
+        "direction": "higher_is_better"
+      },
+      "evidence_traceability": {
+        "numerator": 9,
+        "denominator": 9,
+        "value": 1.0,
+        "direction": "higher_is_better"
+      }
+    },
+    "passed": true,
+    "failures": []
+  }
+}

@@ -1,7 +1,7 @@
 # Schema Drift Audit (G13D)
 
-- Server operation count: 10
-- SDK contract operation count: 10
+- Server operation count: 62
+- SDK contract operation count: 62
 - Aligned: True
 
 ## Server operations missing from the SDK contract

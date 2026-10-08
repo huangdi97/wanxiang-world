@@ -11,6 +11,10 @@ from wanxiang_domain.ids import BranchId, SnapshotId, WorldInstanceId
 from wanxiang_domain.snapshot import SnapshotMetadata
 from wanxiang_domain.time import WorldTime
 from wanxiang_domain.versions import RuntimeVersion, SchemaVersion
+from wanxiang_runtime.canonical_write import (
+    CanonicalWriteLease,
+    require_canonical_write_lease,
+)
 from wanxiang_runtime.snapshot import StoredSnapshot
 from wanxiang_runtime.state import InMemoryCanonicalState
 
@@ -23,7 +27,16 @@ class SqlAlchemySnapshotStore:
     def __init__(self, session_factory: sessionmaker[Session]) -> None:
         self._session_factory = session_factory
 
-    def save(self, metadata: SnapshotMetadata, state: InMemoryCanonicalState) -> SnapshotMetadata:
+    def save(
+        self,
+        metadata: SnapshotMetadata,
+        state: InMemoryCanonicalState,
+        *,
+        lease: CanonicalWriteLease,
+    ) -> SnapshotMetadata:
+        require_canonical_write_lease(
+            lease, instance_id=metadata.instance_id, branch_id=metadata.branch_id
+        )
         record = SnapshotRecord(
             snapshot_id=metadata.snapshot_id.value,
             instance_id=metadata.instance_id.value,

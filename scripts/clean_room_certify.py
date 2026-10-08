@@ -57,6 +57,11 @@ IN_FLIGHT = {
     ".gitignore",
     "reports/CLEAN_ROOM_CERTIFICATION.md",
     "reports/G20B_REPORT.md",
+    # The M100 G103B runner records its in-progress evidence before it runs any
+    # command, so these two files are legitimately dirty while clean_room
+    # executes. They are that runner's own measurement output, not source.
+    "artifacts/v55_stable/m100/full_regression.json",
+    "reports/M100_G103B_FULL_REGRESSION.md",
     "STATUS.md",
     "PLAN.md",
     "CHANGELOG.md",

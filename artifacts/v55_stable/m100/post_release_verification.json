@@ -1,0 +1,46 @@
+{
+  "schema": "wanxiang.v5.5.m100.post-release-verification.v1",
+  "goal": "G103H",
+  "conclusion": "LOCKED",
+  "candidate_head_at_evidence": "f0bbed6c940963f4b9b7cba86146aac0df1ad148",
+  "stable_tag": {
+    "name": "v5.5.0",
+    "local": "ABSENT",
+    "remote": "EXTERNAL_BLOCKED",
+    "tag_checkout": "NOT_APPLICABLE"
+  },
+  "post_release_checks": {
+    "install": "NOT_RUN",
+    "migration": "NOT_RUN",
+    "quickstart": "NOT_RUN",
+    "replay": "NOT_RUN",
+    "clean_room": "NOT_RUN",
+    "studio": "NOT_RUN",
+    "typescript": "NOT_RUN",
+    "python": "NOT_RUN",
+    "release_artifact": "NOT_RUN"
+  },
+  "immutable_identity": {
+    "v5.4.0": {
+      "tag_object": "8b9541ad21a8dda5c3f159fe72186431422a3a06",
+      "peeled_commit": "ef935fc6c24eb47553382d318e1501a795c4da84",
+      "local_check": "PASS"
+    },
+    "v5.5.0-rc1": {
+      "tag_object": "e4768f706f427b3356c94d1e0ec3afe79c17987a",
+      "peeled_commit": "50443c8f7cc58fc4661af2a7d993dc7ec6144e11",
+      "local_check": "PASS"
+    },
+    "historical_not_accepted": {
+      "path": "reports/REAL_BOOK_LIVING_WORLD_ACCEPTANCE_2026-08-25.md",
+      "preserved": true
+    }
+  },
+  "reason": "A tag-based post-release verification cannot run without v5.5.0; no stable release was created.",
+  "reproduce": [
+    "git rev-parse HEAD",
+    "git rev-parse 'v5.4.0^{commit}'",
+    "git rev-parse 'v5.5.0-rc1^{commit}'",
+    "git show-ref --verify --quiet refs/tags/v5.5.0"
+  ]
+}

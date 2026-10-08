@@ -6,7 +6,6 @@ from collections.abc import Callable
 from dataclasses import dataclass
 
 from wanxiang_domain.command import CommandEnvelope
-from wanxiang_domain.errors import WanxiangError
 from wanxiang_domain.event import CommittedEvent
 from wanxiang_domain.hierarchy import BranchAncestry, BranchMetadata, BranchRevision, EventSeq
 from wanxiang_domain.ids import BranchId, WorldInstanceId
@@ -14,17 +13,23 @@ from wanxiang_domain.snapshot import SnapshotMetadata
 from wanxiang_domain.time import CommitTimestamp, WorldTime
 from wanxiang_domain.versions import RuntimeVersion, SchemaVersion
 from wanxiang_runtime.audit import AuditRecord
-from wanxiang_runtime.authority import CommitAuthority, CommitRequest
+from wanxiang_runtime.authority import (
+    CommitAuthority,
+    CommitRequest,
+    authorize_structural_write,
+)
 from wanxiang_runtime.branch import fork_branch
+from wanxiang_runtime.canonical_write import CanonicalWriteLease
 from wanxiang_runtime.diff import StateDiff, diff_states
-from wanxiang_runtime.replay import ReplayEngine
+from wanxiang_runtime.invariants import InvariantCheck
 from wanxiang_runtime.resolver import ResolverRegistry
 from wanxiang_runtime.snapshot import create_snapshot_metadata
 from wanxiang_runtime.state import InMemoryCanonicalState
 
 from wanxiang_application.ports import PersistenceBundle
-from wanxiang_application.snapshot_policy import snapshot_is_valid
+from wanxiang_application.replay_support import RestoreResult, replay_branch
 from wanxiang_application.state_reader import StateReader
+from wanxiang_application.world_lookup import find_root_branch
 
 DEFAULT_SCHEMA_VERSION = SchemaVersion(1)
 DEFAULT_WORLD_TIME = WorldTime(0)
@@ -46,13 +51,6 @@ class SubmitCommandResult:
     duplicate: bool = False
 
 
-@dataclass(frozen=True, slots=True)
-class RestoreResult:
-    state: InMemoryCanonicalState
-    used_snapshot: bool
-    snapshot_rejected: bool = False
-
-
 class WorldRuntime:
     """Authoritative application runtime (no HTTP/ORM/LLM dependencies)."""
 
@@ -63,13 +61,27 @@ class WorldRuntime:
         schema_version: SchemaVersion = DEFAULT_SCHEMA_VERSION,
         resolvers: ResolverRegistry | None = None,
         now: Now = CommitTimestamp.now,
+        domain_invariants: tuple[InvariantCheck, ...] = (),
+        world_invariants: tuple[InvariantCheck, ...] = (),
     ) -> None:
         self.persistence = persistence
         self._rule_version = rule_version
         self._schema_version = schema_version
         self._resolvers = resolvers or ResolverRegistry()
         self._now = now
+        self._domain_invariants = domain_invariants
+        self._world_invariants = world_invariants
         self._state_reader = StateReader(persistence, rule_version, schema_version)
+
+    def _structural_lease(
+        self, instance_id: WorldInstanceId, branch_id: BranchId, reference: str
+    ) -> CanonicalWriteLease:
+        # Structural canonical rows (instance/branch/snapshot/audit trace) are written
+        # by this runtime, but the Commit Authority is the only minter; the runtime
+        # asks the authority for a credential instead of minting one itself.
+        return authorize_structural_write(
+            instance_id=instance_id, branch_id=branch_id, audit_ref=f"world_runtime:{reference}"
+        )
 
     # -- instance / branch lifecycle ------------------------------------
 
@@ -80,8 +92,13 @@ class WorldRuntime:
     ) -> CreateWorldResult:
         instance_id = instance_id or WorldInstanceId.generate()
         root_branch = BranchId.generate()
+        lease = self._structural_lease(instance_id, root_branch, "create_world")
         self.persistence.instances.create(
-            instance_id, self._schema_version, self._rule_version, world_time
+            instance_id,
+            self._schema_version,
+            self._rule_version,
+            world_time,
+            lease=lease,
         )
         self.persistence.branches.save(
             BranchMetadata(
@@ -90,13 +107,20 @@ class WorldRuntime:
                 ancestry=BranchAncestry(),
                 schema_version=self._schema_version,
                 rule_version=self._rule_version,
-            )
+            ),
+            lease=lease,
         )
         return CreateWorldResult(
             instance_id=instance_id,
             root_branch_id=root_branch,
             revision=BranchRevision(0),
         )
+
+    def find_existing_world(self, instance_id: WorldInstanceId) -> CreateWorldResult | None:
+        root_branch_id = find_root_branch(self.persistence, instance_id)
+        if root_branch_id is None:
+            return None
+        return CreateWorldResult(instance_id, root_branch_id, BranchRevision(0))
 
     def create_branch(
         self,
@@ -126,14 +150,22 @@ class WorldRuntime:
             fork_event_seq=fork_event_seq,
             snapshot_ref=snapshot_ref,
         )
-        self.persistence.branches.save(child)
+        branch_lease = self._structural_lease(instance_id, child.branch_id, "create_branch")
+        self.persistence.branches.save(child, lease=branch_lease)
         # Persist a snapshot of the fork baseline so restore/replay is deterministic.
         fork_state = self._state_reader.state_at(
             instance_id, parent_branch_id, upto_seq=fork_event_seq
         )
+        # The fork-baseline snapshot is keyed by the parent branch at the fork
+        # revision (fork_state keeps the parent branch id), so it needs its own
+        # lease scoped to that worldline.
+        snapshot_lease = self._structural_lease(
+            instance_id, fork_state.branch_id, "create_branch_snapshot"
+        )
         self.persistence.snapshot_store.save(
             create_snapshot_metadata(fork_state, fork_event_seq, content_ref=snapshot_ref),
             fork_state,
+            lease=snapshot_lease,
         )
         return child
 
@@ -157,6 +189,8 @@ class WorldRuntime:
             self._schema_version,
             branch_base_revision=BranchRevision(base),
             now=self._now,
+            domain_invariants=self._domain_invariants,
+            world_invariants=self._world_invariants,
         )
         result = authority.commit(
             state,
@@ -174,7 +208,12 @@ class WorldRuntime:
             ),
         )
         if self.persistence.audit is not None:
-            self.persistence.audit.record(result.audit)
+            self.persistence.audit.record(
+                result.audit,
+                lease=self._structural_lease(
+                    command.instance_id, command.branch_id, "submit_command_audit"
+                ),
+            )
         self._state_reader.update(command.instance_id, command.branch_id, result.state_after)
         return SubmitCommandResult(event=result.event, state=result.state_after, audit=result.audit)
 
@@ -208,58 +247,22 @@ class WorldRuntime:
         state = self._state_reader.state_at(instance_id, branch_id)
         seq = self.persistence.event_store.last_event_seq(instance_id, branch_id)
         metadata = create_snapshot_metadata(state, seq)
-        self.persistence.snapshot_store.save(metadata, state)
+        self.persistence.snapshot_store.save(
+            metadata, state, lease=self._structural_lease(instance_id, branch_id, "checkpoint")
+        )
         return metadata
 
     def restore_and_replay(
         self, instance_id: WorldInstanceId, branch_id: BranchId
     ) -> RestoreResult:
-        branch = self.persistence.branches.get(branch_id)
-        events = self.persistence.event_store.load(instance_id, branch_id)
-        if branch.ancestry.parent_branch_id is None:
-            latest = None
-            try:
-                latest = self.persistence.snapshot_store.latest(instance_id, branch_id)
-            except WanxiangError:
-                latest = None  # unreadable snapshot store: fall back to events
-            usable = False
-            if latest is not None:
-                try:
-                    usable = snapshot_is_valid(
-                        latest,
-                        events,
-                        rule_version=self._rule_version,
-                        schema_version=self._schema_version,
-                    )
-                except WanxiangError:
-                    usable = False  # decode/validation failed: fall back to events
-            if usable:
-                assert latest is not None
-                remaining = [
-                    e for e in events if e.event_seq.value > latest.metadata.event_seq.value
-                ]
-                state = ReplayEngine(self._rule_version, self._schema_version).replay(
-                    remaining, baseline=latest.state
-                )
-                return RestoreResult(state=state, used_snapshot=True)
-            # Corrupt/incompatible/unreadable snapshot: fall back to authoritative
-            # events (observable via snapshot_rejected when a snapshot existed).
-            engine = ReplayEngine(self._rule_version, self._schema_version)
-            return RestoreResult(
-                state=engine.replay(events),
-                used_snapshot=False,
-                snapshot_rejected=latest is not None,
-            )
-        # Child branch: replay the branch's own events over the parent state at
-        # the fork point (parent_branch_id is non-None here by construction).
-        engine = ReplayEngine(self._rule_version, self._schema_version)
-        parent = self._state_reader.state_at(
+        return replay_branch(
+            self.persistence,
+            self._state_reader,
+            self._rule_version,
+            self._schema_version,
             instance_id,
-            branch.ancestry.parent_branch_id,
-            upto_seq=branch.ancestry.fork_event_seq,
+            branch_id,
         )
-        state = engine.replay(events, baseline=parent, start_seq=1)
-        return RestoreResult(state=state, used_snapshot=False)
 
     def diff(
         self,

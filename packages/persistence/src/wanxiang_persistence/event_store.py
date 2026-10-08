@@ -18,6 +18,10 @@ from wanxiang_domain.event import CommittedEvent
 from wanxiang_domain.hierarchy import EventSeq
 from wanxiang_domain.ids import BranchId, CommandId, WorldInstanceId
 from wanxiang_domain.serialization_history import event_from_primitive, event_to_primitive
+from wanxiang_runtime.canonical_write import (
+    CanonicalWriteLease,
+    require_canonical_write_lease,
+)
 
 from wanxiang_persistence.database import session_scope
 from wanxiang_persistence.models import EventRecord
@@ -29,7 +33,12 @@ class SqlAlchemyEventStore:
     def __init__(self, session_factory: sessionmaker[Session]) -> None:
         self.session_factory = session_factory
 
-    def append(self, event: CommittedEvent) -> None:
+    def append(self, event: CommittedEvent, *, lease: CanonicalWriteLease | None = None) -> None:
+        # SECURITY: the credential is validated before any session/DB work, so an
+        # unleased or cross-worldline append never reaches the database.
+        require_canonical_write_lease(
+            lease, instance_id=event.instance_id, branch_id=event.branch_id
+        )
         if self.command_result_event(event.command_id) is not None:
             raise DuplicateCommandConflict(f"command {event.command_id.value} already committed")
         current = self.last_event_seq(event.instance_id, event.branch_id)

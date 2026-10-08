@@ -180,3 +180,78 @@
 - G03E Resolver, Adjudication & Deterministic Policies ? PASS (2026-08-13):
   adjudicator registry by (action, version), seeded RNG, provenance +
   uncertainty, version pinning; delta dry-run before commit; 250 tests green.
+
+## M71-M78 current implementation checkpoint (2026-08-25)
+
+This user-authorized continuation supersedes the historical M70 STOP for this
+task only. G74A-G80G are implemented: semantic distillation consumes stable
+source locators in bounded batches and emits provenance-bound candidates;
+rights and provider absence are typed; CLI/API/Studio share one authoring
+service; Worldness exposes ten measurements; and the living runtime records
+Commit Authority action, replay equality and branch isolation.
+
+Real-source evidence records 3,918 parsed nodes/segments, 164 batches, 11,549
+candidates, coverage 0.8333333333, package/preview/publish, Worldness passed
+at 0.99, a committed `set_status` event with replay equality, and an unchanged
+parent branch. G81G-G81J are PASS for implementation commit `f7685ec` and
+Actions run `32821744579`, whose six required jobs are green. The final
+evidence-only commit must still pass its own Actions run before `rc2`; v5.5
+and training remain out of scope.
+
+## M79 second real-book qualification (2026-08-25)
+
+M79/G82A-G82G is PASS for a private local EPUB through the generic binary
+source path. The run produced 28,510 parsed nodes/segments, 1,188 completed
+bounded semantic batches, 25,315 provenance-bound candidates, measured
+coverage of 0.8333333333333334, WorldPackage/Preview, Worldness
+0.9733333333333333, Living Instance, Commit/Replay equality and branch
+isolation. Evidence is sanitized in `reports/M79_REAL_EPUB_QUALIFICATION.md`
+and `artifacts/m79_m84/real_second_book_product_evidence.json`; no private
+path, digest or source text is tracked.
+
+## M82 real GEDCOM qualification (2026-08-26)
+
+M82/G85A-G85G is PASS for the supplied local GEDCOM through the generic
+GEDCOM parser, locator, semantic distillation, WorldDraft, WorldPackage,
+Preview, Worldness, Living Instance, Commit/Replay, and branch-isolation
+path. The real run measured 326 provenance-bound candidates, coverage `1.0`,
+Worldness `0.99`, 19 entities, 79 relations, and 55 events. Evidence is
+sanitized in `reports/M82_GEDCOM_QUALIFICATION.md` and
+`artifacts/m79_m84/real_gedcom_product_evidence.json`; the official GEDCOM 7
+in-memory import/locator smoke is in
+`artifacts/m79_m84/gedcom7_official_smoke.json`. The historical/public fixture
+does not constitute private living-family user validation.
+
+M84/G87A-G87H is active. No stable v5.4.0 tag/release, v5.5 work, or model
+training is authorized until the M84 evidence gates pass.
+
+## M84 stable-release decision (2026-08-26)
+
+M84 clean-clone, regression, source-safety, and GitHub delivery evidence is
+complete through G87E. Stable release remains `NOT_ACCEPTED` because the
+unchanged first real Chinese book report still records zero candidates and
+zero coverage in its rights-approved diagnostic. The accepted second EPUB and
+public historical GEDCOM generalization runs are not a substitute. No stable
+tag/release was created. See `reports/M84_STABLE_BLOCKER.md`.
+
+## M84 first-book requalification (2026-08-26)
+
+The same original private Chinese book now completes the real CLI/API/Studio
+chain after the semantic-distillation repair: 11,549 candidates, measured
+coverage `0.8333333333333334`, WorldPackage, Preview, Worldness, Living,
+Commit/Replay, and branch isolation. The pre-repair NOT_ACCEPTED report is
+preserved unchanged; sanitized ACCEPTED evidence is recorded in
+`reports/M84_FIRST_BOOK_REQUALIFICATION.md`. Stable release gates may proceed
+after the documentation commit's required Actions are green.
+
+## M84 stable release and post-release verification (2026-08-26)
+
+M84 is PASS. Required Actions run `32922253977` is green across all six jobs;
+the remote annotated `v5.4.0` tag targets
+`ef935fc6c24eb47553382d318e1501a795c4da84`; and the formal GitHub Release is
+published. The tag was verified from a fresh clone with all-workspace install,
+Alembic head, clean-room 7/7, CLI/Studio smoke, Python quality, kernel guard,
+and TypeScript gates. Evidence is sanitized in
+`artifacts/m79_m84/m84_post_release_verification.json`.
+
+STOP boundary: no v5.5 and no model training.

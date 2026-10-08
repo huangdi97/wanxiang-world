@@ -83,7 +83,8 @@ def main() -> int:
         ).hexdigest(),
     }
     target = ROOT / "tests" / "fixtures" / "v5_2_lineage_graph.json"
-    target.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    with target.open("w", encoding="utf-8", newline="\n") as handle:
+        handle.write(json.dumps(payload, indent=2, sort_keys=True) + "\n")
 
     lines = [
         "# V5.2 Lineage Graph Visualization (G31H)",

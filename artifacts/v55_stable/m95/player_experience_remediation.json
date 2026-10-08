@@ -1,0 +1,53 @@
+{
+  "milestone": "M95",
+  "goal": "G98A-G98E experience remediation",
+  "status": "M95_REMEDIATION_REQUIRED",
+  "automated_readiness": "PASS",
+  "human_acceptance": "USER_INPUT_REQUIRED",
+  "gate_80": "LOCKED",
+  "input": {
+    "source_id": "m95_human_zh_source",
+    "sha256": "9d132fecd52aaa0e446011af337e303274911392377ddf99034035444c4532ac",
+    "provenance": "synthetic:m95-player-experience",
+    "rights_boundary": "creator-owned synthetic fixture; no private source bytes emitted"
+  },
+  "version": {
+    "git_head": "05b9a817acde2b5de9f0540e5600455e29a6ff1d",
+    "schema_version": 1,
+    "rule_version": 1,
+    "migration_head": "0004_add_world_metadata",
+    "seed": "deterministic fixture IDs; runtime IDs recorded below"
+  },
+  "refs": {
+    "job_id": "m95_human_zh_job",
+    "package_id": "world:wd_m95_human_zh_job",
+    "profile_id": "experience:world:wd_m95_human_zh_job",
+    "world_instance_id": "prv_playable_1",
+    "branch_id": "br_6159b1fd52874dd29c1ef058024f634c",
+    "actor_id": "ent_alice",
+    "event_ids": [
+      "evt_37e9c7c5612a4ff6b43f3fcdc320da9f",
+      "evt_4fc4fdddb4124d98a26b3bb5bec2d43b",
+      "evt_9fa3723516d64152a2ca1892ec709139",
+      "evt_efc2785e9d7846f78ce347e6c36c3287"
+    ]
+  },
+  "trace": {
+    "before_revision": 3,
+    "after_revision": 4,
+    "after_state_hash": "b92128440812d009341fb7c58777366b4d43819851517412ffde292e7eeed038",
+    "replay_state_hash": "b92128440812d009341fb7c58777366b4d43819851517412ffde292e7eeed038",
+    "action_status": "committed",
+    "action_changed": true,
+    "leave_status": "left",
+    "continued_instance_id": "prv_playable_1",
+    "continued_same_instance": true
+  },
+  "boundaries": {
+    "implemented": "Chinese Player projection/UI, server-backed continuity and action path",
+    "validated": "API route chain, SQLite persistence, Commit Authority, replay and browser journey",
+    "experimental": "Prompt Genesis and bounded long-horizon/World Lab/emergence remain bounded/experimental",
+    "not_proven": "human comprehension, immersion, agency rating and real-player acceptance",
+    "external_blocked": "live PostgreSQL and heavy physical/visual E2E have no real environment"
+  }
+}

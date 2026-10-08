@@ -1,0 +1,52 @@
+{
+  "schema": "wanxiang.v5.5.m99.godot-integration.v1",
+  "conclusion": "EXTERNAL_BLOCKED",
+  "gate_78": "EXTERNAL_BLOCKED",
+  "generated_build_sha": "9ac66665f7332ae6e1453ad6bdb80e6d193a98fb",
+  "probe_command": "Get-Command godot, godot4 -ErrorAction SilentlyContinue; <resolved executable> --version",
+  "platform": "Windows",
+  "observed_executables": [
+    {
+      "name": "godot",
+      "found": false,
+      "source": null,
+      "version": null
+    },
+    {
+      "name": "godot4",
+      "found": false,
+      "source": null,
+      "version": null
+    }
+  ],
+  "checks": {
+    "godot_executable_found": false,
+    "godot4_executable_found": false,
+    "real_engine_e2e": false,
+    "installation_attempted": false,
+    "reference_abi_not_relabelled_as_godot": true
+  },
+  "blocked_subgoals": [
+    "G102B minimal real projection",
+    "G102C physical action round trip",
+    "G102D real Godot qualification"
+  ],
+  "external_block_reason": "No supported Godot executable is available on this host; no engine was downloaded or installed.",
+  "boundaries": {
+    "implemented": [
+      "environment probe and typed external-block record"
+    ],
+    "validated": [
+      "absence of godot and godot4 commands on this host"
+    ],
+    "experimental": [],
+    "not_proven": [
+      "real Godot scene projection",
+      "Godot physical/navigation action round trip"
+    ],
+    "external_blocked": [
+      "real Godot runtime",
+      "heavy physical/visual E2E"
+    ]
+  }
+}

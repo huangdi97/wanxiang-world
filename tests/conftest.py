@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import os
 import pathlib
+import shutil
 import uuid
 from collections.abc import Callable, Iterator
 
@@ -15,7 +16,12 @@ from sqlalchemy import Engine
 from sqlalchemy.orm import Session, sessionmaker
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-_PERSIST_TMP = ROOT / "tests" / "_persist_tmp"
+# Windows ACLs can make the conventional pytest temp root unusable. Keep the
+# fixture workspace-local and ignored, while allowing CI/desktop runners to
+# select an explicitly writable directory without changing product behavior.
+_PERSIST_TMP = pathlib.Path(
+    os.environ.get("WANXIANG_TEST_TMP", str(ROOT / ".pytest-tmp" / "persist"))
+)
 
 from wanxiang_application.world_runtime import WorldRuntime  # noqa: E402
 from wanxiang_persistence.database import create_engine_for  # noqa: E402
@@ -91,6 +97,19 @@ def make_world_runtime(
 def fresh_db_path() -> pathlib.Path:
     _PERSIST_TMP.mkdir(parents=True, exist_ok=True)
     return _PERSIST_TMP / f"{uuid.uuid4().hex}.db"
+
+
+@pytest.fixture
+def workspace_tmp_path() -> Iterator[pathlib.Path]:
+    """Writable repository-local scratch path for ACL-hostile Windows runners."""
+    root = ROOT / "tests" / "_arch_tmp" / "pytest_workspace"
+    root.mkdir(parents=True, exist_ok=True)
+    path = root / uuid.uuid4().hex
+    path.mkdir()
+    try:
+        yield path
+    finally:
+        shutil.rmtree(path, ignore_errors=True)
 
 
 def cleanup_db_file(path: pathlib.Path) -> None:

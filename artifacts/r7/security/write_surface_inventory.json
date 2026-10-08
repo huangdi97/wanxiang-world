@@ -1,0 +1,626 @@
+{
+  "schema": "wanxiang.r7.security.write-surface-inventory.v1",
+  "verdict": "PASS",
+  "counts": {
+    "AUTHORITY": 19,
+    "COMPOSITION_ROOT": 1,
+    "INFRASTRUCTURE": 9,
+    "TEST": 40,
+    "TRANSPORT": 1
+  },
+  "modules": [
+    {
+      "path": "packages/application/src/wanxiang_application/world_runtime.py",
+      "language": "python",
+      "role": "AUTHORITY",
+      "triggers": [
+        "references CommitAuthority"
+      ]
+    },
+    {
+      "path": "packages/cordis_host/src/authority.ts",
+      "language": "typescript",
+      "role": "AUTHORITY",
+      "triggers": [
+        "mentions mintCapability"
+      ]
+    },
+    {
+      "path": "packages/cordis_host/src/commit.ts",
+      "language": "typescript",
+      "role": "AUTHORITY",
+      "triggers": [
+        "appends to a history provider",
+        "mentions HistoryService",
+        "mentions commitThroughAuthority"
+      ]
+    },
+    {
+      "path": "packages/cordis_host/src/history.ts",
+      "language": "typescript",
+      "role": "AUTHORITY",
+      "triggers": [
+        "appends to a history provider",
+        "mentions HistoryService"
+      ]
+    },
+    {
+      "path": "packages/cordis_host/src/host.ts",
+      "language": "typescript",
+      "role": "AUTHORITY",
+      "triggers": [
+        "mentions commitThroughAuthority"
+      ]
+    },
+    {
+      "path": "packages/cordis_host/src/index.ts",
+      "language": "typescript",
+      "role": "AUTHORITY",
+      "triggers": [
+        "mentions HistoryService",
+        "mentions RpcHistoryProvider",
+        "mentions commitThroughAuthority"
+      ]
+    },
+    {
+      "path": "packages/cordis_host/src/internal/capability-core.ts",
+      "language": "typescript",
+      "role": "AUTHORITY",
+      "triggers": [
+        "mentions mintCapability"
+      ]
+    },
+    {
+      "path": "packages/cordis_host/src/scopes.ts",
+      "language": "typescript",
+      "role": "AUTHORITY",
+      "triggers": [
+        "mentions HistoryService"
+      ]
+    },
+    {
+      "path": "packages/cordis_host/src/spike.ts",
+      "language": "typescript",
+      "role": "AUTHORITY",
+      "triggers": [
+        "appends to a history provider"
+      ]
+    },
+    {
+      "path": "packages/runtime/src/wanxiang_runtime/authority.py",
+      "language": "python",
+      "role": "AUTHORITY",
+      "triggers": [
+        "mints canonical write lease"
+      ]
+    },
+    {
+      "path": "packages/runtime/src/wanxiang_runtime/branch.py",
+      "language": "python",
+      "role": "AUTHORITY",
+      "triggers": [
+        "requires canonical write lease"
+      ]
+    },
+    {
+      "path": "packages/runtime/src/wanxiang_runtime/isa_pipeline.py",
+      "language": "python",
+      "role": "AUTHORITY",
+      "triggers": [
+        "references CommitAuthority"
+      ]
+    },
+    {
+      "path": "packages/runtime/src/wanxiang_runtime/ports.py",
+      "language": "python",
+      "role": "AUTHORITY",
+      "triggers": [
+        "requires canonical write lease"
+      ]
+    },
+    {
+      "path": "packages/runtime/src/wanxiang_runtime/snapshot.py",
+      "language": "python",
+      "role": "AUTHORITY",
+      "triggers": [
+        "requires canonical write lease"
+      ]
+    },
+    {
+      "path": "packages/substrate/src/wanxiang_substrate/evolution/institution_promotion.py",
+      "language": "python",
+      "role": "AUTHORITY",
+      "triggers": [
+        "references CommitAuthority"
+      ]
+    },
+    {
+      "path": "packages/substrate/src/wanxiang_substrate/rc001/chaos.py",
+      "language": "python",
+      "role": "AUTHORITY",
+      "triggers": [
+        "references CommitAuthority"
+      ]
+    },
+    {
+      "path": "packages/substrate/src/wanxiang_substrate/rc001/instantiate.py",
+      "language": "python",
+      "role": "AUTHORITY",
+      "triggers": [
+        "references CommitAuthority"
+      ]
+    },
+    {
+      "path": "scripts/generate_v52_baseline_fixtures.py",
+      "language": "python",
+      "role": "AUTHORITY",
+      "triggers": [
+        "references CommitAuthority"
+      ]
+    },
+    {
+      "path": "scripts/reference_runtime.py",
+      "language": "python",
+      "role": "AUTHORITY",
+      "triggers": [
+        "requires canonical write lease"
+      ]
+    },
+    {
+      "path": "apps/api/src/wanxiang_api/app.py",
+      "language": "python",
+      "role": "COMPOSITION_ROOT",
+      "triggers": [
+        "imports sqlalchemy",
+        "imports wanxiang_persistence"
+      ]
+    },
+    {
+      "path": "packages/persistence/src/wanxiang_persistence/__init__.py",
+      "language": "python",
+      "role": "INFRASTRUCTURE",
+      "triggers": [
+        "imports wanxiang_persistence"
+      ]
+    },
+    {
+      "path": "packages/persistence/src/wanxiang_persistence/audit_repository.py",
+      "language": "python",
+      "role": "INFRASTRUCTURE",
+      "triggers": [
+        "imports sqlalchemy",
+        "imports wanxiang_persistence",
+        "requires canonical write lease",
+        "sqlalchemy session write"
+      ]
+    },
+    {
+      "path": "packages/persistence/src/wanxiang_persistence/branch_repository.py",
+      "language": "python",
+      "role": "INFRASTRUCTURE",
+      "triggers": [
+        "imports sqlalchemy",
+        "imports wanxiang_persistence",
+        "requires canonical write lease",
+        "sqlalchemy session write"
+      ]
+    },
+    {
+      "path": "packages/persistence/src/wanxiang_persistence/database.py",
+      "language": "python",
+      "role": "INFRASTRUCTURE",
+      "triggers": [
+        "imports sqlalchemy",
+        "sqlalchemy session write"
+      ]
+    },
+    {
+      "path": "packages/persistence/src/wanxiang_persistence/event_store.py",
+      "language": "python",
+      "role": "INFRASTRUCTURE",
+      "triggers": [
+        "imports sqlalchemy",
+        "imports wanxiang_persistence",
+        "requires canonical write lease",
+        "sqlalchemy session write"
+      ]
+    },
+    {
+      "path": "packages/persistence/src/wanxiang_persistence/instance_repository.py",
+      "language": "python",
+      "role": "INFRASTRUCTURE",
+      "triggers": [
+        "imports sqlalchemy",
+        "imports wanxiang_persistence",
+        "requires canonical write lease",
+        "sqlalchemy session write"
+      ]
+    },
+    {
+      "path": "packages/persistence/src/wanxiang_persistence/lineage_repository.py",
+      "language": "python",
+      "role": "INFRASTRUCTURE",
+      "triggers": [
+        "imports sqlalchemy",
+        "imports wanxiang_persistence",
+        "requires canonical write lease"
+      ]
+    },
+    {
+      "path": "packages/persistence/src/wanxiang_persistence/models.py",
+      "language": "python",
+      "role": "INFRASTRUCTURE",
+      "triggers": [
+        "imports sqlalchemy"
+      ]
+    },
+    {
+      "path": "packages/persistence/src/wanxiang_persistence/snapshot_store.py",
+      "language": "python",
+      "role": "INFRASTRUCTURE",
+      "triggers": [
+        "imports sqlalchemy",
+        "imports wanxiang_persistence",
+        "requires canonical write lease",
+        "sqlalchemy session write"
+      ]
+    },
+    {
+      "path": "packages/cordis_host/src/architecture.test.ts",
+      "language": "typescript",
+      "role": "TEST",
+      "triggers": [
+        "mentions mintCapability"
+      ]
+    },
+    {
+      "path": "packages/cordis_host/src/authority.test.ts",
+      "language": "typescript",
+      "role": "TEST",
+      "triggers": [
+        "appends to a history provider",
+        "mentions HistoryService"
+      ]
+    },
+    {
+      "path": "packages/cordis_host/src/bridge.test.ts",
+      "language": "typescript",
+      "role": "TEST",
+      "triggers": [
+        "appends to a history provider",
+        "mentions HistoryService",
+        "mentions RpcHistoryProvider",
+        "mentions mintCapability"
+      ]
+    },
+    {
+      "path": "packages/cordis_host/src/harness.test.ts",
+      "language": "typescript",
+      "role": "TEST",
+      "triggers": [
+        "mentions commitThroughAuthority",
+        "mentions mintCapability"
+      ]
+    },
+    {
+      "path": "packages/cordis_host/src/smoke.test.ts",
+      "language": "typescript",
+      "role": "TEST",
+      "triggers": [
+        "mentions HistoryService"
+      ]
+    },
+    {
+      "path": "tests/architecture/test_architecture_forensics.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "appends to event store"
+      ]
+    },
+    {
+      "path": "tests/conftest.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "imports sqlalchemy",
+        "imports wanxiang_persistence"
+      ]
+    },
+    {
+      "path": "tests/contract/test_event_store_contract.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "appends to event store"
+      ]
+    },
+    {
+      "path": "tests/helpers/leases.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "mints canonical write lease"
+      ]
+    },
+    {
+      "path": "tests/integration/test_g13e_history.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "appends to event store",
+        "imports sqlalchemy",
+        "imports wanxiang_persistence"
+      ]
+    },
+    {
+      "path": "tests/integration/test_g14b_crash_atomicity.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "appends to event store",
+        "references CommitAuthority"
+      ]
+    },
+    {
+      "path": "tests/integration/test_g14d_corruption.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "imports sqlalchemy",
+        "imports wanxiang_persistence",
+        "sqlalchemy session write"
+      ]
+    },
+    {
+      "path": "tests/integration/test_g16a_config_secrets.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "imports wanxiang_persistence"
+      ]
+    },
+    {
+      "path": "tests/integration/test_g16b_postgres.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "appends to event store",
+        "imports wanxiang_persistence"
+      ]
+    },
+    {
+      "path": "tests/integration/test_g16g_backup_restore.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "imports sqlalchemy",
+        "imports wanxiang_persistence"
+      ]
+    },
+    {
+      "path": "tests/integration/test_g29d_state_event_audit.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "imports wanxiang_persistence"
+      ]
+    },
+    {
+      "path": "tests/integration/test_m1_acceptance.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "appends to event store",
+        "imports sqlalchemy",
+        "imports wanxiang_persistence",
+        "sqlalchemy session write"
+      ]
+    },
+    {
+      "path": "tests/integration/test_m29_synthetic_society.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "references CommitAuthority"
+      ]
+    },
+    {
+      "path": "tests/integration/test_m30_promotion_e2e.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "references CommitAuthority"
+      ]
+    },
+    {
+      "path": "tests/integration/test_m69_one_click.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "requires canonical write lease"
+      ]
+    },
+    {
+      "path": "tests/integration/test_persistence_sqlite.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "appends to event store",
+        "imports sqlalchemy",
+        "imports wanxiang_persistence"
+      ]
+    },
+    {
+      "path": "tests/integration/test_r7_effect_outbox.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "appends to event store"
+      ]
+    },
+    {
+      "path": "tests/integration/test_spatial_movement.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "imports sqlalchemy",
+        "imports wanxiang_persistence"
+      ]
+    },
+    {
+      "path": "tests/migration/test_g34c_db_migration.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "appends to event store",
+        "imports sqlalchemy",
+        "imports wanxiang_persistence"
+      ]
+    },
+    {
+      "path": "tests/migration/test_lineage_migration.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "appends to event store",
+        "imports sqlalchemy",
+        "imports wanxiang_persistence"
+      ]
+    },
+    {
+      "path": "tests/migration/test_migrations.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "appends to event store",
+        "imports sqlalchemy",
+        "imports wanxiang_persistence"
+      ]
+    },
+    {
+      "path": "tests/security/test_r7_write_denials.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "appends to event store",
+        "imports sqlalchemy",
+        "imports wanxiang_persistence",
+        "requires canonical write lease"
+      ]
+    },
+    {
+      "path": "tests/unit/application/test_environment.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "requires canonical write lease"
+      ]
+    },
+    {
+      "path": "tests/unit/domain/test_reality_root.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "references CommitAuthority"
+      ]
+    },
+    {
+      "path": "tests/unit/event_store/test_event_store.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "appends to event store",
+        "references CommitAuthority"
+      ]
+    },
+    {
+      "path": "tests/unit/runtime/test_authority.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "references CommitAuthority"
+      ]
+    },
+    {
+      "path": "tests/unit/runtime/test_branch.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "references CommitAuthority"
+      ]
+    },
+    {
+      "path": "tests/unit/runtime/test_constitution_gate.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "references CommitAuthority"
+      ]
+    },
+    {
+      "path": "tests/unit/runtime/test_isa_pipeline.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "references CommitAuthority"
+      ]
+    },
+    {
+      "path": "tests/unit/runtime/test_world_commit_kinds.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "references CommitAuthority"
+      ]
+    },
+    {
+      "path": "tests/unit/substrate/test_compile_preview.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "requires canonical write lease"
+      ]
+    },
+    {
+      "path": "tests/unit/substrate/test_institution_promotion.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "references CommitAuthority"
+      ]
+    },
+    {
+      "path": "tests/unit/substrate/test_rc001_chaos.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "references CommitAuthority"
+      ]
+    },
+    {
+      "path": "tests/unit/substrate/test_rc001_instantiate.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "references CommitAuthority"
+      ]
+    },
+    {
+      "path": "tests/unit/substrate/test_rc001_seven_day.py",
+      "language": "python",
+      "role": "TEST",
+      "triggers": [
+        "references CommitAuthority"
+      ]
+    },
+    {
+      "path": "packages/cordis_host/src/bridge.ts",
+      "language": "typescript",
+      "role": "TRANSPORT",
+      "triggers": [
+        "mentions RpcHistoryProvider"
+      ]
+    }
+  ]
+}

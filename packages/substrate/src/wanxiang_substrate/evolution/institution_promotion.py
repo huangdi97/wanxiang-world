@@ -36,10 +36,23 @@ class InstitutionCandidate:
     origin: str
     stability_score: float = 0.0
     approved: bool = False
+    role_refs: tuple[str, ...] = ()
+    resource_refs: tuple[str, ...] = ()
+    process_refs: tuple[str, ...] = ()
+    provenance_refs: tuple[str, ...] = ()
+    reviewed_by: str | None = None
 
     def __post_init__(self) -> None:
         if not self.candidate_id or not self.rule or not self.evidence:
             raise ValueError("institution candidate requires id, rule and evidence")
+        for name, refs in (
+            ("role", self.role_refs),
+            ("resource", self.resource_refs),
+            ("process", self.process_refs),
+            ("provenance", self.provenance_refs),
+        ):
+            if len(set(refs)) != len(refs) or any(not ref.strip() for ref in refs):
+                raise ValueError(f"institution {name} refs must be unique and non-empty")
 
 
 class InstitutionPromotionChain:

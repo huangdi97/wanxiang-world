@@ -47,6 +47,7 @@ def test_perception_forms_observation_memory() -> None:
     assert memory.actor_id == EntityId("c3")
     assert memory.content_ref == "c2病于室"
     assert memory.salience == 0.8
+    assert memory.source_perception_refs == ("env_1",)
 
 
 @pytest.mark.unit

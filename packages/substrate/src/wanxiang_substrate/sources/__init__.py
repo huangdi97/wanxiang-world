@@ -1,5 +1,16 @@
 """Source registry & source gate substrate (G04B)."""
 
+from wanxiang_substrate.sources.adapter import (
+    AdapterRegistry,
+    IngestResult,
+    ReferenceTextAdapter,
+    SourceAdapter,
+    SourceInspection,
+    require_text,
+)
+from wanxiang_substrate.sources.asset import AssetAdapter, GenericAsset, kind_for, register_asset
+from wanxiang_substrate.sources.blob import BlobRef, SourceBlobStore, is_blob_uri
+from wanxiang_substrate.sources.book import BookAdapter, Chapter
 from wanxiang_substrate.sources.canon import (
     CanonClaim,
     CanonCompiler,
@@ -26,13 +37,21 @@ from wanxiang_substrate.sources.entity_distill import (
     EntityReviewGate,
 )
 from wanxiang_substrate.sources.errors import (
+    CapabilityUnavailable,
     DuplicateSource,
+    IngestError,
     InvalidTransition,
+    MalformedSourceContent,
     MaliciousSource,
+    OcrRequired,
     RightsDenied,
+    SemanticProviderRequired,
+    SemanticProviderSchemaError,
     SourceError,
     SourceNotApproved,
     SourceNotFound,
+    UnsupportedSource,
+    ZeroCoverage,
 )
 from wanxiang_substrate.sources.evidence import AUTHORIZED_REVIEWERS, evidence_ok
 from wanxiang_substrate.sources.fixture import (
@@ -58,16 +77,74 @@ from wanxiang_substrate.sources.locator import (
     source_slice,
 )
 from wanxiang_substrate.sources.model import (
+    VALID_SOURCE_ACCESS,
     ClaimCandidate,
     EvidenceLink,
     RightsEnvelope,
+    SourceAccess,
     SourceRecord,
     payload_hash,
 )
 from wanxiang_substrate.sources.policy import SourcePolicy
 from wanxiang_substrate.sources.registry import AuditEntry, SourceRegistry
+from wanxiang_substrate.sources.security import (
+    CorruptSource,
+    EncryptedSource,
+    IngestSecurityError,
+    IngestSecurityGate,
+    PathTraversal,
+    SecurityCheck,
+    SourceSizeExceeded,
+    UndecodableSource,
+    ZipBomb,
+    check_archive,
+)
+from wanxiang_substrate.sources.structured import StructuredAdapter
+from wanxiang_substrate.sources.structured_evidence import (
+    StructuredEvidence,
+    csv_cell_locator,
+    json_leaf_evidence,
+    json_pointer_locator,
+    resolve_csv_cell,
+    resolve_json_pointer,
+)
 
 __all__ = [
+    "AdapterRegistry",
+    "BlobRef",
+    "BookAdapter",
+    "CorruptSource",
+    "EncryptedSource",
+    "IngestSecurityError",
+    "IngestSecurityGate",
+    "PathTraversal",
+    "SecurityCheck",
+    "SourceSizeExceeded",
+    "UndecodableSource",
+    "ZipBomb",
+    "check_archive",
+    "AssetAdapter",
+    "Chapter",
+    "GenericAsset",
+    "kind_for",
+    "register_asset",
+    "StructuredAdapter",
+    "StructuredEvidence",
+    "csv_cell_locator",
+    "json_leaf_evidence",
+    "json_pointer_locator",
+    "resolve_csv_cell",
+    "resolve_json_pointer",
+    "IngestError",
+    "IngestResult",
+    "MalformedSourceContent",
+    "OcrRequired",
+    "ReferenceTextAdapter",
+    "SourceAdapter",
+    "SourceInspection",
+    "UnsupportedSource",
+    "require_text",
+    "BlobRef",
     "AuditEntry",
     "CharacterCanon",
     "CharacterDistiller",
@@ -92,6 +169,10 @@ __all__ = [
     "evidence_ok",
     "ClaimCandidate",
     "DuplicateSource",
+    "CapabilityUnavailable",
+    "SemanticProviderRequired",
+    "SemanticProviderSchemaError",
+    "ZeroCoverage",
     "EvidenceLink",
     "GateDecision",
     "AliasClaim",
@@ -108,9 +189,12 @@ __all__ = [
     "SourceGate",
     "SourceNotApproved",
     "SourceNotFound",
+    "SourceAccess",
     "SourcePolicy",
     "SourceRecord",
+    "SourceBlobStore",
     "SourceRegistry",
+    "VALID_SOURCE_ACCESS",
     "approved_source",
     "conflicting_claims",
     "conflicting_sources",
@@ -118,6 +202,7 @@ __all__ = [
     "payload_hash",
     "rejected_source",
     "SourceLocator",
+    "is_blob_uri",
     "locator_stable_hash",
     "segment_source",
     "source_slice",

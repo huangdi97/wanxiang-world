@@ -3,6 +3,54 @@
   "dead_modules": [],
   "hardcoded_state": [
     {
+      "file": "apps/api/src/wanxiang_api/authoring_routes.py",
+      "line": 120,
+      "kind": "large-dict-literal",
+      "keys": 15
+    },
+    {
+      "file": "apps/api/src/wanxiang_api/authoring_routes.py",
+      "line": 216,
+      "kind": "large-dict-literal",
+      "keys": 8
+    },
+    {
+      "file": "apps/api/src/wanxiang_api/authoring_routes.py",
+      "line": 266,
+      "kind": "large-dict-literal",
+      "keys": 8
+    },
+    {
+      "file": "apps/api/src/wanxiang_api/candidate_serializers.py",
+      "line": 9,
+      "kind": "large-dict-literal",
+      "keys": 10
+    },
+    {
+      "file": "apps/api/src/wanxiang_api/one_click_routes.py",
+      "line": 36,
+      "kind": "large-dict-literal",
+      "keys": 9
+    },
+    {
+      "file": "packages/domain/src/wanxiang_domain/constitution.py",
+      "line": 78,
+      "kind": "large-dict-literal",
+      "keys": 10
+    },
+    {
+      "file": "packages/domain/src/wanxiang_domain/constitution.py",
+      "line": 112,
+      "kind": "large-dict-literal",
+      "keys": 11
+    },
+    {
+      "file": "packages/domain/src/wanxiang_domain/lineage.py",
+      "line": 42,
+      "kind": "large-dict-literal",
+      "keys": 10
+    },
+    {
       "file": "packages/domain/src/wanxiang_domain/serialization.py",
       "line": 163,
       "kind": "large-dict-literal",
@@ -21,22 +69,178 @@
       "keys": 9
     },
     {
-      "file": "packages/substrate/src/wanxiang_substrate/epistemic/components.py",
-      "line": 30,
+      "file": "packages/substrate/src/wanxiang_substrate/actor_continuity/goal_model.py",
+      "line": 108,
+      "kind": "large-dict-literal",
+      "keys": 11
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/actor_continuity/goal_model.py",
+      "line": 224,
+      "kind": "large-dict-literal",
+      "keys": 10
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/actor_continuity/projection.py",
+      "line": 60,
       "kind": "large-dict-literal",
       "keys": 8
     },
     {
-      "file": "packages/substrate/src/wanxiang_substrate/epistemic/components.py",
-      "line": 58,
+      "file": "packages/substrate/src/wanxiang_substrate/actor_continuity/qualification_model.py",
+      "line": 148,
+      "kind": "large-dict-literal",
+      "keys": 10
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/actor_continuity/qualification_model.py",
+      "line": 163,
       "kind": "large-dict-literal",
       "keys": 9
     },
     {
-      "file": "packages/substrate/src/wanxiang_substrate/genealogy/gedcom.py",
-      "line": 164,
+      "file": "packages/substrate/src/wanxiang_substrate/actor_continuity/qualification_model.py",
+      "line": 188,
       "kind": "large-dict-literal",
       "keys": 9
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/actor_continuity/qualification_model.py",
+      "line": 120,
+      "kind": "large-dict-literal",
+      "keys": 13
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/actor_continuity/relationship_model.py",
+      "line": 43,
+      "kind": "large-dict-literal",
+      "keys": 8
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/actor_continuity/reprioritization_model.py",
+      "line": 94,
+      "kind": "large-dict-literal",
+      "keys": 9
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/authoring/draft_builder.py",
+      "line": 143,
+      "kind": "large-dict-literal",
+      "keys": 11
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/authoring/living_world.py",
+      "line": 35,
+      "kind": "large-dict-literal",
+      "keys": 8
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/authoring/living_world.py",
+      "line": 62,
+      "kind": "large-dict-literal",
+      "keys": 11
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/authoring/living_world.py",
+      "line": 89,
+      "kind": "large-dict-literal",
+      "keys": 11
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/authoring/local_semantic_provider.py",
+      "line": 52,
+      "kind": "large-dict-literal",
+      "keys": 10
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/authoring/model.py",
+      "line": 72,
+      "kind": "large-dict-literal",
+      "keys": 18
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/authoring/orchestration_dag.py",
+      "line": 17,
+      "kind": "large-dict-literal",
+      "keys": 10
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/authoring/semantic_distillation.py",
+      "line": 32,
+      "kind": "large-dict-literal",
+      "keys": 8
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/authoring/worldness_policy.py",
+      "line": 68,
+      "kind": "large-dict-literal",
+      "keys": 8
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/authoring/worldness_scoring.py",
+      "line": 162,
+      "kind": "large-dict-literal",
+      "keys": 9
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/authoring/worldness_support.py",
+      "line": 160,
+      "kind": "large-dict-literal",
+      "keys": 10
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/authoring/worldness_support.py",
+      "line": 119,
+      "kind": "large-dict-literal",
+      "keys": 8
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/candidates/envelope.py",
+      "line": 126,
+      "kind": "large-dict-literal",
+      "keys": 9
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/canon_graph/timeline_canon.py",
+      "line": 129,
+      "kind": "large-dict-literal",
+      "keys": 11
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/distill/gedcom.py",
+      "line": 29,
+      "kind": "large-dict-literal",
+      "keys": 9
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/draft/model.py",
+      "line": 40,
+      "kind": "large-dict-literal",
+      "keys": 10
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/epistemic/components.py",
+      "line": 36,
+      "kind": "large-dict-literal",
+      "keys": 12
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/epistemic/components.py",
+      "line": 69,
+      "kind": "large-dict-literal",
+      "keys": 10
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/evolution/policy_stack.py",
+      "line": 57,
+      "kind": "large-dict-literal",
+      "keys": 9
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/genealogy/gedcom_support.py",
+      "line": 97,
+      "kind": "large-dict-literal",
+      "keys": 16
     },
     {
       "file": "packages/substrate/src/wanxiang_substrate/packages/install.py",
@@ -46,19 +250,79 @@
     },
     {
       "file": "packages/substrate/src/wanxiang_substrate/packages/model.py",
-      "line": 151,
+      "line": 162,
       "kind": "large-dict-literal",
       "keys": 8
     },
     {
-      "file": "packages/substrate/src/wanxiang_substrate/sources/model.py",
-      "line": 123,
+      "file": "packages/substrate/src/wanxiang_substrate/playable/action_model.py",
+      "line": 63,
       "kind": "large-dict-literal",
-      "keys": 8
+      "keys": 11
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/playable/experience.py",
+      "line": 137,
+      "kind": "large-dict-literal",
+      "keys": 16
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/playable/models.py",
+      "line": 235,
+      "kind": "large-dict-literal",
+      "keys": 12
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/sources/asset.py",
+      "line": 41,
+      "kind": "large-dict-literal",
+      "keys": 14
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/sources/model.py",
+      "line": 174,
+      "kind": "large-dict-literal",
+      "keys": 13
     },
     {
       "file": "packages/substrate/src/wanxiang_substrate/temporal/components.py",
       "line": 42,
+      "kind": "large-dict-literal",
+      "keys": 8
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/workshop/models.py",
+      "line": 121,
+      "kind": "large-dict-literal",
+      "keys": 18
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/workshop/publishing.py",
+      "line": 68,
+      "kind": "large-dict-literal",
+      "keys": 8
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/workshop/publishing.py",
+      "line": 106,
+      "kind": "large-dict-literal",
+      "keys": 8
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/workshop/publishing.py",
+      "line": 159,
+      "kind": "large-dict-literal",
+      "keys": 9
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/workshop/registry.py",
+      "line": 61,
+      "kind": "large-dict-literal",
+      "keys": 14
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/workshop/service.py",
+      "line": 217,
       "kind": "large-dict-literal",
       "keys": 8
     }
@@ -74,11 +338,46 @@
       "file": "packages/research/src/wanxiang_research/digital_human.py",
       "line": 78,
       "text": "def interrupt"
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/epistemic/belief_revision.py",
+      "line": 61,
+      "text": "def is_world_truth"
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/epistemic/model.py",
+      "line": 121,
+      "text": "def is_world_truth"
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/evolution/policy_stack.py",
+      "line": 69,
+      "text": "def assert_world_cannot_mutate_platform"
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/sources/adapter.py",
+      "line": 109,
+      "text": "def resume"
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/sources/asset.py",
+      "line": 141,
+      "text": "def resume"
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/sources/book.py",
+      "line": 275,
+      "text": "def resume"
+    },
+    {
+      "file": "packages/substrate/src/wanxiang_substrate/sources/structured.py",
+      "line": 81,
+      "text": "def resume"
     }
   ],
   "schema_drift": {
-    "server_operation_count": 10,
-    "sdk_contract_operation_count": 10,
+    "server_operation_count": 62,
+    "sdk_contract_operation_count": 62,
     "server_only": [],
     "sdk_only": [],
     "aligned": true

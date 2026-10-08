@@ -8,6 +8,7 @@ dependencies = [
     "wanxiang-runtime>=0.1.0",
     "wanxiang-application>=0.1.0",
     "wanxiang-persistence>=0.1.0",
+    "wanxiang-substrate>=0.1.0",
     "fastapi>=0.115",
     "uvicorn>=0.30",
 ]
@@ -24,3 +25,4 @@ wanxiang-domain = { workspace = true }
 wanxiang-runtime = { workspace = true }
 wanxiang-application = { workspace = true }
 wanxiang-persistence = { workspace = true }
+wanxiang-substrate = { workspace = true }

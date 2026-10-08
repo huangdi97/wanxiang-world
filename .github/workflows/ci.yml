@@ -48,6 +48,8 @@ jobs:
           python-version: "3.12"
       - name: Install dependencies
         run: uv sync --all-groups --all-packages
+      - name: Install Chromium for browser product E2E
+        run: uv run playwright install --with-deps chromium
       - name: Lint
         run: uv run ruff check .
       - name: Format check
@@ -103,6 +105,8 @@ jobs:
           python-version: "3.12"
       - name: Install dependencies
         run: uv sync --all-groups --all-packages
+      - name: R7 service-contract projection
+        run: uv run python scripts/export_r7_service_contracts.py
       - name: SDK baseline
         run: uv run python scripts/sdk_baseline.py
       - name: OpenAPI export
@@ -132,6 +136,13 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      # The R7 history seam is cross-language: bridge.test.ts drives the real
+      # Python authority process, so this job needs the Python toolchain too.
+      - uses: astral-sh/setup-uv@v4
+        with:
+          python-version: "3.12"
+      - name: Sync the Python workspace for the cross-language seam test
+        run: uv sync --all-groups --all-packages
       - name: Lint
         run: pnpm -r lint
       - name: Typecheck
@@ -157,8 +168,6 @@ jobs:
       - name: Clean-room certification
         run: uv run python scripts/clean_room_certify.py
 
-# Note: Playwright browser E2E is NOT_APPLICABLE for this repository today
-# (no Playwright config / e2e suite exists). The repository's full interactive
-# surface is covered by FastAPI TestClient integration tests (pytest) and the
-# TypeScript SDK Vitest suite.
+# Browser product E2E runs in the Python job after installing Chromium. The
+# test drives the served Studio UI and its shared API/Playable backend.
 

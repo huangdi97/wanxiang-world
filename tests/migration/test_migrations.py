@@ -10,11 +10,14 @@ from alembic import command
 from alembic.config import Config
 from sqlalchemy import inspect, text
 from tests.conftest import cleanup_db_file, fresh_db_path, upgrade_db
+from tests.helpers.leases import lease_for
 from tests.helpers.replay_fixture import BRANCH, INSTANCE, build_fixture_events
 from wanxiang_domain.versions import RuntimeVersion, SchemaVersion
 from wanxiang_persistence.database import create_engine_for
 from wanxiang_persistence.event_store import SqlAlchemyEventStore
 from wanxiang_runtime.replay import ReplayEngine
+
+LEASE = lease_for(INSTANCE, BRANCH)
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
@@ -54,7 +57,7 @@ def test_pre_head_fixture_upgrade_keeps_data() -> None:
         )
         store = SqlAlchemyEventStore(factory)
         for event in build_fixture_events():
-            store.append(event)
+            store.append(event, lease=LEASE)
         command.upgrade(_config(), "head")
     finally:
         os.environ.pop("WANXIANG_DATABASE_URL", None)

@@ -18,6 +18,9 @@ ReviewStage = Literal["E0", "E1", "E2", "E3", "E4", "E5"]
 # E0 received, E1 rights verified, E2 content reviewed, E3 approved,
 # E4 rejected, E5 superseded.
 
+SourceAccess = Literal["public", "private", "restricted"]
+VALID_SOURCE_ACCESS = ("public", "private", "restricted")
+
 STAGE_ORDER = ("E0", "E1", "E2", "E3", "E4", "E5")
 CANONICAL_ELIGIBLE_STAGES = ("E3",)
 MAX_PAYLOAD_BYTES = 64 * 1024
@@ -32,6 +35,12 @@ class RightsEnvelope:
     approved: bool
     policy_version: int = 1
     reviewer: str = "system"
+    ingest_allowed: bool = True
+    private_analysis_allowed: bool = True
+    external_model_processing_allowed: bool = False
+    package_inclusion_allowed: bool | None = None
+    public_export_allowed: bool = False
+    training_allowed: bool = False
 
     def __post_init__(self) -> None:
         if not self.owner or not self.usage:
@@ -39,10 +48,31 @@ class RightsEnvelope:
         if self.policy_version <= 0:
             raise ContractError("policy_version must be positive")
 
+    def allows(self, gate: str) -> bool:
+        """Evaluate one explicit right without collapsing the other gates."""
+        values = {
+            "ingest": self.ingest_allowed,
+            "private_analysis": self.private_analysis_allowed,
+            "external_model_processing": self.external_model_processing_allowed,
+            "package": self.package_inclusion_allowed
+            if self.package_inclusion_allowed is not None
+            else self.approved,
+            "public_export": self.public_export_allowed,
+            "training": self.training_allowed,
+        }
+        if gate not in values:
+            raise ContractError(f"unknown rights gate {gate!r}")
+        return bool(values[gate])
+
 
 @dataclass(frozen=True, slots=True)
 class SourceRecord:
-    """Immutable source identity: id + content hash, with review state."""
+    """Immutable source identity: id + content hash + version, with review state.
+
+    Convergence fields (G55A): `version` distinguishes editions/versions of the
+    same content; `access` marks privacy (public/private/restricted); `reliability`
+    is a 0..1 provenance-quality score; `schema_version` pins the record schema.
+    """
 
     source_id: str
     kind: str
@@ -52,6 +82,10 @@ class SourceRecord:
     rights: RightsEnvelope | None = None
     payload: str = ""
     provenance: str = ""
+    version: str = "1"
+    access: SourceAccess = "private"
+    reliability: float = 1.0
+    schema_version: int = 1
 
     def __post_init__(self) -> None:
         if not self.source_id or len(self.source_id) > 64:
@@ -60,9 +94,26 @@ class SourceRecord:
             raise ContractError("source kind must be non-empty")
         if not self.content_hash or len(self.content_hash) != 64:
             raise ContractError("content_hash must be a sha256 hex digest")
+        if not self.version:
+            raise ContractError("source version must be non-empty")
+        if self.access not in VALID_SOURCE_ACCESS:
+            raise ContractError(f"invalid source access {self.access!r}")
+        if not (0.0 <= self.reliability <= 1.0):
+            raise ContractError("reliability must be within [0,1]")
+        if self.schema_version <= 0:
+            raise ContractError("schema_version must be positive")
+
+    def fingerprint(self) -> str:
+        """Stable source identity: kind + content hash + version."""
+        return f"{self.kind}:{self.content_hash}:{self.version}"
 
     def canonical_eligible(self) -> bool:
-        return self.stage in CANONICAL_ELIGIBLE_STAGES and self.rights is not None
+        return (
+            self.stage in CANONICAL_ELIGIBLE_STAGES
+            and self.rights is not None
+            and self.rights.approved
+            and self.rights.allows("package")
+        )
 
     def can_transition_to(self, next_stage: ReviewStage) -> bool:
         if self.stage in ("E4", "E5"):
@@ -128,7 +179,22 @@ def canonical_json(record: SourceRecord) -> str:
             "stage": record.stage,
             "rights_approved": record.rights.approved if record.rights else False,
             "policy_version": record.rights.policy_version if record.rights else 0,
+            "rights_gates": {
+                gate: record.rights.allows(gate) if record.rights else False
+                for gate in (
+                    "ingest",
+                    "private_analysis",
+                    "external_model_processing",
+                    "package",
+                    "public_export",
+                    "training",
+                )
+            },
             "provenance": record.provenance,
+            "version": record.version,
+            "access": record.access,
+            "reliability": record.reliability,
+            "schema_version": record.schema_version,
         },
         sort_keys=True,
         separators=(",", ":"),

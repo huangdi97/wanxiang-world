@@ -5,12 +5,11 @@ from __future__ import annotations
 import pytest
 from sqlalchemy import select
 from sqlalchemy.orm import Session, sessionmaker
+from tests.helpers.leases import lease_for
 from tests.helpers.replay_fixture import BRANCH, INSTANCE, RULES, SCHEMA, build_fixture_events
 from wanxiang_domain.errors import Conflict, DuplicateCommandConflict
 from wanxiang_domain.hierarchy import BranchAncestry, BranchMetadata, BranchRevision, EventSeq
-from wanxiang_domain.ids import (
-    CommandId,
-)
+from wanxiang_domain.ids import CommandId
 from wanxiang_domain.time import WorldTime
 from wanxiang_persistence.audit_repository import AuditTraceRepository
 from wanxiang_persistence.branch_repository import SqlAlchemyBranchRepository
@@ -22,6 +21,8 @@ from wanxiang_runtime.audit import AuditRecord
 from wanxiang_runtime.replay import ReplayEngine
 from wanxiang_runtime.snapshot import create_snapshot_metadata
 
+LEASE = lease_for(INSTANCE, BRANCH)
+
 
 @pytest.mark.integration
 def test_durable_commit_and_reload_replay(
@@ -30,7 +31,7 @@ def test_durable_commit_and_reload_replay(
     events = build_fixture_events()
     store = SqlAlchemyEventStore(session_factory)
     for event in events:
-        store.append(event)
+        store.append(event, lease=LEASE)
     assert store.last_event_seq(INSTANCE, BRANCH) == EventSeq(5)
 
     # New store/session over the same file proves persistence across recreation.
@@ -50,9 +51,9 @@ def test_duplicate_command_rejected_at_db_level(
 ) -> None:
     store = SqlAlchemyEventStore(session_factory)
     events = build_fixture_events()
-    store.append(events[0])
+    store.append(events[0], lease=LEASE)
     with pytest.raises(DuplicateCommandConflict):
-        store.append(events[0])
+        store.append(events[0], lease=LEASE)
     assert store.last_event_seq(INSTANCE, BRANCH) == EventSeq(1)
 
 
@@ -65,7 +66,7 @@ def test_out_of_order_append_rejected(
 
     store = SqlAlchemyEventStore(session_factory)
     events = build_fixture_events()
-    store.append(events[0])
+    store.append(events[0], lease=LEASE)
     wrong = CommittedEvent(
         event_id=events[1].event_id,
         instance_id=events[1].instance_id,
@@ -79,7 +80,7 @@ def test_out_of_order_append_rejected(
         rule_version=events[1].rule_version,
     )
     with pytest.raises(Conflict):
-        store.append(wrong)
+        store.append(wrong, lease=LEASE)
     assert store.load(INSTANCE, BRANCH) == (events[0],)
 
 
@@ -89,9 +90,9 @@ def test_transaction_failure_leaves_no_partial_row(
 ) -> None:
     store = SqlAlchemyEventStore(session_factory)
     events = build_fixture_events()
-    store.append(events[0])
+    store.append(events[0], lease=LEASE)
     with pytest.raises(DuplicateCommandConflict):
-        store.append(events[0])
+        store.append(events[0], lease=LEASE)
     with session_factory() as session:
         count = len(session.scalars(select(EventRecord)).all())
     assert count == 1
@@ -104,11 +105,11 @@ def test_snapshot_save_and_load(
     store = SqlAlchemyEventStore(session_factory)
     events = build_fixture_events()
     for event in events:
-        store.append(event)
+        store.append(event, lease=LEASE)
     final = ReplayEngine(RULES, SCHEMA).replay(store.load(INSTANCE, BRANCH))
     snapshot_store = SqlAlchemySnapshotStore(session_factory)
     metadata = create_snapshot_metadata(final, EventSeq(5))
-    snapshot_store.save(metadata, final)
+    snapshot_store.save(metadata, final, lease=LEASE)
     stored = snapshot_store.load(INSTANCE, BRANCH, BranchRevision(5))
     assert stored is not None
     assert stored.state.semantic_hash() == final.semantic_hash()
@@ -121,7 +122,7 @@ def test_branch_and_instance_repositories(
     session_factory: sessionmaker[Session],
 ) -> None:
     instance_repo = WorldInstanceRepository(session_factory)
-    instance_repo.create(INSTANCE, SCHEMA, RULES, WorldTime(0))
+    instance_repo.create(INSTANCE, SCHEMA, RULES, WorldTime(0), lease=LEASE)
     schema, rule, created = instance_repo.get(INSTANCE)
     assert schema == SCHEMA and rule == RULES and created == WorldTime(0)
 
@@ -133,7 +134,7 @@ def test_branch_and_instance_repositories(
         schema_version=SCHEMA,
         rule_version=RULES,
     )
-    branch_repo.save(metadata)
+    branch_repo.save(metadata, lease=LEASE)
     assert branch_repo.get(BRANCH) == metadata
     assert branch_repo.list(INSTANCE) == (metadata,)
 
@@ -154,4 +155,4 @@ def test_audit_trace_recorded(
         rule_version=RULES,
         world_time=WorldTime(1),
     )
-    AuditTraceRepository(session_factory).record(audit)
+    AuditTraceRepository(session_factory).record(audit, lease=LEASE)

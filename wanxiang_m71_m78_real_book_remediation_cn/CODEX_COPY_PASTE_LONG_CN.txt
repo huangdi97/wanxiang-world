@@ -1,0 +1,11 @@
+继续当前 `wanxiang-world` 仓库。不要进入 v5.5，不要训练模型。
+
+读取仓库内 2026-08-25 Real Book → Living World NOT_ACCEPTED 报告，然后完整读取本目录：README_FIRST.md、01_M71_M78_GOALS.md、02_CODEX_MASTER_PROMPT_CN.md、03_FINAL_ACCEPTANCE.md。
+
+严格按 `02_CODEX_MASTER_PROMPT_CN.md` 从 G74A 连续执行到 G81J，不中途询问是否继续。
+
+真实验收失败是本轮 Source of Truth：当前真实 323,815 字中文书在 rights-approved 诊断下仍是 0 candidates / coverage=0，说明首先要修 semantic distillation 数据流。不要通过修改原书、手填 Candidate、关闭 compiler/worldness gate、硬编码 coverage、调用内部 helper 或写书名专用逻辑来通过。
+
+最终重新使用同一份原始私有本地书走真实 CLI/API/Studio 产品链；只有 WorldPackage、Preview、真实 Worldness、Living Instance、Commit/Replay 证据全部存在且验收报告为 ACCEPTED，才允许创建 v5.4.0-rc2。否则保留 NOT_ACCEPTED 并报告唯一剩余 blocker。
+
+最终 push 现有 GitHub feature branch，修到 required Actions 全绿。STOP。

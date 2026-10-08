@@ -1,0 +1,105 @@
+{
+  "qualification": "M84 stable release and post-release verification",
+  "verified_at": "2026-08-26",
+  "release": {
+    "repository": "huangdi97/wanxiang-world",
+    "branch": "feature/source-to-living-world",
+    "branch_sha": "ef935fc6c24eb47553382d318e1501a795c4da84",
+    "tag": "v5.4.0",
+    "tag_type": "annotated",
+    "tag_object": "8b9541ad21a8dda5c3f159fe72186431422a3a06",
+    "tag_target_sha": "ef935fc6c24eb47553382d318e1501a795c4da84",
+    "release_url": "https://github.com/huangdi97/wanxiang-world/releases/tag/v5.4.0",
+    "draft": false,
+    "prerelease": false
+  },
+  "remote_ci": {
+    "run_id": 32922253977,
+    "head_sha": "ef935fc6c24eb47553382d318e1501a795c4da84",
+    "conclusion": "success",
+    "required_jobs": [
+      "Repository safety / secret scan / forbidden tracked files",
+      "PostgreSQL migration + integration",
+      "python",
+      "Release build + clean-room certification smoke",
+      "API / package / SDK generation + drift",
+      "ts"
+    ]
+  },
+  "post_release_clean_clone": {
+    "checkout_sha": "ef935fc6c24eb47553382d318e1501a795c4da84",
+    "stable_tag_resolved": true,
+    "uv_sync_all_groups_all_packages": "PASS",
+    "pnpm_install_frozen_lockfile": "PASS",
+    "alembic_head": "0004_add_world_metadata",
+    "clean_room": {
+      "decision": "PASS",
+      "checks": [
+        "clean_tree",
+        "release_manifest",
+        "migration_upgrade",
+        "golden_replay",
+        "backup_restore_replay",
+        "external_sample_pack",
+        "reference_world"
+      ]
+    },
+    "cli_reference": {
+      "job_id": "m84_post_release_cli",
+      "package_id": "world:wd_m84_post_release_cli",
+      "preview_ref": "preview://preview_1",
+      "published": true,
+      "candidate_count": 23,
+      "provider_calls": 1,
+      "retries": 0,
+      "worldness_passed": true,
+      "worldness_overall": 0.9733333333333333,
+      "previewable": true,
+      "publishable": true,
+      "living_ready": true,
+      "commit_committed": true,
+      "proposal_validated": true,
+      "replay_equal": true,
+      "branch_isolated": true
+    },
+    "studio_socket": {
+      "health": "ok",
+      "studio_status": true,
+      "socket": "passed"
+    },
+    "python_gates": {
+      "ruff": "PASS",
+      "format_check": "PASS",
+      "pyright": "0 errors, 0 warnings, 0 informations",
+      "pytest": "1219 passed, 1 skipped, 1 warning",
+      "quality": "PASS; 1219 passed, 1 skipped, 2 warnings; architecture PASS",
+      "kernel_guard": "0 violation(s)"
+    },
+    "typescript_gates": {
+      "lint": "PASS",
+      "typecheck": "PASS",
+      "tests": "6 files, 22 tests passed",
+      "build": "PASS",
+      "sandbox_spawn_eperm": "same command passed in external execution environment"
+    },
+    "release_manifest": {
+      "git_sha": "ef935fc6c24eb47553382d318e1501a795c4da84",
+      "migration_head": "0004_add_world_metadata",
+      "release_hash": "836727d380933c814de6af3f59fb6ee33c1b61bdc661d15684b7d6d67691f512"
+    },
+    "clone_removed_after_verification": true
+  },
+  "source_safety": {
+    "private_sources_tracked": false,
+    "private_source_copied_or_modified": false,
+    "training": false,
+    "rights_and_security_evidence": "reports/SECURITY_RIGHTS_SOURCE_FORENSICS.md"
+  },
+  "boundaries": {
+    "public_historical_family_e2e": "REAL PRODUCT VALIDATION",
+    "private_living_family_user_validation": "NOT PERFORMED",
+    "v5_5": "NOT_STARTED",
+    "model_training": "NOT_STARTED"
+  },
+  "decision": "ACCEPTED"
+}

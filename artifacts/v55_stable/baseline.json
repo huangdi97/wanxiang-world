@@ -1,0 +1,228 @@
+{
+  "schema": "wanxiang.v5.5.stable-baseline.v1",
+  "generated_at_utc": "2026-08-28T04:00:31Z",
+  "conclusion": "PASS",
+  "gate": "61",
+  "milestone": "M95-G98A",
+  "repository": {
+    "branch": "release/v5.5-stable-certification",
+    "head": "bf30d16472af1bb179a37239d8bc9eaccbb3cb2a",
+    "origin_tracking_head": "bf30d16472af1bb179a37239d8bc9eaccbb3cb2a",
+    "status_command": "git status --short --branch",
+    "status_output": "## release/v5.5-stable-certification\n M BLOCKERS.md\n M PLAN.md\n M STATUS.md\n?? 00_README_FIRST.md\n?? 01_STABLE_ACCEPTANCE_MATRIX.md\n?? 02_CODEX_CONTINUOUS_EXECUTION_PROMPT_CN.md\n?? 03_HUMAN_PLAYER_TEST_PACKET.md\n?? 04_RECOMMENDED_EXECUTION_ORDER.md\n?? MANIFEST.json\n?? artifacts/v55_stable/\n?? goals/G100A_G100E_M97_EXPERIENCE_QUALITY.md\n?? goals/G101A_G101G_M98_BURN_IN_SCALE_EMERGENCE.md\n?? goals/G102A_G102D_M99_GODOT_OPTIONAL.md\n?? goals/G103A_G103I_M100_STABLE_CERTIFICATION.md\n?? goals/G98A_STABLE_BASELINE_AND_LEDGER.md\n?? goals/G98B_G98E_M95_REAL_PLAYER_EXPERIENCE.md\n?? goals/G99A_G99E_M96_ORIGINAL_PROMPT_WORLD.md\n?? reports/M95_BASELINE_REPORT.md\n?? reports/V55_STABLE_ACCEPTANCE_MATRIX.md\n?? scripts/stable_baseline.py\n",
+    "porcelain_output": " M BLOCKERS.md\n M PLAN.md\n M STATUS.md\n?? 00_README_FIRST.md\n?? 01_STABLE_ACCEPTANCE_MATRIX.md\n?? 02_CODEX_CONTINUOUS_EXECUTION_PROMPT_CN.md\n?? 03_HUMAN_PLAYER_TEST_PACKET.md\n?? 04_RECOMMENDED_EXECUTION_ORDER.md\n?? MANIFEST.json\n?? artifacts/v55_stable/\n?? goals/G100A_G100E_M97_EXPERIENCE_QUALITY.md\n?? goals/G101A_G101G_M98_BURN_IN_SCALE_EMERGENCE.md\n?? goals/G102A_G102D_M99_GODOT_OPTIONAL.md\n?? goals/G103A_G103I_M100_STABLE_CERTIFICATION.md\n?? goals/G98A_STABLE_BASELINE_AND_LEDGER.md\n?? goals/G98B_G98E_M95_REAL_PLAYER_EXPERIENCE.md\n?? goals/G99A_G99E_M96_ORIGINAL_PROMPT_WORLD.md\n?? reports/M95_BASELINE_REPORT.md\n?? reports/V55_STABLE_ACCEPTANCE_MATRIX.md\n?? scripts/stable_baseline.py\n",
+    "clean_before_g98a_commit": false,
+    "command_errors": []
+  },
+  "lineage": {
+    "v54": {
+      "tag": "v5.4.0",
+      "object": "8b9541ad21a8dda5c3f159fe72186431422a3a06",
+      "peeled_commit": "ef935fc6c24eb47553382d318e1501a795c4da84",
+      "object_type": "tag",
+      "status": "PASS",
+      "errors": []
+    },
+    "rc1": {
+      "tag": "v5.5.0-rc1",
+      "object": "e4768f706f427b3356c94d1e0ec3afe79c17987a",
+      "peeled_commit": "50443c8f7cc58fc4661af2a7d993dc7ec6144e11",
+      "object_type": "tag",
+      "status": "PASS",
+      "errors": []
+    },
+    "final_closure": {
+      "commit": "d98d90c927d3325dbe527112ddd14867b19c2177",
+      "is_ancestor": true,
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "rc1_peeled": {
+      "commit": "50443c8f7cc58fc4661af2a7d993dc7ec6144e11",
+      "is_ancestor": true,
+      "exit_code": 0,
+      "stderr": ""
+    },
+    "v54_peeled": {
+      "commit": "ef935fc6c24eb47553382d318e1501a795c4da84",
+      "is_ancestor": true,
+      "exit_code": 0,
+      "stderr": ""
+    }
+  },
+  "input_resolution": {
+    "requested_v55_master": "万相世界_v5.5-RC1-R3_Playable_Persistent_Evolving_Living_World_OS_完整母版_截至2026-08-28.md",
+    "requested_v55_master_status": "NOT_FOUND",
+    "normative_repo_spec": "docs\\spec\\WANXIANG_v5_MASTER_SPEC.md",
+    "normative_repo_spec_sha256": "0663027cb69f9fa29a763c33666908191fadd33a47738c4aa9f34ad3b98a5454",
+    "final_release_report_sha256": "f368802bd4c23114352c110ffba60b1a70943de9fce6bb00b6c291531654ad6b"
+  },
+  "remote_fetch": {
+    "status": "EXTERNAL_BLOCKED",
+    "command": "git fetch --tags --prune",
+    "reason": "Git HTTPS remote helper is unavailable on this host; local tag and closure evidence are retained."
+  },
+  "scope_scan": {
+    "status": "PASS",
+    "closure_to_head_commits": [
+      "bf30d16472af1bb179a37239d8bc9eaccbb3cb2a\tg97: record final closure verification"
+    ],
+    "forbidden_scope_subjects": [],
+    "stderr": ""
+  },
+  "checks": [
+    {
+      "command": "uv run python scripts/architecture_check.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 3040,
+      "stdout_sha256": "a8086ee14e414dc8e6e6a9b8ab36513fdc665d9560824f33bb330bfa69647fc5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_tail": "Architecture conformance: PASS\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": "uv run python scripts/kernel_guard.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 460,
+      "stdout_sha256": "dd9bd121b3d08abb2ae92d881e30947a55261fc2c180fb5778de3527558a254b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_tail": "kernel guard: 0 violation(s)\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": "uv run python scripts/playable_e2e.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 631,
+      "stdout_sha256": "f4b3e562cd2888b347f0fa8a090309c427eac83cd1d5e6baade861379b03d4ed",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_tail": "{\"committed_event_id\": \"evt_c0c057708ddd43c7abec316457bc4a7d\", \"continued_instance_id\": \"prv_playable_1\", \"entered_entities\": 2, \"instance_id\": \"prv_playable_1\", \"package_id\": \"world:wd_job_cli_playable\", \"profile_id\": \"experience:world:wd_job_cli_playable\", \"proposal_status\": \"proposed\", \"replay_equal\": true, \"same_instance_after_continue\": true, \"source_path_or_digest_emitted\": false, \"source_profile\": \"book\", \"state_diff_changes\": 1}\n",
+      "stderr_tail": "",
+      "parsed_stdout": {
+        "committed_event_id": "evt_c0c057708ddd43c7abec316457bc4a7d",
+        "continued_instance_id": "prv_playable_1",
+        "entered_entities": 2,
+        "instance_id": "prv_playable_1",
+        "package_id": "world:wd_job_cli_playable",
+        "profile_id": "experience:world:wd_job_cli_playable",
+        "proposal_status": "proposed",
+        "replay_equal": true,
+        "same_instance_after_continue": true,
+        "source_path_or_digest_emitted": false,
+        "source_profile": "book",
+        "state_diff_changes": 1
+      }
+    },
+    {
+      "command": "uv run python scripts/studio_socket_smoke.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 2243,
+      "stdout_sha256": "2ce2ebcfbdce34bc26d2e0ca438e674b43228f3ca370bf9029886facdd4688e4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_tail": "{\"health\": {\"status\": \"ok\"}, \"port\": 30582, \"socket\": \"passed\", \"studio_status\": true}\n",
+      "stderr_tail": "",
+      "parsed_stdout": {
+        "health": {
+          "status": "ok"
+        },
+        "port": 30582,
+        "socket": "passed",
+        "studio_status": true
+      }
+    },
+    {
+      "command": "uv run python scripts/release_build.py",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 208,
+      "stdout_sha256": "74f56b314683d917d230d86f7af5db2942ce1c53d0cb8dc420f2ef5302baac9d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_tail": "{\n  \"version\": \"0.1.0\",\n  \"git_sha\": \"bf30d16472af1bb179a37239d8bc9eaccbb3cb2a\",\n  \"migration_head\": \"0004_add_world_metadata\",\n  \"build_inputs\": {\n    \"uv.lock\": \"80d7e86c53b3b4d1ceaa273acd867b1d887ded2586d483d43dcb0b1cc5a48e1c\",\n    \"pnpm-lock.yaml\": \"2fd41976b817f01ad1f3d4ca465d55d2928f304cd7218fc32eee411321536971\",\n    \"docs/spec/WANXIANG_v5_MASTER_SPEC.md\": \"0663027cb69f9fa29a763c33666908191fadd33a47738c4aa9f34ad3b98a5454\",\n    \"alembic.ini\": \"aca4f893fe1fa646e7bc749ba97bde592078cae12b8e16f6e456db6495c6667b\",\n    \"pyproject.toml\": \"9b72e93f8ea4c0d9dc5764bb02a9eb8faf1e2c2f1508a575de308004952e438f\"\n  },\n  \"built_at_utc\": \"2026-08-28T04:00:19Z\",\n  \"release_hash\": \"d4a1cac36c3bf6c564d51368a831c6b24ea9240d8ead85eadc6d44a08a82adb7\"\n}\n",
+      "stderr_tail": "",
+      "parsed_stdout": {
+        "version": "0.1.0",
+        "git_sha": "bf30d16472af1bb179a37239d8bc9eaccbb3cb2a",
+        "migration_head": "0004_add_world_metadata",
+        "build_inputs": {
+          "uv.lock": "80d7e86c53b3b4d1ceaa273acd867b1d887ded2586d483d43dcb0b1cc5a48e1c",
+          "pnpm-lock.yaml": "2fd41976b817f01ad1f3d4ca465d55d2928f304cd7218fc32eee411321536971",
+          "docs/spec/WANXIANG_v5_MASTER_SPEC.md": "0663027cb69f9fa29a763c33666908191fadd33a47738c4aa9f34ad3b98a5454",
+          "alembic.ini": "aca4f893fe1fa646e7bc749ba97bde592078cae12b8e16f6e456db6495c6667b",
+          "pyproject.toml": "9b72e93f8ea4c0d9dc5764bb02a9eb8faf1e2c2f1508a575de308004952e438f"
+        },
+        "built_at_utc": "2026-08-28T04:00:19Z",
+        "release_hash": "d4a1cac36c3bf6c564d51368a831c6b24ea9240d8ead85eadc6d44a08a82adb7"
+      }
+    },
+    {
+      "command": "uv run pytest -q tests/unit/runtime/test_replay.py tests/unit/runtime/test_branch.py --basetemp C:\\Users\\Kaiser\\AppData\\Local\\Temp\\wanxiang-v55-g98a-084i5enl\\runtime",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 1569,
+      "stdout_sha256": "5815183c1a5193b9ea0ffd3ffe7ff45c9ed3cddf5feb6ca55fc521bdc380b369",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_tail": "..........                                                               [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487\n  E:\\AI\\wanxiang\\.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487: UserWarning: Skipping collection of '.hypothesis' directory - this usually means you've explicitly set the `norecursedirs` pytest config option, replacing rather than extending the default ignores.\n    warnings.warn(\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n10 passed, 1 warning in 0.05s\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": "uv run pytest -q tests/api/test_playable_api.py --basetemp C:\\Users\\Kaiser\\AppData\\Local\\Temp\\wanxiang-v55-g98a-084i5enl\\api",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 3020,
+      "stdout_sha256": "07e100acc2a1f2743fce7a2f9047278b9703fdf7934c1243591eaa62745ce9df",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_tail": ".                                                                        [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487\n  E:\\AI\\wanxiang\\.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487: UserWarning: Skipping collection of '.hypothesis' directory - this usually means you've explicitly set the `norecursedirs` pytest config option, replacing rather than extending the default ignores.\n    warnings.warn(\n\n.venv\\Lib\\site-packages\\fastapi\\testclient.py:1\n  E:\\AI\\wanxiang\\.venv\\Lib\\site-packages\\fastapi\\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n    from starlette.testclient import TestClient as TestClient  # noqa\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n1 passed, 2 warnings in 1.10s\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": "uv run pytest -q tests/integration/test_playable_service.py --basetemp C:\\Users\\Kaiser\\AppData\\Local\\Temp\\wanxiang-v55-g98a-084i5enl\\playable",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 2426,
+      "stdout_sha256": "a2852b21006bec687f522cb79595d9a98abb704a488f5e4a91f791448d61d4da",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_tail": ".                                                                        [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487\n  E:\\AI\\wanxiang\\.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487: UserWarning: Skipping collection of '.hypothesis' directory - this usually means you've explicitly set the `norecursedirs` pytest config option, replacing rather than extending the default ignores.\n    warnings.warn(\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n1 passed, 1 warning in 0.43s\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": "uv run pytest -q tests/integration/test_g16h_release.py --basetemp C:\\Users\\Kaiser\\AppData\\Local\\Temp\\wanxiang-v55-g98a-084i5enl\\release",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 2807,
+      "stdout_sha256": "51972c687e2abd80ad1d981747f626878b4248c6391bbae844d31c55af70a048",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_tail": "...                                                                      [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487\n  E:\\AI\\wanxiang\\.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487: UserWarning: Skipping collection of '.hypothesis' directory - this usually means you've explicitly set the `norecursedirs` pytest config option, replacing rather than extending the default ignores.\n    warnings.warn(\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n3 passed, 1 warning in 0.83s\n",
+      "stderr_tail": ""
+    },
+    {
+      "command": "uv run pytest -q tests/architecture/test_v55_acceptance_matrix_consistency.py --basetemp C:\\Users\\Kaiser\\AppData\\Local\\Temp\\wanxiang-v55-g98a-084i5enl\\matrix",
+      "exit_code": 0,
+      "status": "PASS",
+      "duration_ms": 1800,
+      "stdout_sha256": "6dd24116dc478261e48400d9b09f57ddb93f4405828b08933788b8e1d210e23f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_tail": ".                                                                        [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487\n  E:\\AI\\wanxiang\\.venv\\Lib\\site-packages\\_hypothesis_pytestplugin.py:487: UserWarning: Skipping collection of '.hypothesis' directory - this usually means you've explicitly set the `norecursedirs` pytest config option, replacing rather than extending the default ignores.\n    warnings.warn(\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n1 passed, 1 warning in 0.04s\n",
+      "stderr_tail": ""
+    }
+  ],
+  "boundaries": {
+    "implemented": [
+      "baseline lineage probes",
+      "reproducible local regression command set"
+    ],
+    "validated": [
+      "Gate 61 local lineage and scope freeze"
+    ],
+    "experimental": [],
+    "not_proven": [
+      "Gates 62-80; later milestones are not silently inferred"
+    ],
+    "external_blocked": [
+      "live remote fetch refresh",
+      "requested v5.5 master file absent from checkout"
+    ]
+  }
+}

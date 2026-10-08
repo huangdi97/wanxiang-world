@@ -5,9 +5,133 @@
     "version": "0.1.0"
   },
   "paths": {
+    "/": {
+      "get": {
+        "operationId": "player_ui__get"
+      }
+    },
     "/constitutions/{constitution_id}": {
       "get": {
         "operationId": "get_constitution_constitutions__constitution_id__get"
+      }
+    },
+    "/experience/characters": {
+      "get": {
+        "operationId": "characters_experience_characters_get"
+      },
+      "post": {
+        "operationId": "create_character_experience_characters_post"
+      }
+    },
+    "/experience/instances/{instance_id}": {
+      "get": {
+        "operationId": "observe_instance_experience_instances__instance_id__get"
+      }
+    },
+    "/experience/instances/{instance_id}/action": {
+      "post": {
+        "operationId": "action_instance_experience_instances__instance_id__action_post"
+      }
+    },
+    "/experience/instances/{instance_id}/continue": {
+      "post": {
+        "operationId": "continue_instance_experience_instances__instance_id__continue_post"
+      }
+    },
+    "/experience/instances/{instance_id}/leave": {
+      "post": {
+        "operationId": "leave_instance_experience_instances__instance_id__leave_post"
+      }
+    },
+    "/experience/player/characters": {
+      "get": {
+        "operationId": "player_characters_experience_player_characters_get"
+      },
+      "post": {
+        "operationId": "create_player_character_experience_player_characters_post"
+      }
+    },
+    "/experience/player/instances/{instance_id}": {
+      "get": {
+        "operationId": "player_observe_instance_experience_player_instances__instance_id__get"
+      }
+    },
+    "/experience/player/instances/{instance_id}/action": {
+      "post": {
+        "operationId": "player_action_instance_experience_player_instances__instance_id__action_post"
+      }
+    },
+    "/experience/player/instances/{instance_id}/continue": {
+      "post": {
+        "operationId": "player_continue_instance_experience_player_instances__instance_id__continue_post"
+      }
+    },
+    "/experience/player/instances/{instance_id}/leave": {
+      "post": {
+        "operationId": "player_leave_instance_experience_player_instances__instance_id__leave_post"
+      }
+    },
+    "/experience/player/plaza": {
+      "get": {
+        "operationId": "player_plaza_experience_player_plaza_get"
+      }
+    },
+    "/experience/player/worlds/{profile_id}": {
+      "get": {
+        "operationId": "player_world_detail_experience_player_worlds__profile_id__get"
+      }
+    },
+    "/experience/player/worlds/{profile_id}/enter": {
+      "post": {
+        "operationId": "player_enter_world_experience_player_worlds__profile_id__enter_post"
+      }
+    },
+    "/experience/plaza": {
+      "get": {
+        "operationId": "plaza_experience_plaza_get"
+      }
+    },
+    "/experience/ui": {
+      "get": {
+        "operationId": "player_ui_experience_ui_get"
+      }
+    },
+    "/experience/worlds": {
+      "get": {
+        "operationId": "worlds_experience_worlds_get"
+      }
+    },
+    "/experience/worlds/{profile_id}/enter": {
+      "post": {
+        "operationId": "enter_world_experience_worlds__profile_id__enter_post"
+      }
+    },
+    "/forge/candidates/{candidate_id}/evidence": {
+      "get": {
+        "operationId": "candidate_evidence_forge_candidates__candidate_id__evidence_get"
+      }
+    },
+    "/forge/completions/plan": {
+      "post": {
+        "operationId": "build_completion_plan_forge_completions_plan_post"
+      }
+    },
+    "/forge/conflicts": {
+      "get": {
+        "operationId": "list_conflicts_forge_conflicts_get"
+      },
+      "post": {
+        "operationId": "register_conflict_forge_conflicts_post"
+      }
+    },
+    "/forge/reviews": {
+      "post": {
+        "operationId": "record_review_forge_reviews_post"
+      }
+    },
+    "/forge/reviews/{target_id}": {
+      "get": {
+        "operationId": "review_history_forge_reviews__target_id__get"
       }
     },
     "/healthz": {
@@ -43,6 +167,159 @@
     "/lineage/promotions": {
       "post": {
         "operationId": "submit_promotion_lineage_promotions_post"
+      }
+    },
+    "/player": {
+      "get": {
+        "operationId": "player_ui_player_get"
+      }
+    },
+    "/studio/jobs": {
+      "post": {
+        "operationId": "create_job_studio_jobs_post"
+      }
+    },
+    "/studio/jobs/{job_id}": {
+      "get": {
+        "operationId": "get_job_studio_jobs__job_id__get"
+      }
+    },
+    "/studio/jobs/{job_id}/build": {
+      "post": {
+        "operationId": "build_package_studio_jobs__job_id__build_post"
+      }
+    },
+    "/studio/jobs/{job_id}/cancel": {
+      "post": {
+        "operationId": "cancel_job_studio_jobs__job_id__cancel_post"
+      }
+    },
+    "/studio/jobs/{job_id}/candidates/{candidate_id}/review": {
+      "post": {
+        "operationId": "review_candidate_studio_jobs__job_id__candidates__candidate_id__review_post"
+      }
+    },
+    "/studio/jobs/{job_id}/draft": {
+      "get": {
+        "operationId": "get_draft_studio_jobs__job_id__draft_get"
+      }
+    },
+    "/studio/jobs/{job_id}/enter": {
+      "post": {
+        "operationId": "enter_studio_jobs__job_id__enter_post"
+      }
+    },
+    "/studio/jobs/{job_id}/instantiate": {
+      "post": {
+        "operationId": "instantiate_studio_jobs__job_id__instantiate_post"
+      }
+    },
+    "/studio/jobs/{job_id}/living": {
+      "get": {
+        "operationId": "get_living_studio_jobs__job_id__living_get"
+      }
+    },
+    "/studio/jobs/{job_id}/playable-profile": {
+      "post": {
+        "operationId": "register_playable_profile_studio_jobs__job_id__playable_profile_post"
+      }
+    },
+    "/studio/jobs/{job_id}/preview": {
+      "post": {
+        "operationId": "preview_package_studio_jobs__job_id__preview_post"
+      }
+    },
+    "/studio/jobs/{job_id}/publish": {
+      "post": {
+        "operationId": "publish_job_studio_jobs__job_id__publish_post"
+      }
+    },
+    "/studio/jobs/{job_id}/resume": {
+      "post": {
+        "operationId": "resume_job_studio_jobs__job_id__resume_post"
+      }
+    },
+    "/studio/jobs/{job_id}/review-inbox": {
+      "get": {
+        "operationId": "review_inbox_studio_jobs__job_id__review_inbox_get"
+      }
+    },
+    "/studio/jobs/{job_id}/review-inbox/audit": {
+      "get": {
+        "operationId": "review_audit_studio_jobs__job_id__review_inbox_audit_get"
+      }
+    },
+    "/studio/jobs/{job_id}/review-inbox/batch": {
+      "post": {
+        "operationId": "batch_review_studio_jobs__job_id__review_inbox_batch_post"
+      }
+    },
+    "/studio/jobs/{job_id}/scenarios": {
+      "get": {
+        "operationId": "get_scenarios_studio_jobs__job_id__scenarios_get"
+      }
+    },
+    "/studio/jobs/{job_id}/sources": {
+      "post": {
+        "operationId": "add_source_studio_jobs__job_id__sources_post"
+      }
+    },
+    "/studio/jobs/{job_id}/start": {
+      "post": {
+        "operationId": "start_job_studio_jobs__job_id__start_post"
+      }
+    },
+    "/studio/jobs/{job_id}/worldness": {
+      "post": {
+        "operationId": "evaluate_worldness_studio_jobs__job_id__worldness_post"
+      },
+      "get": {
+        "operationId": "get_worldness_studio_jobs__job_id__worldness_get"
+      }
+    },
+    "/studio/one-click": {
+      "post": {
+        "operationId": "one_click_studio_one_click_post"
+      }
+    },
+    "/studio/ui": {
+      "get": {
+        "operationId": "studio_ui_studio_ui_get"
+      }
+    },
+    "/workshop": {
+      "get": {
+        "operationId": "workshop_home_workshop_get"
+      }
+    },
+    "/workshop/from-hybrid": {
+      "post": {
+        "operationId": "create_hybrid_workshop_from_hybrid_post"
+      }
+    },
+    "/workshop/from-prompt": {
+      "post": {
+        "operationId": "create_from_prompt_workshop_from_prompt_post"
+      }
+    },
+    "/workshop/from-source": {
+      "post": {
+        "operationId": "create_from_source_workshop_from_source_post"
+      }
+    },
+    "/workshop/{workshop_id}": {
+      "get": {
+        "operationId": "get_workshop_workshop__workshop_id__get"
+      }
+    },
+    "/workshop/{workshop_id}/evidence": {
+      "get": {
+        "operationId": "workshop_evidence_workshop__workshop_id__evidence_get"
+      }
+    },
+    "/workshop/{workshop_id}/review": {
+      "post": {
+        "operationId": "review_workshop_workshop__workshop_id__review_post"
       }
     },
     "/worlds": {

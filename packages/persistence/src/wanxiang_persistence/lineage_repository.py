@@ -14,6 +14,10 @@ import json
 from sqlalchemy import select
 from sqlalchemy.orm import Session, sessionmaker
 from wanxiang_domain.lineage import LineageEdge, LineageGraph, LineageNode
+from wanxiang_runtime.canonical_write import (
+    CanonicalWriteLease,
+    require_canonical_write_lease,
+)
 
 from wanxiang_persistence.database import session_scope
 from wanxiang_persistence.models import LineageEdgeRecord, LineageNodeRecord
@@ -73,11 +77,17 @@ class LineageRepository:
     def __init__(self, session_factory: sessionmaker[Session]) -> None:
         self._session_factory = session_factory
 
-    def save_node(self, node: LineageNode) -> None:
+    def save_node(self, node: LineageNode, *, lease: CanonicalWriteLease) -> None:
+        # The lineage graph is cross-worldline: a node carries no instance/branch,
+        # so the lease is required (proving the write came from the authority) but
+        # cannot be scope-checked against a worldline.
+        require_canonical_write_lease(lease)
         with session_scope(self._session_factory) as session:
             session.merge(_node_to_record(node))
 
-    def save_edge(self, edge: LineageEdge) -> None:
+    def save_edge(self, edge: LineageEdge, *, lease: CanonicalWriteLease) -> None:
+        # See save_node: edges are cross-worldline and carry no instance/branch.
+        require_canonical_write_lease(lease)
         with session_scope(self._session_factory) as session:
             session.merge(_edge_to_record(edge))
 

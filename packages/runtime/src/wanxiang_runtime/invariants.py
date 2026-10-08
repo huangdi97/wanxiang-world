@@ -105,7 +105,9 @@ def check_no_relation_to_protected_entities(state: InMemoryCanonicalState, op: o
             raise ConstitutionViolation(f"world delta must not relate platform entity {target}")
 
 
-INVARIANTS: tuple[Callable[[InMemoryCanonicalState, object], None], ...] = (
+type InvariantCheck = Callable[["InMemoryCanonicalState", object], None]
+
+KERNEL_INVARIANTS: tuple[InvariantCheck, ...] = (
     check_no_duplicate_entity,
     check_entity_exists_for_update,
     check_entity_exists_for_delete,
@@ -116,9 +118,37 @@ INVARIANTS: tuple[Callable[[InMemoryCanonicalState, object], None], ...] = (
     check_no_relation_to_protected_entities,
 )
 
+# Backward-compatible alias: the default state-level invariant set is the Kernel layer.
+INVARIANTS = KERNEL_INVARIANTS
+
+
+def _check_layer(
+    state: InMemoryCanonicalState,
+    delta: ProposedWorldDelta,
+    checks: tuple[InvariantCheck, ...],
+) -> None:
+    for op in delta.operations:
+        for check in checks:
+            check(state, op)
+
 
 def check_delta_invariants(state: InMemoryCanonicalState, delta: ProposedWorldDelta) -> None:
-    """Run every registered invariant against each delta operation in order."""
-    for op in delta.operations:
-        for check in INVARIANTS:
-            check(state, op)
+    """Run the platform/Kernel invariant layer used by pure state application."""
+    _check_layer(state, delta, KERNEL_INVARIANTS)
+
+
+def check_layered_delta_invariants(
+    state: InMemoryCanonicalState,
+    delta: ProposedWorldDelta,
+    *,
+    domain: tuple[InvariantCheck, ...] = (),
+    world: tuple[InvariantCheck, ...] = (),
+) -> None:
+    """Run Kernel -> Domain -> World invariants before Commit Authority writes.
+
+    Domain/World checks are injected composition policy. They never replace or
+    weaken Kernel checks, so a lower-layer denial cannot be re-allowed later.
+    """
+    _check_layer(state, delta, KERNEL_INVARIANTS)
+    _check_layer(state, delta, domain)
+    _check_layer(state, delta, world)

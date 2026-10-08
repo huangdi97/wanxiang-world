@@ -1,10 +1,10 @@
 {
   "commit_paths": 1,
-  "engine_classes": 2,
+  "engine_classes": 5,
   "hard_invariants_ok": true,
   "import_cycles": 0,
   "manager_classes": 0,
-  "milestone": "M26",
+  "milestone": "M93 (v5.5 G96A)",
   "milestone_budgets": {
     "M26": {
       "hard_constraints": [
@@ -78,16 +78,323 @@
       ],
       "new_abstractions_allowance": 0,
       "note": "Final acceptance: verification + evidence only; no new abstractions."
+    },
+    "M51": {
+      "hard_constraints": [
+        "1 commit path",
+        "no second source registry",
+        "jobs propose only"
+      ],
+      "new_abstractions_allowance": 5,
+      "note": "Source->LivingWorld Forge baseline: unified Job/JobCheckpoint/JobStore/JobService + typed job errors; reuses single commit path (jobs never mutate canon)."
+    },
+    "M52": {
+      "hard_constraints": [
+        "1 commit path",
+        "single source registry",
+        "no fake extraction"
+      ],
+      "new_abstractions_allowance": 12,
+      "note": "Source Registry & Adapter Foundation: convergence fields, blob refs, SourceAdapter ABI + AdapterRegistry, book/structured/asset adapters, ingestion security gate. All adapters propose only; single SourceRegistry."
+    },
+    "M53": {
+      "hard_constraints": [
+        "1 commit path",
+        "single source registry",
+        "no fake extraction"
+      ],
+      "new_abstractions_allowance": 8,
+      "note": "Parse/Segment/Stable Locator: ParsedDocument IR, StructureParser, segment model + format locators, incremental cache, parse checkpoint, diagnostics API. All propose only; single locator/source-registry."
+    },
+    "M54": {
+      "hard_constraints": [
+        "1 commit path",
+        "no Canon from candidates",
+        "no second envelope"
+      ],
+      "new_abstractions_allowance": 14,
+      "note": "Distillation & Candidate Fabric: unified CandidateEnvelope, distiller DAG + registry, reference passes (identity/event/relation/character/object), candidate clustering. Candidates propose only; no Canon."
+    },
+    "M55": {
+      "hard_constraints": [
+        "1 commit path",
+        "no last-write-wins",
+        "no auto canon"
+      ],
+      "new_abstractions_allowance": 8,
+      "note": "Evidence/Rights/Review/Completion core: evidence bindings, conflict ledger, rights gate, review ledger, E0-E5 completion + planner, review API routes. All decisions append-only/reversible; no Canon promotion."
+    },
+    "M56": {
+      "hard_constraints": [
+        "1 commit path",
+        "no second runtime state",
+        "no per-world domain fork"
+      ],
+      "new_abstractions_allowance": 9,
+      "note": "Domain Matching & WorldDraft: domain capability registry + recommender + resolver, WorldDraft v1 + store, coverage, scenario mining, genesis draft. Drafts are compile intermediates, never runtime state."
+    },
+    "M57": {
+      "hard_constraints": [
+        "1 commit path",
+        "no second runtime state",
+        "preview never mutates published registry"
+      ],
+      "new_abstractions_allowance": 10,
+      "note": "World compiler/package/preview: revision-pinned compiler boundary, formal package manifest wrapper, deterministic rebuild plan, and an isolated preview scope over the existing runtime port."
+    },
+    "M58": {
+      "hard_constraints": [
+        "one backend for API and CLI",
+        "no transport-owned state",
+        "no second commit path"
+      ],
+      "new_abstractions_allowance": 8,
+      "note": "Studio/API/CLI surfaces reuse one AuthoringService, existing JobStore, review ledger, and package/preview boundaries."
+    },
+    "M59": {
+      "hard_constraints": [
+        "single source registry",
+        "no source bytes in Git",
+        "resume is idempotent"
+      ],
+      "new_abstractions_allowance": 8,
+      "note": "Cross-source reference E2E hardening: bounded chunks, hashes, resume/idempotency and security evidence over the existing Forge path."
+    },
+    "M60": {
+      "hard_constraints": [
+        "semantic views remain Forge data",
+        "no E0 promotion",
+        "deterministic no-API path"
+      ],
+      "new_abstractions_allowance": 10,
+      "note": "Semantic world views add typed candidate projections for identity, events, relations, knowledge, topology and object continuity."
+    },
+    "M61": {
+      "hard_constraints": [
+        "no last-write-wins",
+        "source identity stays explicit",
+        "rights gate is scope-aware"
+      ],
+      "new_abstractions_allowance": 8,
+      "note": "Source-family alignment and fusion preserve provenance, dissent, rights decisions and incremental recomputation."
+    },
+    "M62": {
+      "hard_constraints": [
+        "connectors propose only",
+        "no network in reference path",
+        "OCR_REQUIRED is explicit"
+      ],
+      "new_abstractions_allowance": 8,
+      "note": "Multimodal and external-source additions are ports/capability descriptors only; missing providers remain typed failures."
+    },
+    "M63": {
+      "hard_constraints": [
+        "no per-world domain fork",
+        "gap packs are proposals",
+        "no OS sandbox claim"
+      ],
+      "new_abstractions_allowance": 8,
+      "note": "Domain fingerprint/composition and gap packs remain draft-scoped and reuse the single capability registry."
+    },
+    "M64": {
+      "hard_constraints": [
+        "E1-E5 cannot enter E0 implicitly",
+        "unknowns stay explicit",
+        "no auto canon"
+      ],
+      "new_abstractions_allowance": 8,
+      "note": "Completion and consistency add constraint-backed evidence views without changing the canonical completion boundary."
+    },
+    "M65": {
+      "hard_constraints": [
+        "engines are Forge-scoped",
+        "snapshot is not runtime state",
+        "activation uses existing Commit Authority"
+      ],
+      "new_abstractions_allowance": 10,
+      "note": "Scenario/genesis authoring adds bounded Forge engines and immutable candidate snapshots; runtime activation reuses existing ports."
+    },
+    "M66": {
+      "hard_constraints": [
+        "repair is candidate-only",
+        "bounded simulation",
+        "single commit path"
+      ],
+      "new_abstractions_allowance": 8,
+      "note": "Worldness validation is a bounded simulation/repair proposal loop over WorldDraft and never writes Canonical World State."
+    },
+    "M67": {
+      "hard_constraints": [
+        "provider routing is proposal-only",
+        "checkpoint is metadata",
+        "no second orchestrator"
+      ],
+      "new_abstractions_allowance": 8,
+      "note": "Authoring orchestration composes existing stages, providers and job checkpoints without a transport-owned pipeline."
+    },
+    "M68": {
+      "hard_constraints": [
+        "review is not commit authority",
+        "decisions append-only",
+        "unknown is not E0"
+      ],
+      "new_abstractions_allowance": 6,
+      "note": "Review inbox/impact policy reuses the append-only review ledger and keeps defer/unknown outside Canon."
+    },
+    "M69": {
+      "hard_constraints": [
+        "API and CLI share one service",
+        "publish updates Forge job metadata only",
+        "incomplete packages remain blocked"
+      ],
+      "new_abstractions_allowance": 6,
+      "note": "One-click profiles are a facade over the unified authoring service, package validator, preview registry and existing runtime."
+    },
+    "M70": {
+      "hard_constraints": [
+        "no new authority",
+        "no source/private artifact publication",
+        "stop after final certification"
+      ],
+      "new_abstractions_allowance": 0,
+      "note": "Production hardening is evidence, compatibility, documentation and delivery work; no new Kernel authority or runtime state is allowed."
+    },
+    "M71": {
+      "hard_constraints": [
+        "private bytes remain outside Git",
+        "provider output is candidate-only",
+        "zero coverage is typed"
+      ],
+      "new_abstractions_allowance": 5,
+      "note": "Real-book semantic distillation adds a bounded provider port and typed progress without allowing providers to mutate Canon."
+    },
+    "M72": {
+      "hard_constraints": [
+        "rights gates remain independent",
+        "no source rewriting",
+        "no hidden provider fallback"
+      ],
+      "new_abstractions_allowance": 4,
+      "note": "Rights and schema diagnostics make the Source -> Candidate boundary explicit while preserving the existing SourceRegistry."
+    },
+    "M73": {
+      "hard_constraints": [
+        "one authoring backend",
+        "transport owns no state",
+        "no second commit path"
+      ],
+      "new_abstractions_allowance": 4,
+      "note": "CLI/API/Studio lifecycle additions reuse AuthoringService and expose the same typed state transitions."
+    },
+    "M74": {
+      "hard_constraints": [
+        "worldness cannot commit canon",
+        "no hardcoded coverage",
+        "failure evidence is retained"
+      ],
+      "new_abstractions_allowance": 4,
+      "note": "Worldness dimensions carry measurements and evidence, with bounded repair proposals over the draft only."
+    },
+    "M75": {
+      "hard_constraints": [
+        "only Commit Authority mutates canon",
+        "replay must match",
+        "parent branch remains unchanged"
+      ],
+      "new_abstractions_allowance": 5,
+      "note": "Living Instance evaluation proves commit/replay and branch isolation through the existing Commit Authority runtime port."
+    },
+    "M76": {
+      "hard_constraints": [
+        "same API use cases",
+        "socket allocation is bounded",
+        "no browser-only success path"
+      ],
+      "new_abstractions_allowance": 3,
+      "note": "Browser Studio and random-socket smoke evidence complete the product surface without introducing a separate runtime."
+    },
+    "M77": {
+      "hard_constraints": [
+        "same source bytes",
+        "all required evidence present",
+        "NOT_ACCEPTED remains honest"
+      ],
+      "new_abstractions_allowance": 0,
+      "note": "Real private-source acceptance and regression evidence only."
+    },
+    "M78": {
+      "hard_constraints": [
+        "no v5.5",
+        "no model training",
+        "stop after delivery"
+      ],
+      "new_abstractions_allowance": 0,
+      "note": "Final feature-branch delivery and Actions verification only."
+    },
+    "M88": {
+      "hard_constraints": [
+        "one runtime and branch system",
+        "Director/Quest/intervention remain proposal or projection only",
+        "no pressure-specific Kernel types"
+      ],
+      "new_abstractions_allowance": 25,
+      "note": "PressureProfile, Opportunity lifecycle, Director modes, canon attractor, intervention, Quest projection and deterministic benchmark records reuse the existing reality/runtime branch ports."
+    },
+    "M89": {
+      "hard_constraints": [
+        "one runtime/event store/branch system",
+        "scheduler/LOD/budget/compaction remain proposal or reference-only",
+        "no giant manager and no world-specific Kernel types"
+      ],
+      "new_abstractions_allowance": 39,
+      "note": "Long-horizon scheduler, detached background execution, cursor-only checkpoint/recovery, reference compaction, SimulationLOD, cost budget, and qualification value objects reuse the existing runtime."
+    },
+    "M90": {
+      "hard_constraints": [
+        "same source and package bytes",
+        "append-only canonical history and replay equality",
+        "all three projection planes change without projection commits"
+      ],
+      "new_abstractions_allowance": 2,
+      "note": "Thirty-day actor/relationship/organization qualification compares typed projection snapshots over the existing Commit Authority and replay path; no new runtime state is introduced."
+    },
+    "M91": {
+      "hard_constraints": [
+        "derived cache only",
+        "event refs and rebuild determinism",
+        "no automatic Candidate or canonical mutation"
+      ],
+      "new_abstractions_allowance": 15,
+      "note": "Pattern observations, repeated-pattern detection, and the bounded habit/norm/institution/culture-ontology candidate layers consume immutable derived views over committed history without creating a second history."
+    },
+    "M92": {
+      "hard_constraints": [
+        "one runtime/event store/branch system",
+        "artifacts contain refs and hashes, never private source bytes",
+        "provider output remains proposal-only",
+        "unknown validation is not pass"
+      ],
+      "new_abstractions_allowance": 24,
+      "note": "World laboratory evidence contracts add a sanitized RunArtifact, versioned experiment metadata, isolated fork/intervention evidence, bounded batch worldlines, provider assignment and trajectory/validation reports over the existing runtime and Commit Authority."
+    },
+    "M93": {
+      "hard_constraints": [
+        "one runtime/event store/branch system",
+        "provider output remains proposal or projection only",
+        "no external engine or GPU dependency is claimed without evidence"
+      ],
+      "new_abstractions_allowance": 30,
+      "note": "Physical/visual provider ABI records, deterministic reference adapters, perspective/privacy projections, external capability status, and reconciliation evidence reuse the existing read and proposal boundaries."
     }
   },
   "oversized_modules": 0,
-  "ports": 24,
-  "production_files": 344,
-  "production_loc": 30802,
-  "public_classes": 694,
-  "public_functions": 296,
-  "registry_classes": 11,
-  "service_classes": 15,
-  "state_schema_models": 22,
-  "store_classes": 18
+  "ports": 51,
+  "production_files": 655,
+  "production_loc": 78943,
+  "public_classes": 1384,
+  "public_functions": 609,
+  "registry_classes": 20,
+  "service_classes": 25,
+  "state_schema_models": 40,
+  "store_classes": 36
 }

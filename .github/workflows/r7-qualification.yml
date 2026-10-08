@@ -1,0 +1,83 @@
+name: r7-qualification
+
+on:
+  push:
+    branches:
+      - feature/r7-cordis-native
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: r7-qualification-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  exact-sha-clean-clone:
+    name: R7 exact-SHA clean clone qualification
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: wanxiang
+          POSTGRES_PASSWORD: wanxiang
+          POSTGRES_DB: wanxiang
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U wanxiang"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      WANXIANG_POSTGRES_TEST_URL: postgresql://wanxiang:wanxiang@localhost:5432/wanxiang
+      WANXIANG_DATABASE_URL: postgresql://wanxiang:wanxiang@localhost:5432/wanxiang
+    steps:
+      - uses: astral-sh/setup-uv@v4
+        with:
+          python-version: "3.12"
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.16.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Fresh clone exact pushed SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          root="$RUNNER_TEMP/wanxiang-r7-clean"
+          rm -rf "$root"
+          git clone "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY.git" "$root"
+          git -C "$root" checkout --detach "$GITHUB_SHA"
+          test "$(git -C "$root" rev-parse HEAD)" = "$GITHUB_SHA"
+          test -z "$(git -C "$root" status --porcelain)"
+          printf 'R7_CLEAN_ROOT=%s\n' "$root" >> "$GITHUB_ENV"
+
+      - name: Run full R7 qualification inside clean clone
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$R7_CLEAN_ROOT"
+          uv run python scripts/r7_final_qualification.py             --expect-sha "$GITHUB_SHA"             --label ci-exact-sha
+
+      - name: Verify qualification left no source drift
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$R7_CLEAN_ROOT"
+          git status --short
+          git restore -- artifacts/r7/composition/resolved_graph.json artifacts/r7/security/write_surface_inventory.json reports/V5_1_DUPLICATE_FORENSICS.md reports/V5_2_MINIMALITY_BUDGET.md reports/v52_minimality_budget.json
+          remaining="$(git status --porcelain | grep -v '^?? artifacts/r7/qualification/' || true)"
+          test -z "$remaining"
+
+      - name: Upload qualification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: r7-exact-sha-${{ github.sha }}
+          path: ${{ env.R7_CLEAN_ROOT }}/artifacts/r7/qualification/
+          if-no-files-found: warn

@@ -49,13 +49,17 @@ def test_budget_script_runs_and_hard_invariants_hold() -> None:
 def test_budget_counts_are_stable() -> None:
     _run()
     budget = _load()
-    # M26 baseline anchors (verified by G29A/G29B/G29C/G29E):
-    # 10 at M26 + PresenceRegistry (M28) = 11
-    assert budget["registry_classes"] == 11
-    assert budget["service_classes"] == 15
-    assert budget["engine_classes"] == 2
-    # 23 at M26 + RealityRootContract Protocol (M27) = 24
-    assert budget["ports"] == 24
+    # Current R7 snapshot anchors; the M26-M93 history remains in the ledger and
+    # these counts include the accepted v5.5 projection/product additions.
+    # R7 additions over the v5.5 anchors: +3 registries
+    # (RealityProfileRegistry, VerifiedCapabilityRegistry, ProviderRegistry) and
+    # +7 ports (AgentHarnessProvider, ReplaySource, MigrationSink,
+    # ExternalEffectHandler, Artifact2CapabilityProvider, LockStore,
+    # ExecutionProvider); no engine/service/commit-path abstraction was added.
+    assert budget["registry_classes"] == 20
+    assert budget["service_classes"] == 25
+    assert budget["engine_classes"] == 5
+    assert budget["ports"] == 51
     loc = budget["production_loc"]
     files = budget["production_files"]
     assert isinstance(loc, int) and loc > 0
@@ -69,8 +73,28 @@ def test_budget_documents_every_milestone() -> None:
     raw_milestones = budget["milestone_budgets"]
     assert isinstance(raw_milestones, dict)
     milestones = cast(dict[str, dict[str, object]], raw_milestones)
-    assert set(milestones) == {f"M{n}" for n in range(26, 35)}
-    for ms in ("M26", "M27", "M28", "M29", "M30", "M31", "M32", "M33", "M34"):
+    assert set(milestones) == (
+        {f"M{n}" for n in range(26, 35)}
+        | {f"M{n}" for n in range(51, 79)}
+        | {"M88", "M89", "M90", "M91", "M92", "M93"}
+    )
+    for ms in (
+        "M26",
+        "M27",
+        "M28",
+        "M29",
+        "M30",
+        "M31",
+        "M32",
+        "M33",
+        "M34",
+        *[f"M{n}" for n in range(51, 79)],
+        "M89",
+        "M90",
+        "M91",
+        "M92",
+        "M93",
+    ):
         spec = milestones[ms]
         allowance = spec["new_abstractions_allowance"]
         assert isinstance(allowance, int) and allowance >= 0

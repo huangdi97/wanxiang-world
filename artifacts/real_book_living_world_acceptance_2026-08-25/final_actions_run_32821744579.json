@@ -1,0 +1,14 @@
+{
+  "run_id": 32821744579,
+  "head_sha": "f7685ec164a4a3050a53ea04ebd05432b95658f7",
+  "conclusion": "success",
+  "jobs": [
+    {"name": "Repository safety / secret scan / forbidden tracked files", "conclusion": "success"},
+    {"name": "python", "conclusion": "success"},
+    {"name": "PostgreSQL migration + integration", "conclusion": "success"},
+    {"name": "API / package / SDK generation + drift", "conclusion": "success"},
+    {"name": "ts", "conclusion": "success"},
+    {"name": "Release build + clean-room certification smoke", "conclusion": "success"}
+  ],
+  "public_metadata_scan": "clean"
+}

@@ -8,6 +8,10 @@ from wanxiang_domain.errors import NotFound
 from wanxiang_domain.ids import WorldInstanceId
 from wanxiang_domain.time import WorldTime
 from wanxiang_domain.versions import RuntimeVersion, SchemaVersion
+from wanxiang_runtime.canonical_write import (
+    CanonicalWriteLease,
+    require_canonical_write_lease,
+)
 
 from wanxiang_persistence.database import session_scope
 from wanxiang_persistence.models import WorldInstanceRecord
@@ -23,7 +27,12 @@ class WorldInstanceRepository:
         schema_version: SchemaVersion,
         rule_version: RuntimeVersion,
         created_world_time: WorldTime,
+        *,
+        lease: CanonicalWriteLease,
     ) -> None:
+        # The world_instances row carries no branch, so the lease is scoped to the
+        # instance only (branch_id stays unconstrained for this write).
+        require_canonical_write_lease(lease, instance_id=instance_id)
         record = WorldInstanceRecord(
             instance_id=instance_id.value,
             schema_version=schema_version.value,

@@ -7,6 +7,7 @@ ordering/idempotency/integrity semantics stay identical across adapters.
 from __future__ import annotations
 
 import pytest
+from tests.helpers.leases import lease_for
 from wanxiang_domain.delta import EntityCreate, ProposedWorldDelta
 from wanxiang_domain.errors import Conflict, DuplicateCommandConflict, PersistenceError
 from wanxiang_domain.event import CommittedEvent
@@ -18,6 +19,7 @@ from wanxiang_runtime.ports import EventStore, InMemoryEventStore
 
 INSTANCE = WorldInstanceId("wld_c1")
 BRANCH = BranchId("br_c1")
+LEASE = lease_for(INSTANCE, BRANCH)
 
 
 def make_event(seq: int, command: str = "cmd_a") -> CommittedEvent:
@@ -46,21 +48,21 @@ class EventStoreContract:
 
     @pytest.mark.contract
     def test_sequential_appends_advance_seq(self, store: EventStore) -> None:
-        store.append(make_event(1, "cmd_1"))
-        store.append(make_event(2, "cmd_2"))
+        store.append(make_event(1, "cmd_1"), lease=LEASE)
+        store.append(make_event(2, "cmd_2"), lease=LEASE)
         assert store.last_event_seq(INSTANCE, BRANCH) == EventSeq(2)
 
     @pytest.mark.contract
     def test_load_returns_ordered_events(self, store: EventStore) -> None:
-        store.append(make_event(1, "cmd_1"))
-        store.append(make_event(2, "cmd_2"))
+        store.append(make_event(1, "cmd_1"), lease=LEASE)
+        store.append(make_event(2, "cmd_2"), lease=LEASE)
         events = store.load(INSTANCE, BRANCH)
         assert [e.event_seq.value for e in events] == [1, 2]
 
     @pytest.mark.contract
     def test_range_loading(self, store: EventStore) -> None:
         for i in range(1, 5):
-            store.append(make_event(i, f"cmd_{i}"))
+            store.append(make_event(i, f"cmd_{i}"), lease=LEASE)
         assert [e.event_seq.value for e in store.load(INSTANCE, BRANCH, from_seq=2, to_seq=3)] == [
             2,
             3,
@@ -69,35 +71,35 @@ class EventStoreContract:
 
     @pytest.mark.contract
     def test_out_of_order_append_is_rejected(self, store: EventStore) -> None:
-        store.append(make_event(1, "cmd_1"))
+        store.append(make_event(1, "cmd_1"), lease=LEASE)
         with pytest.raises(Conflict):
-            store.append(make_event(3, "cmd_3"))
+            store.append(make_event(3, "cmd_3"), lease=LEASE)
 
     @pytest.mark.contract
     def test_duplicate_command_id_is_rejected(self, store: EventStore) -> None:
-        store.append(make_event(1, "cmd_1"))
+        store.append(make_event(1, "cmd_1"), lease=LEASE)
         with pytest.raises(DuplicateCommandConflict):
-            store.append(make_event(2, "cmd_1"))
+            store.append(make_event(2, "cmd_1"), lease=LEASE)
         assert store.last_event_seq(INSTANCE, BRANCH) == EventSeq(1)
 
     @pytest.mark.contract
     def test_command_result_retrieval(self, store: EventStore) -> None:
-        store.append(make_event(1, "cmd_dup"))
+        store.append(make_event(1, "cmd_dup"), lease=LEASE)
         assert store.has_command(CommandId("cmd_dup")) is True
         assert store.command_result_event(CommandId("cmd_dup")) is not None
         assert store.command_result_event(CommandId("cmd_missing")) is None
 
     @pytest.mark.contract
     def test_integrity_check_passes_for_clean_stream(self, store: EventStore) -> None:
-        store.append(make_event(1, "cmd_1"))
-        store.append(make_event(2, "cmd_2"))
+        store.append(make_event(1, "cmd_1"), lease=LEASE)
+        store.append(make_event(2, "cmd_2"), lease=LEASE)
         store.integrity_check(INSTANCE, BRANCH)
 
     @pytest.mark.contract
     def test_wall_clock_does_not_change_order(self, store: EventStore) -> None:
         # Events carry no wall clock in the contract; ordering is by event_seq.
-        store.append(make_event(1, "cmd_1"))
-        store.append(make_event(2, "cmd_2"))
+        store.append(make_event(1, "cmd_1"), lease=LEASE)
+        store.append(make_event(2, "cmd_2"), lease=LEASE)
         assert [e.event_seq.value for e in store.load(INSTANCE, BRANCH)] == [1, 2]
 
 
@@ -111,7 +113,7 @@ class TestInMemoryEventStoreContract(EventStoreContract):
         assert isinstance(store, InMemoryEventStore)
         store.fail_append = True
         with pytest.raises(PersistenceError):
-            store.append(make_event(1, "cmd_1"))
+            store.append(make_event(1, "cmd_1"), lease=LEASE)
         assert store.last_event_seq(INSTANCE, BRANCH) == EventSeq(0)
 
 

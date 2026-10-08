@@ -1,22 +1,79 @@
 # SDK API Baseline (G17A)
 
-- API routes: 17
+- API routes: 74
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 1176
+- Python public names (stable packages): 2149
 
 ## API routes
 
+- `GET /`
 - `GET /constitutions/{constitution_id}`
+- `GET /experience/characters`
+- `GET /experience/instances/{instance_id}`
+- `GET /experience/player/characters`
+- `GET /experience/player/instances/{instance_id}`
+- `GET /experience/player/plaza`
+- `GET /experience/player/worlds/{profile_id}`
+- `GET /experience/plaza`
+- `GET /experience/ui`
+- `GET /experience/worlds`
+- `GET /forge/candidates/{candidate_id}/evidence`
+- `GET /forge/conflicts`
+- `GET /forge/reviews/{target_id}`
 - `GET /healthz`
 - `GET /lineage/compare`
 - `GET /lineage/nodes/{node_id}/ancestors`
 - `GET /lineage/nodes/{node_id}/descendants`
 - `GET /lineage/nodes/{node_id}/promotion-origin`
 - `GET /lineage/promotion-candidates`
+- `GET /player`
+- `GET /studio/jobs/{job_id}`
+- `GET /studio/jobs/{job_id}/draft`
+- `GET /studio/jobs/{job_id}/living`
+- `GET /studio/jobs/{job_id}/review-inbox`
+- `GET /studio/jobs/{job_id}/review-inbox/audit`
+- `GET /studio/jobs/{job_id}/scenarios`
+- `GET /studio/jobs/{job_id}/worldness`
+- `GET /studio/ui`
+- `GET /workshop`
+- `GET /workshop/{workshop_id}`
+- `GET /workshop/{workshop_id}/evidence`
 - `GET /worlds/{instance_id}`
 - `GET /worlds/{instance_id}/events`
 - `GET /worlds/{instance_id}/state`
+- `POST /experience/characters`
+- `POST /experience/instances/{instance_id}/action`
+- `POST /experience/instances/{instance_id}/continue`
+- `POST /experience/instances/{instance_id}/leave`
+- `POST /experience/player/characters`
+- `POST /experience/player/instances/{instance_id}/action`
+- `POST /experience/player/instances/{instance_id}/continue`
+- `POST /experience/player/instances/{instance_id}/leave`
+- `POST /experience/player/worlds/{profile_id}/enter`
+- `POST /experience/worlds/{profile_id}/enter`
+- `POST /forge/completions/plan`
+- `POST /forge/conflicts`
+- `POST /forge/reviews`
 - `POST /lineage/promotions`
+- `POST /studio/jobs`
+- `POST /studio/jobs/{job_id}/build`
+- `POST /studio/jobs/{job_id}/cancel`
+- `POST /studio/jobs/{job_id}/candidates/{candidate_id}/review`
+- `POST /studio/jobs/{job_id}/enter`
+- `POST /studio/jobs/{job_id}/instantiate`
+- `POST /studio/jobs/{job_id}/playable-profile`
+- `POST /studio/jobs/{job_id}/preview`
+- `POST /studio/jobs/{job_id}/publish`
+- `POST /studio/jobs/{job_id}/resume`
+- `POST /studio/jobs/{job_id}/review-inbox/batch`
+- `POST /studio/jobs/{job_id}/sources`
+- `POST /studio/jobs/{job_id}/start`
+- `POST /studio/jobs/{job_id}/worldness`
+- `POST /studio/one-click`
+- `POST /workshop/from-hybrid`
+- `POST /workshop/from-prompt`
+- `POST /workshop/from-source`
+- `POST /workshop/{workshop_id}/review`
 - `POST /worlds`
 - `POST /worlds/{instance_id}/actions`
 - `POST /worlds/{instance_id}/branches`
@@ -29,19 +86,36 @@
 - `wanxiang_application.ACTION_CREATE_ENTITY`
 - `wanxiang_application.ACTION_SET_STATUS`
 - `wanxiang_application.ACTION_TRANSFER_RESOURCE`
+- `wanxiang_application.AgentSessionIdentity`
 - `wanxiang_application.AuditSink`
 - `wanxiang_application.CreateWorldResult`
 - `wanxiang_application.DEFAULT_SCHEMA_VERSION`
 - `wanxiang_application.DEFAULT_WORLD_TIME`
+- `wanxiang_application.GatewayHistoryItem`
+- `wanxiang_application.GatewayObservation`
+- `wanxiang_application.GatewayOperation`
+- `wanxiang_application.GatewayProposal`
+- `wanxiang_application.GatewayQueries`
+- `wanxiang_application.GovernedOperationRequest`
+- `wanxiang_application.HarnessStepResult`
+- `wanxiang_application.HarnessWorldLoop`
 - `wanxiang_application.Now`
+- `wanxiang_application.ObserverExperience`
+- `wanxiang_application.ObserverExperienceView`
 - `wanxiang_application.PersistenceBundle`
 - `wanxiang_application.RestoreResult`
 - `wanxiang_application.StateReader`
 - `wanxiang_application.SubmitCommandResult`
+- `wanxiang_application.WorldCapabilityGateway`
 - `wanxiang_application.WorldEnvironment`
+- `wanxiang_application.WorldHandle`
+- `wanxiang_application.WorldHandleMetadata`
 - `wanxiang_application.WorldInstanceStore`
 - `wanxiang_application.WorldRuntime`
+- `wanxiang_application.WorldSkill`
+- `wanxiang_application.find_root_branch`
 - `wanxiang_application.register_synthetic_resolvers`
+- `wanxiang_application.replay_branch`
 - `wanxiang_application.snapshot_is_valid`
 - `wanxiang_domain.ActorId`
 - `wanxiang_domain.BranchAncestry`
@@ -161,11 +235,15 @@
 - `wanxiang_domain.snapshot_to_primitive`
 - `wanxiang_domain.validate_id`
 - `wanxiang_domain.validate_world_commit_kind`
+- `wanxiang_observability.ComponentStatus`
 - `wanxiang_observability.ConfigError`
 - `wanxiang_observability.JsonFormatter`
 - `wanxiang_observability.KeyValueFormatter`
 - `wanxiang_observability.Metrics`
+- `wanxiang_observability.MigrationStatus`
 - `wanxiang_observability.Observability`
+- `wanxiang_observability.R7OpsView`
+- `wanxiang_observability.R7ReadinessView`
 - `wanxiang_observability.Span`
 - `wanxiang_observability.WanxiangSettings`
 - `wanxiang_observability.configure_logging`
@@ -173,6 +251,7 @@
 - `wanxiang_observability.is_secret_name`
 - `wanxiang_observability.load_settings`
 - `wanxiang_observability.now_ms`
+- `wanxiang_observability.r7_readiness`
 - `wanxiang_observability.redact_secret_values`
 - `wanxiang_observability.redact_values`
 - `wanxiang_observability.secret_key_names`
@@ -193,22 +272,40 @@
 - `wanxiang_persistence.branch_lineage_from_branches`
 - `wanxiang_persistence.create_engine_for`
 - `wanxiang_persistence.session_scope`
+- `wanxiang_runtime.AgentDecision`
+- `wanxiang_runtime.AgentHarnessProvider`
+- `wanxiang_runtime.AgentProposal`
 - `wanxiang_runtime.AuditRecord`
 - `wanxiang_runtime.BranchRepository`
+- `wanxiang_runtime.CanonicalWriteLease`
+- `wanxiang_runtime.CanonicalWriteRejected`
 - `wanxiang_runtime.CommandValidator`
 - `wanxiang_runtime.CommitAuthority`
 - `wanxiang_runtime.CommitRequest`
 - `wanxiang_runtime.CommitResult`
 - `wanxiang_runtime.DEFAULT_BRANCH_BASE_REVISION`
 - `wanxiang_runtime.DEFAULT_SCHEMA_VERSION`
+- `wanxiang_runtime.ERROR_HARNESS_FAILED`
+- `wanxiang_runtime.ERROR_INVALID_PARAMS`
+- `wanxiang_runtime.ERROR_UNKNOWN_METHOD`
 - `wanxiang_runtime.EventAppendPort`
 - `wanxiang_runtime.EventStore`
+- `wanxiang_runtime.HARNESS_PROTOCOL`
+- `wanxiang_runtime.HarnessConsequence`
+- `wanxiang_runtime.HarnessError`
+- `wanxiang_runtime.HarnessInfo`
+- `wanxiang_runtime.HarnessProtocolError`
+- `wanxiang_runtime.HarnessUnavailable`
+- `wanxiang_runtime.INVARIANTS`
 - `wanxiang_runtime.InMemoryBranchRepository`
 - `wanxiang_runtime.InMemoryCanonicalState`
 - `wanxiang_runtime.InMemoryEventStore`
 - `wanxiang_runtime.InMemorySnapshotStore`
 - `wanxiang_runtime.IsaExecutionResult`
+- `wanxiang_runtime.JsonRpcAgentHarnessProvider`
 - `wanxiang_runtime.Now`
+- `wanxiang_runtime.OfficialDeepSeekHarnessProvider`
+- `wanxiang_runtime.OfficialDshSettings`
 - `wanxiang_runtime.PLATFORM_PROTECTED_ENTITY_PREFIX`
 - `wanxiang_runtime.PromotionUseCase`
 - `wanxiang_runtime.ReplayEngine`
@@ -217,10 +314,14 @@
 - `wanxiang_runtime.SnapshotStore`
 - `wanxiang_runtime.StateDiff`
 - `wanxiang_runtime.StoredSnapshot`
+- `wanxiang_runtime.WanxiangRuntimeError`
+- `wanxiang_runtime.WorldObservation`
 - `wanxiang_runtime.apply_delta`
+- `wanxiang_runtime.authorize_structural_write`
 - `wanxiang_runtime.check_delta_invariants`
 - `wanxiang_runtime.check_entity_exists_for_delete`
 - `wanxiang_runtime.check_entity_exists_for_update`
+- `wanxiang_runtime.check_layered_delta_invariants`
 - `wanxiang_runtime.check_no_duplicate_entity`
 - `wanxiang_runtime.check_no_duplicate_relation`
 - `wanxiang_runtime.check_no_mutation_of_protected_entities`
@@ -231,6 +332,10 @@
 - `wanxiang_runtime.diff_states`
 - `wanxiang_runtime.execute_isa`
 - `wanxiang_runtime.fork_branch`
+- `wanxiang_runtime.mint_canonical_write_lease`
+- `wanxiang_runtime.parse_decision`
+- `wanxiang_runtime.proposal_payload_digest`
+- `wanxiang_runtime.require_canonical_write_lease`
 - `wanxiang_runtime.state_from_primitive`
 - `wanxiang_runtime.state_to_primitive`
 - `wanxiang_substrate.ACCESS_KEY_COMPONENT`
@@ -278,53 +383,5 @@
 - `wanxiang_substrate.ACTION_REPORT_ORDER`
 - `wanxiang_substrate.ACTION_REST`
 - `wanxiang_substrate.ACTION_SCHEDULE_APPOINTMENT`
-- `wanxiang_substrate.ACTION_SEAL`
-- `wanxiang_substrate.ACTION_SEND_LETTER`
-- `wanxiang_substrate.ACTION_SET_ACTOR_STATE`
-- `wanxiang_substrate.ACTION_SET_DEADLINE`
-- `wanxiang_substrate.ACTION_SET_MODE`
-- `wanxiang_substrate.ACTION_SET_PORTAL_STATE`
-- `wanxiang_substrate.ACTION_SET_RESOLUTION`
-- `wanxiang_substrate.ACTION_SET_SKILL_STATE`
-- `wanxiang_substrate.ACTION_SET_VISIBILITY`
-- `wanxiang_substrate.ACTION_START_SKILL`
-- `wanxiang_substrate.ACTION_TRANSFER`
-- `wanxiang_substrate.ACTION_VISIT_SICK`
-- `wanxiang_substrate.ACTOR`
-- `wanxiang_substrate.ACTOR_A`
-- `wanxiang_substrate.ACTOR_B`
-- `wanxiang_substrate.ACTOR_STATE_COMPONENT`
-- `wanxiang_substrate.ADJUDICATION_SCHEMA`
-- `wanxiang_substrate.AGENCY_SCHEMA_VERSION`
-- `wanxiang_substrate.ALICE`
-- `wanxiang_substrate.ANNOUNCEMENT_COMPONENT`
-- `wanxiang_substrate.APPOINTMENT_COMPONENT`
-- `wanxiang_substrate.APPROVERS`
-- `wanxiang_substrate.APPT_MORNING`
-- `wanxiang_substrate.ASSESSMENT_COMPONENT`
-- `wanxiang_substrate.ASSESSMENT_OUTCOMES`
-- `wanxiang_substrate.AUTHORIZED_REVIEWERS`
-- `wanxiang_substrate.AccessPolicy`
-- `wanxiang_substrate.AcousticZone`
-- `wanxiang_substrate.ActionDefinition`
-- `wanxiang_substrate.ActionRegistry`
-- `wanxiang_substrate.ActionSpace`
-- `wanxiang_substrate.ActionValidator`
-- `wanxiang_substrate.Activity`
-- `wanxiang_substrate.ActivityKind`
-- `wanxiang_substrate.ActorEvolutionState`
-- `wanxiang_substrate.ActorEvolutionTracker`
-- `wanxiang_substrate.AdapterContractError`
-- `wanxiang_substrate.Adjudication`
-- `wanxiang_substrate.AdjudicationService`
-- `wanxiang_substrate.Adjudicator`
-- `wanxiang_substrate.AdjudicatorRegistry`
-- `wanxiang_substrate.Affordance`
-- `wanxiang_substrate.AgencyError`
-- `wanxiang_substrate.AgencyQuery`
-- `wanxiang_substrate.AliasClaim`
-- `wanxiang_substrate.Appointment`
-- `wanxiang_substrate.AppointmentState`
-- `wanxiang_substrate.ArbitrationResult`
 
 Machine-readable: reports/sdk_api_baseline.json.

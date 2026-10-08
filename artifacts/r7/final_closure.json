@@ -1,0 +1,75 @@
+{
+  "schema": "wanxiang.r7.final-closure.v2",
+  "branch": "feature/r7-cordis-native",
+  "implementation_code_anchor": "8ebbc4f04a265ab4d9c380fc8da7bbabfe86ce8f",
+  "final_documentation_head_rule": "current branch HEAD must have ci=success and r7-qualification=success",
+  "phase_b_local_implementation": "COMPLETE",
+  "overall_decision": "WAITING_HUMAN",
+  "code_anchor_ci": {
+    "workflow_run": 37722944558,
+    "status": "PASS",
+    "python_passed": 1802,
+    "python_skipped": 1,
+    "postgres_passed": 4
+  },
+  "code_anchor_exact_sha_qualification": {
+    "workflow_run": 37722944544,
+    "status": "PASS",
+    "steps": 19,
+    "failed": 0,
+    "skipped": 0,
+    "artifact_id": 11526915848,
+    "cordis_host_tests": 77,
+    "sdk_ts_tests": 22
+  },
+  "gates": {
+    "A": "PASS",
+    "B": "PASS",
+    "C": "PASS",
+    "D": "PASS_BOUNDED",
+    "E": "PASS_REFERENCE",
+    "F": "PASS_INTEGRATION_CONTRACT",
+    "G": "PASS_REFERENCE",
+    "H": "PASS_REFERENCE",
+    "I": "PASS_CODE_ANCHOR_FINAL_HEAD_MUST_RERUN",
+    "J": "PASS"
+  },
+  "extended_design_closure": [
+    "profile_bundle_lock_artifact",
+    "world_bootstrap_world_handle",
+    "expanded_world_capability_gateway_world_skill",
+    "three_ledger_provenance",
+    "layered_invariants",
+    "execution_checkpoint_resume",
+    "execution_router",
+    "docker_reference_isolation",
+    "verified_capability_marketplace",
+    "paper_repository_capability_reference",
+    "experience_runtime"
+  ],
+  "intentional_future_only": [
+    "microvm_vm_fleet",
+    "distributed_scheduler",
+    "mandatory_wasm_component_abi",
+    "second_composition_host",
+    "all_hypothetical_reality_profiles"
+  ],
+  "external_or_human": [
+    {
+      "id": "v5.5-gates-62-66",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "id": "gate-78-godot",
+      "status": "EXTERNAL_BLOCKED"
+    },
+    {
+      "id": "official-dsh-live-e2e",
+      "status": "EXTERNAL_BLOCKED"
+    }
+  ],
+  "release": {
+    "v5_5_0_tag_created": false,
+    "v5_6_created": false
+  }
+}

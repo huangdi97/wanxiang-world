@@ -1,0 +1,176 @@
+{
+  "duplicates": [
+    {
+      "allowed": true,
+      "modules": [
+        "packages/research/src/wanxiang_research/generative_assets.py",
+        "packages/substrate/src/wanxiang_substrate/assets/foundry.py"
+      ],
+      "name": "AssetGenerator"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/substrate/src/wanxiang_substrate/candidates/envelope.py",
+        "packages/substrate/src/wanxiang_substrate/evolution/distillation.py"
+      ],
+      "name": "CandidateEnvelope"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/substrate/src/wanxiang_substrate/canon_graph/timeline_canon.py",
+        "packages/substrate/src/wanxiang_substrate/sources/canon.py"
+      ],
+      "name": "CanonClaim"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/foundry/src/wanxiang_foundry/candidate.py",
+        "packages/substrate/src/wanxiang_substrate/evolution/capability_growth.py"
+      ],
+      "name": "CapabilityCandidate"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/domain/src/wanxiang_domain/errors.py",
+        "packages/reality/src/wanxiang_reality/errors.py"
+      ],
+      "name": "ContractError"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/substrate/src/wanxiang_substrate/canon_graph/timeline_canon.py",
+        "packages/substrate/src/wanxiang_substrate/draft/coverage.py"
+      ],
+      "name": "CoverageReport"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/substrate/src/wanxiang_substrate/agency/policy.py",
+        "packages/substrate/src/wanxiang_substrate/population/policy.py"
+      ],
+      "name": "DeterministicPolicy"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/substrate/src/wanxiang_substrate/evidence/binding.py",
+        "packages/substrate/src/wanxiang_substrate/sources/model.py"
+      ],
+      "name": "EvidenceLink"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "apps/api/src/wanxiang_api/strategy_workbench_service.py",
+        "packages/substrate/src/wanxiang_substrate/world_lab/registry_models.py"
+      ],
+      "name": "ExperimentDefinition"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/research/src/wanxiang_research/results.py",
+        "packages/substrate/src/wanxiang_substrate/world_lab/registry.py"
+      ],
+      "name": "ExperimentRegistry"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/substrate/src/wanxiang_substrate/authoring/fusion.py",
+        "packages/substrate/src/wanxiang_substrate/reality/fusion.py"
+      ],
+      "name": "FusionResult"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/substrate/src/wanxiang_substrate/authoring/scenario_engine.py",
+        "packages/substrate/src/wanxiang_substrate/rc001/instantiate.py"
+      ],
+      "name": "InitialSnapshot"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/substrate/src/wanxiang_substrate/observation/model.py",
+        "packages/substrate/src/wanxiang_substrate/research/adapters.py"
+      ],
+      "name": "Observation"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/research/src/wanxiang_research/reality_stream.py",
+        "packages/substrate/src/wanxiang_substrate/reality/fusion.py"
+      ],
+      "name": "ObservationFusion"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/substrate/src/wanxiang_substrate/agency/model.py",
+        "packages/substrate/src/wanxiang_substrate/cosim/campaign.py"
+      ],
+      "name": "Order"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/substrate/src/wanxiang_substrate/ledger/model.py",
+        "packages/substrate/src/wanxiang_substrate/review/decisions.py"
+      ],
+      "name": "ReviewDecision"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/substrate/src/wanxiang_substrate/authoring/fusion.py",
+        "packages/substrate/src/wanxiang_substrate/rights/gate.py"
+      ],
+      "name": "RightsDecision"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/domain/src/wanxiang_domain/errors.py",
+        "packages/substrate/src/wanxiang_substrate/sources/errors.py"
+      ],
+      "name": "RightsDenied"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/domain/src/wanxiang_domain/rights.py",
+        "packages/substrate/src/wanxiang_substrate/sources/model.py"
+      ],
+      "name": "RightsEnvelope"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/substrate/src/wanxiang_substrate/authoring/scenario_engine.py",
+        "packages/substrate/src/wanxiang_substrate/host/hypervisor.py",
+        "packages/substrate/src/wanxiang_substrate/playable/models.py"
+      ],
+      "name": "RuntimeProfile"
+    },
+    {
+      "allowed": true,
+      "modules": [
+        "packages/research/src/wanxiang_research/sim_federation.py",
+        "packages/substrate/src/wanxiang_substrate/reality/experiment.py"
+      ],
+      "name": "ValidityEnvelope"
+    }
+  ],
+  "scan": "G54D duplicate abstraction scan",
+  "unallowed": [],
+  "verdict": "PASS"
+}

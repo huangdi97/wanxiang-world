@@ -1,0 +1,31 @@
+{
+  "package": "M79-M84",
+  "status": "READY_TO_RESUME",
+  "missing_inputs": [],
+  "invalid_inputs": [],
+  "source_validation": {
+    "second_book": {
+      "status": "ready",
+      "reason": "external_regular_file"
+    },
+    "gedcom": {
+      "status": "ready",
+      "reason": "external_regular_file"
+    }
+  },
+  "private_local_sources": {
+    "second_book": true,
+    "gedcom": true,
+    "copied_to_git": false,
+    "modified": false
+  },
+  "resume": {
+    "M79": "G82A_SOURCE_GATE_READY",
+    "M82": "G85A_SOURCE_GATE_READY",
+    "completed_independent_work": [
+      "M80",
+      "M81",
+      "M83"
+    ]
+  }
+}

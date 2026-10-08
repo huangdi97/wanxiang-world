@@ -1,10 +1,23 @@
 """Reality bridge substrate (G07A-G07E)."""
 
+from wanxiang_substrate.reality.benchmark import (
+    BehaviorTrace,
+    PressureBehaviorBenchmark,
+    PressureBenchmarkReport,
+)
 from wanxiang_substrate.reality.bridge import (
     FakeSensorAdapter,
     ManualReportAdapter,
     ObservationAdapter,
     RealityBridge,
+)
+from wanxiang_substrate.reality.canon_attractor import (
+    CanonAttractorAssessment,
+    CanonAttractorPolicy,
+    CanonAttractorProposal,
+    CanonConstraint,
+    CanonConstraintKind,
+    CanonDistance,
 )
 from wanxiang_substrate.reality.challenge import (
     ChallengeCompiler,
@@ -12,10 +25,18 @@ from wanxiang_substrate.reality.challenge import (
     DefaultOpportunityDetector,
     Opportunity,
     OpportunityDetector,
+    OpportunityLifecycle,
+    OpportunityStatus,
 )
 from wanxiang_substrate.reality.director import (
+    DIRECTOR_MODES,
+    DirectorAudit,
+    DirectorDecision,
+    DirectorMode,
+    DirectorPolicy,
     DirectorProposal,
     DirectorReview,
+    DirectorTransition,
     NarrativeDirector,
     NarrativeSignal,
     PerformanceDirector,
@@ -42,22 +63,60 @@ from wanxiang_substrate.reality.fusion import (
     FusionResult,
     ObservationFusion,
 )
+from wanxiang_substrate.reality.intervention import (
+    ExperimentInterventionRunner,
+    ExperimentSetup,
+    Intervention,
+    InterventionBranch,
+    InterventionKind,
+    InterventionTrigger,
+    TriggerKind,
+)
 from wanxiang_substrate.reality.model import (
     NormalizedReading,
     PhysicalObservation,
+)
+from wanxiang_substrate.reality.pressure import (
+    PRESSURE_DIMENSIONS,
+    PRESSURE_PROFILE_SCHEMA_VERSION,
+    PressureProfile,
+)
+from wanxiang_substrate.reality.quest import (
+    CommittedStateEvidence,
+    QuestObjective,
+    QuestObjectiveProgress,
+    QuestProjection,
+    QuestProjectionAdapter,
+    QuestProjectionError,
+    QuestStatus,
 )
 
 __all__ = [
     "ChallengeCompiler",
     "ChallengeSpec",
     "ChallengeValidationError",
+    "CanonAttractorAssessment",
+    "CanonAttractorPolicy",
+    "CanonAttractorProposal",
+    "CanonConstraint",
+    "CanonConstraintKind",
+    "CanonDistance",
+    "BehaviorTrace",
+    "DIRECTOR_MODES",
     "DefaultOpportunityDetector",
+    "DirectorAudit",
+    "DirectorDecision",
     "DirectorError",
+    "DirectorMode",
+    "DirectorPolicy",
     "DirectorProposal",
     "DirectorReview",
+    "DirectorTransition",
     "ExperimentError",
+    "ExperimentInterventionRunner",
     "ExperimentRuntime",
     "ExperimentSpec",
+    "ExperimentSetup",
     "FakeSensorAdapter",
     "Finding",
     "FusionOutcome",
@@ -65,6 +124,10 @@ __all__ = [
     "FusionPolicyError",
     "FusionResult",
     "InvalidObservation",
+    "Intervention",
+    "InterventionBranch",
+    "InterventionKind",
+    "InterventionTrigger",
     "ManualReportAdapter",
     "NarrativeDirector",
     "NarrativeSignal",
@@ -73,11 +136,26 @@ __all__ = [
     "ObservationFusion",
     "Opportunity",
     "OpportunityDetector",
+    "OpportunityLifecycle",
+    "OpportunityStatus",
     "PerformanceDirector",
     "PhysicalObservation",
+    "PRESSURE_DIMENSIONS",
+    "PRESSURE_PROFILE_SCHEMA_VERSION",
+    "PressureProfile",
+    "PressureBehaviorBenchmark",
+    "PressureBenchmarkReport",
+    "CommittedStateEvidence",
+    "QuestObjective",
+    "QuestObjectiveProgress",
+    "QuestProjection",
+    "QuestProjectionAdapter",
+    "QuestProjectionError",
+    "QuestStatus",
     "RealityBridge",
     "RealityError",
     "RunMetric",
+    "TriggerKind",
     "ValidityEnvelope",
     "WorldDirector",
 ]

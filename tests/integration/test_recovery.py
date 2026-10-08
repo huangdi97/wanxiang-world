@@ -7,6 +7,7 @@ from collections.abc import Mapping
 
 import pytest
 from tests.conftest import cleanup_db_file, fresh_db_path, make_world_runtime
+from tests.helpers.leases import lease_for
 from wanxiang_application.world_runtime import WorldRuntime
 from wanxiang_domain.command import CommandEnvelope
 from wanxiang_domain.delta import EntityCreate, ProposedWorldDelta
@@ -28,6 +29,7 @@ from wanxiang_substrate.recovery.recovery import RecoveryService
 from wanxiang_substrate.temporal.components import CLOCK_ENTITY, clock_component
 
 INSTANCE = WorldInstanceId("wld_rec")
+LEASE_BR_A = lease_for(INSTANCE, BranchId("br_a"))
 TOWN = EntityId("town")
 
 
@@ -129,7 +131,14 @@ def test_checkpoint_roundtrip_and_corruption_policy() -> None:
             operations=(EntityCreate(entity_id=TOWN, entity_type="spatial.place", components=()),)
         ),
     )
-    meta = checkpoint.save(INSTANCE.value, "br1", state.revision.value, state, "snap_1")
+    meta = checkpoint.save(
+        INSTANCE.value,
+        "br1",
+        state.revision.value,
+        state,
+        "snap_1",
+        lease=lease_for(INSTANCE, BranchId("br1")),
+    )
     assert isinstance(meta, CheckpointMeta)
     restored = checkpoint.restore(INSTANCE.value)
     assert restored.semantic_hash() == state.semantic_hash()
@@ -137,7 +146,14 @@ def test_checkpoint_roundtrip_and_corruption_policy() -> None:
         checkpoint.restore(WorldInstanceId("wld_missing").value)
     # Revision mismatch is a corrupt checkpoint.
     with pytest.raises(CorruptSnapshot):
-        checkpoint.save(INSTANCE.value, "br1", state.revision.value + 1, state, "snap_bad")
+        checkpoint.save(
+            INSTANCE.value,
+            "br1",
+            state.revision.value + 1,
+            state,
+            "snap_bad",
+            lease=lease_for(INSTANCE, BranchId("br1")),
+        )
 
 
 @pytest.mark.unit
@@ -196,11 +212,13 @@ def test_checkpoint_store_adapter_over_single_snapshot_port() -> None:
     # latest is per instance and picks the highest revision
     state_a1 = make_state(INSTANCE, BranchId("br_a"), 1)
     state_a2 = make_state(INSTANCE, BranchId("br_a"), 2)
-    store.save(CheckpointMeta(INSTANCE.value, "br_a", 1, "snap_a1"), state_a1)
-    store.save(CheckpointMeta(INSTANCE.value, "br_a", 2, "snap_a2"), state_a2)
+    store.save(CheckpointMeta(INSTANCE.value, "br_a", 1, "snap_a1"), state_a1, lease=LEASE_BR_A)
+    store.save(CheckpointMeta(INSTANCE.value, "br_a", 2, "snap_a2"), state_a2, lease=LEASE_BR_A)
     other = WorldInstanceId("wld_other")
     store.save(
-        CheckpointMeta(other.value, "br_b", 5, "snap_b5"), make_state(other, BranchId("br_b"), 5)
+        CheckpointMeta(other.value, "br_b", 5, "snap_b5"),
+        make_state(other, BranchId("br_b"), 5),
+        lease=lease_for(other, BranchId("br_b")),
     )
     assert store.latest(INSTANCE.value) == (2, "snap_a2")
     assert store.latest(other.value) == (5, "snap_b5")
@@ -230,7 +248,14 @@ def test_deprecated_in_memory_snapshot_store_alias_still_works() -> None:
             operations=(EntityCreate(entity_id=TOWN, entity_type="spatial.place", components=()),)
         ),
     )
-    checkpoint.save(INSTANCE.value, "br1", state.revision.value, state, "snap_alias")
+    checkpoint.save(
+        INSTANCE.value,
+        "br1",
+        state.revision.value,
+        state,
+        "snap_alias",
+        lease=lease_for(INSTANCE, BranchId("br1")),
+    )
     assert checkpoint.restore(INSTANCE.value).semantic_hash() == state.semantic_hash()
 
 

@@ -1,6 +1,16 @@
 """Wanxiang application layer: use cases and orchestration."""
 
+from wanxiang_application.agent_harness_loop import HarnessStepResult, HarnessWorldLoop
 from wanxiang_application.environment import WorldEnvironment
+from wanxiang_application.gateway import (
+    AgentSessionIdentity,
+    GatewayHistoryItem,
+    GatewayObservation,
+    GatewayProposal,
+    GovernedOperationRequest,
+    WorldCapabilityGateway,
+    WorldSkill,
+)
 from wanxiang_application.ports import AuditSink, PersistenceBundle, WorldInstanceStore
 from wanxiang_application.synthetic_microworld import (
     ACTION_CREATE_ENTITY,
@@ -8,6 +18,7 @@ from wanxiang_application.synthetic_microworld import (
     ACTION_TRANSFER_RESOURCE,
     register_synthetic_resolvers,
 )
+from wanxiang_application.world_handle import WorldHandle, WorldHandleMetadata
 from wanxiang_application.world_runtime import (
     CreateWorldResult,
     RestoreResult,
@@ -21,12 +32,23 @@ __all__ = [
     "ACTION_CREATE_ENTITY",
     "ACTION_SET_STATUS",
     "ACTION_TRANSFER_RESOURCE",
+    "AgentSessionIdentity",
     "AuditSink",
+    "GatewayHistoryItem",
+    "GatewayObservation",
+    "GatewayProposal",
+    "HarnessStepResult",
+    "HarnessWorldLoop",
+    "GovernedOperationRequest",
     "CreateWorldResult",
     "PersistenceBundle",
     "RestoreResult",
     "SubmitCommandResult",
+    "WorldCapabilityGateway",
     "WorldEnvironment",
+    "WorldHandle",
+    "WorldHandleMetadata",
+    "WorldSkill",
     "WorldInstanceStore",
     "WorldRuntime",
     "register_synthetic_resolvers",

@@ -1,0 +1,32 @@
+{
+  "schema": "wanxiang.r7.paper-capability-source.v1",
+  "paper": {
+    "title": "Point counts of abelian varieties over finite fields determining their zeta function",
+    "authors": [
+      "Shiva Chidambaram",
+      "Timo Keller"
+    ],
+    "arxiv": "2606.28989v2",
+    "url": "https://arxiv.org/abs/2606.28989",
+    "date": "2026-07-14",
+    "capture": "citation metadata only; paper text/PDF is not vendored"
+  },
+  "repository": {
+    "url": "https://github.com/TimoKellerMath/PointCountsAbelianVarieties",
+    "commit": "f9fcaf80b059378c6130532ca9a4ce7b1b18f47b",
+    "file": "optimality_search.py",
+    "git_blob_sha": "5c502b85161c3aeeda1efd352be3b83ce4b5d6df",
+    "license": "MIT"
+  },
+  "reference_scope": {
+    "method": "g=3 q-Weil polynomial exhaustive search / first-N point-count collision study",
+    "bounded_cases": [
+      "q=2,N=2",
+      "q=3,N=2"
+    ],
+    "no_claims": [
+      "This fixture does not reproduce the whole paper.",
+      "This fixture does not promote a scientific result to World truth."
+    ]
+  }
+}

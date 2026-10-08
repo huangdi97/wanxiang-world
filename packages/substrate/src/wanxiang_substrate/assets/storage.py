@@ -90,6 +90,41 @@ class LocalObjectStore:
             path.unlink()
 
 
+class InMemoryObjectStore:
+    """Deterministic reference ObjectStore for bounded no-API composition."""
+
+    def __init__(self) -> None:
+        self._rows: dict[str, tuple[bytes, AssetRef]] = {}
+
+    def put(self, blob: bytes, *, content_type: str, rights: str = "public") -> AssetRef:
+        content_hash = hashlib.sha256(blob).hexdigest()
+        existing = self._rows.get(content_hash)
+        if existing is not None:
+            return existing[1]
+        ref = AssetRef(
+            asset_id=f"memory:{content_hash[:16]}",
+            content_hash=content_hash,
+            size=len(blob),
+            content_type=content_type,
+            rights=rights,
+        )
+        self._rows[content_hash] = (bytes(blob), ref)
+        return ref
+
+    def get(self, ref: AssetRef) -> bytes:
+        row = self._rows.get(ref.content_hash)
+        if row is None or hashlib.sha256(row[0]).hexdigest() != ref.content_hash:
+            raise AssetNotFound(f"blob {ref.content_hash[:12]} missing")
+        return row[0]
+
+    def stat(self, ref: AssetRef) -> AssetRef:
+        self.get(ref)
+        return ref
+
+    def delete(self, ref: AssetRef) -> None:
+        self._rows.pop(ref.content_hash, None)
+
+
 def require_delivery_rights(ref: AssetRef, actor_rights: frozenset[str]) -> None:
     """Rights-filtered delivery: denied rights prevent blob delivery."""
     if ref.rights != "public" and ref.rights not in actor_rights:

@@ -1,0 +1,33 @@
+{
+  "schema": "wanxiang.v5.5.m100.stable-release-block.v1",
+  "goal": "G103G",
+  "conclusion": "LOCKED",
+  "candidate_sha": "835787f627fad60bb7c8c59ece3afe7cce6a731b",
+  "gate_80": "LOCKED",
+  "gate_79": "LOCKED",
+  "blocking_gates": {
+    "62-66": "USER_INPUT_REQUIRED",
+    "78": "EXTERNAL_BLOCKED",
+    "79": "LOCKED",
+    "80": "LOCKED"
+  },
+  "local_v5_5_0_tag": "ABSENT",
+  "remote_v5_5_0_tag": "EXTERNAL_BLOCKED",
+  "release_actions": {
+    "create_annotated_tag": "NOT_ATTEMPTED",
+    "push_tag": "NOT_ATTEMPTED",
+    "create_github_release": "NOT_ATTEMPTED"
+  },
+  "reason": "Stable tag and Release actions are forbidden while Gate 80 predicate is false.",
+  "preserved": [
+    "v5.4.0 tag and release",
+    "v5.5.0-rc1 tag and prerelease",
+    "historical NOT_ACCEPTED evidence",
+    "all failed and EXTERNAL_BLOCKED evidence"
+  ],
+  "reproduce": [
+    "git rev-parse HEAD",
+    "git show-ref --verify --quiet refs/tags/v5.5.0",
+    "Get-Content reports/V55_STABLE_ACCEPTANCE_MATRIX.md"
+  ]
+}

@@ -1,5 +1,340 @@
 # Changelog ? Wanxiang Engineering Program
 
+## 2026-08-29 - M100 v5.5 Stable Certification (locked)
+
+- Completed G103A–G103I evidence collection: evidence-derived aggregate,
+  full local regression, semantic/safety requalification, exact-SHA clean
+  clone, remote/CI boundary probe, release notes, and post-release stop record.
+- Kept Gates 62–66 `USER_INPUT_REQUIRED`, Gate 78 `EXTERNAL_BLOCKED`, Gate 79
+  `LOCKED`, and Gate 80 `LOCKED`; no stable tag, push, or GitHub Release was
+  attempted.
+- Preserved Prompt Genesis, bounded long-horizon/World Lab, and emergence as
+  `EXPERIMENTAL`/`BOUNDED`; retained live PostgreSQL, Godot/physical/visual,
+  pnpm/TypeScript, and remote CI boundaries without relabeling them as PASS.
+- Preserved v5.4.0, v5.5.0-rc1, historical `NOT_ACCEPTED` evidence, failed
+  attempt records, and the no-v5.6/no-training boundary.
+
+## 2026-08-28 - V55-FINAL-CLOSURE-R1
+
+- Added the explicit Gate 59 reconciliation report and automated
+  latest-authoritative-qualification lineage selector.
+- Completed post-release verification from an isolated clone at closure commit
+  `d98d90c`: documented all-workspace install, four smoke tests, and clean-room
+  certification 7/7; required Actions run `33135588700` is green.
+- Kept the M84 current first-book `ACCEPTED` qualification distinct from the
+  preserved 2026-08-25 historical `NOT_ACCEPTED` record.
+- Preserved v5.4 stable and v5.5.0-rc1 tags/releases; no v5.6 or training.
+
+## 2026-08-27 - G97I Final Release
+
+- Published annotated `v5.5.0-rc1` and the GitHub prerelease after Gates 1–59
+  were accepted and Gate 60 was unlocked.
+- Verified tag target `50443c8f7cc58fc4661af2a7d993dc7ec6144e11` and Actions run
+  `33085230406` with all six required jobs successful.
+- Preserved the v5.4 stable tag, historical real-book NOT_ACCEPTED report, and
+  all experimental/NOT_PROVEN/EXTERNAL_BLOCKED boundaries; no v5.6 or training.
+
+## 2026-08-27 - G97I Final Delivery Preflight
+
+- Pushed `feature/v5.5-playable-persistent-evolving` without force and verified
+  remote SHA equality at `545b582efc4719c5acc2efa07c27a603f4c5c467`.
+- Verified Actions run `33084155295`: all six required jobs completed
+  successfully; Gates 56/57 are accepted and Gate 60 is unlocked.
+- rc1 tag and GitHub prerelease remain pending until the final publication
+  command; v5.4 stable history, the historical real-book report, and all
+  no-v5.6/no-training boundaries remain preserved.
+
+## 2026-08-27 - G97I Evidence Reconciliation
+
+- Reconciled the current M84 same-source first-book Source → Living World
+  acceptance with the preserved 2026-08-25 pre-repair NOT_ACCEPTED report.
+- Accepted Gates 1, 32, and 59 with current profile, source/canon immutability,
+  and evidence-boundary qualification artifacts.
+- Kept remote SHA/Actions Gates 56/57 pending and Gate 60 locked until real
+  delivery verification; did not alter v5.4 stable history or train a model.
+
+## 2026-08-27 - G97J STOP
+
+- Stopped the v5.5 sequence with the release predicate honestly
+  `IN_PROGRESS / NOT_ACCEPTED`; no rc1 tag or GitHub prerelease was created.
+- Preserved the original real-book NOT_ACCEPTED evidence and recorded the
+  pending source, remote/Actions, and final-boundary blockers.
+- Did not start v5.6, train a model, upload private source, or bypass any gate.
+
+## 2026-08-27 - G97I Final Evidence & Status
+
+- Added machine-readable final evidence separating implemented, experimental,
+  and not-proven boundaries.
+- Preserved the original real-book NOT_ACCEPTED record, pending Gates 1/32/
+  56/57/59, locked Gate 60, and the no-rc1/no-v5.6/no-training decision.
+
+## 2026-08-27 - G97G Clean Clone + GitHub CI
+
+- Qualified a clean clone through locked Python/pnpm installation, migration,
+  replay/restore, full Python test domains, TypeScript checks, Studio/Playable
+  smokes, SDK/OpenAPI/wxpack, kernel, and architecture gates.
+- Updated the stale TypeScript OpenAPI operation-count expectation from 45 to
+  the current exported 62-operation contract.
+- Kept remote SHA/Actions `PENDING` because the authorized feature-branch push
+  was rejected by the execution environment's external-write safety review;
+  no workaround, release tag, v5.6 work, or model training was performed.
+
+## 2026-08-27 - G97F Security / Safety / Cost / Storage
+
+- Added a real API/Workshop/Playable private-UGC security qualification with
+  server-side owner/guest privacy, serialized-response redaction, typed source
+  injection rejection, and untrusted executable-package denial.
+- Enforced configured archive decompression-ratio limits and rejected negative
+  resource-budget consumption; API 413/429 and atomic cost-budget evidence are
+  recorded.
+- Accepted Gate 52 while preserving the original real-book NOT_ACCEPTED
+  boundary; no private source, secret, model training, v5.6 work, or v5.5 rc1
+  release was performed.
+
+## 2026-08-27 - G97E Experience Product E2E
+
+- Added a real Chromium/Playwright browser qualification over the served
+  Studio UI and migrated SQLite WorldRuntime.
+- Covered Studio authoring/build/preview/publish, Workshop private profile,
+  Plaza privacy, Character/Play/StateDiff/Leave/Continue, and same-instance
+  continuity through the browser/API product surface.
+- Accepted Gate 51 while preserving the original real-book NOT_ACCEPTED
+  boundary; CI installs the locked browser runtime and no model training or
+  v5.6 work was started.
+
+## 2026-08-27 - G97D Parallel Worldline Certification
+
+- Qualified four concurrent registry-backed worldlines through the same
+  source-created WorldPackage → Preview → PlayableService → SQLite
+  Commit Authority → Snapshot/Replay chain.
+- Recorded two deterministic explicit multi-provider policies across two seeds,
+  complete hash-verifiable RunArtifacts, proposal-only provider evidence, and
+  aligned five-plane comparator differences.
+- Accepted Gate 41 while preserving the original real-book NOT_ACCEPTED
+  boundary; no v5.5 rc1, v5.6 work, model training, or private-source export.
+
+## 2026-08-27 - G97C Non-literary Long-run Certification
+
+- Qualified a public GEDCOM family world through the shared
+  OneClickAuthoring → WorldPackage → Preview → PlayableService → SQLite
+  runtime substrate for 30 accelerated days.
+- Verified the same checkpoint/recovery, replay, branch isolation, LOD,
+  compaction, cost, and storage controls without a literary-specific runtime
+  path; preserved the original real-book NOT_ACCEPTED boundary.
+
+## 2026-08-27 - G97B Literary 30d/90d Certification
+
+- Added explicit required-horizon semantics so a selected run must provide its
+  declared 24h/7d/30d/90d samples before it can qualify.
+- Qualified a source-created literary world through the existing
+  OneClickAuthoring → WorldPackage → Preview → PlayableService → real SQLite
+  Commit Authority chain for 9,000 accelerated world ticks, with checkpoint,
+  recovery, replay, branch isolation, compaction, LOD, cost/storage, and
+  actor/relationship projection-drift evidence.
+- Accepted Gate 24 while preserving the original real-book NOT_ACCEPTED
+  evidence and the remaining M94 release gates; no v5.5 rc1 or v5.6 work was
+  started.
+
+## 2026-08-27 - G97A Certification Matrix Freeze
+
+- Froze the 60-gate v5.5 certification matrix with explicit pending, inherited,
+  accepted, and locked states and preserved the all-gates release condition.
+- Recorded the remaining evidence boundaries without lowering thresholds or
+  converting missing historical artifacts into acceptance.
+
+## 2026-08-27 - G96H M93 Provider Bridge Qualification
+
+- Qualified the existing PlayableService → Preview → SQLite WorldRuntime
+  chain with the reference physical and visual providers.
+- Added a multi-perspective smoke preserving actor-specific visibility,
+  proposal/projection-only output, replay equality, and unchanged reality.
+
+## 2026-08-27 - G96G Projection/Reality Consistency
+
+- Added versioned consistency results for visual projections and physical
+  resolutions, including provenance, revision, state-hash, and reference
+  divergence checks.
+- Added proposal-only reconciliation actions; stale or divergent provider
+  output carries an empty `ProposedWorldDelta` and cannot become world fact.
+
+## 2026-08-27 - G96F External Engine Adapter Audit
+
+- Added typed external-engine capability discovery with explicit
+  `EXTERNAL_BLOCKED` semantics and a discovery-only blocked adapter.
+- Preserved the no-write boundary and documented that no Godot/Phaser runtime
+  E2E is claimed without a provisioned external environment.
+
+## 2026-08-27 - G96E Reference Visual Projection Provider
+
+- Added a local non-generative structured-scene adapter with actor views,
+  snapshot/event provenance, sanitized objects, frame refs, and hashes.
+- Added a fresh SQLite product-chain projection proof with canonical reality
+  unchanged and no renderer/GPU/model dependency.
+
+## 2026-08-27 - G96D Reference Physical Provider
+
+- Added a CI-safe deterministic navigation/collision adapter with stale-input
+  rejection and typed proposal-only physical updates.
+- Added evidence/replay hashes and a fresh SQLite product-chain boundary probe;
+  no provider call can mutate canonical reality.
+
+## 2026-08-27 - G96C Multi-perspective Projection
+
+- Added deterministic actor-scoped audience, rights, radius, and line-of-sight
+  filtering with sanitized frame/event references.
+- Added Alice/Bob SQLite product-chain evidence proving private knowledge stays
+  isolated and projection cannot mutate canonical reality.
+
+## 2026-08-27 - G96B VisualWorldProvider ABI
+
+- Added immutable scene state, actor perspective, asset/event references, and
+  sanitized projection-frame contracts with schema and projection-hash
+  verification.
+- Added a visual provider health/projection protocol and SQLite product-chain
+  evidence showing projection output cannot mutate canonical reality.
+
+## 2026-08-27 - G96A PhysicalWorldProvider ABI
+
+- Added the versioned physical provider boundary: immutable read snapshots,
+  deterministic simulation requests, typed proposal-only resolutions with
+  evidence/replay hashes, and explicit health/version capabilities.
+- Contract and real SQLite runtime evidence prove the provider surface cannot
+  mutate canonical state; reference physics, visual projection, and external
+  engine integration remain separate follow-up Goals.
+
+## 2026-08-27 - G95H M92 Lab Qualification
+
+- Added the M92 cross-artifact qualification over the existing World Lab:
+  four completed literary batch worldlines, explicit intervention fork/resume,
+  five-plane trajectory/cost comparison, and sanitized hash-verifiable
+  WorldRunArtifact evidence.
+- Qualified the real private-source WorldPackage → PlayableService → SQLite
+  product chain without adding a canonical state, event store, branch owner,
+  or Commit Authority. The exported qualification omits private source
+  payloads; M92 is PASS for laboratory scope while the separate parallel
+  SQLite Gate 41 remains pending.
+
+## 2026-08-27 - G95G ValidationProfile v1
+
+- Added schema-versioned independent V0-V7 ValidationProfile, ValidationCheck,
+  ValidationReport, and ValidationStack contracts with explicit mapping to
+  existing Worldness dimensions for traceability only.
+- Missing evidence is recorded as `unknown`; report acceptance requires every
+  required level to be explicitly `pass`, so Worldness references cannot create
+  scientific-validation success. API/export reports contain sanitized refs and
+  numeric measurements without private source content.
+- Qualified the real private-source authoring → WorldPackage → Preview/Living
+  Instance → SQLite chain. V7 external calibration remains UNKNOWN by design;
+  Gate 44 is accepted as a semantics/implementation gate while the report and
+  v5.5 release remain NOT_ACCEPTED. Gate 41 remains pending.
+
+## 2026-08-27 - G95F Worldline Comparator
+
+- Added versioned sanitized trajectory measurements and a read-only comparator
+  aligned by shared input and complete Actor/Relation/Institution/Macro/Cost
+  metric keys at each tick.
+- Added all-key delta summaries plus missing/extra metric qualification and
+  API/visual numeric-series reporting; no single metric can be cherry-picked
+  and no comparator path mutates runtime or canonical state.
+- Qualified baseline/candidate artifacts and replay equality on the real
+  private-source WorldPackage → SQLite chain. Gate 43 is accepted; Gate 41
+  remains pending.
+
+## 2026-08-27 - G95E Multi-provider / Mixed-population
+
+- Added schema-versioned homogeneous, round-robin, and explicit provider
+  assignment policies with deterministic same-input mixed-population runs.
+- Reused the existing ProviderProposal boundary with strict provider identity,
+  replay-safety, private-source, source-reference, and proposal-only checks.
+- Recorded provider activation through RuntimeControlLedger and qualified two
+  private-safe reference providers across four population members on the real
+  private-source WorldPackage → PlayableService → SQLite chain; no provider
+  output wrote canonical state. Gate 42 is accepted; Gate 41 remains pending.
+
+## 2026-08-27 - G95D Batch Worldlines
+
+- Added deterministic registry-backed seed/parameter batch queueing with
+  bounded worker claims, terminal-run checkpoint cursors, explicit in-flight
+  recovery, and all-row metric aggregation.
+- Qualified four real worldlines from the same private rights-approved source
+  through WorldPackage → PlayableService → SQLite Runtime, retaining per-run
+  snapshot/RunArtifact/replay refs without source bytes.
+- The real SQLite qualification is serial to avoid parallel Alembic/SQLite
+  initialization hazards; the unit test proves the parallelism cap. Gate 41
+  remains pending; G95D is PASS and committed as `g95d: Batch Worldlines`.
+
+## 2026-08-27 - G95C Fork / Intervention Runner
+
+- Extended the existing runtime-backed intervention branch evidence with
+  explicit snapshot-revision and committed-event fork selection, parent-head
+  hashes, fork event sequences, and runtime snapshot references.
+- Added immutable `ForkProvenance`, schema-versioned append-only
+  `InterventionLedger`, and child-only replay-verified resume records. The
+  intervention remains a proposal and cannot write Canonical World State.
+- Qualified event/snapshot forks and parent isolation through the real private
+  rights-approved source → WorldPackage → Preview → PlayableService → SQLite
+  chain. Gate 40 is accepted; G95D-G97J and M92-M94 remain pending; v5.5
+  remains NOT_ACCEPTED.
+
+## 2026-08-27 - G95A WorldRunArtifact v1
+
+- Added immutable, schema-versioned WorldRunArtifact evidence over the
+  existing package/preview/playable/SQLite runtime chain.
+- Added canonical semantic hashing, round-trip deserialization, tamper
+  detection, and strict rejection of raw private source fields/secrets.
+- G95A passed full quality: 1389 passed, one documented PostgreSQL
+  EXTERNAL_BLOCKED skip, two warnings; checkpoint g95a: WorldRunArtifact v1.
+- Gate 38 is accepted; G95B-G97J and the remaining M92-M94 gates remain
+  pending. v5.5 remains NOT_ACCEPTED.
+
+## 2026-08-27 - G95B Experiment Registry
+
+- Added versioned ExperimentDefinition and ExperimentRun metadata with
+  owner/rights/provider/parameter/run/artifact refs.
+- Added atomic worker claim, revision-guarded writes, completion/failure,
+  in-flight recovery, and explicit registry snapshot round-trip.
+- G95B passed full quality with the documented PostgreSQL EXTERNAL_BLOCKED
+  profile; Gate 39 is accepted. G95C-G97J remain pending.
+
+## 2026-08-26 — M84 stable certification held at source-of-truth blocker
+
+- Fixed cross-platform deterministic fixture generation by writing the kernel
+  freeze and lineage fixtures with canonical LF newlines; the fix passed local
+  and GitHub Actions gates.
+- Completed the final GitHub clean-clone install, migration, clean-room,
+  CLI/API/Studio, Python, TypeScript, rights, and source-safety evidence.
+- Kept the original 2026-08-25 first-real-book report unchanged as
+  `NOT_ACCEPTED`: the rights-approved diagnostic still has zero candidates and
+  zero coverage. The accepted second EPUB and public historical GEDCOM do not
+  replace that required first-source acceptance.
+- No `v5.4.0` stable tag or Release was created; no v5.5 work or model training
+  was started. See `reports/M84_STABLE_BLOCKER.md`.
+
+## 2026-08-26 - v5.5 execution package and G88A baseline
+
+- Added the complete v5.5 M85-M94 execution package with 82 executable goals,
+  10 milestone gates, the ordered Codex prompt, and the all-in-one master
+  template.
+- Created `feature/v5.5-playable-persistent-evolving` from the v5.4.0 Stable
+  post-release verification commit.
+- Re-ran the current baseline: architecture conformance PASS; ruff, format,
+  pyright and the full Python suite PASS (`1219 passed, 1 skipped`; local
+  PostgreSQL remains `EXTERNAL_BLOCKED`).
+- No v5.4.0 tag was moved, no model was trained, and no v5.6 work started.
+
+## 2026-08-25 ? M79 second real-book qualification
+
+- Generic binary EPUB ingestion now preserves raw-byte hashing through the
+  CLI/API/Studio source path and handles namespaced and unnamespaced EPUB
+  container/OPF/spine XML.
+- EPUB chapter/paragraph locators retain spine/href provenance; the existing
+  bounded semantic distillation service remains the sole candidate producer.
+- A private second real-book run completed WorldPackage, Preview, Worldness,
+  Living Instance, Commit/Replay and branch-isolation evidence. Public
+  evidence contains no private path, digest, or source text.
+- M79 is accepted; M82 remains blocked only by the missing real GEDCOM input.
+  No stable v5.4.0 tag, v5.5 work, or model training was started.
+
 ## 2026-08-16 ? GitHub public delivery (v5.3.0-rc1)
 
 - Published `huangdi97/wanxiang-world` PUBLIC (origin remote, master pushed,
@@ -1389,3 +1724,773 @@
   routes=17 ts=5 py=1176; architecture PASS; kernel_guard 0 violations.
 - Final certification: V5_2_PRODUCTION_PASS (RED_CHAMBER_REAL EXTERNAL_BLOCKED).
   Tag `m42-v5.2-production`. No push/deploy; v5.3 not started.
+
+## 2026-08-25 — M57 World Compiler / Package / Preview
+
+- Added the revision-pinned `WorldDraft` compiler boundary and formal world
+  package assembly/validation.
+- Added deterministic incremental rebuild planning and isolated `preview://`
+  installs with package hash checks.
+- Added a reference preview runtime that reuses WorldHost and the existing
+  Commit Authority; completion gaps remain non-canon metadata and block publish.
+- M57 G60A-G60H qualified: targeted tests, Ruff, Pyright, and architecture guard
+  passed. Real copyrighted/private sources and optional providers remain out of
+  Git and out of this reference qualification.
+
+## 2026-08-25 — M58 Authoring Studio / API / CLI
+
+- Added one deterministic, no-API AuthoringService shared by direct calls, the
+  `/studio` API, and `wxworld reference` CLI.
+- Added source registration, checkpointed start/cancel/resume, candidate review,
+  WorldDraft/package compilation, and isolated preview routes without adding a
+  second commit path.
+- Qualified G61A-G61H with 19 targeted tests, OpenAPI/SDK baseline refresh,
+  Ruff, Pyright, and architecture guard. Missing OCR capability remains an
+  explicit `OCR_REQUIRED` failure; private/copyrighted source bytes stay out of
+  Git.
+
+## 2026-08-25 — M59 Cross-source E2E / Hardening
+
+- Added Blob-resolver EPUB coverage to the shared no-API source-to-preview
+  path, with content-hash verification and pre-ingest archive security.
+- Added bounded source chunking, deterministic recovery records, and a
+  content/version hash cache for large synthetic inputs.
+- Hardened job idempotency so changed bytes cannot silently reuse an existing
+  job fingerprint; unreviewed sources remain `REVIEW_REQUIRED` and cannot be
+  compiled.
+- Qualified G62A-G62H and the M59 gate on synthetic/reference evidence.
+
+## 2026-08-25 — M60 Book-scale Semantic World Understanding
+
+- Extended the shared semantic analyzer with reversible life arcs, temporal
+  conflict/unknown views, knowledge graph observations, spatial topology,
+  object biographies, institution norms, and explicit quality proxies.
+- Attached deterministic semantic metadata to the existing Forge pipeline; no
+  Core or Commit Authority path was added.
+- Qualified G63A-G63I on a multi-chapter synthetic novel; metrics remain
+  reference proxies and real book/private-corpus claims remain blocked by
+  provenance and rights boundaries.
+
+## 2026-08-25 — M61 Multi-source / Multi-version Fusion
+
+- Added source-family role/version views, cross-source alignment records,
+  explicit provenance relation edges, conflict impact, and preserve-dissent
+  policy metadata.
+- Added incremental supplemental fusion and rights-compatible candidate views
+  without deleting alternatives or adding a second authority.
+- Qualified G64A-G64H on deterministic two-version synthetic evidence.
+
+## 2026-08-25 — M62 Multimodal / External Source Ports
+
+- Added explicit OCR, vision, and ASR provider capability failures and
+  proposal-only reference behavior.
+- Added deterministic SRT/WebVTT subtitle cues, IIIF/API observation port,
+  and hash/rights/privacy-aware source bundle manifests.
+- Qualified G65A-G65H without API keys or network access; scanned PDFs remain
+  `OCR_REQUIRED` when no OCR provider exists.
+
+## 2026-08-25 — M63 Domain Inference / Composition / Gap Packs
+
+- Added deterministic domain fingerprints, composite dependency locks, explicit
+  gap packs, DomainCapabilityCandidate scaffolds, and consent-gated reuse.
+- Added an application-level deterministic validation sandbox with honest
+  non-OS-isolation labeling; no domain package is auto-installed.
+- Qualified G66A-G66H on no-API synthetic candidates.
+
+## 2026-08-25 — M64 Completion / Consistency
+
+- Added missingness dependency graphs, typed E1-E5 completion candidates,
+  constraint checks for temporal/identity/topology/ownership/knowledge/
+  organization/scenario/package/rights, and bounded uncertainty calibration.
+- Kept unknowns and blocking gaps explicit; no completion can silently enter
+  E0 Canon.
+- Qualified G67A-G67H on no-API deterministic evidence.
+
+## 2026-08-25 — M65 Scenario / Genesis Auto Authoring
+
+- Added deterministic scenario mining and three Genesis modes: canonical
+  replay, soft canon, and living open.
+- Added immutable initial-snapshot candidates, bounded activation sets,
+  explicit canon policies, runtime profiles, and source-version-derived seeds.
+- Qualified G68A-G68H with the M58-M65 no-API regression; no runtime commit or
+  silent E0 promotion is performed.
+
+## 2026-08-25 — M66 Worldness Validation / Simulation Closure
+
+- Added ten-dimensional worldness scoring and a bounded seven-day accelerated
+  reference simulation with replay hashes.
+- Added failure localization, candidate-only repair/recompile cycles, branch
+  isolation proofs, and explicit determinism envelopes.
+- Qualified G69A-G69H without adding a canonical mutation path or provider
+  dependency.
+
+## 2026-08-25 — M67 Autonomous Authoring Orchestrator
+
+- Added the single topological authoring DAG with stage pre/postcondition,
+  retry, timeout, budget, and cost metadata.
+- Added provider selection constraints, deterministic stop/next-action policy,
+  candidate/provider/token/network/storage/time budget records, and
+  checkpoint-backed resume.
+- Qualified G70A-G70H on the no-API reference path without a second authority.
+
+## 2026-08-25 — M68 Minimal Human Review / Active Review Studio
+
+- Added impact-aware scoring and a policy-gated review inbox with bounded
+  human queue, stable impact preview, and idempotent batch decisions.
+- Added rule/human audit provenance and Studio API inbox/batch/audit surfaces
+  over the existing ReviewLedger.
+- Qualified G71A-G71H on no-API TestClient E2E; unknowns remain deferred and
+  cannot become E0 Canon.
+
+## 2026-08-25 — M69 One-click Source → Living World E2E
+
+- Added one-click Book/GEDCOM/JSON/CSV/Mixed routing over the shared authoring
+  service, including deterministic asset handling and structured candidates.
+- Added explicit package validation/publish checkpointing; publish never owns
+  or mutates Canonical World State.
+- Added Studio one-click/publish and CLI `--publish` evidence, OCR_REQUIRED
+  negative coverage, runtime replay, and branch-isolation acceptance.
+
+## 2026-08-25 — M70 G73A Clean-room certification
+
+- Certified clean-room release-manifest reproducibility, migration bootstrap,
+  golden replay, backup/restore, external sample-pack validation, and synthetic
+  reference-world authoring.
+- Kept copyrighted books, family-private records, tokens, databases, and model
+  caches outside the repository; evidence is deterministic/reference-only.
+
+## 2026-08-25 — M70 G73B Security/corpus audit
+
+- Re-ran secret/source/rights forensics: 0 secret findings, 4 source-gate
+  probes, 8 threat rows, 6 rights rows, and 22 security/reference tests pass.
+- Confirmed the repository contains no real copyrighted/private corpus or
+  provider/model artifact; red-chamber remains README/manifest-template only.
+
+## 2026-08-25 — M70 G73C Performance/recovery qualification
+
+- Re-ran bounded chunk/cache/hash/resume, concurrency/idempotency,
+  backup/restore, orchestrator checkpoint, and one-click regressions.
+- Recorded the current synthetic SQLite benchmark: 45.68 commit events/s,
+  1200-event replay in 0.0161s, and 400-node lineage query in 0.0091s;
+  no real multi-node or PostgreSQL-PITR claim is made.
+
+## 2026-08-25 — M70 G73D Public authoring guides
+
+- Added public Quickstart, Provider SDK, Domain Extension, and Source/Rights
+  guides for the existing Source -> Living World path.
+- Added documentation contract tests and a passing no-API CLI publish example;
+  all examples are synthetic and preserve proposal/rights/OCR/E0 boundaries.
+
+## 2026-08-25 — M70 G73E CI matrix and contract qualification
+
+- Refreshed the generated OpenAPI contract and SDK baseline at 38 paths / 39
+  operations, 5 TypeScript symbols, and 1472 Python public names.
+- Qualified the full Python quality gate, TypeScript SDK, wxpack authoring
+  sequence, and reproducible release manifest.
+- Made affected Windows test scratch paths configurable/workspace-local so
+  restricted user-temp ACLs do not masquerade as product failures; no runtime
+  persistence or authority semantics changed.
+
+## 2026-08-25 — M70 G73F public CI qualification
+
+- Pushed `feature/source-to-living-world` to the existing public
+  `huangdi97/wanxiang-world` repository.
+- Repaired a real Ubuntu CI failure caused by filesystem traversal order in the
+  duplicate-abstraction allowlist; the final Actions run `32771663283` is green
+  across all six required jobs.
+- Kept Node.js deprecation annotations, external rights/OCR boundaries, and
+  no-training scope explicit rather than treating them as product failures or
+  hidden completion.
+
+## 2026-08-25 — M70 G73G v5.4.0-rc1
+
+- Created annotated `v5.4.0-rc1` and the corresponding public GitHub
+  prerelease at the green Source -> Living World feature HEAD.
+- Re-ran the full six-job CI workflow from the tag push (`32772687982`) and
+  recorded a final success; the prior v5.3.0-rc1 tag was not moved.
+
+## 2026-08-25 — M70 G73H final acceptance
+
+- Qualified the complete M51-M70 Source -> Living World execution package and
+  consolidated `reports/M70_QUALIFICATION.md`.
+- Recorded the final no-API, authority, E0, OCR, rights, security, clean-room,
+  CI, and RC boundaries with an explicit STOP condition.
+- Final branch Actions run `32773363629` passed all six required jobs at the
+  documentation-complete HEAD.
+- M70 is complete; this execution does not start model training, M71, or v5.5.
+
+## 2026-08-25 — M79-M84 generalization checkpoint
+
+- Added extractor-independent semantic Gold Set metrics and deterministic
+  stratified sampling; anonymized benchmark infrastructure passes, while the
+  real second-book Gold Set waits for a private local path.
+- Added measured Worldness integrity signals, separate preview/publish/living
+  gates, and seven-case adversarial calibration; synthetic calibration passes.
+- Added JSON Pointer and CSV-cell evidence plus structured/mixed fusion,
+  conflict preservation, package, and preview regression; synthetic path
+  passes.
+- Recorded one blocker class, `USER_INPUT_REQUIRED`, for the missing private
+  second real-book and GEDCOM paths. M79/M82 real acceptance and M84 stable
+  release remain pending; no private data enters Git, and no model training or
+  v5.5 work is started. See `reports/M79_M84_STATUS.md`.
+- Local repository gate after the final fixes: `quality.py` PASS with 1211
+  passed and one existing PostgreSQL-profile skip; stable release remains
+  blocked by the missing real-source inputs.
+- Feature branch commit `82918be` is pushed; Actions run `32835309602` is green
+  across all six required jobs. No stable tag or release was created because
+  M79/M82 still require private real-source inputs.
+- The current evidence head `ef8a972` is also pushed; its Actions run
+  `32837328145` is green across all six required jobs.
+
+## v5.5 G88B (2026-08-26)
+
+- Added the versioned PlayableWorldProfile experience shell and immutable
+  Scenario/Runtime/Projection profile contracts.
+- Added v0 compatibility normalization, visibility checks, and a v5.4
+  WorldPackage reference adapter without copying canonical state.
+
+## v5.5 G88C (2026-08-26)
+
+- Added ExperiencePackage v1 with product controls, entry/embodiment policy,
+  projection and StateDiff references, allowed actions, and visibility gates.
+- Added negative rights tests proving private/family-private packages cannot be
+  entered by an unrelated principal.
+
+## 2026-08-25 — M79-M84 resumable source-gate hardening
+
+- Hardened `scripts/m79_m84_checkpoint.py` so a supplied path advances only
+  when it resolves to an existing regular file outside the repository.
+- Added regression coverage for missing, directory, repository-local, and
+  external-file inputs. Validation is metadata-only and never opens or copies
+  source contents.
+- The full local gate passes with 1213 passed, one existing PostgreSQL-profile
+  skip, and two warnings. M79/M82 remain `USER_INPUT_REQUIRED`; no stable tag,
+  release, v5.5 work, or model training was started.
+
+## 2026-08-26 — M82 real GEDCOM family-world qualification
+
+- Added a generic GEDCOM model/parser path with header/version preservation,
+  XREF-scoped identity, family membership, event/date precision, place, claim,
+  source/evidence, and unknown-extension preservation.
+- Qualified the supplied local GEDCOM through the real CLI and API/Studio
+  Source -> WorldPackage -> Preview -> Worldness -> Living -> Commit/Replay
+  chain: 326 provenance-bound candidates, measured coverage 1.0, Worldness
+  0.99, and isolated branch proof.
+- Added the official GEDCOM 7 import/locator smoke without vendoring its
+  sample; the public historical fixture remains outside Git and is not a
+  private living-family validation claim.
+- M82 is accepted; M84 stable certification remains active. No v5.5 work or
+  model training is started.
+- The post-fix local quality gate is green: 1219 tests passed, one existing
+  PostgreSQL profile was skipped, and two warnings were retained explicitly.
+
+## 2026-08-26 — M84 first real-book requalification accepted
+
+- Re-ran the same original private Chinese TXT through the real CLI and
+  API/Studio product paths after the semantic-distillation repair.
+- Accepted 11,549 provenance-bound candidates with measured coverage
+  `0.8333333333333334`, WorldPackage, Preview, Worldness, Living,
+  Commit/Replay, and branch-isolation evidence.
+- Preserved the original pre-repair NOT_ACCEPTED report unchanged and added
+  the sanitized requalification report/artifact. Stable tag/release remains
+  pending final documentation-commit Actions; v5.5 and model training remain
+  out of scope.
+
+## v5.5 G88D (2026-08-26)
+
+- Added server-side World Plaza, My Worlds, Continue, world cards, and recent
+  session read models over the shared experience metadata port.
+- Added private-world existence-leak protection and deterministic recent-session
+  ordering.
+
+## v5.5 G88E (2026-08-26)
+
+- Added owner-bound My Characters and character compatibility checks.
+- Added observer presence and embodiment entry using the existing session and
+  single-primary-controller lease services, including leave/resume behavior.
+
+## v5.5 G88F (2026-08-26)
+
+- Added deterministic text/structured IntentCompiler and immutable
+  ActionProposal contracts.
+- Added typed ambiguity/unsupported/rejection outcomes and hostile-input
+  payload checks without a direct commit path.
+
+## v5.5 G88G (2026-08-26)
+
+- Added canonical-state-derived StateDiff categories, epistemic permission
+  filtering, deterministic replay comparison, and explicit no-change output.
+- Kept narrative rendering as a separate read-only projection.
+
+## v5.5 G88H / M85 (2026-08-26)
+
+- Qualified a source-created WorldPackage through shared CLI/API/Studio
+  playable entry, embodiment, free action, committed StateDiff, replay, leave,
+  and same-instance Continue.
+- Added sanitized CLI/API evidence and server-side instance authorization.
+
+## v5.5 G89A (2026-08-26)
+
+- Added immutable ActorGoalStack v1 with life-motive through intent tiers,
+  dependency/priority/deadline contracts, provenance, and revision lineage.
+- Added schema-versioned goal serialization with replay verification and kept
+  goals outside canonical world truth and Commit Authority.
+
+## v5.5 G89B (2026-08-26)
+
+- Added deterministic, bounded Goal reprioritization proposals with deadline
+  and evidence rationale/refs.
+- Added provider proposal validation and stale-source checks without any
+  provider or policy commit path.
+
+## v5.5 G89C (2026-08-26)
+
+- Extended the existing Epistemic MemoryRecord with perception refs,
+  read-only salience decay, reinforcement lineage, and legacy-field defaults.
+- Preserved the separation between Observation/Memory, Belief confidence, and
+  canonical World Truth; no second memory store was introduced.
+
+## v5.5 G89D (2026-08-26)
+
+- Added evidence-bound support, contradict, refine, and unknown belief
+  revisions with confidence and before/after lineage.
+- Rejected future-scoped evidence and retained prior potentially-false beliefs;
+  belief projections remain separate from World Truth.
+
+## v5.5 G89E (2026-08-26)
+
+- Added time-scoped RelationshipState v1 with eight bounded social dimensions,
+  event provenance, replayable revisions, and participant/source visibility.
+- Kept relationship projection reads separate from canonical RelationState and
+  rejected global-omniscience access.
+
+## v5.5 G89F (2026-08-26)
+
+- Added a ref-only Character Passport projection over the existing
+  CharacterRecord with memory/skill/item portability and origin refs.
+- Added privacy-aware, compatibility-checked translation proposals that reject
+  impossible or blocked entries without silent world import.
+
+## v5.5 G89G (2026-08-26)
+
+- Added ActorContinuityProjection frontend DTO timelines for Goal, Memory,
+  Belief, Relationship, and Action/why refs.
+- Added actor/admin cognition access and observer redaction without a projection
+  write path or private-reasoning leak.
+
+## v5.5 G89H / M86 (2026-08-26)
+
+- Qualified a source-created literary WorldPackage with two PlayableService
+  actors, actual leave/Continue, and a seven-day accelerated continuity run.
+- Verified derived Goal/Memory/Belief/Relationship counts, replay digest, and
+  checkpoint resume digest; M86 Gate 11 is accepted.
+
+## v5.5 G90A (2026-08-26)
+
+- Added the World Workshop home with Source, Prompt, Hybrid, Scenario,
+  Experience, Publishing, Review, and Registry panels.
+- Added one immutable, optimistic `WorkshopDraftStore` shared by all creation
+  modes; stale editor revisions are rejected and canonical world state remains
+  outside the product draft.
+
+## v5.5 G90B (2026-08-26)
+
+- Added versioned `CreatorIntent`, explicit constraint extraction, domain
+  suggestions, and a review gate over the existing E5 completion contract.
+- Kept prompt text in a data channel: directive-like input is not executed,
+  and generated claims cannot silently become Canon facts.
+
+## v5.5 G90C (2026-08-26)
+
+- Reused `ProviderRouter` for Prompt Genesis with typed provider selection,
+  bounded retry checkpoints, and a private-safe deterministic local provider.
+- Rejected invalid intent provenance, non-E5 output, and authority fields;
+  provider output remains candidate-only.
+
+## v5.5 G90D (2026-08-26)
+
+- Added Hybrid Genesis fusion over existing source candidates and Prompt
+  Genesis E5 claims with configurable precedence and preserved dissent.
+- Added conflict and origin traces so generated completion cannot silently
+  overwrite explicit source evidence.
+
+## v5.5 G90E (2026-08-26)
+
+- Added shared versioned Scenario/Experience editing over the Workshop draft,
+  reusing existing profile contracts and reference validation.
+- Added a content-hashed read-only Workshop preview that cannot publish or
+  mutate runtime state; stale editor revisions are rejected.
+
+## v5.5 G90F (2026-08-26)
+
+- Added schema-versioned PublishingProfile, RightsSummary, package metadata,
+  and safety extension points for explicit visibility boundaries.
+- Added rights-aware publication decisions; blocked source rights fail closed
+  and private/family-private profiles are excluded from Plaza listings.
+
+## v5.5 G90G (2026-08-26)
+
+- Added a World Registry catalog adapter with official/community labels,
+  categories, tags, versions, compatibility, provenance, search, open, and
+  install metadata.
+- Reused the existing package registry/resolver/installer and trust policy;
+  untrusted executable extensions and rights-blocked entries remain blocked.
+
+## v5.5 G90H / M87 (2026-08-26)
+
+- Qualified Source, Prompt, and Hybrid Workshop creation through the existing
+  WorldPackage compiler and isolated PreviewInstall boundary.
+- Wired the same WorkshopService into API/Studio and gated PlayableService
+  registration by completed E5 review and rights/visibility policy.
+- Preserved source/prompt provenance and dissent; same-origin source
+  alternatives are retained without falsely blocking a preview, while
+  cross-origin conflicts remain explicit review blockers.
+- Gates 12-15 are accepted. M87 is complete; v5.5 remains NOT_ACCEPTED while
+  later M88-M94 qualification and final release evidence are pending.
+
+## v5.5 G91A (2026-08-26)
+
+- Added immutable, schema-versioned `PressureProfile` for Scenario/Domain
+  pressure inputs: scarcity, goals, private information, obligation,
+  authority, reward, sanction, reputation, time, risk, and norm.
+- Preserved provenance and deterministic fingerprints, accepted the bounded
+  legacy flat shape, and kept pressure outside the Kernel/domain packages.
+
+## v5.5 G91B (2026-08-26)
+
+- Extended the existing Opportunity contract with explicit lifecycle,
+  actor/world-state eligibility, expiry, reward/risk/evidence refs, and
+  immutable accept/ignore/decline/complete decisions.
+- Kept opportunity decisions proposal-only: no goal overwrite, canonical
+  mutation, or second event/registry path was introduced.
+
+## v5.5 G91C (2026-08-26)
+
+- Added `DirectorPolicy` contracts for CANON, DIRECTED, LIVING, and EXPERIMENT
+  with allowed proposal types, immutable transitions, typed decisions, and
+  audit records.
+- Kept policy evaluation proposal-only; no Director path imports or exposes
+  Commit Authority.
+
+## v5.5 G91D (2026-08-26)
+
+- Added `CanonAttractorPolicy` with normalized distance metrics, soft/hard
+  constraints, free-will-preserving assessments, and branch recommendations for
+  major divergence.
+- Kept canon guidance proposal-only; actual actor choice and parent history are
+  never rewritten by the policy.
+
+## v5.5 G91E (2026-08-26)
+
+- Added explicit time/event `InterventionTrigger`, reversible intervention
+  proposals, immutable artifact-linked `ExperimentSetup`, and an adapter that
+  forks through the existing runtime branch boundary.
+- Qualified parent event/state isolation on the real reference runtime; no
+  intervention is silently written into the parent worldline.
+
+## v5.5 G91F (2026-08-26)
+
+- Added a projection-only Quest adapter over Opportunity evidence refs, with
+  required/optional objectives and progress from committed state/event refs.
+- Rejected narrative text as a progress source and preserved ignored/expired
+  Opportunity status without adding a Quest truth or commit path.
+
+## v5.5 G91G (2026-08-26)
+
+- Added matched deterministic pressure/no-pressure behavior traces with the
+  same seed/profile/horizon, metric deltas, trace hashes, and validity envelope.
+- Explicitly scoped the result as an engineering reference benchmark with no
+  scientific claim or model training.
+
+## v5.5 G91H / M88 (2026-08-26)
+
+- Qualified Director modes, PressureProfile, Opportunity ignore, Canon free
+  will, Quest projection, and artifact-linked Intervention on the real
+  source-created PlayableService world.
+- Verified the existing runtime child branch preserves parent events and
+  semantic hash and replays deterministically; M88 Gates 16-20 are accepted.
+
+## v5.5 G92A (2026-08-26)
+
+- Added deterministic recurring long-horizon schedules with priority ordering,
+  monotonic world time, actor availability windows, catch-up evidence, and
+  immutable queue cursors.
+- Proved scheduler occurrences enter the existing temporal Commit path in a
+  real SQLite WorldRuntime integration; no new authority or event store exists.
+
+## v5.5 G92B (2026-08-26)
+
+- Added RuntimeProfile-bound paused, realtime, accelerated, background, and
+  full-autonomy offline modes with explicit world-time conversion.
+- Added durable leave/re-entry cursors and proved detached occurrences resume
+  through the existing temporal Commit path without a live session or new
+  authority.
+
+## v5.5 G92C (2026-08-26)
+
+- Added cursor-only atomic long-run checkpoints with monotonic sequence/event
+  heads, deterministic crash injection, exact scheduler restore, and append-only
+  checkpoint history.
+- Proved a real runtime restart retry is idempotent: the existing command ID
+  returns the committed event and does not append a duplicate world effect.
+
+## v5.5 G92D (2026-08-26)
+
+- Added bounded snapshot cadence and reference-only event/archive/memory-summary
+  compaction manifests with golden replay equality as a hard precondition.
+- Verified on the real Runtime that compaction leaves the append-only event
+  sequence and count unchanged.
+
+## v5.5 G92E (2026-08-26)
+
+- Added L0-L4 SimulationLOD activity scoring, threshold transitions, cohort /
+  population aggregation, and promotion back to focal active simulation.
+- Preserved World-owned state and memory refs through every transition and
+  verified no canonical Runtime hash/event mutation in the real integration.
+
+## v5.5 G92F (2026-08-26)
+
+- Added atomic world/actor/provider calls, tokens, time, and storage budgets
+  with threshold alerts and allow/defer/reject backpressure.
+- Added graceful next-LOD recommendation on budget exhaustion without partial
+  usage charge; real Runtime truth remains untouched.
+
+## v5.5 G92G (2026-08-26)
+
+- Qualified accelerated 24h reference and seven-day multi-actor runs on the
+  real SQLite WorldRuntime with daily checkpoints, replay/restart recovery,
+  storage metrics, and reference compaction equality.
+- Accepted v5.5 gates 21-22; this remains world-time acceleration evidence, not
+  a wall-clock seven-day claim.
+
+## v5.5 G92H (2026-08-26)
+
+- Qualified the same source-created literary WorldPackage through
+  PlayableService and the real SQLite WorldRuntime for accelerated 30d / 3,000
+  world ticks with two actors.
+- Recorded 30 actor-local memories per actor, 30 successful checkpoints,
+  atomic crash rejection, exact cursor resume, restart replay equality,
+  reference-only compaction, LOD continuity, and measured cost/storage growth.
+- Accepted v5.5 gates 23 and 25-28; Gate 24 and M90-M94 remain pending, so no
+  v5.5 release candidate is authorized.
+
+## v5.5 M89 qualification (2026-08-26)
+
+- Closed M89 after G92A-G92H, the real 30d literary qualification, full
+  Python regression, architecture/Kernel freeze, duplicate/minimality, and
+  SDK compatibility checks passed.
+- Preserved Gate 24 as pending because the 90d selected-world run belongs to
+  the later scope; v5.5 remains NOT_ACCEPTED and no rc1 was created.
+
+## v5.5 G93A (2026-08-27)
+
+- Added six explicit immutable evolution Delta records for State, Belief,
+  Relationship, Capability, Persona, and Organization, each with schema,
+  version, typed fields, and source/event provenance.
+- Added proposal validation and Commit Authority receipts without any
+  canonical mutation or second event store; generic evolution blobs and
+  authority-as-producer proposals are rejected.
+- Qualified the taxonomy after a real private source-created WorldPackage
+  traversed PlayableService, Preview, and SQLite WorldRuntime. Gate 29 is
+  accepted; G93B-G97J and the v5.5 release gates remain pending.
+
+## v5.5 G93B (2026-08-27)
+
+- Added evidence-bound `CapabilityCandidate` growth from domain-supported
+  practice, assessment outcomes, and explicit composition/prerequisites.
+- Added deterministic success/failure validation and proposal-only promotion
+  that reuses the existing capability Commit Authority resolver; impossible
+  capabilities and failure-dominant candidates fail closed.
+- Qualified a private source-created package through PlayableService, Preview,
+  and SQLite Runtime with replay-equal actor-skill promotion. Gate 30 remains
+  pending until the M90 30-day qualification.
+
+## v5.5 G93C (2026-08-27)
+
+- Added six bounded slow-variable persona dimensions with multi-event evidence
+  windows and deterministic weighted change limits.
+- Added one-trait, review-gated `PersonaDelta` proposals with immutable
+  reviewer decisions; a single event cannot rewrite full persona state and
+  no canonical persona commit path was added.
+- Qualified the proposal against a real private source/playable/runtime event
+  chain with unchanged canonical hash and replay. Gate 30 remains pending.
+
+## v5.5 G93D (2026-08-27)
+
+- Added event-to-rule relationship evolution proposals with exact actor/relation
+  checks, bounded dimension clamps, stale/ambiguous rejection, and provider
+  proposal-only policy.
+- Reused the existing RelationshipGraph for reviewed projection history and
+  replay equality, with read-only cooperation/avoidance behavior feedback.
+- Qualified a private source/playable/runtime event chain with unchanged
+  canonical state; Gate 30 remains pending until the M90 long run.
+
+## v5.5 G93E (2026-08-27)
+
+- Added typed organization lifecycle projections and review-gated proposals
+  for creation, membership, roles, delegated permissions, dissolution, and
+  split/resource partitioning over the existing institution read model.
+- Enforced active-role authority and stale proposal checks; member exit removes
+  orphan grants, cross-split grants are dropped, and explicit resource
+  quantities are conserved. No canonical mutation or second store was added.
+- Qualified the lifecycle against a private source → WorldPackage →
+  PlayableService → Preview → SQLite Runtime chain with unchanged canonical
+  hash/revision/event count and replay. Gate 30 remains pending until G93H.
+
+## v5.5 G93F (2026-08-27)
+
+- Added typed local/global reputation projections, including observer-specific
+  views, deterministic evidence refs, bounded weighted updates, and stale
+  before-state protection.
+- Restricted reputation evidence to committed events/observations and kept
+  belief and rumor separate; all updates remain review-gated proposals using
+  the existing StateDelta provenance policy.
+- Added independent social-role eligibility and assignment projections with
+  explicit review; no institution role, permission, canonical state, or event
+  store is mutated. Real source/playable/Preview/SQLite evidence passed with
+  unchanged canonical hash/revision/event count and replay. Gate 30 remains
+  pending until G93H.
+
+## v5.5 G93G (2026-08-27)
+
+- Added a typed, immutable evolution explanation projection over the existing
+  Delta taxonomy, preserving reasons, fingerprints, subject refs,
+  source/event refs, projection refs, and explicit actor trajectory links.
+- Rejected explanations whose only basis is hidden provider state; trajectory
+  links require an existing entry and matching explicit provenance.
+- Qualified actor, relationship, and organization explanations against a
+  private source → WorldPackage → Preview → PlayableService → SQLite Runtime
+  chain with unchanged canonical hash/revision/event count and replay. Gate 31
+  is accepted; Gate 30 remains pending until G93H.
+
+## v5.5 G93H / M90 (2026-08-27)
+
+- Added evidence-bound baseline/evolved qualification snapshots and comparison
+  over the existing canonical event/replay path.
+- Qualified a deterministic private rights-approved source chain for 30 days /
+  3,000 ticks with nonzero Actor, Relationship, and Organization projection
+  changes and 7 reviewed validated evolution deltas.
+- Preserved source/package identity, append-only canonical history, Commit
+  Authority boundaries, and replay equality; fixed temporal organization
+  permission evaluation to use the proposal event tick.
+- Gate 30 is accepted and M90 is complete. Gate 24 and later M91-M94 release
+  gates remain pending; v5.5 is still NOT_ACCEPTED.
+
+## v5.5 G94A / M91 (2026-08-27)
+
+- Added immutable `PatternObservation`, `PatternStatistics`, and
+  `PatternObservationStore` records. They derive typed behavior, relationship,
+  exchange, and organization observations from committed operations with
+  windowed queries, feature/statistics aggregation, event refs, and a
+  deterministic rebuild hash; no second history or automatic Candidate path
+  exists.
+- Qualified cache rebuild and reversed-event determinism on a private
+  rights-approved source → WorldPackage → Preview → PlayableService → SQLite
+  WorldRuntime chain with unchanged canonical hash, revision, event refs,
+  source bytes, and replay.
+- G94A is PASS and committed as `g94a: Pattern Observation Store`; G94B-G97J
+  and the remaining M91-M94 gates are pending, so v5.5 remains NOT_ACCEPTED.
+
+## v5.5 G94B / M91 (2026-08-27)
+
+- Added immutable `RepeatedPatternPolicy`, `PatternDetection`, and
+  `PatternCounterexample` records plus `RepeatedPatternDetector`. Detection is
+  based on deterministic occurrence counts, distinct window support,
+  confidence, and concrete missing-window counterexamples; same-window bursts
+  and one-off signals do not silently qualify.
+- Qualified the detector against real committed events from a private
+  rights-approved source → WorldPackage → Preview → PlayableService → SQLite
+  WorldRuntime chain. Detection remained read-only and canonical hash, replay,
+  and event history were unchanged.
+- G94B is PASS and committed as `g94b: Repeated Pattern Detector`; G94C-G97J
+  and the remaining M91-M94 gates are pending, so v5.5 remains NOT_ACCEPTED.
+
+## v5.5 G94C / M91 (2026-08-27)
+
+- Added immutable actor-local `HabitCandidate`/`SkillCandidate`,
+  `HabitEvaluation`, and `HabitPromotionPolicy` records with explicit evidence
+  windows, event refs, stability thresholds, bounded time decay, and stale-
+  evidence rejection.
+- Only qualified repeated detections can form candidates; evaluation and decay
+  remain proposal-only and never write canonical state or turn a candidate into
+  automatic truth. Real private source/playable/Preview/SQLite evidence passed
+  with unchanged canonical hash and replay.
+- G94C is PASS and committed as `g94c: Habit / Skill Candidate`; G94D-G97J and
+  the remaining M91-M94 gates are pending, so v5.5 remains NOT_ACCEPTED.
+
+## v5.5 G94D / M91 (2026-08-27)
+
+- Added population-level `NormCandidate`, `NormEvaluation`,
+  `NormPromotionPolicy`, and committed-event-linked `NormOutcomeEvidence`.
+  Candidates require explicit local/global scope, population support,
+  repeated-window evidence, exception-rate limits, and optional
+  reward/sanction correlation.
+- Small samples and exception-heavy detections remain ineligible. Candidate
+  creation and evaluation never activate a norm or write canonical state; real
+  private source/playable/Preview/SQLite evidence passed with unchanged hash
+  and replay.
+- G94D is PASS and committed as `g94d: Social Norm Candidate`; G94E-G97J and
+  the remaining M91-M94 gates are pending, so v5.5 remains NOT_ACCEPTED.
+
+## v5.5 G94E / M91 (2026-08-27)
+
+- Extended the existing `InstitutionCandidate` with structured
+  rule/role/resource/process references, provenance, and explicit reviewer
+  state; added pure derivation and review helpers from `NormCandidate`.
+- Incomplete institution structure and unauthorized review are rejected;
+  review remains proposal-only and does not invoke Commit Authority or mutate
+  Constitution/Law. Existing institution law promotion remains an explicit
+  controlled operation.
+- Qualified the real private rights-approved source → WorldPackage → Preview →
+  PlayableService → SQLite chain, with a reviewed institution candidate and
+  unchanged canonical hash, revision, and replay.
+- G94E is PASS and committed as `g94e: Institution Candidate`; G94F-G97J and
+  the remaining M91-M94 gates are pending, so v5.5 remains NOT_ACCEPTED.
+
+## v5.5 G94F / M91 (2026-08-27)
+
+- Reused the existing `OntologyCandidate` and `OntologyLawEvolution` boundary
+  with a strict culture/ontology policy: three independent norm candidates,
+  three distinct evidence windows, multi-window support, high support and
+  confidence, bounded exceptions, and low derived complexity.
+- Added norm/institution provenance, measured evidence windows, and an explicit
+  authorized review gate. Evidence-backed candidates cannot pass ontology
+  validation before review; review is pure and cannot mutate Constitution or
+  Canon.
+- Qualified three real committed-event windows through the private
+  rights-approved source → WorldPackage → Preview → PlayableService → SQLite
+  chain, with unchanged canonical hash, revision, history, Constitution hash,
+  and replay.
+- G94F is PASS and committed as `g94f: Culture / Ontology Candidate`; G94G-G97J
+  and the remaining M91-M94 gates are pending, so v5.5 remains NOT_ACCEPTED.
+
+## v5.5 G94G / M91 (2026-08-27)
+
+- Extended the existing L0-L8 promotion requirement/evidence records with
+  policy-version binding, world-count and benchmark thresholds, sandbox and
+  rollback readiness, and a high-level review gate for M91 L0-L5.
+- L0-L5 requirements now increase evidence/world demands; L4 requires passing
+  benchmark and sandbox evidence, while L5 also requires rollback readiness and
+  explicit approval. Existing PlatformFeedbackLab and PromotionControlLedger
+  remain the only sandbox/release/withdrawal controls.
+- Qualified the full sandbox → versioned release → rollback → append-only
+  withdrawal sequence against a real SQLite runtime with unchanged canonical
+  hash, event history, and replay.
+- G94G is PASS and committed as `g94g: Promotion Ladder Enforcement`; G94H-G97J
+  and the remaining M91-M94 gates are pending, so v5.5 remains NOT_ACCEPTED.
+
+## v5.5 G94H / M91 (2026-08-27)
+
+- Qualified one bounded positive pattern through the real private
+  rights-approved source → WorldPackage → Preview → PlayableService → SQLite
+  WorldRuntime chain, with three disjoint cross-window detections and the
+  NormCandidate → reviewed InstitutionCandidate → reviewed OntologyCandidate
+  path.
+- Added the negative same-window burst world; it remains unqualified and
+  cannot create a NormCandidate. Candidate review, Constitution validation,
+  canonical event history, and replay remain separated and immutable.
+- Gates 33-37 are ACCEPTED. The result is explicitly scoped evidence of one
+  qualified pattern and makes no universal-emergence claim; M91 is complete in
+  scope while M92-M94 and the remaining release gates stay pending.
+- G94H is PASS and committed as `g94h: M91 Emergence Qualification`; G95A-G97J
+  and the remaining M92-M94 gates are pending, so v5.5 remains NOT_ACCEPTED.

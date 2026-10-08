@@ -1,0 +1,24 @@
+{
+  "accepted": true,
+  "candidates": {
+    "count": 46,
+    "evidence_backed": 46,
+    "identities": 4,
+    "relations": 13
+  },
+  "diagnostics": [],
+  "locator": {
+    "gedcom_record_locators": 9,
+    "segments": 9,
+    "xref_records": 6
+  },
+  "raw_bytes_read": 891,
+  "schema": {
+    "families": 2,
+    "gedcom_version": "7.0",
+    "individuals": 4,
+    "parsed_nodes": 9,
+    "sources": 2
+  },
+  "url": "https://gedcom.io/testfiles/gedcom70/maximal70-tree1.ged"
+}

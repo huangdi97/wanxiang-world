@@ -1,0 +1,171 @@
+{
+  "schema": "wanxiang.v5.5.final-evidence.v1",
+  "date": "2026-08-27",
+  "release_status": "ACCEPTED",
+  "release_gate": "ACCEPTED_FOR_RC",
+  "release_artifacts": {
+    "v5.5.0-rc1_tag_created": true,
+    "github_prerelease_created": true,
+    "v5.6_started": false,
+    "model_training_started": false
+  },
+  "implemented": [
+    {
+      "id": "stable_kernel_commit_replay",
+      "scope": "frozen v5.4 Kernel, Reality Root, Commit Authority, Ledger, Branch, Lineage",
+      "evidence": ["scripts/kernel_guard.py", "reports/G97G_REPORT.md"]
+    },
+    {
+      "id": "playable_experience_chain",
+      "scope": "WorldPackage, Preview, PlayableService, Character/embodiment, committed StateDiff, Leave/Continue",
+      "evidence": ["reports/G97E_REPORT.md", "reports/G97G_REPORT.md"]
+    },
+    {
+      "id": "long_horizon_and_world_lab",
+      "scope": "bounded 24h/7d/30d/90d qualification, evolution, RunArtifact, parallel worldlines, validation and provider bridges",
+      "evidence": ["reports/G97B_REPORT.md", "reports/G97C_REPORT.md", "reports/G97D_REPORT.md", "reports/G96H_REPORT.md"]
+    },
+    {
+      "id": "security_safety_and_privacy",
+      "scope": "source/package fail-closed handling, private UGC redaction, resource bounds and proposal-only provider boundaries",
+      "evidence": ["reports/G97F_REPORT.md", "scripts/security_forensics.py"]
+    },
+    {
+      "id": "clean_clone_local_ci",
+      "scope": "clean install, migration/replay/restore, Python test domains, TypeScript checks, Studio and product smokes",
+      "evidence": ["reports/G97G_REPORT.md", "reports/CLEAN_ROOM_CERTIFICATION.md"]
+    }
+  ],
+  "experimental": [
+    {
+      "id": "prompt_genesis",
+      "scope": "E5 prompt-derived candidates and WorldDraft remain provenance-labeled and review-gated",
+      "evidence": ["reports/G90H_REPORT.md", "reports/V55_ACCEPTANCE_MATRIX.md"]
+    },
+    {
+      "id": "reference_and_lab_qualification",
+      "scope": "synthetic/public/reference worlds, deterministic providers and bounded lab worldlines are engineering evidence only",
+      "evidence": ["reports/G97B_REPORT.md", "reports/G97D_REPORT.md", "reports/G96H_REPORT.md"]
+    },
+    {
+      "id": "external_heavy_providers",
+      "scope": "external engine/GPU/provider execution is explicitly EXTERNAL_BLOCKED where not provisioned",
+      "evidence": ["reports/G96F_REPORT.md", "reports/G97G_REPORT.md"]
+    }
+  ],
+  "accepted_current": [
+    {
+      "id": "first_book_source_to_living_world_requalification",
+      "scope": "same original private 323815-character Chinese source, requalified through the real CLI and API/Studio product chains",
+      "evidence": [
+        "reports/M84_FIRST_BOOK_REQUALIFICATION.md",
+        "artifacts/m79_m84/real_book_reacceptance_product_evidence.json",
+        "reports/V55_REAL_BOOK_EVIDENCE_LINEAGE.md"
+      ],
+      "measured": {
+        "raw_bytes": 937500,
+        "utf8_characters": 323815,
+        "candidates": 11549,
+        "coverage": 0.8333333333333334,
+        "worldness_overall": 0.9733333333333333,
+        "world_package": "world:wd_m84_original_book_cli_rerun",
+        "preview": "preview://preview_1",
+        "living_ready": true,
+        "commit_replay_branch_isolation": true
+      },
+      "source_unchanged": true,
+      "private_local_only": true,
+      "training": false
+    },
+    {
+      "id": "feature_branch_remote_delivery",
+      "scope": "the v5.5 feature branch was pushed without force and required GitHub Actions completed successfully",
+      "evidence": [
+        "reports/V55_ACCEPTANCE_MATRIX.md",
+        "reports/G97I_REPORT.md"
+      ],
+      "remote_branch": "feature/v5.5-playable-persistent-evolving",
+      "release_commit": "50443c8f7cc58fc4661af2a7d993dc7ec6144e11",
+      "actions_run": "33085230406",
+      "required_jobs": 6,
+      "all_required_jobs_success": true,
+      "force_push": false
+    }
+  ],
+  "qualification_lineage": {
+    "records": [
+      {
+        "id": "historical_pre_repair",
+        "qualified_at": "2026-08-25",
+        "status": "NOT_ACCEPTED",
+        "authority_role": "historical_protected_record",
+        "evidence": "reports/REAL_BOOK_LIVING_WORLD_ACCEPTANCE_2026-08-25.md"
+      },
+      {
+        "id": "current_first_book_qualification",
+        "qualified_at": "2026-08-26",
+        "status": "ACCEPTED",
+        "authority_role": "latest_authoritative_qualification",
+        "evidence": "reports/M84_FIRST_BOOK_REQUALIFICATION.md"
+      }
+    ],
+    "latest_authoritative_qualification": "current_first_book_qualification",
+    "selection": "latest qualified record by qualified_at among source qualifications"
+  },
+  "post_release_verification": {
+    "verified_at": "2026-08-28",
+    "closure_commit": "d98d90c927d3325dbe527112ddd14867b19c2177",
+    "remote_branch": "feature/v5.5-playable-persistent-evolving",
+    "remote_branch_sha_matches_clone_head": true,
+    "documented_install": "uv sync --all-groups --all-packages",
+    "quickstart_and_lineage_smoke": {
+      "tests": 4,
+      "passed": 4
+    },
+    "clean_room": {
+      "steps": 7,
+      "passed": 7,
+      "status": "PASS"
+    },
+    "release_manifest_git_sha": "d98d90c927d3325dbe527112ddd14867b19c2177",
+    "release_manifest_migration_head": "0004_add_world_metadata",
+    "actions_run": "33135588700",
+    "all_required_jobs_success": true,
+    "v5_4_stable_tag_and_release_unchanged": true
+  },
+  "not_proven": [
+    {
+      "id": "historical_original_real_book_pre_repair",
+      "scope": "the preserved 2026-08-25 pre-repair private 323815-character source record remains a historical NOT_ACCEPTED record with 0 candidates and coverage 0 under that diagnostic",
+      "evidence": [
+        "reports/REAL_BOOK_LIVING_WORLD_ACCEPTANCE_2026-08-25.md",
+        "artifacts/real_book_living_world_acceptance_2026-08-25/api_rights_diagnostic.json",
+        "reports/V55_REAL_BOOK_EVIDENCE_LINEAGE.md"
+      ]
+    },
+    {
+      "id": "scientific_or_universal_validity",
+      "scope": "Worldness evidence is not scientific validity, universal emergence, true-time/live-world performance, or a 10000/100000-NPC claim",
+      "evidence": ["reports/V55_ACCEPTANCE_MATRIX.md", "README_FIRST.md"]
+    }
+  ],
+  "required_actions_remaining": [],
+  "release_delivery": {
+    "tag": "v5.5.0-rc1",
+    "tag_object": "e4768f706f427b3356c94d1e0ec3afe79c17987a",
+    "peeled_commit": "50443c8f7cc58fc4661af2a7d993dc7ec6144e11",
+    "github_release": "https://github.com/huangdi97/wanxiang-world/releases/tag/v5.5.0-rc1",
+    "prerelease": true,
+    "draft": false,
+    "actions_run": "33085230406",
+    "all_required_jobs_success": true,
+    "final_report": "reports/V55_FINAL_RELEASE_REPORT.md"
+  },
+  "boundary_assertions": {
+    "private_source_uploaded": false,
+    "canonical_state_mutated_by_provider_or_ui": false,
+    "compiler_or_worldness_gate_disabled": false,
+    "coverage_hardcoded": false,
+    "original_source_modified": false
+  }
+}

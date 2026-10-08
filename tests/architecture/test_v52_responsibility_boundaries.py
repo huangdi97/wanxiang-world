@@ -10,11 +10,20 @@ import pytest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 BOUNDARY_DOC = ROOT / "docs" / "architecture" / "V5_2_KERNEL_RUNTIME_FORGE_EXPERIENCES.md"
 
-# The ONLY production classes/functions with "Engine" in the name.
+# These are bounded engines, not a shared God Engine. Completion and scenario
+# engines live in Forge and only emit candidates/drafts; they never commit.
 ALLOWED_ENGINE_NAMES = {
+    "CompletionEngine",
     "ReplayEngine",
     "PlannerEngine",
+    "ScenarioEngine",
+    "BeliefRevisionEngine",
     "create_engine_for",
+    # G96F is a discovery-only external-engine adapter ABI, not a simulation
+    # engine and not a second Commit Authority.
+    "ExternalEngineAdapter",
+    "ExternalEngineCapability",
+    "BlockedExternalEngineAdapter",
 }
 
 

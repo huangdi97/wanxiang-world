@@ -1,0 +1,1426 @@
+{
+  "schema": "wanxiang.v5.5.m98.scale-curve.v1",
+  "conclusion": "PASS",
+  "build_sha": "09c161c79f14911c804b3d22c38896c3545c41cf",
+  "template": "m98-standard-scale-template-v1",
+  "template_hash": "e43135ca34d98d5cf6d619b13173eb6dcbc8baa8cabbe0e653141288613ea129",
+  "tiers": [
+    10,
+    50,
+    100,
+    500,
+    1000
+  ],
+  "repetitions_per_tier": 3,
+  "declared_rows": 15,
+  "completed_rows": 15,
+  "failed_rows": 0,
+  "aggregation_complete": true,
+  "tier_summaries": [
+    {
+      "tier": 10,
+      "repetitions": 3,
+      "completed": 3,
+      "failed": 0,
+      "active_actor_counts": [
+        2
+      ],
+      "full_policy_actor_counts": [
+        10
+      ],
+      "mean_wall_ms": 664.6032,
+      "max_action_p95_ms": 22.9333,
+      "max_replay_ms": 0.1809,
+      "max_recovery_ms": 4.0707,
+      "max_db_bytes": 151552,
+      "max_peak_rss_bytes": 92930048,
+      "mean_provider_calls": 10.0
+    },
+    {
+      "tier": 50,
+      "repetitions": 3,
+      "completed": 3,
+      "failed": 0,
+      "active_actor_counts": [
+        5
+      ],
+      "full_policy_actor_counts": [
+        50
+      ],
+      "mean_wall_ms": 1560.968333,
+      "max_action_p95_ms": 26.1587,
+      "max_replay_ms": 0.8695,
+      "max_recovery_ms": 6.7137,
+      "max_db_bytes": 217088,
+      "max_peak_rss_bytes": 94683136,
+      "mean_provider_calls": 50.0
+    },
+    {
+      "tier": 100,
+      "repetitions": 3,
+      "completed": 3,
+      "failed": 0,
+      "active_actor_counts": [
+        10
+      ],
+      "full_policy_actor_counts": [
+        100
+      ],
+      "mean_wall_ms": 2802.4548,
+      "max_action_p95_ms": 28.2394,
+      "max_replay_ms": 1.9515,
+      "max_recovery_ms": 9.7086,
+      "max_db_bytes": 348160,
+      "max_peak_rss_bytes": 96514048,
+      "mean_provider_calls": 100.0
+    },
+    {
+      "tier": 500,
+      "repetitions": 3,
+      "completed": 3,
+      "failed": 0,
+      "active_actor_counts": [
+        20
+      ],
+      "full_policy_actor_counts": [
+        500
+      ],
+      "mean_wall_ms": 12771.247033,
+      "max_action_p95_ms": 80.1039,
+      "max_replay_ms": 5.968,
+      "max_recovery_ms": 87.4085,
+      "max_db_bytes": 1093632,
+      "max_peak_rss_bytes": 101416960,
+      "mean_provider_calls": 500.0
+    },
+    {
+      "tier": 1000,
+      "repetitions": 3,
+      "completed": 3,
+      "failed": 0,
+      "active_actor_counts": [
+        20
+      ],
+      "full_policy_actor_counts": [
+        1000
+      ],
+      "mean_wall_ms": 26062.460633,
+      "max_action_p95_ms": 133.0913,
+      "max_replay_ms": 14.8492,
+      "max_recovery_ms": 140.9981,
+      "max_db_bytes": 2039808,
+      "max_peak_rss_bytes": 109563904,
+      "mean_provider_calls": 1000.0
+    }
+  ],
+  "rows": [
+    {
+      "schema": "wanxiang.v5.5.m98.scale-row.v1",
+      "conclusion": "PASS",
+      "run_id": "m98-scale-10-r1",
+      "tier": 10,
+      "repetition": 1,
+      "seed": 10201,
+      "build_sha": "09c161c79f14911c804b3d22c38896c3545c41cf",
+      "template": "m98-standard-scale-template-v1",
+      "template_hash": "e43135ca34d98d5cf6d619b13173eb6dcbc8baa8cabbe0e653141288613ea129",
+      "source_sha256": "607deb70b3b774de2b2d1d956ff41e6e9b830993ac50372f293d9540cc096a3f",
+      "package_sha256": "fb3abba739527b1fa62e12852d3a00cbeab034f0924f10d150d1a21da676bcb1",
+      "world_package_ref": "world:wd_job_m98-scale-10-r1",
+      "scenario_ref": "default",
+      "world_ref": "prv_playable_1",
+      "branch_ref": "br_4cebaec57eaf4a59bdd86b9f3912c80f",
+      "snapshot_ref": "snap_1c78367a296044c89e7bead6801d9c40",
+      "metrics": {
+        "lod_counts": {
+          "L0": 1,
+          "L1": 1,
+          "L2": 6,
+          "L3": 1,
+          "L4": 1
+        },
+        "active_actor_count": 2,
+        "full_policy_actor_count": 10,
+        "population_count": 10,
+        "lod_policy": {
+          "l0_threshold": 0.8,
+          "l1_threshold": 0.6,
+          "l2_threshold": 0.35,
+          "l3_threshold": 0.1
+        },
+        "event_count": 17,
+        "event_rate_per_tick": 0.017,
+        "provider_call_count": 10,
+        "provider_cost_units": 10,
+        "provider_cost_usd": 0.0,
+        "provider_cost_basis": "local_reference_provider_no_monetary_charge",
+        "db_bytes": 151552,
+        "storage_growth_bytes": 8192,
+        "authoring_ms": 2.549,
+        "instantiation_ms": 240.2454,
+        "cpu_ms": 296.875,
+        "wall_ms": 704.1319,
+        "peak_rss_bytes": 91648000,
+        "tick_p50_ms": 42.2678,
+        "tick_p95_ms": 42.2678,
+        "action_p50_ms": 22.3414,
+        "action_p95_ms": 22.9333,
+        "checkpoint_duration_ms": 10.8556,
+        "checkpoint_size_bytes": 0,
+        "replay_duration_ms": 0.1745,
+        "recovery_duration_ms": 4.0707
+      },
+      "checks": {
+        "actor_count_exact": true,
+        "checkpoint_created": true,
+        "replay_equal": true,
+        "recovery_equal": true,
+        "provider_proposal_only": true,
+        "lod_count_exact": true,
+        "db_measured": true,
+        "rss_measured": true
+      },
+      "boundaries": {
+        "implemented": [
+          "real Playable/SQLite standard fixture scale tier",
+          "SimulationLOD policy measurement",
+          "provider/runtime/storage/timing measurement"
+        ],
+        "validated": [
+          "this exact tier/repetition only"
+        ],
+        "experimental": [
+          "bounded scale interpretation"
+        ],
+        "not_proven": [
+          "10k/100k extrapolation",
+          "universal capacity"
+        ],
+        "external_blocked": []
+      }
+    },
+    {
+      "schema": "wanxiang.v5.5.m98.scale-row.v1",
+      "conclusion": "PASS",
+      "run_id": "m98-scale-10-r2",
+      "tier": 10,
+      "repetition": 2,
+      "seed": 10202,
+      "build_sha": "09c161c79f14911c804b3d22c38896c3545c41cf",
+      "template": "m98-standard-scale-template-v1",
+      "template_hash": "e43135ca34d98d5cf6d619b13173eb6dcbc8baa8cabbe0e653141288613ea129",
+      "source_sha256": "607deb70b3b774de2b2d1d956ff41e6e9b830993ac50372f293d9540cc096a3f",
+      "package_sha256": "7f042bdd7e50c4722dc41d8600a8e35015c328fb116a11529b2caa4eb676ceb2",
+      "world_package_ref": "world:wd_job_m98-scale-10-r2",
+      "scenario_ref": "default",
+      "world_ref": "prv_playable_1",
+      "branch_ref": "br_267bced947d04284bd7f0f9436d7ac4c",
+      "snapshot_ref": "snap_ff9585136239415f81af2ab7ab39b044",
+      "metrics": {
+        "lod_counts": {
+          "L0": 1,
+          "L1": 1,
+          "L2": 6,
+          "L3": 1,
+          "L4": 1
+        },
+        "active_actor_count": 2,
+        "full_policy_actor_count": 10,
+        "population_count": 10,
+        "lod_policy": {
+          "l0_threshold": 0.8,
+          "l1_threshold": 0.6,
+          "l2_threshold": 0.35,
+          "l3_threshold": 0.1
+        },
+        "event_count": 17,
+        "event_rate_per_tick": 0.017,
+        "provider_call_count": 10,
+        "provider_cost_units": 10,
+        "provider_cost_usd": 0.0,
+        "provider_cost_basis": "local_reference_provider_no_monetary_charge",
+        "db_bytes": 151552,
+        "storage_growth_bytes": 8192,
+        "authoring_ms": 1.8011,
+        "instantiation_ms": 241.29,
+        "cpu_ms": 296.875,
+        "wall_ms": 631.8248,
+        "peak_rss_bytes": 92434432,
+        "tick_p50_ms": 38.9021,
+        "tick_p95_ms": 38.9021,
+        "action_p50_ms": 21.7896,
+        "action_p95_ms": 22.0118,
+        "checkpoint_duration_ms": 11.2812,
+        "checkpoint_size_bytes": 0,
+        "replay_duration_ms": 0.1592,
+        "recovery_duration_ms": 3.746
+      },
+      "checks": {
+        "actor_count_exact": true,
+        "checkpoint_created": true,
+        "replay_equal": true,
+        "recovery_equal": true,
+        "provider_proposal_only": true,
+        "lod_count_exact": true,
+        "db_measured": true,
+        "rss_measured": true
+      },
+      "boundaries": {
+        "implemented": [
+          "real Playable/SQLite standard fixture scale tier",
+          "SimulationLOD policy measurement",
+          "provider/runtime/storage/timing measurement"
+        ],
+        "validated": [
+          "this exact tier/repetition only"
+        ],
+        "experimental": [
+          "bounded scale interpretation"
+        ],
+        "not_proven": [
+          "10k/100k extrapolation",
+          "universal capacity"
+        ],
+        "external_blocked": []
+      }
+    },
+    {
+      "schema": "wanxiang.v5.5.m98.scale-row.v1",
+      "conclusion": "PASS",
+      "run_id": "m98-scale-10-r3",
+      "tier": 10,
+      "repetition": 3,
+      "seed": 10203,
+      "build_sha": "09c161c79f14911c804b3d22c38896c3545c41cf",
+      "template": "m98-standard-scale-template-v1",
+      "template_hash": "e43135ca34d98d5cf6d619b13173eb6dcbc8baa8cabbe0e653141288613ea129",
+      "source_sha256": "607deb70b3b774de2b2d1d956ff41e6e9b830993ac50372f293d9540cc096a3f",
+      "package_sha256": "39e36b9b9dbc64fdd959f942b969aed9755f25b46e1a3925f9755e400c6d12e6",
+      "world_package_ref": "world:wd_job_m98-scale-10-r3",
+      "scenario_ref": "default",
+      "world_ref": "prv_playable_1",
+      "branch_ref": "br_5827c328689948f59413b9e23def40e3",
+      "snapshot_ref": "snap_fd2dbe5643ab4d1f8a88d89d2b014a2c",
+      "metrics": {
+        "lod_counts": {
+          "L0": 1,
+          "L1": 1,
+          "L2": 6,
+          "L3": 1,
+          "L4": 1
+        },
+        "active_actor_count": 2,
+        "full_policy_actor_count": 10,
+        "population_count": 10,
+        "lod_policy": {
+          "l0_threshold": 0.8,
+          "l1_threshold": 0.6,
+          "l2_threshold": 0.35,
+          "l3_threshold": 0.1
+        },
+        "event_count": 17,
+        "event_rate_per_tick": 0.017,
+        "provider_call_count": 10,
+        "provider_cost_units": 10,
+        "provider_cost_usd": 0.0,
+        "provider_cost_basis": "local_reference_provider_no_monetary_charge",
+        "db_bytes": 151552,
+        "storage_growth_bytes": 8192,
+        "authoring_ms": 1.5587,
+        "instantiation_ms": 265.434,
+        "cpu_ms": 328.125,
+        "wall_ms": 657.8529,
+        "peak_rss_bytes": 92930048,
+        "tick_p50_ms": 41.8723,
+        "tick_p95_ms": 41.8723,
+        "action_p50_ms": 21.4647,
+        "action_p95_ms": 21.8377,
+        "checkpoint_duration_ms": 9.9804,
+        "checkpoint_size_bytes": 0,
+        "replay_duration_ms": 0.1809,
+        "recovery_duration_ms": 3.7242
+      },
+      "checks": {
+        "actor_count_exact": true,
+        "checkpoint_created": true,
+        "replay_equal": true,
+        "recovery_equal": true,
+        "provider_proposal_only": true,
+        "lod_count_exact": true,
+        "db_measured": true,
+        "rss_measured": true
+      },
+      "boundaries": {
+        "implemented": [
+          "real Playable/SQLite standard fixture scale tier",
+          "SimulationLOD policy measurement",
+          "provider/runtime/storage/timing measurement"
+        ],
+        "validated": [
+          "this exact tier/repetition only"
+        ],
+        "experimental": [
+          "bounded scale interpretation"
+        ],
+        "not_proven": [
+          "10k/100k extrapolation",
+          "universal capacity"
+        ],
+        "external_blocked": []
+      }
+    },
+    {
+      "schema": "wanxiang.v5.5.m98.scale-row.v1",
+      "conclusion": "PASS",
+      "run_id": "m98-scale-50-r1",
+      "tier": 50,
+      "repetition": 1,
+      "seed": 10601,
+      "build_sha": "09c161c79f14911c804b3d22c38896c3545c41cf",
+      "template": "m98-standard-scale-template-v1",
+      "template_hash": "e43135ca34d98d5cf6d619b13173eb6dcbc8baa8cabbe0e653141288613ea129",
+      "source_sha256": "8778ef1a265b2e59f62f5605b00ecc3df40ca733e35cfa8ee54bebe661ebdaed",
+      "package_sha256": "3bf2330399029af9a35c083e74e67a1f4826818065ba6a9974487a6a8717d26a",
+      "world_package_ref": "world:wd_job_m98-scale-50-r1",
+      "scenario_ref": "default",
+      "world_ref": "prv_playable_1",
+      "branch_ref": "br_219ea97ef4ab41208b6f4e3facb40813",
+      "snapshot_ref": "snap_0ae7223e3ae34a1fb4e05ba7026c9fa9",
+      "metrics": {
+        "lod_counts": {
+          "L0": 1,
+          "L1": 4,
+          "L2": 25,
+          "L3": 7,
+          "L4": 13
+        },
+        "active_actor_count": 5,
+        "full_policy_actor_count": 50,
+        "population_count": 50,
+        "lod_policy": {
+          "l0_threshold": 0.8,
+          "l1_threshold": 0.6,
+          "l2_threshold": 0.35,
+          "l3_threshold": 0.1
+        },
+        "event_count": 57,
+        "event_rate_per_tick": 0.057,
+        "provider_call_count": 50,
+        "provider_cost_units": 50,
+        "provider_cost_usd": 0.0,
+        "provider_cost_basis": "local_reference_provider_no_monetary_charge",
+        "db_bytes": 217088,
+        "storage_growth_bytes": 20480,
+        "authoring_ms": 3.9196,
+        "instantiation_ms": 1107.2949,
+        "cpu_ms": 718.75,
+        "wall_ms": 1534.3893,
+        "peak_rss_bytes": 93655040,
+        "tick_p50_ms": 42.3809,
+        "tick_p95_ms": 42.3809,
+        "action_p50_ms": 22.8004,
+        "action_p95_ms": 24.6067,
+        "checkpoint_duration_ms": 10.4327,
+        "checkpoint_size_bytes": 8192,
+        "replay_duration_ms": 0.6102,
+        "recovery_duration_ms": 6.7137
+      },
+      "checks": {
+        "actor_count_exact": true,
+        "checkpoint_created": true,
+        "replay_equal": true,
+        "recovery_equal": true,
+        "provider_proposal_only": true,
+        "lod_count_exact": true,
+        "db_measured": true,
+        "rss_measured": true
+      },
+      "boundaries": {
+        "implemented": [
+          "real Playable/SQLite standard fixture scale tier",
+          "SimulationLOD policy measurement",
+          "provider/runtime/storage/timing measurement"
+        ],
+        "validated": [
+          "this exact tier/repetition only"
+        ],
+        "experimental": [
+          "bounded scale interpretation"
+        ],
+        "not_proven": [
+          "10k/100k extrapolation",
+          "universal capacity"
+        ],
+        "external_blocked": []
+      }
+    },
+    {
+      "schema": "wanxiang.v5.5.m98.scale-row.v1",
+      "conclusion": "PASS",
+      "run_id": "m98-scale-50-r2",
+      "tier": 50,
+      "repetition": 2,
+      "seed": 10602,
+      "build_sha": "09c161c79f14911c804b3d22c38896c3545c41cf",
+      "template": "m98-standard-scale-template-v1",
+      "template_hash": "e43135ca34d98d5cf6d619b13173eb6dcbc8baa8cabbe0e653141288613ea129",
+      "source_sha256": "8778ef1a265b2e59f62f5605b00ecc3df40ca733e35cfa8ee54bebe661ebdaed",
+      "package_sha256": "05fa6b95b353f56c04c03ee79e1d23c5d6edd8932711596da84b8b8170dc6804",
+      "world_package_ref": "world:wd_job_m98-scale-50-r2",
+      "scenario_ref": "default",
+      "world_ref": "prv_playable_1",
+      "branch_ref": "br_398c08798eca4ed7bc759d7d587df993",
+      "snapshot_ref": "snap_d6b3f19c0b404f2288ea5fcffb122dde",
+      "metrics": {
+        "lod_counts": {
+          "L0": 1,
+          "L1": 4,
+          "L2": 25,
+          "L3": 7,
+          "L4": 13
+        },
+        "active_actor_count": 5,
+        "full_policy_actor_count": 50,
+        "population_count": 50,
+        "lod_policy": {
+          "l0_threshold": 0.8,
+          "l1_threshold": 0.6,
+          "l2_threshold": 0.35,
+          "l3_threshold": 0.1
+        },
+        "event_count": 57,
+        "event_rate_per_tick": 0.057,
+        "provider_call_count": 50,
+        "provider_cost_units": 50,
+        "provider_cost_usd": 0.0,
+        "provider_cost_basis": "local_reference_provider_no_monetary_charge",
+        "db_bytes": 217088,
+        "storage_growth_bytes": 20480,
+        "authoring_ms": 5.3645,
+        "instantiation_ms": 1116.7908,
+        "cpu_ms": 656.25,
+        "wall_ms": 1540.7023,
+        "peak_rss_bytes": 94076928,
+        "tick_p50_ms": 41.3706,
+        "tick_p95_ms": 41.3706,
+        "action_p50_ms": 22.5247,
+        "action_p95_ms": 25.319,
+        "checkpoint_duration_ms": 10.0776,
+        "checkpoint_size_bytes": 8192,
+        "replay_duration_ms": 0.4838,
+        "recovery_duration_ms": 6.4882
+      },
+      "checks": {
+        "actor_count_exact": true,
+        "checkpoint_created": true,
+        "replay_equal": true,
+        "recovery_equal": true,
+        "provider_proposal_only": true,
+        "lod_count_exact": true,
+        "db_measured": true,
+        "rss_measured": true
+      },
+      "boundaries": {
+        "implemented": [
+          "real Playable/SQLite standard fixture scale tier",
+          "SimulationLOD policy measurement",
+          "provider/runtime/storage/timing measurement"
+        ],
+        "validated": [
+          "this exact tier/repetition only"
+        ],
+        "experimental": [
+          "bounded scale interpretation"
+        ],
+        "not_proven": [
+          "10k/100k extrapolation",
+          "universal capacity"
+        ],
+        "external_blocked": []
+      }
+    },
+    {
+      "schema": "wanxiang.v5.5.m98.scale-row.v1",
+      "conclusion": "PASS",
+      "run_id": "m98-scale-50-r3",
+      "tier": 50,
+      "repetition": 3,
+      "seed": 10603,
+      "build_sha": "09c161c79f14911c804b3d22c38896c3545c41cf",
+      "template": "m98-standard-scale-template-v1",
+      "template_hash": "e43135ca34d98d5cf6d619b13173eb6dcbc8baa8cabbe0e653141288613ea129",
+      "source_sha256": "8778ef1a265b2e59f62f5605b00ecc3df40ca733e35cfa8ee54bebe661ebdaed",
+      "package_sha256": "29d2a38ea8cc313a55a1c2413441fc9919e2072967b2eefbc22b840c2afa50da",
+      "world_package_ref": "world:wd_job_m98-scale-50-r3",
+      "scenario_ref": "default",
+      "world_ref": "prv_playable_1",
+      "branch_ref": "br_356da275d06546659e29dee33b7ccedc",
+      "snapshot_ref": "snap_a5efa6793432443da9ff5d9b5af0f1a8",
+      "metrics": {
+        "lod_counts": {
+          "L0": 1,
+          "L1": 4,
+          "L2": 25,
+          "L3": 7,
+          "L4": 13
+        },
+        "active_actor_count": 5,
+        "full_policy_actor_count": 50,
+        "population_count": 50,
+        "lod_policy": {
+          "l0_threshold": 0.8,
+          "l1_threshold": 0.6,
+          "l2_threshold": 0.35,
+          "l3_threshold": 0.1
+        },
+        "event_count": 57,
+        "event_rate_per_tick": 0.057,
+        "provider_call_count": 50,
+        "provider_cost_units": 50,
+        "provider_cost_usd": 0.0,
+        "provider_cost_basis": "local_reference_provider_no_monetary_charge",
+        "db_bytes": 217088,
+        "storage_growth_bytes": 20480,
+        "authoring_ms": 4.6752,
+        "instantiation_ms": 1174.3208,
+        "cpu_ms": 718.75,
+        "wall_ms": 1607.8134,
+        "peak_rss_bytes": 94683136,
+        "tick_p50_ms": 41.6967,
+        "tick_p95_ms": 41.6967,
+        "action_p50_ms": 25.1697,
+        "action_p95_ms": 26.1587,
+        "checkpoint_duration_ms": 11.7464,
+        "checkpoint_size_bytes": 8192,
+        "replay_duration_ms": 0.8695,
+        "recovery_duration_ms": 6.2811
+      },
+      "checks": {
+        "actor_count_exact": true,
+        "checkpoint_created": true,
+        "replay_equal": true,
+        "recovery_equal": true,
+        "provider_proposal_only": true,
+        "lod_count_exact": true,
+        "db_measured": true,
+        "rss_measured": true
+      },
+      "boundaries": {
+        "implemented": [
+          "real Playable/SQLite standard fixture scale tier",
+          "SimulationLOD policy measurement",
+          "provider/runtime/storage/timing measurement"
+        ],
+        "validated": [
+          "this exact tier/repetition only"
+        ],
+        "experimental": [
+          "bounded scale interpretation"
+        ],
+        "not_proven": [
+          "10k/100k extrapolation",
+          "universal capacity"
+        ],
+        "external_blocked": []
+      }
+    },
+    {
+      "schema": "wanxiang.v5.5.m98.scale-row.v1",
+      "conclusion": "PASS",
+      "run_id": "m98-scale-100-r1",
+      "tier": 100,
+      "repetition": 1,
+      "seed": 11101,
+      "build_sha": "09c161c79f14911c804b3d22c38896c3545c41cf",
+      "template": "m98-standard-scale-template-v1",
+      "template_hash": "e43135ca34d98d5cf6d619b13173eb6dcbc8baa8cabbe0e653141288613ea129",
+      "source_sha256": "0ce69a8373f6b7cec6ea8a6403ef55b25ac21d881e05a29dba938ed1d9b19e62",
+      "package_sha256": "3b84f67734280fc0ade537935aa7ec6d62474f732559c2a4644c3adbc641d50b",
+      "world_package_ref": "world:wd_job_m98-scale-100-r1",
+      "scenario_ref": "default",
+      "world_ref": "prv_playable_1",
+      "branch_ref": "br_726f0dbce5aa4577b491879e7d3fc23b",
+      "snapshot_ref": "snap_347f8f34e4364f34ac7fbd22c93ff2b8",
+      "metrics": {
+        "lod_counts": {
+          "L0": 1,
+          "L1": 9,
+          "L2": 51,
+          "L3": 13,
+          "L4": 26
+        },
+        "active_actor_count": 10,
+        "full_policy_actor_count": 100,
+        "population_count": 100,
+        "lod_policy": {
+          "l0_threshold": 0.8,
+          "l1_threshold": 0.6,
+          "l2_threshold": 0.35,
+          "l3_threshold": 0.1
+        },
+        "event_count": 107,
+        "event_rate_per_tick": 0.107,
+        "provider_call_count": 100,
+        "provider_cost_units": 100,
+        "provider_cost_usd": 0.0,
+        "provider_cost_basis": "local_reference_provider_no_monetary_charge",
+        "db_bytes": 348160,
+        "storage_growth_bytes": 24576,
+        "authoring_ms": 7.4411,
+        "instantiation_ms": 2415.312,
+        "cpu_ms": 1265.625,
+        "wall_ms": 2860.2205,
+        "peak_rss_bytes": 95924224,
+        "tick_p50_ms": 45.1506,
+        "tick_p95_ms": 45.1506,
+        "action_p50_ms": 24.8584,
+        "action_p95_ms": 25.9117,
+        "checkpoint_duration_ms": 10.2736,
+        "checkpoint_size_bytes": 16384,
+        "replay_duration_ms": 0.9199,
+        "recovery_duration_ms": 8.6341
+      },
+      "checks": {
+        "actor_count_exact": true,
+        "checkpoint_created": true,
+        "replay_equal": true,
+        "recovery_equal": true,
+        "provider_proposal_only": true,
+        "lod_count_exact": true,
+        "db_measured": true,
+        "rss_measured": true
+      },
+      "boundaries": {
+        "implemented": [
+          "real Playable/SQLite standard fixture scale tier",
+          "SimulationLOD policy measurement",
+          "provider/runtime/storage/timing measurement"
+        ],
+        "validated": [
+          "this exact tier/repetition only"
+        ],
+        "experimental": [
+          "bounded scale interpretation"
+        ],
+        "not_proven": [
+          "10k/100k extrapolation",
+          "universal capacity"
+        ],
+        "external_blocked": []
+      }
+    },
+    {
+      "schema": "wanxiang.v5.5.m98.scale-row.v1",
+      "conclusion": "PASS",
+      "run_id": "m98-scale-100-r2",
+      "tier": 100,
+      "repetition": 2,
+      "seed": 11102,
+      "build_sha": "09c161c79f14911c804b3d22c38896c3545c41cf",
+      "template": "m98-standard-scale-template-v1",
+      "template_hash": "e43135ca34d98d5cf6d619b13173eb6dcbc8baa8cabbe0e653141288613ea129",
+      "source_sha256": "0ce69a8373f6b7cec6ea8a6403ef55b25ac21d881e05a29dba938ed1d9b19e62",
+      "package_sha256": "15e69ba80c74e735271128ea692ad8d798c9207f985359ccca408333b00cfd8b",
+      "world_package_ref": "world:wd_job_m98-scale-100-r2",
+      "scenario_ref": "default",
+      "world_ref": "prv_playable_1",
+      "branch_ref": "br_8d766e97b68544eb99aeeb0b67078f49",
+      "snapshot_ref": "snap_a5d0b50e1a494bb384b55ab33b48c5fc",
+      "metrics": {
+        "lod_counts": {
+          "L0": 1,
+          "L1": 9,
+          "L2": 51,
+          "L3": 13,
+          "L4": 26
+        },
+        "active_actor_count": 10,
+        "full_policy_actor_count": 100,
+        "population_count": 100,
+        "lod_policy": {
+          "l0_threshold": 0.8,
+          "l1_threshold": 0.6,
+          "l2_threshold": 0.35,
+          "l3_threshold": 0.1
+        },
+        "event_count": 107,
+        "event_rate_per_tick": 0.107,
+        "provider_call_count": 100,
+        "provider_cost_units": 100,
+        "provider_cost_usd": 0.0,
+        "provider_cost_basis": "local_reference_provider_no_monetary_charge",
+        "db_bytes": 348160,
+        "storage_growth_bytes": 24576,
+        "authoring_ms": 8.5524,
+        "instantiation_ms": 2236.4701,
+        "cpu_ms": 1281.25,
+        "wall_ms": 2732.1804,
+        "peak_rss_bytes": 96509952,
+        "tick_p50_ms": 43.2358,
+        "tick_p95_ms": 43.2358,
+        "action_p50_ms": 25.8055,
+        "action_p95_ms": 26.0851,
+        "checkpoint_duration_ms": 11.685,
+        "checkpoint_size_bytes": 16384,
+        "replay_duration_ms": 0.8109,
+        "recovery_duration_ms": 8.5979
+      },
+      "checks": {
+        "actor_count_exact": true,
+        "checkpoint_created": true,
+        "replay_equal": true,
+        "recovery_equal": true,
+        "provider_proposal_only": true,
+        "lod_count_exact": true,
+        "db_measured": true,
+        "rss_measured": true
+      },
+      "boundaries": {
+        "implemented": [
+          "real Playable/SQLite standard fixture scale tier",
+          "SimulationLOD policy measurement",
+          "provider/runtime/storage/timing measurement"
+        ],
+        "validated": [
+          "this exact tier/repetition only"
+        ],
+        "experimental": [
+          "bounded scale interpretation"
+        ],
+        "not_proven": [
+          "10k/100k extrapolation",
+          "universal capacity"
+        ],
+        "external_blocked": []
+      }
+    },
+    {
+      "schema": "wanxiang.v5.5.m98.scale-row.v1",
+      "conclusion": "PASS",
+      "run_id": "m98-scale-100-r3",
+      "tier": 100,
+      "repetition": 3,
+      "seed": 11103,
+      "build_sha": "09c161c79f14911c804b3d22c38896c3545c41cf",
+      "template": "m98-standard-scale-template-v1",
+      "template_hash": "e43135ca34d98d5cf6d619b13173eb6dcbc8baa8cabbe0e653141288613ea129",
+      "source_sha256": "0ce69a8373f6b7cec6ea8a6403ef55b25ac21d881e05a29dba938ed1d9b19e62",
+      "package_sha256": "060a1c1748e31e44a44d727d1b975f397c38d44a360c93457b2179e73fe8e7fa",
+      "world_package_ref": "world:wd_job_m98-scale-100-r3",
+      "scenario_ref": "default",
+      "world_ref": "prv_playable_1",
+      "branch_ref": "br_620a2fb681914aa9b12b83854d1fdc10",
+      "snapshot_ref": "snap_29323e8bbfb147018eb762452e023cfc",
+      "metrics": {
+        "lod_counts": {
+          "L0": 1,
+          "L1": 9,
+          "L2": 51,
+          "L3": 13,
+          "L4": 26
+        },
+        "active_actor_count": 10,
+        "full_policy_actor_count": 100,
+        "population_count": 100,
+        "lod_policy": {
+          "l0_threshold": 0.8,
+          "l1_threshold": 0.6,
+          "l2_threshold": 0.35,
+          "l3_threshold": 0.1
+        },
+        "event_count": 107,
+        "event_rate_per_tick": 0.107,
+        "provider_call_count": 100,
+        "provider_cost_units": 100,
+        "provider_cost_usd": 0.0,
+        "provider_cost_basis": "local_reference_provider_no_monetary_charge",
+        "db_bytes": 348160,
+        "storage_growth_bytes": 24576,
+        "authoring_ms": 8.554,
+        "instantiation_ms": 2353.658,
+        "cpu_ms": 1296.875,
+        "wall_ms": 2814.9635,
+        "peak_rss_bytes": 96514048,
+        "tick_p50_ms": 44.1183,
+        "tick_p95_ms": 44.1183,
+        "action_p50_ms": 26.9046,
+        "action_p95_ms": 28.2394,
+        "checkpoint_duration_ms": 11.1476,
+        "checkpoint_size_bytes": 16384,
+        "replay_duration_ms": 1.9515,
+        "recovery_duration_ms": 9.7086
+      },
+      "checks": {
+        "actor_count_exact": true,
+        "checkpoint_created": true,
+        "replay_equal": true,
+        "recovery_equal": true,
+        "provider_proposal_only": true,
+        "lod_count_exact": true,
+        "db_measured": true,
+        "rss_measured": true
+      },
+      "boundaries": {
+        "implemented": [
+          "real Playable/SQLite standard fixture scale tier",
+          "SimulationLOD policy measurement",
+          "provider/runtime/storage/timing measurement"
+        ],
+        "validated": [
+          "this exact tier/repetition only"
+        ],
+        "experimental": [
+          "bounded scale interpretation"
+        ],
+        "not_proven": [
+          "10k/100k extrapolation",
+          "universal capacity"
+        ],
+        "external_blocked": []
+      }
+    },
+    {
+      "schema": "wanxiang.v5.5.m98.scale-row.v1",
+      "conclusion": "PASS",
+      "run_id": "m98-scale-500-r1",
+      "tier": 500,
+      "repetition": 1,
+      "seed": 15101,
+      "build_sha": "09c161c79f14911c804b3d22c38896c3545c41cf",
+      "template": "m98-standard-scale-template-v1",
+      "template_hash": "e43135ca34d98d5cf6d619b13173eb6dcbc8baa8cabbe0e653141288613ea129",
+      "source_sha256": "753f0787a79b4fb5314611bdf5923bda4d609b57ee724da7582cb46087da16b8",
+      "package_sha256": "b87e0a16074fa693ac4bd10e286c6760f709343e4a8666f3527447db18ea0b3d",
+      "world_package_ref": "world:wd_job_m98-scale-500-r1",
+      "scenario_ref": "default",
+      "world_ref": "prv_playable_1",
+      "branch_ref": "br_9e193c1cb8e14b05857152941fb58ea2",
+      "snapshot_ref": "snap_50c3673bf6e8439b996b27dde06ff1d1",
+      "metrics": {
+        "lod_counts": {
+          "L0": 1,
+          "L1": 19,
+          "L2": 274,
+          "L3": 69,
+          "L4": 137
+        },
+        "active_actor_count": 20,
+        "full_policy_actor_count": 500,
+        "population_count": 500,
+        "lod_policy": {
+          "l0_threshold": 0.8,
+          "l1_threshold": 0.6,
+          "l2_threshold": 0.35,
+          "l3_threshold": 0.1
+        },
+        "event_count": 507,
+        "event_rate_per_tick": 0.507,
+        "provider_call_count": 500,
+        "provider_cost_units": 500,
+        "provider_cost_usd": 0.0,
+        "provider_cost_basis": "local_reference_provider_no_monetary_charge",
+        "db_bytes": 1093632,
+        "storage_growth_bytes": 90112,
+        "authoring_ms": 39.9893,
+        "instantiation_ms": 11930.4456,
+        "cpu_ms": 5593.75,
+        "wall_ms": 12692.1224,
+        "peak_rss_bytes": 100933632,
+        "tick_p50_ms": 42.5004,
+        "tick_p95_ms": 42.5004,
+        "action_p50_ms": 37.4573,
+        "action_p95_ms": 45.2909,
+        "checkpoint_duration_ms": 12.2138,
+        "checkpoint_size_bytes": 77824,
+        "replay_duration_ms": 5.7383,
+        "recovery_duration_ms": 41.3839
+      },
+      "checks": {
+        "actor_count_exact": true,
+        "checkpoint_created": true,
+        "replay_equal": true,
+        "recovery_equal": true,
+        "provider_proposal_only": true,
+        "lod_count_exact": true,
+        "db_measured": true,
+        "rss_measured": true
+      },
+      "boundaries": {
+        "implemented": [
+          "real Playable/SQLite standard fixture scale tier",
+          "SimulationLOD policy measurement",
+          "provider/runtime/storage/timing measurement"
+        ],
+        "validated": [
+          "this exact tier/repetition only"
+        ],
+        "experimental": [
+          "bounded scale interpretation"
+        ],
+        "not_proven": [
+          "10k/100k extrapolation",
+          "universal capacity"
+        ],
+        "external_blocked": []
+      }
+    },
+    {
+      "schema": "wanxiang.v5.5.m98.scale-row.v1",
+      "conclusion": "PASS",
+      "run_id": "m98-scale-500-r2",
+      "tier": 500,
+      "repetition": 2,
+      "seed": 15102,
+      "build_sha": "09c161c79f14911c804b3d22c38896c3545c41cf",
+      "template": "m98-standard-scale-template-v1",
+      "template_hash": "e43135ca34d98d5cf6d619b13173eb6dcbc8baa8cabbe0e653141288613ea129",
+      "source_sha256": "753f0787a79b4fb5314611bdf5923bda4d609b57ee724da7582cb46087da16b8",
+      "package_sha256": "fb8b98803a2f6b8b6b58ce715950da21376c31f5b92fe348d7c31740b5d269ea",
+      "world_package_ref": "world:wd_job_m98-scale-500-r2",
+      "scenario_ref": "default",
+      "world_ref": "prv_playable_1",
+      "branch_ref": "br_45cf5a50a0984f399029b3707d4fca5e",
+      "snapshot_ref": "snap_df6a4d98543b44ff92c81f088a4f98c3",
+      "metrics": {
+        "lod_counts": {
+          "L0": 1,
+          "L1": 19,
+          "L2": 274,
+          "L3": 69,
+          "L4": 137
+        },
+        "active_actor_count": 20,
+        "full_policy_actor_count": 500,
+        "population_count": 500,
+        "lod_policy": {
+          "l0_threshold": 0.8,
+          "l1_threshold": 0.6,
+          "l2_threshold": 0.35,
+          "l3_threshold": 0.1
+        },
+        "event_count": 507,
+        "event_rate_per_tick": 0.507,
+        "provider_call_count": 500,
+        "provider_cost_units": 500,
+        "provider_cost_usd": 0.0,
+        "provider_cost_basis": "local_reference_provider_no_monetary_charge",
+        "db_bytes": 1093632,
+        "storage_growth_bytes": 86016,
+        "authoring_ms": 30.3826,
+        "instantiation_ms": 11957.5691,
+        "cpu_ms": 6062.5,
+        "wall_ms": 12679.7759,
+        "peak_rss_bytes": 101363712,
+        "tick_p50_ms": 43.2773,
+        "tick_p95_ms": 43.2773,
+        "action_p50_ms": 38.6181,
+        "action_p95_ms": 80.1039,
+        "checkpoint_duration_ms": 12.1129,
+        "checkpoint_size_bytes": 77824,
+        "replay_duration_ms": 5.0071,
+        "recovery_duration_ms": 34.5071
+      },
+      "checks": {
+        "actor_count_exact": true,
+        "checkpoint_created": true,
+        "replay_equal": true,
+        "recovery_equal": true,
+        "provider_proposal_only": true,
+        "lod_count_exact": true,
+        "db_measured": true,
+        "rss_measured": true
+      },
+      "boundaries": {
+        "implemented": [
+          "real Playable/SQLite standard fixture scale tier",
+          "SimulationLOD policy measurement",
+          "provider/runtime/storage/timing measurement"
+        ],
+        "validated": [
+          "this exact tier/repetition only"
+        ],
+        "experimental": [
+          "bounded scale interpretation"
+        ],
+        "not_proven": [
+          "10k/100k extrapolation",
+          "universal capacity"
+        ],
+        "external_blocked": []
+      }
+    },
+    {
+      "schema": "wanxiang.v5.5.m98.scale-row.v1",
+      "conclusion": "PASS",
+      "run_id": "m98-scale-500-r3",
+      "tier": 500,
+      "repetition": 3,
+      "seed": 15103,
+      "build_sha": "09c161c79f14911c804b3d22c38896c3545c41cf",
+      "template": "m98-standard-scale-template-v1",
+      "template_hash": "e43135ca34d98d5cf6d619b13173eb6dcbc8baa8cabbe0e653141288613ea129",
+      "source_sha256": "753f0787a79b4fb5314611bdf5923bda4d609b57ee724da7582cb46087da16b8",
+      "package_sha256": "c06b02f8679cb5b7a0014676a3ac3790c46c8429556a7032180883e5a663916e",
+      "world_package_ref": "world:wd_job_m98-scale-500-r3",
+      "scenario_ref": "default",
+      "world_ref": "prv_playable_1",
+      "branch_ref": "br_61459818514349adb7e2f0c1bb1cec63",
+      "snapshot_ref": "snap_c4b8b176880a4306a0c7eaf7ddbdae33",
+      "metrics": {
+        "lod_counts": {
+          "L0": 1,
+          "L1": 19,
+          "L2": 274,
+          "L3": 69,
+          "L4": 137
+        },
+        "active_actor_count": 20,
+        "full_policy_actor_count": 500,
+        "population_count": 500,
+        "lod_policy": {
+          "l0_threshold": 0.8,
+          "l1_threshold": 0.6,
+          "l2_threshold": 0.35,
+          "l3_threshold": 0.1
+        },
+        "event_count": 507,
+        "event_rate_per_tick": 0.507,
+        "provider_call_count": 500,
+        "provider_cost_units": 500,
+        "provider_cost_usd": 0.0,
+        "provider_cost_basis": "local_reference_provider_no_monetary_charge",
+        "db_bytes": 1081344,
+        "storage_growth_bytes": 86016,
+        "authoring_ms": 67.1319,
+        "instantiation_ms": 12119.7535,
+        "cpu_ms": 5953.125,
+        "wall_ms": 12941.8428,
+        "peak_rss_bytes": 101416960,
+        "tick_p50_ms": 45.2581,
+        "tick_p95_ms": 45.2581,
+        "action_p50_ms": 37.6249,
+        "action_p95_ms": 38.3954,
+        "checkpoint_duration_ms": 11.9881,
+        "checkpoint_size_bytes": 77824,
+        "replay_duration_ms": 5.968,
+        "recovery_duration_ms": 87.4085
+      },
+      "checks": {
+        "actor_count_exact": true,
+        "checkpoint_created": true,
+        "replay_equal": true,
+        "recovery_equal": true,
+        "provider_proposal_only": true,
+        "lod_count_exact": true,
+        "db_measured": true,
+        "rss_measured": true
+      },
+      "boundaries": {
+        "implemented": [
+          "real Playable/SQLite standard fixture scale tier",
+          "SimulationLOD policy measurement",
+          "provider/runtime/storage/timing measurement"
+        ],
+        "validated": [
+          "this exact tier/repetition only"
+        ],
+        "experimental": [
+          "bounded scale interpretation"
+        ],
+        "not_proven": [
+          "10k/100k extrapolation",
+          "universal capacity"
+        ],
+        "external_blocked": []
+      }
+    },
+    {
+      "schema": "wanxiang.v5.5.m98.scale-row.v1",
+      "conclusion": "PASS",
+      "run_id": "m98-scale-1000-r1",
+      "tier": 1000,
+      "repetition": 1,
+      "seed": 20101,
+      "build_sha": "09c161c79f14911c804b3d22c38896c3545c41cf",
+      "template": "m98-standard-scale-template-v1",
+      "template_hash": "e43135ca34d98d5cf6d619b13173eb6dcbc8baa8cabbe0e653141288613ea129",
+      "source_sha256": "c87592508092f5b618d49528739dd5b7206ad211f3ff176f14ae3944032c3666",
+      "package_sha256": "2b3448e56c1b53eff585bb255fb3871697a53e268b8f85c09608727138dbaf14",
+      "world_package_ref": "world:wd_job_m98-scale-1000-r1",
+      "scenario_ref": "default",
+      "world_ref": "prv_playable_1",
+      "branch_ref": "br_244de0f94d0e4b159a30a21bffd24069",
+      "snapshot_ref": "snap_096c2e5fefa3413196c23eafc8683d86",
+      "metrics": {
+        "lod_counts": {
+          "L0": 1,
+          "L1": 19,
+          "L2": 560,
+          "L3": 140,
+          "L4": 280
+        },
+        "active_actor_count": 20,
+        "full_policy_actor_count": 1000,
+        "population_count": 1000,
+        "lod_policy": {
+          "l0_threshold": 0.8,
+          "l1_threshold": 0.6,
+          "l2_threshold": 0.35,
+          "l3_threshold": 0.1
+        },
+        "event_count": 1007,
+        "event_rate_per_tick": 1.007,
+        "provider_call_count": 1000,
+        "provider_cost_units": 1000,
+        "provider_cost_usd": 0.0,
+        "provider_cost_basis": "local_reference_provider_no_monetary_charge",
+        "db_bytes": 2039808,
+        "storage_growth_bytes": 172032,
+        "authoring_ms": 68.008,
+        "instantiation_ms": 24631.2755,
+        "cpu_ms": 12515.625,
+        "wall_ms": 25914.1862,
+        "peak_rss_bytes": 108630016,
+        "tick_p50_ms": 51.8937,
+        "tick_p95_ms": 51.8937,
+        "action_p50_ms": 51.4696,
+        "action_p95_ms": 89.7055,
+        "checkpoint_duration_ms": 13.8901,
+        "checkpoint_size_bytes": 159744,
+        "replay_duration_ms": 14.8492,
+        "recovery_duration_ms": 124.8866
+      },
+      "checks": {
+        "actor_count_exact": true,
+        "checkpoint_created": true,
+        "replay_equal": true,
+        "recovery_equal": true,
+        "provider_proposal_only": true,
+        "lod_count_exact": true,
+        "db_measured": true,
+        "rss_measured": true
+      },
+      "boundaries": {
+        "implemented": [
+          "real Playable/SQLite standard fixture scale tier",
+          "SimulationLOD policy measurement",
+          "provider/runtime/storage/timing measurement"
+        ],
+        "validated": [
+          "this exact tier/repetition only"
+        ],
+        "experimental": [
+          "bounded scale interpretation"
+        ],
+        "not_proven": [
+          "10k/100k extrapolation",
+          "universal capacity"
+        ],
+        "external_blocked": []
+      }
+    },
+    {
+      "schema": "wanxiang.v5.5.m98.scale-row.v1",
+      "conclusion": "PASS",
+      "run_id": "m98-scale-1000-r2",
+      "tier": 1000,
+      "repetition": 2,
+      "seed": 20102,
+      "build_sha": "09c161c79f14911c804b3d22c38896c3545c41cf",
+      "template": "m98-standard-scale-template-v1",
+      "template_hash": "e43135ca34d98d5cf6d619b13173eb6dcbc8baa8cabbe0e653141288613ea129",
+      "source_sha256": "c87592508092f5b618d49528739dd5b7206ad211f3ff176f14ae3944032c3666",
+      "package_sha256": "02b2200ffab186765de41bfa9dd86967b7580faa168a187c9e1a4dc2f67da360",
+      "world_package_ref": "world:wd_job_m98-scale-1000-r2",
+      "scenario_ref": "default",
+      "world_ref": "prv_playable_1",
+      "branch_ref": "br_c052f0b6ee2349748d00b0548f9cd061",
+      "snapshot_ref": "snap_d77711ddca3d480a87560f70a3d0d799",
+      "metrics": {
+        "lod_counts": {
+          "L0": 1,
+          "L1": 19,
+          "L2": 560,
+          "L3": 140,
+          "L4": 280
+        },
+        "active_actor_count": 20,
+        "full_policy_actor_count": 1000,
+        "population_count": 1000,
+        "lod_policy": {
+          "l0_threshold": 0.8,
+          "l1_threshold": 0.6,
+          "l2_threshold": 0.35,
+          "l3_threshold": 0.1
+        },
+        "event_count": 1007,
+        "event_rate_per_tick": 1.007,
+        "provider_call_count": 1000,
+        "provider_cost_units": 1000,
+        "provider_cost_usd": 0.0,
+        "provider_cost_basis": "local_reference_provider_no_monetary_charge",
+        "db_bytes": 2031616,
+        "storage_growth_bytes": 172032,
+        "authoring_ms": 69.8003,
+        "instantiation_ms": 24753.5908,
+        "cpu_ms": 12328.125,
+        "wall_ms": 26017.3616,
+        "peak_rss_bytes": 109436928,
+        "tick_p50_ms": 46.2686,
+        "tick_p95_ms": 46.2686,
+        "action_p50_ms": 52.3977,
+        "action_p95_ms": 91.5981,
+        "checkpoint_duration_ms": 18.0748,
+        "checkpoint_size_bytes": 159744,
+        "replay_duration_ms": 11.6274,
+        "recovery_duration_ms": 79.1166
+      },
+      "checks": {
+        "actor_count_exact": true,
+        "checkpoint_created": true,
+        "replay_equal": true,
+        "recovery_equal": true,
+        "provider_proposal_only": true,
+        "lod_count_exact": true,
+        "db_measured": true,
+        "rss_measured": true
+      },
+      "boundaries": {
+        "implemented": [
+          "real Playable/SQLite standard fixture scale tier",
+          "SimulationLOD policy measurement",
+          "provider/runtime/storage/timing measurement"
+        ],
+        "validated": [
+          "this exact tier/repetition only"
+        ],
+        "experimental": [
+          "bounded scale interpretation"
+        ],
+        "not_proven": [
+          "10k/100k extrapolation",
+          "universal capacity"
+        ],
+        "external_blocked": []
+      }
+    },
+    {
+      "schema": "wanxiang.v5.5.m98.scale-row.v1",
+      "conclusion": "PASS",
+      "run_id": "m98-scale-1000-r3",
+      "tier": 1000,
+      "repetition": 3,
+      "seed": 20103,
+      "build_sha": "09c161c79f14911c804b3d22c38896c3545c41cf",
+      "template": "m98-standard-scale-template-v1",
+      "template_hash": "e43135ca34d98d5cf6d619b13173eb6dcbc8baa8cabbe0e653141288613ea129",
+      "source_sha256": "c87592508092f5b618d49528739dd5b7206ad211f3ff176f14ae3944032c3666",
+      "package_sha256": "d828faed7deef1419d6842de4bc95cb72ee6f0873eedd181220c155c5b93ce16",
+      "world_package_ref": "world:wd_job_m98-scale-1000-r3",
+      "scenario_ref": "default",
+      "world_ref": "prv_playable_1",
+      "branch_ref": "br_19b3b0e83e3a4d5ca635e7c3dc6a5591",
+      "snapshot_ref": "snap_8f3a649b6c374c4a8efc0832c10244a0",
+      "metrics": {
+        "lod_counts": {
+          "L0": 1,
+          "L1": 19,
+          "L2": 560,
+          "L3": 140,
+          "L4": 280
+        },
+        "active_actor_count": 20,
+        "full_policy_actor_count": 1000,
+        "population_count": 1000,
+        "lod_policy": {
+          "l0_threshold": 0.8,
+          "l1_threshold": 0.6,
+          "l2_threshold": 0.35,
+          "l3_threshold": 0.1
+        },
+        "event_count": 1007,
+        "event_rate_per_tick": 1.007,
+        "provider_call_count": 1000,
+        "provider_cost_units": 1000,
+        "provider_cost_usd": 0.0,
+        "provider_cost_basis": "local_reference_provider_no_monetary_charge",
+        "db_bytes": 2039808,
+        "storage_growth_bytes": 172032,
+        "authoring_ms": 61.8126,
+        "instantiation_ms": 24827.9839,
+        "cpu_ms": 12718.75,
+        "wall_ms": 26255.8341,
+        "peak_rss_bytes": 109563904,
+        "tick_p50_ms": 51.0989,
+        "tick_p95_ms": 51.0989,
+        "action_p50_ms": 59.3204,
+        "action_p95_ms": 133.0913,
+        "checkpoint_duration_ms": 17.543,
+        "checkpoint_size_bytes": 159744,
+        "replay_duration_ms": 13.3628,
+        "recovery_duration_ms": 140.9981
+      },
+      "checks": {
+        "actor_count_exact": true,
+        "checkpoint_created": true,
+        "replay_equal": true,
+        "recovery_equal": true,
+        "provider_proposal_only": true,
+        "lod_count_exact": true,
+        "db_measured": true,
+        "rss_measured": true
+      },
+      "boundaries": {
+        "implemented": [
+          "real Playable/SQLite standard fixture scale tier",
+          "SimulationLOD policy measurement",
+          "provider/runtime/storage/timing measurement"
+        ],
+        "validated": [
+          "this exact tier/repetition only"
+        ],
+        "experimental": [
+          "bounded scale interpretation"
+        ],
+        "not_proven": [
+          "10k/100k extrapolation",
+          "universal capacity"
+        ],
+        "external_blocked": []
+      }
+    }
+  ],
+  "capacity_interpretation": {
+    "observed_knee": "500_actor_tier_by_superlinear_recovery",
+    "degradation_observed": true,
+    "knee_rule": "first adjacent tier where max recovery duration growth exceeds population growth",
+    "knee_evidence": {
+      "tier": 500,
+      "metric": "max_recovery_ms",
+      "previous_tier": 100,
+      "population_growth_ratio": 5.0,
+      "recovery_growth_ratio": 9.003203
+    },
+    "extrapolation_to_10k_or_100k": "forbidden",
+    "active_vs_full_policy_separated": true,
+    "provider_cost_usd": 0.0,
+    "provider_cost_basis": "local_reference_provider_no_monetary_charge"
+  },
+  "boundaries": {
+    "implemented": [
+      "10/50/100/500/1000 real SQLite tiers",
+      "three independent repetitions per tier"
+    ],
+    "validated": [
+      "only completed declared tiers and repetitions"
+    ],
+    "experimental": [
+      "bounded capacity/degradation interpretation"
+    ],
+    "not_proven": [
+      "10k/100k capacity",
+      "universal production envelope"
+    ],
+    "external_blocked": []
+  }
+}

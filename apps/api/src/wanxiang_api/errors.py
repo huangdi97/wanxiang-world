@@ -6,6 +6,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from wanxiang_domain.errors import (
     Conflict,
+    ContractError,
     DuplicateCommandConflict,
     IncompatibleVersion,
     NotFound,
@@ -13,11 +14,22 @@ from wanxiang_domain.errors import (
     ValidationRejected,
     WanxiangError,
 )
+from wanxiang_substrate.session.errors import (
+    LeaseConflict,
+    LeaseExpired,
+    LeaseNotFound,
+    SessionNotFound,
+)
+from wanxiang_substrate.sources.errors import SourceError
 
 
 def _status(error: WanxiangError) -> int:
-    if isinstance(error, (ValidationRejected, IncompatibleVersion)):
+    if isinstance(error, (ContractError, ValidationRejected, IncompatibleVersion, SourceError)):
         return 422
+    if isinstance(error, (LeaseConflict, LeaseExpired)):
+        return 409
+    if isinstance(error, (LeaseNotFound, SessionNotFound)):
+        return 404
     if isinstance(error, (StaleRevision, DuplicateCommandConflict, Conflict)):
         return 409
     if isinstance(error, NotFound):

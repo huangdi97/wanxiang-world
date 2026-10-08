@@ -9,6 +9,7 @@ from wanxiang_domain.time import WorldTime
 from wanxiang_domain.versions import RuntimeVersion, SchemaVersion
 from wanxiang_runtime.audit import AuditRecord
 from wanxiang_runtime.branch import BranchRepository
+from wanxiang_runtime.canonical_write import CanonicalWriteLease
 from wanxiang_runtime.ports import EventStore
 from wanxiang_runtime.snapshot import SnapshotStore
 
@@ -20,6 +21,8 @@ class WorldInstanceStore(Protocol):
         schema_version: SchemaVersion,
         rule_version: RuntimeVersion,
         created_world_time: WorldTime,
+        *,
+        lease: CanonicalWriteLease,
     ) -> None: ...
 
     def get(
@@ -28,7 +31,7 @@ class WorldInstanceStore(Protocol):
 
 
 class AuditSink(Protocol):
-    def record(self, audit: AuditRecord) -> None: ...
+    def record(self, audit: AuditRecord, *, lease: CanonicalWriteLease) -> None: ...
 
 
 class PersistenceBundle:

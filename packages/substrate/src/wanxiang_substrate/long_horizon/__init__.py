@@ -1,5 +1,36 @@
 """Long-Horizon & Derived Worlds substrate (M40)."""
 
+from wanxiang_substrate.long_horizon.background import (
+    BACKGROUND_MODES,
+    BackgroundMode,
+    BackgroundPolicy,
+    BackgroundRun,
+    BackgroundSimulation,
+    SessionCursor,
+)
+from wanxiang_substrate.long_horizon.budget import (
+    AdmissionDecision,
+    BackpressurePolicy,
+    BudgetAlert,
+    BudgetKey,
+    CostBudgetLedger,
+    CostLimit,
+    CostUsage,
+)
+from wanxiang_substrate.long_horizon.checkpoint import (
+    CheckpointCrash,
+    CrashPlan,
+    LongRunCheckpointService,
+    RunCheckpoint,
+    RunCheckpointStore,
+)
+from wanxiang_substrate.long_horizon.compaction import (
+    CompactionManifest,
+    CompactionPolicy,
+    CompactionService,
+    EventArchiveRef,
+    MemorySummaryRef,
+)
 from wanxiang_substrate.long_horizon.horizon import (
     DerivedWorld,
     DistilledPattern,
@@ -13,6 +44,32 @@ from wanxiang_substrate.long_horizon.horizon import (
     run_living_open,
     run_population_benchmark,
     windowed_distill,
+)
+from wanxiang_substrate.long_horizon.lod import (
+    SIMULATION_LEVELS,
+    ActivityScore,
+    ActorActivityInput,
+    CohortAggregate,
+    LODState,
+    LODTransition,
+    SimulationLevel,
+    SimulationLODPolicy,
+    SimulationLODRuntime,
+)
+from wanxiang_substrate.long_horizon.qualification import (
+    HorizonLabel,
+    HorizonQualification,
+    HorizonQualificationReport,
+    HorizonSample,
+    state_storage_bytes,
+)
+from wanxiang_substrate.long_horizon.scheduler import (
+    ActorAvailability,
+    AvailabilityWindow,
+    RecurringSchedule,
+    RecurringScheduler,
+    ScheduledOccurrence,
+    SchedulerCursor,
 )
 
 __all__ = [
@@ -28,4 +85,47 @@ __all__ = [
     "run_living_open",
     "run_population_benchmark",
     "windowed_distill",
+    "ActorAvailability",
+    "AvailabilityWindow",
+    "RecurringSchedule",
+    "RecurringScheduler",
+    "ScheduledOccurrence",
+    "SchedulerCursor",
+    "BACKGROUND_MODES",
+    "BackgroundMode",
+    "BackgroundPolicy",
+    "BackgroundRun",
+    "BackgroundSimulation",
+    "SessionCursor",
+    "CheckpointCrash",
+    "CrashPlan",
+    "LongRunCheckpointService",
+    "RunCheckpoint",
+    "RunCheckpointStore",
+    "CompactionManifest",
+    "CompactionPolicy",
+    "CompactionService",
+    "EventArchiveRef",
+    "MemorySummaryRef",
+    "SIMULATION_LEVELS",
+    "ActivityScore",
+    "ActorActivityInput",
+    "CohortAggregate",
+    "LODState",
+    "LODTransition",
+    "SimulationLevel",
+    "SimulationLODPolicy",
+    "SimulationLODRuntime",
+    "AdmissionDecision",
+    "BackpressurePolicy",
+    "BudgetAlert",
+    "BudgetKey",
+    "CostBudgetLedger",
+    "CostLimit",
+    "CostUsage",
+    "HorizonQualification",
+    "HorizonQualificationReport",
+    "HorizonLabel",
+    "HorizonSample",
+    "state_storage_bytes",
 ]

@@ -21,6 +21,7 @@ from wanxiang_substrate.genealogy.gedcom import (
 )
 from wanxiang_substrate.genealogy.model import (
     GedcomDocument,
+    GedcomEvent,
     GedcomFamily,
     GedcomIndividual,
     GedcomSource,
@@ -37,6 +38,7 @@ __all__ = [
     "FamilyClaim",
     "FamilyWorld",
     "GedcomDocument",
+    "GedcomEvent",
     "GedcomFamily",
     "GedcomIndividual",
     "GedcomParseError",

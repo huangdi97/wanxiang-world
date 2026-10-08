@@ -1,0 +1,40 @@
+{
+  "audit": "G54A repository truth audit",
+  "inventory": {
+    "apps": {
+      "api": 16
+    },
+    "forge_modules": {
+      "canon_graph": 4,
+      "compiler": 9,
+      "corpus": 2,
+      "genealogy": 6,
+      "heritage": 6,
+      "lineage": 4,
+      "living": 2,
+      "release": 2,
+      "semantic_world": 2,
+      "sources": 13,
+      "studio_experience": 2,
+      "worldpack": 2
+    },
+    "packages": {
+      "application": 7,
+      "domain": 25,
+      "observability": 5,
+      "persistence": 10,
+      "research": 12,
+      "runtime": 12,
+      "sdk_ts": 0,
+      "substrate": 257
+    },
+    "reports": 386,
+    "scripts": 34,
+    "test_files": 226,
+    "tracked_files": 1732,
+    "tracked_md": 923,
+    "tracked_py": 611
+  },
+  "verdict": "PASS",
+  "violations": []
+}

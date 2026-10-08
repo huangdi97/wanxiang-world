@@ -4,6 +4,10 @@ from __future__ import annotations
 
 from sqlalchemy.orm import Session, sessionmaker
 from wanxiang_runtime.audit import AuditRecord
+from wanxiang_runtime.canonical_write import (
+    CanonicalWriteLease,
+    require_canonical_write_lease,
+)
 
 from wanxiang_persistence.database import session_scope
 from wanxiang_persistence.models import AuditTraceRecord
@@ -13,7 +17,10 @@ class AuditTraceRepository:
     def __init__(self, session_factory: sessionmaker[Session]) -> None:
         self._session_factory = session_factory
 
-    def record(self, audit: AuditRecord) -> None:
+    def record(self, audit: AuditRecord, *, lease: CanonicalWriteLease) -> None:
+        require_canonical_write_lease(
+            lease, instance_id=audit.instance_id, branch_id=audit.branch_id
+        )
         row = AuditTraceRecord(
             trace_id=audit.trace_id.value,
             command_id=audit.command_id.value,
