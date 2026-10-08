@@ -82,6 +82,7 @@ def player_html(locale: str | None = None) -> str:
         f'<div class="field form-wide"><label for="character-knowledge">{text("knowledge_label")}</label><textarea id="character-knowledge" aria-label="{text("knowledge_aria")}"></textarea></div></div>'
         f'<button class="primary-button" type="submit">{text("save_character")}</button></form></details></section>'
         f'<section class="view" id="play-view" aria-labelledby="play-world-name"><div class="play-top"><div><h2 id="play-world-name">{text("world")}</h2><p id="play-world-description"></p></div>'
+        '<a class="secondary-button" id="visual-entry" href="/experience/visual" hidden>进入空间 · 3D 实验场</a>'
         f'<button class="secondary-button" id="leave-world" type="button">{text("leave_world")}</button></div><div class="play-grid">'
         f'<section class="play-panel scene-panel" aria-labelledby="scene-heading"><h3 id="scene-heading">{text("scene_heading")}</h3><div class="scene-status">'
         f'<div><span>{text("world")}</span><strong id="play-region">{text("not_recorded")}</strong></div><div><span>{text("time_label")}</span><strong id="play-time">{text("not_recorded")}</strong></div><div><span>{text("location_label")}</span><strong id="play-location">{text("not_recorded")}</strong></div>'
