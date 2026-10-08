@@ -130,6 +130,7 @@ def test_chinese_book_local_semantic_provider_builds_visual_scene_without_extern
         "# 第一章\n"
         "角色：沈砚\n"
         "沈砚来到江南城。\n"
+        "从江南城到机关桥需要穿过水道。\n"
         "规则：入城者必须登记。\n"
     )
     source = SourceRecord(
@@ -156,6 +157,13 @@ def test_chinese_book_local_semantic_provider_builds_visual_scene_without_extern
     assert result.visual_plan is not None
     assert result.visual_plan.status == "READY_FOR_ASSET_PROVIDER"
     assert "江南城" in result.package.draft.places
+    assert "机关桥" in result.package.draft.places
+    assert any(
+        relation.source_place == "江南城"
+        and relation.target_place == "机关桥"
+        and relation.relation_type == "route"
+        for relation in result.visual_plan.topology_relations
+    )
     scene = next(
         item for item in result.visual_plan.scene_requests if item.place_name == "江南城"
     )
