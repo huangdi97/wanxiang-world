@@ -4,10 +4,10 @@ from __future__ import annotations
 
 import sys
 from collections.abc import Callable
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
-from dataclasses import replace
 
 from wanxiang_execution import ExecutionClass, ExecutionPolicy
 from wanxiang_foundry.errors import InvocationError

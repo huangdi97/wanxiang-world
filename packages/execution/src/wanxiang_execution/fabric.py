@@ -29,7 +29,7 @@ from wanxiang_execution.local_process import (
     truncate_to_bytes,
     validate_execution_id,
 )
-from wanxiang_execution.policy import ExecutionPolicy, authorize
+from wanxiang_execution.policy import ExecutionClass, ExecutionPolicy, authorize
 from wanxiang_execution.trace import ExecutionTrace, environment_hash, trace_digest
 
 
