@@ -98,7 +98,11 @@ def create_app(
     app.state.authoring = AuthoringService(providers=providers)
     app.state.visual_asset_cache = _VisualAssetCache()
     app.state.workshop = WorkshopService(app.state.authoring, providers=providers)
-    app.state.playable = PlayableService(runtime) if runtime is not None else None
+    app.state.playable = (
+        PlayableService(runtime, visual_cache=app.state.visual_asset_cache)
+        if runtime is not None
+        else None
+    )
     install_error_handler(app)
 
     @app.exception_handler(PayloadTooLarge)
