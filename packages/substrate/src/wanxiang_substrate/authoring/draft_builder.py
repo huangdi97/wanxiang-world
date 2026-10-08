@@ -156,6 +156,27 @@ def build_pipeline_build(
                 ensure_ascii=False,
                 separators=(",", ":"),
             ),
+            "visual_asset_rights_v1": (
+                "public"
+                if records
+                and all(
+                    record.access == "public"
+                    and record.rights is not None
+                    and record.rights.allows("public_export")
+                    for record in records
+                )
+                else "source-gated"
+            ),
+            "external_visual_processing_allowed_v1": (
+                "true"
+                if records
+                and all(
+                    record.rights is not None
+                    and record.rights.allows("external_model_processing")
+                    for record in records
+                )
+                else "false"
+            ),
             "scene_evidence_v1": json.dumps(
                 [
                     {
