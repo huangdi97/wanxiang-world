@@ -1,5 +1,7 @@
 """One book -> visual world uses the same generic pipeline for unrelated books."""
 
+# pyright: reportPrivateUsage=false
+
 from wanxiang_substrate.authoring.one_click import OneClickAuthoring
 from wanxiang_substrate.playable.models import PlayableWorldProfile
 from wanxiang_substrate.playable.player_projection import player_world_detail
