@@ -27,11 +27,17 @@ def player_world(
     *,
     viewer_id: str,
     locale: str | None = None,
+    include_visual: bool = False,
 ) -> dict[str, object]:
     """Return the non-technical world detail projection for Player UI."""
 
     profile = service.plaza.require_access(profile_id, viewer_id)
-    return player_world_detail(profile, service.packages.get(profile_id), locale=locale)
+    return player_world_detail(
+        profile,
+        service.packages.get(profile_id),
+        locale=locale,
+        include_visual=include_visual,
+    )
 
 
 def player_observe(
