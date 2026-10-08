@@ -91,7 +91,11 @@ def _plan_book_scene_assets(
 
     requests: list[_SourceSceneRequest] = []
     for place in selected:
-        matching = [row for row in evidence_rows if isinstance(row, dict) and row.get("name") == place]
+        matching = [
+            row
+            for row in evidence_rows
+            if isinstance(row, dict) and row.get("name") == place
+        ]
         source_refs = tuple(
             sorted(
                 {
