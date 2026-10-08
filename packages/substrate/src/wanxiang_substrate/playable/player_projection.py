@@ -147,9 +147,9 @@ def player_observation(
     relations = [_relation_card(item, names, actor_id, copy) for item in state.relations()]
     actor = next((item for item in entities if item.entity_id.value == actor_id), None)
     actor_fields = _entity_fields(actor)
-    canonical_location = _first_text(actor_fields, ("location", "place")) or _first_text_from_entities(
-        entities, ("location", "place")
-    )
+    canonical_location = _first_text(
+        actor_fields, ("location", "place")
+    ) or _first_text_from_entities(entities, ("location", "place"))
     location = canonical_location or actor_starting_location or None
     environment = _first_text_from_entities(entities, ("environment", "setting"))
     weather = _first_text_from_entities(entities, ("weather", "climate"))
