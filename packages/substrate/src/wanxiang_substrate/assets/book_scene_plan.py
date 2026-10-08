@@ -81,9 +81,7 @@ def _plan_book_scene_assets(
         return _SourceVisualPlan(package.package_id, source_digest, "PLACES_NOT_EXTRACTED", (), 0)
 
     selected = distinct_places[:max_preview_scenes]
-    style_key = hashlib.sha256(
-        f"{source_digest}:story-visual-profile:v1".encode()
-    ).hexdigest()[:24]
+    style_key = hashlib.sha256(f"{source_digest}:story-visual-profile:v1".encode()).hexdigest()[:24]
     raw_evidence = package.draft.compiler_metadata.get("scene_evidence_v1", "[]")
     try:
         decoded = json.loads(raw_evidence)
@@ -93,11 +91,7 @@ def _plan_book_scene_assets(
 
     requests: list[_SourceSceneRequest] = []
     for place in selected:
-        matching = [
-            row
-            for row in evidence_rows
-            if isinstance(row, dict) and row.get("name") == place
-        ]
+        matching = [row for row in evidence_rows if isinstance(row, dict) and row.get("name") == place]
         source_refs = tuple(
             sorted(
                 {
