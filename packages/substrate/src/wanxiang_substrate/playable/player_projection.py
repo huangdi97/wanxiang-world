@@ -14,6 +14,8 @@ from collections.abc import Iterable
 from wanxiang_domain.event import CommittedEvent
 from wanxiang_runtime.state import InMemoryCanonicalState
 
+from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
+from wanxiang_substrate.assets.book_scene_visual import _render_visual_plan
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.playable.models import PlayableWorldProfile
 from wanxiang_substrate.playable.player_i18n import _copy_for
@@ -42,6 +44,7 @@ def player_world_detail(
     package: WorldPackageDraft | None = None,
     *,
     locale: str | None = None,
+    include_visual: bool = False,
 ) -> dict[str, object]:
     """Return the detail copy used before a player enters a world."""
 
@@ -60,6 +63,24 @@ def player_world_detail(
     character_count = len(tuple(getattr(draft, "character_profiles", ()) or ()))
     if not character_count:
         character_count = len(tuple(getattr(draft, "entities", ()) or ()))
+    visual: dict[str, object] | None = None
+    if include_visual and package is not None:
+        plan = _plan_book_scene_assets(package)
+        assets = _render_visual_plan(plan)
+        visual = {
+            "status": plan.status,
+            "scenes": [
+                {
+                    "place_name": asset.place_name,
+                    "media_type": asset.media_type,
+                    "data_uri": asset.data_uri(),
+                    "content_sha256": asset.content_sha256,
+                    "illustrative": asset.illustrative,
+                }
+                for asset in assets
+            ],
+        }
+
     return {
         "profile_id": profile.profile_id,
         "name": profile.display_name or copy.text("default_world_name"),
@@ -75,6 +96,7 @@ def player_world_detail(
             "name": profile.scenario_name or copy.text("default_scenario_name"),
             "opening": profile.opening_hint or copy.text("default_opening"),
         },
+        "visual": visual,
         "setting": {
             "region": draft_text("region", "world_region"),
             "location": places[0] if places else None,
@@ -138,9 +160,26 @@ def player_observation(
     }
     for item in relations:
         item.pop("involves_actor", None)
+    scene_visual: dict[str, object] | None = None
+    if package is not None:
+        plan = _plan_book_scene_assets(package)
+        assets = _render_visual_plan(plan)
+        chosen = next((asset for asset in assets if asset.place_name == location), None)
+        if chosen is None and assets:
+            chosen = assets[0]
+        if chosen is not None:
+            scene_visual = {
+                "place_name": chosen.place_name,
+                "media_type": chosen.media_type,
+                "data_uri": chosen.data_uri(),
+                "content_sha256": chosen.content_sha256,
+                "illustrative": chosen.illustrative,
+            }
+
     return {
         "world": world,
         "region": setting["region"],
+        "visual_scene": scene_visual,
         "time": {"ticks": world_time},
         "location": location,
         "environment": environment,
