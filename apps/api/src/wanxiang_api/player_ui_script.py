@@ -133,6 +133,7 @@ function rowList(items,emptyKey,renderer){return items?.length?items.map(rendere
 function relationLabel(value){const raw=String(value||"").toLowerCase();if(raw.includes("friend"))return tr("relation_friend");if(raw.includes("family"))return tr("relation_family");if(raw.includes("work"))return tr("relation_work");return tr("relation_default")}
 function renderPlay(){
   const v=model.view||{},w=v.world||{};
+  const visual=$("visual-entry");visual.hidden=!model.instanceId||w.name!=="江南机关城";visual.href="/experience/visual?instance_id="+encodeURIComponent(model.instanceId);
   $("play-world-name").textContent=w.name||tr("world");$("play-world-description").textContent=w.description||"";$("play-region").textContent=shown(v.region);$("play-time").textContent=tr("world_time",{time:v.time?.ticks??0});$("play-location").textContent=shown(v.location);$("play-environment").textContent=shown(v.environment);$("play-weather").textContent=shown(v.weather);
   const event=v.current_event;$("current-event").innerHTML=event?`<strong>${safe(event.name)}</strong><span>${safe(event.description||tr("event_response_fallback"))}</span>`:`<span class="muted">${safe(tr("event_waiting"))}</span>`;
   $("narrative").textContent=v.narrative||tr("narrative_waiting");
