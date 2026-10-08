@@ -15,7 +15,7 @@ from wanxiang_domain.event import CommittedEvent
 from wanxiang_runtime.state import InMemoryCanonicalState
 
 from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
-from wanxiang_substrate.assets.book_scene_visual import _render_visual_plan
+from wanxiang_substrate.assets.book_scene_visual import _SceneVisualAsset, _render_visual_plan
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.playable.models import PlayableWorldProfile
 from wanxiang_substrate.playable.player_i18n import _copy_for
@@ -45,6 +45,7 @@ def player_world_detail(
     *,
     locale: str | None = None,
     include_visual: bool = False,
+    visual_assets: tuple[_SceneVisualAsset, ...] | None = None,
 ) -> dict[str, object]:
     """Return the detail copy used before a player enters a world."""
 
@@ -66,7 +67,9 @@ def player_world_detail(
     visual: dict[str, object] | None = None
     if include_visual and package is not None:
         plan = _plan_book_scene_assets(package)
-        assets = _render_visual_plan(plan)
+        assets = visual_assets
+        if assets is None:
+            assets = _render_visual_plan(plan)
         visual = {
             "status": plan.status,
             "scenes": [
@@ -119,6 +122,7 @@ def player_observation(
     diff: CommittedStateDiff | None = None,
     locale: str | None = None,
     events_since_revision: int | None = None,
+    visual_assets: tuple[_SceneVisualAsset, ...] | None = None,
 ) -> dict[str, object]:
     """Project one observation without exposing IDs, hashes, or raw payloads."""
 
@@ -162,8 +166,10 @@ def player_observation(
         item.pop("involves_actor", None)
     scene_visual: dict[str, object] | None = None
     if package is not None:
-        plan = _plan_book_scene_assets(package)
-        assets = _render_visual_plan(plan)
+        assets = visual_assets
+        if assets is None:
+            plan = _plan_book_scene_assets(package)
+            assets = _render_visual_plan(plan)
         chosen = next((asset for asset in assets if asset.place_name == location), None)
         grounding = "current_location"
         if chosen is None and assets:
