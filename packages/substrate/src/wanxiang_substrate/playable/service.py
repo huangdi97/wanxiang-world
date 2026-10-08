@@ -9,6 +9,13 @@ from wanxiang_domain.errors import ContractError, NotFound
 from wanxiang_domain.ids import BranchId, WorldInstanceId
 from wanxiang_runtime.state import state_to_primitive
 
+from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
+from wanxiang_substrate.assets.book_scene_visual import (
+    _SceneVisualAsset,
+    _SceneVisualCache,
+    _render_visual_plan,
+)
+from wanxiang_substrate.assets.storage import ObjectStore
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.playable.actions import IntentCompiler
 from wanxiang_substrate.playable.catalog import WorldPlaza
@@ -39,9 +46,17 @@ from wanxiang_substrate.preview import PreviewInstall, PreviewRuntimePort, insta
 class PlayableService:
     """One composition facade; canonical state remains in the injected runtime."""
 
-    def __init__(self, runtime: PreviewRuntimePort, store: PlayableStore | None = None) -> None:
+    def __init__(
+        self,
+        runtime: PreviewRuntimePort,
+        store: PlayableStore | None = None,
+        *,
+        visual_store: ObjectStore | None = None,
+    ) -> None:
         self.runtime = runtime
         self.store = store or InMemoryPlayableStore()
+        self._visual_cache = _SceneVisualCache(visual_store)
+        self._visual_assets: dict[str, tuple[_SceneVisualAsset, ...]] = {}
         self.plaza = WorldPlaza(self.store)
         self.entry = CharacterEntryService(self.store)
         self._packages: dict[str, WorldPackageDraft] = {}
@@ -53,6 +68,11 @@ class PlayableService:
         """Expose package metadata to read-only projection adapters."""
 
         return self._packages
+
+    def visual_assets(self, profile_id: str) -> tuple[_SceneVisualAsset, ...]:
+        """Return cached projection assets; reading a world never generates new media."""
+
+        return self._visual_assets.get(profile_id, ())
 
     def register_package(
         self,
@@ -79,6 +99,10 @@ class PlayableService:
         self.store.save_profile(profile)
         self._packages[profile.profile_id] = package
         self._experiences[profile.profile_id] = experience
+        visual_plan = _plan_book_scene_assets(package)
+        visual_assets = _render_visual_plan(visual_plan)
+        self._visual_cache.materialize(visual_assets)
+        self._visual_assets[profile.profile_id] = visual_assets
         self._installs[profile.profile_id] = PreviewInstall(
             preview_id=f"playable_{len(self._installs) + 1}",
             package_id=package.package_id,
@@ -97,6 +121,10 @@ class PlayableService:
         self.store.save_profile(profile)
         self._packages[profile.profile_id] = package
         self._experiences[profile.profile_id] = experience or experience_from_profile(profile)
+        visual_plan = _plan_book_scene_assets(package)
+        visual_assets = _render_visual_plan(visual_plan)
+        self._visual_cache.materialize(visual_assets)
+        self._visual_assets[profile.profile_id] = visual_assets
         self._installs[profile.profile_id] = PreviewInstall(
             f"playable_{len(self._installs) + 1}",
             package.package_id,
