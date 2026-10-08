@@ -1,5 +1,7 @@
 """Shared playable application facade for CLI, API, and Studio routes."""
 
+# pyright: reportPrivateUsage=false
+
 from __future__ import annotations
 
 from collections.abc import Mapping
