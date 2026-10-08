@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from dataclasses import replace
 import json
+from dataclasses import replace
 from typing import cast
 
 from wanxiang_substrate.authoring.fusion import FusionResult, fuse_candidates
