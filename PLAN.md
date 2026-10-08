@@ -1,5 +1,21 @@
 # Plan ? Wanxiang Engineering Program (M0 + M1 Batch)
 
+## M95 local agent verification (2026-10-08)
+
+A local agent verification pass ran over this branch: real Chromium
+drove the served zh-CN Player journey end-to-end (Plaza → world
+detail → enter → committed free action → leave → continue same
+instance), 10 validated screenshots and sanitized evidence under
+`artifacts/m95_local_agent_verification/`. Full suite `1801 passed,
+2 skipped, 0 failed` (PostgreSQL EXTERNAL_BLOCKED + Docker
+unavailable); architecture/ruff/pyright PASS; TS SDK 22/22 and
+Cordis host 77/77. No P0/P1/P2 product defect; one P2 evidence
+drift regenerated (commit `05a205f`). Human M95 fields stay
+`USER_INPUT_REQUIRED`. Delivered non-force on
+`feature/r7-cordis-native`, exact-SHA CI green at `bf665c4`, PR
+https://github.com/huangdi97/wanxiang-world/pull/1. Report:
+`reports/M95_LOCAL_AGENT_VERIFICATION_2026-10-08.md`.
+
 ## Current R7 execution state — extended closure candidate (2026-10-08)
 
 All locally executable R7 design work from the canonical master/Goal is now

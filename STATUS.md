@@ -2,6 +2,27 @@
 
 Updated: 2026-10-08 (R7 extended local design closure qualified; overall WAITING_HUMAN)
 
+## M95 local agent verification (2026-10-08)
+
+A local agent verification pass executed the real Player over the
+current branch: real Chromium drove the served zh-CN Player journey
+(Plaza → world detail → enter → committed free action → leave →
+continue on the same instance), with 10 validated screenshots and
+sanitized runtime/edge evidence under
+`artifacts/m95_local_agent_verification/`. Full suite: `1801 passed,
+2 skipped, 0 failed` (skips: PostgreSQL `EXTERNAL_BLOCKED`, Docker
+daemon unavailable); architecture PASS; ruff/pyright PASS; TS SDK
+22/22 and Cordis host 77/77. No P0/P1/P2 product defect was found;
+one P2 evidence drift (stale v5.1/v5.2 ledgers + R7 composition
+graph) was regenerated deterministically (commit `05a205f`).
+Route-readiness artifact regenerated at HEAD (7/7 checks PASS);
+M95 human fields remain `USER_INPUT_REQUIRED` — nothing was
+fabricated. Delivered on `feature/r7-cordis-native` (non-force),
+exact-SHA CI green at `bf665c4` (ci runs 37746745183/37746752116,
+r7-qualification 37746745252), PR
+https://github.com/huangdi97/wanxiang-world/pull/1 (base `master`).
+Report: `reports/M95_LOCAL_AGENT_VERIFICATION_2026-10-08.md`.
+
 ## R7 extended closure — all locally executable R7 design slices implemented
 
 The post-closure design sweep is now implemented through code anchor
