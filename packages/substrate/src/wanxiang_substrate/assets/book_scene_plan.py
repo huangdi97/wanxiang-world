@@ -122,6 +122,18 @@ def _plan_book_scene_assets(
             ),
             default=0.0,
         )
+        context_candidates: list[str] = []
+        for row in matching:
+            raw_context = row.get("cooccurring_candidates", [])
+            if not isinstance(raw_context, list):
+                continue
+            for item in raw_context:
+                if not isinstance(item, dict):
+                    continue
+                kind, label = item.get("kind"), item.get("label")
+                if isinstance(kind, str) and isinstance(label, str) and label:
+                    context_candidates.append(f"{kind}:{label}")
+        context_candidates = list(dict.fromkeys(context_candidates))[:8]
         stable_key = hashlib.sha256(
             json.dumps((source_digest, place), ensure_ascii=False).encode("utf-8")
         ).hexdigest()[:24]
@@ -135,6 +147,7 @@ def _plan_book_scene_assets(
                 f"source_place_name:{place}",
                 f"source_identity_digest:{source_digest}",
                 *(f"source_locator:{ref}" for ref in source_refs),
+                *(f"source_context_candidate:{item}" for item in context_candidates),
                 f"source_confidence:{confidence:.3f}",
                 "noncanonical_asset_candidate",
                 "no_unverified_character_placement",
