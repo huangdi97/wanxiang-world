@@ -17,6 +17,7 @@ from html import escape
 from typing import Protocol
 
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest, _SourceVisualPlan
+from wanxiang_substrate.assets.storage import AssetRef, InMemoryObjectStore, ObjectStore
 
 
 @dataclass(frozen=True, slots=True)
@@ -124,6 +125,104 @@ class _ProceduralSvgSceneProvider:
         )
 
 
+@dataclass(frozen=True, slots=True)
+class _VisualMaterialization:
+    assets: tuple[_SceneVisualAsset, ...]
+    asset_refs: tuple[AssetRef, ...]
+    provider_calls: int
+    cache_hits: int
+    cost_units: int
+
+
+class _VisualAssetCache:
+    """Content-addressed generated-asset cache over the existing ObjectStore port."""
+
+    def __init__(self, store: ObjectStore | None = None) -> None:
+        self.store = store or InMemoryObjectStore()
+        self._index: dict[str, tuple[AssetRef, _SceneVisualAsset]] = {}
+
+    def get(self, cache_key: str) -> tuple[_SceneVisualAsset, AssetRef] | None:
+        row = self._index.get(cache_key)
+        if row is None:
+            return None
+        ref, metadata = row
+        content = self.store.get(ref)
+        return (
+            _SceneVisualAsset(
+                scene_key=metadata.scene_key,
+                place_name=metadata.place_name,
+                provider_id=metadata.provider_id,
+                media_type=metadata.media_type,
+                content=content,
+                content_sha256=metadata.content_sha256,
+                cache_key=metadata.cache_key,
+                illustrative=metadata.illustrative,
+                style_key=metadata.style_key,
+            ),
+            ref,
+        )
+
+    def put(self, asset: _SceneVisualAsset, *, rights: str = "public") -> AssetRef:
+        ref = self.store.put(asset.content, content_type=asset.media_type, rights=rights)
+        self._index[asset.cache_key] = (ref, asset)
+        return ref
+
+
+def _materialize_visual_plan(
+    plan: _SourceVisualPlan,
+    provider: _SceneImageProvider | None = None,
+    *,
+    cache: _VisualAssetCache | None = None,
+    allow_network: bool = False,
+    max_cost_units: int = 0,
+    rights: str = "public",
+) -> _VisualMaterialization:
+    """Generate only cache misses, under explicit network/cost governance."""
+    if plan.status not in {"READY_FOR_ASSET_PROVIDER", "BUDGET_ZERO"}:
+        return _VisualMaterialization((), (), 0, 0, 0)
+
+    selected_provider = provider or _ProceduralSvgSceneProvider()
+    if selected_provider.requires_network and not allow_network:
+        raise ValueError("network visual provider requires explicit allow_network")
+
+    asset_cache = cache or _VisualAssetCache()
+    resolved_assets: list[_SceneVisualAsset] = []
+    resolved_refs: list[AssetRef] = []
+    misses: list[_SourceSceneRequest] = []
+    cached_rows: dict[str, tuple[_SceneVisualAsset, AssetRef]] = {}
+
+    for request in plan.scene_requests:
+        provider_cache_key = f"{request.cache_key}:{selected_provider.provider_id}"
+        cached = asset_cache.get(provider_cache_key)
+        if cached is None:
+            misses.append(request)
+        else:
+            cached_rows[request.stable_key] = cached
+
+    expected_cost = selected_provider.cost_units_per_asset * len(misses)
+    if expected_cost > max_cost_units:
+        raise ValueError(f"visual provider cost {expected_cost} exceeds budget {max_cost_units}")
+
+    generated: dict[str, tuple[_SceneVisualAsset, AssetRef]] = {}
+    for request in misses:
+        asset = selected_provider.produce(request)
+        ref = asset_cache.put(asset, rights=rights)
+        generated[request.stable_key] = (asset, ref)
+
+    for request in plan.scene_requests:
+        asset, ref = cached_rows.get(request.stable_key) or generated[request.stable_key]
+        resolved_assets.append(asset)
+        resolved_refs.append(ref)
+
+    return _VisualMaterialization(
+        assets=tuple(resolved_assets),
+        asset_refs=tuple(resolved_refs),
+        provider_calls=len(misses),
+        cache_hits=len(plan.scene_requests) - len(misses),
+        cost_units=expected_cost,
+    )
+
+
 def _render_visual_plan(
     plan: _SourceVisualPlan,
     provider: _SceneImageProvider | None = None,
@@ -131,13 +230,10 @@ def _render_visual_plan(
     allow_network: bool = False,
     max_cost_units: int = 0,
 ) -> tuple[_SceneVisualAsset, ...]:
-    """Render only planned scenes under explicit network/cost governance."""
-    if plan.status not in {"READY_FOR_ASSET_PROVIDER", "BUDGET_ZERO"}:
-        return ()
-    selected_provider = provider or _ProceduralSvgSceneProvider()
-    if selected_provider.requires_network and not allow_network:
-        raise ValueError("network visual provider requires explicit allow_network")
-    expected_cost = selected_provider.cost_units_per_asset * len(plan.scene_requests)
-    if expected_cost > max_cost_units:
-        raise ValueError(f"visual provider cost {expected_cost} exceeds budget {max_cost_units}")
-    return tuple(selected_provider.produce(request) for request in plan.scene_requests)
+    """Compatibility helper returning generated assets without exposing cache details."""
+    return _materialize_visual_plan(
+        plan,
+        provider,
+        allow_network=allow_network,
+        max_cost_units=max_cost_units,
+    ).assets
