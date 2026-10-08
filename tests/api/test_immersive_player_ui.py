@@ -1,5 +1,7 @@
 """Guard opt-in visual player boundaries; not M95 human evidence."""
 
+from fastapi.routing import APIRoute
+
 from wanxiang_api.immersive_player_ui import immersive_player_html
 from wanxiang_api.player_ui_asset import player_html
 from wanxiang_api.player_ui_routes import router
@@ -21,7 +23,11 @@ def test_experimental_visual_page_has_real_3d_canvas_and_authoritative_api_path(
 
 
 def test_visual_route_is_opt_in_not_a_new_public_openapi_operation() -> None:
-    matches = [route for route in router.routes if route.path == "/experience/visual"]
+    matches = [
+        route
+        for route in router.routes
+        if isinstance(route, APIRoute) and route.path == "/experience/visual"
+    ]
     assert len(matches) == 1
     assert matches[0].include_in_schema is False
 
