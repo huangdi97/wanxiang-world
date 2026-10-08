@@ -58,10 +58,18 @@ def _plan_book_scene_assets(
     if not 0 <= max_preview_scenes <= 12:
         raise ValueError("max_preview_scenes must be within [0, 12]")
 
+    raw_fingerprints = package.draft.compiler_metadata.get("source_fingerprints_v1", "[]")
+    try:
+        decoded_fingerprints = json.loads(raw_fingerprints)
+    except (TypeError, ValueError):
+        decoded_fingerprints = []
+    fingerprints = tuple(
+        sorted(item for item in decoded_fingerprints if isinstance(item, str) and item)
+    )
     source_identity = json.dumps(
         {
-            "package_hash": package.manifest.content_hash,
-            "source_versions": package.source_versions,
+            "source_fingerprints": fingerprints,
+            "source_versions": package.source_versions if not fingerprints else (),
             "draft_revision": package.draft_revision,
         },
         sort_keys=True,
