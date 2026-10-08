@@ -5,7 +5,6 @@
 import hashlib
 
 import pytest
-
 from wanxiang_substrate.assets.book_scene_plan import (
     _SourceSceneRequest,
     _SourceVisualPlan,
