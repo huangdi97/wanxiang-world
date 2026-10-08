@@ -115,7 +115,13 @@ def player_world_detail(
     viewer = _viewer(x_wanxiang_user)
     locale = _locale(x_wanxiang_locale)
     service = _service(request)
-    world = player_world(service, profile_id, viewer_id=viewer, locale=locale)
+    world = player_world(
+        service,
+        profile_id,
+        viewer_id=viewer,
+        locale=locale,
+        include_visual=True,
+    )
     characters = [
         _character(item)
         for item in service.entry.my_characters(viewer)
