@@ -82,6 +82,15 @@ def player_world_detail(
                 }
                 for asset in assets
             ],
+            "topology": [
+                {
+                    "from": relation.source_place,
+                    "to": relation.target_place,
+                    "relation_type": relation.relation_type,
+                    "confidence": relation.confidence,
+                }
+                for relation in plan.topology_relations
+            ],
         }
 
     return {
