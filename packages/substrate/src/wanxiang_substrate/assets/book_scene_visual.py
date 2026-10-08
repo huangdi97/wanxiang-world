@@ -239,6 +239,7 @@ def _render_visual_plan(
     *,
     allow_network: bool = False,
     max_cost_units: int = 0,
+    private_source: bool = False,
 ) -> tuple[_SceneVisualAsset, ...]:
     """Compatibility helper returning generated assets without exposing cache details."""
     return _materialize_visual_plan(
@@ -246,4 +247,5 @@ def _render_visual_plan(
         provider,
         allow_network=allow_network,
         max_cost_units=max_cost_units,
+        private_source=private_source,
     ).assets
