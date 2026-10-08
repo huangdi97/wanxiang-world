@@ -165,10 +165,13 @@ def player_observation(
         plan = _plan_book_scene_assets(package)
         assets = _render_visual_plan(plan)
         chosen = next((asset for asset in assets if asset.place_name == location), None)
+        grounding = "current_location"
         if chosen is None and assets:
             chosen = assets[0]
+            grounding = "world_preview"
         if chosen is not None:
             scene_visual = {
+                "grounding": grounding,
                 "place_name": chosen.place_name,
                 "media_type": chosen.media_type,
                 "data_uri": chosen.data_uri(),
