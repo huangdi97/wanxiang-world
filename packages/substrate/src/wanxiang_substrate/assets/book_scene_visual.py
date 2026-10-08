@@ -34,6 +34,9 @@ class _SceneVisualAsset:
 
 class _SceneImageProvider(Protocol):
     provider_id: str
+    requires_network: bool
+    cost_units_per_asset: int
+    private_safe: bool
 
     def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset: ...
 
@@ -42,6 +45,9 @@ class _ProceduralSvgSceneProvider:
     """Deterministic SVG fallback so every valid book can be visual, at zero API cost."""
 
     provider_id = "procedural-svg-v1"
+    requires_network = False
+    cost_units_per_asset = 0
+    private_safe = True
 
     def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
         digest = hashlib.sha256(request.cache_key.encode("utf-8")).digest()
@@ -114,9 +120,19 @@ class _ProceduralSvgSceneProvider:
 def _render_visual_plan(
     plan: _SourceVisualPlan,
     provider: _SceneImageProvider | None = None,
+    *,
+    allow_network: bool = False,
+    max_cost_units: int = 0,
 ) -> tuple[_SceneVisualAsset, ...]:
-    """Render only planned scenes; no hidden expansion or external provider call."""
+    """Render only planned scenes under explicit network/cost governance."""
     if plan.status not in {"READY_FOR_ASSET_PROVIDER", "BUDGET_ZERO"}:
         return ()
     selected_provider = provider or _ProceduralSvgSceneProvider()
+    if selected_provider.requires_network and not allow_network:
+        raise ValueError("network visual provider requires explicit allow_network")
+    expected_cost = selected_provider.cost_units_per_asset * len(plan.scene_requests)
+    if expected_cost > max_cost_units:
+        raise ValueError(
+            f"visual provider cost {expected_cost} exceeds budget {max_cost_units}"
+        )
     return tuple(selected_provider.produce(request) for request in plan.scene_requests)
