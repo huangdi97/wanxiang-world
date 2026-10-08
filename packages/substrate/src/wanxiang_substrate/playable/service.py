@@ -139,6 +139,7 @@ class PlayableService:
         visual_plan = _plan_book_scene_assets(package)
         materialized = _materialize_visual_plan(visual_plan, cache=self._visual_cache)
         self._visual_assets[profile.profile_id] = materialized.assets
+        self._visual_asset_refs[profile.profile_id] = materialized.asset_refs
         self._installs[profile.profile_id] = PreviewInstall(
             f"playable_{len(self._installs) + 1}",
             package.package_id,
