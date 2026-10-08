@@ -86,9 +86,7 @@ class PlayableService:
         if profile.owner_id and viewer_id == profile.owner_id:
             return assets
         return tuple(
-            asset
-            for asset, ref in zip(assets, refs, strict=True)
-            if ref.rights == "public"
+            asset for asset, ref in zip(assets, refs, strict=True) if ref.rights == "public"
         )
 
     def register_package(
