@@ -16,7 +16,6 @@ from dataclasses import dataclass
 from html import escape
 from typing import Protocol
 
-from wanxiang_substrate.assets.storage import AssetRef, InMemoryObjectStore, ObjectStore
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest, _SourceVisualPlan
 from wanxiang_substrate.assets.storage import AssetRef, InMemoryObjectStore, ObjectStore
 
@@ -36,47 +35,6 @@ class _SceneVisualAsset:
     def data_uri(self) -> str:
         payload = base64.b64encode(self.content).decode("ascii")
         return f"data:{self.media_type};base64,{payload}"
-
-
-@dataclass(frozen=True, slots=True)
-class _StoredSceneVisual:
-    visual: _SceneVisualAsset
-    asset_ref: AssetRef
-
-
-class _SceneVisualCache:
-    """Content-addressed visual cache over the existing ObjectStore seam."""
-
-    def __init__(self, store: ObjectStore | None = None) -> None:
-        self.store = store or InMemoryObjectStore()
-        self._by_cache_key: dict[str, _StoredSceneVisual] = {}
-
-    def store_visual(
-        self,
-        visual: _SceneVisualAsset,
-        *,
-        rights: str = "source-gated",
-    ) -> _StoredSceneVisual:
-        existing = self._by_cache_key.get(visual.cache_key)
-        if existing is not None:
-            self.store.stat(existing.asset_ref)
-            return existing
-        ref = self.store.put(
-            visual.content,
-            content_type=visual.media_type,
-            rights=rights,
-        )
-        stored = _StoredSceneVisual(visual, ref)
-        self._by_cache_key[visual.cache_key] = stored
-        return stored
-
-    def materialize(
-        self,
-        visuals: tuple[_SceneVisualAsset, ...],
-        *,
-        rights: str = "source-gated",
-    ) -> tuple[_StoredSceneVisual, ...]:
-        return tuple(self.store_visual(visual, rights=rights) for visual in visuals)
 
 
 class _SceneImageProvider(Protocol):
@@ -217,7 +175,7 @@ def _materialize_visual_plan(
     cache: _VisualAssetCache | None = None,
     allow_network: bool = False,
     max_cost_units: int = 0,
-    rights: str = "public",
+    rights: str = "source-gated",
 ) -> _VisualMaterialization:
     """Generate only cache misses, under explicit network/cost governance."""
     if plan.status not in {"READY_FOR_ASSET_PROVIDER", "BUDGET_ZERO"}:
@@ -248,6 +206,13 @@ def _materialize_visual_plan(
     generated: dict[str, tuple[_SceneVisualAsset, AssetRef]] = {}
     for request in misses:
         asset = selected_provider.produce(request)
+        expected_cache_key = f"{request.cache_key}:{selected_provider.provider_id}"
+        if asset.provider_id != selected_provider.provider_id:
+            raise ValueError("visual provider returned mismatched provider_id")
+        if asset.cache_key != expected_cache_key:
+            raise ValueError("visual provider returned mismatched cache_key")
+        if hashlib.sha256(asset.content).hexdigest() != asset.content_sha256:
+            raise ValueError("visual provider returned invalid content digest")
         ref = asset_cache.put(asset, rights=rights)
         generated[request.stable_key] = (asset, ref)
 
