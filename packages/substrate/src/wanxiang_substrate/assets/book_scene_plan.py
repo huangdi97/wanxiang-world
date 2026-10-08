@@ -36,6 +36,8 @@ class _SourceVisualPlan:
     status: str
     scene_requests: tuple[_SourceSceneRequest, ...]
     deferred_scene_count: int
+    delivery_rights: str = "source-gated"
+    external_processing_allowed: bool = False
 
     @property
     def image_provider_calls(self) -> int:
@@ -89,6 +91,17 @@ def _plan_book_scene_assets(
         return _SourceVisualPlan(package.package_id, source_digest, "PLACES_NOT_EXTRACTED", (), 0)
 
     selected = distinct_places[:max_preview_scenes]
+    delivery_rights = package.draft.compiler_metadata.get(
+        "visual_asset_rights_v1", "source-gated"
+    )
+    if delivery_rights not in {"public", "source-gated"}:
+        delivery_rights = "source-gated"
+    external_processing_allowed = (
+        package.draft.compiler_metadata.get(
+            "external_visual_processing_allowed_v1", "false"
+        )
+        == "true"
+    )
     style_key = hashlib.sha256(f"{source_digest}:story-visual-profile:v1".encode()).hexdigest()[:24]
     raw_evidence = package.draft.compiler_metadata.get("scene_evidence_v1", "[]")
     try:
@@ -173,4 +186,6 @@ def _plan_book_scene_assets(
         status=status,
         scene_requests=tuple(requests),
         deferred_scene_count=len(distinct_places) - len(requests),
+        delivery_rights=delivery_rights,
+        external_processing_allowed=external_processing_allowed,
     )
