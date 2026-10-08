@@ -151,6 +151,11 @@ def build_pipeline_build(
             "segments": str(len(segments)),
             "batches": str(distillation.batch_count),
             "provider_id": distillation.provider_id,
+            "source_fingerprints_v1": json.dumps(
+                sorted(record.fingerprint() for record in records),
+                ensure_ascii=False,
+                separators=(",", ":"),
+            ),
             "scene_evidence_v1": json.dumps(
                 [
                     {
