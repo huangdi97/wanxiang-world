@@ -2,11 +2,11 @@
 
 **Status:** `USER_INPUT_REQUIRED` — automated product evidence is not human UX evidence.
 
-- Build SHA: `28701ef2b59c1c90b986a67612421648ac85c145`
+- Build SHA: `9c71a5c29624b44497ab989af3948f8bf41a765a`
 - Run ref: `m95-route:009ad21c3b5fc044`
 - World package: `world:wd_m95_route_job`
 - Instance: `prv_playable_1`
-- Branch: `br_754acb70e1dd43e49487889cc0a519d3`
+- Branch: `br_c34a741b9be14d2a95fd3ef090f0c430`
 - Automated route artifact: `artifacts/v55_stable/m95/route_readiness.json`
 - Acceptance artifact: `artifacts/v55_stable/m95/player_acceptance.json`
 

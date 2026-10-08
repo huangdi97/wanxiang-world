@@ -1,0 +1,230 @@
+{
+  "schema": "wanxiang.m95.local-agent-verification.v1",
+  "conclusion": "PASS",
+  "date": "2026-10-08T06:36:31Z",
+  "local_head": "9c71a5c29624b44497ab989af3948f8bf41a765a",
+  "remote_head": "9c71a5c29624b44497ab989af3948f8bf41a765a",
+  "branch": "feature/r7-cordis-native",
+  "contains_fake_human_m95": false,
+  "v5_5_stable_tag_created": false,
+  "v5_6_work_started": false,
+  "tests": {
+    "browser_e2e": {
+      "command": "uv run pytest tests/integration/test_m95_player_experience_browser.py -q",
+      "result": "PASS",
+      "count": "1 passed"
+    },
+    "evidence_api": {
+      "command": "uv run pytest tests/integration/test_m95_player_evidence.py -q",
+      "result": "PASS",
+      "count": "2 passed"
+    },
+    "remediation_api": {
+      "command": "uv run pytest tests/api/test_player_experience_remediation.py -q",
+      "result": "PASS",
+      "count": "4 passed"
+    },
+    "g97e_browser": {
+      "command": "uv run pytest tests/integration/test_g97e_browser_experience_product_chain.py -q",
+      "result": "PASS",
+      "count": "1 passed"
+    },
+    "full_suite": {
+      "command": "uv run pytest -q",
+      "result": "PASS",
+      "count": "1801 passed, 2 skipped (PostgreSQL EXTERNAL_BLOCKED + Docker daemon unavailable), 0 failed"
+    }
+  },
+  "quality_gates": {
+    "architecture_check": "PASS",
+    "ruff_check_m95": "PASS",
+    "ruff_format_m95": "PASS (31 files already formatted)",
+    "pyright_m95": "PASS (0 errors, 0 warnings)",
+    "cordis_host_ts": "PASS (10 files, 77 tests passed)"
+  },
+  "journey": {
+    "base": "http://127.0.0.1:8056",
+    "stages": [
+      {
+        "stage": "plaza",
+        "file": "stage_01_plaza.png"
+      },
+      {
+        "stage": "world_detail",
+        "file": "stage_02_world_detail.png"
+      },
+      {
+        "stage": "enter_world",
+        "file": "stage_03_enter_world.png"
+      },
+      {
+        "stage": "action_committed",
+        "file": "stage_04_action_committed.png"
+      },
+      {
+        "stage": "leave_plaza",
+        "file": "stage_05_leave_plaza.png"
+      },
+      {
+        "stage": "continue_same_instance",
+        "file": "stage_06_continue_same_instance.png"
+      }
+    ],
+    "evidence": {
+      "title": "万相｜进入世界",
+      "lang": "zh-CN",
+      "locale": "zh-CN",
+      "action_response": {
+        "status": 200,
+        "committed_status": "committed",
+        "changed": true,
+        "instance_id": "prv_playable_1",
+        "view_has_session": true,
+        "view_has_state": false
+      },
+      "continue": {
+        "active": true,
+        "world_name": "江南机关城"
+      },
+      "page_errors": [],
+      "outcomes": [
+        {
+          "step": "world_detail",
+          "assert": "seeded character visible",
+          "status": "PASS"
+        },
+        {
+          "step": "action",
+          "assert": "committed + 世界变化",
+          "status": "PASS"
+        },
+        {
+          "step": "leave",
+          "assert": "leave ok",
+          "status": "PASS"
+        },
+        {
+          "step": "continue",
+          "assert": "same instance resumed",
+          "status": "PASS"
+        }
+      ],
+      "profile_id": "experience:world:wd_m95_human_zh_job",
+      "instance_id": "prv_playable_1"
+    }
+  },
+  "edge_probe": {
+    "empty_action_blocked": true,
+    "empty_action_message": "先写下你想做的事。",
+    "duplicate_enter_error_shown": true,
+    "duplicate_enter_message": "这个角色正在另一个会话中使用，请先结束原来的进入状态再重试。",
+    "duplicate_enter_is_generic_connection": false,
+    "unsafe_action_message": "这一步还无法被世界理解，请换一种说法。",
+    "no_runtime_id_leak": true,
+    "action_status": 200,
+    "committed": "committed",
+    "view_keys": [
+      "chronicle",
+      "current_event",
+      "environment",
+      "events_since_leave",
+      "last_committed_change",
+      "location",
+      "memories",
+      "narrative",
+      "opportunities",
+      "player",
+      "present_people",
+      "recent_changes",
+      "region",
+      "relations",
+      "session",
+      "time",
+      "weather",
+      "world"
+    ],
+    "has_recent_changes": true,
+    "has_narrative": true,
+    "exposes_raw_state": false,
+    "page_errors": []
+  },
+  "screenshots": [
+    {
+      "file": "artifacts/m95_local_agent_verification/screenshots/desktop.png",
+      "png_valid": true,
+      "width": 1440,
+      "height": 2182,
+      "stage": "1440x1000 viewport"
+    },
+    {
+      "file": "artifacts/m95_local_agent_verification/screenshots/mobile.png",
+      "png_valid": true,
+      "width": 390,
+      "height": 3392,
+      "stage": "390x844 viewport"
+    },
+    {
+      "file": "artifacts/m95_local_agent_verification/screenshots/mobile_plaza.png",
+      "png_valid": true,
+      "width": 390,
+      "height": 3392,
+      "stage": "390x844 viewport"
+    },
+    {
+      "file": "artifacts/m95_local_agent_verification/screenshots/probe_after_actions.png",
+      "png_valid": true,
+      "width": 1440,
+      "height": 1170,
+      "stage": "edge probe end state"
+    },
+    {
+      "file": "artifacts/m95_local_agent_verification/screenshots/stage_01_plaza.png",
+      "png_valid": true,
+      "width": 1440,
+      "height": 2182,
+      "stage": "home plaza"
+    },
+    {
+      "file": "artifacts/m95_local_agent_verification/screenshots/stage_02_world_detail.png",
+      "png_valid": true,
+      "width": 1440,
+      "height": 1069,
+      "stage": "world detail + character choice"
+    },
+    {
+      "file": "artifacts/m95_local_agent_verification/screenshots/stage_03_enter_world.png",
+      "png_valid": true,
+      "width": 1440,
+      "height": 1170,
+      "stage": "entered play view"
+    },
+    {
+      "file": "artifacts/m95_local_agent_verification/screenshots/stage_04_action_committed.png",
+      "png_valid": true,
+      "width": 1440,
+      "height": 1170,
+      "stage": "action committed + 世界变化"
+    },
+    {
+      "file": "artifacts/m95_local_agent_verification/screenshots/stage_05_leave_plaza.png",
+      "png_valid": true,
+      "width": 1440,
+      "height": 2405,
+      "stage": "left back to plaza (continue slot)"
+    },
+    {
+      "file": "artifacts/m95_local_agent_verification/screenshots/stage_06_continue_same_instance.png",
+      "png_valid": true,
+      "width": 1440,
+      "height": 1170,
+      "stage": "continue, same instance"
+    }
+  ],
+  "boundaries": {
+    "human_m95_gates_62_66": "USER_INPUT_REQUIRED (WAITING_HUMAN)",
+    "godot_gate_78": "EXTERNAL_BLOCKED",
+    "live_dsh": "EXTERNAL_BLOCKED",
+    "postgres_live": "EXTERNAL_BLOCKED (SQLite profile green)",
+    "v5_5_0_stable": "NOT_CREATED"
+  }
+}
