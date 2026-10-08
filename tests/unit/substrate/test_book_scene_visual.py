@@ -53,13 +53,31 @@ def test_two_unrelated_places_use_same_provider_but_different_visuals() -> None:
 
 
 def test_render_visual_plan_is_deterministic_and_cost_free_by_construction() -> None:
-    plan = _plan(_request("书房", "study"), _request("码头", "dock"))
+    study = _request("书房", "study")
+    dock = _request("码头", "dock")
+    shared_style = "story-style"
+    study = _SourceSceneRequest(
+        study.place_name,
+        study.stable_key,
+        study.spec,
+        study.cache_key,
+        style_key=shared_style,
+    )
+    dock = _SourceSceneRequest(
+        dock.place_name,
+        dock.stable_key,
+        dock.spec,
+        dock.cache_key,
+        style_key=shared_style,
+    )
+    plan = _plan(study, dock)
     first = _render_visual_plan(plan)
     second = _render_visual_plan(plan)
 
     assert first == second
     assert [item.place_name for item in first] == ["书房", "码头"]
     assert len({item.content_sha256 for item in first}) == 2
+    assert {item.style_key for item in first} == {shared_style}
 
 
 def test_non_ready_plan_never_generates_pixels() -> None:
