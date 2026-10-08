@@ -7,7 +7,9 @@ from collections.abc import Callable
 from pathlib import Path
 
 import pytest
-from wanxiang_execution import ExecutionPolicy
+from dataclasses import replace
+
+from wanxiang_execution import ExecutionClass, ExecutionPolicy
 from wanxiang_foundry.errors import InvocationError
 from wanxiang_foundry.invocation import CapabilityRequest, invoke
 from wanxiang_foundry.package import CapabilityPackage
@@ -88,3 +90,22 @@ def test_capability_outcome_exposes_no_commit_path(
 
     assert not hasattr(outcome, "commit")
     assert not hasattr(outcome, "commit_to_world")
+
+
+@pytest.mark.unit
+def test_invocation_refuses_runtime_class_drift(
+    package_with_digest: _MakePackage,
+    full_pass_report: VerificationReport,
+    untrusted_policy: ExecutionPolicy,
+    tmp_path: Path,
+) -> None:
+    registry = VerifiedCapabilityRegistry()
+    package = package_with_digest(full_pass_report.evidence_digest)
+    registry.admit(package, full_pass_report)
+    container_policy = replace(
+        untrusted_policy,
+        execution_class=ExecutionClass.CONTAINER,
+    )
+
+    with pytest.raises(InvocationError, match="execution class"):
+        invoke(registry, package, _request(), container_policy, tmp_path)

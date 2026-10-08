@@ -19,6 +19,7 @@ from wanxiang_execution import (
     ExecutionError,
     ExecutionPolicy,
     ExecutionRequest,
+    ExecutionRouter,
     LocalProcessProvider,
     PolicyViolation,
 )
@@ -32,6 +33,8 @@ def run_cases(
     cases: Sequence[VerificationCase],
     policy: ExecutionPolicy,
     workspace_dir: Path,
+    *,
+    router: ExecutionRouter | None = None,
 ) -> tuple[CaseResult, ...]:
     """Run every case as a real subprocess and return observed results.
 
@@ -47,15 +50,15 @@ def run_cases(
     Returns:
         One CaseResult per case, in input order.
     """
-    provider = LocalProcessProvider()
-    return tuple(_run_case(case, policy, workspace_dir, provider) for case in cases)
+    resolved_router = router or ExecutionRouter((LocalProcessProvider(),))
+    return tuple(_run_case(case, policy, workspace_dir, resolved_router) for case in cases)
 
 
 def _run_case(
     case: VerificationCase,
     policy: ExecutionPolicy,
     workspace_dir: Path,
-    provider: LocalProcessProvider,
+    router: ExecutionRouter,
 ) -> CaseResult:
     """Run one case, converting any fabric refusal into a typed failure layer."""
     try:
@@ -70,7 +73,7 @@ def _run_case(
     except ExecutionError:
         return _failed(case, FailureLayer.AGENT_MISUSE)
     try:
-        result = provider.run(request, workspace_dir)
+        result = router.run(request, workspace_dir)
     except PolicyViolation:
         return _failed(case, FailureLayer.ENVIRONMENT)
     except ExecutionError:

@@ -20,6 +20,7 @@ from wanxiang_execution import (
     ExecutionPolicy,
     ExecutionRequest,
     ExecutionResult,
+    ExecutionRouter,
     LocalProcessProvider,
     trace_digest,
 )
@@ -77,6 +78,8 @@ def invoke(
     request: CapabilityRequest,
     policy: ExecutionPolicy,
     workspace_dir: Path,
+    *,
+    router: ExecutionRouter | None = None,
 ) -> CapabilityOutcome:
     """Run an admitted capability and return a proposal-only outcome.
 
@@ -99,6 +102,12 @@ def invoke(
             f"capability {package.capability_id}@{package.version} is not invocable "
             "(unregistered or revoked)"
         )
+    if package.runtime.execution_class is not policy.execution_class:
+        raise InvocationError(
+            "capability execution class does not match invocation policy: "
+            f"package={package.runtime.execution_class.value!r}, "
+            f"policy={policy.execution_class.value!r}"
+        )
     execution_request = ExecutionRequest(
         execution_id=request.execution_id,
         capability_id=package.capability_id,
@@ -109,8 +118,9 @@ def invoke(
         environment=request.environment,
         stdin_text=request.stdin_text,
     )
+    resolved_router = router or ExecutionRouter((LocalProcessProvider(),))
     try:
-        result = LocalProcessProvider().run(execution_request, workspace_dir)
+        result = resolved_router.run(execution_request, workspace_dir)
     except ExecutionError as exc:
         raise InvocationError(
             f"capability {package.capability_id}@{package.version} could not run: {exc}"

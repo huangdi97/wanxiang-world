@@ -54,6 +54,7 @@ from wanxiang_execution.policy import (
     authorize,
     authorize_for,
 )
+from wanxiang_execution.router import ExecutionProvider, ExecutionRouter
 from wanxiang_execution.trace import (
     EXIT_STATUS_COMPLETED,
     EXIT_STATUS_FAILED,
@@ -91,7 +92,9 @@ __all__ = [
     "ExecutionError",
     "ExecutionFailed",
     "ExecutionPolicy",
+    "ExecutionProvider",
     "ExecutionRequest",
+    "ExecutionRouter",
     "ExecutionResult",
     "ExecutionTimeout",
     "ExecutionTrace",

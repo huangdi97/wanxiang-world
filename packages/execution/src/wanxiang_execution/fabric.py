@@ -101,6 +101,7 @@ class LocalProcessProvider:
 
     provider_id: str = "execution-local-process"
     provider_version: str = "1.0.0"
+    execution_class: ExecutionClass = ExecutionClass.PROCESS
 
     def run(self, request: ExecutionRequest, workspace_dir: Path) -> ExecutionResult:
         """Execute one request in a fresh scratch directory.

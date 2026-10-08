@@ -49,6 +49,7 @@ class DockerContainerProvider:
 
     provider_id = "execution-docker-container"
     provider_version = "1.0.0"
+    execution_class = ExecutionClass.CONTAINER
 
     def __init__(self, image_ref: str, *, docker_binary: str = "docker") -> None:
         if not image_ref.strip():
