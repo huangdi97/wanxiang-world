@@ -236,6 +236,9 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 assert page.locator("#play-mode").inner_text() == "观察模式"
                 assert page.locator("#send-action").is_disabled()
                 assert page.locator("#scene-visual-image").is_visible()
+                page.locator("#world-stage").screenshot(
+                    path=str(review / "observer-stage-desktop.png")
+                )
                 page.locator("#leave-world").click()
                 page.wait_for_selector("#home-view.is-active")
                 page.locator(f'#world-list [data-profile="{profile_id}"]').click()
@@ -263,6 +266,9 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 assert page.locator(".world-stage-story").is_visible()
                 assert page.locator(".world-action-dock").is_visible()
                 assert "世界视觉预览" in page.locator("#scene-visual-caption").inner_text()
+                page.locator("#world-stage").screenshot(
+                    path=str(review / "embodied-stage-desktop.png")
+                )
                 page.locator("#action-input").fill("让自己保持清醒")
                 page.locator("#send-action").click()
                 page.wait_for_function("document.body.innerText.includes('清醒')")
@@ -279,6 +285,10 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 page.locator('[data-filter="all"]').click()
                 page.locator("#continue-slot [data-continue]").click()
                 page.wait_for_selector("#play-view.is-active")
+                page.set_viewport_size({"width": 390, "height": 844})
+                page.locator("#world-stage").screenshot(
+                    path=str(review / "embodied-stage-mobile.png")
+                )
                 mobile = browser.new_page(viewport={"width": 390, "height": 844})
                 mobile.goto(f"{base}/", wait_until="networkidle")
                 mobile.screenshot(path=str(review / "mobile.png"), full_page=True)
