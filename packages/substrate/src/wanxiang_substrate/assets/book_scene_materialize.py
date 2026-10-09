@@ -2,7 +2,6 @@
 
 """Governed materialization of source-derived scene visual assets."""
 
-
 from __future__ import annotations
 
 import hashlib
