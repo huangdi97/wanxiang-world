@@ -7,10 +7,10 @@ import math
 from html import escape
 
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest, _SourceVisualPlan
-from wanxiang_substrate.assets.book_scene_types import SceneImageProvider, SceneVisualAsset
+from wanxiang_substrate.assets.book_scene_types import SceneImageProvider, _SceneVisualAsset
 
 
-class ProceduralSvgSceneProvider(SceneImageProvider):
+class _ProceduralSvgSceneProvider(SceneImageProvider):
     """Deterministic fallback so every valid book has real pixels at zero API cost."""
 
     provider_id = "procedural-svg"
@@ -19,7 +19,7 @@ class ProceduralSvgSceneProvider(SceneImageProvider):
     cost_units_per_asset = 0
     private_safe = True
 
-    def produce(self, request: _SourceSceneRequest) -> SceneVisualAsset:
+    def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
         layout_digest = hashlib.sha256(request.cache_key.encode()).digest()
         style_seed = request.style_key or request.cache_key
         style_digest = hashlib.sha256(style_seed.encode()).digest()
@@ -77,7 +77,7 @@ class ProceduralSvgSceneProvider(SceneImageProvider):
 </g>
 </svg>"""
         content = svg.encode()
-        return SceneVisualAsset(
+        return _SceneVisualAsset(
             scene_key=request.stable_key,
             place_name=request.place_name,
             provider_id=self.provider_id,
@@ -90,7 +90,7 @@ class ProceduralSvgSceneProvider(SceneImageProvider):
         )
 
 
-def render_world_atlas(plan: _SourceVisualPlan) -> SceneVisualAsset | None:
+def _render_world_atlas(plan: _SourceVisualPlan) -> _SceneVisualAsset | None:
     """Render a narrative topology atlas; coordinates are layout only, never geography."""
     places = plan.place_names or tuple(
         dict.fromkeys(request.place_name for request in plan.scene_requests)
@@ -178,7 +178,7 @@ def render_world_atlas(plan: _SourceVisualPlan) -> SceneVisualAsset | None:
 {omitted_label}
 </svg>"""
     content = svg.encode()
-    return SceneVisualAsset(
+    return _SceneVisualAsset(
         scene_key=f"atlas-{plan.source_digest[:24]}",
         place_name="世界图谱",
         provider_id="narrative-atlas-v1",
