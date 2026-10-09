@@ -26,7 +26,7 @@ if TYPE_CHECKING:
     from wanxiang_substrate.playable.service import PlayableService
 
 
-def visual_access_allowed(
+def _visual_access_allowed(
     service: PlayableService,
     profile_id: str,
     *,
@@ -43,7 +43,7 @@ def visual_access_allowed(
     ) == "public"
 
 
-def visible_visual_assets(
+def _visible_visual_assets(
     service: PlayableService,
     profile_id: str,
     *,
@@ -59,7 +59,7 @@ def visible_visual_assets(
     )
 
 
-def materialize_visual_place(
+def _materialize_visual_place(
     service: PlayableService,
     profile_id: str,
     place_name: str,
@@ -70,7 +70,7 @@ def materialize_visual_place(
     max_cost_units: int = 0,
 ) -> _VisualMaterialization:
     service.plaza.require_access(profile_id, viewer_id)
-    if not visual_access_allowed(service, profile_id, viewer_id=viewer_id):
+    if not _visual_access_allowed(service, profile_id, viewer_id=viewer_id):
         raise NotFound(f"visual world {profile_id!r} not found")
     package = service._packages.get(profile_id)
     if package is None:
@@ -113,7 +113,7 @@ def materialize_visual_place(
     return materialized
 
 
-def attach_package_visuals(
+def _attach_package_visuals(
     service: PlayableService,
     profile_id: str,
     package: WorldPackageDraft,
