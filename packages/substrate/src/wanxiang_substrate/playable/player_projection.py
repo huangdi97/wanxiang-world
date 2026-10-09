@@ -74,6 +74,7 @@ def player_world_detail(
         assets = visual_assets
         if assets is None:
             assets = _render_visual_plan(plan)
+        request_by_key = {request.stable_key: request for request in plan.scene_requests}
         atlas = _render_world_atlas(plan)
         visual = {
             "status": plan.status,
@@ -96,6 +97,11 @@ def player_world_detail(
                     "data_uri": asset.data_uri(),
                     "content_sha256": asset.content_sha256,
                     "illustrative": asset.illustrative,
+                    "clues": list(
+                        request_by_key.get(asset.scene_key).context_candidates
+                        if request_by_key.get(asset.scene_key) is not None
+                        else ()
+                    ),
                 }
                 for asset in assets
             ],
@@ -196,9 +202,10 @@ def player_observation(
         item.pop("involves_actor", None)
     scene_visual: dict[str, object] | None = None
     if package is not None:
+        plan = _plan_book_scene_assets(package)
+        request_by_key = {request.stable_key: request for request in plan.scene_requests}
         assets = visual_assets
         if assets is None:
-            plan = _plan_book_scene_assets(package)
             assets = _render_visual_plan(plan)
         chosen = next((asset for asset in assets if asset.place_name == location), None)
         grounding = "current_location" if canonical_location else "entry_location"
@@ -213,6 +220,11 @@ def player_observation(
                 "data_uri": chosen.data_uri(),
                 "content_sha256": chosen.content_sha256,
                 "illustrative": chosen.illustrative,
+                "clues": list(
+                    request_by_key.get(chosen.scene_key).context_candidates
+                    if request_by_key.get(chosen.scene_key) is not None
+                    else ()
+                ),
             }
 
     return {
