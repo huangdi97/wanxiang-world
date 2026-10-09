@@ -16,7 +16,7 @@ if TYPE_CHECKING:
     from wanxiang_substrate.playable.service import PlayableService
 
 
-def save_instance(
+def _save_instance(
     service: PlayableService,
     receipt: EntryReceipt,
     owner_id: str,
@@ -27,7 +27,7 @@ def save_instance(
     state = service.runtime.current_state(
         WorldInstanceId(receipt.instance_id), BranchId(branch_id)
     )
-    service.store.save_instance(
+    service.store._save_instance(
         ExperienceInstanceRecord(
             receipt.instance_id,
             receipt.profile_id,
@@ -43,7 +43,7 @@ def save_instance(
     )
 
 
-def owned_instance(
+def _owned_instance(
     service: PlayableService,
     instance_id: str,
     viewer_id: str,
