@@ -38,6 +38,7 @@ def player_world(
         locale=locale,
         include_visual=include_visual,
         visual_assets=service.visual_assets(profile_id, viewer_id=viewer_id),
+        visual_access_allowed=service.visual_access_allowed(profile_id, viewer_id=viewer_id),
     )
 
 
@@ -84,6 +85,10 @@ def player_observe(
         locale=locale,
         events_since_revision=effective_events_since_revision,
         visual_assets=service.visual_assets(record.profile_id, viewer_id=viewer_id),
+        visual_access_allowed=service.visual_access_allowed(
+            record.profile_id,
+            viewer_id=viewer_id,
+        ),
     )
     view["session"] = _session_summary(record, view, events, actor_starting_location)
     return view
