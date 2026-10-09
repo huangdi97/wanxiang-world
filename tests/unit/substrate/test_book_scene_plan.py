@@ -130,3 +130,16 @@ def test_long_book_preview_ranks_places_by_evidence_coverage_not_name_order() ->
 
     assert [scene.place_name for scene in plan.scene_requests] == ["城门", "书房"]
     assert plan.deferred_scene_count == 2
+
+
+def test_explicit_source_place_can_be_prioritized_for_on_demand_generation() -> None:
+    package = package_from_book("ondemand", ("园林", "书房", "城门", "码头", "山谷"))
+    plan = _plan_book_scene_assets(
+        package,
+        max_preview_scenes=1,
+        preferred_places=("码头",),
+    )
+
+    assert [scene.place_name for scene in plan.scene_requests] == ["码头"]
+    assert plan.deferred_scene_count == 4
+    assert plan.place_names == ("园林", "书房", "城门", "码头", "山谷")
