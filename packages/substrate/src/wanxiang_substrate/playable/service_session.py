@@ -27,7 +27,7 @@ def _save_instance(
     state = service.runtime.current_state(
         WorldInstanceId(receipt.instance_id), BranchId(branch_id)
     )
-    service.store._save_instance(
+    service.store.save_instance(
         ExperienceInstanceRecord(
             receipt.instance_id,
             receipt.profile_id,
