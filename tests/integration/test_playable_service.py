@@ -6,7 +6,6 @@ import pathlib
 from typing import cast
 
 import pytest
-
 from scripts.reference_runtime import build_reference_runtime
 from tests.conftest import make_world_runtime
 from wanxiang_domain.errors import NotFound
