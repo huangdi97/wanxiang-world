@@ -96,7 +96,7 @@ def _compile_scene_generation_brief(
     profile: _StoryVisualProfile,
 ) -> _SceneGenerationBrief:
     """Compile a bounded prompt using structured scene evidence, not full source text."""
-    context = tuple(
+    context = request.context_candidates or tuple(
         requirement.split(":", 1)[1]
         for requirement in request.spec.requirements
         if requirement.startswith("source_context_candidate:")
