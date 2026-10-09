@@ -6,9 +6,10 @@ from __future__ import annotations
 
 import os
 import pathlib
+from collections.abc import Awaitable, Callable
 
 from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
 from sqlalchemy.orm import sessionmaker
 from wanxiang_application.ports import PersistenceBundle
 from wanxiang_application.synthetic_microworld import register_synthetic_resolvers
@@ -86,6 +87,42 @@ def create_app(
     lineage_graph: LineageGraph | None = None,
 ) -> FastAPI:
     app = FastAPI(title=API_TITLE, version=API_VERSION)
+    identity_mode = os.environ.get("WANXIANG_IDENTITY_MODE", "local-demo").strip()
+    if identity_mode not in {"local-demo", "trusted"}:
+        raise ValueError("WANXIANG_IDENTITY_MODE must be local-demo or trusted")
+
+    if identity_mode == "trusted":
+        # A trusted outer ASGI authenticator must populate these scope values.
+        # Never treat a caller-supplied HTTP header as proof of identity.
+        @app.middleware("http")
+        async def _trusted_identity_boundary(
+            request: Request,
+            call_next: Callable[[Request], Awaitable[Response]],
+        ) -> Response:  # pyright: ignore[reportUnusedFunction]
+            principal = request.scope.get("wanxiang_authenticated_user")
+            if not isinstance(principal, str) or not principal.strip():
+                return JSONResponse(
+                    status_code=401,
+                    content={"code": "trusted_identity_required"},
+                )
+            roles = request.scope.get("wanxiang_authenticated_roles", ())
+            if request.url.path.startswith("/studio") and (
+                not isinstance(roles, (tuple, list, set, frozenset))
+                or "creator" not in roles
+            ):
+                return JSONResponse(
+                    status_code=403,
+                    content={"code": "studio_creator_role_required"},
+                )
+            headers = [
+                (key, value)
+                for key, value in request.scope.get("headers", [])
+                if key.lower() != b"x-wanxiang-user"
+            ]
+            headers.append((b"x-wanxiang-user", principal.encode("utf-8")))
+            request.scope["headers"] = headers
+            return await call_next(request)
+
     app.state.runtime = runtime
     app.state.lineage_graph = lineage_graph or LineageGraph()
     app.state.studio_admin = False
