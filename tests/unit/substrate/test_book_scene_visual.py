@@ -372,3 +372,64 @@ def test_missing_blob_does_not_bypass_network_or_cost_gates(
         _materialize_visual_plan(
             plan, provider=provider, cache=cache, allow_network=True, max_cost_units=0
         )
+
+
+class _WrongSceneProvider(_RemoteLikeProvider):
+    requires_network = False
+    cost_units_per_asset = 0
+    private_safe = True
+
+    def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
+        good = super().produce(request)
+        return _SceneVisualAsset(
+            scene_key="another-book-scene",
+            place_name=good.place_name,
+            provider_id=good.provider_id,
+            provider_version=good.provider_version,
+            media_type=good.media_type,
+            content=good.content,
+            content_sha256=good.content_sha256,
+            cache_key=good.cache_key,
+            style_key=good.style_key,
+        )
+
+
+def test_visual_provider_cannot_rebind_image_to_unrelated_book_scene() -> None:
+    with pytest.raises(ValueError, match="source scene identity"):
+        _materialize_visual_plan(
+            _plan(_request("花园", "garden")), provider=_WrongSceneProvider()
+        )
+
+
+class _WrongMediaProvider(_WrongSceneProvider):
+    def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
+        good = _RemoteLikeProvider.produce(self, request)
+        return _SceneVisualAsset(
+            scene_key=good.scene_key,
+            place_name=good.place_name,
+            provider_id=good.provider_id,
+            provider_version=good.provider_version,
+            media_type="text/html",
+            content=good.content,
+            content_sha256=good.content_sha256,
+            cache_key=good.cache_key,
+            style_key=good.style_key,
+        )
+
+
+def test_visual_provider_cannot_inject_non_image_media_into_player() -> None:
+    with pytest.raises(ValueError, match="non-empty image content"):
+        _materialize_visual_plan(
+            _plan(_request("城门", "gate")), provider=_WrongMediaProvider()
+        )
+
+
+class _NegativeCostProvider(_WrongSceneProvider):
+    cost_units_per_asset = -2
+
+
+def test_negative_provider_cost_is_rejected_before_generation() -> None:
+    with pytest.raises(ValueError, match="non-negative"):
+        _materialize_visual_plan(
+            _plan(_request("城门", "gate")), provider=_NegativeCostProvider()
+        )
