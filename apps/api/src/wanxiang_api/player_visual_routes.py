@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from typing import cast
 
-import wanxiang_substrate.playable.player_i18n as _player_i18n
 from fastapi import APIRouter, Header, HTTPException, Request
 from pydantic import BaseModel, Field
 from wanxiang_substrate.assets.book_scene_types import SceneImageProvider
@@ -16,6 +15,11 @@ router = APIRouter(prefix="/experience/player")
 
 class VisualPlaceRequest(BaseModel):
     place_name: str = Field(min_length=1, max_length=200)
+
+
+def _locale(value: str | None) -> str:
+    normalized = (value or "").strip().replace("_", "-").casefold()
+    return "en-US" if normalized == "en" or normalized.startswith("en-") else "zh-CN"
 
 
 def _service(request: Request) -> PlayableService:
@@ -34,7 +38,7 @@ def player_materialize_visual_place(
     x_wanxiang_locale: str | None = Header(default=None),
 ) -> dict[str, object]:
     viewer = x_wanxiang_user or "anonymous"
-    locale = _player_i18n._normalize_locale(x_wanxiang_locale)
+    locale = _locale(x_wanxiang_locale)
     service = _service(request)
     provider = cast(SceneImageProvider | None, request.app.state.visual_asset_provider)
     result = service.materialize_visual_place(
