@@ -1,8 +1,8 @@
 """Generic zero-cost scene morphology for deterministic T0 visuals."""
 
-# pyright: reportUnusedFunction=false
-
 from __future__ import annotations
+
+# pyright: reportUnusedFunction=false
 
 
 _MOTIF_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
