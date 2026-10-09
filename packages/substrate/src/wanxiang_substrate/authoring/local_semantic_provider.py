@@ -3,6 +3,8 @@ import json
 import re
 from typing import cast
 
+# pyright: reportPrivateUsage=false
+
 from wanxiang_substrate.authoring.local_semantic_gedcom import extract_gedcom
 from wanxiang_substrate.authoring.local_semantic_rules import (
     _CHINESE,
