@@ -3,6 +3,7 @@
 # pyright: reportPrivateUsage=false
 
 import hashlib
+import pathlib
 
 import pytest
 from wanxiang_substrate.assets.book_scene_plan import (
@@ -265,7 +266,7 @@ def test_provider_version_change_invalidates_visual_cache() -> None:
 
 
 def test_visual_cache_survives_restart_with_local_blob_store_and_json_index(
-    tmp_path,
+    tmp_path: pathlib.Path,
 ) -> None:
     plan = _plan(_request("旧城", "durable"))
     blob_root = tmp_path / "blobs"
