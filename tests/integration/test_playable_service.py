@@ -3,12 +3,18 @@
 from __future__ import annotations
 
 import pathlib
+
+import pytest
 from typing import cast
 
 from scripts.reference_runtime import build_reference_runtime
 from tests.conftest import make_world_runtime
+from wanxiang_domain.errors import NotFound
 from wanxiang_domain.ids import BranchId, WorldInstanceId
+from wanxiang_substrate.authoring.local_semantic_provider import LocalSemanticProvider
 from wanxiang_substrate.authoring.one_click import OneClickAuthoring
+from wanxiang_substrate.authoring.providers import ProviderRouter
+from wanxiang_substrate.authoring.service import AuthoringService
 from wanxiang_substrate.playable import PlayableService
 from wanxiang_substrate.playable.store import ExperienceInstanceRecord
 from wanxiang_substrate.preview.runtime import register_preview_resolvers
@@ -120,3 +126,76 @@ def test_enter_reuses_persisted_preview_after_runtime_restart(
         first_event_count
     )
     assert len(cast(list[object], cast(dict[str, object], second["state"])["entities"])) == 2
+
+
+def test_deferred_book_place_generates_once_then_reuses_visual_cache() -> None:
+    content = (
+        "# 第一章\n角色：沈砚\n"
+        "沈砚来到江南城。\n"
+        "沈砚来到机关桥。\n"
+        "沈砚来到潮汐港。\n"
+        "沈砚来到望月亭。\n"
+        "沈砚来到青石巷。\n"
+        "规则：入城者必须登记。\n"
+    )
+    source = SourceRecord(
+        source_id="playable_visual_deferred",
+        kind="text",
+        content_hash=payload_hash(content),
+        content_ref="memory://playable_visual_deferred",
+        stage="E3",
+        rights=RightsEnvelope(owner="test", usage="test", approved=True),
+        payload=content,
+        provenance="synthetic:deferred-visual",
+        access="private",
+    )
+    authoring_service = AuthoringService(
+        providers=ProviderRouter((LocalSemanticProvider(),)),
+    )
+    authored = OneClickAuthoring(authoring_service).run(
+        "job_playable_visual_deferred",
+        (source,),
+        profile="book",
+        semantic_provider="local",
+    )
+    assert authored.visual_plan is not None
+    assert len(authored.visual_plan.place_names) >= 5
+
+    playable = PlayableService(build_reference_runtime())
+    profile = playable.register_package(
+        authored.package,
+        owner_id="alice",
+        visibility="private",
+    )
+    initial_assets = playable.visual_assets(profile.profile_id, viewer_id="alice")
+    assert len(initial_assets) == 3
+    generated_places = {asset.place_name for asset in initial_assets}
+    target = next(
+        place for place in authored.visual_plan.place_names if place not in generated_places
+    )
+
+    first = playable.materialize_visual_place(
+        profile.profile_id,
+        target,
+        viewer_id="alice",
+    )
+    second = playable.materialize_visual_place(
+        profile.profile_id,
+        target,
+        viewer_id="alice",
+    )
+
+    assert first.provider_calls == 1
+    assert first.cache_hits == 0
+    assert second.provider_calls == 0
+    assert second.cache_hits == 1
+    assert target in {
+        asset.place_name
+        for asset in playable.visual_assets(profile.profile_id, viewer_id="alice")
+    }
+    with pytest.raises(NotFound):
+        playable.materialize_visual_place(
+            profile.profile_id,
+            "不存在的地点",
+            viewer_id="alice",
+        )
