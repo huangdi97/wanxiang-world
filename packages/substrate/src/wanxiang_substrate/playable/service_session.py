@@ -1,6 +1,6 @@
 """Session persistence helpers for PlayableService."""
 
-# pyright: reportPrivateUsage=false
+# pyright: reportPrivateUsage=false, reportUnusedFunction=false
 
 from __future__ import annotations
 
