@@ -8,8 +8,6 @@ from typing import cast
 
 import wanxiang_substrate.playable.player_i18n as _player_i18n
 from fastapi import APIRouter, Header, HTTPException, Request
-from pydantic import BaseModel, Field
-from wanxiang_substrate.assets.book_scene_visual import _SceneImageProvider
 from wanxiang_substrate.playable import (
     CharacterRecord,
     PlayableService,
@@ -25,10 +23,6 @@ from wanxiang_api.playable_routes import (
 )
 
 router = APIRouter(prefix="/experience/player")
-
-
-class VisualPlaceRequest(BaseModel):
-    place_name: str = Field(min_length=1, max_length=200)
 
 
 def _viewer(user: str | None) -> str:
@@ -134,41 +128,6 @@ def player_world_detail(
         if item.compatible_with(profile_id)
     ]
     return {"locale": locale, "world": world, "characters": characters}
-
-
-@router.post("/worlds/{profile_id}/visuals")
-def player_materialize_visual_place(
-    profile_id: str,
-    payload: VisualPlaceRequest,
-    request: Request,
-    x_wanxiang_user: str | None = Header(default=None),
-    x_wanxiang_locale: str | None = Header(default=None),
-) -> dict[str, object]:
-    viewer = _viewer(x_wanxiang_user)
-    locale = _locale(x_wanxiang_locale)
-    service = _service(request)
-    provider = cast(_SceneImageProvider | None, request.app.state.visual_asset_provider)
-    result = service.materialize_visual_place(
-        profile_id,
-        payload.place_name,
-        viewer_id=viewer,
-        provider=provider,
-        allow_network=bool(request.app.state.visual_asset_allow_network),
-        max_cost_units=int(request.app.state.visual_asset_max_cost_units),
-    )
-    return {
-        "locale": locale,
-        "provider_calls": result.provider_calls,
-        "cache_hits": result.cache_hits,
-        "cost_units": result.cost_units,
-        "world": player_world(
-            service,
-            profile_id,
-            viewer_id=viewer,
-            locale=locale,
-            include_visual=True,
-        ),
-    }
 
 
 @router.get("/characters")
