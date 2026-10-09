@@ -4,7 +4,7 @@ These functions mutate only the service's derived visual cache/catalog, never
 canonical world state or History.
 """
 
-# pyright: reportPrivateUsage=false
+# pyright: reportPrivateUsage=false, reportUnusedFunction=false
 
 from __future__ import annotations
 
