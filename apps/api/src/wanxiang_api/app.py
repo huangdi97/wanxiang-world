@@ -21,10 +21,7 @@ from wanxiang_persistence.event_store import SqlAlchemyEventStore
 from wanxiang_persistence.instance_repository import WorldInstanceRepository
 from wanxiang_persistence.snapshot_store import SqlAlchemySnapshotStore
 from wanxiang_runtime.resolver import ResolverRegistry
-from wanxiang_substrate.assets.book_scene_visual import (
-    _LocalJsonVisualCacheIndex,
-    _VisualAssetCache,
-)
+from wanxiang_substrate.assets import LocalJsonVisualCacheIndex, VisualAssetCache
 from wanxiang_substrate.assets.storage import LocalObjectStore
 from wanxiang_substrate.authoring import AuthoringService, LocalSemanticProvider
 from wanxiang_substrate.authoring.providers import ProviderRouter
@@ -106,9 +103,9 @@ def create_app(
     visual_cache_root = os.environ.get("WANXIANG_VISUAL_CACHE_DIR", "").strip()
     if visual_cache_root:
         visual_cache_path = pathlib.Path(visual_cache_root)
-        app.state.visual_asset_cache = _VisualAssetCache(
+        app.state.visual_asset_cache = VisualAssetCache(
             LocalObjectStore(visual_cache_path / "blobs"),
-            _LocalJsonVisualCacheIndex(visual_cache_path / "index.json"),
+            LocalJsonVisualCacheIndex(visual_cache_path / "index.json"),
         )
     else:
         app.state.visual_asset_cache = _VisualAssetCache()
