@@ -2,7 +2,6 @@
 
 """Deterministic zero-cost visual rendering for source-grounded book scenes."""
 
-
 from __future__ import annotations
 
 import hashlib
