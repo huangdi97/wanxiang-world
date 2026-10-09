@@ -333,7 +333,6 @@ def test_cached_bytes_can_be_reused_under_current_delivery_rights_without_regene
     assert public.asset_refs[0].rights == "public"
 
 
-
 def test_missing_durable_visual_blob_is_regenerated_under_existing_governance(
     tmp_path: pathlib.Path,
 ) -> None:
