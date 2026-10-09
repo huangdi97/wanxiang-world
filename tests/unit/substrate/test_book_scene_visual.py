@@ -12,10 +12,10 @@ from wanxiang_substrate.assets.book_scene_plan import (
     _SourceVisualPlan,
 )
 from wanxiang_substrate.assets.book_scene_visual import (
+    _LocalJsonVisualCacheIndex,
     _materialize_visual_plan,
     _ProceduralSvgSceneProvider,
     _render_visual_plan,
-    _LocalJsonVisualCacheIndex,
     _render_world_atlas,
     _SceneVisualAsset,
     _VisualAssetCache,
