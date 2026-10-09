@@ -32,9 +32,7 @@ def test_trusted_mode_denies_unverified_identity_even_with_owner_header(
 ) -> None:
     monkeypatch.setenv("WANXIANG_IDENTITY_MODE", "trusted")
     with TestClient(create_app()) as client:
-        response = client.get(
-            "/experience/player/plaza", headers={"x-wanxiang-user": "studio"}
-        )
+        response = client.get("/experience/player/plaza", headers={"x-wanxiang-user": "studio"})
     assert response.status_code == 401
     assert response.json()["code"] == "trusted_identity_required"
 
@@ -48,9 +46,7 @@ def test_trusted_mode_overrides_spoofed_http_user_header(monkeypatch: Any) -> No
 
     app.add_api_route("/__trusted_identity_test", trusted_probe)
     with TestClient(_TrustedOuterASGI(app, "real-user")) as client:
-        response = client.get(
-            "/__trusted_identity_test", headers={"x-wanxiang-user": "studio"}
-        )
+        response = client.get("/__trusted_identity_test", headers={"x-wanxiang-user": "studio"})
     assert response.status_code == 200
     assert response.json() == {"principal": "real-user"}
 

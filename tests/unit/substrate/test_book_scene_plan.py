@@ -144,7 +144,6 @@ def test_explicit_source_place_can_be_prioritized_for_on_demand_generation() -> 
     assert plan.place_names == ("园林", "书房", "城门", "码头", "山谷")
 
 
-
 def test_large_generic_book_indexes_evidence_without_changing_scene_selection() -> None:
     places = tuple(f"Location-{index:04d}" for index in range(1200))
     evidence: list[dict[str, object]] = [

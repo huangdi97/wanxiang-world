@@ -107,8 +107,7 @@ def create_app(
                 )
             roles = request.scope.get("wanxiang_authenticated_roles", ())
             if request.url.path.startswith("/studio") and (
-                not isinstance(roles, (tuple, list, set, frozenset))
-                or "creator" not in roles
+                not isinstance(roles, (tuple, list, set, frozenset)) or "creator" not in roles
             ):
                 return JSONResponse(
                     status_code=403,
