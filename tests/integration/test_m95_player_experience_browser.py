@@ -211,12 +211,22 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 assert "叙事世界图谱" in page.locator("#detail-visual-caption").inner_text()
                 place_buttons = page.locator("#visual-places .visual-place")
                 assert place_buttons.count() >= 5
+                ready_place = page.locator('#visual-places [data-focus-place]').first
+                ready_name = ready_place.get_attribute("data-focus-place")
+                assert ready_name
+                ready_place.click()
+                assert ready_place.get_attribute("aria-pressed") == "true"
+                assert ready_name in page.locator("#detail-visual-caption").inner_text()
+                page.locator('#visual-gallery [data-visual-index="0"]').click()
+                assert "叙事世界图谱" in page.locator("#detail-visual-caption").inner_text()
                 deferred_places = page.locator(
                     '#visual-places .visual-place[data-generated="false"]'
                 )
                 assert deferred_places.count() >= 1
                 before_gallery_count = page.locator("#visual-gallery .visual-thumb").count()
                 before_deferred_count = deferred_places.count()
+                deferred_name = deferred_places.first.get_attribute("data-generate-place")
+                assert deferred_name
                 deferred_places.first.click()
                 page.wait_for_function(
                     f"document.querySelectorAll('#visual-gallery .visual-thumb').length > "
@@ -225,6 +235,10 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 assert page.locator(
                     '#visual-places .visual-place[data-generated="false"]'
                 ).count() == (before_deferred_count - 1)
+                assert deferred_name in page.locator("#detail-visual-caption").inner_text()
+                assert page.locator(
+                    f'#visual-places [data-focus-place="{deferred_name}"]'
+                ).get_attribute("aria-pressed") == "true"
                 assert not page_errors, page_errors
                 assert page.locator('input[name="character"]').count() == 1, page.locator(
                     "#detail-view"
