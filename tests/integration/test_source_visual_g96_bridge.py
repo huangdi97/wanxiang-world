@@ -57,6 +57,8 @@ def test_generated_book_assets_project_through_existing_visual_provider_abi() ->
     assert frame.status == "projected"
     assert frame.projection_only is True
     assert len(frame.objects) == 2
-    assert frame.asset_refs == tuple(sorted(materialized.asset_refs, key=lambda item: item.asset_id))
+    assert frame.asset_refs == tuple(
+        sorted(materialized.asset_refs, key=lambda item: item.asset_id)
+    )
     assert frame.snapshot_revision == 4
     assert frame.state_hash == "statehash:book-visual"
