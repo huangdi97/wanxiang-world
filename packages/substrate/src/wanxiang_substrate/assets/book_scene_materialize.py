@@ -1,5 +1,7 @@
 """Governed materialization of source-derived scene visual assets."""
 
+# pyright: reportPrivateUsage=false
+
 from __future__ import annotations
 
 import hashlib
