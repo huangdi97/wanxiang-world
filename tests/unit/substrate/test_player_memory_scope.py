@@ -1,5 +1,7 @@
 """Private memories require an explicit matching actor scope."""
 
+# pyright: reportPrivateUsage=false
+
 from wanxiang_domain.entity import ComponentData, EntityState
 from wanxiang_domain.ids import ComponentId, EntityId
 from wanxiang_domain.versions import SchemaVersion
