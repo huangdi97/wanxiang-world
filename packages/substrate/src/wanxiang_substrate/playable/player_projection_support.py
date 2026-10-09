@@ -144,6 +144,10 @@ def _opportunity_cards(
 
 
 def _memory_cards(entities: tuple[EntityState, ...], actor_id: str) -> list[str]:
+    # An observer, or a session without an identified actor, has no private
+    # memory scope. Do not infer permission from an absent owner field.
+    if not actor_id:
+        return []
     result: list[str] = []
     for entity in entities:
         kinds = {entity.entity_type.casefold()}
@@ -154,7 +158,7 @@ def _memory_cards(entities: tuple[EntityState, ...], actor_id: str) -> list[str]
             continue
         fields = _entity_fields(entity)
         owner = _first_text(fields, ("actor_id", "owner_id"))
-        if owner and owner != actor_id:
+        if owner != actor_id:
             continue
         text = _first_text(fields, ("content", "text", "summary", "description"))
         if text:
