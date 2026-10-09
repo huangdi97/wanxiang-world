@@ -13,8 +13,10 @@ from __future__ import annotations
 
 import base64
 import hashlib
+import json
 import math
-from dataclasses import dataclass
+import pathlib
+from dataclasses import asdict, dataclass
 from html import escape
 from typing import Protocol
 
@@ -251,18 +253,156 @@ class _VisualMaterialization:
     cost_units: int
 
 
-class _VisualAssetCache:
-    """Content-addressed generated-asset cache over the existing ObjectStore port."""
+@dataclass(frozen=True, slots=True)
+class _VisualCacheRecord:
+    cache_key: str
+    scene_key: str
+    place_name: str
+    provider_id: str
+    provider_version: str
+    media_type: str
+    content_sha256: str
+    asset_id: str
+    size: int
+    illustrative: bool
+    style_key: str
 
-    def __init__(self, store: ObjectStore | None = None) -> None:
-        self.store = store or InMemoryObjectStore()
-        self._index: dict[str, tuple[AssetRef, _SceneVisualAsset]] = {}
 
-    def get(self, cache_key: str) -> tuple[_SceneVisualAsset, AssetRef] | None:
-        row = self._index.get(cache_key)
-        if row is None:
+class _VisualCacheIndex(Protocol):
+    """Metadata index port; blob bytes remain owned by ObjectStore."""
+
+    def get(self, cache_key: str) -> _VisualCacheRecord | None: ...
+    def put(self, record: _VisualCacheRecord) -> None: ...
+
+
+class _InMemoryVisualCacheIndex:
+    def __init__(self) -> None:
+        self._rows: dict[str, _VisualCacheRecord] = {}
+
+    def get(self, cache_key: str) -> _VisualCacheRecord | None:
+        return self._rows.get(cache_key)
+
+    def put(self, record: _VisualCacheRecord) -> None:
+        self._rows[record.cache_key] = record
+
+
+class _LocalJsonVisualCacheIndex:
+    """Single-process durable dev index; production may inject a DB/object index."""
+
+    def __init__(self, path: pathlib.Path) -> None:
+        self._path = path
+        self._path.parent.mkdir(parents=True, exist_ok=True)
+
+    def _rows(self) -> dict[str, dict[str, object]]:
+        if not self._path.exists():
+            return {}
+        try:
+            decoded: object = json.loads(self._path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            return {}
+        if not isinstance(decoded, dict):
+            return {}
+        rows: dict[str, dict[str, object]] = {}
+        for raw_key, raw_value in decoded.items():
+            if isinstance(raw_key, str) and isinstance(raw_value, dict):
+                rows[raw_key] = {
+                    str(key): value
+                    for key, value in raw_value.items()
+                    if isinstance(key, str)
+                }
+        return rows
+
+    @staticmethod
+    def _record(raw: dict[str, object]) -> _VisualCacheRecord | None:
+        try:
+            values = {
+                "cache_key": raw["cache_key"],
+                "scene_key": raw["scene_key"],
+                "place_name": raw["place_name"],
+                "provider_id": raw["provider_id"],
+                "provider_version": raw["provider_version"],
+                "media_type": raw["media_type"],
+                "content_sha256": raw["content_sha256"],
+                "asset_id": raw["asset_id"],
+                "size": raw["size"],
+                "illustrative": raw["illustrative"],
+                "style_key": raw["style_key"],
+            }
+        except KeyError:
             return None
-        ref, metadata = row
+        if not all(
+            isinstance(values[name], str)
+            for name in (
+                "cache_key",
+                "scene_key",
+                "place_name",
+                "provider_id",
+                "provider_version",
+                "media_type",
+                "content_sha256",
+                "asset_id",
+                "style_key",
+            )
+        ):
+            return None
+        if not isinstance(values["size"], int) or not isinstance(values["illustrative"], bool):
+            return None
+        return _VisualCacheRecord(
+            cache_key=str(values["cache_key"]),
+            scene_key=str(values["scene_key"]),
+            place_name=str(values["place_name"]),
+            provider_id=str(values["provider_id"]),
+            provider_version=str(values["provider_version"]),
+            media_type=str(values["media_type"]),
+            content_sha256=str(values["content_sha256"]),
+            asset_id=str(values["asset_id"]),
+            size=int(values["size"]),
+            illustrative=bool(values["illustrative"]),
+            style_key=str(values["style_key"]),
+        )
+
+    def get(self, cache_key: str) -> _VisualCacheRecord | None:
+        raw = self._rows().get(cache_key)
+        return self._record(raw) if raw is not None else None
+
+    def put(self, record: _VisualCacheRecord) -> None:
+        rows = self._rows()
+        rows[record.cache_key] = asdict(record)
+        temporary = self._path.with_suffix(self._path.suffix + ".tmp")
+        temporary.write_text(
+            json.dumps(rows, ensure_ascii=False, sort_keys=True, separators=(",", ":")),
+            encoding="utf-8",
+        )
+        temporary.replace(self._path)
+
+
+class _VisualAssetCache:
+    """Content-addressed blobs plus replaceable cache-key metadata index."""
+
+    def __init__(
+        self,
+        store: ObjectStore | None = None,
+        index: _VisualCacheIndex | None = None,
+    ) -> None:
+        self.store = store or InMemoryObjectStore()
+        self.index = index or _InMemoryVisualCacheIndex()
+
+    def get(
+        self,
+        cache_key: str,
+        *,
+        rights: str = "public",
+    ) -> tuple[_SceneVisualAsset, AssetRef] | None:
+        metadata = self.index.get(cache_key)
+        if metadata is None:
+            return None
+        ref = AssetRef(
+            asset_id=metadata.asset_id,
+            content_hash=metadata.content_sha256,
+            size=metadata.size,
+            content_type=metadata.media_type,
+            rights=rights,
+        )
         content = self.store.get(ref)
         return (
             _SceneVisualAsset(
@@ -282,7 +422,21 @@ class _VisualAssetCache:
 
     def put(self, asset: _SceneVisualAsset, *, rights: str = "public") -> AssetRef:
         ref = self.store.put(asset.content, content_type=asset.media_type, rights=rights)
-        self._index[asset.cache_key] = (ref, asset)
+        self.index.put(
+            _VisualCacheRecord(
+                cache_key=asset.cache_key,
+                scene_key=asset.scene_key,
+                place_name=asset.place_name,
+                provider_id=asset.provider_id,
+                provider_version=asset.provider_version,
+                media_type=asset.media_type,
+                content_sha256=asset.content_sha256,
+                asset_id=ref.asset_id,
+                size=ref.size,
+                illustrative=asset.illustrative,
+                style_key=asset.style_key,
+            )
+        )
         return ref
 
 
@@ -320,7 +474,7 @@ def _materialize_visual_plan(
             f"{request.cache_key}:{selected_provider.provider_id}@"
             f"{selected_provider.provider_version}"
         )
-        cached = asset_cache.get(provider_cache_key)
+        cached = asset_cache.get(provider_cache_key, rights=delivery_rights)
         if cached is None:
             misses.append(request)
         else:
