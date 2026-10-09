@@ -8,18 +8,19 @@ from wanxiang_substrate.authoring.local_semantic_rules import (
     CHINESE as _CHINESE,
     COMMON_FALSE_NAMES as _COMMON_FALSE_NAMES,
     CUE as _CUE,
-    ENGLISH_FALSE_NAMESALSE_NAMES = {"The", "This", "That", "Alice", "Bob", "Chapter"}
-
-
-def _identity_key(name: str) -> str:
-    if all("\u4e00" <= char <= "\u9fff" for char in name):
-        return f"zh:{name}"
-    return re.sub(r"[^a-z0-9]+", "|", name.lower()).strip("|")
-
-
-def _clean(value: str, limit: int = 96) -> str:
-    return re.sub(r"\s+", " ", value).strip(" \t\r\n,，。；;:：()（）[]【】\"'")[:limit]
-
+    ENGLISH_FALSE_NAMES as _ENGLISH_FALSE_NAMES,
+    EVENT_CUES as _EVENT_CUES,
+    PLACE_SUFFIX as _PLACE_SUFFIX,
+    RELATION_WORDS as _RELATION_WORDS,
+    TITLE as _TITLE,
+    clean as _clean,
+    identity_key as _identity_key,
+)
+from wanxiang_substrate.authoring.providers import (
+    ProviderCapability,
+    ProviderProposal,
+)
+from wanxiang_substrate.sources.errors import SemanticProviderSchemaError
 
 class LocalSemanticProvider:
     """Deterministic private-safe provider registered in the normal router."""
