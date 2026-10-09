@@ -62,7 +62,7 @@ class _ProceduralSvgSceneProvider:
     def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
         layout_digest = hashlib.sha256(request.cache_key.encode("utf-8")).digest()
         style_seed = request.style_key or request.cache_key
-        style_digest = hashlib.sha256(style_seed.encode("utf-8")).digest()
+        style_digest = hashlib.sha256(style_seed.encode()).digest()
         sky_hue = 185 + style_digest[0] % 36
         ground_hue = 72 + style_digest[1] % 28
         accent_hue = 20 + style_digest[2] % 40
@@ -169,15 +169,10 @@ def _render_world_atlas(plan: _SourceVisualPlan) -> _SceneVisualAsset | None:
         if source is None or target is None:
             continue
         edges.append(
-            '<line x1="{:.1f}" y1="{:.1f}" x2="{:.1f}" y2="{:.1f}" '
-            'stroke="hsl({} 32% 43%)" stroke-width="4" '
-            'marker-end="url(#arrow)" opacity=".78"/>'.format(
-                source[0],
-                source[1],
-                target[0],
-                target[1],
-                base_hue,
-            )
+            f'<line x1="{source[0]:.1f}" y1="{source[1]:.1f}" '
+            f'x2="{target[0]:.1f}" y2="{target[1]:.1f}" '
+            f'stroke="hsl({base_hue} 32% 43%)" stroke-width="4" '
+            'marker-end="url(#arrow)" opacity=".78"/>'
         )
 
     nodes: list[str] = []
@@ -186,12 +181,12 @@ def _render_world_atlas(plan: _SourceVisualPlan) -> _SceneVisualAsset | None:
         label = escape(place[:18])
         hue = (accent_hue + index * 17) % 360
         nodes.append(
-            '<g transform="translate({:.1f} {:.1f})">'
-            '<circle r="38" fill="hsl({} 42% 78%)" '
-            'stroke="hsl({} 30% 30%)" stroke-width="4"/>'
+            f'<g transform="translate({x:.1f} {y:.1f})">'
+            f'<circle r="38" fill="hsl({hue} 42% 78%)" '
+            f'stroke="hsl({hue} 30% 30%)" stroke-width="4"/>'
             '<text y="61" text-anchor="middle" font-size="20" '
-            'font-family="system-ui, Noto Sans SC, sans-serif" fill="#18333b">{}</text>'
-            "</g>".format(x, y, hue, hue, label)
+            'font-family="system-ui, Noto Sans SC, sans-serif" fill="#18333b">'
+            f"{label}</text></g>"
         )
 
     omitted = max(0, len(places) - len(visible_places))
