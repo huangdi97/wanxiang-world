@@ -71,7 +71,6 @@ def test_two_unrelated_places_use_same_provider_but_different_visuals() -> None:
 
 
 
-
 def test_t0_scene_morphology_varies_by_generic_place_semantics() -> None:
     provider = _ProceduralSvgSceneProvider()
     bridge = provider.produce(_request("机关桥", "bridge"))
@@ -84,14 +83,17 @@ def test_t0_scene_morphology_varies_by_generic_place_semantics() -> None:
     assert b'data-scene-motif="harbor"' in harbor.content
     assert b'data-scene-motif="garden"' in garden.content
     assert b'data-scene-motif="interior"' in study.content
-    assert len(
-        {
-            bridge.content_sha256,
-            harbor.content_sha256,
-            garden.content_sha256,
-            study.content_sha256,
-        }
-    ) == 4
+    assert (
+        len(
+            {
+                bridge.content_sha256,
+                harbor.content_sha256,
+                garden.content_sha256,
+                study.content_sha256,
+            }
+        )
+        == 4
+    )
 
 def test_render_visual_plan_is_deterministic_and_cost_free_by_construction() -> None:
     study = _request("书房", "study")
