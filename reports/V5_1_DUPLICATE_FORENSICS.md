@@ -126,7 +126,7 @@
 | packages/substrate/src/wanxiang_substrate/observation/query.py | PerspectiveService | 29 |
 | packages/substrate/src/wanxiang_substrate/parsing/checkpoint.py | ParseCheckpointService | 14 |
 | packages/substrate/src/wanxiang_substrate/playable/entry.py | CharacterEntryService | 37 |
-| packages/substrate/src/wanxiang_substrate/playable/service.py | PlayableService | 39 |
+| packages/substrate/src/wanxiang_substrate/playable/service.py | PlayableService | 49 |
 | packages/substrate/src/wanxiang_substrate/projection/service.py | ProjectionService | 32 |
 | packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | CheckpointService | 89 |
 | packages/substrate/src/wanxiang_substrate/recovery/recovery.py | RecoveryService | 31 |
