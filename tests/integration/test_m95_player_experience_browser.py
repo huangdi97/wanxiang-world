@@ -207,6 +207,16 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                     "#detail-view"
                 ).inner_html()
                 assert "以此角色进入" in page.locator("#detail-view").inner_text()
+                assert "先以观察者进入" in page.locator("#detail-view").inner_text()
+                page.locator("#enter-observer").click()
+                page.wait_for_selector("#play-view.is-active")
+                assert page.locator("#play-mode").inner_text() == "观察模式"
+                assert page.locator("#send-action").is_disabled()
+                assert page.locator("#scene-visual-image").is_visible()
+                page.locator("#leave-world").click()
+                page.wait_for_selector("#home-view.is-active")
+                page.locator(f'#world-list [data-profile="{profile_id}"]').click()
+                page.wait_for_selector("#detail-view.is-active")
                 page.locator('input[name="character"]').check()
                 page.locator("#enter-world").click()
                 page.wait_for_function(
