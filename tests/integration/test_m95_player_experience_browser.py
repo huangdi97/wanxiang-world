@@ -251,6 +251,17 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 assert (scene_visual.get_attribute("src") or "").startswith(
                     "data:image/svg+xml;base64,"
                 )
+                stage = page.locator("#world-stage")
+                assert stage.is_visible()
+                stage_box = stage.bounding_box()
+                visual_box = scene_visual.bounding_box()
+                assert stage_box is not None and stage_box["height"] >= 600
+                assert visual_box is not None
+                assert visual_box["width"] >= stage_box["width"] * 0.9
+                assert visual_box["height"] >= stage_box["height"] * 0.9
+                assert page.locator(".world-stage-hud").is_visible()
+                assert page.locator(".world-stage-story").is_visible()
+                assert page.locator(".world-action-dock").is_visible()
                 assert "世界视觉预览" in page.locator("#scene-visual-caption").inner_text()
                 page.locator("#action-input").fill("让自己保持清醒")
                 page.locator("#send-action").click()
