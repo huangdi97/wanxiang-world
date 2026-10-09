@@ -242,6 +242,7 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 page.wait_for_selector("#detail-view.is-active")
                 page.locator('input[name="character"]').check()
                 page.locator("#enter-world").click()
+                page.wait_for_selector("#play-view.is-active")
                 page.wait_for_function(
                     "document.querySelector('#play-world-name')?.textContent === '江南机关城'"
                 )
