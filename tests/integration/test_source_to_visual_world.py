@@ -183,3 +183,40 @@ def test_chinese_book_local_semantic_provider_builds_visual_scene_without_extern
     assert any(asset.place_name == "江南城" for asset in result.visual_assets)
     assert result.visual_provider_calls >= 1
     assert result.visual_cost_units == 0
+
+
+def test_long_book_builds_bounded_preview_and_keeps_deferred_world_places() -> None:
+    chapters = []
+    places = ("Garden", "Fortress", "Harbor", "Library", "Market")
+    for index in range(30):
+        place = places[index % len(places)]
+        chapters.append(
+            f"# Chapter {index + 1}\nCharacter: Alice\n"
+            f"Alice arrived in {place} in 1985.\n"
+            f"rule: chapter-{index + 1} visitors register\n"
+        )
+    text = "\n".join(chapters)
+    source = SourceRecord(
+        source_id="long_book_source",
+        kind="text",
+        content_hash=payload_hash(text),
+        content_ref="memory://long_book_source",
+        stage="E3",
+        rights=RightsEnvelope(owner="synthetic", usage="test", approved=True),
+        payload=text,
+        provenance="synthetic:source-to-visual:long",
+        access="public",
+    )
+    result = OneClickAuthoring().run(
+        "visual_long_book",
+        (source,),
+        profile="book",
+    )
+
+    assert result.visual_plan is not None
+    assert result.visual_plan.status == "READY_FOR_ASSET_PROVIDER"
+    assert len(result.visual_plan.place_names) >= 5
+    assert len(result.visual_plan.scene_requests) == 3
+    assert result.visual_plan.deferred_scene_count >= 2
+    assert len(result.visual_assets) == 3
+    assert all(scene.source_refs for scene in result.visual_plan.scene_requests)
