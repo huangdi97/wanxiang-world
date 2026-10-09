@@ -124,4 +124,5 @@ def _session_summary(
         "events_since_leave": view["events_since_leave"],
         "last_change": view["last_committed_change"],
         "status": "saved" if left else "active",
+        "entry_mode": record.mode,
     }
