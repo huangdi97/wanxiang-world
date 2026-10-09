@@ -32,9 +32,7 @@ def _visual_scene_state_from_book_assets(
     count = len(plan.scene_requests)
     radius = max(1.0, float(count))
     objects: list[VisualSceneObject] = []
-    for index, (request, asset_ref) in enumerate(
-        zip(plan.scene_requests, asset_refs, strict=True)
-    ):
+    for index, (request, asset_ref) in enumerate(zip(plan.scene_requests, asset_refs, strict=True)):
         angle = 0.0 if count <= 1 else (2.0 * math.pi * index / count)
         position = (
             round(radius * math.cos(angle), 6),
