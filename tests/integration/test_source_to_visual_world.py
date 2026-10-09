@@ -5,6 +5,7 @@
 from typing import cast
 
 from wanxiang_substrate.assets.book_scene_external import (
+    _ExternalImageClient,
     _ExternalImageResult,
     _PromptedExternalSceneProvider,
 )
@@ -233,7 +234,7 @@ def test_long_book_builds_bounded_preview_and_keeps_deferred_world_places() -> N
     assert all(scene.source_refs for scene in result.visual_plan.scene_requests)
 
 
-class _OneClickExternalClient:
+class _OneClickExternalClient(_ExternalImageClient):
     def __init__(self) -> None:
         self.calls: list[_SceneGenerationBrief] = []
 
