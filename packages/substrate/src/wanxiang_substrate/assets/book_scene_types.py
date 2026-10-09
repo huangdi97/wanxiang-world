@@ -1,6 +1,7 @@
+# pyright: reportPrivateUsage=false, reportUnusedClass=false
+
 """Shared value types for source-derived visual assets.
 
-# pyright: reportPrivateUsage=false
 
 These types describe illustrative assets and provider governance. They do not
 own canonical world state or Commit Authority.
