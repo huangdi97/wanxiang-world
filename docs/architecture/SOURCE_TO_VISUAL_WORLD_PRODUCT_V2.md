@@ -325,3 +325,55 @@ Still requiring external/runtime evidence before any stronger claim:
 - an authorized real T3 world-generation provider run
 - long-book quality evaluation on rights-safe corpora
 - human cross-book visual/immersion acceptance
+
+
+## 18. Final provider boundary: generation and projection are separate
+
+Wanxiang now treats visual provider work as two different ports:
+
+1. **Asset generation provider** — SourceVisualPlan / SceneGenerationBrief -> image, panorama or persistent 3D asset bytes/manifest. This side is governed by network permission, source external-processing permission, privacy, provider/model version, cost budget and content-addressed cache identity.
+2. **Existing G96 VisualWorldProvider** — VisualSceneState + ActorPerspective -> VisualProjectionFrame. This side filters already available AssetRefs by actor perspective, rights, visibility and snapshot revision. It remains projection-only and has no asset-generation or canonical-write authority.
+
+The new Source-to-Visual bridge converts generated book scene AssetRefs into the existing G96 scene input using **presentation-layout coordinates only**. Those coordinates are not geography. This proves provider reuse without creating a competing projection ABI.
+
+## 19. World overview, scene clues and observer-first entry
+
+The generic Player now has a low-cost world body before any premium model is connected:
+
+- **Narrative world atlas:** every extracted source place becomes a node; only source-grounded topology candidates become edges. Graph layout is explicitly presentation, not physical map truth.
+- **Scene gallery:** bounded key-place scenes are generated/cached at world creation; deferred places remain in the world and can be generated on demand in later tiers.
+- **Scene clues:** locator-cooccurring character/event/object candidates travel with a scene as clues. They are not declared physically present unless canonical runtime state later confirms that.
+- **Observer-first entry:** a user can enter and inspect a newly generated world without first creating an embodiment character. Observer mode is read-only; world-changing actions remain disabled until character/embodiment entry.
+- **StoryVisualProfile + bounded brief:** one style key is shared across a book. Provider prompts contain structured scene evidence and constraints, not the full book.
+- **Provider-version cache identity:** style key, prompt version and provider/model version all participate in cache identity so style/model upgrades never silently reuse stale visuals.
+
+## 20. Current implementation truth after the universal-world correction
+
+Implemented on `feature/source-to-visual-world`:
+
+- generic book scene planner over WorldPackageDraft
+- source fingerprints, locators, confidence, context candidates and explicit topology evidence
+- default 3-scene preview budget with deferred world locations retained
+- deterministic T0 generated SVG scene assets
+- narrative world-atlas SVG
+- one StoryVisualProfile per source world
+- bounded SceneGenerationBrief compiler
+- vendor-neutral governed T1 image client adapter
+- content-addressed ObjectStore cache and cross-job source-content reuse
+- provider/model-version cache invalidation
+- source delivery rights / private-source / external-processing / network / cost gates
+- Player world-detail visual atlas + gallery
+- live scene visual projection + clue chips
+- observer-first Player entry
+- G96 VisualWorldProvider bridge
+- cross-book, Chinese local-semantic, long-book, cache, provider-governance and browser evidence tests
+
+Still external or human evidence, and therefore **not claimed complete**:
+
+- real authorized T1 remote image generation against a production provider
+- real T3 persistent 3D world generation/export
+- provider-specific billing and latency evidence
+- human cross-book visual/immersion acceptance
+- quality evaluation on multiple long rights-safe real books
+
+These remaining items are provider/runtime/human evidence gaps, not reasons to build per-book code.
