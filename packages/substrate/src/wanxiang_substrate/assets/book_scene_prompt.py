@@ -57,6 +57,14 @@ _PALETTES = (
 _LIGHTING = ("soft-overcast", "late-afternoon", "diffuse-interior", "misty-dawn")
 _CAMERA = ("human-eye-wide", "cinematic-wide", "illustrated-diorama", "quiet-observer")
 
+# Even source-grounded context is untrusted text; never pass unbounded labels
+# or locator arrays to a network image provider.
+_MAX_PLACE_CHARS = 160
+_MAX_CONTEXT_ITEMS = 8
+_MAX_CONTEXT_CHARS = 160
+_MAX_SOURCE_REFS = 16
+_MAX_REF_CHARS = 180
+
 
 def _story_visual_profile_from_style_key(style_key: str) -> _StoryVisualProfile:
     """Build a deterministic creative profile from one versioned world style key."""
@@ -96,17 +104,25 @@ def _compile_scene_generation_brief(
     profile: _StoryVisualProfile,
 ) -> _SceneGenerationBrief:
     """Compile a bounded prompt using structured scene evidence, not full source text."""
-    context = (
-        request.context_candidates
-        or tuple(
-            requirement.split(":", 1)[1]
-            for requirement in request.spec.requirements
-            if requirement.startswith("source_context_candidate:") and ":" in requirement
-        )[:8]
+    raw_context = request.context_candidates or tuple(
+        requirement.split(":", 1)[1]
+        for requirement in request.spec.requirements
+        if requirement.startswith("source_context_candidate:")
     )
+    context = tuple(
+        item.strip()[:_MAX_CONTEXT_CHARS]
+        for item in raw_context
+        if item.strip()
+    )[:_MAX_CONTEXT_ITEMS]
+    source_refs = tuple(
+        ref.strip()[:_MAX_REF_CHARS]
+        for ref in request.source_refs
+        if ref.strip()
+    )[:_MAX_SOURCE_REFS]
+    place_name = request.place_name.strip()[:_MAX_PLACE_CHARS]
     payload = {
         "task": "create one immersive environment illustration candidate",
-        "place": request.place_name,
+        "place": place_name,
         "medium": profile.medium,
         "palette": list(profile.palette),
         "lighting": profile.lighting,
@@ -129,7 +145,7 @@ def _compile_scene_generation_brief(
             {
                 "scene_key": request.stable_key,
                 "style_key": profile.style_key,
-                "source_refs": request.source_refs,
+                "source_refs": source_refs,
                 "prompt": semantic_prompt,
             },
             ensure_ascii=False,
@@ -140,11 +156,11 @@ def _compile_scene_generation_brief(
     return _SceneGenerationBrief(
         brief_id=f"visual-brief:{brief_hash}",
         scene_key=request.stable_key,
-        place_name=request.place_name,
+        place_name=place_name,
         style_profile_id=profile.profile_id,
         style_key=profile.style_key,
         semantic_prompt=semantic_prompt,
-        source_refs=request.source_refs,
+        source_refs=source_refs,
         source_context_candidates=context,
         negative_constraints=profile.negative_constraints,
     )

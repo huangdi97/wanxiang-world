@@ -2,6 +2,8 @@
 
 # pyright: reportPrivateUsage=false
 
+import json
+
 from wanxiang_substrate.assets.book_scene_plan import (
     _SourceSceneRequest,
     _SourceVisualPlan,
@@ -76,3 +78,38 @@ def test_scene_brief_contains_structured_context_not_full_source_text() -> None:
     assert "book#chapter-1:paragraph-3" not in brief.semantic_prompt
     assert len(brief.semantic_prompt) < 1800
     assert "do-not-invent-geographic-topology" in brief.negative_constraints
+
+
+def test_untrusted_long_book_context_is_bounded_before_provider_delivery() -> None:
+    original = _request("深" * 240, "bounded", "story-style-bounded")
+    expanded = _SourceSceneRequest(
+        place_name=original.place_name,
+        stable_key=original.stable_key,
+        spec=original.spec,
+        cache_key=original.cache_key,
+        source_refs=tuple(f"chapter-{i}:" + "r" * 300 for i in range(30)),
+        context_candidates=tuple(f"character:{i}:" + "c" * 1000 for i in range(40)),
+        style_key=original.style_key,
+    )
+    profile = _story_visual_profile(
+        _SourceVisualPlan(
+            package_id="world:bounded",
+            source_digest="b" * 64,
+            status="READY_FOR_ASSET_PROVIDER",
+            scene_requests=(expanded,),
+            deferred_scene_count=0,
+        )
+    )
+    brief = _compile_scene_generation_brief(expanded, profile)
+    parsed = json.loads(brief.semantic_prompt)
+
+    assert brief.full_source_included is False
+    assert len(brief.place_name) == 160
+    assert len(brief.source_refs) == 16
+    assert max(map(len, brief.source_refs)) == 180
+    assert len(brief.source_context_candidates) == 8
+    assert max(map(len, brief.source_context_candidates)) == 160
+    assert parsed["place"] == brief.place_name
+    assert parsed["context_candidates"] == list(brief.source_context_candidates)
+    assert "r" * 300 not in brief.semantic_prompt
+    assert "c" * 1000 not in brief.semantic_prompt
