@@ -1,9 +1,9 @@
+# pyright: reportPrivateUsage=false
+
 import hashlib
 import json
 import re
 from typing import cast
-
-# pyright: reportPrivateUsage=false
 
 from wanxiang_substrate.authoring.local_semantic_gedcom import extract_gedcom
 from wanxiang_substrate.authoring.local_semantic_rules import (
@@ -23,6 +23,7 @@ from wanxiang_substrate.authoring.providers import (
     ProviderProposal,
 )
 from wanxiang_substrate.sources.errors import SemanticProviderSchemaError
+
 
 class LocalSemanticProvider:
     """Deterministic private-safe provider registered in the normal router."""
