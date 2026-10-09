@@ -142,3 +142,31 @@ def test_explicit_source_place_can_be_prioritized_for_on_demand_generation() -> 
     assert [scene.place_name for scene in plan.scene_requests] == ["码头"]
     assert plan.deferred_scene_count == 4
     assert plan.place_names == ("园林", "书房", "城门", "码头", "山谷")
+
+
+
+def test_large_generic_book_indexes_evidence_without_changing_scene_selection() -> None:
+    places = tuple(f"Location-{index:04d}" for index in range(1200))
+    evidence = [
+        {
+            "name": name,
+            "source_refs": [f"book#chapter-{index}"],
+            "confidence": index / 1200,
+            "cooccurring_candidates": [],
+        }
+        for index, name in enumerate(places)
+    ]
+    evidence[-1]["source_refs"].append("book#chapter-1201")
+    package = package_from_book(
+        "large-source-index",
+        places,
+        compiler_metadata={"scene_evidence_v1": json.dumps(evidence)},
+    )
+    first = _plan_book_scene_assets(package)
+    again = _plan_book_scene_assets(package)
+
+    assert first == again
+    assert len(first.scene_requests) == 3
+    assert first.scene_requests[0].place_name == "Location-1199"
+    assert first.deferred_scene_count == 1197
+    assert first.scene_requests[0].source_refs == ("book#chapter-1199", "book#chapter-1201")

@@ -168,15 +168,21 @@ def _plan_book_scene_assets(
     style_key = hashlib.sha256(f"{source_digest}:story-visual-profile:v1".encode()).hexdigest()[:24]
     raw_evidence = package.draft.compiler_metadata.get("scene_evidence_v1", "[]")
     evidence_rows = _json_list(raw_evidence)
+    # Index source evidence once. Scanning every candidate for every place is
+    # quadratic in large works with thousands of named locations.
+    evidence_by_place: dict[str, list[dict[str, object]]] = {}
+    for raw_row in evidence_rows:
+        row = _object_dict(raw_row)
+        if row is None:
+            continue
+        name = row.get("name")
+        if isinstance(name, str) and name in known_places:
+            evidence_by_place.setdefault(name, []).append(row)
 
     place_positions = {place: index for index, place in enumerate(distinct_places)}
 
     def place_rank(place: str) -> tuple[int, float, int, int, str, int]:
-        matching = [
-            row
-            for raw_row in evidence_rows
-            if (row := _object_dict(raw_row)) is not None and row.get("name") == place
-        ]
+        matching = evidence_by_place.get(place, [])
         refs = {ref for row in matching for ref in _string_list(row.get("source_refs", []))}
         confidence_values = [
             float(raw_confidence)
@@ -211,11 +217,7 @@ def _plan_book_scene_assets(
 
     requests: list[_SourceSceneRequest] = []
     for place in selected:
-        matching = [
-            row
-            for raw_row in evidence_rows
-            if (row := _object_dict(raw_row)) is not None and row.get("name") == place
-        ]
+        matching = evidence_by_place.get(place, [])
         source_refs = tuple(
             sorted({ref for row in matching for ref in _string_list(row.get("source_refs", []))})
         )
