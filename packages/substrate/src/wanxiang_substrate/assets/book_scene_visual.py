@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import base64
 import hashlib
+import math
 from dataclasses import dataclass
 from html import escape
 from typing import Protocol
@@ -124,6 +125,113 @@ class _ProceduralSvgSceneProvider:
             cache_key=f"{request.cache_key}:{self.provider_id}",
             style_key=request.style_key,
         )
+
+
+def _render_world_atlas(plan: _SourceVisualPlan) -> _SceneVisualAsset | None:
+    """Render a narrative topology atlas; coordinates are layout only, never geography."""
+    places = plan.place_names or tuple(
+        dict.fromkeys(request.place_name for request in plan.scene_requests)
+    )
+    if not places:
+        return None
+
+    visible_places = places[:24]
+    center_x, center_y, radius = 600.0, 410.0, 285.0
+    positions: dict[str, tuple[float, float]] = {}
+    count = len(visible_places)
+    if count == 1:
+        positions[visible_places[0]] = (center_x, center_y)
+    else:
+        for index, place in enumerate(visible_places):
+            angle = (-math.pi / 2) + (2 * math.pi * index / count)
+            positions[place] = (
+                center_x + radius * math.cos(angle),
+                center_y + radius * math.sin(angle),
+            )
+
+    style_seed = (
+        plan.scene_requests[0].style_key
+        if plan.scene_requests and plan.scene_requests[0].style_key
+        else plan.source_digest
+    )
+    style_digest = hashlib.sha256(style_seed.encode("utf-8")).digest()
+    base_hue = 175 + style_digest[0] % 52
+    accent_hue = 18 + style_digest[1] % 52
+
+    edges: list[str] = []
+    for relation in plan.topology_relations:
+        source = positions.get(relation.source_place)
+        target = positions.get(relation.target_place)
+        if source is None or target is None:
+            continue
+        edges.append(
+            '<line x1="{:.1f}" y1="{:.1f}" x2="{:.1f}" y2="{:.1f}" '
+            'stroke="hsl({} 32% 43%)" stroke-width="4" '
+            'marker-end="url(#arrow)" opacity=".78"/>'.format(
+                source[0],
+                source[1],
+                target[0],
+                target[1],
+                base_hue,
+            )
+        )
+
+    nodes: list[str] = []
+    for index, place in enumerate(visible_places):
+        x, y = positions[place]
+        label = escape(place[:18])
+        hue = (accent_hue + index * 17) % 360
+        nodes.append(
+            '<g transform="translate({:.1f} {:.1f})">'
+            '<circle r="38" fill="hsl({} 42% 78%)" '
+            'stroke="hsl({} 30% 30%)" stroke-width="4"/>'
+            '<text y="61" text-anchor="middle" font-size="20" '
+            'font-family="system-ui, Noto Sans SC, sans-serif" fill="#18333b">{}</text>'
+            "</g>".format(x, y, hue, hue, label)
+        )
+
+    omitted = max(0, len(places) - len(visible_places))
+    omitted_label = (
+        f'<text x="600" y="825" text-anchor="middle" font-size="18" '
+        f'fill="#536a70">另有 {omitted} 个来源地点未在首屏展开</text>'
+        if omitted
+        else ""
+    )
+    svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img">
+<defs>
+  <linearGradient id="paper" x2="0" y2="1">
+    <stop stop-color="hsl({base_hue} 34% 94%)"/>
+    <stop offset="1" stop-color="hsl({base_hue} 20% 86%)"/>
+  </linearGradient>
+  <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="3"
+   orient="auto" markerUnits="strokeWidth">
+    <path d="M0,0 L0,6 L9,3 z" fill="hsl({base_hue} 32% 43%)"/>
+  </marker>
+</defs>
+<rect width="1200" height="900" fill="url(#paper)"/>
+<text x="56" y="70" font-size="38" font-weight="800"
+ font-family="system-ui, Noto Sans SC, sans-serif" fill="#17323d">万相 · 叙事世界图谱</text>
+<text x="57" y="108" font-size="18"
+ font-family="system-ui, Noto Sans SC, sans-serif" fill="#536a70">
+节点来自原文地点；连线仅来自已提取关系，不代表真实地理坐标
+</text>
+{"".join(edges)}
+{"".join(nodes)}
+{omitted_label}
+</svg>"""
+    content = svg.encode("utf-8")
+    digest = hashlib.sha256(content).hexdigest()
+    return _SceneVisualAsset(
+        scene_key=f"atlas-{plan.source_digest[:24]}",
+        place_name="世界图谱",
+        provider_id="narrative-atlas-v1",
+        media_type="image/svg+xml",
+        content=content,
+        content_sha256=digest,
+        cache_key=f"{plan.source_digest}:narrative-atlas-v1",
+        illustrative=True,
+        style_key=style_seed,
+    )
 
 
 @dataclass(frozen=True, slots=True)
