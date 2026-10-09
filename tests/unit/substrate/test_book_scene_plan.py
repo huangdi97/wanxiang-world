@@ -1,5 +1,7 @@
 """Source-agnostic, no-cost scene planning; no real visuals claimed."""
 
+# pyright: reportPrivateUsage=false
+
 import json
 
 import pytest
