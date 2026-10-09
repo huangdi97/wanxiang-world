@@ -11,6 +11,7 @@ from wanxiang_domain.errors import ContractError
 from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets, _SourceVisualPlan
 from wanxiang_substrate.assets.book_scene_visual import (
     _materialize_visual_plan,
+    _SceneImageProvider,
     _SceneVisualAsset,
     _VisualAssetCache,
 )
@@ -53,10 +54,16 @@ class OneClickAuthoring:
         service: AuthoringService | None = None,
         *,
         visual_cache: _VisualAssetCache | None = None,
+        visual_provider: _SceneImageProvider | None = None,
+        visual_allow_network: bool = False,
+        visual_max_cost_units: int = 0,
     ) -> None:
         self.service = service or AuthoringService()
         self.orchestrator = AuthoringOrchestrator(providers=self.service.providers)
         self.visual_cache = visual_cache or _VisualAssetCache()
+        self.visual_provider = visual_provider
+        self.visual_allow_network = visual_allow_network
+        self.visual_max_cost_units = visual_max_cost_units
 
     def run(
         self,
@@ -102,7 +109,10 @@ class OneClickAuthoring:
         materialized = (
             _materialize_visual_plan(
                 visual_plan,
+                provider=self.visual_provider,
                 cache=self.visual_cache,
+                allow_network=self.visual_allow_network,
+                max_cost_units=self.visual_max_cost_units,
                 private_source=any(source.access != "public" for source in sources),
                 rights=visual_plan.delivery_rights,
             )
