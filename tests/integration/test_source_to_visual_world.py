@@ -93,14 +93,18 @@ def test_two_books_automatically_create_different_visual_assets_without_custom_c
         include_visual=True,
     )
 
-    fiction_visual = fiction_view["visual"]
-    history_visual = history_view["visual"]
-    assert isinstance(fiction_visual, dict)
-    assert isinstance(history_visual, dict)
-    fiction_atlas = fiction_visual["atlas"]
-    history_atlas = history_visual["atlas"]
-    assert isinstance(fiction_atlas, dict)
-    assert isinstance(history_atlas, dict)
+    raw_fiction_visual = fiction_view["visual"]
+    raw_history_visual = history_view["visual"]
+    assert isinstance(raw_fiction_visual, dict)
+    assert isinstance(raw_history_visual, dict)
+    fiction_visual = cast(dict[str, object], raw_fiction_visual)
+    history_visual = cast(dict[str, object], raw_history_visual)
+    raw_fiction_atlas = fiction_visual["atlas"]
+    raw_history_atlas = history_visual["atlas"]
+    assert isinstance(raw_fiction_atlas, dict)
+    assert isinstance(raw_history_atlas, dict)
+    fiction_atlas = cast(dict[str, object], raw_fiction_atlas)
+    history_atlas = cast(dict[str, object], raw_history_atlas)
     assert str(fiction_atlas["data_uri"]).startswith("data:image/svg+xml;base64,")
     assert str(history_atlas["data_uri"]).startswith("data:image/svg+xml;base64,")
     raw_fiction_scenes = fiction_visual["scenes"]
@@ -193,7 +197,7 @@ def test_chinese_book_local_semantic_provider_builds_visual_scene_without_extern
 
 
 def test_long_book_builds_bounded_preview_and_keeps_deferred_world_places() -> None:
-    chapters = []
+    chapters: list[str] = []
     places = ("Garden", "Fortress", "Harbor", "Library", "Market")
     for index in range(30):
         place = places[index % len(places)]
