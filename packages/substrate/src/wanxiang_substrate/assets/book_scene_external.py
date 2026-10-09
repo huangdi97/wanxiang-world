@@ -53,7 +53,7 @@ class _PromptedExternalSceneProvider:
 
     def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
         style_key = request.style_key or hashlib.sha256(
-            f"{request.cache_key}:story-style".encode("utf-8")
+            f"{request.cache_key}:story-style".encode()
         ).hexdigest()[:24]
         profile = _story_visual_profile_from_style_key(style_key)
         brief = _compile_scene_generation_brief(request, profile)
