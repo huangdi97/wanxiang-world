@@ -17,6 +17,7 @@ from wanxiang_substrate.assets.book_scene_visual import (
     _ProceduralSvgSceneProvider,
     _render_visual_plan,
     _render_world_atlas,
+    _SceneImageProvider,
     _SceneVisualAsset,
     _VisualAssetCache,
 )
@@ -108,7 +109,7 @@ def test_non_ready_plan_never_generates_pixels() -> None:
     assert _render_visual_plan(blocked) == ()
 
 
-class _RemoteLikeProvider:
+class _RemoteLikeProvider(_SceneImageProvider):
     provider_id = "remote-test"
     provider_version = "2.3.0"
     requires_network = True
