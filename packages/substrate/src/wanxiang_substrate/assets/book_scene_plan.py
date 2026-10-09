@@ -88,7 +88,10 @@ class _SourceVisualPlan:
 
 
 def _plan_book_scene_assets(
-    package: WorldPackageDraft, *, max_preview_scenes: int = 3
+    package: WorldPackageDraft,
+    *,
+    max_preview_scenes: int = 3,
+    preferred_places: tuple[str, ...] = (),
 ) -> _SourceVisualPlan:
     """Select a small reusable, source-pinned scene set for any book package.
 
@@ -201,7 +204,15 @@ def _plan_book_scene_assets(
             place_positions[place],
         )
 
-    selected = tuple(sorted(distinct_places, key=place_rank))[:max_preview_scenes]
+    ranked_places = tuple(sorted(distinct_places, key=place_rank))
+    preferred = tuple(
+        dict.fromkeys(
+            place.strip()
+            for place in preferred_places
+            if place.strip() and place.strip() in place_positions
+        )
+    )
+    selected = tuple(dict.fromkeys((*preferred, *ranked_places)))[:max_preview_scenes]
 
     requests: list[_SourceSceneRequest] = []
     for place in selected:
