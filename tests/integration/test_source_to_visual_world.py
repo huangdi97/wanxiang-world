@@ -2,6 +2,8 @@
 
 # pyright: reportPrivateUsage=false
 
+from typing import cast
+
 from wanxiang_substrate.authoring.local_semantic_provider import LocalSemanticProvider
 from wanxiang_substrate.authoring.one_click import OneClickAuthoring
 from wanxiang_substrate.authoring.providers import ProviderRouter
@@ -90,10 +92,12 @@ def test_two_books_automatically_create_different_visual_assets_without_custom_c
     history_visual = history_view["visual"]
     assert isinstance(fiction_visual, dict)
     assert isinstance(history_visual, dict)
-    fiction_scenes = fiction_visual["scenes"]
-    history_scenes = history_visual["scenes"]
-    assert isinstance(fiction_scenes, list)
-    assert isinstance(history_scenes, list)
+    raw_fiction_scenes = fiction_visual["scenes"]
+    raw_history_scenes = history_visual["scenes"]
+    assert isinstance(raw_fiction_scenes, list)
+    assert isinstance(raw_history_scenes, list)
+    fiction_scenes = cast(list[dict[str, object]], raw_fiction_scenes)
+    history_scenes = cast(list[dict[str, object]], raw_history_scenes)
     assert str(fiction_scenes[0]["data_uri"]).startswith("data:image/svg+xml;base64,")
     assert str(history_scenes[0]["data_uri"]).startswith("data:image/svg+xml;base64,")
 
