@@ -31,6 +31,9 @@ def one_click(payload: OneClickRequest, request: Request) -> dict[str, object]:
     result = OneClickAuthoring(
         service,
         visual_cache=request.app.state.visual_asset_cache,
+        visual_provider=request.app.state.visual_asset_provider,
+        visual_allow_network=request.app.state.visual_asset_allow_network,
+        visual_max_cost_units=request.app.state.visual_asset_max_cost_units,
     ).run(
         payload.job_id,
         source_records(service, payload.sources),
