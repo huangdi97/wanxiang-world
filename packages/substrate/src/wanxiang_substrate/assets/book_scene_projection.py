@@ -4,6 +4,7 @@ Layout coordinates are projection-only and never canonical geography.
 """
 
 # pyright: reportPrivateUsage=false
+# pyright: reportUnusedFunction=false
 
 from __future__ import annotations
 
