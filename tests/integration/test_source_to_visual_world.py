@@ -183,7 +183,10 @@ def test_chinese_book_local_semantic_provider_builds_visual_scene_without_extern
     assert scene.source_refs
     assert scene.confidence > 0
     assert scene.context_candidates
-    assert any(item.startswith(("character:", "identity:", "event:")) for item in scene.context_candidates)
+    assert any(
+        item.startswith(("character:", "identity:", "event:"))
+        for item in scene.context_candidates
+    )
     assert result.visual_assets
     assert any(asset.place_name == "江南城" for asset in result.visual_assets)
     assert result.visual_provider_calls >= 1
