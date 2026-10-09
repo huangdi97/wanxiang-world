@@ -130,32 +130,32 @@ def _plan_book_scene_assets(
     topology_relations: list[_SourceTopologyRelation] = []
     known_places = set(distinct_places)
     for raw_row in decoded_topology:
-            row = _object_dict(raw_row)
-            if row is None:
-                continue
-            source_place = row.get("source_place")
-            target_place = row.get("target_place")
-            relation_type = row.get("relation_type")
-            if (
-                not isinstance(source_place, str)
-                or not isinstance(target_place, str)
-                or not isinstance(relation_type, str)
-                or source_place not in known_places
-                or target_place not in known_places
-            ):
-                continue
-            source_refs = _string_list(row.get("source_refs", []))
-            raw_confidence = row.get("confidence", 0.0)
-            confidence = float(raw_confidence) if isinstance(raw_confidence, (int, float)) else 0.0
-            topology_relations.append(
-                _SourceTopologyRelation(
-                    source_place=source_place,
-                    target_place=target_place,
-                    relation_type=relation_type,
-                    source_refs=source_refs,
-                    confidence=confidence,
-                )
+        row = _object_dict(raw_row)
+        if row is None:
+            continue
+        source_place = row.get("source_place")
+        target_place = row.get("target_place")
+        relation_type = row.get("relation_type")
+        if (
+            not isinstance(source_place, str)
+            or not isinstance(target_place, str)
+            or not isinstance(relation_type, str)
+            or source_place not in known_places
+            or target_place not in known_places
+        ):
+            continue
+        source_refs = _string_list(row.get("source_refs", []))
+        raw_confidence = row.get("confidence", 0.0)
+        confidence = float(raw_confidence) if isinstance(raw_confidence, (int, float)) else 0.0
+        topology_relations.append(
+            _SourceTopologyRelation(
+                source_place=source_place,
+                target_place=target_place,
+                relation_type=relation_type,
+                source_refs=source_refs,
+                confidence=confidence,
             )
+        )
     delivery_rights = package.draft.compiler_metadata.get("visual_asset_rights_v1", "source-gated")
     if delivery_rights not in {"public", "source-gated"}:
         delivery_rights = "source-gated"
