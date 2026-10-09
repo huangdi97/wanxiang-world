@@ -33,6 +33,7 @@ class _SceneVisualAsset:
     cache_key: str
     illustrative: bool = True
     style_key: str = ""
+    provider_version: str = "1.0.0"
 
     def data_uri(self) -> str:
         payload = base64.b64encode(self.content).decode("ascii")
@@ -41,6 +42,7 @@ class _SceneVisualAsset:
 
 class _SceneImageProvider(Protocol):
     provider_id: str
+    provider_version: str
     requires_network: bool
     cost_units_per_asset: int
     private_safe: bool
@@ -51,7 +53,8 @@ class _SceneImageProvider(Protocol):
 class _ProceduralSvgSceneProvider:
     """Deterministic SVG fallback so every valid book can be visual, at zero API cost."""
 
-    provider_id = "procedural-svg-v1"
+    provider_id = "procedural-svg"
+    provider_version = "1.0.0"
     requires_network = False
     cost_units_per_asset = 0
     private_safe = True
@@ -122,8 +125,9 @@ class _ProceduralSvgSceneProvider:
             media_type="image/svg+xml",
             content=content,
             content_sha256=content_sha,
-            cache_key=f"{request.cache_key}:{self.provider_id}",
+            cache_key=f"{request.cache_key}:{self.provider_id}@{self.provider_version}",
             style_key=request.style_key,
+            provider_version=self.provider_version,
         )
 
 
@@ -267,6 +271,7 @@ class _VisualAssetCache:
                 cache_key=metadata.cache_key,
                 illustrative=metadata.illustrative,
                 style_key=metadata.style_key,
+                provider_version=metadata.provider_version,
             ),
             ref,
         )
@@ -307,7 +312,10 @@ def _materialize_visual_plan(
     cached_rows: dict[str, tuple[_SceneVisualAsset, AssetRef]] = {}
 
     for request in plan.scene_requests:
-        provider_cache_key = f"{request.cache_key}:{selected_provider.provider_id}"
+        provider_cache_key = (
+            f"{request.cache_key}:{selected_provider.provider_id}@"
+            f"{selected_provider.provider_version}"
+        )
         cached = asset_cache.get(provider_cache_key)
         if cached is None:
             misses.append(request)
@@ -321,7 +329,10 @@ def _materialize_visual_plan(
     generated: dict[str, tuple[_SceneVisualAsset, AssetRef]] = {}
     for request in misses:
         asset = selected_provider.produce(request)
-        expected_cache_key = f"{request.cache_key}:{selected_provider.provider_id}"
+        expected_cache_key = (
+            f"{request.cache_key}:{selected_provider.provider_id}@"
+            f"{selected_provider.provider_version}"
+        )
         if asset.provider_id != selected_provider.provider_id:
             raise ValueError("visual provider returned mismatched provider_id")
         if asset.cache_key != expected_cache_key:
