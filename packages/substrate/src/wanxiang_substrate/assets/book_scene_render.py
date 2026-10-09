@@ -51,7 +51,8 @@ class _ProceduralSvgSceneProvider(SceneImageProvider):
             if water
             else ""
         )
-        svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" data-scene-motif="{motif}">
+        svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900"
+ role="img" data-scene-motif="{motif}">
 <defs>
   <linearGradient id="sky" x2="0" y2="1">
     <stop stop-color="hsl({sky_hue} 44% 77%)"/>
