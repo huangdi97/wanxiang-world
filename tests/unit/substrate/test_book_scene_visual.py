@@ -331,3 +331,45 @@ def test_cached_bytes_can_be_reused_under_current_delivery_rights_without_regene
     assert gated.assets[0].content_sha256 == public.assets[0].content_sha256
     assert gated.asset_refs[0].rights == "source-gated"
     assert public.asset_refs[0].rights == "public"
+
+
+
+def test_missing_durable_visual_blob_is_regenerated_under_existing_governance(
+    tmp_path: pathlib.Path,
+) -> None:
+    """An orphaned index row should not permanently break deferred scenes."""
+    plan = _plan(_request("荒原", "missing-blob"))
+    cache = _VisualAssetCache(
+        LocalObjectStore(tmp_path / "blobs"),
+        _LocalJsonVisualCacheIndex(tmp_path / "index.json"),
+    )
+    first = _materialize_visual_plan(plan, cache=cache)
+    cache.store.delete(first.asset_refs[0])
+
+    recovered = _materialize_visual_plan(plan, cache=cache)
+    assert recovered.provider_calls == 1
+    assert recovered.cache_hits == 0
+    assert recovered.assets == first.assets
+    assert cache.store.get(recovered.asset_refs[0]) == first.assets[0].content
+
+
+def test_missing_blob_does_not_bypass_network_or_cost_gates(
+    tmp_path: pathlib.Path,
+) -> None:
+    plan = _plan(_request("港湾", "missing-remote"), external_processing_allowed=True)
+    cache = _VisualAssetCache(
+        LocalObjectStore(tmp_path / "blobs"),
+        _LocalJsonVisualCacheIndex(tmp_path / "index.json"),
+    )
+    provider = _RemoteLikeProvider()
+    first = _materialize_visual_plan(
+        plan, provider=provider, cache=cache, allow_network=True, max_cost_units=2
+    )
+    cache.store.delete(first.asset_refs[0])
+
+    with pytest.raises(ValueError, match="allow_network"):
+        _materialize_visual_plan(plan, provider=provider, cache=cache)
+    with pytest.raises(ValueError, match="exceeds budget"):
+        _materialize_visual_plan(
+            plan, provider=provider, cache=cache, allow_network=True, max_cost_units=0
+        )
