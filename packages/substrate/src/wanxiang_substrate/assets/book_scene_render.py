@@ -1,6 +1,7 @@
+# pyright: reportPrivateUsage=false, reportUnusedClass=false, reportUnusedFunction=false
+
 """Deterministic zero-cost visual rendering for source-grounded book scenes."""
 
-# pyright: reportPrivateUsage=false
 
 from __future__ import annotations
 
