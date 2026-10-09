@@ -43,6 +43,32 @@ from wanxiang_substrate.playable.player_projection_support import (
 from wanxiang_substrate.playable.state_diff import CommittedStateDiff
 
 
+def _scene_clues_for_assets(
+    package: WorldPackageDraft,
+    assets: tuple[_SceneVisualAsset, ...],
+) -> dict[str, tuple[str, ...]]:
+    """Recover source clues for generated/deferred assets without provider calls."""
+
+    clues: dict[str, tuple[str, ...]] = {}
+    for asset in assets:
+        targeted = _plan_book_scene_assets(
+            package,
+            max_preview_scenes=1,
+            preferred_places=(asset.place_name,),
+        )
+        request = next(
+            (
+                item
+                for item in targeted.scene_requests
+                if item.stable_key == asset.scene_key and item.place_name == asset.place_name
+            ),
+            None,
+        )
+        if request is not None:
+            clues[asset.scene_key] = request.context_candidates
+    return clues
+
+
 def player_world_detail(
     profile: PlayableWorldProfile,
     package: WorldPackageDraft | None = None,
@@ -75,7 +101,7 @@ def player_world_detail(
         assets = visual_assets
         if assets is None:
             assets = _render_visual_plan(plan)
-        request_by_key = {request.stable_key: request for request in plan.scene_requests}
+        clues_by_key = _scene_clues_for_assets(package, assets)
         generated_places = {asset.place_name for asset in assets}
         atlas = _render_world_atlas(plan)
         visual = {
@@ -103,11 +129,7 @@ def player_world_detail(
                     "data_uri": asset.data_uri(),
                     "content_sha256": asset.content_sha256,
                     "illustrative": asset.illustrative,
-                    "clues": list(
-                        scene_request.context_candidates
-                        if (scene_request := request_by_key.get(asset.scene_key)) is not None
-                        else ()
-                    ),
+                    "clues": list(clues_by_key.get(asset.scene_key, ())),
                 }
                 for asset in assets
             ],
@@ -210,10 +232,10 @@ def player_observation(
     scene_visual: dict[str, object] | None = None
     if package is not None and visual_access_allowed:
         plan = _plan_book_scene_assets(package)
-        request_by_key = {request.stable_key: request for request in plan.scene_requests}
         assets = visual_assets
         if assets is None:
             assets = _render_visual_plan(plan)
+        clues_by_key = _scene_clues_for_assets(package, assets)
         chosen = next((asset for asset in assets if asset.place_name == location), None)
         grounding = "current_location" if canonical_location else "entry_location"
         if chosen is None and assets:
@@ -227,11 +249,7 @@ def player_observation(
                 "data_uri": chosen.data_uri(),
                 "content_sha256": chosen.content_sha256,
                 "illustrative": chosen.illustrative,
-                "clues": list(
-                    scene_request.context_candidates
-                    if (scene_request := request_by_key.get(chosen.scene_key)) is not None
-                    else ()
-                ),
+                "clues": list(clues_by_key.get(chosen.scene_key, ())),
             }
 
     return {
