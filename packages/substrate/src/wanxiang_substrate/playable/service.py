@@ -7,13 +7,11 @@ from __future__ import annotations
 from collections.abc import Mapping
 from typing import cast
 
-from wanxiang_domain.errors import ContractError, NotFound
+from wanxiang_domain.errors import NotFound
 from wanxiang_domain.ids import BranchId, WorldInstanceId
 from wanxiang_runtime.state import state_to_primitive
 
-from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
 from wanxiang_substrate.assets.book_scene_visual import (
-    _materialize_visual_plan,
     _SceneImageProvider,
     _SceneVisualAsset,
     _VisualAssetCache,
@@ -21,10 +19,8 @@ from wanxiang_substrate.assets.book_scene_visual import (
 )
 from wanxiang_substrate.assets.storage import AssetRef
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
-from wanxiang_substrate.playable.actions import IntentCompiler
 from wanxiang_substrate.playable.catalog import WorldPlaza
-from wanxiang_substrate.playable.entry import CharacterEntryService, EntryReceipt, active_lease
-from wanxiang_substrate.playable.evidence import PlayerActionEvidence
+from wanxiang_substrate.playable.entry import CharacterEntryService, EntryReceipt
 from wanxiang_substrate.playable.experience import (
     EntryMode,
     ExperiencePackage,
@@ -32,13 +28,15 @@ from wanxiang_substrate.playable.experience import (
 )
 from wanxiang_substrate.playable.factory import profile_from_world_package
 from wanxiang_substrate.playable.models import PlayableWorldProfile
-from wanxiang_substrate.playable.service_model import (
-    EventLike,
-    PlayableActionResult,
-    SubmittedResult,
+from wanxiang_substrate.playable.service_action import perform_action
+from wanxiang_substrate.playable.service_model import PlayableActionResult
+from wanxiang_substrate.playable.service_support import instance_dict
+from wanxiang_substrate.playable.service_visual import (
+    attach_package_visuals,
+    materialize_visual_place as _materialize_visual_place,
+    visible_visual_assets,
+    visual_access_allowed as _visual_access_allowed,
 )
-from wanxiang_substrate.playable.service_support import affordances, instance_dict
-from wanxiang_substrate.playable.state_diff import CommittedStateDiff
 from wanxiang_substrate.playable.store import (
     ExperienceInstanceRecord,
     InMemoryPlayableStore,
@@ -77,16 +75,7 @@ class PlayableService:
     def visual_access_allowed(self, profile_id: str, *, viewer_id: str) -> bool:
         """Gate every source-derived visual surface, including atlas and topology."""
 
-        profile = self.plaza.require_access(profile_id, viewer_id)
-        if profile.owner_id and viewer_id == profile.owner_id:
-            return True
-        package = self._packages.get(profile_id)
-        if package is None:
-            return False
-        return (
-            package.draft.compiler_metadata.get("visual_asset_rights_v1", "source-gated")
-            == "public"
-        )
+        return _visual_access_allowed(self, profile_id, viewer_id=viewer_id)
 
     def visual_assets(
         self,
@@ -94,16 +83,9 @@ class PlayableService:
         *,
         viewer_id: str,
     ) -> tuple[_SceneVisualAsset, ...]:
-        """Return cached visuals only when their delivery rights allow this viewer."""
+        """Return source-derived visual assets allowed for this viewer."""
 
-        profile = self.plaza.require_access(profile_id, viewer_id)
-        assets = self._visual_assets.get(profile_id, ())
-        refs = self._visual_asset_refs.get(profile_id, ())
-        if profile.owner_id and viewer_id == profile.owner_id:
-            return assets
-        return tuple(
-            asset for asset, ref in zip(assets, refs, strict=True) if ref.rights == "public"
-        )
+        return visible_visual_assets(self, profile_id, viewer_id=viewer_id)
 
     def materialize_visual_place(
         self,
@@ -117,48 +99,15 @@ class PlayableService:
     ) -> _VisualMaterialization:
         """Generate/cache one already-source-grounded place without changing Canon."""
 
-        self.plaza.require_access(profile_id, viewer_id)
-        if not self.visual_access_allowed(profile_id, viewer_id=viewer_id):
-            raise NotFound(f"visual world {profile_id!r} not found")
-        package = self._packages.get(profile_id)
-        if package is None:
-            raise NotFound(f"playable package {profile_id!r} not found")
-        normalized_place = place_name.strip()
-        if not normalized_place or normalized_place not in package.draft.places:
-            raise NotFound(f"visual place {place_name!r} not found")
-
-        plan = _plan_book_scene_assets(
-            package,
-            max_preview_scenes=1,
-            preferred_places=(normalized_place,),
-        )
-        if not plan.scene_requests or plan.scene_requests[0].place_name != normalized_place:
-            raise NotFound(f"visual place {place_name!r} not found")
-
-        materialized = _materialize_visual_plan(
-            plan,
+        return _materialize_visual_place(
+            self,
+            profile_id,
+            place_name,
+            viewer_id=viewer_id,
             provider=provider,
-            cache=self._visual_cache,
             allow_network=allow_network,
             max_cost_units=max_cost_units,
-            private_source=(
-                package.draft.compiler_metadata.get("visual_private_source_v1", "true") == "true"
-            ),
-            rights=plan.delivery_rights,
         )
-        combined: dict[str, tuple[_SceneVisualAsset, AssetRef]] = {
-            asset.scene_key: (asset, ref)
-            for asset, ref in zip(
-                self._visual_assets.get(profile_id, ()),
-                self._visual_asset_refs.get(profile_id, ()),
-                strict=True,
-            )
-        }
-        for asset, ref in zip(materialized.assets, materialized.asset_refs, strict=True):
-            combined[asset.scene_key] = (asset, ref)
-        self._visual_assets[profile_id] = tuple(asset for asset, _ in combined.values())
-        self._visual_asset_refs[profile_id] = tuple(ref for _, ref in combined.values())
-        return materialized
 
     def register_package(
         self,
@@ -185,14 +134,7 @@ class PlayableService:
         self.store.save_profile(profile)
         self._packages[profile.profile_id] = package
         self._experiences[profile.profile_id] = experience
-        visual_plan = _plan_book_scene_assets(package)
-        materialized = _materialize_visual_plan(
-            visual_plan,
-            cache=self._visual_cache,
-            rights=visual_plan.delivery_rights,
-        )
-        self._visual_assets[profile.profile_id] = materialized.assets
-        self._visual_asset_refs[profile.profile_id] = materialized.asset_refs
+        attach_package_visuals(self, profile.profile_id, package)
         self._installs[profile.profile_id] = PreviewInstall(
             preview_id=f"playable_{len(self._installs) + 1}",
             package_id=package.package_id,
@@ -211,14 +153,7 @@ class PlayableService:
         self.store.save_profile(profile)
         self._packages[profile.profile_id] = package
         self._experiences[profile.profile_id] = experience or experience_from_profile(profile)
-        visual_plan = _plan_book_scene_assets(package)
-        materialized = _materialize_visual_plan(
-            visual_plan,
-            cache=self._visual_cache,
-            rights=visual_plan.delivery_rights,
-        )
-        self._visual_assets[profile.profile_id] = materialized.assets
-        self._visual_asset_refs[profile.profile_id] = materialized.asset_refs
+        attach_package_visuals(self, profile.profile_id, package)
         self._installs[profile.profile_id] = PreviewInstall(
             f"playable_{len(self._installs) + 1}",
             package.package_id,
@@ -317,73 +252,13 @@ class PlayableService:
         action_type: str = "",
         payload: dict[str, object] | None = None,
     ) -> PlayableActionResult:
-        record = self._owned_instance(instance_id, viewer_id)
-        if record.mode != "embodiment" or not record.session_id or not record.actor_id:
-            raise ContractError("only an embodied actor may submit a world action")
-        if active_lease(self.entry, record.session_id) is None:
-            raise ContractError("embodiment lease is not active")
-        experience = self._experiences.get(record.profile_id)
-        if experience is None:
-            raise NotFound(f"experience {record.profile_id!r} not found")
-        compiler = IntentCompiler(affordances(experience))
-        common = {
-            "session_id": record.session_id,
-            "instance_id": record.instance_id,
-            "branch_id": record.branch_id,
-            "actor_id": record.actor_id,
-        }
-        result = (
-            compiler.compile_structured(**common, action_type=action_type, payload=payload or {})
-            if action_type
-            else compiler.compile_text(**common, text=text)
-        )
-        if not result.proposal.accepted:
-            raise ContractError(result.proposal.rejection_reason or result.proposal.clarification)
-        before = self.runtime.current_state(
-            WorldInstanceId(record.instance_id), BranchId(record.branch_id)
-        )
-        command = result.proposal.to_command(before.revision.value)
-        submitted = cast(SubmittedResult, self.runtime.submit_command(command))
-        event = cast(EventLike, submitted.event)
-        event_id = str(getattr(event.event_id, "value", event.event_id))
-        diff = CommittedStateDiff.from_states(
-            before,
-            submitted.state,
-            event_id=event_id,
-            viewer_actor_id=record.actor_id,
-            allowed_categories=experience.state_diff_fields,
-        )
-        evidence = PlayerActionEvidence.from_committed(
-            result.proposal,
-            command_id=command.command_id.value,
-            event_id=event_id,
-            before_revision=before.revision.value,
-            after_revision=submitted.state.revision.value,
-            before_state_hash=before.semantic_hash(),
-            after_state_hash=submitted.state.semantic_hash(),
-            diff=diff,
-        )
-        self.store.save_instance(
-            ExperienceInstanceRecord(
-                record.instance_id,
-                record.profile_id,
-                record.owner_id,
-                record.branch_id,
-                mode=record.mode,
-                actor_id=record.actor_id,
-                session_id=record.session_id,
-                lease_id=record.lease_id,
-                last_revision=submitted.state.revision.value,
-                updated_seq=record.updated_seq + 1,
-            )
-        )
-        return PlayableActionResult(
-            result.proposal,
-            event_id,
-            submitted.state.revision.value,
-            submitted.state.semantic_hash(),
-            diff,
-            evidence,
+        return perform_action(
+            self,
+            instance_id,
+            viewer_id=viewer_id,
+            text=text,
+            action_type=action_type,
+            payload=payload,
         )
 
     def _save_instance(
