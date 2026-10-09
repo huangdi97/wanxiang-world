@@ -1,6 +1,6 @@
 """Canonical player action use case extracted from the facade."""
 
-# pyright: reportPrivateUsage=false
+# pyright: reportPrivateUsage=false, reportUnusedFunction=false
 
 from __future__ import annotations
 
