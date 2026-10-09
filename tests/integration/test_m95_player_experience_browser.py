@@ -211,6 +211,12 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 assert "叙事世界图谱" in page.locator("#detail-visual-caption").inner_text()
                 place_buttons = page.locator("#visual-places .visual-place")
                 assert place_buttons.count() >= 5
+                assert page.locator("#visual-place-count").is_visible()
+                place_search = page.locator("#visual-place-search")
+                place_search.fill("机关桥")
+                assert place_buttons.count() == 1
+                place_search.fill("")
+                assert place_buttons.count() >= 5
                 ready_place = page.locator("#visual-places [data-focus-place]").first
                 ready_name = ready_place.get_attribute("data-focus-place")
                 assert ready_name
