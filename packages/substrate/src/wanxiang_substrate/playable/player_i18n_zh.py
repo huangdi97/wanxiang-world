@@ -94,6 +94,8 @@ STRINGS: dict[str, str] = {
     "leave_world": "离开世界",
     "scene_heading": "此刻现场",
     "visual_gallery_heading": "世界视觉图册",
+    "visual_atlas_label": "叙事世界图谱",
+    "visual_atlas_caption": "叙事世界图谱 · 关系不等于地理坐标",
     "visual_relations_heading": "原文明示的地点连接",
     "visual_current_scene": "此刻场景 · {place}",
     "visual_entry_scene": "入场地点 · {place}",
