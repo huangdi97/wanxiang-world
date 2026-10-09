@@ -396,9 +396,7 @@ class _WrongSceneProvider(_RemoteLikeProvider):
 
 def test_visual_provider_cannot_rebind_image_to_unrelated_book_scene() -> None:
     with pytest.raises(ValueError, match="source scene identity"):
-        _materialize_visual_plan(
-            _plan(_request("花园", "garden")), provider=_WrongSceneProvider()
-        )
+        _materialize_visual_plan(_plan(_request("花园", "garden")), provider=_WrongSceneProvider())
 
 
 class _WrongMediaProvider(_WrongSceneProvider):
@@ -419,9 +417,7 @@ class _WrongMediaProvider(_WrongSceneProvider):
 
 def test_visual_provider_cannot_inject_non_image_media_into_player() -> None:
     with pytest.raises(ValueError, match="non-empty image content"):
-        _materialize_visual_plan(
-            _plan(_request("城门", "gate")), provider=_WrongMediaProvider()
-        )
+        _materialize_visual_plan(_plan(_request("城门", "gate")), provider=_WrongMediaProvider())
 
 
 class _NegativeCostProvider(_WrongSceneProvider):
@@ -430,6 +426,4 @@ class _NegativeCostProvider(_WrongSceneProvider):
 
 def test_negative_provider_cost_is_rejected_before_generation() -> None:
     with pytest.raises(ValueError, match="non-negative"):
-        _materialize_visual_plan(
-            _plan(_request("城门", "gate")), provider=_NegativeCostProvider()
-        )
+        _materialize_visual_plan(_plan(_request("城门", "gate")), provider=_NegativeCostProvider())
