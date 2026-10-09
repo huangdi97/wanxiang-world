@@ -175,11 +175,7 @@ def _plan_book_scene_assets(
             for raw_row in evidence_rows
             if (row := _object_dict(raw_row)) is not None and row.get("name") == place
         ]
-        refs = {
-            ref
-            for row in matching
-            for ref in _string_list(row.get("source_refs", []))
-        }
+        refs = {ref for row in matching for ref in _string_list(row.get("source_refs", []))}
         confidence_values = [
             float(raw_confidence)
             for row in matching
@@ -211,13 +207,7 @@ def _plan_book_scene_assets(
             if (row := _object_dict(raw_row)) is not None and row.get("name") == place
         ]
         source_refs = tuple(
-            sorted(
-                {
-                    ref
-                    for row in matching
-                    for ref in _string_list(row.get("source_refs", []))
-                }
-            )
+            sorted({ref for row in matching for ref in _string_list(row.get("source_refs", []))})
         )
         confidence_values = [
             float(raw_confidence)
