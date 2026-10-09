@@ -56,7 +56,7 @@ def test_two_unrelated_places_use_same_provider_but_different_visuals() -> None:
     garden = provider.produce(_request("园林", "garden"))
     fortress = provider.produce(_request("堡垒", "fortress"))
 
-    assert garden.provider_id == fortress.provider_id == "procedural-svg-v1"
+    assert garden.provider_id == fortress.provider_id == "procedural-svg"
     assert garden.media_type == fortress.media_type == "image/svg+xml"
     assert garden.content != fortress.content
     assert garden.content_sha256 != fortress.content_sha256
@@ -107,6 +107,7 @@ def test_non_ready_plan_never_generates_pixels() -> None:
 
 class _RemoteLikeProvider:
     provider_id = "remote-test"
+    provider_version = "2.3.0"
     requires_network = True
     cost_units_per_asset = 2
     private_safe = False
@@ -120,9 +121,10 @@ class _RemoteLikeProvider:
             media_type=base.media_type,
             content=base.content,
             content_sha256=hashlib.sha256(base.content).hexdigest(),
-            cache_key=f"{request.cache_key}:{self.provider_id}",
+            cache_key=f"{request.cache_key}:{self.provider_id}@{self.provider_version}",
             illustrative=base.illustrative,
             style_key=base.style_key,
+            provider_version=self.provider_version,
         )
 
 
