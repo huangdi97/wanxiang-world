@@ -78,15 +78,14 @@ def _story_visual_profile_from_style_key(style_key: str) -> _StoryVisualProfile:
     )
 
 
-
 def _story_visual_profile(plan: _SourceVisualPlan) -> _StoryVisualProfile:
     """Create one deterministic creative style seed per source world."""
     style_key = (
         plan.scene_requests[0].style_key
         if plan.scene_requests and plan.scene_requests[0].style_key
-        else hashlib.sha256(
-            f"{plan.source_digest}:story-visual-profile:v1".encode()
-        ).hexdigest()[:24]
+        else hashlib.sha256(f"{plan.source_digest}:story-visual-profile:v1".encode()).hexdigest()[
+            :24
+        ]
     )
     return _story_visual_profile_from_style_key(style_key)
 
@@ -96,12 +95,14 @@ def _compile_scene_generation_brief(
     profile: _StoryVisualProfile,
 ) -> _SceneGenerationBrief:
     """Compile a bounded prompt using structured scene evidence, not full source text."""
-    context = request.context_candidates or tuple(
-        requirement.split(":", 1)[1]
-        for requirement in request.spec.requirements
-        if requirement.startswith("source_context_candidate:")
-        and ":" in requirement
-    )[:8]
+    context = (
+        request.context_candidates
+        or tuple(
+            requirement.split(":", 1)[1]
+            for requirement in request.spec.requirements
+            if requirement.startswith("source_context_candidate:") and ":" in requirement
+        )[:8]
+    )
     payload = {
         "task": "create one immersive environment illustration candidate",
         "place": request.place_name,
