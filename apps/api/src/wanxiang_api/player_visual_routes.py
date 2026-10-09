@@ -7,7 +7,7 @@ from typing import cast
 import wanxiang_substrate.playable.player_i18n as _player_i18n
 from fastapi import APIRouter, Header, HTTPException, Request
 from pydantic import BaseModel, Field
-from wanxiang_substrate.assets import SceneImageProvider
+from wanxiang_substrate.assets.book_scene_types import SceneImageProvider
 from wanxiang_substrate.playable import PlayableService
 from wanxiang_substrate.playable.player_service import player_world
 
