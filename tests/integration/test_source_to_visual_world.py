@@ -92,6 +92,12 @@ def test_two_books_automatically_create_different_visual_assets_without_custom_c
     history_visual = history_view["visual"]
     assert isinstance(fiction_visual, dict)
     assert isinstance(history_visual, dict)
+    fiction_atlas = fiction_visual["atlas"]
+    history_atlas = history_visual["atlas"]
+    assert isinstance(fiction_atlas, dict)
+    assert isinstance(history_atlas, dict)
+    assert str(fiction_atlas["data_uri"]).startswith("data:image/svg+xml;base64,")
+    assert str(history_atlas["data_uri"]).startswith("data:image/svg+xml;base64,")
     raw_fiction_scenes = fiction_visual["scenes"]
     raw_history_scenes = history_visual["scenes"]
     assert isinstance(raw_fiction_scenes, list)
