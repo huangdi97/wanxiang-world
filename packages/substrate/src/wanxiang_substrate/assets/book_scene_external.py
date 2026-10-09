@@ -52,9 +52,10 @@ class _PromptedExternalSceneProvider:
             raise ValueError("external visual provider output limit must be positive")
 
     def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
-        style_key = request.style_key or hashlib.sha256(
-            f"{request.cache_key}:story-style".encode()
-        ).hexdigest()[:24]
+        style_key = (
+            request.style_key
+            or hashlib.sha256(f"{request.cache_key}:story-style".encode()).hexdigest()[:24]
+        )
         profile = _story_visual_profile_from_style_key(style_key)
         brief = _compile_scene_generation_brief(request, profile)
         result = self.client.generate(brief)
@@ -72,9 +73,7 @@ class _PromptedExternalSceneProvider:
             media_type=result.media_type,
             content=result.content,
             content_sha256=digest,
-            cache_key=(
-                f"{request.cache_key}:{self.provider_id}@{self.provider_version}"
-            ),
+            cache_key=(f"{request.cache_key}:{self.provider_id}@{self.provider_version}"),
             illustrative=True,
             style_key=style_key,
             provider_version=self.provider_version,
