@@ -100,7 +100,14 @@ class InMemoryObjectStore:
         content_hash = hashlib.sha256(blob).hexdigest()
         existing = self._rows.get(content_hash)
         if existing is not None:
-            return existing[1]
+            existing_ref = existing[1]
+            return AssetRef(
+                asset_id=existing_ref.asset_id,
+                content_hash=existing_ref.content_hash,
+                size=existing_ref.size,
+                content_type=content_type,
+                rights=rights,
+            )
         ref = AssetRef(
             asset_id=f"memory:{content_hash[:16]}",
             content_hash=content_hash,
