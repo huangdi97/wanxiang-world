@@ -1,5 +1,7 @@
 """Restart-safe metadata cache for source-derived visual assets."""
 
+# pyright: reportPrivateUsage=false
+
 from __future__ import annotations
 
 import json
