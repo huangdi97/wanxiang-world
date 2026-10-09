@@ -4,6 +4,7 @@
 
 from typing import cast
 
+from scripts.reference_runtime import build_reference_runtime
 from wanxiang_substrate.assets.book_scene_external import (
     _ExternalImageClient,
     _ExternalImageResult,
@@ -14,6 +15,7 @@ from wanxiang_substrate.authoring.local_semantic_provider import LocalSemanticPr
 from wanxiang_substrate.authoring.one_click import OneClickAuthoring
 from wanxiang_substrate.authoring.providers import ProviderRouter
 from wanxiang_substrate.authoring.service import AuthoringService
+from wanxiang_substrate.playable import PlayableService
 from wanxiang_substrate.playable.models import PlayableWorldProfile
 from wanxiang_substrate.playable.player_projection import player_world_detail
 from wanxiang_substrate.sources.model import RightsEnvelope, SourceRecord, payload_hash
@@ -305,3 +307,62 @@ def test_source_gated_world_atlas_fails_closed_when_visual_delivery_is_denied() 
     )
 
     assert denied["visual"] is None
+
+
+def test_t1_visuals_survive_playable_registration_without_provider_recall() -> None:
+    text = "# Chapter\nCharacter: Alice\nAlice arrived in Garden in 1985.\n"
+    source = SourceRecord(
+        source_id="external_handoff_source",
+        kind="text",
+        content_hash=payload_hash(text),
+        content_ref="memory://external_handoff_source",
+        stage="E3",
+        rights=RightsEnvelope(
+            owner="synthetic",
+            usage="test",
+            approved=True,
+            external_model_processing_allowed=True,
+            public_export_allowed=True,
+        ),
+        payload=text,
+        provenance="synthetic:source-to-visual:external-handoff",
+        access="public",
+    )
+    client = _OneClickExternalClient()
+    provider = _PromptedExternalSceneProvider(
+        provider_id="provider:handoff-image",
+        provider_version="2026-10",
+        client=client,
+        cost_units_per_asset=5,
+        private_safe=False,
+    )
+    authoring = OneClickAuthoring(
+        visual_provider=provider,
+        visual_allow_network=True,
+        visual_max_cost_units=5,
+    )
+    result = authoring.run(
+        "visual_external_handoff",
+        (source,),
+        profile="book",
+    )
+    assert len(client.calls) == 1
+
+    playable = PlayableService(
+        build_reference_runtime(),
+        visual_cache=authoring.visual_cache,
+    )
+    profile = playable.register_package(
+        result.package,
+        owner_id="alice",
+        visibility="private",
+        visual_provider=provider,
+        visual_allow_network=True,
+        visual_max_cost_units=5,
+    )
+
+    assert len(client.calls) == 1
+    assets = playable.visual_assets(profile.profile_id, viewer_id="alice")
+    assert len(assets) == 1
+    assert assets[0].provider_id == "provider:handoff-image"
+    assert assets[0].media_type == "image/png"
