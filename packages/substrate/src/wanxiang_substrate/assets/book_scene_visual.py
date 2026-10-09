@@ -309,9 +309,7 @@ class _LocalJsonVisualCacheIndex:
             if not isinstance(raw_key, str) or not isinstance(raw_value, dict):
                 continue
             value_map = cast(dict[object, object], raw_value)
-            rows[raw_key] = {
-                key: value for key, value in value_map.items() if isinstance(key, str)
-            }
+            rows[raw_key] = {key: value for key, value in value_map.items() if isinstance(key, str)}
         return rows
 
     @staticmethod
