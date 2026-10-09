@@ -4,6 +4,8 @@ This is an Asset Foundry preparation step, NOT a renderer or a generated image.
 No paid API calls, world-specific templates, canonical writes, or invented geography.
 """
 
+# pyright: reportUnusedFunction=false
+
 from __future__ import annotations
 
 import hashlib
