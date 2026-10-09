@@ -237,13 +237,13 @@ class PlayableService:
         return self.observe(instance_id, viewer_id)
 
     def leave(self, instance_id: str, *, viewer_id: str) -> dict[str, object]:
-        record = self._owned_instance(instance_id, viewer_id)
+        record = _owned_instance(self, instance_id, viewer_id)
         if record.session_id:
             self.entry.leave(record.session_id)
         state = self.runtime.current_state(
             WorldInstanceId(record.instance_id), BranchId(record.branch_id)
         )
-        self.store._save_instance(
+        self.store.save_instance(
             ExperienceInstanceRecord(
                 record.instance_id,
                 record.profile_id,
