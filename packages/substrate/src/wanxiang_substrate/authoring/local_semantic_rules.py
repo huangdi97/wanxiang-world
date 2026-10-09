@@ -4,14 +4,14 @@ from __future__ import annotations
 
 import re
 
-CHINESE = r"\u4e00-\u9fff"
-CUE = r"说|道|问|答|称|表示|指出|认为|告诉|回忆|喊|叫道|开口"
-TITLE = r"同志|先生|女士|书记|局长|主任|市长|县长|部长|厅长|科长|处长|校长|老师"
-PLACE_SUFFIX = (
+_CHINESE = r"\u4e00-\u9fff"
+_CUE = r"说|道|问|答|称|表示|指出|认为|告诉|回忆|喊|叫道|开口"
+_TITLE = r"同志|先生|女士|书记|局长|主任|市长|县长|部长|厅长|科长|处长|校长|老师"
+_PLACE_SUFFIX = (
     r"省|市|县|区|镇|乡|村|路|街|巷|院|厂|公司|学校|大学|医院|站|馆|楼|"
     r"山|河|桥|城|宫|府|寺|塔|谷|岛|港|湖|园|殿|门|亭|洞|关|寨|庄|阁|堂"
 )
-EVENT_CUES = (
+_EVENT_CUES = (
     "到达",
     "离开",
     "返回",
@@ -46,7 +46,7 @@ EVENT_CUES = (
     "参加",
     "离职",
 )
-RELATION_WORDS = {
+_RELATION_WORDS = {
     "夫妻": "spouse",
     "父亲": "parent",
     "母亲": "parent",
@@ -58,7 +58,7 @@ RELATION_WORDS = {
     "下属": "subordinate",
     "同学": "classmate",
 }
-COMMON_FALSE_NAMES = {
+_COMMON_FALSE_NAMES = {
     "我们",
     "他们",
     "她们",
@@ -80,14 +80,14 @@ COMMON_FALSE_NAMES = {
     "一天",
     "第二",
 }
-ENGLISH_FALSE_NAMES = {"The", "This", "That", "Alice", "Bob", "Chapter"}
+_ENGLISH_FALSE_NAMES = {"The", "This", "That", "Alice", "Bob", "Chapter"}
 
 
-def identity_key(name: str) -> str:
+def _identity_key(name: str) -> str:
     if all("\u4e00" <= char <= "\u9fff" for char in name):
         return f"zh:{name}"
     return re.sub(r"[^a-z0-9]+", "|", name.lower()).strip("|")
 
 
-def clean(value: str, limit: int = 96) -> str:
+def _clean(value: str, limit: int = 96) -> str:
     return re.sub(r"\s+", " ", value).strip(" \t\r\n,，。；;:：()（）[]【】\"'")[:limit]
