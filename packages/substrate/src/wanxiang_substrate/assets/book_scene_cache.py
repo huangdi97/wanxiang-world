@@ -7,12 +7,12 @@ import pathlib
 from dataclasses import dataclass
 from typing import cast
 
-from wanxiang_substrate.assets.book_scene_types import SceneVisualAsset
+from wanxiang_substrate.assets.book_scene_types import _SceneVisualAsset
 from wanxiang_substrate.assets.storage import AssetRef, InMemoryObjectStore, ObjectStore
 
 
 @dataclass(frozen=True, slots=True)
-class VisualCacheRecord:
+class _VisualCacheRecord:
     cache_key: str
     scene_key: str
     place_name: str
@@ -26,28 +26,28 @@ class VisualCacheRecord:
     style_key: str
 
 
-class VisualCacheIndex:
+class _VisualCacheIndex:
     """Replaceable metadata index; blob bytes remain owned by ObjectStore."""
 
-    def get(self, cache_key: str) -> VisualCacheRecord | None:
+    def get(self, cache_key: str) -> _VisualCacheRecord | None:
         raise TypeError("concrete visual implementation required")
 
-    def put(self, record: VisualCacheRecord) -> None:
+    def put(self, record: _VisualCacheRecord) -> None:
         raise TypeError("concrete visual implementation required")
 
 
-class InMemoryVisualCacheIndex(VisualCacheIndex):
+class _InMemoryVisualCacheIndex(_VisualCacheIndex):
     def __init__(self) -> None:
-        self._rows: dict[str, VisualCacheRecord] = {}
+        self._rows: dict[str, _VisualCacheRecord] = {}
 
-    def get(self, cache_key: str) -> VisualCacheRecord | None:
+    def get(self, cache_key: str) -> _VisualCacheRecord | None:
         return self._rows.get(cache_key)
 
-    def put(self, record: VisualCacheRecord) -> None:
+    def put(self, record: _VisualCacheRecord) -> None:
         self._rows[record.cache_key] = record
 
 
-class LocalJsonVisualCacheIndex(VisualCacheIndex):
+class LocalJsonVisualCacheIndex(_VisualCacheIndex):
     """Single-process durable dev index; production may inject a DB/object index."""
 
     def __init__(self, path: pathlib.Path) -> None:
@@ -75,7 +75,7 @@ class LocalJsonVisualCacheIndex(VisualCacheIndex):
         return rows
 
     @staticmethod
-    def _record(raw: dict[str, object]) -> VisualCacheRecord | None:
+    def _record(raw: dict[str, object]) -> _VisualCacheRecord | None:
         required_strings = (
             "cache_key",
             "scene_key",
@@ -93,7 +93,7 @@ class LocalJsonVisualCacheIndex(VisualCacheIndex):
         illustrative = raw.get("illustrative")
         if not isinstance(size, int) or not isinstance(illustrative, bool):
             return None
-        return VisualCacheRecord(
+        return _VisualCacheRecord(
             cache_key=cast(str, raw["cache_key"]),
             scene_key=cast(str, raw["scene_key"]),
             place_name=cast(str, raw["place_name"]),
@@ -107,11 +107,11 @@ class LocalJsonVisualCacheIndex(VisualCacheIndex):
             style_key=cast(str, raw["style_key"]),
         )
 
-    def get(self, cache_key: str) -> VisualCacheRecord | None:
+    def get(self, cache_key: str) -> _VisualCacheRecord | None:
         raw = self._rows().get(cache_key)
         return self._record(raw) if raw is not None else None
 
-    def put(self, record: VisualCacheRecord) -> None:
+    def put(self, record: _VisualCacheRecord) -> None:
         rows = self._rows()
         rows[record.cache_key] = {
             "cache_key": record.cache_key,
@@ -140,17 +140,17 @@ class VisualAssetCache:
     def __init__(
         self,
         store: ObjectStore | None = None,
-        index: VisualCacheIndex | None = None,
+        index: _VisualCacheIndex | None = None,
     ) -> None:
         self.store = store or InMemoryObjectStore()
-        self.index = index or InMemoryVisualCacheIndex()
+        self.index = index or _InMemoryVisualCacheIndex()
 
     def get(
         self,
         cache_key: str,
         *,
         rights: str = "public",
-    ) -> tuple[SceneVisualAsset, AssetRef] | None:
+    ) -> tuple[_SceneVisualAsset, AssetRef] | None:
         metadata = self.index.get(cache_key)
         if metadata is None:
             return None
@@ -163,7 +163,7 @@ class VisualAssetCache:
         )
         content = self.store.get(ref)
         return (
-            SceneVisualAsset(
+            _SceneVisualAsset(
                 scene_key=metadata.scene_key,
                 place_name=metadata.place_name,
                 provider_id=metadata.provider_id,
@@ -178,10 +178,10 @@ class VisualAssetCache:
             ref,
         )
 
-    def put(self, asset: SceneVisualAsset, *, rights: str = "public") -> AssetRef:
+    def put(self, asset: _SceneVisualAsset, *, rights: str = "public") -> AssetRef:
         ref = self.store.put(asset.content, content_type=asset.media_type, rights=rights)
         self.index.put(
-            VisualCacheRecord(
+            _VisualCacheRecord(
                 cache_key=asset.cache_key,
                 scene_key=asset.scene_key,
                 place_name=asset.place_name,
