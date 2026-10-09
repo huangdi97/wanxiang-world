@@ -25,15 +25,9 @@ def test_english_narrative_place_is_not_also_emitted_as_identity() -> None:
     )
     rows = [_payload_dict(item.payload) for item in proposals]
     identities = {
-        row.get("display_name", "")
-        for row in rows
-        if row.get("candidate_kind") == "identity"
+        row.get("display_name", "") for row in rows if row.get("candidate_kind") == "identity"
     }
-    places = {
-        row.get("name", "")
-        for row in rows
-        if row.get("candidate_kind") == "place"
-    }
+    places = {row.get("name", "") for row in rows if row.get("candidate_kind") == "place"}
 
     assert {"Alice", "Bob"}.issubset(identities)
     assert "Beijing" not in identities
