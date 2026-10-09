@@ -4,6 +4,11 @@
 
 from typing import cast
 
+from wanxiang_substrate.assets.book_scene_external import (
+    _ExternalImageResult,
+    _PromptedExternalSceneProvider,
+)
+from wanxiang_substrate.assets.book_scene_prompt import _SceneGenerationBrief
 from wanxiang_substrate.authoring.local_semantic_provider import LocalSemanticProvider
 from wanxiang_substrate.authoring.one_click import OneClickAuthoring
 from wanxiang_substrate.authoring.providers import ProviderRouter
@@ -220,3 +225,58 @@ def test_long_book_builds_bounded_preview_and_keeps_deferred_world_places() -> N
     assert result.visual_plan.deferred_scene_count >= 2
     assert len(result.visual_assets) == 3
     assert all(scene.source_refs for scene in result.visual_plan.scene_requests)
+
+
+class _OneClickExternalClient:
+    def __init__(self) -> None:
+        self.calls: list[_SceneGenerationBrief] = []
+
+    def generate(self, brief: _SceneGenerationBrief) -> _ExternalImageResult:
+        self.calls.append(brief)
+        return _ExternalImageResult(b"\x89PNG\r\none-click-external", "image/png")
+
+
+def test_one_click_accepts_injected_t1_provider_without_changing_book_pipeline() -> None:
+    text = "# Chapter\nCharacter: Alice\nAlice arrived in Garden in 1985.\n"
+    source = SourceRecord(
+        source_id="external_book_source",
+        kind="text",
+        content_hash=payload_hash(text),
+        content_ref="memory://external_book_source",
+        stage="E3",
+        rights=RightsEnvelope(
+            owner="synthetic",
+            usage="test",
+            approved=True,
+            external_model_processing_allowed=True,
+            public_export_allowed=True,
+        ),
+        payload=text,
+        provenance="synthetic:source-to-visual:external",
+        access="public",
+    )
+    client = _OneClickExternalClient()
+    provider = _PromptedExternalSceneProvider(
+        provider_id="provider:integration-image",
+        provider_version="2026-10",
+        client=client,
+        cost_units_per_asset=5,
+        private_safe=False,
+    )
+    result = OneClickAuthoring(
+        visual_provider=provider,
+        visual_allow_network=True,
+        visual_max_cost_units=5,
+    ).run(
+        "visual_external_provider",
+        (source,),
+        profile="book",
+    )
+
+    assert result.visual_provider_calls == 1
+    assert result.visual_cost_units == 5
+    assert result.visual_assets[0].provider_id == "provider:integration-image"
+    assert result.visual_assets[0].provider_version == "2026-10"
+    assert result.visual_assets[0].media_type == "image/png"
+    assert len(client.calls) == 1
+    assert client.calls[0].full_source_included is False
