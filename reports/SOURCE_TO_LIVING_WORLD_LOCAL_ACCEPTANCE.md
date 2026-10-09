@@ -10,17 +10,17 @@
 
 | Field | Value |
 |---|---|
-| Remote HEAD | `9ebfe00c9134ac0598abb4ca19b7e8a3502cc6c9` (pushed during this acceptance) |
-| Local HEAD | `9ebfe00c9134ac0598abb4ca19b7e8a3502cc6c9` |
+| Remote HEAD | `06c872e` (pushed during this acceptance; latest docs commit) |
+| Local HEAD | `06c872e` |
 | Branch | `feature/source-to-visual-world` (tracking `origin/feature/source-to-visual-world`) |
 | Working tree | clean except preserved user file `WANXIANG_R7_NEW_CONVERSATION_HANDOFF_2026-10-08.md` |
-| CI status (pushed HEAD) | push run `37922955550` SUCCESS — all 6 jobs green (safety, python, postgres, api-sdk, ts, release-smoke) at exact-SHA `9ebfe00`; annotations are only runner deprecation notices |
+| CI status (pushed HEAD) | push runs green: `37922955550` (evidence HEAD `9ebfe00`) and `37924563024` (final docs HEAD `06c872e`) — all 6 jobs each (safety, python, postgres, api-sdk, ts, release-smoke); annotations are only runner deprecation notices |
 | CI status (recorded remote HEAD at goal start) | `2b44e1a` push/PR CI: SUCCESS per the goal brief |
-
 Local quality gates were re-run at `8ea068a` (remote `2b44e1a` + a docs/gates
-commit regenerating the stale v5.1/v5.2 ledgers to the current tree), then
-both commits (ledger regeneration + acceptance evidence) were pushed to
-`9ebfe00`; the pushed exact-SHA CI is green.
+Local quality gates were re-run at `8ea068a` (remote `2b44e1a` + a docs/gates
+commit regenerating the stale v5.1/v5.2 ledgers to the current tree); the
+ledger regeneration, acceptance evidence and final report updates were pushed
+as `8ea068a -> 9ebfe00 -> 06c872e`; every pushed HEAD CI is green.
 ---
 
 ## 2. Local quality gates
