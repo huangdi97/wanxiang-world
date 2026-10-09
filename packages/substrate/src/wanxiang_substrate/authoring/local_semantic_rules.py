@@ -1,5 +1,7 @@
 """Language cues used by the deterministic local semantic provider."""
 
+# pyright: reportUnusedFunction=false
+
 from __future__ import annotations
 
 import re
