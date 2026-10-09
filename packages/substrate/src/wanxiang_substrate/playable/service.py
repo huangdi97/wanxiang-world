@@ -258,7 +258,7 @@ class PlayableService:
         return {"instance_id": instance_id, "status": "left", "revision": state.revision.value}
 
     def observe(self, instance_id: str, viewer_id: str) -> dict[str, object]:
-        record = self._owned_instance(instance_id, viewer_id)
+        record = _owned_instance(self, instance_id, viewer_id)
         state = self.runtime.current_state(
             WorldInstanceId(record.instance_id), BranchId(record.branch_id)
         )
