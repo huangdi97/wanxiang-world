@@ -97,6 +97,9 @@ def create_app(
     providers = ProviderRouter((LocalSemanticProvider(), LocalPromptGenesisProvider()))
     app.state.authoring = AuthoringService(providers=providers)
     app.state.visual_asset_cache = _VisualAssetCache()
+    app.state.visual_asset_provider = None
+    app.state.visual_asset_allow_network = False
+    app.state.visual_asset_max_cost_units = 0
     app.state.workshop = WorkshopService(app.state.authoring, providers=providers)
     app.state.playable = (
         PlayableService(runtime, visual_cache=app.state.visual_asset_cache)
