@@ -72,6 +72,20 @@ class PlayableService:
 
         return self._packages
 
+    def visual_access_allowed(self, profile_id: str, *, viewer_id: str) -> bool:
+        """Gate every source-derived visual surface, including atlas and topology."""
+
+        profile = self.plaza.require_access(profile_id, viewer_id)
+        if profile.owner_id and viewer_id == profile.owner_id:
+            return True
+        package = self._packages.get(profile_id)
+        if package is None:
+            return False
+        return (
+            package.draft.compiler_metadata.get("visual_asset_rights_v1", "source-gated")
+            == "public"
+        )
+
     def visual_assets(
         self,
         profile_id: str,
