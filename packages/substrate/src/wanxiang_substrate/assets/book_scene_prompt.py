@@ -85,7 +85,7 @@ def _story_visual_profile(plan: _SourceVisualPlan) -> _StoryVisualProfile:
         plan.scene_requests[0].style_key
         if plan.scene_requests and plan.scene_requests[0].style_key
         else hashlib.sha256(
-            f"{plan.source_digest}:story-visual-profile:v1".encode("utf-8")
+            f"{plan.source_digest}:story-visual-profile:v1".encode()
         ).hexdigest()[:24]
     )
     return _story_visual_profile_from_style_key(style_key)
