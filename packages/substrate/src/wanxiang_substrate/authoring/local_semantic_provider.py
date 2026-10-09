@@ -5,16 +5,16 @@ from typing import cast
 
 from wanxiang_substrate.authoring.local_semantic_gedcom import extract_gedcom
 from wanxiang_substrate.authoring.local_semantic_rules import (
-    CHINESE as _CHINESE,
-    COMMON_FALSE_NAMES as _COMMON_FALSE_NAMES,
-    CUE as _CUE,
-    ENGLISH_FALSE_NAMES as _ENGLISH_FALSE_NAMES,
-    EVENT_CUES as _EVENT_CUES,
-    PLACE_SUFFIX as _PLACE_SUFFIX,
-    RELATION_WORDS as _RELATION_WORDS,
-    TITLE as _TITLE,
-    clean as _clean,
-    identity_key as _identity_key,
+    _CHINESE,
+    _COMMON_FALSE_NAMES,
+    _CUE,
+    _ENGLISH_FALSE_NAMES,
+    _EVENT_CUES,
+    _PLACE_SUFFIX,
+    _RELATION_WORDS,
+    _TITLE,
+    _clean,
+    _identity_key,
 )
 from wanxiang_substrate.authoring.providers import (
     ProviderCapability,
