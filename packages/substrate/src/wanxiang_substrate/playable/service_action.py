@@ -17,7 +17,7 @@ from wanxiang_substrate.playable.service_model import (
     PlayableActionResult,
     SubmittedResult,
 )
-from wanxiang_substrate.playable.service_session import owned_instance
+from wanxiang_substrate.playable.service_session import _owned_instance
 from wanxiang_substrate.playable.service_support import affordances
 from wanxiang_substrate.playable.state_diff import CommittedStateDiff
 from wanxiang_substrate.playable.store import ExperienceInstanceRecord
@@ -26,7 +26,7 @@ if TYPE_CHECKING:
     from wanxiang_substrate.playable.service import PlayableService
 
 
-def perform_action(
+def _perform_action(
     service: PlayableService,
     instance_id: str,
     *,
@@ -35,7 +35,7 @@ def perform_action(
     action_type: str = "",
     payload: dict[str, object] | None = None,
 ) -> PlayableActionResult:
-    record = owned_instance(service, instance_id, viewer_id)
+    record = _owned_instance(service, instance_id, viewer_id)
     if record.mode != "embodiment" or not record.session_id or not record.actor_id:
         raise ContractError("only an embodied actor may submit a world action")
     if active_lease(service.entry, record.session_id) is None:
