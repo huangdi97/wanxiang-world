@@ -81,7 +81,9 @@ def player_world_detail(
     """Return the detail copy used before a player enters a world."""
 
     copy = _copy_for(locale)
-    draft = package.draft if package is not None else None
+    # An unavailable source-derived visual entitlement also suppresses draft
+    # location/context metadata. Public profile copy remains separate.
+    draft = package.draft if package is not None and visual_access_allowed else None
     places = tuple(getattr(draft, "places", ()) or ())
     metadata = draft.compiler_metadata if draft is not None else {}
 
@@ -192,7 +194,9 @@ def player_observation(
     event_list = tuple(events)
     entities = state.entities()
     names = {entity.entity_id.value: _entity_name(entity, copy) for entity in entities}
-    world = player_world_detail(profile, package, locale=copy.locale)
+    world = player_world_detail(
+        profile, package, locale=copy.locale, visual_access_allowed=visual_access_allowed
+    )
     setting = world["setting"]
     assert isinstance(setting, dict)
     people = [_person_card(entity, copy) for entity in entities if _is_person(entity)]

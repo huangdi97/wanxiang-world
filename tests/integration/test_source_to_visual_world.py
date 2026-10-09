@@ -307,6 +307,10 @@ def test_source_gated_world_atlas_fails_closed_when_visual_delivery_is_denied() 
     )
 
     assert denied["visual"] is None
+    setting = cast(dict[str, object], denied["setting"])
+    assert all(value is None for value in setting.values())
+    counts = cast(dict[str, object], denied["counts"])
+    assert counts == {"characters": 0, "events": 0}
 
 
 def test_t1_visuals_survive_playable_registration_without_provider_recall() -> None:
