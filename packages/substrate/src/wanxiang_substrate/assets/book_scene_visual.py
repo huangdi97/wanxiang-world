@@ -1,5 +1,7 @@
 """Private compatibility facade for the source-to-visual asset pipeline."""
 
+# pyright: reportPrivateUsage=false
+
 from wanxiang_substrate.assets.book_scene_cache import (
     LocalJsonVisualCacheIndex as _LocalJsonVisualCacheIndex,
 )
