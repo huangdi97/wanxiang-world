@@ -46,7 +46,8 @@ class _ProceduralSvgSceneProvider(SceneImageProvider):
     <stop offset="1" stop-color="hsl({sky_hue + 12} 28% 92%)"/>
   </linearGradient>
   <linearGradient id="mist" x2="1">
-    <stop stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity=".05"/>
+    <stop stop-color="#fff" stop-opacity=".55"/>
+    <stop offset="1" stop-color="#fff" stop-opacity=".05"/>
   </linearGradient>
 </defs>
 <rect width="1200" height="900" fill="url(#sky)"/>
@@ -64,7 +65,8 @@ class _ProceduralSvgSceneProvider(SceneImageProvider):
 <g fill="hsl({accent_hue + 18} 21% 28%)">
   <path d="M{tower_x - 20} 455 L{tower_x + 105} 375 L{tower_x + 230} 455Z"/>
   <path d="M{tower_x + 282} 518 L{tower_x + 377} 454 L{tower_x + 474} 518Z"/>
-  <path d="M{max(35, tower_x - 263)} 532 L{max(120, tower_x - 170)} 472 L{max(205, tower_x - 82)} 532Z"/>
+  <path d="M{max(35, tower_x - 263)} 532 L{max(120, tower_x - 170)} 472
+   L{max(205, tower_x - 82)} 532Z"/>
 </g>
 <path d="M55 720 C290 650 570 690 1135 555" fill="none"
  stroke="hsl({accent_hue} 16% 72%)" stroke-width="28" opacity=".82"/>
@@ -75,7 +77,9 @@ class _ProceduralSvgSceneProvider(SceneImageProvider):
 </g>
 <g transform="translate(58 805)" font-family="system-ui, 'Noto Sans SC', sans-serif">
   <rect width="650" height="52" rx="12" fill="#0f2734" opacity=".84"/>
-  <text x="18" y="34" font-size="18" fill="#f2f5ed">示意投影：未证实的空间关系不会写入世界真相</text>
+  <text x="18" y="34" font-size="18" fill="#f2f5ed">
+   示意投影：未证实的空间关系不会写入世界真相
+  </text>
 </g>
 </svg>"""
         content = svg.encode()
