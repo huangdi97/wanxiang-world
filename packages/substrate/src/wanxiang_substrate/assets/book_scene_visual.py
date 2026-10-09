@@ -41,11 +41,20 @@ class _SceneVisualAsset:
 
 
 class _SceneImageProvider(Protocol):
-    provider_id: str
-    provider_version: str
-    requires_network: bool
-    cost_units_per_asset: int
-    private_safe: bool
+    @property
+    def provider_id(self) -> str: ...
+
+    @property
+    def provider_version(self) -> str: ...
+
+    @property
+    def requires_network(self) -> bool: ...
+
+    @property
+    def cost_units_per_asset(self) -> int: ...
+
+    @property
+    def private_safe(self) -> bool: ...
 
     def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset: ...
 
