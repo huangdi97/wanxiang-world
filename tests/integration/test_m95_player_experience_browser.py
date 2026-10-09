@@ -265,6 +265,10 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 assert page.locator(".world-stage-hud").is_visible()
                 assert page.locator(".world-stage-story").is_visible()
                 assert page.locator(".world-action-dock").is_visible()
+                people_copy = page.locator("#people-list").inner_text()
+                assert "Alice" in people_copy
+                assert "Bob" in people_copy
+                assert "Beijing" not in people_copy
                 assert "世界视觉预览" in page.locator("#scene-visual-caption").inner_text()
                 page.locator("#world-stage").screenshot(
                     path=str(review / "embodied-stage-desktop.png")
@@ -286,6 +290,13 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 page.locator("#continue-slot [data-continue]").click()
                 page.wait_for_selector("#play-view.is-active")
                 page.set_viewport_size({"width": 390, "height": 844})
+                mobile_stage_box = page.locator("#world-stage").bounding_box()
+                mobile_dock_box = page.locator(".world-action-dock").bounding_box()
+                assert mobile_stage_box is not None
+                assert mobile_dock_box is not None
+                assert mobile_dock_box["y"] >= (
+                    mobile_stage_box["y"] + mobile_stage_box["height"] - 2
+                )
                 page.locator("#world-stage").screenshot(
                     path=str(review / "embodied-stage-mobile.png")
                 )
