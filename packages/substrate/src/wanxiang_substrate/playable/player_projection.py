@@ -76,9 +76,14 @@ def player_world_detail(
         if assets is None:
             assets = _render_visual_plan(plan)
         request_by_key = {request.stable_key: request for request in plan.scene_requests}
+        generated_places = {asset.place_name for asset in assets}
         atlas = _render_world_atlas(plan)
         visual = {
             "status": plan.status,
+            "places": [
+                {"name": place, "generated": place in generated_places}
+                for place in plan.place_names
+            ],
             "atlas": (
                 {
                     "kind": "atlas",
