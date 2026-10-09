@@ -14,11 +14,13 @@ from wanxiang_substrate.assets.book_scene_visual import (
     _materialize_visual_plan,
     _ProceduralSvgSceneProvider,
     _render_visual_plan,
+    _LocalJsonVisualCacheIndex,
     _render_world_atlas,
     _SceneVisualAsset,
     _VisualAssetCache,
 )
 from wanxiang_substrate.assets.foundry import SemanticSceneSpec
+from wanxiang_substrate.assets.storage import LocalObjectStore
 
 
 def _request(place: str, key: str) -> _SourceSceneRequest:
@@ -260,3 +262,45 @@ def test_provider_version_change_invalidates_visual_cache() -> None:
     assert upgraded.cache_hits == 0
     assert first.assets[0].cache_key != upgraded.assets[0].cache_key
     assert first.assets[0].provider_version != upgraded.assets[0].provider_version
+
+
+def test_visual_cache_survives_restart_with_local_blob_store_and_json_index(
+    tmp_path,
+) -> None:
+    plan = _plan(_request("旧城", "durable"))
+    blob_root = tmp_path / "blobs"
+    index_path = tmp_path / "visual-cache.json"
+
+    first_cache = _VisualAssetCache(
+        LocalObjectStore(blob_root),
+        _LocalJsonVisualCacheIndex(index_path),
+    )
+    first = _materialize_visual_plan(plan, cache=first_cache, rights="source-gated")
+
+    restarted_cache = _VisualAssetCache(
+        LocalObjectStore(blob_root),
+        _LocalJsonVisualCacheIndex(index_path),
+    )
+    second = _materialize_visual_plan(plan, cache=restarted_cache, rights="source-gated")
+
+    assert first.provider_calls == 1
+    assert second.provider_calls == 0
+    assert second.cache_hits == 1
+    assert first.assets == second.assets
+    assert first.asset_refs == second.asset_refs
+    assert index_path.exists()
+
+
+def test_cached_bytes_can_be_reused_under_current_delivery_rights_without_regeneration() -> None:
+    plan = _plan(_request("旧城", "rights-reissue"))
+    cache = _VisualAssetCache()
+
+    gated = _materialize_visual_plan(plan, cache=cache, rights="source-gated")
+    public = _materialize_visual_plan(plan, cache=cache, rights="public")
+
+    assert gated.provider_calls == 1
+    assert public.provider_calls == 0
+    assert public.cache_hits == 1
+    assert gated.assets[0].content_sha256 == public.assets[0].content_sha256
+    assert gated.asset_refs[0].rights == "source-gated"
+    assert public.asset_refs[0].rights == "public"
