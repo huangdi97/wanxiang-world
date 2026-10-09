@@ -200,7 +200,8 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                     "data:image/svg+xml;base64,"
                 )
                 assert page.locator("#visual-gallery-wrap").is_visible()
-                assert page.locator("#visual-gallery .visual-thumb").count() >= 1
+                assert page.locator("#visual-gallery .visual-thumb").count() >= 2
+                assert "叙事世界图谱" in page.locator("#detail-visual-caption").inner_text()
                 assert not page_errors, page_errors
                 assert page.locator('input[name="character"]').count() == 1, page.locator(
                     "#detail-view"
