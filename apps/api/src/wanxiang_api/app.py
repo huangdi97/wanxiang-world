@@ -112,7 +112,7 @@ def create_app(
             LocalJsonVisualCacheIndex(visual_cache_path / "index.json"),
         )
     else:
-        app.state.visual_asset_cache = _VisualAssetCache()
+        app.state.visual_asset_cache = VisualAssetCache()
     app.state.visual_asset_provider = None
     app.state.visual_asset_allow_network = False
     app.state.visual_asset_max_cost_units = 0
