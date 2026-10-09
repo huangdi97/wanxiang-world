@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, cast
 
+from httpx import Response
+from starlette.types import ASGIApp, Receive, Scope, Send
 from fastapi import Request
 from fastapi.testclient import TestClient
 from wanxiang_api.app import create_app
@@ -12,7 +14,7 @@ from wanxiang_api.app import create_app
 class _TrustedOuterASGI:
     def __init__(
         self,
-        app: Any,
+        app: ASGIApp,
         principal: str = "",
         roles: tuple[str, ...] = (),
     ) -> None:
@@ -20,11 +22,16 @@ class _TrustedOuterASGI:
         self.principal = principal
         self.roles = roles
 
-    async def __call__(self, scope: dict[str, Any], receive: Any, send: Any) -> None:
+    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
         if scope["type"] == "http" and self.principal:
             scope["wanxiang_authenticated_user"] = self.principal
             scope["wanxiang_authenticated_roles"] = self.roles
         await self.app(scope, receive, send)
+
+
+def _get(client: TestClient, path: str, headers: dict[str, str] | None = None) -> Response:
+    # Starlette's TestClient.get currently carries incomplete httpx annotations.
+    return cast(Response, client.get(path, headers=headers))  # pyright: ignore[reportUnknownMemberType]
 
 
 def test_trusted_mode_denies_unverified_identity_even_with_owner_header(
@@ -32,7 +39,7 @@ def test_trusted_mode_denies_unverified_identity_even_with_owner_header(
 ) -> None:
     monkeypatch.setenv("WANXIANG_IDENTITY_MODE", "trusted")
     with TestClient(create_app()) as client:
-        response = client.get("/experience/player/plaza", headers={"x-wanxiang-user": "studio"})
+        response = _get(client, "/experience/player/plaza", {"x-wanxiang-user": "studio"})
     assert response.status_code == 401
     assert response.json()["code"] == "trusted_identity_required"
 
@@ -46,7 +53,7 @@ def test_trusted_mode_overrides_spoofed_http_user_header(monkeypatch: Any) -> No
 
     app.add_api_route("/__trusted_identity_test", trusted_probe)
     with TestClient(_TrustedOuterASGI(app, "real-user")) as client:
-        response = client.get("/__trusted_identity_test", headers={"x-wanxiang-user": "studio"})
+        response = _get(client, "/__trusted_identity_test", {"x-wanxiang-user": "studio"})
     assert response.status_code == 200
     assert response.json() == {"principal": "real-user"}
 
@@ -55,7 +62,7 @@ def test_studio_requires_trusted_creator_role(monkeypatch: Any) -> None:
     monkeypatch.setenv("WANXIANG_IDENTITY_MODE", "trusted")
     app = create_app()
     with TestClient(_TrustedOuterASGI(app, "reader")) as client:
-        denied = client.get("/studio/ui")
+        denied = _get(client, "/studio/ui")
     assert denied.status_code == 403
     assert denied.json()["code"] == "studio_creator_role_required"
 

@@ -94,11 +94,10 @@ def create_app(
     if identity_mode == "trusted":
         # A trusted outer ASGI authenticator must populate these scope values.
         # Never treat a caller-supplied HTTP header as proof of identity.
-        @app.middleware("http")
         async def _trusted_identity_boundary(
             request: Request,
             call_next: Callable[[Request], Awaitable[Response]],
-        ) -> Response:  # pyright: ignore[reportUnusedFunction]
+        ) -> Response:
             principal = request.scope.get("wanxiang_authenticated_user")
             if not isinstance(principal, str) or not principal.strip():
                 return JSONResponse(
@@ -121,6 +120,8 @@ def create_app(
             headers.append((b"x-wanxiang-user", principal.encode("utf-8")))
             request.scope["headers"] = headers
             return await call_next(request)
+
+        app.middleware("http")(_trusted_identity_boundary)
 
     app.state.runtime = runtime
     app.state.lineage_graph = lineage_graph or LineageGraph()
