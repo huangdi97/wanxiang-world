@@ -60,7 +60,7 @@ class _PromptedExternalSceneProvider:
         profile = _story_visual_profile_from_style_key(style_key)
         brief = _compile_scene_generation_brief(request, profile)
         result = self.client.generate(brief)
-        if not isinstance(result.content, bytes) or not result.content:
+        if not result.content:
             raise ValueError("external visual provider returned empty image bytes")
         if len(result.content) > self.max_output_bytes:
             raise ValueError("external visual provider output exceeds size limit")
