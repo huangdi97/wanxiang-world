@@ -377,3 +377,93 @@ Still external or human evidence, and therefore **not claimed complete**:
 - quality evaluation on multiple long rights-safe real books
 
 These remaining items are provider/runtime/human evidence gaps, not reasons to build per-book code.
+
+
+## 21. Restart-safe cache and rights re-issuance
+
+Visual cost control is now split into two durable concerns:
+
+- content bytes remain in the existing content-addressed `ObjectStore`;
+- `provider/style/prompt/source scene cache key -> blob metadata` lives behind a separate visual cache-index port.
+
+The reference deployment can opt into `WANXIANG_VISUAL_CACHE_DIR`. In that mode the API uses `LocalObjectStore` plus a JSON metadata index, so a service restart does not trigger a second provider call for an unchanged scene. CI and tests keep the in-memory implementation by default.
+
+Delivery rights are deliberately **not** frozen into cache identity. The same verified blob may be re-used while a new `AssetRef` is issued under the current source-derived delivery right. This prevents both stale private/public rights and needless re-generation. A cache hit never upgrades rights by itself; the current package rights gate is evaluated first.
+
+## 22. Long-book deferred scene generation
+
+A long source no longer has to pre-generate every place.
+
+Default creation stays bounded:
+
+- rank source-attested places by evidence coverage/confidence/context;
+- materialize the first three scenes;
+- preserve every extracted place in the narrative world atlas;
+- mark the remainder as deferred.
+
+The Player exposes all source-attested places. Selecting a deferred place calls the governed Player visual route. The backend accepts the request only when the place already exists in the compiled `WorldPackage`, rebuilds a one-place `SourceVisualPlan`, then applies the same provider/network/privacy/rights/cost/cache gates. The result is appended to the visual gallery without creating a canonical event or world fact.
+
+Unknown place names are rejected. Repeating the same deferred-place request is a cache hit rather than a provider call.
+
+This is the intended cost model for book-scale worlds:
+
+~~~text
+world creation: 3 key scenes
+        |
+        +--> atlas contains all source places
+        |
+        +--> player requests/visits deferred place
+                  |
+                  +--> cache hit -> reuse
+                  |
+                  +--> miss -> governed provider call -> AssetRef
+~~~
+
+## 23. Provider placement re-verified in October 2026
+
+Current official capability evidence still supports the tier split:
+
+- World Labs announced the public World API on 2026-01-21 for generating explorable 3D worlds from text, images, panoramas, multi-view input and video, with web rendering/export. This remains a T3 persistent spatial-asset candidate rather than Reality Root.
+- Tencent HY-World 2.0 describes text/image/video-conditioned navigable persistent 3DGS/Mesh worlds with free walking, collision and Unity/UE export. This also maps to T3.
+- Google DeepMind Genie 3 remains a real-time 20-24 FPS, 720p world model. Its official limitations still include limited direct action space, multi-agent interaction limitations and only a few minutes of continuous interaction. It therefore remains T4 sensory/live projection rather than Wanxiang persistence/History.
+
+The provider tier never changes Canon ownership:
+
+~~~text
+T0/T1/T2/T3/T4 visual result
+        -> Asset / Projection
+        -> Player observation
+        -> player intent
+        -> Commit Authority
+        -> canonical History
+~~~
+
+## 24. Current closure boundary
+
+The repository-side universal design is implemented through:
+
+- source/evidence preserving book compilation;
+- cross-book SourceVisualPlan;
+- StoryVisualProfile and bounded provider brief;
+- deterministic T0 real pixels;
+- replaceable governed T1 client seam;
+- content-addressed and restart-safe visual cache;
+- world atlas with evidence-only links;
+- three-scene bounded initial budget;
+- deferred-place on-demand generation;
+- scene clue projection;
+- observer-first read-only exploration;
+- embodiment-only canonical actions;
+- rights/privacy/network/cost gates;
+- existing G96 actor-scoped projection reuse;
+- desktop/mobile Playwright evidence path.
+
+Still external and therefore not self-awarded:
+
+1. an authorized real T1 image-provider execution with billing/latency evidence;
+2. an authorized real T3 persistent 3D generation/export run;
+3. rights-safe long real-book qualitative evaluation;
+4. SVW-J / M95 human visual and immersion acceptance;
+5. R7 stable-release human gates already defined by the authoritative R7 master.
+
+No per-book renderer, bespoke map, or hand-authored world should be introduced to close those external gates.
