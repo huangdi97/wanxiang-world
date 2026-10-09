@@ -28,15 +28,15 @@ from wanxiang_substrate.playable.experience import (
 )
 from wanxiang_substrate.playable.factory import profile_from_world_package
 from wanxiang_substrate.playable.models import PlayableWorldProfile
-from wanxiang_substrate.playable.service_action import perform_action
+from wanxiang_substrate.playable.service_action import _perform_action
 from wanxiang_substrate.playable.service_model import PlayableActionResult
-from wanxiang_substrate.playable.service_session import owned_instance, save_instance
+from wanxiang_substrate.playable.service_session import _owned_instance, _save_instance
 from wanxiang_substrate.playable.service_support import instance_dict
 from wanxiang_substrate.playable.service_visual import (
-    attach_package_visuals,
-    materialize_visual_place as _materialize_visual_place,
-    visible_visual_assets,
-    visual_access_allowed as _visual_access_allowed,
+    _attach_package_visuals,
+    _materialize_visual_place,
+    _visible_visual_assets,
+    _visual_access_allowed,
 )
 from wanxiang_substrate.playable.store import (
     ExperienceInstanceRecord,
@@ -86,7 +86,7 @@ class PlayableService:
     ) -> tuple[_SceneVisualAsset, ...]:
         """Return source-derived visual assets allowed for this viewer."""
 
-        return visible_visual_assets(self, profile_id, viewer_id=viewer_id)
+        return _visible_visual_assets(self, profile_id, viewer_id=viewer_id)
 
     def materialize_visual_place(
         self,
@@ -138,7 +138,7 @@ class PlayableService:
         self.store.save_profile(profile)
         self._packages[profile.profile_id] = package
         self._experiences[profile.profile_id] = experience
-        attach_package_visuals(
+        _attach_package_visuals(
             self,
             profile.profile_id,
             package,
@@ -168,7 +168,7 @@ class PlayableService:
         self.store.save_profile(profile)
         self._packages[profile.profile_id] = package
         self._experiences[profile.profile_id] = experience or experience_from_profile(profile)
-        attach_package_visuals(
+        _attach_package_visuals(
             self,
             profile.profile_id,
             package,
@@ -208,11 +208,11 @@ class PlayableService:
             mode=cast(EntryMode, mode),
             character_id=character_id,
         )
-        save_instance(self, receipt, viewer_id, world.branch_id.value, updated_seq=1)
+        _save_instance(self, receipt, viewer_id, world.branch_id.value, updated_seq=1)
         return self.observe(receipt.instance_id, viewer_id)
 
     def continue_instance(self, instance_id: str, *, viewer_id: str) -> dict[str, object]:
-        record = owned_instance(self, instance_id, viewer_id)
+        record = _owned_instance(self, instance_id, viewer_id)
         profile = self.plaza.require_access(record.profile_id, viewer_id)
         experience = self._experiences.get(profile.profile_id)
         if experience is None:
@@ -227,7 +227,7 @@ class PlayableService:
             mode=cast(EntryMode, record.mode),
             character_id=record.actor_id,
         )
-        save_instance(
+        _save_instance(
             self,
             receipt,
             viewer_id,
@@ -243,7 +243,7 @@ class PlayableService:
         state = self.runtime.current_state(
             WorldInstanceId(record.instance_id), BranchId(record.branch_id)
         )
-        self.store.save_instance(
+        self.store._save_instance(
             ExperienceInstanceRecord(
                 record.instance_id,
                 record.profile_id,
@@ -278,7 +278,7 @@ class PlayableService:
         action_type: str = "",
         payload: dict[str, object] | None = None,
     ) -> PlayableActionResult:
-        return perform_action(
+        return _perform_action(
             self,
             instance_id,
             viewer_id=viewer_id,
