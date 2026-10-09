@@ -11,10 +11,10 @@
 | Field | Value |
 |---|---|
 | Acceptance evidence HEAD (all local checks + pipeline/cache/browser runs + green CI) | `9ebfe00c9134ac0598abb4ca19b7e8a3502cc6c9` |
-| Delivery push chain (non-force, each pushed HEAD CI green) | `2b44e1a → 8ea068a → 9ebfe00 → 06c872e → 8c9fe22 → fb46cd9` (final CI run `37925971542`) |
+| Delivery push chain (non-force) | `2b44e1a → 8ea068a → 9ebfe00 → 06c872e → 8c9fe22 → fb46cd9 → 46bdcc0`; every pushed HEAD CI green (final run `37927234707`); wording-only report commits follow as pushed |
 | Branch | `feature/source-to-visual-world` (tracking `origin/feature/source-to-visual-world`) |
 | Working tree | clean except preserved user file `WANXIANG_R7_NEW_CONVERSATION_HANDOFF_2026-10-08.md` |
-| CI status (pushed HEADs) | push runs green: `37922955550` (evidence HEAD `9ebfe00`), `37924563024` (docs HEAD `06c872e`), `37925971542` (tip `fb46cd9`) — all 6 jobs each (safety, python, postgres, api-sdk, ts, release-smoke); annotations are only runner deprecation notices |
+| CI status (pushed HEADs) | push runs green: `37922955550` (evidence HEAD `9ebfe00`), `37924563024` (docs HEAD `06c872e`), `37925971542` (tip `fb46cd9`), `37927234707` (tip `46bdcc0`) — all 6 jobs each (safety, python, postgres, api-sdk, ts, release-smoke); annotations are only runner deprecation notices |
 | CI status (recorded remote HEAD at goal start) | `2b44e1a` push/PR CI: SUCCESS per the goal brief |
 
 Local quality gates were re-run at `8ea068a` (remote `2b44e1a` + a docs/gates
