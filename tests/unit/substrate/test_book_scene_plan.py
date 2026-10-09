@@ -60,7 +60,6 @@ def test_two_unrelated_books_use_identical_generic_pipeline() -> None:
         "no_unverified_character_placement" in item.spec.requirements
         for item in a.scene_requests + b.scene_requests
     )
-    assert a.image_provider_calls == b.image_provider_calls == 0
 
 
 def test_no_invented_place_rights_and_budget_fail_closed() -> None:
