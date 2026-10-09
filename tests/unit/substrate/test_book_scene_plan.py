@@ -147,7 +147,7 @@ def test_explicit_source_place_can_be_prioritized_for_on_demand_generation() -> 
 
 def test_large_generic_book_indexes_evidence_without_changing_scene_selection() -> None:
     places = tuple(f"Location-{index:04d}" for index in range(1200))
-    evidence = [
+    evidence: list[dict[str, object]] = [
         {
             "name": name,
             "source_refs": [f"book#chapter-{index}"],
@@ -156,7 +156,7 @@ def test_large_generic_book_indexes_evidence_without_changing_scene_selection() 
         }
         for index, name in enumerate(places)
     ]
-    evidence[-1]["source_refs"].append("book#chapter-1201")
+    evidence[-1]["source_refs"] = ["book#chapter-1199", "book#chapter-1201"]
     package = package_from_book(
         "large-source-index",
         places,
