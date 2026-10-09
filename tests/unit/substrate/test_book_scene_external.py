@@ -6,6 +6,7 @@ from dataclasses import dataclass
 
 import pytest
 from wanxiang_substrate.assets.book_scene_external import (
+    _ExternalImageClient,
     _ExternalImageResult,
     _PromptedExternalSceneProvider,
 )
@@ -19,7 +20,7 @@ from wanxiang_substrate.assets.foundry import SemanticSceneSpec
 
 
 @dataclass
-class _FakeImageClient:
+class _FakeImageClient(_ExternalImageClient):
     briefs: list[_SceneGenerationBrief]
 
     def generate(self, brief: _SceneGenerationBrief) -> _ExternalImageResult:
@@ -111,7 +112,7 @@ def test_external_provider_gets_minimal_brief_and_obeys_materializer_governance(
 
 
 def test_external_provider_rejects_non_image_or_oversized_output() -> None:
-    class _BadClient:
+    class _BadClient(_ExternalImageClient):
         def generate(self, brief: _SceneGenerationBrief) -> _ExternalImageResult:
             _ = brief
             return _ExternalImageResult(b"not-image", "text/plain")
