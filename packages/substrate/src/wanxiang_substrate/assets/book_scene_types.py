@@ -41,7 +41,7 @@ class SceneImageProvider:
     private_safe: bool = False
 
     def produce(self, request: _SourceSceneRequest) -> SceneVisualAsset:
-        raise NotImplementedError
+        raise TypeError("concrete visual implementation required")
 
 
 @dataclass(frozen=True, slots=True)
