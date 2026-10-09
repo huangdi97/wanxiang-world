@@ -121,6 +121,9 @@ class PlayableService:
         scenario_name: str | None = None,
         opening_hint: str | None = None,
         allowed_actions: tuple[str, ...] = ("set_status",),
+        visual_provider: _SceneImageProvider | None = None,
+        visual_allow_network: bool = False,
+        visual_max_cost_units: int = 0,
     ) -> PlayableWorldProfile:
         profile = profile_from_world_package(
             package,
@@ -135,7 +138,14 @@ class PlayableService:
         self.store.save_profile(profile)
         self._packages[profile.profile_id] = package
         self._experiences[profile.profile_id] = experience
-        attach_package_visuals(self, profile.profile_id, package)
+        attach_package_visuals(
+            self,
+            profile.profile_id,
+            package,
+            provider=visual_provider,
+            allow_network=visual_allow_network,
+            max_cost_units=visual_max_cost_units,
+        )
         self._installs[profile.profile_id] = PreviewInstall(
             preview_id=f"playable_{len(self._installs) + 1}",
             package_id=package.package_id,
@@ -149,12 +159,23 @@ class PlayableService:
         profile: PlayableWorldProfile,
         package: WorldPackageDraft,
         experience: ExperiencePackage | None = None,
+        *,
+        visual_provider: _SceneImageProvider | None = None,
+        visual_allow_network: bool = False,
+        visual_max_cost_units: int = 0,
     ) -> None:
         profile.validate()
         self.store.save_profile(profile)
         self._packages[profile.profile_id] = package
         self._experiences[profile.profile_id] = experience or experience_from_profile(profile)
-        attach_package_visuals(self, profile.profile_id, package)
+        attach_package_visuals(
+            self,
+            profile.profile_id,
+            package,
+            provider=visual_provider,
+            allow_network=visual_allow_network,
+            max_cost_units=visual_max_cost_units,
+        )
         self._installs[profile.profile_id] = PreviewInstall(
             f"playable_{len(self._installs) + 1}",
             package.package_id,
