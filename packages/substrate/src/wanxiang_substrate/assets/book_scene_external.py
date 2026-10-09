@@ -10,7 +10,7 @@ contains no API keys, endpoints, canonical writers, or raw-book transport.
 from __future__ import annotations
 
 import hashlib
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
 from wanxiang_substrate.assets.book_scene_prompt import (
@@ -39,11 +39,11 @@ class _ExternalImageClient:
 class _PromptedExternalSceneProvider(_SceneImageProvider):
     """T1 provider adapter; network/privacy/cost policy is enforced by materializer."""
 
-    provider_id: str
-    provider_version: str
-    client: _ExternalImageClient
-    cost_units_per_asset: int
-    private_safe: bool
+    provider_id: str = field()
+    provider_version: str = field()
+    client: _ExternalImageClient = field()
+    cost_units_per_asset: int = field()
+    private_safe: bool = field()
     max_output_bytes: int = 20 * 1024 * 1024
     requires_network: bool = True
 
