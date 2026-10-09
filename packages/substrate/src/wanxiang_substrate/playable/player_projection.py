@@ -15,7 +15,11 @@ from wanxiang_domain.event import CommittedEvent
 from wanxiang_runtime.state import InMemoryCanonicalState
 
 from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
-from wanxiang_substrate.assets.book_scene_visual import _render_visual_plan, _SceneVisualAsset
+from wanxiang_substrate.assets.book_scene_visual import (
+    _render_visual_plan,
+    _render_world_atlas,
+    _SceneVisualAsset,
+)
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.playable.models import PlayableWorldProfile
 from wanxiang_substrate.playable.player_i18n import _copy_for
@@ -70,8 +74,21 @@ def player_world_detail(
         assets = visual_assets
         if assets is None:
             assets = _render_visual_plan(plan)
+        atlas = _render_world_atlas(plan)
         visual = {
             "status": plan.status,
+            "atlas": (
+                {
+                    "kind": "atlas",
+                    "place_name": atlas.place_name,
+                    "media_type": atlas.media_type,
+                    "data_uri": atlas.data_uri(),
+                    "content_sha256": atlas.content_sha256,
+                    "illustrative": atlas.illustrative,
+                }
+                if atlas is not None
+                else None
+            ),
             "scenes": [
                 {
                     "place_name": asset.place_name,
