@@ -99,8 +99,8 @@ def player_world_detail(
                     "content_sha256": asset.content_sha256,
                     "illustrative": asset.illustrative,
                     "clues": list(
-                        request_by_key.get(asset.scene_key).context_candidates
-                        if request_by_key.get(asset.scene_key) is not None
+                        scene_request.context_candidates
+                        if (scene_request := request_by_key.get(asset.scene_key)) is not None
                         else ()
                     ),
                 }
@@ -223,8 +223,8 @@ def player_observation(
                 "content_sha256": chosen.content_sha256,
                 "illustrative": chosen.illustrative,
                 "clues": list(
-                    request_by_key.get(chosen.scene_key).context_candidates
-                    if request_by_key.get(chosen.scene_key) is not None
+                    scene_request.context_candidates
+                    if (scene_request := request_by_key.get(chosen.scene_key)) is not None
                     else ()
                 ),
             }
