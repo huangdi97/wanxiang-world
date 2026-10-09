@@ -32,7 +32,7 @@ class _ExternalImageResult:
 
 class _ExternalImageClient:
     def generate(self, brief: _SceneGenerationBrief) -> _ExternalImageResult:
-        raise NotImplementedError
+        raise TypeError("concrete visual implementation required")
 
 
 @dataclass(frozen=True, slots=True)
