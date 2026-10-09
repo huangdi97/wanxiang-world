@@ -38,9 +38,7 @@ def _visual_access_allowed(
     package = service._packages.get(profile_id)
     if package is None:
         return False
-    return package.draft.compiler_metadata.get(
-        "visual_asset_rights_v1", "source-gated"
-    ) == "public"
+    return package.draft.compiler_metadata.get("visual_asset_rights_v1", "source-gated") == "public"
 
 
 def _visible_visual_assets(
@@ -54,9 +52,7 @@ def _visible_visual_assets(
     refs = service._visual_asset_refs.get(profile_id, ())
     if profile.owner_id and viewer_id == profile.owner_id:
         return assets
-    return tuple(
-        asset for asset, ref in zip(assets, refs, strict=True) if ref.rights == "public"
-    )
+    return tuple(asset for asset, ref in zip(assets, refs, strict=True) if ref.rights == "public")
 
 
 def _materialize_visual_place(
