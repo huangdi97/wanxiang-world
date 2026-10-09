@@ -5,6 +5,7 @@ It never receives or serializes an entire source book.
 """
 
 # pyright: reportPrivateUsage=false
+# pyright: reportUnusedFunction=false
 
 from __future__ import annotations
 
