@@ -76,6 +76,7 @@ class _SourceVisualPlan:
     delivery_rights: str = "source-gated"
     external_processing_allowed: bool = False
     topology_relations: tuple[_SourceTopologyRelation, ...] = ()
+    place_names: tuple[str, ...] = ()
 
     @property
     def image_provider_calls(self) -> int:
@@ -270,4 +271,5 @@ def _plan_book_scene_assets(
         delivery_rights=delivery_rights,
         external_processing_allowed=external_processing_allowed,
         topology_relations=tuple(dict.fromkeys(topology_relations)),
+        place_names=distinct_places,
     )
