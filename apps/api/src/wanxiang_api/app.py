@@ -40,6 +40,7 @@ from wanxiang_api.one_click_routes import router as one_click_router
 from wanxiang_api.playable_routes import router as playable_router
 from wanxiang_api.player_routes import router as player_router
 from wanxiang_api.player_ui_routes import router as player_ui_router
+from wanxiang_api.player_visual_routes import router as player_visual_router
 from wanxiang_api.promotion_routes import router as promotion_router
 from wanxiang_api.review_routes import router as review_router
 from wanxiang_api.routes import router
@@ -144,5 +145,6 @@ def create_app(
     app.include_router(workshop_router)
     app.include_router(playable_router)
     app.include_router(player_router)
+    app.include_router(player_visual_router)
     app.include_router(player_ui_router)
     return app
