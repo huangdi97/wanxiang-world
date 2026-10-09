@@ -6,6 +6,7 @@ without changing Source -> World or Player semantics.
 """
 
 # pyright: reportPrivateUsage=false
+# pyright: reportUnusedFunction=false
 # ruff: noqa: E501
 
 from __future__ import annotations
@@ -176,6 +177,7 @@ def _materialize_visual_plan(
     allow_network: bool = False,
     max_cost_units: int = 0,
     rights: str | None = None,
+    private_source: bool = False,
 ) -> _VisualMaterialization:
     """Generate only cache misses, under explicit network/cost governance."""
     if plan.status not in {"READY_FOR_ASSET_PROVIDER", "BUDGET_ZERO"}:
@@ -186,6 +188,8 @@ def _materialize_visual_plan(
         raise ValueError("network visual provider requires explicit allow_network")
     if selected_provider.requires_network and not plan.external_processing_allowed:
         raise ValueError("source rights do not allow external visual processing")
+    if private_source and not selected_provider.private_safe:
+        raise ValueError("private source requires a private-safe visual provider")
 
     asset_cache = cache or _VisualAssetCache()
     delivery_rights = rights or plan.delivery_rights
