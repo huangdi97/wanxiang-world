@@ -282,3 +282,21 @@ def test_one_click_accepts_injected_t1_provider_without_changing_book_pipeline()
     assert result.visual_assets[0].media_type == "image/png"
     assert len(client.calls) == 1
     assert client.calls[0].full_source_included is False
+
+
+def test_source_gated_world_atlas_fails_closed_when_visual_delivery_is_denied() -> None:
+    result = OneClickAuthoring().run(
+        "visual_private_projection",
+        (_book("private_projection_source", "Alice", "Garden"),),
+        profile="book",
+    )
+    denied = player_world_detail(
+        _profile(result.package.package_id, "Private"),
+        result.package,
+        locale="en-US",
+        include_visual=True,
+        visual_assets=(),
+        visual_access_allowed=False,
+    )
+
+    assert denied["visual"] is None
