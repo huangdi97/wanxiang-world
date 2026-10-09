@@ -82,6 +82,8 @@ def _seed(page: Page) -> str:
         "content": (
             "# Chapter\nCharacter: Alice\nCharacter: Bob\n"
             "Alice arrived in Beijing in 1985.\nBob visited Beijing.\n"
+            "Alice 来到江南城。\nAlice 来到机关桥。\n"
+            "Alice 来到潮汐港。\nAlice 来到望月亭。\nAlice 来到青石巷。\n"
             "relationship: Alice -> Bob\nrule: visitors register\n"
         ),
         "stage": "E3",
@@ -96,7 +98,12 @@ def _seed(page: Page) -> str:
         page,
         "/studio/one-click",
         "POST",
-        {"job_id": "m95_browser_job", "profile": "book", "sources": [source]},
+        {
+            "job_id": "m95_browser_job",
+            "profile": "book",
+            "semantic_provider": "local",
+            "sources": [source],
+        },
     )
     profile = _api(
         page,
@@ -202,6 +209,22 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 assert page.locator("#visual-gallery-wrap").is_visible()
                 assert page.locator("#visual-gallery .visual-thumb").count() >= 2
                 assert "叙事世界图谱" in page.locator("#detail-visual-caption").inner_text()
+                place_buttons = page.locator("#visual-places .visual-place")
+                assert place_buttons.count() >= 5
+                deferred_places = page.locator(
+                    '#visual-places .visual-place[data-generated="false"]'
+                )
+                assert deferred_places.count() >= 1
+                before_gallery_count = page.locator("#visual-gallery .visual-thumb").count()
+                before_deferred_count = deferred_places.count()
+                deferred_places.first.click()
+                page.wait_for_function(
+                    f"document.querySelectorAll('#visual-gallery .visual-thumb').length > "
+                    f"{before_gallery_count}"
+                )
+                assert page.locator(
+                    '#visual-places .visual-place[data-generated="false"]'
+                ).count() == (before_deferred_count - 1)
                 assert not page_errors, page_errors
                 assert page.locator('input[name="character"]').count() == 1, page.locator(
                     "#detail-view"
