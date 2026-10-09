@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 import pathlib
+from typing import cast
 
 import pytest
-from typing import cast
 
 from scripts.reference_runtime import build_reference_runtime
 from tests.conftest import make_world_runtime
