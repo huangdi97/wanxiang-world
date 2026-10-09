@@ -20,7 +20,7 @@ from wanxiang_substrate.assets.book_scene_visual import (
 from wanxiang_substrate.assets.storage import AssetRef
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.playable.catalog import WorldPlaza
-from wanxiang_substrate.playable.entry import CharacterEntryService, EntryReceipt
+from wanxiang_substrate.playable.entry import CharacterEntryService
 from wanxiang_substrate.playable.experience import (
     EntryMode,
     ExperiencePackage,
@@ -30,6 +30,7 @@ from wanxiang_substrate.playable.factory import profile_from_world_package
 from wanxiang_substrate.playable.models import PlayableWorldProfile
 from wanxiang_substrate.playable.service_action import perform_action
 from wanxiang_substrate.playable.service_model import PlayableActionResult
+from wanxiang_substrate.playable.service_session import owned_instance, save_instance
 from wanxiang_substrate.playable.service_support import instance_dict
 from wanxiang_substrate.playable.service_visual import (
     attach_package_visuals,
@@ -186,11 +187,11 @@ class PlayableService:
             mode=cast(EntryMode, mode),
             character_id=character_id,
         )
-        self._save_instance(receipt, viewer_id, world.branch_id.value, updated_seq=1)
+        save_instance(self, receipt, viewer_id, world.branch_id.value, updated_seq=1)
         return self.observe(receipt.instance_id, viewer_id)
 
     def continue_instance(self, instance_id: str, *, viewer_id: str) -> dict[str, object]:
-        record = self._owned_instance(instance_id, viewer_id)
+        record = owned_instance(self, instance_id, viewer_id)
         profile = self.plaza.require_access(record.profile_id, viewer_id)
         experience = self._experiences.get(profile.profile_id)
         if experience is None:
@@ -205,8 +206,12 @@ class PlayableService:
             mode=cast(EntryMode, record.mode),
             character_id=record.actor_id,
         )
-        self._save_instance(
-            receipt, viewer_id, record.branch_id, updated_seq=record.updated_seq + 1
+        save_instance(
+            self,
+            receipt,
+            viewer_id,
+            record.branch_id,
+            updated_seq=record.updated_seq + 1,
         )
         return self.observe(instance_id, viewer_id)
 
@@ -260,35 +265,3 @@ class PlayableService:
             action_type=action_type,
             payload=payload,
         )
-
-    def _save_instance(
-        self,
-        receipt: EntryReceipt,
-        owner_id: str,
-        branch_id: str,
-        *,
-        updated_seq: int,
-    ) -> None:
-        state = self.runtime.current_state(
-            WorldInstanceId(receipt.instance_id), BranchId(branch_id)
-        )
-        self.store.save_instance(
-            ExperienceInstanceRecord(
-                receipt.instance_id,
-                receipt.profile_id,
-                owner_id,
-                branch_id,
-                mode=receipt.mode,
-                actor_id=receipt.actor_id,
-                session_id=receipt.session_id,
-                lease_id=receipt.lease_id,
-                last_revision=state.revision.value,
-                updated_seq=updated_seq,
-            )
-        )
-
-    def _owned_instance(self, instance_id: str, viewer_id: str) -> ExperienceInstanceRecord:
-        record = self.store.get_instance(instance_id)
-        if record.owner_id != viewer_id:
-            raise NotFound(f"playable instance {instance_id!r} not found")
-        return record
