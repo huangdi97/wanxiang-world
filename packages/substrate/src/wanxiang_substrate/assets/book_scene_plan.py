@@ -81,11 +81,6 @@ class _SourceVisualPlan:
     topology_relations: tuple[_SourceTopologyRelation, ...] = ()
     place_names: tuple[str, ...] = ()
 
-    @property
-    def image_provider_calls(self) -> int:
-        """Planning never calls a billable image provider."""
-        return 0
-
 
 def _plan_book_scene_assets(
     package: WorldPackageDraft,
