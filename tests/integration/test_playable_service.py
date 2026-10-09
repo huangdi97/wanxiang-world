@@ -189,8 +189,7 @@ def test_deferred_book_place_generates_once_then_reuses_visual_cache() -> None:
     assert second.provider_calls == 0
     assert second.cache_hits == 1
     assert target in {
-        asset.place_name
-        for asset in playable.visual_assets(profile.profile_id, viewer_id="alice")
+        asset.place_name for asset in playable.visual_assets(profile.profile_id, viewer_id="alice")
     }
     with pytest.raises(NotFound):
         playable.materialize_visual_place(
