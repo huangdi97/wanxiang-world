@@ -467,3 +467,120 @@ Still external and therefore not self-awarded:
 5. R7 stable-release human gates already defined by the authoritative R7 master.
 
 No per-book renderer, bespoke map, or hand-authored world should be introduced to close those external gates.
+
+
+## 25. T0.1 semantic morphology: zero-cost visuals must not look like one template
+
+The deterministic fallback is not allowed to be merely "the same village with a different title".
+
+Provider `procedural-svg@1.1.0` now derives an **illustrative scene motif** from the source-attested place name, using generic multilingual morphology rather than per-book code. Current motif families include:
+
+- bridge / crossing;
+- harbor / dock / port;
+- garden / courtyard;
+- mountain / valley;
+- interior / study / hall;
+- pavilion / tower;
+- city / gate / fortress;
+- river / lake / sea;
+- generic settlement fallback.
+
+This inference remains explicitly illustrative. A place name such as "机关桥" may justify a bridge-shaped projection, but the SVG never becomes canonical geometry and never creates an unverified route, building position or physical measurement.
+
+Changing the T0 renderer changes provider version and therefore cache identity. Old T0 pixels are not silently reused after a morphology upgrade.
+
+## 26. Cost ladder for real immersion
+
+Wanxiang should upgrade visual fidelity **progressively**, not pre-generate a game for every source.
+
+### T0 — deterministic source-shaped projection
+
+- zero external API cost;
+- private-safe and offline;
+- narrative world atlas;
+- semantic SVG scene morphology;
+- immediate first paint and fallback.
+
+### T1 — still-image scene generation
+
+Preferred default quality tier.
+
+Two deployment families are intentionally supported behind the same `SceneImageProvider` seam:
+
+1. authorized remote image APIs;
+2. user-operated/local image generation endpoints.
+
+Current 2026 local candidates include Qwen-Image-2.1 (7B visual generation component, positioned for lower inference cost) and distilled HunyuanImage variants. They are **deployment candidates, not dependencies**. Model licenses, hardware, source rights and regional restrictions must be evaluated before enabling them.
+
+Only bounded `SceneGenerationBrief` records are sent to a T1 provider. The full book is never provider payload.
+
+### T2 — depth-aware 2.5D / lightweight geometry
+
+A still image can be upgraded to a more spatial stage without paying for a full persistent generated world.
+
+Depth Anything 3 is a candidate local geometry family: its smaller/base and monocular/metric variants provide permissively licensed depth options, while some larger/3DGS checkpoints carry more restrictive licenses. A Wanxiang T2 adapter may generate:
+
+- depth maps for parallax;
+- layered foreground/midground/background cards;
+- camera-limited novel-view movement;
+- optional lightweight Gaussian or GLB artifacts when licensing permits.
+
+T2 remains `projection_only=true`. Estimated depth is not canonical geometry.
+
+### T3 — persistent generated 3D anchor places
+
+Use only for selected high-value locations, not every paragraph or every place.
+
+Candidate provider class includes World Labs World API and HY-World 2.0 style systems that return navigable/exportable 3D assets. T3 output is stored as versioned AssetRefs and can be rendered by the same Player Stage, but it still does not write Reality Root or History.
+
+### T4 — real-time generative sensory world
+
+Genie-class real-time world models are session projections. They may render a highly immersive moment, but limited action space, multi-agent limitations and finite interaction horizons make them unsuitable as Wanxiang persistence.
+
+### Default economic policy
+
+~~~text
+ingest book
+   |
+   +--> T0 immediately for atlas + all visible fallback
+   |
+   +--> T1 for first 3 ranked scenes
+   |      +--> later places only on demand
+   |
+   +--> T2 only for scenes the user actually explores deeply
+   |
+   +--> T3 only for explicit anchor-place upgrade
+   |
+   +--> T4 only for opt-in live sessions
+~~~
+
+The same cache identity rules apply at every tier: source fingerprint + scene identity + StoryVisualProfile + prompt/compiler version + provider/model version.
+
+## 27. One Player Stage, many renderers
+
+The product should not expose separate applications for "SVG world", "image world", "2.5D world" and "3D world".
+
+The Player owns one **World Stage**:
+
+~~~text
+World Stage
+   |
+   +--> T0/T1 image renderer
+   +--> T2 depth/parallax renderer
+   +--> T3 persistent 3D viewer
+   +--> T4 live world-model stream
+~~~
+
+The renderer can change, but the surrounding experience is stable:
+
+- world name and observer/embodiment mode;
+- canonical time/location/status;
+- source-grounded scene clues;
+- current event and opportunities;
+- actor-scoped visible people;
+- action dock;
+- committed changes and chronicle below the stage.
+
+The current browser implementation already treats the scene image as the stage backdrop rather than a dashboard card. CI browser evidence must capture the actual observer and embodiment stages on desktop and mobile, not only the Plaza homepage.
+
+No renderer is allowed to infer canonical truth from pixels. Renderer output is always downstream of source evidence and upstream of player intent.
