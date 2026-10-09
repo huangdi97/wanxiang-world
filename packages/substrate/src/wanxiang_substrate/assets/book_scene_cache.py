@@ -10,6 +10,7 @@ from dataclasses import dataclass
 from typing import cast
 
 from wanxiang_substrate.assets.book_scene_types import _SceneVisualAsset
+from wanxiang_substrate.assets.errors import AssetNotFound
 from wanxiang_substrate.assets.storage import AssetRef, InMemoryObjectStore, ObjectStore
 
 
@@ -161,7 +162,12 @@ class VisualAssetCache:
             content_type=metadata.media_type,
             rights=rights,
         )
-        content = self.store.get(ref)
+        try:
+            content = self.store.get(ref)
+        except AssetNotFound:
+            # Stale metadata is a cache miss, not a broken world. The caller
+            # still enforces provider rights, network permission and budget.
+            return None
         return (
             _SceneVisualAsset(
                 scene_key=metadata.scene_key,
