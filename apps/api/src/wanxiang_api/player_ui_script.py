@@ -131,10 +131,16 @@ async function enterWorld(){
   try{const result=await api(`/experience/player/worlds/${encodeURIComponent(profile)}/enter`,{method:"POST",body:JSON.stringify({mode:"embodiment",session_id:`m95_player_${Date.now()}`,character_id:character})});model.instanceId=result.instance_id;model.view=result.view;renderPlay();view("play-view");status("")}
   catch(error){status(error.message,true)}finally{busy(false)}
 }
+async function enterObserver(){
+  const profile=model.world.world.profile_id;busy(true);status(tr("status_open_world"));
+  try{const result=await api(`/experience/player/worlds/${encodeURIComponent(profile)}/enter`,{method:"POST",body:JSON.stringify({mode:"observer",session_id:`observer_${Date.now()}`})});model.instanceId=result.instance_id;model.view=result.view;renderPlay();view("play-view");status("")}
+  catch(error){status(error.message,true)}finally{busy(false)}
+}
 function rowList(items,emptyKey,renderer){return items?.length?items.map(renderer).join(""):`<li class="muted">${safe(tr(emptyKey))}</li>`}
 function relationLabel(value){const raw=String(value||"").toLowerCase();if(raw.includes("friend"))return tr("relation_friend");if(raw.includes("family"))return tr("relation_family");if(raw.includes("work"))return tr("relation_work");return tr("relation_default")}
 function renderPlay(){
   const v=model.view||{},w=v.world||{};const visual=v.visual_scene||null;const frame=$("scene-visual-frame"),visualImg=$("scene-visual-image");frame.hidden=!visual;if(visual){visualImg.src=visual.data_uri;visualImg.alt=visual.place_name||w.name||tr("world");const groundingKey=visual.grounding==="current_location"?"visual_current_scene":visual.grounding==="entry_location"?"visual_entry_scene":"visual_world_preview";$("scene-visual-caption").textContent=tr(groundingKey,{place:visual.place_name||shown(v.location)})}
+  const observer=v.session?.entry_mode==="observer";$("play-mode").textContent=tr(observer?"observer_mode":"mode_character");$("play-mode-hint").textContent=observer?tr("observer_mode_hint"):"";$("action-input").disabled=observer;$("send-action").disabled=observer;document.querySelectorAll(".suggestion").forEach(node=>{node.disabled=observer});
   $("play-world-name").textContent=w.name||tr("world");$("play-world-description").textContent=w.description||"";$("play-region").textContent=shown(v.region);$("play-time").textContent=tr("world_time",{time:v.time?.ticks??0});$("play-location").textContent=shown(v.location);$("play-environment").textContent=shown(v.environment);$("play-weather").textContent=shown(v.weather);
   const event=v.current_event;$("current-event").innerHTML=event?`<strong>${safe(event.name)}</strong><span>${safe(event.description||tr("event_response_fallback"))}</span>`:`<span class="muted">${safe(tr("event_waiting"))}</span>`;
   $("narrative").textContent=v.narrative||tr("narrative_waiting");
@@ -142,7 +148,7 @@ function renderPlay(){
   $("people-list").innerHTML=rowList(v.present_people,"people_empty",item=>`<li><strong>${safe(item.name)}</strong><span class="muted">${safe(item.role||item.status||tr("person_in_scene"))}</span></li>`);
   $("change-list").innerHTML=rowList(v.recent_changes,"changes_empty",item=>`<li><strong>${safe(item.summary)}</strong><span class="muted">${safe(item.category||tr("status_category"))}</span></li>`);
   $("chronicle-list").innerHTML=rowList(v.chronicle,"chronicle_empty",item=>`<li><strong>${safe(tr("moment",{time:item.time}))}</strong><span class="muted">${safe(item.summary)}</span></li>`);
-  const p=v.player||{};$("player-name").textContent=p.name||tr("your_character");$("player-status").textContent=shown(p.status);$("player-position").textContent=shown(p.location);$("player-items").innerHTML=rowList(p.items,"items_empty",item=>`<li>${safe(item)}</li>`);$("player-goals").innerHTML=rowList(p.goals,"goals_empty",item=>`<li>${safe(item)}</li>`);$("player-memory").textContent=p.memories?.length?tr("memory_count",{count:p.memories.length}):tr("memory_empty");$("memory-list").innerHTML=rowList(p.memories,"memory_empty",item=>`<li>${safe(item)}</li>`);
+  const p=v.player||{};$("player-name").textContent=observer?tr("observer_mode"):p.name||tr("your_character");$("player-status").textContent=shown(p.status);$("player-position").textContent=shown(p.location);$("player-items").innerHTML=rowList(p.items,"items_empty",item=>`<li>${safe(item)}</li>`);$("player-goals").innerHTML=rowList(p.goals,"goals_empty",item=>`<li>${safe(item)}</li>`);$("player-memory").textContent=p.memories?.length?tr("memory_count",{count:p.memories.length}):tr("memory_empty");$("memory-list").innerHTML=rowList(p.memories,"memory_empty",item=>`<li>${safe(item)}</li>`);
   $("relation-list").innerHTML=rowList(v.relations,"relations_empty",item=>`<li>${safe(item.from)} ${safe(tr("meta_separator"))}${safe(relationLabel(item.label))}${safe(tr("meta_separator"))}${safe(item.to)}</li>`);
 }
 async function continueWorld(instanceId){
@@ -176,7 +182,7 @@ async function createCharacter(event){
 }
 document.querySelectorAll(".filter-button").forEach(node=>node.addEventListener("click",()=>{model.filter=node.dataset.filter;renderPlaza()}));
 $("world-search").addEventListener("input",event=>{model.query=event.target.value;renderWorlds()});
-$("enter-world").addEventListener("click",enterWorld);$("send-action").addEventListener("click",sendAction);$("leave-world").addEventListener("click",leaveWorld);$("character-form").addEventListener("submit",createCharacter);
+$("enter-world").addEventListener("click",enterWorld);$("enter-observer").addEventListener("click",enterObserver);$("send-action").addEventListener("click",sendAction);$("leave-world").addEventListener("click",leaveWorld);$("character-form").addEventListener("submit",createCharacter);
 $("create-character-inline").addEventListener("click",()=>{view("characters-view");document.querySelector('[data-nav="characters-view"]').classList.add("is-active");$("character-form-panel").open=true;$("character-name").focus()});
 $("action-input").addEventListener("keydown",event=>{if(event.key==="Enter"&&!event.shiftKey){event.preventDefault();sendAction()}});
 document.querySelectorAll(".suggestion").forEach(node=>node.addEventListener("click",()=>{$("action-input").value=node.dataset.action||"";$("action-input").focus()}));
