@@ -86,6 +86,11 @@
         "operationId": "player_enter_world_experience_player_worlds__profile_id__enter_post"
       }
     },
+    "/experience/player/worlds/{profile_id}/visuals": {
+      "post": {
+        "operationId": "player_materialize_visual_place_experience_player_worlds__profile_id__visuals_post"
+      }
+    },
     "/experience/plaza": {
       "get": {
         "operationId": "plaza_experience_plaza_get"
