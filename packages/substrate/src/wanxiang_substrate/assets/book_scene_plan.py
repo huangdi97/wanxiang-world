@@ -9,9 +9,35 @@ from __future__ import annotations
 import hashlib
 import json
 from dataclasses import dataclass
+from typing import cast
 
 from wanxiang_substrate.assets.foundry import SemanticSceneSpec
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
+
+
+def _json_list(raw: str) -> list[object]:
+    """Decode an untrusted metadata JSON array without leaking Unknown into strict typing."""
+    try:
+        decoded: object = json.loads(raw)
+    except (TypeError, ValueError):
+        return []
+    return cast(list[object], decoded) if isinstance(decoded, list) else []
+
+
+def _object_dict(value: object) -> dict[str, object] | None:
+    return cast(dict[str, object], value) if isinstance(value, dict) else None
+
+
+def _string_list(value: object) -> tuple[str, ...]:
+    if not isinstance(value, list):
+        return ()
+    return tuple(
+        sorted(
+            item
+            for raw in cast(list[object], value)
+            if isinstance(raw, str) and (item := raw.strip())
+        )
+    )
 
 
 @dataclass(frozen=True, slots=True)
@@ -73,10 +99,7 @@ def _plan_book_scene_assets(
         raise ValueError("max_preview_scenes must be within [0, 12]")
 
     raw_fingerprints = package.draft.compiler_metadata.get("source_fingerprints_v1", "[]")
-    try:
-        decoded_fingerprints = json.loads(raw_fingerprints)
-    except (TypeError, ValueError):
-        decoded_fingerprints = []
+    decoded_fingerprints = _json_list(raw_fingerprints)
     fingerprints = tuple(
         sorted(item for item in decoded_fingerprints if isinstance(item, str) and item)
     )
@@ -103,15 +126,12 @@ def _plan_book_scene_assets(
         return _SourceVisualPlan(package.package_id, source_digest, "PLACES_NOT_EXTRACTED", (), 0)
 
     raw_topology = package.draft.compiler_metadata.get("scene_topology_evidence_v1", "[]")
-    try:
-        decoded_topology = json.loads(raw_topology)
-    except (TypeError, ValueError):
-        decoded_topology = []
+    decoded_topology = _json_list(raw_topology)
     topology_relations: list[_SourceTopologyRelation] = []
-    if isinstance(decoded_topology, list):
-        known_places = set(distinct_places)
-        for row in decoded_topology:
-            if not isinstance(row, dict):
+    known_places = set(distinct_places)
+    for raw_row in decoded_topology:
+            row = _object_dict(raw_row)
+            if row is None:
                 continue
             source_place = row.get("source_place")
             target_place = row.get("target_place")
@@ -124,12 +144,7 @@ def _plan_book_scene_assets(
                 or target_place not in known_places
             ):
                 continue
-            refs = row.get("source_refs", [])
-            source_refs = (
-                tuple(sorted(ref for ref in refs if isinstance(ref, str) and ref))
-                if isinstance(refs, list)
-                else ()
-            )
+            source_refs = _string_list(row.get("source_refs", []))
             raw_confidence = row.get("confidence", 0.0)
             confidence = float(raw_confidence) if isinstance(raw_confidence, (int, float)) else 0.0
             topology_relations.append(
@@ -150,36 +165,31 @@ def _plan_book_scene_assets(
     )
     style_key = hashlib.sha256(f"{source_digest}:story-visual-profile:v1".encode()).hexdigest()[:24]
     raw_evidence = package.draft.compiler_metadata.get("scene_evidence_v1", "[]")
-    try:
-        decoded = json.loads(raw_evidence)
-    except (TypeError, ValueError):
-        decoded = []
-    evidence_rows = decoded if isinstance(decoded, list) else []
+    evidence_rows = _json_list(raw_evidence)
 
     place_positions = {place: index for index, place in enumerate(distinct_places)}
 
     def place_rank(place: str) -> tuple[int, float, int, int, str, int]:
         matching = [
-            row for row in evidence_rows if isinstance(row, dict) and row.get("name") == place
+            row
+            for raw_row in evidence_rows
+            if (row := _object_dict(raw_row)) is not None and row.get("name") == place
         ]
         refs = {
             ref
             for row in matching
-            for ref in row.get("source_refs", [])
-            if isinstance(ref, str) and ref
+            for ref in _string_list(row.get("source_refs", []))
         }
-        confidence = max(
-            (
-                float(row.get("confidence", 0.0))
-                for row in matching
-                if isinstance(row.get("confidence", 0.0), (int, float))
-            ),
-            default=0.0,
-        )
-        context_count = sum(
-            len(row.get("cooccurring_candidates", []))
+        confidence_values = [
+            float(raw_confidence)
             for row in matching
-            if isinstance(row.get("cooccurring_candidates", []), list)
+            if isinstance((raw_confidence := row.get("confidence", 0.0)), (int, float))
+        ]
+        confidence = max(confidence_values, default=0.0)
+        context_count = sum(
+            len(cast(list[object], raw_context))
+            for row in matching
+            if isinstance((raw_context := row.get("cooccurring_candidates", [])), list)
         )
         first_ref = min(refs, default="")
         return (
@@ -196,33 +206,33 @@ def _plan_book_scene_assets(
     requests: list[_SourceSceneRequest] = []
     for place in selected:
         matching = [
-            row for row in evidence_rows if isinstance(row, dict) and row.get("name") == place
+            row
+            for raw_row in evidence_rows
+            if (row := _object_dict(raw_row)) is not None and row.get("name") == place
         ]
         source_refs = tuple(
             sorted(
                 {
-                    str(ref)
+                    ref
                     for row in matching
-                    for ref in row.get("source_refs", [])
-                    if isinstance(ref, str) and ref
+                    for ref in _string_list(row.get("source_refs", []))
                 }
             )
         )
-        confidence = max(
-            (
-                float(row.get("confidence", 0.0))
-                for row in matching
-                if isinstance(row.get("confidence", 0.0), (int, float))
-            ),
-            default=0.0,
-        )
+        confidence_values = [
+            float(raw_confidence)
+            for row in matching
+            if isinstance((raw_confidence := row.get("confidence", 0.0)), (int, float))
+        ]
+        confidence = max(confidence_values, default=0.0)
         context_candidates: list[str] = []
         for row in matching:
             raw_context = row.get("cooccurring_candidates", [])
             if not isinstance(raw_context, list):
                 continue
-            for item in raw_context:
-                if not isinstance(item, dict):
+            for raw_item in cast(list[object], raw_context):
+                item = _object_dict(raw_item)
+                if item is None:
                     continue
                 kind, label = item.get("kind"), item.get("label")
                 if isinstance(kind, str) and isinstance(label, str) and label:
