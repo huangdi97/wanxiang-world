@@ -57,15 +57,10 @@ _LIGHTING = ("soft-overcast", "late-afternoon", "diffuse-interior", "misty-dawn"
 _CAMERA = ("human-eye-wide", "cinematic-wide", "illustrated-diorama", "quiet-observer")
 
 
-def _story_visual_profile(plan: _SourceVisualPlan) -> _StoryVisualProfile:
-    """Create one deterministic creative style seed per source world."""
-    style_key = (
-        plan.scene_requests[0].style_key
-        if plan.scene_requests and plan.scene_requests[0].style_key
-        else hashlib.sha256(
-            f"{plan.source_digest}:story-visual-profile:v1".encode("utf-8")
-        ).hexdigest()[:24]
-    )
+def _story_visual_profile_from_style_key(style_key: str) -> _StoryVisualProfile:
+    """Build a deterministic creative profile from one versioned world style key."""
+    if not style_key:
+        raise ValueError("style_key is required")
     digest = hashlib.sha256(style_key.encode("utf-8")).digest()
     return _StoryVisualProfile(
         profile_id=f"story-visual:{style_key}",
@@ -81,6 +76,19 @@ def _story_visual_profile(plan: _SourceVisualPlan) -> _StoryVisualProfile:
             "no-canonical-claims-from-generated-pixels",
         ),
     )
+
+
+
+def _story_visual_profile(plan: _SourceVisualPlan) -> _StoryVisualProfile:
+    """Create one deterministic creative style seed per source world."""
+    style_key = (
+        plan.scene_requests[0].style_key
+        if plan.scene_requests and plan.scene_requests[0].style_key
+        else hashlib.sha256(
+            f"{plan.source_digest}:story-visual-profile:v1".encode("utf-8")
+        ).hexdigest()[:24]
+    )
+    return _story_visual_profile_from_style_key(style_key)
 
 
 def _compile_scene_generation_brief(
