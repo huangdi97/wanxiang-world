@@ -50,6 +50,7 @@ def player_world_detail(
     locale: str | None = None,
     include_visual: bool = False,
     visual_assets: tuple[_SceneVisualAsset, ...] | None = None,
+    visual_access_allowed: bool = True,
 ) -> dict[str, object]:
     """Return the detail copy used before a player enters a world."""
 
@@ -69,7 +70,7 @@ def player_world_detail(
     if not character_count:
         character_count = len(tuple(getattr(draft, "entities", ()) or ()))
     visual: dict[str, object] | None = None
-    if include_visual and package is not None:
+    if include_visual and package is not None and visual_access_allowed:
         plan = _plan_book_scene_assets(package)
         assets = visual_assets
         if assets is None:
@@ -156,6 +157,7 @@ def player_observation(
     locale: str | None = None,
     events_since_revision: int | None = None,
     visual_assets: tuple[_SceneVisualAsset, ...] | None = None,
+    visual_access_allowed: bool = True,
 ) -> dict[str, object]:
     """Project one observation without exposing IDs, hashes, or raw payloads."""
 
@@ -201,7 +203,7 @@ def player_observation(
     for item in relations:
         item.pop("involves_actor", None)
     scene_visual: dict[str, object] | None = None
-    if package is not None:
+    if package is not None and visual_access_allowed:
         plan = _plan_book_scene_assets(package)
         request_by_key = {request.stable_key: request for request in plan.scene_requests}
         assets = visual_assets
