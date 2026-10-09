@@ -229,3 +229,36 @@ def test_world_atlas_uses_places_and_only_source_grounded_relations() -> None:
     assert "码头".encode() in atlas.content
     assert b"<line " in atlas.content
     assert "关系不等于地理坐标".encode() in atlas.content
+
+
+class _RemoteLikeProviderV3(_RemoteLikeProvider):
+    provider_version = "3.0.0"
+
+
+def test_provider_version_change_invalidates_visual_cache() -> None:
+    plan = _plan(
+        _request("远方", "versioned"),
+        external_processing_allowed=True,
+    )
+    cache = _VisualAssetCache()
+
+    first = _materialize_visual_plan(
+        plan,
+        provider=_RemoteLikeProvider(),
+        cache=cache,
+        allow_network=True,
+        max_cost_units=2,
+    )
+    upgraded = _materialize_visual_plan(
+        plan,
+        provider=_RemoteLikeProviderV3(),
+        cache=cache,
+        allow_network=True,
+        max_cost_units=2,
+    )
+
+    assert first.provider_calls == 1
+    assert upgraded.provider_calls == 1
+    assert upgraded.cache_hits == 0
+    assert first.assets[0].cache_key != upgraded.assets[0].cache_key
+    assert first.assets[0].provider_version != upgraded.assets[0].provider_version
