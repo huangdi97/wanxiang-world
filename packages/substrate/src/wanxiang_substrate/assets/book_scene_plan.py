@@ -51,6 +51,7 @@ class _SourceSceneRequest:
     source_refs: tuple[str, ...] = ()
     confidence: float = 0.0
     style_key: str = ""
+    context_candidates: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True, slots=True)
@@ -262,6 +263,7 @@ def _plan_book_scene_assets(
                 source_refs=source_refs,
                 confidence=confidence,
                 style_key=style_key,
+                context_candidates=tuple(context_candidates),
             )
         )
     status = "READY_FOR_ASSET_PROVIDER" if requests else "BUDGET_ZERO"
