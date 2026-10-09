@@ -14,7 +14,7 @@ from wanxiang_substrate.assets.storage import AssetRef
 
 
 @dataclass(frozen=True, slots=True)
-class SceneVisualAsset:
+class _SceneVisualAsset:
     scene_key: str
     place_name: str
     provider_id: str
@@ -40,13 +40,13 @@ class SceneImageProvider:
     cost_units_per_asset: int = 0
     private_safe: bool = False
 
-    def produce(self, request: _SourceSceneRequest) -> SceneVisualAsset:
+    def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
         raise TypeError("concrete visual implementation required")
 
 
 @dataclass(frozen=True, slots=True)
-class VisualMaterialization:
-    assets: tuple[SceneVisualAsset, ...]
+class _VisualMaterialization:
+    assets: tuple[_SceneVisualAsset, ...]
     asset_refs: tuple[AssetRef, ...]
     provider_calls: int
     cache_hits: int
