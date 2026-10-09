@@ -176,6 +176,9 @@ def build_pipeline_build(
                 )
                 else "false"
             ),
+            "visual_private_source_v1": (
+                "true" if any(record.access != "public" for record in records) else "false"
+            ),
             "scene_evidence_v1": json.dumps(
                 [
                     {
