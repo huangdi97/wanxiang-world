@@ -3,11 +3,12 @@
   "status": "SOURCE_TO_LIVING_WORLD_LOCAL = PASS_WITH_EXTERNAL_BLOCKERS",
   "generated_at_utc": "2026-10-09T00:00:00Z",
   "repo": {
-    "remote_head": "2b44e1a85bfaefe613b95b84d6aefd803f9059ee",
-    "local_head": "8ea068acf7a6a24b6bb75af43326ef5d5d83f36a",
+    "remote_head": "9ebfe00c9134ac0598abb4ca19b7e8a3502cc6c9",
+    "local_head": "9ebfe00c9134ac0598abb4ca19b7e8a3502cc6c9",
     "branch": "feature/source-to-visual-world",
-    "working_tree": "clean except preserved user file WANXIANG_R7_NEW_CONVERSATION_HANDOFF_2026-10-08.md and committed evidence",
-    "ci_status_at_recorded_head": "SUCCESS"
+    "working_tree": "clean except preserved user file WANXIANG_R7_NEW_CONVERSATION_HANDOFF_2026-10-08.md",
+    "ci_status_at_pushed_head": "SUCCESS (run 37922955550, all 6 jobs green)",
+    "ci_status_at_goal_start_head": "SUCCESS"
   },
   "quality_gates": {
     "ruff_check": {"result": "PASS", "detail": "0 errors"},

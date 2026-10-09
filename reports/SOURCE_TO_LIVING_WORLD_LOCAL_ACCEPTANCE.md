@@ -10,15 +10,17 @@
 
 | Field | Value |
 |---|---|
-| Remote HEAD | `2b44e1a85bfaefe613b95b84d6aefd803f9059ee` |
-| Local HEAD | `8ea068acf7a6a24b6bb75af43326ef5d5d83f36a` (= remote HEAD + one docs/gates commit regenerating stale v5.1/v5.2 ledgers to the current tree; hard invariants unchanged) |
+| Remote HEAD | `9ebfe00c9134ac0598abb4ca19b7e8a3502cc6c9` (pushed during this acceptance) |
+| Local HEAD | `9ebfe00c9134ac0598abb4ca19b7e8a3502cc6c9` |
 | Branch | `feature/source-to-visual-world` (tracking `origin/feature/source-to-visual-world`) |
-| Working tree | clean except preserved user file `WANXIANG_R7_NEW_CONVERSATION_HANDOFF_2026-10-08.md` and this run's evidence/scripts (all committed or listed in this report) |
-| CI status (recorded) | remote HEAD `2b44e1a` push/PR CI: SUCCESS (Ruff, formatter, strict Pyright, architecture gates, SQLite suite, Playwright, PostgreSQL, TypeScript, release smoke, API/SDK drift, secret scan) per the goal brief; local re-verification below |
+| Working tree | clean except preserved user file `WANXIANG_R7_NEW_CONVERSATION_HANDOFF_2026-10-08.md` |
+| CI status (pushed HEAD) | push run `37922955550` SUCCESS — all 6 jobs green (safety, python, postgres, api-sdk, ts, release-smoke) at exact-SHA `9ebfe00`; annotations are only runner deprecation notices |
+| CI status (recorded remote HEAD at goal start) | `2b44e1a` push/PR CI: SUCCESS per the goal brief |
 
-Local quality gates were re-run against local HEAD `8ea068a` (only a
-regenerated-ledger docs commit over the remote HEAD).
-
+Local quality gates were re-run at `8ea068a` (remote `2b44e1a` + a docs/gates
+commit regenerating the stale v5.1/v5.2 ledgers to the current tree), then
+both commits (ledger regeneration + acceptance evidence) were pushed to
+`9ebfe00`; the pushed exact-SHA CI is green.
 ---
 
 ## 2. Local quality gates
