@@ -73,8 +73,9 @@ class LocalSemanticProvider:
         gedcom = extract_gedcom(locator, text, self.capability.provider_id)
         if gedcom:
             return gedcom
-        names = self._names(text)
         places = self._places(text)
+        place_keys = {place.casefold() for place in places}
+        names = tuple(name for name in self._names(text) if name.casefold() not in place_keys)
         proposals: list[ProviderProposal] = []
         for name in names:
             key = _identity_key(name)
@@ -168,6 +169,17 @@ class LocalSemanticProvider:
             match.group(1)
             for match in re.finditer(
                 r"(?:Place|地点)\s*[:：]\s*([^,，。;；]+)", text, re.IGNORECASE
+            )
+        )
+        found.extend(
+            match.group(1)
+            for match in re.finditer(
+                (
+                    r"\b(?:arrived|visited|went|returned|entered|left|travelled|traveled)"
+                    r"\s+(?:(?:in|to|from|at)\s+)?"
+                    r"([A-Z][A-Za-z]{1,24}(?:\s+[A-Z][A-Za-z]{1,24})?)\b"
+                ),
+                text,
             )
         )
         return tuple(dict.fromkeys(_clean(place, 48) for place in found if _clean(place, 48)))
