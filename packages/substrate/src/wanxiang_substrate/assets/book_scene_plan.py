@@ -254,7 +254,10 @@ def _plan_book_scene_assets(
                 stable_key=stable_key,
                 spec=spec,
                 cache_key=hashlib.sha256(
-                    f"{source_digest}:{stable_key}:illustrated-environment:v1".encode()
+                    (
+                        f"{source_digest}:{stable_key}:illustrated-environment:"
+                        f"{style_key}:prompt-v1"
+                    ).encode()
                 ).hexdigest(),
                 source_refs=source_refs,
                 confidence=confidence,
