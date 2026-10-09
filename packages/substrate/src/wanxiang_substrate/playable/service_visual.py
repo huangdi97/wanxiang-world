@@ -117,11 +117,21 @@ def attach_package_visuals(
     service: PlayableService,
     profile_id: str,
     package: WorldPackageDraft,
+    *,
+    provider: _SceneImageProvider | None = None,
+    allow_network: bool = False,
+    max_cost_units: int = 0,
 ) -> None:
     plan = _plan_book_scene_assets(package)
     materialized = _materialize_visual_plan(
         plan,
+        provider=provider,
         cache=service._visual_cache,
+        allow_network=allow_network,
+        max_cost_units=max_cost_units,
+        private_source=(
+            package.draft.compiler_metadata.get("visual_private_source_v1", "true") == "true"
+        ),
         rights=plan.delivery_rights,
     )
     service._visual_assets[profile_id] = materialized.assets
