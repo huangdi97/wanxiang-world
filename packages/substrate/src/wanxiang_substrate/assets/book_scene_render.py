@@ -8,6 +8,11 @@ import hashlib
 import math
 from html import escape
 
+from wanxiang_substrate.assets.book_scene_motif import (
+    _motif_svg,
+    _motif_uses_water,
+    _scene_motif,
+)
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest, _SourceVisualPlan
 from wanxiang_substrate.assets.book_scene_types import SceneImageProvider, _SceneVisualAsset
 
@@ -16,7 +21,7 @@ class _ProceduralSvgSceneProvider(SceneImageProvider):
     """Deterministic fallback so every valid book has real pixels at zero API cost."""
 
     provider_id = "procedural-svg"
-    provider_version = "1.0.0"
+    provider_version = "1.1.0"
     requires_network = False
     cost_units_per_asset = 0
     private_safe = True
@@ -31,15 +36,22 @@ class _ProceduralSvgSceneProvider(SceneImageProvider):
         ridge_a = 175 + layout_digest[3] % 70
         ridge_b = 320 + layout_digest[4] % 110
         tower_x = 250 + layout_digest[5] % 420
-        water = layout_digest[6] % 3 != 0
+        motif = _scene_motif(request.place_name)
+        water = _motif_uses_water(motif) or layout_digest[6] % 3 != 0
         place = escape(request.place_name)
+        motif_layer = _motif_svg(
+            motif,
+            accent_hue=accent_hue,
+            ground_hue=ground_hue,
+            anchor_x=tower_x,
+        )
         water_layer = (
             '<path d="M0 690 C260 610 610 760 1200 600 L1200 900 L0 900Z" '
             'fill="hsl(194 42% 37%)" opacity=".78"/>'
             if water
             else ""
         )
-        svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img">
+        svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" data-scene-motif="{motif}">
 <defs>
   <linearGradient id="sky" x2="0" y2="1">
     <stop stop-color="hsl({sky_hue} 44% 77%)"/>
@@ -57,17 +69,7 @@ class _ProceduralSvgSceneProvider(SceneImageProvider):
 <path d="M0 585 Q{ridge_b} 380 650 545 T1200 510 V900 H0Z"
  fill="hsl({ground_hue + 12} 23% 35%)" opacity=".82"/>
 {water_layer}
-<g fill="hsl({accent_hue} 28% 78%)" stroke="hsl({accent_hue} 18% 32%)" stroke-width="8">
-  <rect x="{tower_x}" y="450" width="210" height="190" rx="5"/>
-  <rect x="{tower_x + 300}" y="515" width="155" height="125" rx="5"/>
-  <rect x="{max(55, tower_x - 245)}" y="530" width="145" height="110" rx="5"/>
-</g>
-<g fill="hsl({accent_hue + 18} 21% 28%)">
-  <path d="M{tower_x - 20} 455 L{tower_x + 105} 375 L{tower_x + 230} 455Z"/>
-  <path d="M{tower_x + 282} 518 L{tower_x + 377} 454 L{tower_x + 474} 518Z"/>
-  <path d="M{max(35, tower_x - 263)} 532 L{max(120, tower_x - 170)} 472
-   L{max(205, tower_x - 82)} 532Z"/>
-</g>
+{motif_layer}
 <path d="M55 720 C290 650 570 690 1135 555" fill="none"
  stroke="hsl({accent_hue} 16% 72%)" stroke-width="28" opacity=".82"/>
 <rect x="0" y="0" width="1200" height="900" fill="url(#mist)" opacity=".14"/>
