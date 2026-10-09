@@ -70,7 +70,6 @@ def test_two_unrelated_places_use_same_provider_but_different_visuals() -> None:
     assert garden.illustrative is True
 
 
-
 def test_t0_scene_morphology_varies_by_generic_place_semantics() -> None:
     provider = _ProceduralSvgSceneProvider()
     bridge = provider.produce(_request("机关桥", "bridge"))
@@ -94,6 +93,7 @@ def test_t0_scene_morphology_varies_by_generic_place_semantics() -> None:
         )
         == 4
     )
+
 
 def test_render_visual_plan_is_deterministic_and_cost_free_by_construction() -> None:
     study = _request("书房", "study")
