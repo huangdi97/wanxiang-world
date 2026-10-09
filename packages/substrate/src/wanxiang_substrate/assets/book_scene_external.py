@@ -11,7 +11,6 @@ from __future__ import annotations
 
 import hashlib
 from dataclasses import dataclass
-from typing import Protocol
 
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
 from wanxiang_substrate.assets.book_scene_prompt import (
@@ -19,7 +18,10 @@ from wanxiang_substrate.assets.book_scene_prompt import (
     _SceneGenerationBrief,
     _story_visual_profile_from_style_key,
 )
-from wanxiang_substrate.assets.book_scene_visual import _SceneVisualAsset
+from wanxiang_substrate.assets.book_scene_visual import (
+    _SceneImageProvider,
+    _SceneVisualAsset,
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -28,12 +30,13 @@ class _ExternalImageResult:
     media_type: str
 
 
-class _ExternalImageClient(Protocol):
-    def generate(self, brief: _SceneGenerationBrief) -> _ExternalImageResult: ...
+class _ExternalImageClient:
+    def generate(self, brief: _SceneGenerationBrief) -> _ExternalImageResult:
+        raise NotImplementedError
 
 
 @dataclass(frozen=True, slots=True)
-class _PromptedExternalSceneProvider:
+class _PromptedExternalSceneProvider(_SceneImageProvider):
     """T1 provider adapter; network/privacy/cost policy is enforced by materializer."""
 
     provider_id: str
