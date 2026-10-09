@@ -21,7 +21,10 @@ from wanxiang_persistence.event_store import SqlAlchemyEventStore
 from wanxiang_persistence.instance_repository import WorldInstanceRepository
 from wanxiang_persistence.snapshot_store import SqlAlchemySnapshotStore
 from wanxiang_runtime.resolver import ResolverRegistry
-from wanxiang_substrate.assets import LocalJsonVisualCacheIndex, VisualAssetCache
+from wanxiang_substrate.assets.book_scene_cache import (
+    LocalJsonVisualCacheIndex,
+    VisualAssetCache,
+)
 from wanxiang_substrate.assets.storage import LocalObjectStore
 from wanxiang_substrate.authoring import AuthoringService, LocalSemanticProvider
 from wanxiang_substrate.authoring.providers import ProviderRouter
