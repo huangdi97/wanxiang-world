@@ -100,6 +100,7 @@ STRINGS: dict[str, str] = {
     "visual_atlas_label": "叙事世界图谱",
     "visual_atlas_caption": "叙事世界图谱 · 关系不等于地理坐标",
     "visual_relations_heading": "原文明示的地点连接",
+    "visual_clues_heading": "原文场景线索",
     "visual_current_scene": "此刻场景 · {place}",
     "visual_entry_scene": "入场地点 · {place}",
     "visual_world_preview": "世界视觉预览 · {place}",
