@@ -5,6 +5,7 @@ contains no API keys, endpoints, canonical writers, or raw-book transport.
 """
 
 # pyright: reportPrivateUsage=false
+# pyright: reportUnusedClass=false
 
 from __future__ import annotations
 
