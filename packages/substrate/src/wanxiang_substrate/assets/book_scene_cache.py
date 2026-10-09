@@ -30,10 +30,10 @@ class VisualCacheIndex:
     """Replaceable metadata index; blob bytes remain owned by ObjectStore."""
 
     def get(self, cache_key: str) -> VisualCacheRecord | None:
-        raise NotImplementedError
+        raise TypeError("concrete visual implementation required")
 
     def put(self, record: VisualCacheRecord) -> None:
-        raise NotImplementedError
+        raise TypeError("concrete visual implementation required")
 
 
 class InMemoryVisualCacheIndex(VisualCacheIndex):
