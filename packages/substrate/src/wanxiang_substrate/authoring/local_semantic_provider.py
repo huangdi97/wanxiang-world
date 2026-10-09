@@ -145,9 +145,21 @@ class LocalSemanticProvider:
         ):
             found.extend(match.group(1) for match in re.finditer(pattern, text))
         found.extend(
+            match.group(1)
+            for match in re.finditer(
+                r"(?im)^(?:Character|Person|Name)\s*:\s*"
+                r"([A-Z][A-Za-z]{1,24}(?:[ \t]+[A-Z][A-Za-z]{1,24})?)\s*$",
+                text,
+            )
+        )
+        found.extend(
             match.group(0)
-            for match in re.finditer(r"\b[A-Z][A-Za-z]{1,24}(?:\s+[A-Z][A-Za-z]{1,24})?\b", text)
+            for match in re.finditer(
+                r"\b[A-Z][A-Za-z]{1,24}(?:[ \t]+[A-Z][A-Za-z]{1,24})?\b",
+                text,
+            )
             if match.group(0) not in _ENGLISH_FALSE_NAMES
+            and not match.group(0).startswith(("Character ", "Person ", "Name "))
         )
         return tuple(dict.fromkeys(name for name in found if self._valid_name(name)))
 
