@@ -7,6 +7,7 @@ without changing Source -> World or Player semantics.
 
 # pyright: reportPrivateUsage=false
 # pyright: reportUnusedFunction=false
+# pyright: reportUnusedClass=false
 # ruff: noqa: E501
 
 from __future__ import annotations
@@ -16,9 +17,9 @@ import hashlib
 import json
 import math
 import pathlib
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from html import escape
-from typing import Protocol
+from typing import Protocol, cast
 
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest, _SourceVisualPlan
 from wanxiang_substrate.assets.storage import AssetRef, InMemoryObjectStore, ObjectStore
@@ -302,14 +303,15 @@ class _LocalJsonVisualCacheIndex:
             return {}
         if not isinstance(decoded, dict):
             return {}
+        decoded_rows = cast(dict[object, object], decoded)
         rows: dict[str, dict[str, object]] = {}
-        for raw_key, raw_value in decoded.items():
-            if isinstance(raw_key, str) and isinstance(raw_value, dict):
-                rows[raw_key] = {
-                    str(key): value
-                    for key, value in raw_value.items()
-                    if isinstance(key, str)
-                }
+        for raw_key, raw_value in decoded_rows.items():
+            if not isinstance(raw_key, str) or not isinstance(raw_value, dict):
+                continue
+            value_map = cast(dict[object, object], raw_value)
+            rows[raw_key] = {
+                key: value for key, value in value_map.items() if isinstance(key, str)
+            }
         return rows
 
     @staticmethod
@@ -367,7 +369,19 @@ class _LocalJsonVisualCacheIndex:
 
     def put(self, record: _VisualCacheRecord) -> None:
         rows = self._rows()
-        rows[record.cache_key] = asdict(record)
+        rows[record.cache_key] = {
+            "cache_key": record.cache_key,
+            "scene_key": record.scene_key,
+            "place_name": record.place_name,
+            "provider_id": record.provider_id,
+            "provider_version": record.provider_version,
+            "media_type": record.media_type,
+            "content_sha256": record.content_sha256,
+            "asset_id": record.asset_id,
+            "size": record.size,
+            "illustrative": record.illustrative,
+            "style_key": record.style_key,
+        }
         temporary = self._path.with_suffix(self._path.suffix + ".tmp")
         temporary.write_text(
             json.dumps(rows, ensure_ascii=False, sort_keys=True, separators=(",", ":")),
