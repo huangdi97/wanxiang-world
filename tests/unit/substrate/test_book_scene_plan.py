@@ -171,7 +171,6 @@ def test_large_generic_book_indexes_evidence_without_changing_scene_selection() 
     assert first.scene_requests[0].source_refs == ("book#chapter-1199", "book#chapter-1201")
 
 
-
 def test_topology_requires_source_locator_and_bounded_confidence() -> None:
     valid = {
         "source_place": "海港",
