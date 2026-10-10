@@ -83,7 +83,9 @@ def _materialize_visual_plan(
 
         expected_cost = selected_provider.cost_units_per_asset * len(misses)
         if expected_cost > max_cost_units:
-            raise ValueError(f"visual provider cost {expected_cost} exceeds budget {max_cost_units}")
+            raise ValueError(
+                f"visual provider cost {expected_cost} exceeds budget {max_cost_units}"
+            )
 
         generated: dict[str, tuple[_SceneVisualAsset, AssetRef]] = {}
         for request in misses:
