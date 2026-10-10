@@ -432,7 +432,6 @@ def test_negative_provider_cost_is_rejected_before_generation() -> None:
         _materialize_visual_plan(_plan(_request("城门", "gate")), provider=_NegativeCostProvider())
 
 
-
 class _SlowCountingProvider(_RemoteLikeProvider):
     requires_network = False
     cost_units_per_asset = 0

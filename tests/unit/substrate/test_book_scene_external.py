@@ -129,7 +129,6 @@ def test_external_provider_rejects_non_image_or_oversized_output() -> None:
         provider.produce(_request())
 
 
-
 def test_external_image_provider_rejects_active_svg_payload() -> None:
     class _SvgClient(_ExternalImageClient):
         def generate(self, brief: _SceneGenerationBrief) -> _ExternalImageResult:
