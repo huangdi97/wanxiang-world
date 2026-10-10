@@ -463,6 +463,7 @@ def test_simultaneous_requests_for_same_scene_pay_once_per_cache_key() -> None:
     assert provider.calls == 1
     assert sorted(calls) == [0, 0, 0, 0, 0, 1]
 
+
 def test_separate_durable_cache_instances_coalesce_same_scene_generation(
     tmp_path: pathlib.Path,
 ) -> None:
