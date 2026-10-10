@@ -240,7 +240,6 @@ def test_reviewed_scene_evidence_invalidates_pixels_without_changing_world_ident
     assert len({first[2], reviewed[2], newly_cited[2]}) == 3
 
 
-
 def test_invalid_source_confidence_never_outranks_verified_place() -> None:
     evidence = [
         {"name": "虚影", "source_refs": ["book#one"], "confidence": float("nan")},

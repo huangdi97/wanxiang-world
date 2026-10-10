@@ -43,7 +43,6 @@ def _string_list(value: object) -> tuple[str, ...]:
     )
 
 
-
 def _bounded_confidence(value: object) -> float:
     """Prevent invalid/untrusted scores from changing ranking or map truth."""
     if isinstance(value, bool) or not isinstance(value, (int, float)):
