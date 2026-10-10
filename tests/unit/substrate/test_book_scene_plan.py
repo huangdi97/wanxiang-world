@@ -257,6 +257,7 @@ def test_invalid_source_confidence_never_outranks_verified_place() -> None:
     by_place = {item.place_name: item.confidence for item in plan.scene_requests}
     assert by_place == {"城门": 0.76, "虚影": 0.0, "港湾": 0.0}
 
+
 def test_same_source_fingerprint_reuses_cache_across_distinct_source_ids() -> None:
     fingerprint = "a" * 64
 

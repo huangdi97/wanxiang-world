@@ -14,10 +14,10 @@ from dataclasses import dataclass
 from typing import cast
 
 from wanxiang_substrate.assets.book_scene_evidence import (
-    _json_list,
-    _object_dict,
     _bounded_confidence,
     _cache_evidence_ref,
+    _json_list,
+    _object_dict,
     _string_list,
 )
 from wanxiang_substrate.assets.foundry import SemanticSceneSpec
