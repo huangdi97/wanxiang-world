@@ -242,7 +242,7 @@ class _OneClickExternalClient(_ExternalImageClient):
 
     def generate(self, brief: _SceneGenerationBrief) -> _ExternalImageResult:
         self.calls.append(brief)
-        return _ExternalImageResult(b"\x89PNG\r\none-click-external", "image/png")
+        return _ExternalImageResult(b"\x89PNG\r\n\x1a\none-click-external", "image/png")
 
 
 def test_one_click_accepts_injected_t1_provider_without_changing_book_pipeline() -> None:
