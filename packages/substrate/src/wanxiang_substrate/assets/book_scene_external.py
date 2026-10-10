@@ -72,6 +72,15 @@ class _PromptedExternalSceneProvider(_SceneImageProvider):
             raise ValueError("external visual provider output exceeds size limit")
         if result.media_type not in {"image/png", "image/jpeg", "image/webp"}:
             raise ValueError("external visual provider requires a raster image media type")
+        signature_matches = (
+            result.content.startswith(bytes.fromhex("89504e470d0a1a0a"))
+            if result.media_type == "image/png"
+            else result.content.startswith(bytes.fromhex("ffd8ff"))
+            if result.media_type == "image/jpeg"
+            else result.content.startswith(b"RIFF") and result.content[8:12] == b"WEBP"
+        )
+        if not signature_matches:
+            raise ValueError("external image bytes do not match declared media type")
         digest = hashlib.sha256(result.content).hexdigest()
         return _SceneVisualAsset(
             scene_key=request.stable_key,
