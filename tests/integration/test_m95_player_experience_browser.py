@@ -275,6 +275,15 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 assert page.locator("#play-mode").inner_text() == "观察模式"
                 assert page.locator("#send-action").is_disabled()
                 assert page.locator("#scene-visual-image").is_visible()
+                assert page.locator("#relation-list").inner_text().count("Alice") == 0
+                focus = page.locator("#stage-focus-toggle")
+                focus.click()
+                assert focus.get_attribute("aria-pressed") == "true"
+                assert page.locator(".world-stage-hud").is_hidden()
+                assert page.locator("#scene-visual-image").is_visible()
+                focus.click()
+                assert focus.get_attribute("aria-pressed") == "false"
+                assert page.locator(".world-stage-hud").is_visible()
                 assert page.locator("#observer-scene-explorer").is_visible()
                 before_location = page.locator("#play-location").inner_text()
                 scene_button = page.locator(
@@ -358,6 +367,15 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 page.locator("#world-stage").screenshot(
                     path=str(review / "embodied-stage-mobile.png")
                 )
+                mobile_focus = page.locator("#stage-focus-toggle")
+                mobile_focus.click()
+                assert page.locator(".world-stage-story").is_hidden()
+                assert page.locator("#scene-visual-image").is_visible()
+                page.locator("#world-stage").screenshot(
+                    path=str(review / "focused-stage-mobile.png")
+                )
+                mobile_focus.click()
+                assert page.locator(".world-stage-story").is_visible()
                 mobile = browser.new_page(viewport={"width": 390, "height": 844})
                 mobile.goto(f"{base}/", wait_until="networkidle")
                 mobile.screenshot(path=str(review / "mobile.png"), full_page=True)

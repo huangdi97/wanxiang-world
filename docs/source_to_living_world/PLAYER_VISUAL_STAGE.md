@@ -175,3 +175,19 @@ The internal scene plan preserves source refs and evidence for audit. The networ
 The shared `VisualAssetCache` coordinates concurrent same-key requests within one cache instance. For `LocalJsonVisualCacheIndex`, an additional advisory lock file guards the full lookup → generate → blob store → index update sequence across cache instances **and OS processes sharing the same filesystem**. The cache is always re-read after the lock, so a second worker can reuse the first worker's asset instead of paying for a duplicate generation. This deliberately serializes the small local JSON cache across keys; the in-memory cache retains per-key concurrency.
 
 This is a **single shared-filesystem** strategy, not an HA distributed lease. Independent hosts with separate cache volumes, a provider call that succeeds before a worker crash, cross-host cost accounting, and remote production object stores still require transactional shared cache/leases and provider idempotency or billing reconciliation. POSIX process behavior has a dedicated subprocess regression; Windows uses an OS byte-range lock and requires Windows runtime qualification. Do not declare distributed cost or billing gates passed on this evidence alone.
+
+## Player scene-focus presentation mode (October 2026)
+
+The Player includes an explicitly reversible **Focus on scene / 专注场景** control.
+It temporarily hides HUD, narration and context overlays inside the visual
+stage while preserving the stage image and the separate action dock. Mobile
+uses a shorter scene height for a clearer first viewport. This is a UI-only
+projection state: changing focus does not create an action, edit a location,
+change an owner, or append canonical history. Browser E2E verifies both
+normal and scene-focused views. A more visually immersive T1/T2/T3 renderer
+still needs a real authorized provider and human review; this control must not
+be reported as provider fidelity validation.
+
+The personal relation panel reads the actor-scoped relation projection, not
+the world's global relation graph. Known people may be listed as knowledge,
+but only explicitly co-located people can be labeled present.
