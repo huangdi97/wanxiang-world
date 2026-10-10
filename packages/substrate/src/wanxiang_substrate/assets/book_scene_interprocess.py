@@ -4,6 +4,8 @@ The lock covers cache lookup, provider call, blob write, and index replace.
 This is a single-filesystem deployment adapter, not a distributed lock.
 """
 
+# pyright: reportUnusedFunction=false
+
 from __future__ import annotations
 
 import os
