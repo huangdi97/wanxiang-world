@@ -355,6 +355,55 @@ def test_missing_durable_visual_blob_is_regenerated_under_existing_governance(
     assert cache.store.get(recovered.asset_refs[0]) == first.assets[0].content
 
 
+
+def test_corrupt_durable_scene_recovers_then_reuses_verified_bytes(
+    tmp_path: pathlib.Path,
+) -> None:
+    plan = _plan(_request("机关桥", "corrupt-recovery"))
+    cache = _VisualAssetCache(
+        LocalObjectStore(tmp_path / "blobs"),
+        _LocalJsonVisualCacheIndex(tmp_path / "index.json"),
+    )
+    initial = _materialize_visual_plan(plan, cache=cache)
+    ref = initial.asset_refs[0]
+    corrupt_path = tmp_path / "blobs" / ref.content_hash[:2] / ref.content_hash
+    corrupt_path.write_bytes(b"not-the-original-image")
+
+    repaired = _materialize_visual_plan(plan, cache=cache)
+    assert repaired.provider_calls == 1
+    assert repaired.cache_hits == 0
+    assert repaired.assets == initial.assets
+    assert cache.store.get(repaired.asset_refs[0]) == initial.assets[0].content
+    again = _materialize_visual_plan(plan, cache=cache)
+    assert again.provider_calls == 0
+    assert again.cache_hits == 1
+
+
+def test_corrupt_scene_does_not_bypass_remote_cost_governance(
+    tmp_path: pathlib.Path,
+) -> None:
+    plan = _plan(_request("机关桥", "corrupt-cost"), external_processing_allowed=True)
+    cache = _VisualAssetCache(
+        LocalObjectStore(tmp_path / "blobs"),
+        _LocalJsonVisualCacheIndex(tmp_path / "index.json"),
+    )
+    provider = _RemoteLikeProvider()
+    first = _materialize_visual_plan(
+        plan, provider=provider, cache=cache, allow_network=True, max_cost_units=2
+    )
+    ref = first.asset_refs[0]
+    (tmp_path / "blobs" / ref.content_hash[:2] / ref.content_hash).write_bytes(b"bad")
+    with pytest.raises(ValueError, match="exceeds budget"):
+        _materialize_visual_plan(
+            plan, provider=provider, cache=cache, allow_network=True, max_cost_units=0
+        )
+    recovered = _materialize_visual_plan(
+        plan, provider=provider, cache=cache, allow_network=True, max_cost_units=2
+    )
+    assert recovered.provider_calls == 1
+    assert recovered.assets[0].content_sha256 == ref.content_hash
+
+
 def test_missing_blob_does_not_bypass_network_or_cost_gates(
     tmp_path: pathlib.Path,
 ) -> None:

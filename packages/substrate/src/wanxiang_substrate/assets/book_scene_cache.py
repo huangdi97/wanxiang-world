@@ -15,7 +15,7 @@ from typing import cast
 
 from wanxiang_substrate.assets.book_scene_interprocess import _exclusive_index_lock
 from wanxiang_substrate.assets.book_scene_types import _SceneVisualAsset
-from wanxiang_substrate.assets.errors import AssetNotFound
+from wanxiang_substrate.assets.errors import AssetCorrupt, AssetNotFound
 from wanxiang_substrate.assets.storage import AssetRef, InMemoryObjectStore, ObjectStore
 
 
@@ -197,9 +197,9 @@ class VisualAssetCache:
         )
         try:
             content = self.store.get(ref)
-        except AssetNotFound:
-            # Stale metadata is a cache miss, not a broken world. The caller
-            # still enforces provider rights, network permission and budget.
+        except (AssetNotFound, AssetCorrupt):
+            # Missing or damaged bytes are a cache miss. A replacement still
+            # requires the caller's current rights, network and cost gates.
             return None
         return (
             _SceneVisualAsset(
