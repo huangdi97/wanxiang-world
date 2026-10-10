@@ -208,3 +208,34 @@ def test_topology_requires_source_locator_and_bounded_confidence() -> None:
     assert len(plan.topology_relations) == 1
     assert plan.topology_relations[0].source_refs == ("book#chapter-2",)
     assert plan.topology_relations[0].confidence == 0.84
+
+def test_reviewed_scene_evidence_invalidates_pixels_without_changing_world_identity() -> None:
+    def compile_with(label: str, locator: str) -> tuple[str, str, str]:
+        book = package_from_book(
+            "visual-evidence-revision",
+            ("城门",),
+            compiler_metadata={
+                "scene_evidence_v1": json.dumps(
+                    [
+                        {
+                            "name": "城门",
+                            "source_refs": [locator],
+                            "confidence": 0.9,
+                            "cooccurring_candidates": [
+                                {"kind": "object", "label": label}
+                            ],
+                        }
+                    ],
+                    ensure_ascii=False,
+                )
+            },
+        )
+        request = _plan_book_scene_assets(book).scene_requests[0]
+        return (request.stable_key, request.style_key, request.cache_key)
+
+    first = compile_with("灯笼", "book#chapter-1")
+    reviewed = compile_with("古钟", "book#chapter-1")
+    newly_cited = compile_with("灯笼", "book#chapter-2")
+
+    assert first[:2] == reviewed[:2] == newly_cited[:2]
+    assert len({first[2], reviewed[2], newly_cited[2]}) == 3

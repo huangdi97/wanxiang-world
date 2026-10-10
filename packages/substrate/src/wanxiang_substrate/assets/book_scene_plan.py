@@ -251,6 +251,17 @@ def _plan_book_scene_assets(
                 if isinstance(kind, str) and isinstance(label, str) and label:
                     context_candidates.append(f"{kind}:{label}")
         context_candidates = list(dict.fromkeys(context_candidates))[:8]
+        evidence_identity = json.dumps(
+            {
+                "source_refs": source_refs,
+                "confidence": confidence,
+                "context_candidates": context_candidates,
+            },
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+        evidence_digest = hashlib.sha256(evidence_identity.encode("utf-8")).hexdigest()
         stable_key = hashlib.sha256(
             json.dumps((source_digest, place), ensure_ascii=False).encode("utf-8")
         ).hexdigest()[:24]
@@ -278,7 +289,7 @@ def _plan_book_scene_assets(
                 cache_key=hashlib.sha256(
                     (
                         f"{source_digest}:{stable_key}:illustrated-environment:"
-                        f"{style_key}:prompt-v1"
+                        f"{style_key}:prompt-v1:evidence-v1:{evidence_digest}"
                     ).encode()
                 ).hexdigest(),
                 source_refs=source_refs,
