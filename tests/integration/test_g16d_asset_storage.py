@@ -56,7 +56,6 @@ def test_blob_corruption_detected(blob_dir: pathlib.Path) -> None:
         store.get(ref)
 
 
-
 def test_put_repairs_corrupt_blob_atomically(blob_dir: pathlib.Path) -> None:
     store = LocalObjectStore(blob_dir)
     first = store.put(b"source-grounded scene", content_type="image/png")

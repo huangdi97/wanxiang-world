@@ -355,7 +355,6 @@ def test_missing_durable_visual_blob_is_regenerated_under_existing_governance(
     assert cache.store.get(recovered.asset_refs[0]) == first.assets[0].content
 
 
-
 def test_corrupt_durable_scene_recovers_then_reuses_verified_bytes(
     tmp_path: pathlib.Path,
 ) -> None:
