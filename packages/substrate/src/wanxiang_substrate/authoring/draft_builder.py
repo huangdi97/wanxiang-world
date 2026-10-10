@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from dataclasses import replace
 from typing import cast
 
@@ -150,6 +151,103 @@ def build_pipeline_build(
             "segments": str(len(segments)),
             "batches": str(distillation.batch_count),
             "provider_id": distillation.provider_id,
+            "source_fingerprints_v1": json.dumps(
+                sorted(record.fingerprint() for record in records),
+                ensure_ascii=False,
+                separators=(",", ":"),
+            ),
+            "visual_asset_rights_v1": (
+                "public"
+                if records
+                and all(
+                    record.access == "public"
+                    and record.rights is not None
+                    and record.rights.allows("public_export")
+                    for record in records
+                )
+                else "source-gated"
+            ),
+            "external_visual_processing_allowed_v1": (
+                "true"
+                if records
+                and all(
+                    record.rights is not None and record.rights.allows("external_model_processing")
+                    for record in records
+                )
+                else "false"
+            ),
+            "visual_private_source_v1": (
+                "true" if any(record.access != "public" for record in records) else "false"
+            ),
+            "scene_evidence_v1": json.dumps(
+                [
+                    {
+                        "candidate_id": candidate.candidate_id,
+                        "name": field(candidate, "name"),
+                        "source_refs": list(candidate.source_refs),
+                        "confidence": candidate.confidence,
+                        "place_role": field(candidate, "place_role"),
+                        "subject_xref": field(candidate, "subject_xref"),
+                        "cooccurring_candidates": [
+                            {
+                                "candidate_id": other.candidate_id,
+                                "kind": other.kind,
+                                "label": field(
+                                    other,
+                                    "display_name",
+                                    "name",
+                                    "event_type",
+                                    "statement",
+                                ),
+                                "confidence": other.confidence,
+                            }
+                            for other in fusion.candidates
+                            if other.candidate_id != candidate.candidate_id
+                            and set(other.source_refs).intersection(candidate.source_refs)
+                            and other.kind
+                            in {
+                                "identity",
+                                "character",
+                                "organization",
+                                "object",
+                                "event",
+                            }
+                            and field(
+                                other,
+                                "display_name",
+                                "name",
+                                "event_type",
+                                "statement",
+                            )
+                        ][:16],
+                    }
+                    for candidate in fusion.candidates
+                    if candidate.kind == "place" and field(candidate, "name")
+                ],
+                ensure_ascii=False,
+                sort_keys=True,
+                separators=(",", ":"),
+            ),
+            "scene_topology_evidence_v1": json.dumps(
+                [
+                    {
+                        "candidate_id": candidate.candidate_id,
+                        "source_place": field(candidate, "source_place"),
+                        "target_place": field(candidate, "target_place"),
+                        "relation_type": field(candidate, "relation_type"),
+                        "source_refs": list(candidate.source_refs),
+                        "confidence": candidate.confidence,
+                    }
+                    for candidate in fusion.candidates
+                    if candidate.kind
+                    in {"place_relation", "topology", "connectivity", "containment"}
+                    and field(candidate, "source_place")
+                    and field(candidate, "target_place")
+                ],
+                ensure_ascii=False,
+                sort_keys=True,
+                separators=(",", ":"),
+            ),
             "gedcom_version": next(
                 (
                     item.partition(":")[2]

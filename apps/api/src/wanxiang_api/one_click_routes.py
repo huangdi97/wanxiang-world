@@ -1,5 +1,7 @@
 """Studio one-click source-to-living-world route."""
 
+# pyright: reportPrivateUsage=false
+
 from __future__ import annotations
 
 from fastapi import APIRouter, Request
@@ -26,7 +28,13 @@ def _service(request: Request) -> AuthoringService:
 @router.post("/one-click", status_code=201)
 def one_click(payload: OneClickRequest, request: Request) -> dict[str, object]:
     service = _service(request)
-    result = OneClickAuthoring(service).run(
+    result = OneClickAuthoring(
+        service,
+        visual_cache=request.app.state.visual_asset_cache,
+        visual_provider=request.app.state.visual_asset_provider,
+        visual_allow_network=request.app.state.visual_asset_allow_network,
+        visual_max_cost_units=request.app.state.visual_asset_max_cost_units,
+    ).run(
         payload.job_id,
         source_records(service, payload.sources),
         profile=payload.profile,
@@ -42,6 +50,35 @@ def one_click(payload: OneClickRequest, request: Request) -> dict[str, object]:
         "preview_ref": result.preview.scoped_ref,
         "publishable": validation.publish_ok,
         "publish_reasons": list(validation.reasons),
+        "visual_plan": (
+            {
+                "status": result.visual_plan.status,
+                "source_digest": result.visual_plan.source_digest,
+                "selected_scenes": len(result.visual_plan.scene_requests),
+                "deferred_scenes": result.visual_plan.deferred_scene_count,
+                "image_provider_calls": result.visual_provider_calls,
+                "cache_hits": result.visual_cache_hits,
+                "cost_units": result.visual_cost_units,
+                "preview_assets": [
+                    {
+                        "place_name": asset.place_name,
+                        "media_type": asset.media_type,
+                        "data_uri": asset.data_uri(),
+                        "content_sha256": asset.content_sha256,
+                        "asset_id": asset_ref.asset_id,
+                        "asset_rights": asset_ref.rights,
+                        "illustrative": asset.illustrative,
+                    }
+                    for asset, asset_ref in zip(
+                        result.visual_assets,
+                        result.visual_asset_refs,
+                        strict=True,
+                    )
+                ],
+            }
+            if result.visual_plan is not None
+            else None
+        ),
         "status": service.status(result.job_id).to_dict(),
     }
 

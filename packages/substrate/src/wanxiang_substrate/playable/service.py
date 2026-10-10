@@ -1,19 +1,26 @@
 """Shared playable application facade for CLI, API, and Studio routes."""
 
+# pyright: reportPrivateUsage=false
+
 from __future__ import annotations
 
 from collections.abc import Mapping
 from typing import cast
 
-from wanxiang_domain.errors import ContractError, NotFound
+from wanxiang_domain.errors import NotFound
 from wanxiang_domain.ids import BranchId, WorldInstanceId
 from wanxiang_runtime.state import state_to_primitive
 
+from wanxiang_substrate.assets.book_scene_visual import (
+    _SceneImageProvider,
+    _SceneVisualAsset,
+    _VisualAssetCache,
+    _VisualMaterialization,
+)
+from wanxiang_substrate.assets.storage import AssetRef
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
-from wanxiang_substrate.playable.actions import IntentCompiler
 from wanxiang_substrate.playable.catalog import WorldPlaza
-from wanxiang_substrate.playable.entry import CharacterEntryService, EntryReceipt, active_lease
-from wanxiang_substrate.playable.evidence import PlayerActionEvidence
+from wanxiang_substrate.playable.entry import CharacterEntryService
 from wanxiang_substrate.playable.experience import (
     EntryMode,
     ExperiencePackage,
@@ -21,13 +28,16 @@ from wanxiang_substrate.playable.experience import (
 )
 from wanxiang_substrate.playable.factory import profile_from_world_package
 from wanxiang_substrate.playable.models import PlayableWorldProfile
-from wanxiang_substrate.playable.service_model import (
-    EventLike,
-    PlayableActionResult,
-    SubmittedResult,
+from wanxiang_substrate.playable.service_action import _perform_action
+from wanxiang_substrate.playable.service_model import PlayableActionResult
+from wanxiang_substrate.playable.service_session import _owned_instance, _save_instance
+from wanxiang_substrate.playable.service_support import instance_dict
+from wanxiang_substrate.playable.service_visual import (
+    _attach_package_visuals,
+    _materialize_visual_place,
+    _visible_visual_assets,
+    _visual_access_allowed,
 )
-from wanxiang_substrate.playable.service_support import affordances, instance_dict
-from wanxiang_substrate.playable.state_diff import CommittedStateDiff
 from wanxiang_substrate.playable.store import (
     ExperienceInstanceRecord,
     InMemoryPlayableStore,
@@ -39,9 +49,18 @@ from wanxiang_substrate.preview import PreviewInstall, PreviewRuntimePort, insta
 class PlayableService:
     """One composition facade; canonical state remains in the injected runtime."""
 
-    def __init__(self, runtime: PreviewRuntimePort, store: PlayableStore | None = None) -> None:
+    def __init__(
+        self,
+        runtime: PreviewRuntimePort,
+        store: PlayableStore | None = None,
+        *,
+        visual_cache: _VisualAssetCache | None = None,
+    ) -> None:
         self.runtime = runtime
         self.store = store or InMemoryPlayableStore()
+        self._visual_cache = visual_cache or _VisualAssetCache()
+        self._visual_assets: dict[str, tuple[_SceneVisualAsset, ...]] = {}
+        self._visual_asset_refs: dict[str, tuple[AssetRef, ...]] = {}
         self.plaza = WorldPlaza(self.store)
         self.entry = CharacterEntryService(self.store)
         self._packages: dict[str, WorldPackageDraft] = {}
@@ -54,6 +73,43 @@ class PlayableService:
 
         return self._packages
 
+    def visual_access_allowed(self, profile_id: str, *, viewer_id: str) -> bool:
+        """Gate every source-derived visual surface, including atlas and topology."""
+
+        return _visual_access_allowed(self, profile_id, viewer_id=viewer_id)
+
+    def visual_assets(
+        self,
+        profile_id: str,
+        *,
+        viewer_id: str,
+    ) -> tuple[_SceneVisualAsset, ...]:
+        """Return source-derived visual assets allowed for this viewer."""
+
+        return _visible_visual_assets(self, profile_id, viewer_id=viewer_id)
+
+    def materialize_visual_place(
+        self,
+        profile_id: str,
+        place_name: str,
+        *,
+        viewer_id: str,
+        provider: _SceneImageProvider | None = None,
+        allow_network: bool = False,
+        max_cost_units: int = 0,
+    ) -> _VisualMaterialization:
+        """Generate/cache one already-source-grounded place without changing Canon."""
+
+        return _materialize_visual_place(
+            self,
+            profile_id,
+            place_name,
+            viewer_id=viewer_id,
+            provider=provider,
+            allow_network=allow_network,
+            max_cost_units=max_cost_units,
+        )
+
     def register_package(
         self,
         package: WorldPackageDraft,
@@ -65,6 +121,9 @@ class PlayableService:
         scenario_name: str | None = None,
         opening_hint: str | None = None,
         allowed_actions: tuple[str, ...] = ("set_status",),
+        visual_provider: _SceneImageProvider | None = None,
+        visual_allow_network: bool = False,
+        visual_max_cost_units: int = 0,
     ) -> PlayableWorldProfile:
         profile = profile_from_world_package(
             package,
@@ -79,6 +138,14 @@ class PlayableService:
         self.store.save_profile(profile)
         self._packages[profile.profile_id] = package
         self._experiences[profile.profile_id] = experience
+        _attach_package_visuals(
+            self,
+            profile.profile_id,
+            package,
+            provider=visual_provider,
+            allow_network=visual_allow_network,
+            max_cost_units=visual_max_cost_units,
+        )
         self._installs[profile.profile_id] = PreviewInstall(
             preview_id=f"playable_{len(self._installs) + 1}",
             package_id=package.package_id,
@@ -92,11 +159,23 @@ class PlayableService:
         profile: PlayableWorldProfile,
         package: WorldPackageDraft,
         experience: ExperiencePackage | None = None,
+        *,
+        visual_provider: _SceneImageProvider | None = None,
+        visual_allow_network: bool = False,
+        visual_max_cost_units: int = 0,
     ) -> None:
         profile.validate()
         self.store.save_profile(profile)
         self._packages[profile.profile_id] = package
         self._experiences[profile.profile_id] = experience or experience_from_profile(profile)
+        _attach_package_visuals(
+            self,
+            profile.profile_id,
+            package,
+            provider=visual_provider,
+            allow_network=visual_allow_network,
+            max_cost_units=visual_max_cost_units,
+        )
         self._installs[profile.profile_id] = PreviewInstall(
             f"playable_{len(self._installs) + 1}",
             package.package_id,
@@ -129,11 +208,11 @@ class PlayableService:
             mode=cast(EntryMode, mode),
             character_id=character_id,
         )
-        self._save_instance(receipt, viewer_id, world.branch_id.value, updated_seq=1)
+        _save_instance(self, receipt, viewer_id, world.branch_id.value, updated_seq=1)
         return self.observe(receipt.instance_id, viewer_id)
 
     def continue_instance(self, instance_id: str, *, viewer_id: str) -> dict[str, object]:
-        record = self._owned_instance(instance_id, viewer_id)
+        record = _owned_instance(self, instance_id, viewer_id)
         profile = self.plaza.require_access(record.profile_id, viewer_id)
         experience = self._experiences.get(profile.profile_id)
         if experience is None:
@@ -148,13 +227,17 @@ class PlayableService:
             mode=cast(EntryMode, record.mode),
             character_id=record.actor_id,
         )
-        self._save_instance(
-            receipt, viewer_id, record.branch_id, updated_seq=record.updated_seq + 1
+        _save_instance(
+            self,
+            receipt,
+            viewer_id,
+            record.branch_id,
+            updated_seq=record.updated_seq + 1,
         )
         return self.observe(instance_id, viewer_id)
 
     def leave(self, instance_id: str, *, viewer_id: str) -> dict[str, object]:
-        record = self._owned_instance(instance_id, viewer_id)
+        record = _owned_instance(self, instance_id, viewer_id)
         if record.session_id:
             self.entry.leave(record.session_id)
         state = self.runtime.current_state(
@@ -175,7 +258,7 @@ class PlayableService:
         return {"instance_id": instance_id, "status": "left", "revision": state.revision.value}
 
     def observe(self, instance_id: str, viewer_id: str) -> dict[str, object]:
-        record = self._owned_instance(instance_id, viewer_id)
+        record = _owned_instance(self, instance_id, viewer_id)
         state = self.runtime.current_state(
             WorldInstanceId(record.instance_id), BranchId(record.branch_id)
         )
@@ -195,103 +278,11 @@ class PlayableService:
         action_type: str = "",
         payload: dict[str, object] | None = None,
     ) -> PlayableActionResult:
-        record = self._owned_instance(instance_id, viewer_id)
-        if record.mode != "embodiment" or not record.session_id or not record.actor_id:
-            raise ContractError("only an embodied actor may submit a world action")
-        if active_lease(self.entry, record.session_id) is None:
-            raise ContractError("embodiment lease is not active")
-        experience = self._experiences.get(record.profile_id)
-        if experience is None:
-            raise NotFound(f"experience {record.profile_id!r} not found")
-        compiler = IntentCompiler(affordances(experience))
-        common = {
-            "session_id": record.session_id,
-            "instance_id": record.instance_id,
-            "branch_id": record.branch_id,
-            "actor_id": record.actor_id,
-        }
-        result = (
-            compiler.compile_structured(**common, action_type=action_type, payload=payload or {})
-            if action_type
-            else compiler.compile_text(**common, text=text)
+        return _perform_action(
+            self,
+            instance_id,
+            viewer_id=viewer_id,
+            text=text,
+            action_type=action_type,
+            payload=payload,
         )
-        if not result.proposal.accepted:
-            raise ContractError(result.proposal.rejection_reason or result.proposal.clarification)
-        before = self.runtime.current_state(
-            WorldInstanceId(record.instance_id), BranchId(record.branch_id)
-        )
-        command = result.proposal.to_command(before.revision.value)
-        submitted = cast(SubmittedResult, self.runtime.submit_command(command))
-        event = cast(EventLike, submitted.event)
-        event_id = str(getattr(event.event_id, "value", event.event_id))
-        diff = CommittedStateDiff.from_states(
-            before,
-            submitted.state,
-            event_id=event_id,
-            viewer_actor_id=record.actor_id,
-            allowed_categories=experience.state_diff_fields,
-        )
-        evidence = PlayerActionEvidence.from_committed(
-            result.proposal,
-            command_id=command.command_id.value,
-            event_id=event_id,
-            before_revision=before.revision.value,
-            after_revision=submitted.state.revision.value,
-            before_state_hash=before.semantic_hash(),
-            after_state_hash=submitted.state.semantic_hash(),
-            diff=diff,
-        )
-        self.store.save_instance(
-            ExperienceInstanceRecord(
-                record.instance_id,
-                record.profile_id,
-                record.owner_id,
-                record.branch_id,
-                mode=record.mode,
-                actor_id=record.actor_id,
-                session_id=record.session_id,
-                lease_id=record.lease_id,
-                last_revision=submitted.state.revision.value,
-                updated_seq=record.updated_seq + 1,
-            )
-        )
-        return PlayableActionResult(
-            result.proposal,
-            event_id,
-            submitted.state.revision.value,
-            submitted.state.semantic_hash(),
-            diff,
-            evidence,
-        )
-
-    def _save_instance(
-        self,
-        receipt: EntryReceipt,
-        owner_id: str,
-        branch_id: str,
-        *,
-        updated_seq: int,
-    ) -> None:
-        state = self.runtime.current_state(
-            WorldInstanceId(receipt.instance_id), BranchId(branch_id)
-        )
-        self.store.save_instance(
-            ExperienceInstanceRecord(
-                receipt.instance_id,
-                receipt.profile_id,
-                owner_id,
-                branch_id,
-                mode=receipt.mode,
-                actor_id=receipt.actor_id,
-                session_id=receipt.session_id,
-                lease_id=receipt.lease_id,
-                last_revision=state.revision.value,
-                updated_seq=updated_seq,
-            )
-        )
-
-    def _owned_instance(self, instance_id: str, viewer_id: str) -> ExperienceInstanceRecord:
-        record = self.store.get_instance(instance_id)
-        if record.owner_id != viewer_id:
-            raise NotFound(f"playable instance {instance_id!r} not found")
-        return record

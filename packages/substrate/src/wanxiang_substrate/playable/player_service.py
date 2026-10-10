@@ -27,11 +27,19 @@ def player_world(
     *,
     viewer_id: str,
     locale: str | None = None,
+    include_visual: bool = False,
 ) -> dict[str, object]:
     """Return the non-technical world detail projection for Player UI."""
 
     profile = service.plaza.require_access(profile_id, viewer_id)
-    return player_world_detail(profile, service.packages.get(profile_id), locale=locale)
+    return player_world_detail(
+        profile,
+        service.packages.get(profile_id),
+        locale=locale,
+        include_visual=include_visual,
+        visual_assets=service.visual_assets(profile_id, viewer_id=viewer_id),
+        visual_access_allowed=service.visual_access_allowed(profile_id, viewer_id=viewer_id),
+    )
 
 
 def player_observe(
@@ -72,9 +80,15 @@ def player_observe(
         events,
         actor_id=record.actor_id,
         actor_name=actor_name,
+        actor_starting_location=actor_starting_location,
         diff=diff,
         locale=locale,
         events_since_revision=effective_events_since_revision,
+        visual_assets=service.visual_assets(record.profile_id, viewer_id=viewer_id),
+        visual_access_allowed=service.visual_access_allowed(
+            record.profile_id,
+            viewer_id=viewer_id,
+        ),
     )
     view["session"] = _session_summary(record, view, events, actor_starting_location)
     return view
@@ -115,4 +129,5 @@ def _session_summary(
         "events_since_leave": view["events_since_leave"],
         "last_change": view["last_committed_change"],
         "status": "saved" if left else "active",
+        "entry_mode": record.mode,
     }

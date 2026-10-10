@@ -144,6 +144,10 @@ def _opportunity_cards(
 
 
 def _memory_cards(entities: tuple[EntityState, ...], actor_id: str) -> list[str]:
+    # An observer, or a session without an identified actor, has no private
+    # memory scope. Do not infer permission from an absent owner field.
+    if not actor_id:
+        return []
     result: list[str] = []
     for entity in entities:
         kinds = {entity.entity_type.casefold()}
@@ -154,7 +158,7 @@ def _memory_cards(entities: tuple[EntityState, ...], actor_id: str) -> list[str]
             continue
         fields = _entity_fields(entity)
         owner = _first_text(fields, ("actor_id", "owner_id"))
-        if owner and owner != actor_id:
+        if owner != actor_id:
             continue
         text = _first_text(fields, ("content", "text", "summary", "description"))
         if text:
@@ -162,11 +166,20 @@ def _memory_cards(entities: tuple[EntityState, ...], actor_id: str) -> list[str]
     return result
 
 
-def _named_entities(
-    entities: tuple[EntityState, ...], types: set[str], copy: _PlayerCopy
+def _actor_owned_entities(
+    entities: tuple[EntityState, ...], types: set[str], copy: _PlayerCopy, actor_id: str
 ) -> list[str]:
+    """A world object is not the player's inventory without explicit ownership."""
+    if not actor_id:
+        return []
     return [
-        _entity_name(entity, copy) for entity in entities if entity.entity_type.casefold() in types
+        _entity_name(entity, copy)
+        for entity in entities
+        if entity.entity_type.casefold() in types
+        and _first_text(
+            _entity_fields(entity), ("actor_id", "owner_id", "holder_id", "assignee_id")
+        )
+        == actor_id
     ]
 
 

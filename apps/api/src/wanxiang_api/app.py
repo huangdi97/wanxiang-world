@@ -1,9 +1,15 @@
 """FastAPI application factory for the Wanxiang world API."""
 
+# pyright: reportPrivateUsage=false
+
 from __future__ import annotations
 
+import os
+import pathlib
+from collections.abc import Awaitable, Callable
+
 from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
 from sqlalchemy.orm import sessionmaker
 from wanxiang_application.ports import PersistenceBundle
 from wanxiang_application.synthetic_microworld import register_synthetic_resolvers
@@ -16,6 +22,11 @@ from wanxiang_persistence.event_store import SqlAlchemyEventStore
 from wanxiang_persistence.instance_repository import WorldInstanceRepository
 from wanxiang_persistence.snapshot_store import SqlAlchemySnapshotStore
 from wanxiang_runtime.resolver import ResolverRegistry
+from wanxiang_substrate.assets.book_scene_cache import (
+    LocalJsonVisualCacheIndex,
+    VisualAssetCache,
+)
+from wanxiang_substrate.assets.storage import LocalObjectStore
 from wanxiang_substrate.authoring import AuthoringService, LocalSemanticProvider
 from wanxiang_substrate.authoring.providers import ProviderRouter
 from wanxiang_substrate.lineage import LineageGraph
@@ -33,6 +44,7 @@ from wanxiang_api.one_click_routes import router as one_click_router
 from wanxiang_api.playable_routes import router as playable_router
 from wanxiang_api.player_routes import router as player_router
 from wanxiang_api.player_ui_routes import router as player_ui_router
+from wanxiang_api.player_visual_routes import router as player_visual_router
 from wanxiang_api.promotion_routes import router as promotion_router
 from wanxiang_api.review_routes import router as review_router
 from wanxiang_api.routes import router
@@ -75,6 +87,42 @@ def create_app(
     lineage_graph: LineageGraph | None = None,
 ) -> FastAPI:
     app = FastAPI(title=API_TITLE, version=API_VERSION)
+    identity_mode = os.environ.get("WANXIANG_IDENTITY_MODE", "local-demo").strip()
+    if identity_mode not in {"local-demo", "trusted"}:
+        raise ValueError("WANXIANG_IDENTITY_MODE must be local-demo or trusted")
+
+    if identity_mode == "trusted":
+        # A trusted outer ASGI authenticator must populate these scope values.
+        # Never treat a caller-supplied HTTP header as proof of identity.
+        async def _trusted_identity_boundary(
+            request: Request,
+            call_next: Callable[[Request], Awaitable[Response]],
+        ) -> Response:
+            principal = request.scope.get("wanxiang_authenticated_user")
+            if not isinstance(principal, str) or not principal.strip():
+                return JSONResponse(
+                    status_code=401,
+                    content={"code": "trusted_identity_required"},
+                )
+            roles = request.scope.get("wanxiang_authenticated_roles", ())
+            if request.url.path.startswith("/studio") and (
+                not isinstance(roles, (tuple, list, set, frozenset)) or "creator" not in roles
+            ):
+                return JSONResponse(
+                    status_code=403,
+                    content={"code": "studio_creator_role_required"},
+                )
+            headers = [
+                (key, value)
+                for key, value in request.scope.get("headers", [])
+                if key.lower() != b"x-wanxiang-user"
+            ]
+            headers.append((b"x-wanxiang-user", principal.encode("utf-8")))
+            request.scope["headers"] = headers
+            return await call_next(request)
+
+        app.middleware("http")(_trusted_identity_boundary)
+
     app.state.runtime = runtime
     app.state.lineage_graph = lineage_graph or LineageGraph()
     app.state.studio_admin = False
@@ -93,8 +141,24 @@ def create_app(
     # no-key deterministic baseline and can return SEMANTIC_PROVIDER_REQUIRED.
     providers = ProviderRouter((LocalSemanticProvider(), LocalPromptGenesisProvider()))
     app.state.authoring = AuthoringService(providers=providers)
+    visual_cache_root = os.environ.get("WANXIANG_VISUAL_CACHE_DIR", "").strip()
+    if visual_cache_root:
+        visual_cache_path = pathlib.Path(visual_cache_root)
+        app.state.visual_asset_cache = VisualAssetCache(
+            LocalObjectStore(visual_cache_path / "blobs"),
+            LocalJsonVisualCacheIndex(visual_cache_path / "index.json"),
+        )
+    else:
+        app.state.visual_asset_cache = VisualAssetCache()
+    app.state.visual_asset_provider = None
+    app.state.visual_asset_allow_network = False
+    app.state.visual_asset_max_cost_units = 0
     app.state.workshop = WorkshopService(app.state.authoring, providers=providers)
-    app.state.playable = PlayableService(runtime) if runtime is not None else None
+    app.state.playable = (
+        PlayableService(runtime, visual_cache=app.state.visual_asset_cache)
+        if runtime is not None
+        else None
+    )
     install_error_handler(app)
 
     @app.exception_handler(PayloadTooLarge)
@@ -121,5 +185,6 @@ def create_app(
     app.include_router(workshop_router)
     app.include_router(playable_router)
     app.include_router(player_router)
+    app.include_router(player_visual_router)
     app.include_router(player_ui_router)
     return app
