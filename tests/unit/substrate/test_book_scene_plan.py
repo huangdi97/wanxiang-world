@@ -238,3 +238,22 @@ def test_reviewed_scene_evidence_invalidates_pixels_without_changing_world_ident
 
     assert first[:2] == reviewed[:2] == newly_cited[:2]
     assert len({first[2], reviewed[2], newly_cited[2]}) == 3
+
+
+
+def test_invalid_source_confidence_never_outranks_verified_place() -> None:
+    evidence = [
+        {"name": "虚影", "source_refs": ["book#one"], "confidence": float("nan")},
+        {"name": "城门", "source_refs": ["book#two"], "confidence": 0.76},
+        {"name": "港湾", "source_refs": ["book#three"], "confidence": float("inf")},
+    ]
+    package = package_from_book(
+        "untrusted-rank",
+        ("虚影", "城门", "港湾"),
+        compiler_metadata={"scene_evidence_v1": json.dumps(evidence, ensure_ascii=False)},
+    )
+    plan = _plan_book_scene_assets(package)
+
+    assert plan.scene_requests[0].place_name == "城门"
+    by_place = {item.place_name: item.confidence for item in plan.scene_requests}
+    assert by_place == {"城门": 0.76, "虚影": 0.0, "港湾": 0.0}

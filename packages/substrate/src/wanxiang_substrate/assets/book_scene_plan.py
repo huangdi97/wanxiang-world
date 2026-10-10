@@ -43,6 +43,15 @@ def _string_list(value: object) -> tuple[str, ...]:
     )
 
 
+
+def _bounded_confidence(value: object) -> float:
+    """Prevent invalid/untrusted scores from changing ranking or map truth."""
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return 0.0
+    score = float(value)
+    return score if math.isfinite(score) and 0.0 <= score <= 1.0 else 0.0
+
+
 @dataclass(frozen=True, slots=True)
 class _SourceSceneRequest:
     """A book-derived visual candidate request, not a canonical scene."""
@@ -148,17 +157,10 @@ def _plan_book_scene_assets(
         ):
             continue
         source_refs = _string_list(row.get("source_refs", []))
-        raw_confidence = row.get("confidence", 0.0)
-        confidence = (
-            float(raw_confidence)
-            if isinstance(raw_confidence, (int, float)) and not isinstance(raw_confidence, bool)
-            else 0.0
-        )
+        confidence = _bounded_confidence(row.get("confidence", 0.0))
         # A relation without a source locator is a claim, not an atlas edge.
         # Unbounded/NaN confidence can also mislead a player about evidence.
-        if not source_refs or not relation_type.strip() or not math.isfinite(confidence):
-            continue
-        if not 0.0 < confidence <= 1.0:
+        if not source_refs or not relation_type.strip() or confidence <= 0.0:
             continue
         topology_relations.append(
             _SourceTopologyRelation(
@@ -195,12 +197,10 @@ def _plan_book_scene_assets(
     def place_rank(place: str) -> tuple[int, float, int, int, str, int]:
         matching = evidence_by_place.get(place, [])
         refs = {ref for row in matching for ref in _string_list(row.get("source_refs", []))}
-        confidence_values = [
-            float(raw_confidence)
-            for row in matching
-            if isinstance((raw_confidence := row.get("confidence", 0.0)), (int, float))
-        ]
-        confidence = max(confidence_values, default=0.0)
+        confidence = max(
+            (_bounded_confidence(row.get("confidence", 0.0)) for row in matching),
+            default=0.0,
+        )
         context_count = sum(
             len(cast(list[object], raw_context))
             for row in matching
@@ -232,12 +232,10 @@ def _plan_book_scene_assets(
         source_refs = tuple(
             sorted({ref for row in matching for ref in _string_list(row.get("source_refs", []))})
         )
-        confidence_values = [
-            float(raw_confidence)
-            for row in matching
-            if isinstance((raw_confidence := row.get("confidence", 0.0)), (int, float))
-        ]
-        confidence = max(confidence_values, default=0.0)
+        confidence = max(
+            (_bounded_confidence(row.get("confidence", 0.0)) for row in matching),
+            default=0.0,
+        )
         context_candidates: list[str] = []
         for row in matching:
             raw_context = row.get("cooccurring_candidates", [])
