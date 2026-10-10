@@ -9,6 +9,7 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import replace
 from threading import Lock
 from time import sleep
+from typing import cast
 
 import pytest
 from wanxiang_substrate.assets.book_scene_plan import (
@@ -369,10 +370,11 @@ def test_visual_index_wrong_cache_key_is_never_treated_as_a_scene_hit(
     assert first.provider_calls == 1
 
     revised = replace(original, cache_key="cache-reviewed-evidence")
-    target_key = (
-        f"{revised.cache_key}:procedural-svg@{_ProceduralSvgSceneProvider.provider_version}"
-    )
-    rows = json.loads(cache_path.read_text(encoding="utf-8"))
+    provider = _ProceduralSvgSceneProvider()
+    target_key = f"{revised.cache_key}:{provider.provider_id}@{provider.provider_version}"
+    raw: object = json.loads(cache_path.read_text(encoding="utf-8"))
+    assert isinstance(raw, dict)
+    rows = cast(dict[str, dict[str, object]], raw)
     old_key = next(iter(rows))
     rows[target_key] = dict(rows[old_key])
     cache_path.write_text(json.dumps(rows), encoding="utf-8")

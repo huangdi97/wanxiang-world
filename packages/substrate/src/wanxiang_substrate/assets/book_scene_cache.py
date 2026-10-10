@@ -202,7 +202,10 @@ class VisualAssetCache:
             # Missing or damaged bytes are a cache miss. A replacement still
             # requires the caller's current rights, network and cost gates.
             return None
-        if len(content) != metadata.size or hashlib.sha256(content).hexdigest() != metadata.content_sha256:
+        if (
+            len(content) != metadata.size
+            or hashlib.sha256(content).hexdigest() != metadata.content_sha256
+        ):
             # A pluggable ObjectStore may not enforce the metadata index's
             # integrity contract itself. Never reuse mismatched cached bytes.
             return None
