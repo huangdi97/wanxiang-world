@@ -25,7 +25,7 @@ class _FakeImageClient(_ExternalImageClient):
 
     def generate(self, brief: _SceneGenerationBrief) -> _ExternalImageResult:
         self.briefs.append(brief)
-        return _ExternalImageResult(b"\x89PNG\r\nwanxiang-test", "image/png")
+        return _ExternalImageResult(b"\x89PNG\r\n\x1a\nwanxiang-test", "image/png")
 
 
 def _request() -> _SourceSceneRequest:
@@ -147,3 +147,38 @@ def test_external_image_provider_rejects_active_svg_payload() -> None:
     )
     with pytest.raises(ValueError, match="raster image media type"):
         provider.produce(_request())
+
+
+@pytest.mark.parametrize(
+    ("media_type", "payload", "valid"),
+    [
+        ("image/png", b"\x89PNG\r\n\x1a\nscene", True),
+        ("image/jpeg", b"\xff\xd8\xff\xe0scene", True),
+        ("image/webp", b"RIFF" + b"\x10\x00\x00\x00" + b"WEBP" + b"scene", True),
+        ("image/png", b"<html>not an image</html>", False),
+        ("image/png", b"\xff\xd8\xffwrong-type", False),
+        ("image/jpeg", b"\x89PNG\r\n\x1a\nwrong-type", False),
+        ("image/webp", b"RIFF" + b"\x10\x00\x00\x00" + b"AVI " + b"scene", False),
+        ("image/webp", b"RIFF", False),
+    ],
+)
+def test_external_image_bytes_must_match_declared_raster_type(
+    media_type: str, payload: bytes, valid: bool
+) -> None:
+    class _PayloadClient(_ExternalImageClient):
+        def generate(self, brief: _SceneGenerationBrief) -> _ExternalImageResult:
+            _ = brief
+            return _ExternalImageResult(payload, media_type)
+
+    provider = _PromptedExternalSceneProvider(
+        provider_id="provider:signature",
+        provider_version="1",
+        client=_PayloadClient(),
+        cost_units_per_asset=0,
+        private_safe=True,
+    )
+    if valid:
+        assert provider.produce(_request()).content == payload
+    else:
+        with pytest.raises(ValueError, match="do not match declared media type"):
+            provider.produce(_request())
