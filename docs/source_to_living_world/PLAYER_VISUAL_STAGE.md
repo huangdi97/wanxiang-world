@@ -161,3 +161,7 @@ Automated acceptance must prove at minimum:
    changes;
 9. continue-session returns to the same authoritative world;
 10. human visual acceptance remains a human gate and is never fabricated.
+
+## Atlas as an actionable entrance
+
+The book-derived Atlas is narrative topology, not geographic coordinates. In Player, its cover offers seven or fewer source-grounded place entrances: ready places select their cached scene; deferred places use the governed on-demand generation path. The full searchable place index remains below. Repeated clicks in the same browser session cannot start simultaneous duplicate scene generation requests. This is not proof of server-level concurrency coalescing or human visual acceptance.

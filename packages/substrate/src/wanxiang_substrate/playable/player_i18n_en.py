@@ -108,6 +108,7 @@ STRINGS: dict[str, str] = {
     "scene_heading": "Live scene",
     "visual_gallery_heading": "Visual world atlas",
     "visual_atlas_label": "Narrative world atlas",
+    "atlas_entrances_heading": "Explore places in the atlas",
     "visual_atlas_caption": "Narrative world atlas · links are not geographic coordinates",
     "visual_relations_heading": "Source-grounded place links",
     "visual_clues_heading": "Source scene clues",

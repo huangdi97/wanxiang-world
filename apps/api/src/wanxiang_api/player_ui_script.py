@@ -109,12 +109,24 @@ function renderCharacterView(){
   const list=$("all-character-list");
   list.innerHTML=model.characters.length?model.characters.map(item=>characterLine(item)).join(""):`<div class="empty-state"><strong>${safe(tr("no_characters_title"))}</strong><p>${safe(tr("no_characters_body"))}</p></div>`;
 }
+function renderAtlasEntrances(item,galleryItems){
+  const nav=$("atlas-entrances"),places=model.world?.world?.visual?.places||[];
+  nav.hidden=item?.kind!=="atlas"||!places.length;
+  if(nav.hidden){nav.innerHTML="";return}
+  nav.innerHTML=`<strong>${safe(tr("atlas_entrances_heading"))}</strong><div class="atlas-entrances-list">${places.slice(0,7).map(place=>`<button class="atlas-entrance" type="button" data-atlas-place="${safe(place.name)}"><span>${safe(place.name)}</span><small>${safe(tr(place.generated?"visual_place_ready":"visual_place_generate"))}</small></button>`).join("")}</div>`;
+  nav.querySelectorAll("[data-atlas-place]").forEach(node=>node.addEventListener("click",()=>{
+    const name=node.dataset.atlasPlace||"";
+    const scene=(model.world?.world?.visual?.scenes||[]).find(row=>row.place_name===name);
+    if(scene)focusDetailVisual(scene,galleryItems);else generateVisualPlace(name);
+  }));
+}
 function focusDetailVisual(item,galleryItems){
   if(!item)return;
   const image=$("detail-visual-image");
   const label=item.kind==="atlas"?tr("visual_atlas_label"):item.place_name||model.world?.world?.name||tr("world");
   image.hidden=false;image.src=item.data_uri;image.alt=label;image.dataset.selectedPlace=item.place_name||"";
   $("detail-visual-caption").textContent=item.kind==="atlas"?tr("visual_atlas_caption"):label;
+  renderAtlasEntrances(item,galleryItems);
   $("visual-gallery").querySelectorAll("[data-visual-index]").forEach(node=>node.setAttribute("aria-pressed",String(galleryItems[Number(node.dataset.visualIndex)]===item)));
   $("visual-places").querySelectorAll("[data-focus-place]").forEach(node=>node.setAttribute("aria-pressed",String(node.dataset.focusPlace===item.place_name)));
 }
@@ -134,7 +146,7 @@ function renderDetail(preferredPlace=""){
   const world=model.world.world;
   const setting=world.setting||{};
   const scenes=world.visual?.scenes||[],topology=world.visual?.topology||[],atlas=world.visual?.atlas||null;const visual=(preferredPlace?scenes.find(item=>item.place_name===preferredPlace):null)||atlas||scenes[0]||null;const visualImg=$("detail-visual-image");visualImg.hidden=!visual;visualImg.dataset.selectedPlace=visual?.place_name||"";if(visual){visualImg.src=visual.data_uri;visualImg.alt=visual.kind==="atlas"?tr("visual_atlas_label"):visual.place_name||world.name;$("detail-visual-caption").textContent=visual.kind==="atlas"?tr("visual_atlas_caption"):visual.place_name||world.name}else{$("detail-visual-caption").textContent=tr("world_plate_copy")}
-  const galleryItems=atlas?[atlas,...scenes]:scenes;const galleryWrap=$("visual-gallery-wrap"),gallery=$("visual-gallery");galleryWrap.hidden=!galleryItems.length;gallery.innerHTML=galleryItems.map((item,index)=>{const label=item.kind==="atlas"?tr("visual_atlas_label"):item.place_name||world.name;return `<button class="visual-thumb" type="button" data-visual-index="${index}" aria-pressed="${item===visual?"true":"false"}"><img alt="${safe(label)}" src="${safe(item.data_uri)}"><span>${safe(label)}</span></button>`}).join("");gallery.querySelectorAll("[data-visual-index]").forEach(node=>node.addEventListener("click",()=>{const item=galleryItems[Number(node.dataset.visualIndex)]||null;if(item)focusDetailVisual(item,galleryItems)}));const places=world.visual?.places||[],placesWrap=$("visual-places-wrap");placesWrap.hidden=!places.length;const placeSearch=$("visual-place-search");placeSearch.value=model.placeQuery;placeSearch.oninput=()=>{model.placeQuery=placeSearch.value;model.placeLimit=36;renderVisualPlaceList(scenes,galleryItems,visual)};$("visual-place-more").onclick=()=>{model.placeLimit+=36;renderVisualPlaceList(scenes,galleryItems,visual)};renderVisualPlaceList(scenes,galleryItems,visual);const relationsWrap=$("visual-relations-wrap"),relations=$("visual-relations");relationsWrap.hidden=!topology.length;relations.innerHTML=topology.map(item=>`<span class="visual-relation">${safe(item.from)} <b>→</b> ${safe(item.to)}</span>`).join("");$("detail-title").textContent=world.name;$("detail-plate-title").textContent=world.name;$("detail-description").textContent=world.description;$("detail-scenario").textContent=world.scenario.name;$("detail-opening").textContent=world.scenario.opening;$("detail-era").textContent=shown(setting.era);$("detail-location").textContent=shown(setting.location);$("detail-environment").textContent=shown(setting.environment);$("detail-time").textContent=shown(setting.time,"time_after_enter");$("detail-now").textContent=shown(setting.happening);$("detail-mode").textContent=world.mode||tr("mode_character");
+  const galleryItems=atlas?[atlas,...scenes]:scenes;renderAtlasEntrances(visual,galleryItems);const galleryWrap=$("visual-gallery-wrap"),gallery=$("visual-gallery");galleryWrap.hidden=!galleryItems.length;gallery.innerHTML=galleryItems.map((item,index)=>{const label=item.kind==="atlas"?tr("visual_atlas_label"):item.place_name||world.name;return `<button class="visual-thumb" type="button" data-visual-index="${index}" aria-pressed="${item===visual?"true":"false"}"><img alt="${safe(label)}" src="${safe(item.data_uri)}"><span>${safe(label)}</span></button>`}).join("");gallery.querySelectorAll("[data-visual-index]").forEach(node=>node.addEventListener("click",()=>{const item=galleryItems[Number(node.dataset.visualIndex)]||null;if(item)focusDetailVisual(item,galleryItems)}));const places=world.visual?.places||[],placesWrap=$("visual-places-wrap");placesWrap.hidden=!places.length;const placeSearch=$("visual-place-search");placeSearch.value=model.placeQuery;placeSearch.oninput=()=>{model.placeQuery=placeSearch.value;model.placeLimit=36;renderVisualPlaceList(scenes,galleryItems,visual)};$("visual-place-more").onclick=()=>{model.placeLimit+=36;renderVisualPlaceList(scenes,galleryItems,visual)};renderVisualPlaceList(scenes,galleryItems,visual);const relationsWrap=$("visual-relations-wrap"),relations=$("visual-relations");relationsWrap.hidden=!topology.length;relations.innerHTML=topology.map(item=>`<span class="visual-relation">${safe(item.from)} <b>→</b> ${safe(item.to)}</span>`).join("");$("detail-title").textContent=world.name;$("detail-plate-title").textContent=world.name;$("detail-description").textContent=world.description;$("detail-scenario").textContent=world.scenario.name;$("detail-opening").textContent=world.scenario.opening;$("detail-era").textContent=shown(setting.era);$("detail-location").textContent=shown(setting.location);$("detail-environment").textContent=shown(setting.environment);$("detail-time").textContent=shown(setting.time,"time_after_enter");$("detail-now").textContent=shown(setting.happening);$("detail-mode").textContent=world.mode||tr("mode_character");
   const list=$("character-list"),items=model.world.characters||[];
   list.innerHTML=items.length?items.map(item=>characterLine(item,true)).join(""):`<div class="empty-state"><strong>${safe(tr("no_compatible_title"))}</strong><p>${safe(tr("no_compatible_body"))}</p><button type="button" class="text-button" data-open-characters>${safe(tr("create_character_from_world"))}</button></div>`;
   if(items.length&&!items.some(item=>item.character_id===model.selectedCharacter)){model.selectedCharacter=items[0].character_id;const radio=list.querySelector("input");if(radio)radio.checked=true}
@@ -145,11 +157,13 @@ async function openWorld(profileId){
   try{model.world=await api(`/experience/player/worlds/${encodeURIComponent(profileId)}`);model.selectedCharacter="";model.placeQuery="";model.placeLimit=36;renderDetail();status("")}
   catch(error){status(error.message,true)}finally{busy(false)}
 }
+let visualGenerationInFlight=false;
 async function generateVisualPlace(place){
-  const profile=model.world?.world?.profile_id;if(!profile||!place)return;
+  const profile=model.world?.world?.profile_id;if(!profile||!place||visualGenerationInFlight)return;
+  visualGenerationInFlight=true;
   busy(true);status(tr("status_generating_scene",{place}));
   try{const result=await api(`/experience/player/worlds/${encodeURIComponent(profile)}/visuals`,{method:"POST",body:JSON.stringify({place_name:place})});model.world.world=result.world;renderDetail(place);status(tr("status_scene_ready",{place}))}
-  catch(error){status(error.message,true)}finally{busy(false)}
+  catch(error){status(error.message,true)}finally{visualGenerationInFlight=false;busy(false)}
 }
 async function enterWorld(){
   const character=document.querySelector('input[name="character"]:checked')?.value;

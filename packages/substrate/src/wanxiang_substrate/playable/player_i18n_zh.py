@@ -98,6 +98,7 @@ STRINGS: dict[str, str] = {
     "scene_heading": "此刻现场",
     "visual_gallery_heading": "世界视觉图册",
     "visual_atlas_label": "叙事世界图谱",
+    "atlas_entrances_heading": "从图谱进入地点",
     "visual_atlas_caption": "叙事世界图谱 · 关系不等于地理坐标",
     "visual_relations_heading": "原文明示的地点连接",
     "visual_clues_heading": "原文场景线索",

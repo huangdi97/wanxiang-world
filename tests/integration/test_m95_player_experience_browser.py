@@ -209,6 +209,20 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 assert page.locator("#visual-gallery-wrap").is_visible()
                 assert page.locator("#visual-gallery .visual-thumb").count() >= 2
                 assert "叙事世界图谱" in page.locator("#detail-visual-caption").inner_text()
+                entrances = page.locator("#atlas-entrances [data-atlas-place]")
+                assert entrances.count() >= 3
+                assert page.locator("#atlas-entrances").is_visible()
+                ready_entrance = page.locator("#atlas-entrances [data-atlas-place]").filter(
+                    has=page.locator("small", has_text="已有场景")
+                ).first
+                assert ready_entrance.count() == 1
+                entrance_name = ready_entrance.get_attribute("data-atlas-place")
+                assert entrance_name
+                ready_entrance.click()
+                assert entrance_name in page.locator("#detail-visual-caption").inner_text()
+                assert page.locator("#atlas-entrances").is_hidden()
+                page.locator('#visual-gallery [data-visual-index="0"]').click()
+                assert page.locator("#atlas-entrances").is_visible()
                 place_buttons = page.locator("#visual-places .visual-place")
                 assert place_buttons.count() >= 5
                 assert page.locator("#visual-place-count").is_visible()

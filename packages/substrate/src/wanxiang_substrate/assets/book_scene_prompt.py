@@ -109,16 +109,12 @@ def _compile_scene_generation_brief(
         for requirement in request.spec.requirements
         if requirement.startswith("source_context_candidate:")
     )
-    context = tuple(
-        item.strip()[:_MAX_CONTEXT_CHARS]
-        for item in raw_context
-        if item.strip()
-    )[:_MAX_CONTEXT_ITEMS]
-    source_refs = tuple(
-        ref.strip()[:_MAX_REF_CHARS]
-        for ref in request.source_refs
-        if ref.strip()
-    )[:_MAX_SOURCE_REFS]
+    context = tuple(item.strip()[:_MAX_CONTEXT_CHARS] for item in raw_context if item.strip())[
+        :_MAX_CONTEXT_ITEMS
+    ]
+    source_refs = tuple(ref.strip()[:_MAX_REF_CHARS] for ref in request.source_refs if ref.strip())[
+        :_MAX_SOURCE_REFS
+    ]
     place_name = request.place_name.strip()[:_MAX_PLACE_CHARS]
     payload = {
         "task": "create one immersive environment illustration candidate",
