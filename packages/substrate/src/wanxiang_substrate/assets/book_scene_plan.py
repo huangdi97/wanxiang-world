@@ -10,10 +10,14 @@ from __future__ import annotations
 
 import hashlib
 import json
-import math
 from dataclasses import dataclass
 from typing import cast
 
+from wanxiang_substrate.assets.book_scene_evidence import (
+    _bounded_confidence,
+    _cache_evidence_ref,
+    _string_list,
+)
 from wanxiang_substrate.assets.foundry import SemanticSceneSpec
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 
@@ -29,26 +33,6 @@ def _json_list(raw: str) -> list[object]:
 
 def _object_dict(value: object) -> dict[str, object] | None:
     return cast(dict[str, object], value) if isinstance(value, dict) else None
-
-
-def _string_list(value: object) -> tuple[str, ...]:
-    if not isinstance(value, list):
-        return ()
-    return tuple(
-        sorted(
-            item
-            for raw in cast(list[object], value)
-            if isinstance(raw, str) and (item := raw.strip())
-        )
-    )
-
-
-def _bounded_confidence(value: object) -> float:
-    """Prevent invalid/untrusted scores from changing ranking or map truth."""
-    if isinstance(value, bool) or not isinstance(value, (int, float)):
-        return 0.0
-    score = float(value)
-    return score if math.isfinite(score) and 0.0 <= score <= 1.0 else 0.0
 
 
 @dataclass(frozen=True, slots=True)
@@ -248,9 +232,22 @@ def _plan_book_scene_assets(
                 if isinstance(kind, str) and isinstance(label, str) and label:
                     context_candidates.append(f"{kind}:{label}")
         context_candidates = list(dict.fromkeys(context_candidates))[:8]
+        # Preserve original source refs for provenance, but use content-pinned
+        # locator identity for the *cache* of a one-source book. Re-importing
+        # identical bytes under a different job/source ID must not re-bill T1.
+        # Multi-source bundles keep exact locators until source-ID-to-fingerprint
+        # binding is available, to avoid aliasing distinct works.
+        single_source = (
+            (package.source_versions[0][0], fingerprints[0])
+            if len(package.source_versions) == len(fingerprints) == 1
+            else None
+        )
+        cache_evidence_refs = tuple(
+            _cache_evidence_ref(ref, single_source=single_source) for ref in source_refs
+        )
         evidence_identity = json.dumps(
             {
-                "source_refs": source_refs,
+                "source_refs": cache_evidence_refs,
                 "confidence": confidence,
                 "context_candidates": context_candidates,
             },

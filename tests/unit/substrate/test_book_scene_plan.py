@@ -256,3 +256,38 @@ def test_invalid_source_confidence_never_outranks_verified_place() -> None:
     assert plan.scene_requests[0].place_name == "城门"
     by_place = {item.place_name: item.confidence for item in plan.scene_requests}
     assert by_place == {"城门": 0.76, "虚影": 0.0, "港湾": 0.0}
+
+def test_same_source_fingerprint_reuses_cache_across_distinct_source_ids() -> None:
+    fingerprint = "a" * 64
+
+    def plan_for(source_id: str, locator: str) -> tuple[str, str, str]:
+        metadata = {
+            "source_fingerprints_v1": json.dumps([fingerprint]),
+            "scene_evidence_v1": json.dumps(
+                [
+                    {
+                        "name": "园林",
+                        "source_refs": [f"text://{source_id}#paragraph/{locator}"],
+                        "confidence": 0.83,
+                        "cooccurring_candidates": [
+                            {"kind": "object", "label": "石碑"}
+                        ],
+                    }
+                ],
+                ensure_ascii=False,
+            ),
+        }
+        plan = _plan_book_scene_assets(
+            package_from_book(source_id, ("园林",), compiler_metadata=metadata)
+        )
+        scene = plan.scene_requests[0]
+        return scene.stable_key, scene.cache_key, scene.source_refs[0]
+
+    first = plan_for("job-a", "7")
+    same_bytes = plan_for("job-b", "7")
+    different_locator = plan_for("job-c", "8")
+
+    assert first[0] == same_bytes[0] == different_locator[0]
+    assert first[1] == same_bytes[1]
+    assert first[2] != same_bytes[2]
+    assert first[1] != different_locator[1]
