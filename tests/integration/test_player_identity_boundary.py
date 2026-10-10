@@ -4,10 +4,10 @@ from __future__ import annotations
 
 from typing import Any, cast
 
-from httpx import Response
-from starlette.types import ASGIApp, Receive, Scope, Send
 from fastapi import Request
 from fastapi.testclient import TestClient
+from httpx import Response
+from starlette.types import ASGIApp, Receive, Scope, Send
 from wanxiang_api.app import create_app
 
 
