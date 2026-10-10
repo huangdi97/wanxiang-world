@@ -4,9 +4,9 @@
 
 from __future__ import annotations
 
+import _thread
 import json
 import pathlib
-import _thread
 from collections.abc import Iterable, Iterator
 from contextlib import contextmanager
 from dataclasses import dataclass
@@ -158,7 +158,9 @@ class VisualAssetCache:
     def generation_guard(self, cache_keys: Iterable[str]) -> Iterator[None]:
         """Coalesce concurrent same-scene generation in one Python process."""
         with self._guard_lock:
-            locks = [self._scene_locks.setdefault(key, Lock()) for key in sorted(set(cache_keys))]
+            locks = [
+                self._scene_locks.setdefault(key, Lock()) for key in sorted(set(cache_keys))
+            ]
         for lock in locks:
             lock.acquire()
         try:
@@ -166,6 +168,7 @@ class VisualAssetCache:
         finally:
             for lock in reversed(locks):
                 lock.release()
+
     def get(
         self,
         cache_key: str,
