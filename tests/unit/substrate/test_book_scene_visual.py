@@ -462,3 +462,27 @@ def test_simultaneous_requests_for_same_scene_pay_once_per_cache_key() -> None:
 
     assert provider.calls == 1
     assert sorted(calls) == [0, 0, 0, 0, 0, 1]
+
+def test_separate_durable_cache_instances_coalesce_same_scene_generation(
+    tmp_path: pathlib.Path,
+) -> None:
+    """Two API workers sharing a local JSON cache must not double-bill a scene."""
+    plan = _plan(_request("潮汐港", "shared-file-lock"))
+    provider = _SlowCountingProvider()
+    caches = tuple(
+        _VisualAssetCache(
+            LocalObjectStore(tmp_path / "blobs"),
+            _LocalJsonVisualCacheIndex(tmp_path / "index.json"),
+        )
+        for _ in range(4)
+    )
+
+    def materialize(cache: _VisualAssetCache) -> int:
+        result = _materialize_visual_plan(plan, provider=provider, cache=cache)
+        return result.provider_calls
+
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        calls = list(executor.map(materialize, caches))
+
+    assert provider.calls == 1
+    assert sorted(calls) == [0, 0, 0, 1]

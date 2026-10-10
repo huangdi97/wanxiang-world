@@ -13,6 +13,7 @@ from dataclasses import dataclass
 from threading import Lock
 from typing import cast
 
+from wanxiang_substrate.assets.book_scene_interprocess import _exclusive_index_lock
 from wanxiang_substrate.assets.book_scene_types import _SceneVisualAsset
 from wanxiang_substrate.assets.errors import AssetNotFound
 from wanxiang_substrate.assets.storage import AssetRef, InMemoryObjectStore, ObjectStore
@@ -117,6 +118,13 @@ class LocalJsonVisualCacheIndex(_VisualCacheIndex):
         raw = self._rows().get(cache_key)
         return self._record(raw) if raw is not None else None
 
+    @contextmanager
+    def generation_guard(self) -> Generator[None, None, None]:
+        """Serialize local index read/generate/write across processes on one filesystem."""
+        lock_path = self._path.with_suffix(self._path.suffix + ".generation.lock")
+        with _exclusive_index_lock(lock_path):
+            yield
+
     def put(self, record: _VisualCacheRecord) -> None:
         with self._write_lock:
             rows = self._rows()
@@ -156,13 +164,17 @@ class VisualAssetCache:
 
     @contextmanager
     def generation_guard(self, cache_keys: Iterable[str]) -> Generator[None, None, None]:
-        """Coalesce concurrent same-scene generation in one Python process."""
+        """Coalesce identical generations; durable local indices lock across processes."""
         with self._guard_lock:
             locks = [self._scene_locks.setdefault(key, Lock()) for key in sorted(set(cache_keys))]
         for lock in locks:
             lock.acquire()
         try:
-            yield
+            if isinstance(self.index, LocalJsonVisualCacheIndex):
+                with self.index.generation_guard():
+                    yield
+            else:
+                yield
         finally:
             for lock in reversed(locks):
                 lock.release()
