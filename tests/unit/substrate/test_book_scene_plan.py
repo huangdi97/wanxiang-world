@@ -169,3 +169,43 @@ def test_large_generic_book_indexes_evidence_without_changing_scene_selection() 
     assert first.scene_requests[0].place_name == "Location-1199"
     assert first.deferred_scene_count == 1197
     assert first.scene_requests[0].source_refs == ("book#chapter-1199", "book#chapter-1201")
+
+
+
+def test_topology_requires_source_locator_and_bounded_confidence() -> None:
+    valid = {
+        "source_place": "海港",
+        "target_place": "城门",
+        "relation_type": "path",
+        "source_refs": ["book#chapter-2"],
+        "confidence": 0.84,
+    }
+    no_locator = {**valid, "source_refs": []}
+    no_relation = {**valid, "relation_type": ""}
+    zero_confidence = {**valid, "confidence": 0.0}
+    excessive_confidence = {**valid, "confidence": 3.0}
+    nonfinite_confidence = {**valid, "confidence": float("nan")}
+    fake_place = {**valid, "target_place": "虚构山谷"}
+    package = package_from_book(
+        "topology-proof",
+        ("海港", "城门"),
+        compiler_metadata={
+            "scene_topology_evidence_v1": json.dumps(
+                [
+                    no_locator,
+                    no_relation,
+                    zero_confidence,
+                    excessive_confidence,
+                    nonfinite_confidence,
+                    fake_place,
+                    valid,
+                ],
+                ensure_ascii=False,
+            )
+        },
+    )
+    plan = _plan_book_scene_assets(package)
+
+    assert len(plan.topology_relations) == 1
+    assert plan.topology_relations[0].source_refs == ("book#chapter-2",)
+    assert plan.topology_relations[0].confidence == 0.84

@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 from dataclasses import dataclass
 from typing import cast
 
@@ -148,7 +149,17 @@ def _plan_book_scene_assets(
             continue
         source_refs = _string_list(row.get("source_refs", []))
         raw_confidence = row.get("confidence", 0.0)
-        confidence = float(raw_confidence) if isinstance(raw_confidence, (int, float)) else 0.0
+        confidence = (
+            float(raw_confidence)
+            if isinstance(raw_confidence, (int, float)) and not isinstance(raw_confidence, bool)
+            else 0.0
+        )
+        # A relation without a source locator is a claim, not an atlas edge.
+        # Unbounded/NaN confidence can also mislead a player about evidence.
+        if not source_refs or not relation_type.strip() or not math.isfinite(confidence):
+            continue
+        if not 0.0 < confidence <= 1.0:
+            continue
         topology_relations.append(
             _SourceTopologyRelation(
                 source_place=source_place,
