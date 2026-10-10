@@ -7,7 +7,6 @@ import sys
 import time
 from typing import cast
 
-
 _WORKER = """
 import json
 import pathlib
