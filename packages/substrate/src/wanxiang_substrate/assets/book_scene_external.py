@@ -10,7 +10,7 @@ contains no API keys, endpoints, canonical writers, or raw-book transport.
 from __future__ import annotations
 
 import hashlib
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
 from wanxiang_substrate.assets.book_scene_prompt import (
@@ -61,14 +61,17 @@ class _PromptedExternalSceneProvider(_SceneImageProvider):
             or hashlib.sha256(f"{request.cache_key}:story-style".encode()).hexdigest()[:24]
         )
         profile = _story_visual_profile_from_style_key(style_key)
-        brief = _compile_scene_generation_brief(request, profile)
+        internal_brief = _compile_scene_generation_brief(request, profile)
+        # Locator references remain available for internal audit, but an
+        # untrusted external client does not need stable source identifiers.
+        brief = replace(internal_brief, source_refs=())
         result = self.client.generate(brief)
         if not result.content:
             raise ValueError("external visual provider returned empty image bytes")
         if len(result.content) > self.max_output_bytes:
             raise ValueError("external visual provider output exceeds size limit")
-        if not result.media_type.startswith("image/"):
-            raise ValueError("external visual provider must return an image media type")
+        if result.media_type not in {"image/png", "image/jpeg", "image/webp"}:
+            raise ValueError("external visual provider requires a raster image media type")
         digest = hashlib.sha256(result.content).hexdigest()
         return _SceneVisualAsset(
             scene_key=request.stable_key,

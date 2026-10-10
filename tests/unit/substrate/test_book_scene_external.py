@@ -105,7 +105,8 @@ def test_external_provider_gets_minimal_brief_and_obeys_materializer_governance(
     assert len(client.briefs) == 1
     brief = client.briefs[0]
     assert brief.full_source_included is False
-    assert brief.source_refs == ("book#chapter-1:paragraph-3",)
+    assert brief.source_refs == ()
+    assert _request().source_refs == ("book#chapter-1:paragraph-3",)
     assert "机关桥" in brief.semantic_prompt
     assert "沈砚" in brief.semantic_prompt
     assert "book#chapter-1:paragraph-3" not in brief.semantic_prompt
@@ -125,4 +126,25 @@ def test_external_provider_rejects_non_image_or_oversized_output() -> None:
         private_safe=True,
     )
     with pytest.raises(ValueError, match="image media type"):
+        provider.produce(_request())
+
+
+
+def test_external_image_provider_rejects_active_svg_payload() -> None:
+    class _SvgClient(_ExternalImageClient):
+        def generate(self, brief: _SceneGenerationBrief) -> _ExternalImageResult:
+            _ = brief
+            return _ExternalImageResult(
+                b'<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script></svg>',
+                "image/svg+xml",
+            )
+
+    provider = _PromptedExternalSceneProvider(
+        provider_id="provider:unsafe-svg",
+        provider_version="1",
+        client=_SvgClient(),
+        cost_units_per_asset=0,
+        private_safe=True,
+    )
+    with pytest.raises(ValueError, match="raster image media type"):
         provider.produce(_request())

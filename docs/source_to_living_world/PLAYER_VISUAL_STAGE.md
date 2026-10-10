@@ -165,3 +165,7 @@ Automated acceptance must prove at minimum:
 ## Atlas as an actionable entrance
 
 The book-derived Atlas is narrative topology, not geographic coordinates. In Player, its cover offers seven or fewer source-grounded place entrances: ready places select their cached scene; deferred places use the governed on-demand generation path. The full searchable place index remains below. Repeated clicks in the same browser session cannot start simultaneous duplicate scene generation requests. This is not proof of server-level concurrency coalescing or human visual acceptance.
+
+### External client data minimization
+
+The internal scene plan preserves source refs and evidence for audit. The network-facing T1 image client receives a brief without source locator references (no filenames/paragraph locators); it still receives the bounded place/context needed for consented image generation. External T1 content is restricted to PNG/JPEG/WebP; untrusted SVG and arbitrary image subtypes are rejected. These restrictions are not substitutes for source rights, authentication, or validation of image decoder safety.
