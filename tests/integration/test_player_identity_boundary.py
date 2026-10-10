@@ -67,7 +67,7 @@ def test_studio_requires_trusted_creator_role(monkeypatch: Any) -> None:
     assert denied.json()["code"] == "studio_creator_role_required"
 
     with TestClient(_TrustedOuterASGI(app, "creator", ("creator",))) as client:
-        allowed = client.get("/studio/ui")
+        allowed = _get(client, "/studio/ui")
     assert allowed.status_code == 200
 
 

@@ -7,7 +7,7 @@ from __future__ import annotations
 import _thread
 import json
 import pathlib
-from collections.abc import Iterable, Iterator
+from collections.abc import Generator, Iterable
 from contextlib import contextmanager
 from dataclasses import dataclass
 from threading import Lock
@@ -155,7 +155,7 @@ class VisualAssetCache:
         self._scene_locks: dict[str, _thread.LockType] = {}
 
     @contextmanager
-    def generation_guard(self, cache_keys: Iterable[str]) -> Iterator[None]:
+    def generation_guard(self, cache_keys: Iterable[str]) -> Generator[None, None, None]:
         """Coalesce concurrent same-scene generation in one Python process."""
         with self._guard_lock:
             locks = [self._scene_locks.setdefault(key, Lock()) for key in sorted(set(cache_keys))]
