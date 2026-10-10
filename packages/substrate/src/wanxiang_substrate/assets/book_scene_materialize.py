@@ -47,8 +47,7 @@ def _materialize_visual_plan(
     # The cache is checked again inside this keyed guard: two concurrent
     # requests cannot both bill the provider for the same missing scene.
     cache_keys = (
-        f"{request.cache_key}:{selected_provider.provider_id}@"
-        f"{selected_provider.provider_version}"
+        f"{request.cache_key}:{selected_provider.provider_id}@{selected_provider.provider_version}"
         for request in plan.scene_requests
     )
     with asset_cache.generation_guard(cache_keys):

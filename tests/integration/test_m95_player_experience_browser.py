@@ -212,9 +212,11 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 entrances = page.locator("#atlas-entrances [data-atlas-place]")
                 assert entrances.count() >= 3
                 assert page.locator("#atlas-entrances").is_visible()
-                ready_entrance = page.locator("#atlas-entrances [data-atlas-place]").filter(
-                    has=page.locator("small", has_text="已有场景")
-                ).first
+                ready_entrance = (
+                    page.locator("#atlas-entrances [data-atlas-place]")
+                    .filter(has=page.locator("small", has_text="已有场景"))
+                    .first
+                )
                 assert ready_entrance.count() == 1
                 entrance_name = ready_entrance.get_attribute("data-atlas-place")
                 assert entrance_name
