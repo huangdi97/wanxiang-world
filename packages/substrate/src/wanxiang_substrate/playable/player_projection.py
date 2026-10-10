@@ -24,6 +24,7 @@ from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.playable.models import PlayableWorldProfile
 from wanxiang_substrate.playable.player_i18n import _copy_for
 from wanxiang_substrate.playable.player_projection_support import (
+    _actor_owned_entities,
     _change_card,
     _chronicle_card,
     _entity_fields,
@@ -33,7 +34,6 @@ from wanxiang_substrate.playable.player_projection_support import (
     _first_text_from_entities,
     _is_person,
     _memory_cards,
-    _actor_owned_entities,
     _narrative,
     _opportunity_cards,
     _person_card,
