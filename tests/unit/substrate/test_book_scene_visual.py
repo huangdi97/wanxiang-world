@@ -4,6 +4,9 @@
 
 import hashlib
 import pathlib
+from concurrent.futures import ThreadPoolExecutor
+from threading import Lock
+from time import sleep
 
 import pytest
 from wanxiang_substrate.assets.book_scene_plan import (
@@ -427,3 +430,36 @@ class _NegativeCostProvider(_WrongSceneProvider):
 def test_negative_provider_cost_is_rejected_before_generation() -> None:
     with pytest.raises(ValueError, match="non-negative"):
         _materialize_visual_plan(_plan(_request("城门", "gate")), provider=_NegativeCostProvider())
+
+
+
+class _SlowCountingProvider(_RemoteLikeProvider):
+    requires_network = False
+    cost_units_per_asset = 0
+    private_safe = True
+
+    def __init__(self) -> None:
+        self.calls = 0
+        self._counter_lock = Lock()
+
+    def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
+        with self._counter_lock:
+            self.calls += 1
+        sleep(0.025)
+        return super().produce(request)
+
+
+def test_simultaneous_requests_for_same_scene_pay_once_per_cache_key() -> None:
+    plan = _plan(_request("潮汐港", "parallel-cost"))
+    cache = _VisualAssetCache()
+    provider = _SlowCountingProvider()
+
+    def materialize(_: int) -> int:
+        result = _materialize_visual_plan(plan, provider=provider, cache=cache)
+        return result.provider_calls
+
+    with ThreadPoolExecutor(max_workers=6) as executor:
+        calls = list(executor.map(materialize, range(6)))
+
+    assert provider.calls == 1
+    assert sorted(calls) == [0, 0, 0, 0, 0, 1]

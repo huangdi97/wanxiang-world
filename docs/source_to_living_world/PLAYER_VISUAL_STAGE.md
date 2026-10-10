@@ -169,3 +169,7 @@ The book-derived Atlas is narrative topology, not geographic coordinates. In Pla
 ### External client data minimization
 
 The internal scene plan preserves source refs and evidence for audit. The network-facing T1 image client receives a brief without source locator references (no filenames/paragraph locators); it still receives the bounded place/context needed for consented image generation. External T1 content is restricted to PNG/JPEG/WebP; untrusted SVG and arbitrary image subtypes are rejected. These restrictions are not substitutes for source rights, authentication, or validation of image decoder safety.
+
+### Single-process cache coalescing
+
+The shared VisualAssetCache coordinates concurrent requests by sorted scene cache keys. A concurrent request waits for the first same-key generation and then reevaluates the cache, avoiding duplicate provider calls in one Python process. Distinct keys may generate in parallel. The durable local JSON index serializes writes within one index instance. This does **not** provide multi-process or distributed deduplication; distributed workers require a transactional shared cache/lease implementation before production deployment.

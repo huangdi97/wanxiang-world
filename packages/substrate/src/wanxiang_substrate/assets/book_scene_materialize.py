@@ -44,77 +44,85 @@ def _materialize_visual_plan(
         raise ValueError("private source requires a private-safe visual provider")
 
     asset_cache = cache or VisualAssetCache()
-    delivery_rights = rights or plan.delivery_rights
-    resolved_assets: list[_SceneVisualAsset] = []
-    resolved_refs: list[AssetRef] = []
-    misses: list[_SourceSceneRequest] = []
-    cached_rows: dict[str, tuple[_SceneVisualAsset, AssetRef]] = {}
-
-    for request in plan.scene_requests:
-        provider_cache_key = (
-            f"{request.cache_key}:{selected_provider.provider_id}@"
-            f"{selected_provider.provider_version}"
-        )
-        cached = asset_cache.get(provider_cache_key, rights=delivery_rights)
-        if cached is not None:
-            cached_asset = cached[0]
-            if (
-                cached_asset.scene_key != request.stable_key
-                or cached_asset.place_name != request.place_name
-                or cached_asset.provider_id != selected_provider.provider_id
-                or cached_asset.provider_version != selected_provider.provider_version
-                or (request.style_key and cached_asset.style_key != request.style_key)
-            ):
-                # An index row may exist but belong to another scene/provider.
-                # Never mislabel an unrelated image as source-grounded evidence.
-                cached = None
-        if cached is None:
-            misses.append(request)
-        else:
-            cached_rows[request.stable_key] = cached
-
-    expected_cost = selected_provider.cost_units_per_asset * len(misses)
-    if expected_cost > max_cost_units:
-        raise ValueError(f"visual provider cost {expected_cost} exceeds budget {max_cost_units}")
-
-    generated: dict[str, tuple[_SceneVisualAsset, AssetRef]] = {}
-    for request in misses:
-        asset = selected_provider.produce(request)
-        expected_cache_key = (
-            f"{request.cache_key}:{selected_provider.provider_id}@"
-            f"{selected_provider.provider_version}"
-        )
-        if asset.provider_id != selected_provider.provider_id:
-            raise ValueError("visual provider returned mismatched provider_id")
-        if asset.cache_key != expected_cache_key:
-            raise ValueError("visual provider returned mismatched cache_key")
-        if hashlib.sha256(asset.content).hexdigest() != asset.content_sha256:
-            raise ValueError("visual provider returned invalid content digest")
-        if asset.scene_key != request.stable_key or asset.place_name != request.place_name:
-            raise ValueError("visual provider returned mismatched source scene identity")
-        if asset.provider_version != selected_provider.provider_version:
-            raise ValueError("visual provider returned mismatched provider_version")
-        if request.style_key and asset.style_key != request.style_key:
-            raise ValueError("visual provider returned mismatched source style")
-        if not asset.media_type.startswith("image/") or not asset.content:
-            raise ValueError("visual provider must return non-empty image content")
-        if len(asset.content) > 20 * 1024 * 1024:
-            raise ValueError("visual provider image exceeds materialization size limit")
-        ref = asset_cache.put(asset, rights=delivery_rights)
-        generated[request.stable_key] = (asset, ref)
-
-    for request in plan.scene_requests:
-        asset, ref = cached_rows.get(request.stable_key) or generated[request.stable_key]
-        resolved_assets.append(asset)
-        resolved_refs.append(ref)
-
-    return _VisualMaterialization(
-        assets=tuple(resolved_assets),
-        asset_refs=tuple(resolved_refs),
-        provider_calls=len(misses),
-        cache_hits=len(plan.scene_requests) - len(misses),
-        cost_units=expected_cost,
+    # The cache is checked again inside this keyed guard: two concurrent
+    # requests cannot both bill the provider for the same missing scene.
+    cache_keys = (
+        f"{request.cache_key}:{selected_provider.provider_id}@"
+        f"{selected_provider.provider_version}"
+        for request in plan.scene_requests
     )
+    with asset_cache.generation_guard(cache_keys):
+        delivery_rights = rights or plan.delivery_rights
+        resolved_assets: list[_SceneVisualAsset] = []
+        resolved_refs: list[AssetRef] = []
+        misses: list[_SourceSceneRequest] = []
+        cached_rows: dict[str, tuple[_SceneVisualAsset, AssetRef]] = {}
+
+        for request in plan.scene_requests:
+            provider_cache_key = (
+                f"{request.cache_key}:{selected_provider.provider_id}@"
+                f"{selected_provider.provider_version}"
+            )
+            cached = asset_cache.get(provider_cache_key, rights=delivery_rights)
+            if cached is not None:
+                cached_asset = cached[0]
+                if (
+                    cached_asset.scene_key != request.stable_key
+                    or cached_asset.place_name != request.place_name
+                    or cached_asset.provider_id != selected_provider.provider_id
+                    or cached_asset.provider_version != selected_provider.provider_version
+                    or (request.style_key and cached_asset.style_key != request.style_key)
+                ):
+                    # An index row may exist but belong to another scene/provider.
+                    # Never mislabel an unrelated image as source-grounded evidence.
+                    cached = None
+            if cached is None:
+                misses.append(request)
+            else:
+                cached_rows[request.stable_key] = cached
+
+        expected_cost = selected_provider.cost_units_per_asset * len(misses)
+        if expected_cost > max_cost_units:
+            raise ValueError(f"visual provider cost {expected_cost} exceeds budget {max_cost_units}")
+
+        generated: dict[str, tuple[_SceneVisualAsset, AssetRef]] = {}
+        for request in misses:
+            asset = selected_provider.produce(request)
+            expected_cache_key = (
+                f"{request.cache_key}:{selected_provider.provider_id}@"
+                f"{selected_provider.provider_version}"
+            )
+            if asset.provider_id != selected_provider.provider_id:
+                raise ValueError("visual provider returned mismatched provider_id")
+            if asset.cache_key != expected_cache_key:
+                raise ValueError("visual provider returned mismatched cache_key")
+            if hashlib.sha256(asset.content).hexdigest() != asset.content_sha256:
+                raise ValueError("visual provider returned invalid content digest")
+            if asset.scene_key != request.stable_key or asset.place_name != request.place_name:
+                raise ValueError("visual provider returned mismatched source scene identity")
+            if asset.provider_version != selected_provider.provider_version:
+                raise ValueError("visual provider returned mismatched provider_version")
+            if request.style_key and asset.style_key != request.style_key:
+                raise ValueError("visual provider returned mismatched source style")
+            if not asset.media_type.startswith("image/") or not asset.content:
+                raise ValueError("visual provider must return non-empty image content")
+            if len(asset.content) > 20 * 1024 * 1024:
+                raise ValueError("visual provider image exceeds materialization size limit")
+            ref = asset_cache.put(asset, rights=delivery_rights)
+            generated[request.stable_key] = (asset, ref)
+
+        for request in plan.scene_requests:
+            asset, ref = cached_rows.get(request.stable_key) or generated[request.stable_key]
+            resolved_assets.append(asset)
+            resolved_refs.append(ref)
+
+        return _VisualMaterialization(
+            assets=tuple(resolved_assets),
+            asset_refs=tuple(resolved_refs),
+            provider_calls=len(misses),
+            cache_hits=len(plan.scene_requests) - len(misses),
+            cost_units=expected_cost,
+        )
 
 
 def _render_visual_plan(

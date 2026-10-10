@@ -6,7 +6,11 @@ from __future__ import annotations
 
 import json
 import pathlib
+import _thread
+from collections.abc import Iterable, Iterator
+from contextlib import contextmanager
 from dataclasses import dataclass
+from threading import Lock
 from typing import cast
 
 from wanxiang_substrate.assets.book_scene_types import _SceneVisualAsset
@@ -56,6 +60,7 @@ class LocalJsonVisualCacheIndex(_VisualCacheIndex):
     def __init__(self, path: pathlib.Path) -> None:
         self._path = path
         self._path.parent.mkdir(parents=True, exist_ok=True)
+        self._write_lock = Lock()
 
     def _rows(self) -> dict[str, dict[str, object]]:
         if not self._path.exists():
@@ -113,26 +118,27 @@ class LocalJsonVisualCacheIndex(_VisualCacheIndex):
         return self._record(raw) if raw is not None else None
 
     def put(self, record: _VisualCacheRecord) -> None:
-        rows = self._rows()
-        rows[record.cache_key] = {
-            "cache_key": record.cache_key,
-            "scene_key": record.scene_key,
-            "place_name": record.place_name,
-            "provider_id": record.provider_id,
-            "provider_version": record.provider_version,
-            "media_type": record.media_type,
-            "content_sha256": record.content_sha256,
-            "asset_id": record.asset_id,
-            "size": record.size,
-            "illustrative": record.illustrative,
-            "style_key": record.style_key,
-        }
-        temporary = self._path.with_suffix(self._path.suffix + ".tmp")
-        temporary.write_text(
-            json.dumps(rows, ensure_ascii=False, sort_keys=True, separators=(",", ":")),
-            encoding="utf-8",
-        )
-        temporary.replace(self._path)
+        with self._write_lock:
+            rows = self._rows()
+            rows[record.cache_key] = {
+                "cache_key": record.cache_key,
+                "scene_key": record.scene_key,
+                "place_name": record.place_name,
+                "provider_id": record.provider_id,
+                "provider_version": record.provider_version,
+                "media_type": record.media_type,
+                "content_sha256": record.content_sha256,
+                "asset_id": record.asset_id,
+                "size": record.size,
+                "illustrative": record.illustrative,
+                "style_key": record.style_key,
+            }
+            temporary = self._path.with_suffix(self._path.suffix + ".tmp")
+            temporary.write_text(
+                json.dumps(rows, ensure_ascii=False, sort_keys=True, separators=(",", ":")),
+                encoding="utf-8",
+            )
+            temporary.replace(self._path)
 
 
 class VisualAssetCache:
@@ -145,7 +151,21 @@ class VisualAssetCache:
     ) -> None:
         self.store = store or InMemoryObjectStore()
         self.index = index or _InMemoryVisualCacheIndex()
+        self._guard_lock = Lock()
+        self._scene_locks: dict[str, _thread.LockType] = {}
 
+    @contextmanager
+    def generation_guard(self, cache_keys: Iterable[str]) -> Iterator[None]:
+        """Coalesce concurrent same-scene generation in one Python process."""
+        with self._guard_lock:
+            locks = [self._scene_locks.setdefault(key, Lock()) for key in sorted(set(cache_keys))]
+        for lock in locks:
+            lock.acquire()
+        try:
+            yield
+        finally:
+            for lock in reversed(locks):
+                lock.release()
     def get(
         self,
         cache_key: str,
