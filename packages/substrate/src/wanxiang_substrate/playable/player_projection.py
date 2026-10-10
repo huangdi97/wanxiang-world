@@ -33,7 +33,7 @@ from wanxiang_substrate.playable.player_projection_support import (
     _first_text_from_entities,
     _is_person,
     _memory_cards,
-    _named_entities,
+    _actor_owned_entities,
     _narrative,
     _opportunity_cards,
     _person_card,
@@ -199,14 +199,15 @@ def player_observation(
     )
     setting = world["setting"]
     assert isinstance(setting, dict)
-    people = [_person_card(entity, copy) for entity in entities if _is_person(entity)]
     relations = [_relation_card(item, names, actor_id, copy) for item in state.relations()]
     actor = next((item for item in entities if item.entity_id.value == actor_id), None)
     actor_fields = _entity_fields(actor)
-    canonical_location = _first_text(
-        actor_fields, ("location", "place")
-    ) or _first_text_from_entities(entities, ("location", "place"))
+    # The actor's position is not the location of an arbitrary world entity.
+    canonical_location = _first_text(actor_fields, ("location", "place"))
     location = canonical_location or actor_starting_location or None
+    known_people = [_person_card(entity, copy) for entity in entities if _is_person(entity)]
+    # Only explicit co-location is sufficient to call someone "present".
+    people = [person for person in known_people if location and person["location"] == location]
     environment = _first_text_from_entities(entities, ("environment", "setting"))
     weather = _first_text_from_entities(entities, ("weather", "climate"))
     current_event = _event_card(entities, names, copy)
@@ -226,8 +227,12 @@ def player_observation(
         "location": _first_text(actor_fields, ("location", "place"))
         or actor_starting_location
         or None,
-        "items": _named_entities(entities, {"item", "object", "material"}, copy),
-        "goals": _named_entities(entities, {"task", "opportunity", "challenge"}, copy),
+        "items": _actor_owned_entities(
+            entities, {"item", "object", "material"}, copy, actor_id
+        ),
+        "goals": _actor_owned_entities(
+            entities, {"task", "opportunity", "challenge"}, copy, actor_id
+        ),
         "relations": [dict(item) for item in relations if item.get("involves_actor") is True],
         "memories": memories,
     }
@@ -266,6 +271,7 @@ def player_observation(
         "weather": weather,
         "current_event": current_event,
         "present_people": people,
+        "known_people": known_people,
         "opportunities": opportunities,
         "narrative": _narrative(current_event, actor_name, copy),
         "player": player,

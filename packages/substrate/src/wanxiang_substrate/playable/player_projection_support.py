@@ -166,11 +166,19 @@ def _memory_cards(entities: tuple[EntityState, ...], actor_id: str) -> list[str]
     return result
 
 
-def _named_entities(
-    entities: tuple[EntityState, ...], types: set[str], copy: _PlayerCopy
+def _actor_owned_entities(
+    entities: tuple[EntityState, ...], types: set[str], copy: _PlayerCopy, actor_id: str
 ) -> list[str]:
+    """A world object is not the player's inventory without explicit ownership."""
+    if not actor_id:
+        return []
     return [
-        _entity_name(entity, copy) for entity in entities if entity.entity_type.casefold() in types
+        _entity_name(entity, copy)
+        for entity in entities
+        if entity.entity_type.casefold() in types
+        and _first_text(
+            _entity_fields(entity), ("actor_id", "owner_id", "holder_id", "assignee_id")
+        ) == actor_id
     ]
 
 

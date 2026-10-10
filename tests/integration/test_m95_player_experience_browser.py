@@ -320,8 +320,12 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 assert page.locator(".world-stage-story").is_visible()
                 assert page.locator(".world-action-dock").is_visible()
                 people_copy = page.locator("#people-list").inner_text()
-                assert "Alice" in people_copy
-                assert "Bob" in people_copy
+                known_copy = page.locator("#known-people-list").inner_text()
+                assert "Alice" not in people_copy
+                assert "Bob" not in people_copy
+                assert "Alice" in known_copy
+                assert "Bob" in known_copy
+                assert "位置未核实" in known_copy
                 assert "Beijing" not in people_copy
                 assert "世界视觉预览" in page.locator("#scene-visual-caption").inner_text()
                 page.locator("#world-stage").screenshot(
