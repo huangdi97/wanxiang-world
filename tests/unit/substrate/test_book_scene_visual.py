@@ -3,8 +3,10 @@
 # pyright: reportPrivateUsage=false
 
 import hashlib
+import json
 import pathlib
 from concurrent.futures import ThreadPoolExecutor
+from dataclasses import replace
 from threading import Lock
 from time import sleep
 
@@ -353,6 +355,34 @@ def test_missing_durable_visual_blob_is_regenerated_under_existing_governance(
     assert recovered.cache_hits == 0
     assert recovered.assets == first.assets
     assert cache.store.get(recovered.asset_refs[0]) == first.assets[0].content
+
+
+def test_visual_index_wrong_cache_key_is_never_treated_as_a_scene_hit(
+    tmp_path: pathlib.Path,
+) -> None:
+    original = _request("园林", "revisioned-cache")
+    cache_path = tmp_path / "index.json"
+    cache = _VisualAssetCache(
+        LocalObjectStore(tmp_path / "blobs"), _LocalJsonVisualCacheIndex(cache_path)
+    )
+    first = _materialize_visual_plan(_plan(original), cache=cache)
+    assert first.provider_calls == 1
+
+    revised = replace(original, cache_key="cache-reviewed-evidence")
+    target_key = (
+        f"{revised.cache_key}:procedural-svg@{_ProceduralSvgSceneProvider.provider_version}"
+    )
+    rows = json.loads(cache_path.read_text(encoding="utf-8"))
+    old_key = next(iter(rows))
+    rows[target_key] = dict(rows[old_key])
+    cache_path.write_text(json.dumps(rows), encoding="utf-8")
+
+    assert cache.get(target_key, rights="source-gated") is None
+    repaired = _materialize_visual_plan(_plan(revised), cache=cache)
+    assert repaired.provider_calls == 1
+    assert repaired.cache_hits == 0
+    assert repaired.assets[0].cache_key == target_key
+    assert cache.get(target_key, rights="source-gated") is not None
 
 
 def test_corrupt_durable_scene_recovers_then_reuses_verified_bytes(

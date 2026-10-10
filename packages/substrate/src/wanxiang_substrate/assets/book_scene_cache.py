@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import _thread
+import hashlib
 import json
 import pathlib
 from collections.abc import Generator, Iterable
@@ -186,7 +187,7 @@ class VisualAssetCache:
         rights: str = "public",
     ) -> tuple[_SceneVisualAsset, AssetRef] | None:
         metadata = self.index.get(cache_key)
-        if metadata is None:
+        if metadata is None or metadata.cache_key != cache_key:
             return None
         ref = AssetRef(
             asset_id=metadata.asset_id,
@@ -200,6 +201,10 @@ class VisualAssetCache:
         except (AssetNotFound, AssetCorrupt):
             # Missing or damaged bytes are a cache miss. A replacement still
             # requires the caller's current rights, network and cost gates.
+            return None
+        if len(content) != metadata.size or hashlib.sha256(content).hexdigest() != metadata.content_sha256:
+            # A pluggable ObjectStore may not enforce the metadata index's
+            # integrity contract itself. Never reuse mismatched cached bytes.
             return None
         return (
             _SceneVisualAsset(
