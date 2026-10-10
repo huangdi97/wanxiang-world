@@ -269,9 +269,7 @@ def test_same_source_fingerprint_reuses_cache_across_distinct_source_ids() -> No
                         "name": "园林",
                         "source_refs": [f"text://{source_id}#paragraph/{locator}"],
                         "confidence": 0.83,
-                        "cooccurring_candidates": [
-                            {"kind": "object", "label": "石碑"}
-                        ],
+                        "cooccurring_candidates": [{"kind": "object", "label": "石碑"}],
                     }
                 ],
                 ensure_ascii=False,

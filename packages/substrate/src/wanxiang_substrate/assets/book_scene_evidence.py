@@ -6,8 +6,22 @@ content-pinned locators to avoid unnecessary image generation charges.
 
 from __future__ import annotations
 
+import json
 import math
 from typing import cast
+
+
+def _json_list(raw: str) -> list[object]:
+    """Decode an untrusted metadata JSON array without leaking Unknown into strict typing."""
+    try:
+        decoded: object = json.loads(raw)
+    except (TypeError, ValueError):
+        return []
+    return cast(list[object], decoded) if isinstance(decoded, list) else []
+
+
+def _object_dict(value: object) -> dict[str, object] | None:
+    return cast(dict[str, object], value) if isinstance(value, dict) else None
 
 
 def _string_list(value: object) -> tuple[str, ...]:
@@ -30,16 +44,18 @@ def _bounded_confidence(value: object) -> float:
     return score if math.isfinite(score) and 0.0 <= score <= 1.0 else 0.0
 
 
-def _cache_evidence_ref(
-    ref: str, *, single_source: tuple[str, str] | None
-) -> str:
+def _cache_evidence_ref(ref: str, *, single_source: tuple[str, str] | None) -> str:
     """Replace a known source ID by its verified fingerprint *only for caching*."""
     if single_source is None:
         return ref
+    source_name, fingerprint = single_source
+    if ref == source_name:
+        return f"content-sha256:{fingerprint}"
+    if ref.startswith(f"{source_name}#"):
+        return f"content-sha256:{fingerprint}#{ref.partition('#')[2]}"
     scheme, separator, remainder = ref.partition("://")
     source_id, marker, locator = remainder.partition("#")
-    if not scheme or not separator or not marker or not locator:
+    if not scheme or not separator or source_id != source_name:
         return ref
-    if source_id != single_source[0]:
-        return ref
-    return f"{scheme}://content-sha256:{single_source[1]}#{locator}"
+    suffix = f"#{locator}" if marker and locator else ""
+    return f"{scheme}://content-sha256:{fingerprint}{suffix}"

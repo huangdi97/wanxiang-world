@@ -14,25 +14,14 @@ from dataclasses import dataclass
 from typing import cast
 
 from wanxiang_substrate.assets.book_scene_evidence import (
+    _json_list,
+    _object_dict,
     _bounded_confidence,
     _cache_evidence_ref,
     _string_list,
 )
 from wanxiang_substrate.assets.foundry import SemanticSceneSpec
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
-
-
-def _json_list(raw: str) -> list[object]:
-    """Decode an untrusted metadata JSON array without leaking Unknown into strict typing."""
-    try:
-        decoded: object = json.loads(raw)
-    except (TypeError, ValueError):
-        return []
-    return cast(list[object], decoded) if isinstance(decoded, list) else []
-
-
-def _object_dict(value: object) -> dict[str, object] | None:
-    return cast(dict[str, object], value) if isinstance(value, dict) else None
 
 
 @dataclass(frozen=True, slots=True)
