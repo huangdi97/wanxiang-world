@@ -5,6 +5,7 @@ import pathlib
 import subprocess
 import sys
 import time
+from typing import cast
 
 
 _WORKER = """
@@ -82,7 +83,10 @@ def test_two_processes_share_one_local_scene_generation(tmp_path: pathlib.Path) 
             assert process.returncode == 0, err
             decoded: object = json.loads(out)
             assert isinstance(decoded, dict)
-            results.append({"calls": int(decoded["calls"]), "hits": int(decoded["hits"])})
+            data = cast(dict[str, object], decoded)
+            calls, hits = data.get("calls"), data.get("hits")
+            assert isinstance(calls, int) and isinstance(hits, int)
+            results.append({"calls": calls, "hits": hits})
         assert sorted(row["calls"] for row in results) == [0, 1]
         assert sorted(row["hits"] for row in results) == [0, 1]
     finally:
