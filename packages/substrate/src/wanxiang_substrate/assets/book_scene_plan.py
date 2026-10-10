@@ -14,11 +14,11 @@ from dataclasses import dataclass
 from typing import cast
 
 from wanxiang_substrate.assets.book_scene_evidence import (
-    _bounded_confidence,
-    _cache_evidence_ref,
-    _json_list,
-    _object_dict,
-    _string_list,
+    bounded_confidence,
+    cache_evidence_ref,
+    json_list,
+    object_dict,
+    string_list,
 )
 from wanxiang_substrate.assets.foundry import SemanticSceneSpec
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
@@ -83,7 +83,7 @@ def _plan_book_scene_assets(
         raise ValueError("max_preview_scenes must be within [0, 12]")
 
     raw_fingerprints = package.draft.compiler_metadata.get("source_fingerprints_v1", "[]")
-    decoded_fingerprints = _json_list(raw_fingerprints)
+    decoded_fingerprints = json_list(raw_fingerprints)
     fingerprints = tuple(
         sorted(item for item in decoded_fingerprints if isinstance(item, str) and item)
     )
@@ -110,11 +110,11 @@ def _plan_book_scene_assets(
         return _SourceVisualPlan(package.package_id, source_digest, "PLACES_NOT_EXTRACTED", (), 0)
 
     raw_topology = package.draft.compiler_metadata.get("scene_topology_evidence_v1", "[]")
-    decoded_topology = _json_list(raw_topology)
+    decoded_topology = json_list(raw_topology)
     topology_relations: list[_SourceTopologyRelation] = []
     known_places = set(distinct_places)
     for raw_row in decoded_topology:
-        row = _object_dict(raw_row)
+        row = object_dict(raw_row)
         if row is None:
             continue
         source_place = row.get("source_place")
@@ -128,8 +128,8 @@ def _plan_book_scene_assets(
             or target_place not in known_places
         ):
             continue
-        source_refs = _string_list(row.get("source_refs", []))
-        confidence = _bounded_confidence(row.get("confidence", 0.0))
+        source_refs = string_list(row.get("source_refs", []))
+        confidence = bounded_confidence(row.get("confidence", 0.0))
         # A relation without a source locator is a claim, not an atlas edge.
         # Unbounded/NaN confidence can also mislead a player about evidence.
         if not source_refs or not relation_type.strip() or confidence <= 0.0:
@@ -152,12 +152,12 @@ def _plan_book_scene_assets(
     )
     style_key = hashlib.sha256(f"{source_digest}:story-visual-profile:v1".encode()).hexdigest()[:24]
     raw_evidence = package.draft.compiler_metadata.get("scene_evidence_v1", "[]")
-    evidence_rows = _json_list(raw_evidence)
+    evidence_rows = json_list(raw_evidence)
     # Index source evidence once. Scanning every candidate for every place is
     # quadratic in large works with thousands of named locations.
     evidence_by_place: dict[str, list[dict[str, object]]] = {}
     for raw_row in evidence_rows:
-        row = _object_dict(raw_row)
+        row = object_dict(raw_row)
         if row is None:
             continue
         name = row.get("name")
@@ -168,9 +168,9 @@ def _plan_book_scene_assets(
 
     def place_rank(place: str) -> tuple[int, float, int, int, str, int]:
         matching = evidence_by_place.get(place, [])
-        refs = {ref for row in matching for ref in _string_list(row.get("source_refs", []))}
+        refs = {ref for row in matching for ref in string_list(row.get("source_refs", []))}
         confidence = max(
-            (_bounded_confidence(row.get("confidence", 0.0)) for row in matching),
+            (bounded_confidence(row.get("confidence", 0.0)) for row in matching),
             default=0.0,
         )
         context_count = sum(
@@ -202,10 +202,10 @@ def _plan_book_scene_assets(
     for place in selected:
         matching = evidence_by_place.get(place, [])
         source_refs = tuple(
-            sorted({ref for row in matching for ref in _string_list(row.get("source_refs", []))})
+            sorted({ref for row in matching for ref in string_list(row.get("source_refs", []))})
         )
         confidence = max(
-            (_bounded_confidence(row.get("confidence", 0.0)) for row in matching),
+            (bounded_confidence(row.get("confidence", 0.0)) for row in matching),
             default=0.0,
         )
         context_candidates: list[str] = []
@@ -214,7 +214,7 @@ def _plan_book_scene_assets(
             if not isinstance(raw_context, list):
                 continue
             for raw_item in cast(list[object], raw_context):
-                item = _object_dict(raw_item)
+                item = object_dict(raw_item)
                 if item is None:
                     continue
                 kind, label = item.get("kind"), item.get("label")
@@ -232,7 +232,7 @@ def _plan_book_scene_assets(
             else None
         )
         cache_evidence_refs = tuple(
-            _cache_evidence_ref(ref, single_source=single_source) for ref in source_refs
+            cache_evidence_ref(ref, single_source=single_source) for ref in source_refs
         )
         evidence_identity = json.dumps(
             {

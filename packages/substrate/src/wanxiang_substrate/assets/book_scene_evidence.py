@@ -11,7 +11,7 @@ import math
 from typing import cast
 
 
-def _json_list(raw: str) -> list[object]:
+def json_list(raw: str) -> list[object]:
     """Decode an untrusted metadata JSON array without leaking Unknown into strict typing."""
     try:
         decoded: object = json.loads(raw)
@@ -20,11 +20,11 @@ def _json_list(raw: str) -> list[object]:
     return cast(list[object], decoded) if isinstance(decoded, list) else []
 
 
-def _object_dict(value: object) -> dict[str, object] | None:
+def object_dict(value: object) -> dict[str, object] | None:
     return cast(dict[str, object], value) if isinstance(value, dict) else None
 
 
-def _string_list(value: object) -> tuple[str, ...]:
+def string_list(value: object) -> tuple[str, ...]:
     if not isinstance(value, list):
         return ()
     return tuple(
@@ -36,7 +36,7 @@ def _string_list(value: object) -> tuple[str, ...]:
     )
 
 
-def _bounded_confidence(value: object) -> float:
+def bounded_confidence(value: object) -> float:
     """Prevent invalid/untrusted scores from changing ranking or map truth."""
     if isinstance(value, bool) or not isinstance(value, (int, float)):
         return 0.0
@@ -44,7 +44,7 @@ def _bounded_confidence(value: object) -> float:
     return score if math.isfinite(score) and 0.0 <= score <= 1.0 else 0.0
 
 
-def _cache_evidence_ref(ref: str, *, single_source: tuple[str, str] | None) -> str:
+def cache_evidence_ref(ref: str, *, single_source: tuple[str, str] | None) -> str:
     """Replace a known source ID by its verified fingerprint *only for caching*."""
     if single_source is None:
         return ref
