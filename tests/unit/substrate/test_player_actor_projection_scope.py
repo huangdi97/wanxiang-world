@@ -1,5 +1,7 @@
 """Actor-scoped possessions, assigned goals and unlocated people stay truthful."""
 
+# pyright: reportPrivateUsage=false
+
 from __future__ import annotations
 
 from wanxiang_domain.entity import ComponentData, EntityState
