@@ -275,6 +275,20 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 assert page.locator("#play-mode").inner_text() == "观察模式"
                 assert page.locator("#send-action").is_disabled()
                 assert page.locator("#scene-visual-image").is_visible()
+                assert page.locator("#observer-scene-explorer").is_visible()
+                before_location = page.locator("#play-location").inner_text()
+                scene_button = page.locator(
+                    '#observer-scene-list [data-observer-scene]:not([data-observer-scene=""])'
+                ).last
+                preview_place = scene_button.get_attribute("data-observer-scene")
+                assert preview_place
+                scene_button.click()
+                assert preview_place in page.locator("#scene-visual-caption").inner_text()
+                assert "非此刻位置" in page.locator("#scene-visual-caption").inner_text()
+                assert page.locator("#play-location").inner_text() == before_location
+                assert page.locator("#send-action").is_disabled()
+                page.locator('#observer-scene-list [data-observer-scene=""]').click()
+                assert page.locator("#play-location").inner_text() == before_location
                 page.locator("#world-stage").screenshot(
                     path=str(review / "observer-stage-desktop.png")
                 )
@@ -294,6 +308,7 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                     "data:image/svg+xml;base64,"
                 )
                 stage = page.locator("#world-stage")
+                assert page.locator("#observer-scene-explorer").is_hidden()
                 assert stage.is_visible()
                 stage_box = stage.bounding_box()
                 visual_box = scene_visual.bounding_box()
