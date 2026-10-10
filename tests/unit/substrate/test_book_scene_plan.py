@@ -209,6 +209,7 @@ def test_topology_requires_source_locator_and_bounded_confidence() -> None:
     assert plan.topology_relations[0].source_refs == ("book#chapter-2",)
     assert plan.topology_relations[0].confidence == 0.84
 
+
 def test_reviewed_scene_evidence_invalidates_pixels_without_changing_world_identity() -> None:
     def compile_with(label: str, locator: str) -> tuple[str, str, str]:
         book = package_from_book(
@@ -221,9 +222,7 @@ def test_reviewed_scene_evidence_invalidates_pixels_without_changing_world_ident
                             "name": "城门",
                             "source_refs": [locator],
                             "confidence": 0.9,
-                            "cooccurring_candidates": [
-                                {"kind": "object", "label": label}
-                            ],
+                            "cooccurring_candidates": [{"kind": "object", "label": label}],
                         }
                     ],
                     ensure_ascii=False,
