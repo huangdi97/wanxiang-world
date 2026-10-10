@@ -178,7 +178,8 @@ def _actor_owned_entities(
         if entity.entity_type.casefold() in types
         and _first_text(
             _entity_fields(entity), ("actor_id", "owner_id", "holder_id", "assignee_id")
-        ) == actor_id
+        )
+        == actor_id
     ]
 
 

@@ -227,9 +227,7 @@ def player_observation(
         "location": _first_text(actor_fields, ("location", "place"))
         or actor_starting_location
         or None,
-        "items": _actor_owned_entities(
-            entities, {"item", "object", "material"}, copy, actor_id
-        ),
+        "items": _actor_owned_entities(entities, {"item", "object", "material"}, copy, actor_id),
         "goals": _actor_owned_entities(
             entities, {"task", "opportunity", "challenge"}, copy, actor_id
         ),
