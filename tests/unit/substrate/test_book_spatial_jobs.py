@@ -189,9 +189,7 @@ def test_t3_poll_verifies_assets_then_attaches_only_to_derived_catalog() -> None
 def test_t3_completed_task_fails_closed_when_artifact_verification_fails(
     candidate: _SpatialArtifactCandidate,
 ) -> None:
-    provider = _FakeSpatialProvider(
-        polls=[_SpatialPollResult("succeeded", (candidate,))]
-    )
+    provider = _FakeSpatialProvider(polls=[_SpatialPollResult("succeeded", (candidate,))])
     coordinator = _coordinator(provider)
     ticket = _submit(coordinator)
 
