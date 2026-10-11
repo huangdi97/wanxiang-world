@@ -130,7 +130,10 @@ STRINGS: dict[str, str] = {
     "visual_place_generate": "Generate scene",
     "status_generating_scene": "Generating the scene for {place}…",
     "status_scene_ready": "The {place} scene is now in the world atlas",
-    "status_scene_fallback": "Higher-tier visuals are unavailable; using the offline fallback for {place} ({reason})",
+    "status_scene_fallback": (
+        "Higher-tier visuals are unavailable; using the offline fallback "
+        "for {place} ({reason})"
+    ),
     "visual_fallback_network": "network generation is not enabled",
     "visual_fallback_rights": "the source does not authorize external visual processing",
     "visual_fallback_privacy": "the configured provider does not meet privacy requirements",
