@@ -44,6 +44,7 @@ def test_visual_composition_rejects_unsafe_or_invalid_configuration() -> None:
     with pytest.raises(ValueError, match="must be non-negative"):
         create_app(visual_max_cost_units=-1)
 
+
 def test_visual_composition_builds_http_provider_from_environment(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
