@@ -1,6 +1,6 @@
 """Non-authoritative T3 spatial-generation contracts for source-derived scenes."""
 
-# pyright: reportUnusedClass=false
+# pyright: reportPrivateUsage=false, reportUnusedClass=false
 
 from __future__ import annotations
 

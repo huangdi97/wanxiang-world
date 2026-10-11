@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import hashlib
+import pathlib
 from dataclasses import dataclass, field
 
 import pytest
@@ -44,8 +45,8 @@ class _FakeSpatialProvider:
     private_safe: bool = False
     cost_units_per_job: int = 7
     allowed_media_types: frozenset[str] = frozenset({"model/gltf-binary"})
-    submissions: list[str] = field(default_factory=list)
-    polls: list[_SpatialPollResult] = field(default_factory=list)
+    submissions: list[str] = field(default_factory=lambda: list[str]())
+    polls: list[_SpatialPollResult] = field(default_factory=lambda: list[_SpatialPollResult]())
 
     def submit(self, request: _SourceSceneRequest, *, idempotency_key: str) -> str:
         _ = request
@@ -121,7 +122,9 @@ def test_t3_governance_blocks_new_submission_before_provider_call(
     assert provider.submissions == []
 
 
-def test_t3_ticket_survives_restart_and_resumes_existing_provider_task(tmp_path) -> None:
+def test_t3_ticket_survives_restart_and_resumes_existing_provider_task(
+    tmp_path: pathlib.Path,
+) -> None:
     provider = _FakeSpatialProvider()
     jobs_path = tmp_path / "spatial-jobs.json"
     first = _SpatialGenerationCoordinator(
