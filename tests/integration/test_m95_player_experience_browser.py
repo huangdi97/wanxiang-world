@@ -239,6 +239,8 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 ready_place.click()
                 assert ready_place.get_attribute("aria-pressed") == "true"
                 assert ready_name in page.locator("#detail-visual-caption").inner_text()
+                assert "原文证据" in page.locator("#detail-visual-caption").inner_text()
+                assert "插画投影" in page.locator("#detail-visual-caption").inner_text()
                 page.locator('#visual-gallery [data-visual-index="0"]').click()
                 assert "叙事世界图谱" in page.locator("#detail-visual-caption").inner_text()
                 deferred_places = page.locator(
@@ -299,6 +301,8 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 generated_stage_button.wait_for(state="visible")
                 assert deferred_stage_name in page.locator("#scene-visual-caption").inner_text()
                 assert "非此刻位置" in page.locator("#scene-visual-caption").inner_text()
+                assert "原文证据" in page.locator("#scene-visual-caption").inner_text()
+                assert "插画投影" in page.locator("#scene-visual-caption").inner_text()
                 assert page.locator("#play-location").inner_text() == before_location
                 assert page.locator("#send-action").is_disabled()
                 scene_button = page.locator(

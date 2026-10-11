@@ -43,13 +43,13 @@ from wanxiang_substrate.playable.player_projection_support import (
 from wanxiang_substrate.playable.state_diff import CommittedStateDiff
 
 
-def _scene_clues_for_assets(
+def _scene_support_for_assets(
     package: WorldPackageDraft,
     assets: tuple[_SceneVisualAsset, ...],
-) -> dict[str, tuple[str, ...]]:
-    """Recover source clues for generated/deferred assets without provider calls."""
+) -> dict[str, tuple[tuple[str, ...], int]]:
+    """Recover safe source support without exposing raw locators to Player."""
 
-    clues: dict[str, tuple[str, ...]] = {}
+    support: dict[str, tuple[tuple[str, ...], int]] = {}
     for asset in assets:
         targeted = _plan_book_scene_assets(
             package,
@@ -65,8 +65,8 @@ def _scene_clues_for_assets(
             None,
         )
         if request is not None:
-            clues[asset.scene_key] = request.context_candidates
-    return clues
+            support[asset.scene_key] = (request.context_candidates, len(request.source_refs))
+    return support
 
 
 def player_world_detail(
@@ -103,7 +103,7 @@ def player_world_detail(
         assets = visual_assets
         if assets is None:
             assets = _render_visual_plan(plan)
-        clues_by_key = _scene_clues_for_assets(package, assets)
+        support_by_key = _scene_support_for_assets(package, assets)
         generated_places = {asset.place_name for asset in assets}
         atlas = _render_world_atlas(plan)
         visual = {
@@ -131,7 +131,8 @@ def player_world_detail(
                     "data_uri": asset.data_uri(),
                     "content_sha256": asset.content_sha256,
                     "illustrative": asset.illustrative,
-                    "clues": list(clues_by_key.get(asset.scene_key, ())),
+                    "clues": list(support_by_key.get(asset.scene_key, ((), 0))[0]),
+                    "source_evidence_count": support_by_key.get(asset.scene_key, ((), 0))[1],
                 }
                 for asset in assets
             ],
@@ -242,7 +243,7 @@ def player_observation(
         assets = visual_assets
         if assets is None:
             assets = _render_visual_plan(plan)
-        clues_by_key = _scene_clues_for_assets(package, assets)
+        support_by_key = _scene_support_for_assets(package, assets)
         chosen = next((asset for asset in assets if asset.place_name == location), None)
         grounding = "current_location" if canonical_location else "entry_location"
         if chosen is None and assets:
@@ -256,7 +257,8 @@ def player_observation(
                 "data_uri": chosen.data_uri(),
                 "content_sha256": chosen.content_sha256,
                 "illustrative": chosen.illustrative,
-                "clues": list(clues_by_key.get(chosen.scene_key, ())),
+                "clues": list(support_by_key.get(chosen.scene_key, ((), 0))[0]),
+                "source_evidence_count": support_by_key.get(chosen.scene_key, ((), 0))[1],
             }
 
     return {
