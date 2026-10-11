@@ -26,6 +26,7 @@ from wanxiang_substrate.assets.book_scene_cache import (
     LocalJsonVisualCacheIndex,
     VisualAssetCache,
 )
+from wanxiang_substrate.assets.book_scene_types import SceneImageProvider
 from wanxiang_substrate.assets.storage import LocalObjectStore
 from wanxiang_substrate.authoring import AuthoringService, LocalSemanticProvider
 from wanxiang_substrate.authoring.providers import ProviderRouter
@@ -85,7 +86,16 @@ def build_runtime(
 def create_app(
     runtime: WorldRuntime | None = None,
     lineage_graph: LineageGraph | None = None,
+    *,
+    visual_cache: VisualAssetCache | None = None,
+    visual_provider: SceneImageProvider | None = None,
+    visual_allow_network: bool = False,
+    visual_max_cost_units: int = 0,
 ) -> FastAPI:
+    if visual_max_cost_units < 0:
+        raise ValueError("visual_max_cost_units must be non-negative")
+    if visual_allow_network and visual_provider is None:
+        raise ValueError("visual_allow_network requires an injected visual_provider")
     app = FastAPI(title=API_TITLE, version=API_VERSION)
     identity_mode = os.environ.get("WANXIANG_IDENTITY_MODE", "local-demo").strip()
     if identity_mode not in {"local-demo", "trusted"}:
@@ -142,7 +152,9 @@ def create_app(
     providers = ProviderRouter((LocalSemanticProvider(), LocalPromptGenesisProvider()))
     app.state.authoring = AuthoringService(providers=providers)
     visual_cache_root = os.environ.get("WANXIANG_VISUAL_CACHE_DIR", "").strip()
-    if visual_cache_root:
+    if visual_cache is not None:
+        app.state.visual_asset_cache = visual_cache
+    elif visual_cache_root:
         visual_cache_path = pathlib.Path(visual_cache_root)
         app.state.visual_asset_cache = VisualAssetCache(
             LocalObjectStore(visual_cache_path / "blobs"),
@@ -150,9 +162,9 @@ def create_app(
         )
     else:
         app.state.visual_asset_cache = VisualAssetCache()
-    app.state.visual_asset_provider = None
-    app.state.visual_asset_allow_network = False
-    app.state.visual_asset_max_cost_units = 0
+    app.state.visual_asset_provider = visual_provider
+    app.state.visual_asset_allow_network = visual_allow_network
+    app.state.visual_asset_max_cost_units = visual_max_cost_units
     app.state.workshop = WorkshopService(app.state.authoring, providers=providers)
     app.state.playable = (
         PlayableService(runtime, visual_cache=app.state.visual_asset_cache)
