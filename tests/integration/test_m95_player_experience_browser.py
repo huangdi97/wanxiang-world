@@ -302,6 +302,9 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 assert deferred_stage_name in page.locator("#scene-visual-caption").inner_text()
                 assert "非此刻位置" in page.locator("#scene-visual-caption").inner_text()
                 assert "原文证据" in page.locator("#scene-visual-caption").inner_text()
+                assert "视觉生成器 procedural-svg@1.1.0" in page.locator(
+                    "#scene-visual-caption"
+                ).inner_text()
                 assert "插画投影" in page.locator("#scene-visual-caption").inner_text()
                 assert page.locator("#play-location").inner_text() == before_location
                 assert page.locator("#send-action").is_disabled()
