@@ -14,7 +14,7 @@ from wanxiang_domain.errors import NotFound
 
 from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
 from wanxiang_substrate.assets.book_scene_visual import (
-    _materialize_visual_plan,
+    _materialize_product_visual_plan,
     _SceneImageProvider,
     _SceneVisualAsset,
     _VisualMaterialization,
@@ -83,7 +83,7 @@ def _materialize_visual_place(
     if not plan.scene_requests or plan.scene_requests[0].place_name != normalized_place:
         raise NotFound(f"visual place {place_name!r} not found")
 
-    materialized = _materialize_visual_plan(
+    materialized = _materialize_product_visual_plan(
         plan,
         provider=provider,
         cache=service._visual_cache,
@@ -119,7 +119,7 @@ def _attach_package_visuals(
     max_cost_units: int = 0,
 ) -> None:
     plan = _plan_book_scene_assets(package)
-    materialized = _materialize_visual_plan(
+    materialized = _materialize_product_visual_plan(
         plan,
         provider=provider,
         cache=service._visual_cache,
