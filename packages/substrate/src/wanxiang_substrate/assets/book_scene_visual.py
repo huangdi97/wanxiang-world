@@ -13,6 +13,7 @@ _InMemoryVisualCacheIndex = _cache._InMemoryVisualCacheIndex
 _VisualCacheIndex = _cache._VisualCacheIndex
 _VisualCacheRecord = _cache._VisualCacheRecord
 _materialize_visual_plan = _materialize._materialize_visual_plan
+_materialize_product_visual_plan = _materialize._materialize_product_visual_plan
 _render_visual_plan = _materialize._render_visual_plan
 _ProceduralSvgSceneProvider = _render._ProceduralSvgSceneProvider
 _render_world_atlas = _render._render_world_atlas
