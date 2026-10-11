@@ -273,7 +273,6 @@ def test_product_visual_ladder_falls_back_to_t0_when_eligible_t1_fails(
     assert result.fallback_reason == "provider_failure"
 
 
-
 class _SecondCallFailingProvider(_RemoteLikeProvider):
     def __init__(self) -> None:
         self.calls = 0
