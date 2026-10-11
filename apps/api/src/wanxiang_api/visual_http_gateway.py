@@ -47,9 +47,7 @@ def visual_http_runtime_from_env() -> VisualHttpRuntime:
     max_cost_units = _int_env("WANXIANG_VISUAL_MAX_COST_UNITS", default=0)
     if not endpoint:
         if allow_network:
-            raise ValueError(
-                "WANXIANG_VISUAL_ALLOW_NETWORK requires WANXIANG_VISUAL_HTTP_ENDPOINT"
-            )
+            raise ValueError("WANXIANG_VISUAL_ALLOW_NETWORK requires WANXIANG_VISUAL_HTTP_ENDPOINT")
         return VisualHttpRuntime(None, False, max_cost_units)
     provider = build_http_scene_provider(
         endpoint=endpoint,
@@ -58,12 +56,8 @@ def visual_http_runtime_from_env() -> VisualHttpRuntime:
             os.environ.get("WANXIANG_VISUAL_PROVIDER_ID", "http-json-image").strip()
             or "http-json-image"
         ),
-        provider_version=(
-            os.environ.get("WANXIANG_VISUAL_PROVIDER_VERSION", "1").strip() or "1"
-        ),
-        timeout_seconds=float(
-            _int_env("WANXIANG_VISUAL_HTTP_TIMEOUT_SECONDS", default=60)
-        ),
+        provider_version=(os.environ.get("WANXIANG_VISUAL_PROVIDER_VERSION", "1").strip() or "1"),
+        timeout_seconds=float(_int_env("WANXIANG_VISUAL_HTTP_TIMEOUT_SECONDS", default=60)),
         cost_units_per_asset=_int_env("WANXIANG_VISUAL_COST_UNITS", default=1),
         private_safe=_bool_env("WANXIANG_VISUAL_PRIVATE_SAFE"),
     )
