@@ -92,9 +92,7 @@ def _materialize_visual_plan(
             )
 
         generated: dict[str, tuple[_SceneVisualAsset, AssetRef]] = {}
-        attempted_calls = 0
-        for request in misses:
-            attempted_calls += 1
+        for attempted_calls, request in enumerate(misses, start=1):
             try:
                 asset = selected_provider.produce(request)
             except Exception as exc:
