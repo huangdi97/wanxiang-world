@@ -42,6 +42,16 @@ class _FakeOpener:
         return _FakeResponse(self.payload)
 
 
+
+def _fake_build_opener(payload: bytes) -> tuple[_FakeOpener, object]:
+    opener = _FakeOpener(payload)
+
+    def factory(*handlers: object) -> _FakeOpener:
+        _ = handlers
+        return opener
+
+    return opener, factory
+
 def _brief() -> _SceneGenerationBrief:
     return _SceneGenerationBrief(
         brief_id="brief:test",
@@ -66,8 +76,8 @@ def test_http_gateway_sends_only_bounded_brief_and_decodes_inline_image(
             "media_type": "image/png",
         }
     ).encode()
-    opener = _FakeOpener(raw)
-    monkeypatch.setattr(gateway, "build_opener", lambda *_: opener)
+    opener, factory = _fake_build_opener(raw)
+    monkeypatch.setattr(gateway, "build_opener", factory)
     client = _HttpJsonImageClient(
         "https://gateway.example/generate",
         bearer_token="secret-token",
@@ -109,6 +119,7 @@ def test_http_gateway_rejects_malformed_base64(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     raw = json.dumps({"image_base64": "not@@base64", "media_type": "image/png"}).encode()
-    monkeypatch.setattr(gateway, "build_opener", lambda *_: _FakeOpener(raw))
+    _, factory = _fake_build_opener(raw)
+    monkeypatch.setattr(gateway, "build_opener", factory)
     with pytest.raises(ValueError, match="invalid base64"):
         _HttpJsonImageClient("https://gateway.example/generate").generate(_brief())

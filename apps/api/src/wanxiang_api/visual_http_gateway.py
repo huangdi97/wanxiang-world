@@ -162,7 +162,7 @@ class _VisualHttpRuntime:
     max_cost_units: int
 
 
-def _visual_http_runtime_from_env() -> _VisualHttpRuntime:
+def visual_http_runtime_from_env() -> _VisualHttpRuntime:
     endpoint = os.environ.get("WANXIANG_VISUAL_HTTP_ENDPOINT", "").strip()
     allow_network = _bool_env("WANXIANG_VISUAL_ALLOW_NETWORK")
     max_cost_units = _int_env("WANXIANG_VISUAL_MAX_COST_UNITS", default=0)
