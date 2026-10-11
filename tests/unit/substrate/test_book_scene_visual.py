@@ -19,6 +19,7 @@ from wanxiang_substrate.assets.book_scene_plan import (
 )
 from wanxiang_substrate.assets.book_scene_visual import (
     _LocalJsonVisualCacheIndex,
+    _materialize_product_visual_plan,
     _materialize_visual_plan,
     _ProceduralSvgSceneProvider,
     _render_visual_plan,
@@ -190,6 +191,38 @@ def test_network_and_cost_are_denied_until_explicitly_authorized() -> None:
         max_cost_units=2,
     )
     assert rendered[0].place_name == "远方"
+
+
+@pytest.mark.parametrize(
+    ("external_processing_allowed", "allow_network", "max_cost_units", "private_source"),
+    [
+        (True, False, 2, False),
+        (False, True, 2, False),
+        (True, True, 1, False),
+        (True, True, 2, True),
+    ],
+)
+def test_product_visual_ladder_falls_back_to_t0_when_t1_is_ineligible(
+    external_processing_allowed: bool,
+    allow_network: bool,
+    max_cost_units: int,
+    private_source: bool,
+) -> None:
+    plan = _plan(
+        _request("备用场景", "fallback"),
+        external_processing_allowed=external_processing_allowed,
+    )
+    result = _materialize_product_visual_plan(
+        plan,
+        provider=_RemoteLikeProvider(),
+        allow_network=allow_network,
+        max_cost_units=max_cost_units,
+        private_source=private_source,
+    )
+
+    assert result.assets[0].provider_id == "procedural-svg"
+    assert result.assets[0].provider_version == "1.1.0"
+    assert result.cost_units == 0
 
 
 def test_visual_cache_reuses_content_addressed_asset_identity_and_avoids_provider_call() -> None:
