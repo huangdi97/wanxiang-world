@@ -10,8 +10,8 @@ from email.message import Message
 from typing import Any
 
 import pytest
-import wanxiang_api.visual_http_gateway as gateway
-from wanxiang_api.visual_http_gateway import HttpJsonImageClient
+import wanxiang_substrate.assets.book_scene_http_gateway as gateway
+from wanxiang_substrate.assets.book_scene_http_gateway import HttpJsonImageClient
 from wanxiang_substrate.assets.book_scene_prompt import _SceneGenerationBrief
 
 
