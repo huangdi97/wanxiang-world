@@ -109,7 +109,7 @@ def _materialize_visual_plan(
             if hashlib.sha256(asset.content).hexdigest() != asset.content_sha256:
                 raise _VisualProviderFailure("visual provider returned invalid content digest")
             if asset.scene_key != request.stable_key or asset.place_name != request.place_name:
-                raise _VisualProviderFailure("visual provider returned mismatched source scene identity")
+                raise _VisualProviderFailure(\n                    "visual provider returned mismatched source scene identity"\n                )
             if asset.provider_version != selected_provider.provider_version:
                 raise _VisualProviderFailure("visual provider returned mismatched provider_version")
             if request.style_key and asset.style_key != request.style_key:
@@ -117,7 +117,7 @@ def _materialize_visual_plan(
             if not asset.media_type.startswith("image/") or not asset.content:
                 raise _VisualProviderFailure("visual provider must return non-empty image content")
             if len(asset.content) > 20 * 1024 * 1024:
-                raise _VisualProviderFailure("visual provider image exceeds materialization size limit")
+                raise _VisualProviderFailure(\n                    "visual provider image exceeds materialization size limit"\n                )
             ref = asset_cache.put(asset, rights=delivery_rights)
             generated[request.stable_key] = (asset, ref)
 
