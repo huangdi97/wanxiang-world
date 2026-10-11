@@ -118,8 +118,10 @@ def test_two_books_automatically_create_different_visual_assets_without_custom_c
     history_scenes = cast(list[dict[str, object]], raw_history_scenes)
     assert str(fiction_scenes[0]["data_uri"]).startswith("data:image/svg+xml;base64,")
     assert str(history_scenes[0]["data_uri"]).startswith("data:image/svg+xml;base64,")
-    assert int(fiction_scenes[0]["source_evidence_count"]) >= 1
-    assert int(history_scenes[0]["source_evidence_count"]) >= 1
+    fiction_evidence_count = fiction_scenes[0]["source_evidence_count"]
+    history_evidence_count = history_scenes[0]["source_evidence_count"]
+    assert isinstance(fiction_evidence_count, int) and fiction_evidence_count >= 1
+    assert isinstance(history_evidence_count, int) and history_evidence_count >= 1
     assert "source_refs" not in fiction_scenes[0]
     assert "source_refs" not in history_scenes[0]
 
