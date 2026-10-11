@@ -103,6 +103,10 @@ def test_http_gateway_sends_only_bounded_brief_and_decodes_inline_image(
         "ftp://example.com/image",
         "https://user:pass@example.com/image",
         "https://example.com/image#fragment",
+        "https://169.254.169.254/latest/meta-data",
+        "https://10.0.0.5/generate",
+        "https://[fe80::1]/generate",
+        "https://example.com:notaport/generate",
     ],
 )
 def test_http_gateway_rejects_unsafe_endpoint_forms(endpoint: str) -> None:
@@ -123,3 +127,16 @@ def test_http_gateway_rejects_malformed_base64(
     monkeypatch.setattr(gateway, "build_opener", factory)
     with pytest.raises(ValueError, match="invalid base64"):
         HttpJsonImageClient("https://gateway.example/generate").generate(_brief())
+
+
+def test_http_gateway_rejects_bearer_token_header_injection() -> None:
+    with pytest.raises(ValueError, match="line breaks"):
+        HttpJsonImageClient(
+            "https://gateway.example/generate",
+            bearer_token="token\r\nX-Injected: yes",
+        )
+
+
+def test_http_gateway_allows_public_ip_https_and_loopback_https() -> None:
+    assert HttpJsonImageClient("https://8.8.8.8/generate").endpoint.startswith("https://")
+    assert HttpJsonImageClient("https://127.0.0.1/generate").endpoint.startswith("https://")
