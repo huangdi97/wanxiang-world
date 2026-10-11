@@ -50,6 +50,7 @@ from wanxiang_api.promotion_routes import router as promotion_router
 from wanxiang_api.review_routes import router as review_router
 from wanxiang_api.routes import router
 from wanxiang_api.studio_ui_routes import router as studio_ui_router
+from wanxiang_api.visual_http_gateway import _visual_http_runtime_from_env
 from wanxiang_api.workshop_routes import router as workshop_router
 
 API_TITLE = "Wanxiang World API"
@@ -94,6 +95,12 @@ def create_app(
 ) -> FastAPI:
     if visual_max_cost_units < 0:
         raise ValueError("visual_max_cost_units must be non-negative")
+    if visual_provider is None:
+        http_visual = _visual_http_runtime_from_env()
+        visual_provider = http_visual.provider
+        visual_allow_network = visual_allow_network or http_visual.allow_network
+        if visual_max_cost_units == 0:
+            visual_max_cost_units = http_visual.max_cost_units
     if visual_allow_network and visual_provider is None:
         raise ValueError("visual_allow_network requires an injected visual_provider")
     app = FastAPI(title=API_TITLE, version=API_VERSION)
