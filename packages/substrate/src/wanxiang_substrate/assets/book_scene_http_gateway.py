@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import base64
 import binascii
+import ipaddress
 import json
 from typing import Any, cast
 from urllib.error import HTTPError, URLError
@@ -46,10 +47,23 @@ def _validate_endpoint(endpoint: str) -> str:
     parsed = urlsplit(normalized)
     if parsed.username or parsed.password or parsed.fragment:
         raise ValueError("visual HTTP endpoint cannot contain credentials or fragments")
-    if parsed.scheme == "https" and parsed.hostname:
+    host = parsed.hostname
+    if not host:
+        raise ValueError("visual HTTP endpoint requires a host")
+    try:
+        _ = parsed.port
+    except ValueError as exc:
+        raise ValueError("visual HTTP endpoint contains an invalid port") from exc
+    if parsed.scheme == "http" and host in {"localhost", "127.0.0.1", "::1"}:
         return normalized
-    if parsed.scheme == "http" and parsed.hostname in {"localhost", "127.0.0.1", "::1"}:
-        return normalized
+    if parsed.scheme == "https":
+        try:
+            address = ipaddress.ip_address(host)
+        except ValueError:
+            return normalized
+        if address.is_global or address.is_loopback:
+            return normalized
+        raise ValueError("visual HTTPS endpoint cannot target a non-global IP address")
     raise ValueError("visual HTTP endpoint must use HTTPS or loopback HTTP")
 
 
@@ -65,6 +79,8 @@ class HttpJsonImageClient(_ExternalImageClient):
         max_response_bytes: int = _MAX_GATEWAY_RESPONSE_BYTES,
     ) -> None:
         self.endpoint = _validate_endpoint(endpoint)
+        if "\r" in bearer_token or "\n" in bearer_token:
+            raise ValueError("visual HTTP bearer token cannot contain line breaks")
         self.bearer_token = bearer_token
         self.timeout_seconds = timeout_seconds
         self.max_response_bytes = max_response_bytes
