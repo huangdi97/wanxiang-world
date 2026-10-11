@@ -108,6 +108,7 @@ STRINGS: dict[str, str] = {
     "visual_clues_heading": "原文场景线索",
     "visual_source_evidence": "原文证据 {count} 条",
     "visual_source_evidence_none": "仅地点名有来源",
+    "visual_provider": "视觉生成器 {provider}",
     "visual_projection_only": "插画投影，不是世界事实",
     "visual_places_heading": "世界地点",
     "visual_place_search_label": "查找地点",
