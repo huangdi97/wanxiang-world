@@ -118,6 +118,7 @@ STRINGS: dict[str, str] = {
     "visual_clues_heading": "Source scene clues",
     "visual_source_evidence": "{count} source evidence reference(s)",
     "visual_source_evidence_none": "Only the place name is source-grounded",
+    "visual_provider": "Visual provider {provider}",
     "visual_projection_only": "Illustrative projection, not canonical world truth",
     "visual_places_heading": "World places",
     "visual_place_search_label": "Find a place",
