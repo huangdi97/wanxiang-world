@@ -138,5 +138,7 @@ def test_http_gateway_rejects_bearer_token_header_injection() -> None:
 
 
 def test_http_gateway_allows_public_ip_https_and_loopback_https() -> None:
-    assert HttpJsonImageClient("https://8.8.8.8/generate").endpoint.startswith("https://")
-    assert HttpJsonImageClient("https://127.0.0.1/generate").endpoint.startswith("https://")
+    public = HttpJsonImageClient("https://8.8.8.8/generate")
+    loopback = HttpJsonImageClient("https://127.0.0.1/generate")
+    assert public.endpoint.startswith("https://")
+    assert loopback.endpoint.startswith("https://")
