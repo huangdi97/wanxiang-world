@@ -191,3 +191,44 @@ be reported as provider fidelity validation.
 The personal relation panel reads the actor-scoped relation projection, not
 the world's global relation graph. Known people may be listed as knowledge,
 but only explicitly co-located people can be labeled present.
+## T1 HTTP gateway and product fallback boundary (October 2026)
+
+The deployable T1 HTTP adapter is intentionally narrower than a generic URL
+fetcher:
+
+- the endpoint comes from trusted deployment configuration or explicit
+  composition-root injection, never from a Player/Studio request payload;
+- remote HTTP is rejected; HTTPS is required except for loopback HTTP used by a
+  local model gateway;
+- literal link-local/private/reserved HTTPS targets are rejected by default;
+- redirects are not followed, so an Authorization header is not forwarded to a
+  second host;
+- credentials/fragments in the endpoint and line breaks in bearer tokens are
+  rejected;
+- JSON response bytes are bounded before parsing, base64 is validated, and T1
+  output must be PNG/JPEG/WebP with matching raster signatures;
+- source locators and the full source are removed before the external client
+  receives a scene brief.
+
+This transport hardening does not make the configured provider authoritative.
+Network egress/DNS policy, provider account security, real image-decoder
+sandboxing, billing reconciliation and provider-specific retention terms remain
+deployment responsibilities.
+
+Product surfaces use a **T0-preserving tier selector** around the strict
+materializer. A configured T1 provider is skipped, rather than breaking the
+world preview, when any of these apply:
+
+1. network use was not explicitly enabled;
+2. source rights do not allow external model processing;
+3. a private source is paired with a provider not declared private-safe;
+4. the requested scene batch would exceed the declared visual cost budget.
+
+Invalid provider definitions (for example negative cost) still fail loudly.
+Direct low-level materializer calls also remain strict so tests and backend
+integrations cannot mistake a policy violation for successful T1 execution.
+
+Player visual proof exposes only safe generation provenance:
+`provider_id@provider_version`, source-evidence count and the
+projection-only warning. It does **not** expose source locators, prompts,
+credentials, branch IDs, event IDs or canonical state hashes.
