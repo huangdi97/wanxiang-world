@@ -17,6 +17,7 @@ from wanxiang_substrate.assets.book_spatial_jobs import (
 )
 from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialArtifactCandidate,
+    _SpatialGenerationProvider,
     _SpatialPollResult,
 )
 from wanxiang_substrate.assets.foundry import SemanticSceneSpec
@@ -38,7 +39,7 @@ def _request() -> _SourceSceneRequest:
 
 
 @dataclass
-class _FakeSpatialProvider:
+class _FakeSpatialProvider(_SpatialGenerationProvider):
     provider_id: str = "spatial:test"
     provider_version: str = "2026-10"
     requires_network: bool = True
