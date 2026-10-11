@@ -147,9 +147,7 @@ def _materialize_product_visual_plan(
             not allow_network or not plan.external_processing_allowed
         )
         privacy_blocked = private_source and not selected.private_safe
-        budget_blocked = (
-            selected.cost_units_per_asset * len(plan.scene_requests) > max_cost_units
-        )
+        budget_blocked = selected.cost_units_per_asset * len(plan.scene_requests) > max_cost_units
         if remote_blocked or privacy_blocked or budget_blocked:
             selected = None
     return _materialize_visual_plan(
