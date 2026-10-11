@@ -301,6 +301,33 @@ def test_one_click_accepts_injected_t1_provider_without_changing_book_pipeline()
     assert client.calls[0].full_source_included is False
 
 
+
+def test_one_click_keeps_t0_when_source_does_not_authorize_configured_t1() -> None:
+    client = _OneClickExternalClient()
+    provider = _PromptedExternalSceneProvider(
+        provider_id="provider:configured-but-ineligible",
+        provider_version="2026-10",
+        client=client,
+        cost_units_per_asset=5,
+        private_safe=True,
+    )
+    result = OneClickAuthoring(
+        visual_provider=provider,
+        visual_allow_network=True,
+        visual_max_cost_units=5,
+    ).run(
+        "visual_t1_policy_fallback",
+        (_book("t1_policy_fallback_source", "Alice", "Garden"),),
+        profile="book",
+    )
+
+    assert client.calls == []
+    assert result.visual_assets
+    assert result.visual_assets[0].provider_id == "procedural-svg"
+    assert result.visual_assets[0].provider_version == "1.1.0"
+    assert result.visual_cost_units == 0
+
+
 def test_source_gated_world_atlas_fails_closed_when_visual_delivery_is_denied() -> None:
     result = OneClickAuthoring().run(
         "visual_private_projection",
