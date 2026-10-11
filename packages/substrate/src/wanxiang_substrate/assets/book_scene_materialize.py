@@ -11,6 +11,7 @@ from wanxiang_substrate.assets.book_scene_fallback import (
     _provider_failure,
     _provider_identity,
     _VisualProviderFailure,
+    _VisualProviderIneligible,
 )
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest, _SourceVisualPlan
 from wanxiang_substrate.assets.book_scene_render import _ProceduralSvgSceneProvider
@@ -41,12 +42,6 @@ def _materialize_visual_plan(
         raise ValueError("visual provider cost must be non-negative")
     if max_cost_units < 0:
         raise ValueError("visual budget must be non-negative")
-    if selected_provider.requires_network and not allow_network:
-        raise ValueError("network visual provider requires explicit allow_network")
-    if selected_provider.requires_network and not plan.external_processing_allowed:
-        raise ValueError("source rights do not allow external visual processing")
-    if private_source and not selected_provider.private_safe:
-        raise ValueError("private source requires a private-safe visual provider")
 
     asset_cache = cache or VisualAssetCache()
     # The cache is checked again inside this keyed guard: two concurrent
@@ -85,10 +80,30 @@ def _materialize_visual_plan(
             else:
                 cached_rows[request.stable_key] = cached
 
+        # Network, external-processing permission, provider privacy and budget
+        # govern generation only. A cache hit is a local delivery operation and
+        # must remain reusable during replay/offline browsing without re-billing.
+        if misses and selected_provider.requires_network and not allow_network:
+            raise _VisualProviderIneligible(
+                "network visual provider requires explicit allow_network",
+                reason="network_not_allowed",
+            )
+        if misses and selected_provider.requires_network and not plan.external_processing_allowed:
+            raise _VisualProviderIneligible(
+                "source rights do not allow external visual processing",
+                reason="source_external_processing_not_allowed",
+            )
+        if misses and private_source and not selected_provider.private_safe:
+            raise _VisualProviderIneligible(
+                "private source requires a private-safe visual provider",
+                reason="private_source_provider_not_safe",
+            )
+
         expected_cost = selected_provider.cost_units_per_asset * len(misses)
         if expected_cost > max_cost_units:
-            raise ValueError(
-                f"visual provider cost {expected_cost} exceeds budget {max_cost_units}"
+            raise _VisualProviderIneligible(
+                f"visual provider cost {expected_cost} exceeds budget {max_cost_units}",
+                reason="budget_insufficient",
             )
 
         generated: dict[str, tuple[_SceneVisualAsset, AssetRef]] = {}
@@ -189,36 +204,38 @@ def _materialize_product_visual_plan(
     rights: str | None = None,
     private_source: bool = False,
 ) -> _VisualMaterialization:
-    """Use T1 when eligible; otherwise expose an explicit, metered T0 fallback."""
-    if max_cost_units < 0:
-        raise ValueError("visual budget must be non-negative")
+    """Use cached/T1 visuals when possible; otherwise expose a metered T0 fallback."""
     selected = provider
-    fallback_from = ""
-    fallback_reasons: list[str] = []
-    if selected is not None:
-        if selected.cost_units_per_asset < 0:
-            raise ValueError("visual provider cost must be non-negative")
-        if selected.requires_network and not allow_network:
-            fallback_reasons.append("network_not_allowed")
-        if selected.requires_network and not plan.external_processing_allowed:
-            fallback_reasons.append("source_external_processing_not_allowed")
-        if private_source and not selected.private_safe:
-            fallback_reasons.append("private_source_provider_not_safe")
-        if selected.cost_units_per_asset * len(plan.scene_requests) > max_cost_units:
-            fallback_reasons.append("budget_insufficient")
-        if fallback_reasons:
-            fallback_from = _provider_identity(selected)
-            selected = None
-
     try:
-        result = _materialize_visual_plan(
+        return _materialize_visual_plan(
             plan,
             provider=selected,
             cache=cache,
-            allow_network=allow_network if selected is not None else False,
-            max_cost_units=max_cost_units if selected is not None else 0,
+            allow_network=allow_network,
+            max_cost_units=max_cost_units,
             rights=rights,
             private_source=private_source,
+        )
+    except _VisualProviderIneligible as ineligible:
+        if selected is None:
+            raise
+        fallback = _materialize_visual_plan(
+            plan,
+            provider=None,
+            cache=cache,
+            allow_network=False,
+            max_cost_units=0,
+            rights=rights,
+            private_source=private_source,
+        )
+        return _VisualMaterialization(
+            assets=fallback.assets,
+            asset_refs=fallback.asset_refs,
+            provider_calls=fallback.provider_calls,
+            cache_hits=fallback.cache_hits,
+            cost_units=0,
+            fallback_from_provider=_provider_identity(selected),
+            fallback_reason=ineligible.reason,
         )
     except _VisualProviderFailure as failure:
         if selected is None:
@@ -241,18 +258,6 @@ def _materialize_product_visual_plan(
             fallback_from_provider=_provider_identity(selected),
             fallback_reason="provider_failure",
         )
-
-    if not fallback_from:
-        return result
-    return _VisualMaterialization(
-        assets=result.assets,
-        asset_refs=result.asset_refs,
-        provider_calls=result.provider_calls,
-        cache_hits=result.cache_hits,
-        cost_units=result.cost_units,
-        fallback_from_provider=fallback_from,
-        fallback_reason=",".join(fallback_reasons),
-    )
 
 
 def _render_visual_plan(

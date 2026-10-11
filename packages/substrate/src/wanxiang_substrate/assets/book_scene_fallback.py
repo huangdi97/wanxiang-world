@@ -7,6 +7,14 @@ from __future__ import annotations
 from wanxiang_substrate.assets.book_scene_types import SceneImageProvider
 
 
+class _VisualProviderIneligible(ValueError):
+    """Generation is disallowed, but already-cached provider assets may still be reused."""
+
+    def __init__(self, message: str, *, reason: str) -> None:
+        super().__init__(message)
+        self.reason = reason
+
+
 class _VisualProviderFailure(ValueError):
     """Provider failure plus conservative attempt/cost accounting for fallback."""
 

@@ -234,6 +234,39 @@ def test_product_visual_ladder_falls_back_to_t0_when_t1_is_ineligible(
     assert result.fallback_reason == expected_reason
 
 
+def test_cached_t1_scene_replays_offline_with_zero_generation_budget() -> None:
+    plan = _plan(
+        _request("已缓存远方", "cached-remote"),
+        external_processing_allowed=True,
+    )
+    provider = _RemoteLikeProvider()
+    cache = _VisualAssetCache()
+
+    first = _materialize_product_visual_plan(
+        plan,
+        provider=provider,
+        cache=cache,
+        allow_network=True,
+        max_cost_units=2,
+    )
+    replay = _materialize_product_visual_plan(
+        plan,
+        provider=provider,
+        cache=cache,
+        allow_network=False,
+        max_cost_units=0,
+    )
+
+    assert first.provider_calls == 1
+    assert first.cost_units == 2
+    assert replay.provider_calls == 0
+    assert replay.cache_hits == 1
+    assert replay.cost_units == 0
+    assert replay.fallback_from_provider == ""
+    assert replay.assets[0].provider_id == "remote-test"
+    assert replay.assets[0].content_sha256 == first.assets[0].content_sha256
+
+
 class _FailingRemoteProvider(_RemoteLikeProvider):
     def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
         _ = request
