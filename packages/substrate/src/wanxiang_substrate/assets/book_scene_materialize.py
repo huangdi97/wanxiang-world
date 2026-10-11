@@ -126,7 +126,6 @@ def _materialize_visual_plan(
         )
 
 
-
 def _materialize_product_visual_plan(
     plan: _SourceVisualPlan,
     provider: SceneImageProvider | None = None,
@@ -162,6 +161,7 @@ def _materialize_product_visual_plan(
         rights=rights,
         private_source=private_source,
     )
+
 
 def _render_visual_plan(
     plan: _SourceVisualPlan,
