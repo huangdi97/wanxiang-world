@@ -272,6 +272,14 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 ).inner_html()
                 assert "以此角色进入" in page.locator("#detail-view").inner_text()
                 assert "先以观察者进入" in page.locator("#detail-view").inner_text()
+                fallback_copy = page.evaluate(
+                    """sceneReadyStatus(
+                        {fallback_from_provider:'provider:test@1', fallback_reason:'provider_failure'},
+                        '机关桥'
+                    )"""
+                )
+                assert "已使用离线保底场景" in fallback_copy
+                assert "高阶视觉生成失败" in fallback_copy
                 page.locator("#enter-observer").click()
                 page.wait_for_selector("#play-view.is-active")
                 assert page.locator("#play-mode").inner_text() == "观察模式"

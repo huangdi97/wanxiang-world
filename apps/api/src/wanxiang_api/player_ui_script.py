@@ -159,18 +159,30 @@ async function openWorld(profileId){
   catch(error){status(error.message,true)}finally{busy(false)}
 }
 let visualGenerationInFlight=false;
+function sceneReadyStatus(result,place){
+  if(!result?.fallback_from_provider)return tr("status_scene_ready",{place});
+  const reason=String(result.fallback_reason||"provider_failure").split(",")[0];
+  const key={
+    network_not_allowed:"visual_fallback_network",
+    source_external_processing_not_allowed:"visual_fallback_rights",
+    private_source_provider_not_safe:"visual_fallback_privacy",
+    budget_insufficient:"visual_fallback_budget",
+    provider_failure:"visual_fallback_provider"
+  }[reason]||"visual_fallback_provider";
+  return tr("status_scene_fallback",{place,reason:tr(key)});
+}
 async function materializeVisualPlace(place){
-  const profile=model.world?.world?.profile_id;if(!profile||!place||visualGenerationInFlight)return false;
+  const profile=model.world?.world?.profile_id;if(!profile||!place||visualGenerationInFlight)return null;
   visualGenerationInFlight=true;
   busy(true);status(tr("status_generating_scene",{place}));
-  try{const result=await api(`/experience/player/worlds/${encodeURIComponent(profile)}/visuals`,{method:"POST",body:JSON.stringify({place_name:place})});model.world.world=result.world;return true}
-  catch(error){status(error.message,true);return false}finally{visualGenerationInFlight=false;busy(false)}
+  try{const result=await api(`/experience/player/worlds/${encodeURIComponent(profile)}/visuals`,{method:"POST",body:JSON.stringify({place_name:place})});model.world.world=result.world;return result}
+  catch(error){status(error.message,true);return null}finally{visualGenerationInFlight=false;busy(false)}
 }
 async function generateVisualPlace(place){
-  if(await materializeVisualPlace(place)){renderDetail(place);status(tr("status_scene_ready",{place}))}
+  const result=await materializeVisualPlace(place);if(result){renderDetail(place);status(sceneReadyStatus(result,place))}
 }
 async function generateObserverVisualPlace(place){
-  if(await materializeVisualPlace(place)){model.observerScene=place;renderPlay();status(tr("status_scene_ready",{place}))}
+  const result=await materializeVisualPlace(place);if(result){model.observerScene=place;renderPlay();status(sceneReadyStatus(result,place))}
 }
 async function enterWorld(){
   const character=document.querySelector('input[name="character"]:checked')?.value;
