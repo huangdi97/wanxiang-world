@@ -7,6 +7,11 @@ from __future__ import annotations
 import hashlib
 
 from wanxiang_substrate.assets.book_scene_cache import VisualAssetCache
+from wanxiang_substrate.assets.book_scene_fallback import (
+    _provider_failure,
+    _provider_identity,
+    _VisualProviderFailure,
+)
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest, _SourceVisualPlan
 from wanxiang_substrate.assets.book_scene_render import _ProceduralSvgSceneProvider
 from wanxiang_substrate.assets.book_scene_types import (
@@ -15,44 +20,6 @@ from wanxiang_substrate.assets.book_scene_types import (
     _VisualMaterialization,
 )
 from wanxiang_substrate.assets.storage import AssetRef
-
-
-class _VisualProviderFailure(ValueError):
-    """Provider failure plus conservative attempt/cost accounting for fallback."""
-
-    def __init__(
-        self,
-        message: str,
-        *,
-        provider_calls: int,
-        cache_hits: int,
-        cost_units: int,
-    ) -> None:
-        super().__init__(message)
-        self.provider_calls = provider_calls
-        self.cache_hits = cache_hits
-        self.cost_units = cost_units
-
-
-def _provider_failure(
-    message: str,
-    *,
-    attempted_calls: int,
-    cache_hits: int,
-    provider: SceneImageProvider,
-) -> _VisualProviderFailure:
-    return _VisualProviderFailure(
-        message,
-        provider_calls=attempted_calls,
-        cache_hits=cache_hits,
-        cost_units=provider.cost_units_per_asset * attempted_calls,
-    )
-
-
-def _provider_identity(provider: SceneImageProvider) -> str:
-    provider_id = provider.provider_id or "configured-provider"
-    provider_version = provider.provider_version or "unknown"
-    return f"{provider_id}@{provider_version}"
 
 
 def _materialize_visual_plan(
