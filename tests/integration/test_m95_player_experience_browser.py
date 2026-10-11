@@ -274,7 +274,10 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 assert "先以观察者进入" in page.locator("#detail-view").inner_text()
                 fallback_copy = page.evaluate(
                     """sceneReadyStatus(
-                        {fallback_from_provider:'provider:test@1', fallback_reason:'provider_failure'},
+                        {
+                          fallback_from_provider:'provider:test@1',
+                          fallback_reason:'provider_failure'
+                        },
                         '机关桥'
                     )"""
                 )
