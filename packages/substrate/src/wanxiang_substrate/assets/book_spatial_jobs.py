@@ -125,7 +125,7 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
             temporary.replace(self._path)
 
 
-class _DerivedSpatialCatalog:
+class _DerivedSpatialAttachments:
     """Projection-only scene attachments; deliberately has no canonical writer."""
 
     def __init__(self) -> None:
@@ -259,7 +259,7 @@ class _SpatialGenerationCoordinator:
     def attach(
         self,
         submission_id: str,
-        catalog: _DerivedSpatialCatalog,
+        catalog: _DerivedSpatialAttachments,
     ) -> _SpatialGenerationTicket:
         ticket = self.jobs.get(submission_id)
         if ticket is None:

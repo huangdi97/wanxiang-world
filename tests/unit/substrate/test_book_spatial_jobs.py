@@ -11,7 +11,7 @@ from dataclasses import dataclass, field
 import pytest
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
 from wanxiang_substrate.assets.book_spatial_jobs import (
-    _DerivedSpatialCatalog,
+    _DerivedSpatialAttachments,
     _LocalJsonSpatialJobStore,
     _SpatialGenerationCoordinator,
 )
@@ -168,7 +168,7 @@ def test_t3_poll_verifies_assets_then_attaches_only_to_derived_catalog() -> None
 
     running = coordinator.poll(ticket.submission_id)
     verified = coordinator.poll(ticket.submission_id)
-    catalog = _DerivedSpatialCatalog()
+    catalog = _DerivedSpatialAttachments()
     attached = coordinator.attach(ticket.submission_id, catalog)
 
     assert running.state == "running"
@@ -214,4 +214,4 @@ def test_t3_terminal_failure_never_attaches_assets() -> None:
 
     assert failed.state == "failed"
     with pytest.raises(ValueError, match="only verified"):
-        coordinator.attach(ticket.submission_id, _DerivedSpatialCatalog())
+        coordinator.attach(ticket.submission_id, _DerivedSpatialAttachments())
