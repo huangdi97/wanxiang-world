@@ -225,6 +225,63 @@ def test_product_visual_ladder_falls_back_to_t0_when_t1_is_ineligible(
     assert result.cost_units == 0
 
 
+class _FailingRemoteProvider(_RemoteLikeProvider):
+    def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
+        _ = request
+        raise TimeoutError("synthetic T1 timeout")
+
+
+class _InvalidRemoteProvider(_RemoteLikeProvider):
+    def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
+        good = super().produce(request)
+        return _SceneVisualAsset(
+            scene_key=good.scene_key,
+            place_name=good.place_name,
+            provider_id=good.provider_id,
+            media_type=good.media_type,
+            content=good.content,
+            content_sha256="0" * 64,
+            cache_key=good.cache_key,
+            illustrative=good.illustrative,
+            style_key=good.style_key,
+            provider_version=good.provider_version,
+        )
+
+
+@pytest.mark.parametrize("provider", [_FailingRemoteProvider(), _InvalidRemoteProvider()])
+def test_product_visual_ladder_falls_back_to_t0_when_eligible_t1_fails(
+    provider: _SceneImageProvider,
+) -> None:
+    plan = _plan(
+        _request("运行时保底", "runtime-fallback"),
+        external_processing_allowed=True,
+    )
+    result = _materialize_product_visual_plan(
+        plan,
+        provider=provider,
+        allow_network=True,
+        max_cost_units=2,
+    )
+
+    assert result.assets[0].provider_id == "procedural-svg"
+    assert result.assets[0].provider_version == "1.1.0"
+    assert result.cost_units == 0
+
+
+def test_strict_visual_materializer_still_surfaces_t1_execution_failure() -> None:
+    plan = _plan(
+        _request("严格模式", "strict-runtime"),
+        external_processing_allowed=True,
+    )
+    with pytest.raises(ValueError, match="visual provider execution failed"):
+        _materialize_visual_plan(
+            plan,
+            provider=_FailingRemoteProvider(),
+            allow_network=True,
+            max_cost_units=2,
+        )
+
+
 def test_visual_cache_reuses_content_addressed_asset_identity_and_avoids_provider_call() -> None:
     plan = _plan(_request("旧城", "old-city"))
     cache = _VisualAssetCache()
