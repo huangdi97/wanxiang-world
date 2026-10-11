@@ -131,6 +131,8 @@ def player_world_detail(
                     "data_uri": asset.data_uri(),
                     "content_sha256": asset.content_sha256,
                     "illustrative": asset.illustrative,
+                    "provider_id": asset.provider_id,
+                    "provider_version": asset.provider_version,
                     "clues": list(support_by_key.get(asset.scene_key, ((), 0))[0]),
                     "source_evidence_count": support_by_key.get(asset.scene_key, ((), 0))[1],
                 }
@@ -257,6 +259,8 @@ def player_observation(
                 "data_uri": chosen.data_uri(),
                 "content_sha256": chosen.content_sha256,
                 "illustrative": chosen.illustrative,
+                "provider_id": chosen.provider_id,
+                "provider_version": chosen.provider_version,
                 "clues": list(support_by_key.get(chosen.scene_key, ((), 0))[0]),
                 "source_evidence_count": support_by_key.get(chosen.scene_key, ((), 0))[1],
             }
