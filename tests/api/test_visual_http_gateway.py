@@ -108,9 +108,7 @@ def test_http_gateway_allows_loopback_http_for_local_model_gateway() -> None:
 def test_http_gateway_rejects_malformed_base64(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    raw = json.dumps(
-        {"image_base64": "not@@base64", "media_type": "image/png"}
-    ).encode()
+    raw = json.dumps({"image_base64": "not@@base64", "media_type": "image/png"}).encode()
     monkeypatch.setattr(gateway, "build_opener", lambda *_: _FakeOpener(raw))
     with pytest.raises(ValueError, match="invalid base64"):
         _HttpJsonImageClient("https://gateway.example/generate").generate(_brief())

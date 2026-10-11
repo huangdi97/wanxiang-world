@@ -147,9 +147,7 @@ class _HttpJsonImageClient(_ExternalImageClient):
         body = cast(dict[str, object], decoded)
         encoded, media_type = body.get("image_base64"), body.get("media_type")
         if not isinstance(encoded, str) or not isinstance(media_type, str):
-            raise ValueError(
-                "visual HTTP gateway response requires image_base64 and media_type"
-            )
+            raise ValueError("visual HTTP gateway response requires image_base64 and media_type")
         try:
             image = base64.b64decode(encoded, validate=True)
         except (ValueError, binascii.Error) as exc:
@@ -170,24 +168,18 @@ def _visual_http_runtime_from_env() -> _VisualHttpRuntime:
     max_cost_units = _int_env("WANXIANG_VISUAL_MAX_COST_UNITS", default=0)
     if not endpoint:
         if allow_network:
-            raise ValueError(
-                "WANXIANG_VISUAL_ALLOW_NETWORK requires WANXIANG_VISUAL_HTTP_ENDPOINT"
-            )
+            raise ValueError("WANXIANG_VISUAL_ALLOW_NETWORK requires WANXIANG_VISUAL_HTTP_ENDPOINT")
         return _VisualHttpRuntime(None, False, max_cost_units)
     provider = _PromptedExternalSceneProvider(
         provider_id=(
             os.environ.get("WANXIANG_VISUAL_PROVIDER_ID", "http-json-image").strip()
             or "http-json-image"
         ),
-        provider_version=(
-            os.environ.get("WANXIANG_VISUAL_PROVIDER_VERSION", "1").strip() or "1"
-        ),
+        provider_version=(os.environ.get("WANXIANG_VISUAL_PROVIDER_VERSION", "1").strip() or "1"),
         client=_HttpJsonImageClient(
             endpoint=_validate_endpoint(endpoint),
             bearer_token=os.environ.get("WANXIANG_VISUAL_HTTP_BEARER_TOKEN", ""),
-            timeout_seconds=float(
-                _int_env("WANXIANG_VISUAL_HTTP_TIMEOUT_SECONDS", default=60)
-            ),
+            timeout_seconds=float(_int_env("WANXIANG_VISUAL_HTTP_TIMEOUT_SECONDS", default=60)),
         ),
         cost_units_per_asset=_int_env("WANXIANG_VISUAL_COST_UNITS", default=1),
         private_safe=_bool_env("WANXIANG_VISUAL_PRIVATE_SAFE"),
