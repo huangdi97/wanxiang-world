@@ -122,6 +122,10 @@ def test_two_books_automatically_create_different_visual_assets_without_custom_c
     history_evidence_count = history_scenes[0]["source_evidence_count"]
     assert isinstance(fiction_evidence_count, int) and fiction_evidence_count >= 1
     assert isinstance(history_evidence_count, int) and history_evidence_count >= 1
+    assert fiction_scenes[0]["provider_id"] == "procedural-svg"
+    assert fiction_scenes[0]["provider_version"] == "1.1.0"
+    assert history_scenes[0]["provider_id"] == "procedural-svg"
+    assert history_scenes[0]["provider_version"] == "1.1.0"
     assert "source_refs" not in fiction_scenes[0]
     assert "source_refs" not in history_scenes[0]
 
