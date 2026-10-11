@@ -46,7 +46,7 @@ function view(name){
   window.scrollTo({top:0,behavior:"smooth"});
 }
 function tags(items){return (items||[]).map(item=>`<span class="tag">${safe(item)}</span>`).join("")}
-function visualProof(item){const count=Number(item?.source_evidence_count||0),source=count>0?tr("visual_source_evidence",{count}):tr("visual_source_evidence_none");return `${source} · ${tr("visual_projection_only")}`}
+function visualProof(item){const count=Number(item?.source_evidence_count||0),source=count>0?tr("visual_source_evidence",{count}):tr("visual_source_evidence_none"),provider=item?.provider_id?tr("visual_provider",{provider:`${item.provider_id}@${item.provider_version||"?"}`}):"";return [source,provider,tr("visual_projection_only")].filter(Boolean).join(" · ")}
 function worldById(profileId){return (model.plaza?.worlds||[]).find(item=>item.profile_id===profileId)}
 function renderContinue(){
   const item=model.plaza?.continue;const slot=$("continue-slot");
