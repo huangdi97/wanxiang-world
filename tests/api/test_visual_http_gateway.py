@@ -42,7 +42,6 @@ class _FakeOpener:
         return _FakeResponse(self.payload)
 
 
-
 def _fake_build_opener(payload: bytes) -> tuple[_FakeOpener, object]:
     opener = _FakeOpener(payload)
 
@@ -51,6 +50,7 @@ def _fake_build_opener(payload: bytes) -> tuple[_FakeOpener, object]:
         return opener
 
     return opener, factory
+
 
 def _brief() -> _SceneGenerationBrief:
     return _SceneGenerationBrief(
