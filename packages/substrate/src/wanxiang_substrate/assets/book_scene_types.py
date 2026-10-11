@@ -54,3 +54,5 @@ class _VisualMaterialization:
     provider_calls: int
     cache_hits: int
     cost_units: int
+    fallback_from_provider: str = ""
+    fallback_reason: str = ""

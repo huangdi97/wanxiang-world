@@ -54,6 +54,8 @@ def player_materialize_visual_place(
         "provider_calls": result.provider_calls,
         "cache_hits": result.cache_hits,
         "cost_units": result.cost_units,
+        "fallback_from_provider": result.fallback_from_provider,
+        "fallback_reason": result.fallback_reason,
         "world": player_world(
             service,
             profile_id,

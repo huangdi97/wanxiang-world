@@ -44,6 +44,8 @@ class OneClickResult:
     visual_provider_calls: int = 0
     visual_cache_hits: int = 0
     visual_cost_units: int = 0
+    visual_fallback_from_provider: str = ""
+    visual_fallback_reason: str = ""
 
 
 class OneClickAuthoring:
@@ -131,6 +133,12 @@ class OneClickAuthoring:
             visual_provider_calls=materialized.provider_calls if materialized is not None else 0,
             visual_cache_hits=materialized.cache_hits if materialized is not None else 0,
             visual_cost_units=materialized.cost_units if materialized is not None else 0,
+            visual_fallback_from_provider=(
+                materialized.fallback_from_provider if materialized is not None else ""
+            ),
+            visual_fallback_reason=(
+                materialized.fallback_reason if materialized is not None else ""
+            ),
         )
 
     def enter_living_instance(

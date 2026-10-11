@@ -59,6 +59,8 @@ def one_click(payload: OneClickRequest, request: Request) -> dict[str, object]:
                 "image_provider_calls": result.visual_provider_calls,
                 "cache_hits": result.visual_cache_hits,
                 "cost_units": result.visual_cost_units,
+                "fallback_from_provider": result.visual_fallback_from_provider,
+                "fallback_reason": result.visual_fallback_reason,
                 "preview_assets": [
                     {
                         "place_name": asset.place_name,

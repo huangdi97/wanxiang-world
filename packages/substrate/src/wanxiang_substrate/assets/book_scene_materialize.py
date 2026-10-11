@@ -18,7 +18,41 @@ from wanxiang_substrate.assets.storage import AssetRef
 
 
 class _VisualProviderFailure(ValueError):
-    """Provider execution/output failure eligible for product-tier T0 fallback."""
+    """Provider failure plus conservative attempt/cost accounting for fallback."""
+
+    def __init__(
+        self,
+        message: str,
+        *,
+        provider_calls: int,
+        cache_hits: int,
+        cost_units: int,
+    ) -> None:
+        super().__init__(message)
+        self.provider_calls = provider_calls
+        self.cache_hits = cache_hits
+        self.cost_units = cost_units
+
+
+def _provider_failure(
+    message: str,
+    *,
+    attempted_calls: int,
+    cache_hits: int,
+    provider: SceneImageProvider,
+) -> _VisualProviderFailure:
+    return _VisualProviderFailure(
+        message,
+        provider_calls=attempted_calls,
+        cache_hits=cache_hits,
+        cost_units=provider.cost_units_per_asset * attempted_calls,
+    )
+
+
+def _provider_identity(provider: SceneImageProvider) -> str:
+    provider_id = provider.provider_id or "configured-provider"
+    provider_version = provider.provider_version or "unknown"
+    return f"{provider_id}@{provider_version}"
 
 
 def _materialize_visual_plan(
@@ -91,36 +125,77 @@ def _materialize_visual_plan(
             )
 
         generated: dict[str, tuple[_SceneVisualAsset, AssetRef]] = {}
+        attempted_calls = 0
         for request in misses:
+            attempted_calls += 1
             try:
                 asset = selected_provider.produce(request)
             except Exception as exc:
-                raise _VisualProviderFailure(
-                    f"visual provider execution failed: {type(exc).__name__}"
+                raise _provider_failure(
+                    f"visual provider execution failed: {type(exc).__name__}",
+                    attempted_calls=attempted_calls,
+                    cache_hits=len(cached_rows),
+                    provider=selected_provider,
                 ) from exc
             expected_cache_key = (
                 f"{request.cache_key}:{selected_provider.provider_id}@"
                 f"{selected_provider.provider_version}"
             )
             if asset.provider_id != selected_provider.provider_id:
-                raise _VisualProviderFailure("visual provider returned mismatched provider_id")
+                raise _provider_failure(
+                    "visual provider returned mismatched provider_id",
+                    attempted_calls=attempted_calls,
+                    cache_hits=len(cached_rows),
+                    provider=selected_provider,
+                )
             if asset.cache_key != expected_cache_key:
-                raise _VisualProviderFailure("visual provider returned mismatched cache_key")
+                raise _provider_failure(
+                    "visual provider returned mismatched cache_key",
+                    attempted_calls=attempted_calls,
+                    cache_hits=len(cached_rows),
+                    provider=selected_provider,
+                )
             if hashlib.sha256(asset.content).hexdigest() != asset.content_sha256:
-                raise _VisualProviderFailure("visual provider returned invalid content digest")
+                raise _provider_failure(
+                    "visual provider returned invalid content digest",
+                    attempted_calls=attempted_calls,
+                    cache_hits=len(cached_rows),
+                    provider=selected_provider,
+                )
             if asset.scene_key != request.stable_key or asset.place_name != request.place_name:
-                raise _VisualProviderFailure(
-                    "visual provider returned mismatched source scene identity"
+                raise _provider_failure(
+                    "visual provider returned mismatched source scene identity",
+                    attempted_calls=attempted_calls,
+                    cache_hits=len(cached_rows),
+                    provider=selected_provider,
                 )
             if asset.provider_version != selected_provider.provider_version:
-                raise _VisualProviderFailure("visual provider returned mismatched provider_version")
+                raise _provider_failure(
+                    "visual provider returned mismatched provider_version",
+                    attempted_calls=attempted_calls,
+                    cache_hits=len(cached_rows),
+                    provider=selected_provider,
+                )
             if request.style_key and asset.style_key != request.style_key:
-                raise _VisualProviderFailure("visual provider returned mismatched source style")
+                raise _provider_failure(
+                    "visual provider returned mismatched source style",
+                    attempted_calls=attempted_calls,
+                    cache_hits=len(cached_rows),
+                    provider=selected_provider,
+                )
             if not asset.media_type.startswith("image/") or not asset.content:
-                raise _VisualProviderFailure("visual provider must return non-empty image content")
+                raise _provider_failure(
+                    "visual provider must return non-empty image content",
+                    attempted_calls=attempted_calls,
+                    cache_hits=len(cached_rows),
+                    provider=selected_provider,
+                )
             if len(asset.content) > 20 * 1024 * 1024:
-                raise _VisualProviderFailure(
-                    "visual provider image exceeds materialization size limit"
+                raise _provider_failure(
+                    "visual provider image exceeds materialization size limit",
+                    attempted_calls=attempted_calls,
+                    cache_hits=len(cached_rows),
+                    provider=selected_provider,
                 )
             ref = asset_cache.put(asset, rights=delivery_rights)
             generated[request.stable_key] = (asset, ref)
@@ -149,22 +224,29 @@ def _materialize_product_visual_plan(
     rights: str | None = None,
     private_source: bool = False,
 ) -> _VisualMaterialization:
-    """Use an eligible configured provider, otherwise preserve the always-safe T0 tier."""
+    """Use T1 when eligible; otherwise expose an explicit, metered T0 fallback."""
     if max_cost_units < 0:
         raise ValueError("visual budget must be non-negative")
     selected = provider
+    fallback_from = ""
+    fallback_reasons: list[str] = []
     if selected is not None:
         if selected.cost_units_per_asset < 0:
             raise ValueError("visual provider cost must be non-negative")
-        remote_blocked = selected.requires_network and (
-            not allow_network or not plan.external_processing_allowed
-        )
-        privacy_blocked = private_source and not selected.private_safe
-        budget_blocked = selected.cost_units_per_asset * len(plan.scene_requests) > max_cost_units
-        if remote_blocked or privacy_blocked or budget_blocked:
+        if selected.requires_network and not allow_network:
+            fallback_reasons.append("network_not_allowed")
+        if selected.requires_network and not plan.external_processing_allowed:
+            fallback_reasons.append("source_external_processing_not_allowed")
+        if private_source and not selected.private_safe:
+            fallback_reasons.append("private_source_provider_not_safe")
+        if selected.cost_units_per_asset * len(plan.scene_requests) > max_cost_units:
+            fallback_reasons.append("budget_insufficient")
+        if fallback_reasons:
+            fallback_from = _provider_identity(selected)
             selected = None
+
     try:
-        return _materialize_visual_plan(
+        result = _materialize_visual_plan(
             plan,
             provider=selected,
             cache=cache,
@@ -173,10 +255,10 @@ def _materialize_product_visual_plan(
             rights=rights,
             private_source=private_source,
         )
-    except _VisualProviderFailure:
+    except _VisualProviderFailure as failure:
         if selected is None:
             raise
-        return _materialize_visual_plan(
+        fallback = _materialize_visual_plan(
             plan,
             provider=None,
             cache=cache,
@@ -185,6 +267,27 @@ def _materialize_product_visual_plan(
             rights=rights,
             private_source=private_source,
         )
+        return _VisualMaterialization(
+            assets=fallback.assets,
+            asset_refs=fallback.asset_refs,
+            provider_calls=failure.provider_calls + fallback.provider_calls,
+            cache_hits=failure.cache_hits + fallback.cache_hits,
+            cost_units=failure.cost_units,
+            fallback_from_provider=_provider_identity(selected),
+            fallback_reason="provider_failure",
+        )
+
+    if not fallback_from:
+        return result
+    return _VisualMaterialization(
+        assets=result.assets,
+        asset_refs=result.asset_refs,
+        provider_calls=result.provider_calls,
+        cache_hits=result.cache_hits,
+        cost_units=result.cost_units,
+        fallback_from_provider=fallback_from,
+        fallback_reason=",".join(fallback_reasons),
+    )
 
 
 def _render_visual_plan(

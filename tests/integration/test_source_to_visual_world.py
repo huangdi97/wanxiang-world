@@ -324,6 +324,10 @@ def test_one_click_keeps_t0_when_source_does_not_authorize_configured_t1() -> No
     assert result.visual_assets
     assert result.visual_assets[0].provider_id == "procedural-svg"
     assert result.visual_assets[0].provider_version == "1.1.0"
+    assert result.visual_fallback_from_provider == (
+        "provider:configured-but-ineligible@2026-10"
+    )
+    assert result.visual_fallback_reason
     assert result.visual_cost_units == 0
 
 

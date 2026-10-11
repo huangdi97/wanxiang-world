@@ -223,6 +223,8 @@ def test_product_visual_ladder_falls_back_to_t0_when_t1_is_ineligible(
     assert result.assets[0].provider_id == "procedural-svg"
     assert result.assets[0].provider_version == "1.1.0"
     assert result.cost_units == 0
+    assert result.fallback_from_provider == "remote-test@2.3.0"
+    assert result.fallback_reason
 
 
 class _FailingRemoteProvider(_RemoteLikeProvider):
@@ -265,7 +267,47 @@ def test_product_visual_ladder_falls_back_to_t0_when_eligible_t1_fails(
 
     assert result.assets[0].provider_id == "procedural-svg"
     assert result.assets[0].provider_version == "1.1.0"
-    assert result.cost_units == 0
+    assert result.provider_calls == 2
+    assert result.cost_units == 2
+    assert result.fallback_from_provider == "remote-test@2.3.0"
+    assert result.fallback_reason == "provider_failure"
+
+
+
+class _SecondCallFailingProvider(_RemoteLikeProvider):
+    def __init__(self) -> None:
+        self.calls = 0
+
+    def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
+        self.calls += 1
+        if self.calls == 2:
+            raise TimeoutError("synthetic second-scene timeout")
+        return super().produce(request)
+
+
+def test_runtime_fallback_keeps_attempted_t1_cost_visible_after_partial_success() -> None:
+    provider = _SecondCallFailingProvider()
+    plan = _plan(
+        _request("场景一", "partial-one"),
+        _request("场景二", "partial-two"),
+        external_processing_allowed=True,
+    )
+    result = _materialize_product_visual_plan(
+        plan,
+        provider=provider,
+        allow_network=True,
+        max_cost_units=4,
+    )
+
+    assert provider.calls == 2
+    assert [asset.provider_id for asset in result.assets] == [
+        "procedural-svg",
+        "procedural-svg",
+    ]
+    assert result.provider_calls == 4
+    assert result.cost_units == 4
+    assert result.fallback_from_provider == "remote-test@2.3.0"
+    assert result.fallback_reason == "provider_failure"
 
 
 def test_strict_visual_materializer_still_surfaces_t1_execution_failure() -> None:
