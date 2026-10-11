@@ -286,6 +286,27 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 assert page.locator(".world-stage-hud").is_visible()
                 assert page.locator("#observer-scene-explorer").is_visible()
                 before_location = page.locator("#play-location").inner_text()
+                deferred_stage_button = page.locator(
+                    "#observer-scene-list [data-observer-generate]"
+                ).first
+                assert deferred_stage_button.count() == 1
+                deferred_stage_name = deferred_stage_button.get_attribute(
+                    "data-observer-generate"
+                )
+                assert deferred_stage_name
+                deferred_stage_button.click()
+                generated_stage_button = page.locator(
+                    f'#observer-scene-list [data-observer-scene="{deferred_stage_name}"]'
+                )
+                generated_stage_button.wait_for(state="visible")
+                assert deferred_stage_name in page.locator(
+                    "#scene-visual-caption"
+                ).inner_text()
+                assert "非此刻位置" in page.locator(
+                    "#scene-visual-caption"
+                ).inner_text()
+                assert page.locator("#play-location").inner_text() == before_location
+                assert page.locator("#send-action").is_disabled()
                 scene_button = page.locator(
                     '#observer-scene-list [data-observer-scene]:not([data-observer-scene=""])'
                 ).last

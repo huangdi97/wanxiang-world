@@ -173,6 +173,7 @@ def test_deferred_book_place_generates_once_then_reuses_visual_cache() -> None:
         place for place in authored.visual_plan.place_names if place not in generated_places
     )
 
+    instances_before = playable.store.list_instances()
     first = playable.materialize_visual_place(
         profile.profile_id,
         target,
@@ -188,6 +189,7 @@ def test_deferred_book_place_generates_once_then_reuses_visual_cache() -> None:
     assert first.cache_hits == 0
     assert second.provider_calls == 0
     assert second.cache_hits == 1
+    assert playable.store.list_instances() == instances_before
     assert target in {
         asset.place_name for asset in playable.visual_assets(profile.profile_id, viewer_id="alice")
     }
