@@ -424,7 +424,7 @@ world creation: 3 key scenes
 Current official capability evidence still supports the tier split:
 
 - World Labs announced the public World API on 2026-01-21 for generating explorable 3D worlds from text, images, panoramas, multi-view input and video, with web rendering/export. This remains a T3 persistent spatial-asset candidate rather than Reality Root.
-- Tencent HY-World 2.0 describes text/image/video-conditioned navigable persistent 3DGS/Mesh worlds with free walking, collision and Unity/UE export. This also maps to T3.
+- Tencent TokenHub now exposes **Hy-World-2.1-panorama** as synchronous 360° panorama generation and **Hy-World-2.1-scene** as asynchronous 3D scene generation. The 3D route returns a task id, is documented as commonly taking 10–20 minutes, and is polled until completion. Wanxiang therefore treats Panorama as a practical T2 spatial-view upgrade and Scene as a T3 persistent spatial-asset candidate; neither becomes Reality Root.
 - Google DeepMind Genie 3 remains a real-time 20-24 FPS, 720p world model. Its official limitations still include limited direct action space, multi-agent interaction limitations and only a few minutes of continuous interaction. It therefore remains T4 sensory/live projection rather than Wanxiang persistence/History.
 
 The provider tier never changes Canon ownership:
@@ -531,7 +531,24 @@ T2 remains `projection_only=true`. Estimated depth is not canonical geometry.
 
 Use only for selected high-value locations, not every paragraph or every place.
 
-Candidate provider class includes World Labs World API and HY-World 2.0 style systems that return navigable/exportable 3D assets. T3 output is stored as versioned AssetRefs and can be rendered by the same Player Stage, but it still does not write Reality Root or History.
+Candidate provider class includes World Labs World API and Hy-World-2.1-scene style systems that return navigable/exportable 3D assets. Both current provider families use asynchronous generation semantics, so T3 must not implement the synchronous `SceneImageProvider.produce()` contract.
+
+The T3 provider boundary is task-oriented:
+
+~~~text
+submit(SceneGenerationBrief + provider policy + idempotency key)
+   -> SpatialGenerationTicket
+poll(ticket)
+   -> queued | running | succeeded | failed | cancelled
+succeeded
+   -> verify manifest / media / provenance / rights
+   -> content-addressed AssetRef(s)
+   -> attach to derived visual catalog
+~~~
+
+Before submission, Wanxiang reserves the declared cost ceiling and records the provider/model version and idempotency key. A restart resumes polling the existing ticket instead of submitting another billable task. Provider callbacks or polling results may update only the derived visual-asset catalog; they never mutate Reality Root, Commit Authority, Worldline, or History.
+
+T3 output is stored as versioned AssetRefs and rendered by the same Player Stage, but it remains projection infrastructure rather than canonical world state.
 
 ### T4 — real-time generative sensory world
 
@@ -584,3 +601,52 @@ The renderer can change, but the surrounding experience is stable:
 The current browser implementation already treats the scene image as the stage backdrop rather than a dashboard card. CI browser evidence must capture the actual observer and embodiment stages on desktop and mobile, not only the Plaza homepage.
 
 No renderer is allowed to infer canonical truth from pixels. Renderer output is always downstream of source evidence and upstream of player intent.
+
+
+## 28. 2026-10 provider reality: synchronous T2, asynchronous T3, live T4
+
+Current provider APIs make the tier boundary concrete rather than theoretical.
+
+### T2 panorama adapter
+
+Hy-World-2.1-panorama is a synchronous 360° panorama capability. It fits a richer-than-still but cheaper/lighter spatial view:
+
+- input is a bounded scene brief, not the full source;
+- output remains an illustrative projection;
+- the result is cached by source/scene/style/provider identity;
+- no panorama pixel or estimated geometry can create canonical topology;
+- provider failure falls back to the already-available T0/T1 stage.
+
+### T3 spatial generation job
+
+Hy-World-2.1-scene is an asynchronous 3D generation task and World Labs World API also describes world generation as asynchronous. Therefore Wanxiang's production T3 ABI must be a durable job state machine, not a blocking HTTP call.
+
+Required T3 states:
+
+~~~text
+not_requested
+ -> submitted
+ -> queued/running
+ -> succeeded -> verified -> attached
+             \-> failed
+             \-> cancelled
+             \-> expired
+~~~
+
+Required governance:
+
+1. **Idempotency before billing:** source digest + scene stable key + visual profile + provider/model version + compiler version produce the submission identity.
+2. **Budget reservation before submit:** the product refuses submission when the declared ceiling cannot be reserved. Provider-specific billing evidence remains external evidence and is not inferred from Wanxiang cost units.
+3. **Restart-safe ticket persistence:** service restart resumes the existing provider task instead of resubmitting it.
+4. **Fail-closed delivery:** completed assets still pass content type, digest, size, provenance and delivery-right gates.
+5. **No canonical callback:** webhook/poll completion can attach AssetRefs only to the derived visual catalog.
+6. **Player continuity:** while T3 is queued or failed, the same place remains usable through T0/T1/T2. World History never waits for spatial generation.
+7. **Explicit upgrade:** T3 is for selected anchor places; ordinary book ingestion never silently submits 3D jobs.
+
+### T4 live world model
+
+Genie 3 remains correctly classified as a T4 live/sensory projection: official material describes 20–24 FPS at 720p, but also limited direct action space, multi-agent limitations and interaction measured in minutes rather than indefinite persistence. Wanxiang therefore reconciles any user intent back through Commit Authority instead of treating generated frames as durable world truth.
+
+### Current implementation boundary
+
+The repository deliberately does **not** claim a real T3 provider execution. The existing G96 external-engine boundary remains discovery/projection infrastructure, and real T3 stays `EXTERNAL_BLOCKED` until an authorized provider task is executed with real task, latency, billing, asset and rights evidence.

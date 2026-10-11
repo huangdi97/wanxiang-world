@@ -194,12 +194,18 @@ def test_network_and_cost_are_denied_until_explicitly_authorized() -> None:
 
 
 @pytest.mark.parametrize(
-    ("external_processing_allowed", "allow_network", "max_cost_units", "private_source"),
+    (
+        "external_processing_allowed",
+        "allow_network",
+        "max_cost_units",
+        "private_source",
+        "expected_reason",
+    ),
     [
-        (True, False, 2, False),
-        (False, True, 2, False),
-        (True, True, 1, False),
-        (True, True, 2, True),
+        (True, False, 2, False, "network_not_allowed"),
+        (False, True, 2, False, "source_external_processing_not_allowed"),
+        (True, True, 1, False, "budget_insufficient"),
+        (True, True, 2, True, "private_source_provider_not_safe"),
     ],
 )
 def test_product_visual_ladder_falls_back_to_t0_when_t1_is_ineligible(
@@ -207,6 +213,7 @@ def test_product_visual_ladder_falls_back_to_t0_when_t1_is_ineligible(
     allow_network: bool,
     max_cost_units: int,
     private_source: bool,
+    expected_reason: str,
 ) -> None:
     plan = _plan(
         _request("备用场景", "fallback"),
@@ -224,7 +231,7 @@ def test_product_visual_ladder_falls_back_to_t0_when_t1_is_ineligible(
     assert result.assets[0].provider_version == "1.1.0"
     assert result.cost_units == 0
     assert result.fallback_from_provider == "remote-test@2.3.0"
-    assert result.fallback_reason
+    assert result.fallback_reason == expected_reason
 
 
 class _FailingRemoteProvider(_RemoteLikeProvider):
