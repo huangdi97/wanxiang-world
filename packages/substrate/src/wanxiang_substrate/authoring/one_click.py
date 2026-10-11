@@ -10,7 +10,7 @@ from wanxiang_domain.errors import ContractError
 
 from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets, _SourceVisualPlan
 from wanxiang_substrate.assets.book_scene_visual import (
-    _materialize_visual_plan,
+    _materialize_product_visual_plan,
     _SceneImageProvider,
     _SceneVisualAsset,
     _VisualAssetCache,
@@ -107,7 +107,7 @@ class OneClickAuthoring:
         preview = self.service.preview(job_id)
         visual_plan = _plan_book_scene_assets(package) if profile == "book" else None
         materialized = (
-            _materialize_visual_plan(
+            _materialize_product_visual_plan(
                 visual_plan,
                 provider=self.visual_provider,
                 cache=self.visual_cache,
