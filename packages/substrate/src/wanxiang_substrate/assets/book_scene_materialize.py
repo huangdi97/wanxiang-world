@@ -126,6 +126,43 @@ def _materialize_visual_plan(
         )
 
 
+
+def _materialize_product_visual_plan(
+    plan: _SourceVisualPlan,
+    provider: SceneImageProvider | None = None,
+    *,
+    cache: VisualAssetCache | None = None,
+    allow_network: bool = False,
+    max_cost_units: int = 0,
+    rights: str | None = None,
+    private_source: bool = False,
+) -> _VisualMaterialization:
+    """Use an eligible configured provider, otherwise preserve the always-safe T0 tier."""
+    if max_cost_units < 0:
+        raise ValueError("visual budget must be non-negative")
+    selected = provider
+    if selected is not None:
+        if selected.cost_units_per_asset < 0:
+            raise ValueError("visual provider cost must be non-negative")
+        remote_blocked = selected.requires_network and (
+            not allow_network or not plan.external_processing_allowed
+        )
+        privacy_blocked = private_source and not selected.private_safe
+        budget_blocked = (
+            selected.cost_units_per_asset * len(plan.scene_requests) > max_cost_units
+        )
+        if remote_blocked or privacy_blocked or budget_blocked:
+            selected = None
+    return _materialize_visual_plan(
+        plan,
+        provider=selected,
+        cache=cache,
+        allow_network=allow_network if selected is not None else False,
+        max_cost_units=max_cost_units if selected is not None else 0,
+        rights=rights,
+        private_source=private_source,
+    )
+
 def _render_visual_plan(
     plan: _SourceVisualPlan,
     provider: SceneImageProvider | None = None,
