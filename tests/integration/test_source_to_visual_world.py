@@ -301,7 +301,6 @@ def test_one_click_accepts_injected_t1_provider_without_changing_book_pipeline()
     assert client.calls[0].full_source_included is False
 
 
-
 def test_one_click_keeps_t0_when_source_does_not_authorize_configured_t1() -> None:
     client = _OneClickExternalClient()
     provider = _PromptedExternalSceneProvider(
