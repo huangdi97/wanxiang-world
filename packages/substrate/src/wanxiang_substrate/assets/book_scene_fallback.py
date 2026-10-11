@@ -1,6 +1,6 @@
 """Product-tier visual provider failure accounting and fallback provenance."""
 
-# pyright: reportPrivateUsage=false, reportUnusedFunction=false
+# pyright: reportPrivateUsage=false, reportUnusedClass=false, reportUnusedFunction=false
 
 from __future__ import annotations
 
