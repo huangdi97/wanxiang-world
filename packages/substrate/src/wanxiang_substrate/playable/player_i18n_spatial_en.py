@@ -39,8 +39,7 @@ _SPATIAL_STRINGS: dict[str, str] = {
     "spatial_upgrade_state_cancelled": "cancelled",
     "spatial_upgrade_state_expired": "expired",
     "status_spatial_submitted": (
-        "Spatial generation for {place} was submitted; "
-        + "you can keep using the current world."
+        "Spatial generation for {place} was submitted; " + "you can keep using the current world."
     ),
     "status_spatial_refreshed": "Spatial generation status refreshed.",
 }
