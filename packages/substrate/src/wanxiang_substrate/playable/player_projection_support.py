@@ -137,6 +137,14 @@ def _known_people_cards(
     return cards
 
 
+def _actor_relation_cards(relations: list[dict[str, object]]) -> list[dict[str, object]]:
+    return [
+        {key: value for key, value in item.items() if key != "involves_actor"}
+        for item in relations
+        if item.get("involves_actor") is True
+    ]
+
+
 def _relation_card(
     relation: Any, names: dict[str, str], actor_id: str, copy: _PlayerCopy
 ) -> dict[str, object]:

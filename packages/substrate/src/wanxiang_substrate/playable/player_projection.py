@@ -25,6 +25,7 @@ from wanxiang_substrate.playable.models import PlayableWorldProfile
 from wanxiang_substrate.playable.player_i18n import _copy_for
 from wanxiang_substrate.playable.player_projection_support import (
     _actor_owned_entities,
+    _actor_relation_cards,
     _change_card,
     _chronicle_card,
     _entity_fields,
@@ -219,7 +220,6 @@ def player_observation(
     location = canonical_location or actor_starting_location or None
     person_entities = tuple(entity for entity in entities if _is_person(entity))
     person_cards = [_person_card(entity, copy) for entity in person_entities]
-    # Only explicit co-location is sufficient to call someone "present".
     people = [person for person in person_cards if location and person["location"] == location]
     known_people = _known_people_cards(person_entities, state_relations, actor_id, location, copy)
     environment = _first_text_from_entities(entities, ("environment", "setting"))
@@ -235,11 +235,7 @@ def player_observation(
     ]
     changes = [_change_card(change, names, copy) for change in (diff.changes if diff else ())]
     world_time = event_list[-1].world_time.ticks if event_list else 0
-    actor_relations = [
-        {key: value for key, value in item.items() if key != "involves_actor"}
-        for item in relations
-        if item.get("involves_actor") is True
-    ]
+    actor_relations = _actor_relation_cards(relations)
     player = {
         "name": actor_name or (_entity_name(actor, copy) if actor else copy.text("your_character")),
         "status": _status_label(actor_fields, copy),
