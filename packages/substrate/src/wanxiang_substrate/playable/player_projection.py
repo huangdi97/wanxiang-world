@@ -88,8 +88,7 @@ def player_world_detail(
     """Return the detail copy used before a player enters a world."""
 
     copy = _copy_for(locale)
-    # An unavailable source-derived visual entitlement also suppresses draft
-    # location/context metadata. Public profile copy remains separate.
+    # Visual entitlement also gates source-derived draft context.
     draft = package.draft if package is not None and visual_access_allowed else None
     places = tuple(getattr(draft, "places", ()) or ())
     metadata = draft.compiler_metadata if draft is not None else {}
@@ -216,7 +215,6 @@ def player_observation(
     relations = [_relation_card(item, names, actor_id, copy) for item in state_relations]
     actor = next((item for item in entities if item.entity_id.value == actor_id), None)
     actor_fields = _entity_fields(actor)
-    # The actor's position is not the location of an arbitrary world entity.
     canonical_location = _first_text(actor_fields, ("location", "place"))
     location = canonical_location or actor_starting_location or None
     person_entities = tuple(entity for entity in entities if _is_person(entity))
