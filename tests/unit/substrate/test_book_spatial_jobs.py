@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import hashlib
 import pathlib
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 
 import pytest
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
@@ -439,3 +439,39 @@ def test_attached_t3_ticket_does_not_rehydrate_when_blob_is_missing() -> None:
         coordinator.attach(attached.submission_id, restored_catalog)
 
     assert restored_catalog.get("bridge") == ()
+
+
+def test_t3_world_budget_is_cumulative_across_distinct_scene_submissions() -> None:
+    provider = _FakeSpatialProvider()
+    coordinator = _coordinator(provider)
+    options = {
+        "allow_network": True,
+        "external_processing_allowed": True,
+        "private_source": False,
+        "max_cost_units": 14,
+        "delivery_rights": "source-gated",
+        "scope_key": "world:budget",
+    }
+    first = coordinator.submit(_request(), **options)
+    second_request = replace(
+        _request(),
+        place_name="码头",
+        stable_key="dock",
+        cache_key="cache-dock",
+    )
+    second = coordinator.submit(second_request, **options)
+    third_request = replace(
+        _request(),
+        place_name="山门",
+        stable_key="gate",
+        cache_key="cache-gate",
+    )
+
+    with pytest.raises(ValueError, match="world budget"):
+        coordinator.submit(third_request, **options)
+
+    assert first.reserved_cost_units == second.reserved_cost_units == 7
+    assert len(provider.submissions) == 2
+    replay = coordinator.submit(_request(), **options)
+    assert replay == first
+    assert len(provider.submissions) == 2
