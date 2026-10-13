@@ -115,6 +115,9 @@ def test_t3_player_api_is_owner_only_idempotent_and_rehydrates_attachment() -> N
         "available": False,
         "reason": "provider_not_configured",
         "cost_units": 0,
+        "budget_total": 0,
+        "budget_reserved": 0,
+        "budget_remaining": 0,
     }
 
     provider = _FakeSpatialProvider()
@@ -139,10 +142,12 @@ def test_t3_player_api_is_owner_only_idempotent_and_rehydrates_attachment() -> N
     assert jobs[0]["place_name"] == "Garden"
     assert "scene_key" not in jobs[0]
     assert listed.json()["generation"] == {
-        "available": True,
-        "reason": "",
+        "available": False,
+        "reason": "budget_insufficient",
         "cost_units": 7,
-        "provider": {"id": "spatial:api-test", "version": "2026-10"},
+        "budget_total": 7,
+        "budget_reserved": 7,
+        "budget_remaining": 0,
     }
     serialized_jobs = json.dumps(jobs, sort_keys=True)
     assert "provider_task_ref" not in serialized_jobs
