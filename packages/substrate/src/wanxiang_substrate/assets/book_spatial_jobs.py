@@ -12,7 +12,6 @@ from typing import cast
 
 from wanxiang_substrate.assets.book_scene_interprocess import _exclusive_index_lock
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
-from wanxiang_substrate.assets.errors import AssetCorrupt, AssetNotFound
 from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialArtifactCandidate,
     _SpatialGenerationProvider,
@@ -21,6 +20,7 @@ from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialPollResult,
 )
 from wanxiang_substrate.assets.book_spatial_validation import _known_spatial_signature_matches
+from wanxiang_substrate.assets.errors import AssetCorrupt, AssetNotFound
 from wanxiang_substrate.assets.storage import AssetRef, InMemoryObjectStore, ObjectStore
 
 
