@@ -669,3 +669,73 @@ The generic T3 path is now implemented as projection infrastructure:
 The reservation is intentionally conservative: a persisted job keeps its reserved units even after a terminal provider state because Wanxiang cannot infer whether an external provider ultimately billed that job. Releasing or reconciling reservations requires real provider billing evidence or an explicit provider-specific policy; generic code must not silently assume a failed/cancelled task was free.
 
 None of these mechanisms grants T3 any Canon authority. Spatial task completion changes only derived AssetRefs / Player projection. World state changes still require Player intent -> Commit Authority -> canonical History.
+
+
+## 29. Provider deployment reality and cost guardrails — verified 2026-10-13
+
+The tier model is now also constrained by current production API economics and task semantics, not only by visual quality.
+
+### Tencent TokenHub Hy-World-2.1
+
+Tencent's current TokenHub documentation defines two materially different world-generation products:
+
+- `hy-world2-panorama`: synchronous 360° panorama generation, documented at 500,000 tokens / about RMB 5 per result;
+- `hy-world2-scene`: asynchronous 3D scene generation, documented at 8,000,000 tokens / about RMB 80 per scene, with generation commonly taking 10–20 minutes and default model concurrency listed as 1.
+
+The 3D task contract is explicitly submit -> task `id` -> GET task status until `succeeded`. Successful results may include a rendered image, SPZ scene asset, point-cloud PLY, full collision-mesh PLY, simplified collision-mesh PLY and spatial position metadata.
+
+Official references:
+
+- https://cloud.tencent.com/document/product/1823/136578
+- https://cloud.tencent.com/document/product/1823/130055
+- https://cloud.tencent.com/document/product/1823/130051
+
+This reinforces Wanxiang's default economic ladder:
+
+~~~text
+T0 free deterministic fallback
+ -> T1 bounded still image
+ -> T2 panorama for places needing stronger immersion
+ -> T3 only for explicit anchor-place upgrade
+~~~
+
+At current documented prices, pre-generating T3 for every extracted place would be economically incorrect. A ten-place book could consume roughly RMB 800 before the user explores anything. The product must therefore keep T3 explicit, world-budgeted and cache/restart safe.
+
+### The Wanxiang HTTP T3 gateway is an adapter protocol, not a raw vendor passthrough
+
+`WANXIANG_SPATIAL_HTTP_SUBMIT_ENDPOINT` / `WANXIANG_SPATIAL_HTTP_POLL_ENDPOINT` implement Wanxiang's vendor-neutral gateway contract. They must not be assumed to accept a raw Tencent TokenHub endpoint directly.
+
+The current Tencent API documents:
+
+~~~text
+POST /v1/wand/hunyuan-video/world2-scene
+ -> { id, request_id }
+
+GET /v1/wand/hunyuan-video/tasks/{id}
+ -> { status, data[], tokenhub_usage, ... }
+~~~
+
+Wanxiang's generic gateway intentionally uses a different normalized contract so provider-specific authentication, response mapping, artifact-host policy and task semantics stay outside Canon/Player code.
+
+Most importantly, the current Tencent documentation tells clients not to submit a task repeatedly after creation and to poll the returned task id, but the documented request fields do not define a Wanxiang-style idempotency key. Therefore a direct raw-TokenHub adapter must **not** claim Wanxiang's crash-safe at-most-once billing guarantee unless an adapter/gateway durably supplies that missing idempotency mapping.
+
+A production Tencent bridge must prove all of the following before `REAL_T3` can move from `EXTERNAL_BLOCKED`:
+
+1. durable Wanxiang idempotency-key -> Tencent task-id mapping before retry ambiguity can cause a second paid task;
+2. task status mapping `queued/running/succeeded/failed/cancelled/unknown` into Wanxiang's T3 state machine;
+3. bounded prompt mapping within the provider's documented 600-character prompt limit;
+4. explicit allowlisting of returned COS artifact hosts;
+5. local download, digest, size and PLY/image signature verification before ObjectStore write;
+6. persisted provider request/task identifiers for audit without exposing them through Player projection;
+7. real token/billing reconciliation against Wanxiang's generic reserved cost units;
+8. failure/restart evidence proving no duplicate paid submission.
+
+Until those are demonstrated with authorized credentials, the repository may prove the adapter seam and local state machine but must continue to report real Tencent T3 execution as `EXTERNAL_BLOCKED`.
+
+### World Labs and Genie placement remains unchanged
+
+World Labs' World API is also documented as asynchronous world generation from text/image/video and remains a natural T3 candidate, but direct production activation still requires verified idempotency, artifact and billing behavior.
+
+Genie 3 remains a T4 live/sensory projection. Its current official capability is real-time 20–24 FPS / 720p interactive generation with interaction horizons measured in minutes and a still-limited action space. Those properties make it valuable for optional live projection, not for replacing Wanxiang Commit Authority or durable History.
+
+The provider changes the renderer and cost envelope; it never changes ownership of world truth.
