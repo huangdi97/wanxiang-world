@@ -1,5 +1,7 @@
 """Deployment configuration for the direct TokenHub T2 panorama adapter."""
 
+# pyright: reportPrivateUsage=false
+
 from __future__ import annotations
 
 import os
