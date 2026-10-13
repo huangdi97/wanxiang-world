@@ -190,6 +190,18 @@ def test_t3_player_api_is_owner_only_idempotent_and_rehydrates_attachment() -> N
     assert any(scene.get("spatial", {}).get("ready") is True for scene in scenes)
 
     app.state.playable._spatial_asset_refs.clear()
+    restored_list = client.get(endpoint, headers=owner)
+    assert restored_list.status_code == 200
+    assert restored_list.json()["rehydrated_attachments"] == 1
+    restored_world = client.get(
+        f"/experience/player/worlds/{profile_id}",
+        headers=owner,
+    )
+    restored_scenes = restored_world.json()["world"]["visual"]["scenes"]
+    assert any(scene.get("spatial", {}).get("ready") is True for scene in restored_scenes)
+    assert provider.polls == ["provider-secret-task-ref"]
+
+    app.state.playable._spatial_asset_refs.clear()
     restored = client.get(f"{endpoint}/{submission_id}", headers=owner)
     assert restored.status_code == 200
     assert restored.json()["spatial"]["state"] == "attached"

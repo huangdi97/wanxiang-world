@@ -144,7 +144,7 @@ function renderVisualPlaceList(scenes,galleryItems,visual){
   placeList.querySelectorAll("[data-generate-place]").forEach(node=>node.addEventListener("click",()=>generateVisualPlace(node.dataset.generatePlace||"")));
   placeList.querySelectorAll("[data-focus-place]").forEach(node=>node.addEventListener("click",()=>{const item=scenes.find(scene=>scene.place_name===node.dataset.focusPlace);if(item)focusDetailVisual(item,galleryItems)}));
 }
-async function loadSpatialStatus(profile){try{return await api(`/experience/player/worlds/${encodeURIComponent(profile)}/spatial`)}catch{return null}}
+async function loadSpatialStatus(profile){try{const result=await api(`/experience/player/worlds/${encodeURIComponent(profile)}/spatial`);if(Number(result.rehydrated_attachments||0)>0&&model.world?.world?.profile_id===profile)model.world=await api(`/experience/player/worlds/${encodeURIComponent(profile)}`);return result}catch{return null}}
 function spatialStateLabel(value){return tr(`spatial_upgrade_state_${value||"submitted"}`)}
 function renderSpatialPanel(scene){
   const panel=$("spatial-upgrade-panel"),submit=$("spatial-submit"),refresh=$("spatial-refresh"),copy=$("spatial-upgrade-copy"),jobsNode=$("spatial-job-list"),spatial=model.spatialStatus;const place=scene?.place_name||"";panel.hidden=!place||!spatial;if(panel.hidden){jobsNode.innerHTML="";return}
