@@ -16,12 +16,12 @@ from wanxiang_substrate.playable import (
 )
 from wanxiang_substrate.playable.player_service import player_observe, player_world
 
-from wanxiang_api.player_spatial_recovery import rehydrate_spatial_attachments
 from wanxiang_api.playable_routes import (
     ActionRequest,
     CharacterCreateRequest,
     EnterExperienceRequest,
 )
+from wanxiang_api.player_spatial_recovery import rehydrate_spatial_attachments
 
 router = APIRouter(prefix="/experience/player")
 
