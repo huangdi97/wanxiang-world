@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from wanxiang_substrate.assets.book_scene_identity import _source_scene_key
 from wanxiang_substrate.assets.book_scene_plan import (
     _plan_book_scene_assets,
     _SourceVisualPlan,
@@ -73,6 +74,11 @@ def plan_book_scene_assets(
     )
 
 
+def source_scene_key(source_digest: str, place_name: str) -> str:
+    """Return the stable source-derived scene identity used by projection assets."""
+    return _source_scene_key(source_digest, place_name)
+
+
 def source_scene_key_allowed(package: WorldPackageDraft, scene_key: str) -> bool:
     """Check whether a derived scene key belongs to the package's source places."""
     return _source_scene_key_allowed(package, scene_key)
@@ -106,6 +112,7 @@ __all__ = [
     "build_http_spatial_provider",
     "plan_book_scene_assets",
     "register_spatial_resolvers",
+    "source_scene_key",
     "source_scene_key_allowed",
     "travel_time",
 ]
