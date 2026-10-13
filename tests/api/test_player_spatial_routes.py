@@ -365,6 +365,7 @@ def test_t3_application_factory_fails_closed_for_invalid_network_or_budget_confi
     with pytest.raises(ValueError, match="spatial_max_cost_units"):
         create_app(build_reference_runtime(), spatial_max_cost_units=-1)
 
+
 def test_t3_restart_does_not_rehydrate_missing_spatial_blob() -> None:
     app, client, profile_id = _world()
     provider = _FakeSpatialProvider()

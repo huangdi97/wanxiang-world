@@ -410,6 +410,7 @@ def test_t3_batch_verification_writes_nothing_when_any_artifact_is_invalid() -> 
     assert failed.asset_refs == ()
     assert objects.put_calls == 0
 
+
 def test_attached_t3_ticket_does_not_rehydrate_when_blob_is_missing() -> None:
     payload = _glb(b"missing-after-restart")
     provider = _FakeSpatialProvider(

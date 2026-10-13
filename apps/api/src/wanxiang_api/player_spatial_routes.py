@@ -84,7 +84,6 @@ def _coordinator(request: Request) -> SpatialGenerationCoordinator:
     )
 
 
-
 def _stored_spatial_refs_available(
     request: Request, refs: tuple[AssetRef, ...]
 ) -> bool:
