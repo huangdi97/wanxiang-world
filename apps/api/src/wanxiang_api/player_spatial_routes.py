@@ -128,7 +128,7 @@ def player_list_spatial_places(
         rehydrated += 1
     return {
         "spatial_jobs": spatial_ticket_views_for_world(package, tickets),
-        "generation": spatial_generation_view(request, package),
+        "generation": spatial_generation_view(request, package, profile_id),
         "rehydrated_attachments": rehydrated,
         "unavailable_attachments": unavailable,
     }
