@@ -10,13 +10,15 @@ from __future__ import annotations
 
 import base64
 import binascii
-import ipaddress
 import json
-from typing import Any, cast
+from typing import cast
 from urllib.error import HTTPError, URLError
-from urllib.parse import urlsplit
-from urllib.request import HTTPRedirectHandler, Request, build_opener
+from urllib.request import Request, build_opener
 
+from wanxiang_substrate.assets.book_http_transport import (
+    _NoRedirects,
+    _validate_provider_endpoint,
+)
 from wanxiang_substrate.assets.book_scene_external import (
     _ExternalImageClient,
     _ExternalImageResult,
@@ -26,45 +28,6 @@ from wanxiang_substrate.assets.book_scene_prompt import _SceneGenerationBrief
 from wanxiang_substrate.assets.book_scene_types import SceneImageProvider
 
 _MAX_GATEWAY_RESPONSE_BYTES = 28 * 1024 * 1024
-
-
-class _NoRedirects(HTTPRedirectHandler):
-    def redirect_request(
-        self,
-        req: Request,
-        fp: Any,
-        code: int,
-        msg: str,
-        headers: Any,
-        newurl: str,
-    ) -> Request | None:
-        _ = (req, fp, code, msg, headers, newurl)
-        return None
-
-
-def _validate_endpoint(endpoint: str) -> str:
-    normalized = endpoint.strip()
-    parsed = urlsplit(normalized)
-    if parsed.username or parsed.password or parsed.fragment:
-        raise ValueError("visual HTTP endpoint cannot contain credentials or fragments")
-    host = parsed.hostname
-    if not host:
-        raise ValueError("visual HTTP endpoint requires a host")
-    try:
-        _ = parsed.port
-    except ValueError as exc:
-        raise ValueError("visual HTTP endpoint contains an invalid port") from exc
-    if parsed.scheme == "http" and host in {"localhost", "127.0.0.1", "::1"}:
-        return normalized
-    if parsed.scheme == "https":
-        try:
-            address = ipaddress.ip_address(host)
-        except ValueError:
-            return normalized
-        if address.is_global or address.is_loopback:
-            return normalized
-        raise ValueError("visual HTTPS endpoint cannot target a non-global IP address")
-    raise ValueError("visual HTTP endpoint must use HTTPS or loopback HTTP")
 
 
 class HttpJsonImageClient(_ExternalImageClient):
@@ -78,7 +41,7 @@ class HttpJsonImageClient(_ExternalImageClient):
         timeout_seconds: float = 60.0,
         max_response_bytes: int = _MAX_GATEWAY_RESPONSE_BYTES,
     ) -> None:
-        self.endpoint = _validate_endpoint(endpoint)
+        self.endpoint = _validate_provider_endpoint(endpoint, label="visual HTTP")
         if "\r" in bearer_token or "\n" in bearer_token:
             raise ValueError("visual HTTP bearer token cannot contain line breaks")
         self.bearer_token = bearer_token

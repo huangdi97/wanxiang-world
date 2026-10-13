@@ -261,8 +261,17 @@ def test_t3_same_source_in_two_worlds_gets_distinct_world_scoped_ticket() -> Non
     app.state.spatial_asset_max_cost_units = 7
     owner = {"X-Wanxiang-User": "studio"}
 
+    second_job = client.post(
+        "/studio/one-click",
+        json={
+            "job_id": "spatial_api_job_copy",
+            "profile": "book",
+            "sources": [{**_source(), "source_id": "spatial_api_book_copy"}],
+        },
+    )
+    assert second_job.status_code == 201
     second_profile = client.post(
-        "/studio/jobs/spatial_api_job/playable-profile",
+        "/studio/jobs/spatial_api_job_copy/playable-profile",
         json={
             "owner_id": "studio",
             "visibility": "public",
