@@ -18,7 +18,7 @@ def _compact(value: object) -> str:
     )
 
 
-def visual_compiler_metadata(
+def _visual_compiler_metadata(
     records: tuple[SourceRecord, ...],
     candidates: tuple[CandidateEnvelope, ...],
 ) -> dict[str, str]:

@@ -10,7 +10,7 @@ from wanxiang_substrate.authoring.model import PipelineBuild
 from wanxiang_substrate.authoring.pipeline_support import expand_domains, field
 from wanxiang_substrate.authoring.semantic import SemanticAnalyzer
 from wanxiang_substrate.authoring.semantic_distillation import DistillationStats
-from wanxiang_substrate.authoring.visual_metadata import visual_compiler_metadata
+from wanxiang_substrate.authoring.visual_metadata import _visual_compiler_metadata
 from wanxiang_substrate.candidates.envelope import CandidateEnvelope
 from wanxiang_substrate.domains.capability import DomainRegistry
 from wanxiang_substrate.domains.recommender import DomainRecommender
@@ -151,7 +151,7 @@ def build_pipeline_build(
             "segments": str(len(segments)),
             "batches": str(distillation.batch_count),
             "provider_id": distillation.provider_id,
-            **visual_compiler_metadata(records, fusion.candidates),
+            **_visual_compiler_metadata(records, fusion.candidates),
             "gedcom_version": next(
                 (
                     item.partition(":")[2]
