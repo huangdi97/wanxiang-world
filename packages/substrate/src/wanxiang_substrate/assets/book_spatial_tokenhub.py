@@ -207,7 +207,10 @@ class _TokenHubSpatialProvider(_SpatialGenerationProvider):
         if state == "cancelled":
             return _SpatialPollResult("cancelled", reason="provider_task_terminal")
         if state == "unknown":
-            return _SpatialPollResult("failed", reason="provider_task_unknown")
+            # TokenHub documents unknown as retryable/diagnostic, not proof of
+            # task failure. Keep the ticket pollable instead of fabricating a
+            # terminal result for a task that may still exist remotely.
+            return _SpatialPollResult("running", reason="provider_task_unknown")
         if state != "succeeded":
             raise ValueError("TokenHub spatial poll returned invalid task state")
 

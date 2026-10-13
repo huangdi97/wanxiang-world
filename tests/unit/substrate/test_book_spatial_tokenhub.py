@@ -150,7 +150,7 @@ def test_tokenhub_spatial_poll_downloads_only_supported_allowlisted_artifacts(
         ("running", "running"),
         ("failed", "failed"),
         ("cancelled", "cancelled"),
-        ("unknown", "failed"),
+        ("unknown", "running"),
     ],
 )
 def test_tokenhub_spatial_maps_provider_states(
