@@ -16,12 +16,12 @@ from dataclasses import replace
 from typing import cast
 from urllib.request import Request, build_opener
 
+from wanxiang_substrate.assets.book_http_transport import _NoRedirects
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
 from wanxiang_substrate.assets.book_scene_prompt import (
     _compile_scene_generation_brief,
     _story_visual_profile_from_style_key,
 )
-from wanxiang_substrate.assets.book_http_transport import _NoRedirects
 from wanxiang_substrate.assets.book_spatial_http_transport import (
     _bounded_read,
     _validate_endpoint,
