@@ -12,7 +12,9 @@ _SPATIAL_STRINGS: dict[str, str] = {
     "spatial_upgrade_heading": "Upgrade this place into a spatial scene",
     "spatial_upgrade_submit": "Generate spatial scene",
     "spatial_upgrade_refresh": "Refresh generation status",
-    "spatial_upgrade_available": ("{place} can be upgraded · estimated {cost} budget unit(s)"),
+    "spatial_upgrade_available": (
+        "{place} can be upgraded · estimated {cost}; {remaining} world budget unit(s) remain"
+    ),
     "spatial_upgrade_pending": "Spatial scene for {place} is in progress · {state}",
     "spatial_upgrade_ready": ("Spatial scene for {place} is ready · {count} spatial asset(s)"),
     "spatial_upgrade_terminal": (
