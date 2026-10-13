@@ -154,7 +154,9 @@ STRINGS: dict[str, str] = {
     "people_heading": "People here",
     "panorama_stage_enter": "Enter panorama",
     "panorama_stage_exit": "Return to visual scene",
-    "panorama_stage_error": "Panorama renderer failed; the current visual scene is still available.",
+    "panorama_stage_error": (
+        "Panorama renderer failed; the current visual scene is still available."
+    ),
     "stage_focus_enable": "Focus on scene",
     "stage_focus_restore": "Show world information",
     "known_people_location": "Recorded at {location}; not confirmed here",
