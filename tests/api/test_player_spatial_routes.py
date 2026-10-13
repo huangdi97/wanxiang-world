@@ -143,6 +143,18 @@ def test_t3_player_api_is_owner_only_idempotent_and_rehydrates_attachment() -> N
     assert "asset_id" not in serialized_spatial
     assert "content_hash" not in serialized_spatial
     assert provider.polls == ["provider-secret-task-ref"]
+
+    asset = client.get(
+        f"/experience/player/worlds/{profile_id}/spatial-assets/0",
+        params={"place_name": "Garden"},
+        headers=owner,
+    )
+    assert asset.status_code == 200
+    assert asset.content.startswith(b"glTF")
+    assert asset.headers["content-type"] == "model/gltf-binary"
+    assert asset.headers["x-content-type-options"] == "nosniff"
+    assert asset.headers["cache-control"] == "private, no-store"
+
     scenes = body["world"]["visual"]["scenes"]
     assert any(scene.get("spatial", {}).get("ready") is True for scene in scenes)
 
@@ -153,6 +165,52 @@ def test_t3_player_api_is_owner_only_idempotent_and_rehydrates_attachment() -> N
     restored_scenes = restored.json()["world"]["visual"]["scenes"]
     assert any(scene.get("spatial", {}).get("ready") is True for scene in restored_scenes)
     assert provider.polls == ["provider-secret-task-ref"]
+
+
+def test_t3_source_gated_spatial_asset_is_not_delivered_to_public_visitor() -> None:
+    app = create_app(build_reference_runtime())
+    client: Any = TestClient(app)
+    source = _source()
+    source["public_export_allowed"] = False
+    created = client.post(
+        "/studio/one-click",
+        json={"job_id": "spatial_private_asset", "profile": "book", "sources": [source]},
+    )
+    assert created.status_code == 201
+    profile = client.post(
+        "/studio/jobs/spatial_private_asset/playable-profile",
+        json={
+            "owner_id": "studio",
+            "visibility": "public",
+            "display_name": "Source-gated Spatial World",
+        },
+    )
+    profile_id = str(profile.json()["profile"]["profile_id"])
+    provider = _FakeSpatialProvider()
+    app.state.spatial_asset_provider = provider
+    app.state.spatial_asset_allow_network = True
+    app.state.spatial_asset_max_cost_units = 7
+    owner = {"X-Wanxiang-User": "studio"}
+    endpoint = f"/experience/player/worlds/{profile_id}/spatial"
+
+    submitted = client.post(endpoint, headers=owner, json={"place_name": "Garden"})
+    submission_id = str(submitted.json()["spatial"]["submission_id"])
+    attached = client.get(f"{endpoint}/{submission_id}", headers=owner)
+    assert attached.status_code == 200
+
+    owner_asset = client.get(
+        f"/experience/player/worlds/{profile_id}/spatial-assets/0",
+        params={"place_name": "Garden"},
+        headers=owner,
+    )
+    visitor_asset = client.get(
+        f"/experience/player/worlds/{profile_id}/spatial-assets/0",
+        params={"place_name": "Garden"},
+        headers={"X-Wanxiang-User": "visitor"},
+    )
+
+    assert owner_asset.status_code == 200
+    assert visitor_asset.status_code == 404
 
 
 def test_t3_poll_ticket_cannot_be_reused_against_another_world() -> None:

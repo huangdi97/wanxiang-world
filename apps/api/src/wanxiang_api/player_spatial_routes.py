@@ -7,11 +7,13 @@ from __future__ import annotations
 from dataclasses import replace
 from typing import cast
 
-from fastapi import APIRouter, Header, HTTPException, Request
+from fastapi import APIRouter, Header, HTTPException, Request, Response
 from pydantic import BaseModel, Field
+from wanxiang_substrate.assets.errors import AssetCorrupt, AssetNotFound
 from wanxiang_substrate.assets.storage import ObjectStore
 from wanxiang_substrate.playable import PlayableService
 from wanxiang_substrate.playable.player_service import player_world
+from wanxiang_substrate.playable.service_visual import _visible_spatial_assets
 from wanxiang_substrate.spatial import (
     DerivedSpatialAttachments,
     SpatialGenerationCoordinator,
@@ -134,6 +136,46 @@ def player_submit_spatial_place(
     except ValueError as exc:
         raise HTTPException(status_code=409, detail=str(exc)) from exc
     return {"spatial": _ticket_view(ticket)}
+
+
+@router.get("/worlds/{profile_id}/spatial-assets/{asset_index}")
+def player_spatial_asset(
+    profile_id: str,
+    asset_index: int,
+    place_name: str,
+    request: Request,
+    x_wanxiang_user: str | None = Header(default=None),
+) -> Response:
+    viewer = _viewer(x_wanxiang_user)
+    service = _service(request)
+    package = _profile_package(service, profile_id)
+    place = place_name.strip()
+    if place not in package.draft.places:
+        raise HTTPException(status_code=404, detail="spatial asset not found")
+    plan = plan_book_scene_assets(
+        package,
+        max_preview_scenes=1,
+        preferred_places=(place,),
+    )
+    if not plan.scene_requests or plan.scene_requests[0].place_name != place:
+        raise HTTPException(status_code=404, detail="spatial asset not found")
+    scene_key = plan.scene_requests[0].stable_key
+    refs = _visible_spatial_assets(service, profile_id, viewer_id=viewer).get(scene_key, ())
+    if asset_index < 0 or asset_index >= len(refs):
+        raise HTTPException(status_code=404, detail="spatial asset not found")
+    ref = refs[asset_index]
+    try:
+        content = cast(ObjectStore, request.app.state.spatial_asset_objects).get(ref)
+    except (AssetNotFound, AssetCorrupt) as exc:
+        raise HTTPException(status_code=404, detail="spatial asset not found") from exc
+    return Response(
+        content=content,
+        media_type=ref.content_type,
+        headers={
+            "cache-control": "private, no-store",
+            "x-content-type-options": "nosniff",
+        },
+    )
 
 
 @router.get("/worlds/{profile_id}/spatial/{submission_id}")
