@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from wanxiang_substrate.playable.player_i18n_panorama_zh import _PANORAMA_STRINGS
+
 STRINGS: dict[str, str] = {
     "document_title": "万相｜进入世界",
     "brand": "万相",
@@ -111,9 +113,7 @@ STRINGS: dict[str, str] = {
     "visual_provider": "视觉生成器 {provider}",
     "visual_projection_only": "插画投影，不是世界事实",
     "visual_spatial_ready": "空间场景已就绪 · {count} 个空间资产",
-    "panorama_stage_enter": "进入全景",
-    "panorama_stage_exit": "返回视觉场景",
-    "panorama_stage_error": "全景渲染器加载失败；已保留当前视觉场景。",
+    **_PANORAMA_STRINGS,
     "spatial_stage_enter": "进入空间场景",
     "spatial_stage_exit": "返回视觉场景",
     "spatial_stage_error": "空间渲染器加载失败；已保留当前视觉场景。",
