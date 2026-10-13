@@ -24,6 +24,11 @@ from wanxiang_substrate.assets.foundry import SemanticSceneSpec
 from wanxiang_substrate.assets.storage import LocalObjectStore
 
 
+def _glb(payload: bytes = b"scene") -> bytes:
+    total_length = 12 + len(payload)
+    return b"glTF" + (2).to_bytes(4, "little") + total_length.to_bytes(4, "little") + payload
+
+
 def _request() -> _SourceSceneRequest:
     return _SourceSceneRequest(
         place_name="机关桥",
@@ -148,7 +153,7 @@ def test_t3_ticket_survives_restart_and_resumes_existing_provider_task(
 
 
 def test_t3_poll_verifies_assets_then_attaches_only_to_derived_catalog() -> None:
-    payload = b"glTF-binary-test"
+    payload = _glb()
     provider = _FakeSpatialProvider(
         polls=[
             _SpatialPollResult("running"),
@@ -202,6 +207,58 @@ def test_t3_completed_task_fails_closed_when_artifact_verification_fails(
     assert failed.state == "failed"
     assert failed.reason == "artifact_verification_failed"
     assert failed.asset_refs == ()
+
+
+def test_t3_restart_refuses_to_poll_a_ticket_with_another_provider() -> None:
+    first_provider = _FakeSpatialProvider()
+    jobs = _InMemorySpatialJobStore()
+    first = _SpatialGenerationCoordinator(first_provider, jobs=jobs)
+    ticket = _submit(first)
+
+    replacement_provider = _FakeSpatialProvider(
+        provider_id="spatial:replacement",
+        provider_version="2026-11",
+    )
+    restarted = _SpatialGenerationCoordinator(replacement_provider, jobs=jobs)
+
+    with pytest.raises(ValueError, match="does not match persisted ticket"):
+        restarted.poll(ticket.submission_id)
+
+    assert replacement_provider.polls == []
+
+
+def test_t3_known_spatial_formats_require_matching_file_signatures() -> None:
+    provider = _FakeSpatialProvider(
+        allowed_media_types=frozenset(
+            {"model/gltf-binary", "application/x-ply", "image/png"}
+        )
+    )
+    coordinator = _coordinator(provider)
+    candidates = (
+        _SpatialArtifactCandidate(
+            b"not-a-glb",
+            "model/gltf-binary",
+            hashlib.sha256(b"not-a-glb").hexdigest(),
+        ),
+        _SpatialArtifactCandidate(
+            b"not-ply",
+            "application/x-ply",
+            hashlib.sha256(b"not-ply").hexdigest(),
+        ),
+        _SpatialArtifactCandidate(
+            b"<html>not-png</html>",
+            "image/png",
+            hashlib.sha256(b"<html>not-png</html>").hexdigest(),
+        ),
+    )
+
+    for candidate in candidates:
+        provider.polls = [_SpatialPollResult("succeeded", (candidate,))]
+        ticket = _submit(coordinator)
+        failed = coordinator.poll(ticket.submission_id)
+        assert failed.state == "failed"
+        assert failed.reason == "artifact_verification_failed"
+        coordinator.jobs = _InMemorySpatialJobStore()
 
 
 def test_t3_terminal_failure_never_attaches_assets() -> None:

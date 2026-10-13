@@ -7,6 +7,7 @@ from __future__ import annotations
 from types import SimpleNamespace
 from typing import cast
 
+from tests.unit.substrate.test_book_scene_plan import package_from_book
 from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
 from wanxiang_substrate.assets.storage import AssetRef
 from wanxiang_substrate.playable import PlayableService
@@ -16,8 +17,6 @@ from wanxiang_substrate.playable.service_visual import (
     _attach_spatial_assets,
     _source_scene_key_allowed,
 )
-
-from tests.unit.substrate.test_book_scene_plan import package_from_book
 
 
 def _profile() -> PlayableWorldProfile:
