@@ -8,8 +8,8 @@ import hashlib
 import json
 from typing import Any
 
-from fastapi.testclient import TestClient
 import pytest
+from fastapi.testclient import TestClient
 from scripts.reference_runtime import build_reference_runtime
 from wanxiang_api.app import create_app
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
