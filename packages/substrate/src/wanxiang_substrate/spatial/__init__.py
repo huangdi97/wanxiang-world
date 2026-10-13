@@ -11,9 +11,11 @@ from wanxiang_substrate.assets.book_scene_plan import (
 from wanxiang_substrate.assets.book_spatial_http_gateway import _build_http_spatial_provider
 from wanxiang_substrate.assets.book_spatial_jobs import (
     _DerivedSpatialAttachments,
-    _InMemorySpatialJobStore,
-    _LocalJsonSpatialJobStore,
     _SpatialGenerationCoordinator,
+)
+from wanxiang_substrate.assets.book_spatial_recovery import (
+    _RecoverableInMemorySpatialJobStore,
+    _RecoverableLocalJsonSpatialJobStore,
 )
 from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialGenerationProvider,
@@ -48,8 +50,8 @@ from wanxiang_substrate.spatial.query import SpatialQuery
 from wanxiang_substrate.spatial.resolver import register_spatial_resolvers
 
 DerivedSpatialAttachments = _DerivedSpatialAttachments
-InMemorySpatialJobStore = _InMemorySpatialJobStore
-LocalJsonSpatialJobStore = _LocalJsonSpatialJobStore
+InMemorySpatialJobStore = _RecoverableInMemorySpatialJobStore
+LocalJsonSpatialJobStore = _RecoverableLocalJsonSpatialJobStore
 SpatialGenerationCoordinator = _SpatialGenerationCoordinator
 SpatialGenerationProvider = _SpatialGenerationProvider
 SpatialGenerationTicket = _SpatialGenerationTicket
