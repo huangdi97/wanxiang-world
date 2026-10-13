@@ -91,9 +91,8 @@ def player_upgrade_visual_place_to_panorama(
         max_cost_units=int(request.app.state.panorama_asset_max_cost_units),
         fallback_to_t0=False,
     )
-    if not result.assets or any(
-        asset.presentation_kind != "panorama" for asset in result.assets
-    ):
+    non_panorama = any(asset.presentation_kind != "panorama" for asset in result.assets)
+    if not result.assets or non_panorama:
         raise HTTPException(
             status_code=409,
             detail="panorama provider returned a non-panorama asset",

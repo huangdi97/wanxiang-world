@@ -53,8 +53,8 @@
 - `POST /experience/player/instances/{instance_id}/continue`
 - `POST /experience/player/instances/{instance_id}/leave`
 - `POST /experience/player/worlds/{profile_id}/enter`
-- `POST /experience/player/worlds/{profile_id}/spatial`
 - `POST /experience/player/worlds/{profile_id}/panoramas`
+- `POST /experience/player/worlds/{profile_id}/spatial`
 - `POST /experience/player/worlds/{profile_id}/visuals`
 - `POST /experience/worlds/{profile_id}/enter`
 - `POST /forge/completions/plan`
