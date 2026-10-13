@@ -9,6 +9,7 @@ from html import escape
 import wanxiang_substrate.playable.player_i18n as _player_i18n
 
 from wanxiang_api.player_ui_script import SCRIPT
+from wanxiang_api.player_ui_spatial_renderer import SPATIAL_RENDERER_SCRIPT
 from wanxiang_api.player_ui_style import STYLE
 
 
@@ -85,7 +86,8 @@ def player_html(locale: str | None = None) -> str:
         f'<button class="primary-button" type="submit">{text("save_character")}</button></form></details></section>'
         f'<section class="view world-experience-view" id="play-view" aria-labelledby="play-world-name"><div class="world-stage-shell"><section class="world-stage" id="world-stage" aria-labelledby="scene-heading"><h3 class="sr-only" id="scene-heading">{text("scene_heading")}</h3><div class="world-stage-backdrop" aria-hidden="true"></div>'
         f'<figure class="scene-visual-frame world-stage-visual" id="scene-visual-frame" hidden><img id="scene-visual-image" alt=""><figcaption id="scene-visual-caption"></figcaption></figure>'
-        f'<div class="world-stage-top"><div class="world-stage-title"><div class="world-stage-kicker"><span class="tag" id="play-mode"></span><span id="play-mode-hint"></span></div><h2 id="play-world-name">{text("world")}</h2><p id="play-world-description"></p></div><div class="stage-actions"><button class="stage-focus-toggle" id="stage-focus-toggle" type="button" aria-pressed="false">{text("stage_focus_enable")}</button><button class="stage-exit" id="leave-world" type="button">{text("leave_world")}</button></div></div>'
+        '<div class="world-stage-spatial" id="world-stage-spatial" hidden></div>'
+        f'<div class="world-stage-top"><div class="world-stage-title"><div class="world-stage-kicker"><span class="tag" id="play-mode"></span><span id="play-mode-hint"></span></div><h2 id="play-world-name">{text("world")}</h2><p id="play-world-description"></p></div><div class="stage-actions"><button class="stage-focus-toggle" id="spatial-stage-toggle" type="button" aria-pressed="false" hidden>{text("spatial_stage_enter")}</button><button class="stage-focus-toggle" id="stage-focus-toggle" type="button" aria-pressed="false">{text("stage_focus_enable")}</button><button class="stage-exit" id="leave-world" type="button">{text("leave_world")}</button></div></div>'
         f'<div class="scene-status world-stage-hud"><div><span>{text("world")}</span><strong id="play-region">{text("not_recorded")}</strong></div><div><span>{text("time_label")}</span><strong id="play-time">{text("not_recorded")}</strong></div><div><span>{text("location_label")}</span><strong id="play-location">{text("not_recorded")}</strong></div><div><span>{text("environment_label")}</span><strong id="play-environment">{text("not_recorded")}</strong></div><div><span>{text("weather_label")}</span><strong id="play-weather">{text("not_recorded")}</strong></div></div>'
         f'<div class="scene-visual-clues-wrap world-stage-clues" id="scene-visual-clues-wrap" hidden><strong>{text("visual_clues_heading")}</strong><div class="scene-visual-clues" id="scene-visual-clues"></div></div>'
         f'<div class="world-stage-story"><div class="narrative" id="narrative" aria-live="polite">{text("narrative_waiting")}</div><div class="world-stage-event"><span class="stage-label">{text("happening_heading")}</span><div id="current-event" class="plain-list"></div></div></div>'
@@ -96,5 +98,6 @@ def player_html(locale: str | None = None) -> str:
         f'<aside class="world-record-panel player-panel" aria-labelledby="player-heading"><div class="record-heading"><span class="stage-label">{text("your_character")}</span><h3 id="player-heading">{text("your_character")}</h3></div><div class="player-facts"><div class="player-stat"><span>{text("name_label")}</span><strong id="player-name">{text("your_character")}</strong></div><div class="player-stat"><span>{text("status_label")}</span><strong id="player-status">{text("not_recorded")}</strong></div><div class="player-stat"><span>{text("position_label")}</span><strong id="player-position">{text("not_recorded")}</strong></div></div><div class="player-columns"><div class="player-stat"><span>{text("items_heading")}</span><ul class="plain-list" id="player-items"></ul></div><div class="player-stat"><span>{text("goals_heading")}</span><ul class="plain-list" id="player-goals"></ul></div><div class="player-stat"><span>{text("recent_memories_heading")}</span><strong id="player-memory">{text("memory_empty")}</strong><ul class="plain-list" id="memory-list"></ul></div><div class="player-stat"><span>{text("relations_heading")}</span><ul class="plain-list" id="relation-list"></ul></div></div></aside></div></section>'
         "</main></div>"
         f"<script>window.__PLAYER_I18N__={_player_i18n._serialize_copy(copy)};</script>"
+        f"<script>{SPATIAL_RENDERER_SCRIPT}</script>"
         f"<script>{SCRIPT}</script></body></html>"
     )
