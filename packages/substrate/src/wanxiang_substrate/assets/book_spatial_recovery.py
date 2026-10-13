@@ -1,5 +1,7 @@
 """Public API job stores with world-scoped recovery over durable T3 tickets."""
 
+# pyright: reportPrivateUsage=false
+
 from __future__ import annotations
 
 from wanxiang_substrate.assets.book_scene_interprocess import _exclusive_index_lock
