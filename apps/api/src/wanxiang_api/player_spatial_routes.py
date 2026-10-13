@@ -1,0 +1,180 @@
+"""Owner-governed asynchronous T3 spatial generation for source-grounded Player places."""
+
+# pyright: reportPrivateUsage=false
+
+from __future__ import annotations
+
+from dataclasses import replace
+from typing import cast
+
+from fastapi import APIRouter, Header, HTTPException, Request
+from pydantic import BaseModel, Field
+from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
+from wanxiang_substrate.assets.book_spatial_jobs import (
+    _DerivedSpatialAttachments,
+    _SpatialGenerationCoordinator,
+)
+from wanxiang_substrate.assets.book_spatial_types import (
+    _SpatialGenerationProvider,
+    _SpatialGenerationTicket,
+    _SpatialJobStore,
+)
+from wanxiang_substrate.assets.storage import ObjectStore
+from wanxiang_substrate.playable import PlayableService
+from wanxiang_substrate.playable.player_service import player_world
+from wanxiang_substrate.playable.service_visual import _source_scene_key_allowed
+
+router = APIRouter(prefix="/experience/player")
+
+
+class SpatialPlaceRequest(BaseModel):
+    place_name: str = Field(min_length=1, max_length=200)
+
+
+def _viewer(value: str | None) -> str:
+    return value or "anonymous"
+
+
+def _locale(value: str | None) -> str:
+    normalized = (value or "").strip().replace("_", "-").casefold()
+    return "en-US" if normalized == "en" or normalized.startswith("en-") else "zh-CN"
+
+
+def _service(request: Request) -> PlayableService:
+    service = request.app.state.playable
+    if service is None:
+        raise HTTPException(status_code=503, detail="playable runtime is not configured")
+    return cast(PlayableService, service)
+
+
+def _owner_service(request: Request, profile_id: str, viewer: str) -> PlayableService:
+    service = _service(request)
+    profile = service.plaza.require_access(profile_id, viewer)
+    if not profile.owner_id or profile.owner_id != viewer:
+        raise HTTPException(status_code=403, detail="only the world owner may generate spatial assets")
+    return service
+
+
+def _provider(request: Request) -> _SpatialGenerationProvider:
+    provider = cast(
+        _SpatialGenerationProvider | None,
+        request.app.state.spatial_asset_provider,
+    )
+    if provider is None:
+        raise HTTPException(status_code=503, detail="spatial provider is not configured")
+    return provider
+
+
+def _jobs(request: Request) -> _SpatialJobStore:
+    return cast(_SpatialJobStore, request.app.state.spatial_asset_jobs)
+
+
+def _coordinator(request: Request) -> _SpatialGenerationCoordinator:
+    return _SpatialGenerationCoordinator(
+        _provider(request),
+        jobs=_jobs(request),
+        objects=cast(ObjectStore, request.app.state.spatial_asset_objects),
+    )
+
+
+def _ticket_view(ticket: _SpatialGenerationTicket) -> dict[str, object]:
+    return {
+        "submission_id": ticket.submission_id,
+        "state": ticket.state,
+        "provider": {
+            "id": ticket.provider_id,
+            "version": ticket.provider_version,
+        },
+        "reserved_cost_units": ticket.reserved_cost_units,
+        "asset_count": len(ticket.asset_refs),
+        "media_types": sorted({ref.content_type for ref in ticket.asset_refs}),
+    }
+
+
+def _profile_package(service: PlayableService, profile_id: str):
+    package = service.packages.get(profile_id)
+    if package is None:
+        raise HTTPException(status_code=404, detail="playable package not found")
+    return package
+
+
+@router.post("/worlds/{profile_id}/spatial", status_code=202)
+def player_submit_spatial_place(
+    profile_id: str,
+    payload: SpatialPlaceRequest,
+    request: Request,
+    x_wanxiang_user: str | None = Header(default=None),
+) -> dict[str, object]:
+    viewer = _viewer(x_wanxiang_user)
+    service = _owner_service(request, profile_id, viewer)
+    package = _profile_package(service, profile_id)
+    place = payload.place_name.strip()
+    if place not in package.draft.places:
+        raise HTTPException(status_code=404, detail="source-grounded place not found")
+    plan = _plan_book_scene_assets(
+        package,
+        max_preview_scenes=1,
+        preferred_places=(place,),
+    )
+    if not plan.scene_requests or plan.scene_requests[0].place_name != place:
+        raise HTTPException(status_code=409, detail="spatial scene is not eligible for generation")
+    try:
+        ticket = _coordinator(request).submit(
+            plan.scene_requests[0],
+            allow_network=bool(request.app.state.spatial_asset_allow_network),
+            external_processing_allowed=plan.external_processing_allowed,
+            private_source=(
+                package.draft.compiler_metadata.get("visual_private_source_v1", "true") == "true"
+            ),
+            max_cost_units=int(request.app.state.spatial_asset_max_cost_units),
+            delivery_rights=plan.delivery_rights,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from exc
+    return {"spatial": _ticket_view(ticket)}
+
+
+@router.get("/worlds/{profile_id}/spatial/{submission_id}")
+def player_poll_spatial_place(
+    profile_id: str,
+    submission_id: str,
+    request: Request,
+    x_wanxiang_user: str | None = Header(default=None),
+    x_wanxiang_locale: str | None = Header(default=None),
+) -> dict[str, object]:
+    viewer = _viewer(x_wanxiang_user)
+    service = _owner_service(request, profile_id, viewer)
+    package = _profile_package(service, profile_id)
+    jobs = _jobs(request)
+    ticket = jobs.get(submission_id)
+    if ticket is None or not _source_scene_key_allowed(package, ticket.scene_key):
+        raise HTTPException(status_code=404, detail="spatial generation ticket not found")
+
+    if ticket.state in {"submitted", "queued", "running"}:
+        try:
+            ticket = _coordinator(request).poll(submission_id)
+        except ValueError as exc:
+            raise HTTPException(status_code=409, detail=str(exc)) from exc
+
+    if ticket.state in {"verified", "attached"}:
+        if not ticket.asset_refs:
+            raise HTTPException(status_code=409, detail="verified spatial ticket has no assets")
+        service.attach_spatial_assets(profile_id, ticket.scene_key, ticket.asset_refs)
+        catalog = cast(_DerivedSpatialAttachments, request.app.state.spatial_asset_catalog)
+        catalog.attach(ticket.scene_key, ticket.asset_refs)
+        if ticket.state == "verified":
+            ticket = replace(ticket, state="attached")
+            jobs.put(ticket)
+
+    locale = _locale(x_wanxiang_locale)
+    return {
+        "locale": locale,
+        "spatial": _ticket_view(ticket),
+        "world": player_world(
+            service,
+            profile_id,
+            viewer_id=viewer,
+            locale=locale,
+            include_visual=True,
+        ),
+    }

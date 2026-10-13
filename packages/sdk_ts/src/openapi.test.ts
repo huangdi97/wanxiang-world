@@ -6,7 +6,7 @@ import { API_VERSION_POLICY, parseOpenApi, type OpenApiDocument } from "./openap
 describe("G13D openapi contract", () => {
   it("parses the exported server contract deterministically", () => {
     const ops = parseOpenApi(contract as unknown as OpenApiDocument);
-    expect(ops.length).toBe(75);
+    expect(ops.length).toBe(77);
     const again = parseOpenApi(contract as unknown as OpenApiDocument);
     expect(JSON.stringify(ops)).toBe(JSON.stringify(again));
   });
@@ -28,6 +28,8 @@ describe("G13D openapi contract", () => {
       "player_plaza_experience_player_plaza_get",
       "player_world_detail_experience_player_worlds__profile_id__get",
       "player_enter_world_experience_player_worlds__profile_id__enter_post",
+      "player_submit_spatial_place_experience_player_worlds__profile_id__spatial_post",
+      "player_poll_spatial_place_experience_player_worlds__profile_id__spatial__submission_id__get",
       "player_action_instance_experience_player_instances__instance_id__action_post",
     ]) {
       expect(ids).toContain(expected);

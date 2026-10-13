@@ -27,7 +27,12 @@ from wanxiang_substrate.assets.book_scene_cache import (
     VisualAssetCache,
 )
 from wanxiang_substrate.assets.book_scene_types import SceneImageProvider
-from wanxiang_substrate.assets.storage import LocalObjectStore
+from wanxiang_substrate.assets.book_spatial_jobs import (
+    _DerivedSpatialAttachments,
+    _InMemorySpatialJobStore,
+    _LocalJsonSpatialJobStore,
+)
+from wanxiang_substrate.assets.storage import InMemoryObjectStore, LocalObjectStore
 from wanxiang_substrate.authoring import AuthoringService, LocalSemanticProvider
 from wanxiang_substrate.authoring.providers import ProviderRouter
 from wanxiang_substrate.lineage import LineageGraph
@@ -44,6 +49,7 @@ from wanxiang_api.living_world_routes import router as living_world_router
 from wanxiang_api.one_click_routes import router as one_click_router
 from wanxiang_api.playable_routes import router as playable_router
 from wanxiang_api.player_routes import router as player_router
+from wanxiang_api.player_spatial_routes import router as player_spatial_router
 from wanxiang_api.player_ui_routes import router as player_ui_router
 from wanxiang_api.player_visual_routes import router as player_visual_router
 from wanxiang_api.promotion_routes import router as promotion_router
@@ -159,10 +165,10 @@ def create_app(
     providers = ProviderRouter((LocalSemanticProvider(), LocalPromptGenesisProvider()))
     app.state.authoring = AuthoringService(providers=providers)
     visual_cache_root = os.environ.get("WANXIANG_VISUAL_CACHE_DIR", "").strip()
+    visual_cache_path = pathlib.Path(visual_cache_root) if visual_cache_root else None
     if visual_cache is not None:
         app.state.visual_asset_cache = visual_cache
-    elif visual_cache_root:
-        visual_cache_path = pathlib.Path(visual_cache_root)
+    elif visual_cache_path is not None:
         app.state.visual_asset_cache = VisualAssetCache(
             LocalObjectStore(visual_cache_path / "blobs"),
             LocalJsonVisualCacheIndex(visual_cache_path / "index.json"),
@@ -172,6 +178,18 @@ def create_app(
     app.state.visual_asset_provider = visual_provider
     app.state.visual_asset_allow_network = visual_allow_network
     app.state.visual_asset_max_cost_units = visual_max_cost_units
+    if visual_cache_path is not None:
+        app.state.spatial_asset_jobs = _LocalJsonSpatialJobStore(
+            visual_cache_path / "spatial-jobs.json"
+        )
+        app.state.spatial_asset_objects = LocalObjectStore(visual_cache_path / "spatial-blobs")
+    else:
+        app.state.spatial_asset_jobs = _InMemorySpatialJobStore()
+        app.state.spatial_asset_objects = InMemoryObjectStore()
+    app.state.spatial_asset_catalog = _DerivedSpatialAttachments()
+    app.state.spatial_asset_provider = None
+    app.state.spatial_asset_allow_network = False
+    app.state.spatial_asset_max_cost_units = 0
     app.state.workshop = WorkshopService(app.state.authoring, providers=providers)
     app.state.playable = (
         PlayableService(runtime, visual_cache=app.state.visual_asset_cache)
@@ -204,6 +222,7 @@ def create_app(
     app.include_router(workshop_router)
     app.include_router(playable_router)
     app.include_router(player_router)
+    app.include_router(player_spatial_router)
     app.include_router(player_visual_router)
     app.include_router(player_ui_router)
     return app
