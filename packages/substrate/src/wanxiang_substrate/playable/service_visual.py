@@ -73,11 +73,19 @@ def _visible_spatial_assets(
     }
 
 
-def _source_scene_key_allowed(package: WorldPackageDraft, scene_key: str) -> bool:
+def _spatial_attachment_policy(
+    package: WorldPackageDraft,
+) -> tuple[str, frozenset[str]]:
     plan = _plan_book_scene_assets(package, max_preview_scenes=0)
-    return scene_key in {
+    scene_keys = frozenset(
         _source_scene_key(plan.source_digest, place) for place in plan.place_names
-    }
+    )
+    return plan.delivery_rights, scene_keys
+
+
+def _source_scene_key_allowed(package: WorldPackageDraft, scene_key: str) -> bool:
+    _, scene_keys = _spatial_attachment_policy(package)
+    return scene_key in scene_keys
 
 
 def _attach_spatial_assets(
@@ -91,8 +99,11 @@ def _attach_spatial_assets(
         raise NotFound(f"playable package {profile_id!r} not found")
     if not asset_refs:
         raise ValueError("spatial attachment requires at least one asset")
-    if not _source_scene_key_allowed(package, scene_key):
+    delivery_rights, scene_keys = _spatial_attachment_policy(package)
+    if scene_key not in scene_keys:
         raise NotFound(f"spatial scene {scene_key!r} not found")
+    if any(ref.rights != delivery_rights for ref in asset_refs):
+        raise ValueError("spatial asset rights must match source-derived delivery rights")
     service._spatial_asset_refs.setdefault(profile_id, {})[scene_key] = asset_refs
 
 

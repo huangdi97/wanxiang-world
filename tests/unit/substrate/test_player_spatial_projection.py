@@ -4,13 +4,18 @@
 
 from __future__ import annotations
 
+from types import SimpleNamespace
 from typing import cast
 
 from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
 from wanxiang_substrate.assets.storage import AssetRef
+from wanxiang_substrate.playable import PlayableService
 from wanxiang_substrate.playable.models import PlayableWorldProfile
 from wanxiang_substrate.playable.player_projection import player_world_detail
-from wanxiang_substrate.playable.service_visual import _source_scene_key_allowed
+from wanxiang_substrate.playable.service_visual import (
+    _attach_spatial_assets,
+    _source_scene_key_allowed,
+)
 
 from tests.unit.substrate.test_book_scene_plan import package_from_book
 
@@ -88,3 +93,39 @@ def test_t3_anchor_may_target_a_deferred_source_place() -> None:
     assert deferred_place not in {item.place_name for item in initial.scene_requests}
     assert _source_scene_key_allowed(package, deferred_scene_key)
     assert not _source_scene_key_allowed(package, "not-a-source-scene")
+
+
+def test_spatial_attachment_cannot_upgrade_source_gated_rights_to_public() -> None:
+    package = package_from_book("spatial-private", ("密室",))
+    request = _plan_book_scene_assets(package).scene_requests[0]
+    service = cast(
+        PlayableService,
+        SimpleNamespace(
+            _packages={"profile": package},
+            _spatial_asset_refs={},
+        ),
+    )
+    public_ref = AssetRef(
+        asset_id="public-object",
+        content_hash="b" * 64,
+        size=64,
+        content_type="model/gltf-binary",
+        rights="public",
+    )
+    gated_ref = AssetRef(
+        asset_id="gated-object",
+        content_hash="c" * 64,
+        size=64,
+        content_type="model/gltf-binary",
+        rights="source-gated",
+    )
+
+    try:
+        _attach_spatial_assets(service, "profile", request.stable_key, (public_ref,))
+    except ValueError as exc:
+        assert "rights" in str(exc)
+    else:
+        raise AssertionError("public T3 attachment must not widen source-gated rights")
+
+    _attach_spatial_assets(service, "profile", request.stable_key, (gated_ref,))
+    assert service._spatial_asset_refs["profile"][request.stable_key] == (gated_ref,)
