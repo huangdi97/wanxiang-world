@@ -4,6 +4,7 @@
 
 import wanxiang_substrate.assets.book_scene_cache as _cache
 import wanxiang_substrate.assets.book_scene_materialize as _materialize
+import wanxiang_substrate.assets.book_scene_panorama as _panorama
 import wanxiang_substrate.assets.book_scene_render as _render
 import wanxiang_substrate.assets.book_scene_types as _types
 
@@ -20,3 +21,4 @@ _render_world_atlas = _render._render_world_atlas
 _SceneImageProvider = _types.SceneImageProvider
 _SceneVisualAsset = _types._SceneVisualAsset
 _VisualMaterialization = _types._VisualMaterialization
+_PromptedPanoramaSceneProvider = _panorama._PromptedPanoramaSceneProvider

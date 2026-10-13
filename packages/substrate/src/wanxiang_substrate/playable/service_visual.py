@@ -16,6 +16,7 @@ from wanxiang_substrate.assets.book_scene_identity import _source_scene_key
 from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
 from wanxiang_substrate.assets.book_scene_visual import (
     _materialize_product_visual_plan,
+    _materialize_visual_plan,
     _SceneImageProvider,
     _SceneVisualAsset,
     _VisualMaterialization,
@@ -116,6 +117,7 @@ def _materialize_visual_place(
     provider: _SceneImageProvider | None = None,
     allow_network: bool = False,
     max_cost_units: int = 0,
+    fallback_to_t0: bool = True,
 ) -> _VisualMaterialization:
     profile = service.plaza.require_access(profile_id, viewer_id)
     if not _visual_access_allowed(service, profile_id, viewer_id=viewer_id):
@@ -135,7 +137,8 @@ def _materialize_visual_place(
     if not plan.scene_requests or plan.scene_requests[0].place_name != normalized_place:
         raise NotFound(f"visual place {place_name!r} not found")
 
-    materialized = _materialize_product_visual_plan(
+    materializer = _materialize_product_visual_plan if fallback_to_t0 else _materialize_visual_plan
+    materialized = materializer(
         plan,
         provider=provider,
         cache=service._visual_cache,

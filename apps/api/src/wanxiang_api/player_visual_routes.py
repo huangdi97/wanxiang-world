@@ -64,3 +64,46 @@ def player_materialize_visual_place(
             include_visual=True,
         ),
     }
+
+@router.post("/worlds/{profile_id}/panoramas")
+def player_upgrade_visual_place_to_panorama(
+    profile_id: str,
+    payload: VisualPlaceRequest,
+    request: Request,
+    x_wanxiang_user: str | None = Header(default=None),
+    x_wanxiang_locale: str | None = Header(default=None),
+) -> dict[str, object]:
+    viewer = x_wanxiang_user or "anonymous"
+    locale = _locale(x_wanxiang_locale)
+    service = _service(request)
+    profile = service.plaza.require_access(profile_id, viewer)
+    if not profile.owner_id or profile.owner_id != viewer:
+        raise HTTPException(status_code=403, detail="only the world owner may generate panoramas")
+    provider = cast(SceneImageProvider | None, request.app.state.panorama_asset_provider)
+    if provider is None:
+        raise HTTPException(status_code=503, detail="panorama provider is not configured")
+    result = service.materialize_visual_place(
+        profile_id,
+        payload.place_name,
+        viewer_id=viewer,
+        provider=provider,
+        allow_network=bool(request.app.state.panorama_asset_allow_network),
+        max_cost_units=int(request.app.state.panorama_asset_max_cost_units),
+        fallback_to_t0=False,
+    )
+    if not result.assets or any(asset.presentation_kind != "panorama" for asset in result.assets):
+        raise HTTPException(status_code=409, detail="panorama provider returned a non-panorama asset")
+    return {
+        "locale": locale,
+        "tier": "T2",
+        "provider_calls": result.provider_calls,
+        "cache_hits": result.cache_hits,
+        "cost_units": result.cost_units,
+        "world": player_world(
+            service,
+            profile_id,
+            viewer_id=viewer,
+            locale=locale,
+            include_visual=True,
+        ),
+    }

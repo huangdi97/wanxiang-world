@@ -101,6 +101,7 @@ class PlayableService:
         provider: _SceneImageProvider | None = None,
         allow_network: bool = False,
         max_cost_units: int = 0,
+        fallback_to_t0: bool = True,
     ) -> _VisualMaterialization:
         """Generate/cache one already-source-grounded place without changing Canon."""
 
@@ -112,6 +113,7 @@ class PlayableService:
             provider=provider,
             allow_network=allow_network,
             max_cost_units=max_cost_units,
+            fallback_to_t0=fallback_to_t0,
         )
 
     def attach_spatial_assets(

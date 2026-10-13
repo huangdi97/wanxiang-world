@@ -100,12 +100,19 @@ def create_app(
     visual_provider: SceneImageProvider | None = None,
     visual_allow_network: bool = False,
     visual_max_cost_units: int = 0,
+    panorama_provider: SceneImageProvider | None = None,
+    panorama_allow_network: bool = False,
+    panorama_max_cost_units: int = 0,
     spatial_provider: SpatialGenerationProvider | None = None,
     spatial_allow_network: bool = False,
     spatial_max_cost_units: int = 0,
 ) -> FastAPI:
     if visual_max_cost_units < 0:
         raise ValueError("visual_max_cost_units must be non-negative")
+    if panorama_max_cost_units < 0:
+        raise ValueError("panorama_max_cost_units must be non-negative")
+    if panorama_allow_network and panorama_provider is None:
+        raise ValueError("panorama_allow_network requires an injected panorama_provider")
     if spatial_max_cost_units < 0:
         raise ValueError("spatial_max_cost_units must be non-negative")
     if visual_provider is None:
@@ -193,6 +200,9 @@ def create_app(
     app.state.visual_asset_provider = visual_provider
     app.state.visual_asset_allow_network = visual_allow_network
     app.state.visual_asset_max_cost_units = visual_max_cost_units
+    app.state.panorama_asset_provider = panorama_provider
+    app.state.panorama_asset_allow_network = panorama_allow_network
+    app.state.panorama_asset_max_cost_units = panorama_max_cost_units
     if visual_cache_path is not None:
         app.state.spatial_asset_jobs = LocalJsonSpatialJobStore(
             visual_cache_path / "spatial-jobs.json"
