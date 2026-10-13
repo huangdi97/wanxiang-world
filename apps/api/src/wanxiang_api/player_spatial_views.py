@@ -1,0 +1,84 @@
+"""Safe Player projection of asynchronous T3 job and generation capability."""
+
+# pyright: reportPrivateUsage=false
+
+from __future__ import annotations
+
+from typing import cast
+
+from fastapi import Request
+from wanxiang_substrate.assets.book_scene_identity import _source_scene_key
+from wanxiang_substrate.compile.assembler import WorldPackageDraft
+from wanxiang_substrate.spatial import (
+    SpatialGenerationProvider,
+    SpatialGenerationTicket,
+    plan_book_scene_assets,
+)
+
+
+def spatial_ticket_view(ticket: SpatialGenerationTicket) -> dict[str, object]:
+    return {
+        "submission_id": ticket.submission_id,
+        "state": ticket.state,
+        "provider": {"id": ticket.provider_id, "version": ticket.provider_version},
+        "reserved_cost_units": ticket.reserved_cost_units,
+        "asset_count": len(ticket.asset_refs),
+        "media_types": sorted({ref.content_type for ref in ticket.asset_refs}),
+    }
+
+
+def spatial_generation_view(
+    request: Request, package: WorldPackageDraft
+) -> dict[str, object]:
+    provider = cast(
+        SpatialGenerationProvider | None, request.app.state.spatial_asset_provider
+    )
+    if provider is None:
+        return {"available": False, "reason": "provider_not_configured", "cost_units": 0}
+    allow_network = bool(request.app.state.spatial_asset_allow_network)
+    budget = int(request.app.state.spatial_asset_max_cost_units)
+    plan = plan_book_scene_assets(package, max_preview_scenes=0)
+    private_source = (
+        package.draft.compiler_metadata.get("visual_private_source_v1", "true") == "true"
+    )
+    if provider.requires_network and not allow_network:
+        return {"available": False, "reason": "network_not_allowed", "cost_units": 0}
+    if provider.requires_network and not plan.external_processing_allowed:
+        return {
+            "available": False,
+            "reason": "source_external_processing_not_allowed",
+            "cost_units": 0,
+        }
+    if private_source and not provider.private_safe:
+        return {
+            "available": False,
+            "reason": "private_source_provider_not_safe",
+            "cost_units": 0,
+        }
+    if provider.cost_units_per_job > budget:
+        return {"available": False, "reason": "budget_insufficient", "cost_units": 0}
+    return {
+        "available": True,
+        "reason": "",
+        "cost_units": provider.cost_units_per_job,
+        "provider": {"id": provider.provider_id, "version": provider.provider_version},
+    }
+
+
+def spatial_ticket_views_for_world(
+    package: WorldPackageDraft,
+    tickets: tuple[SpatialGenerationTicket, ...],
+) -> list[dict[str, object]]:
+    plan = plan_book_scene_assets(package, max_preview_scenes=0)
+    place_by_scene = {
+        _source_scene_key(plan.source_digest, place): place for place in package.draft.places
+    }
+    rows: list[dict[str, object]] = []
+    for ticket in tickets:
+        place = place_by_scene.get(ticket.scene_key)
+        if place is None:
+            continue
+        row = spatial_ticket_view(ticket)
+        row["place_name"] = place
+        rows.append(row)
+    return rows
