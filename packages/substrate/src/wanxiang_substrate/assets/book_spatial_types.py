@@ -61,6 +61,7 @@ class _SpatialGenerationProvider:
     private_safe: bool = False
     cost_units_per_job: int = 0
     allowed_media_types: frozenset[str] = frozenset()
+    artifact_hosts: frozenset[str] = frozenset()
 
     def submit(self, request: _SourceSceneRequest, *, idempotency_key: str) -> str:
         raise TypeError("concrete spatial provider required")
