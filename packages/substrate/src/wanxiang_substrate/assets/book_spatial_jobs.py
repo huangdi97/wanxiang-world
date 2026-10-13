@@ -12,6 +12,10 @@ from typing import cast
 
 from wanxiang_substrate.assets.book_scene_interprocess import _exclusive_index_lock
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
+from wanxiang_substrate.assets.book_spatial_safety import (
+    _require_spatial_asset_refs,
+    _spatial_submission_guard,
+)
 from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialArtifactCandidate,
     _SpatialGenerationProvider,
@@ -20,7 +24,6 @@ from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialPollResult,
 )
 from wanxiang_substrate.assets.book_spatial_validation import _known_spatial_signature_matches
-from wanxiang_substrate.assets.errors import AssetCorrupt, AssetNotFound
 from wanxiang_substrate.assets.storage import AssetRef, InMemoryObjectStore, ObjectStore
 
 
@@ -186,37 +189,38 @@ class _SpatialGenerationCoordinator:
         if self.provider.cost_units_per_job > max_cost_units:
             raise ValueError("spatial provider cost exceeds reserved budget")
 
-        existing = self.jobs.get(submission_id)
-        if existing is not None:
-            if (
-                existing.provider_id != self.provider.provider_id
-                or existing.provider_version != self.provider.provider_version
-            ):
-                raise ValueError("configured spatial provider does not match persisted ticket")
-            if existing.reserved_cost_units > max_cost_units:
-                raise ValueError("persisted spatial ticket exceeds current budget")
-            if existing.delivery_rights != delivery_rights:
-                raise ValueError(
-                    "persisted spatial ticket rights do not match current delivery rights"
-                )
-            return existing
+        with _spatial_submission_guard(self.jobs, submission_id):
+            existing = self.jobs.get(submission_id)
+            if existing is not None:
+                if (
+                    existing.provider_id != self.provider.provider_id
+                    or existing.provider_version != self.provider.provider_version
+                ):
+                    raise ValueError("configured spatial provider does not match persisted ticket")
+                if existing.reserved_cost_units > max_cost_units:
+                    raise ValueError("persisted spatial ticket exceeds current budget")
+                if existing.delivery_rights != delivery_rights:
+                    raise ValueError(
+                        "persisted spatial ticket rights do not match current delivery rights"
+                    )
+                return existing
 
-        task_ref = self.provider.submit(request, idempotency_key=submission_id)
-        if not task_ref.strip():
-            raise ValueError("spatial provider returned an empty task reference")
-        ticket = _SpatialGenerationTicket(
-            submission_id=submission_id,
-            scene_key=request.stable_key,
-            provider_id=self.provider.provider_id,
-            provider_version=self.provider.provider_version,
-            provider_task_ref=task_ref,
-            state="submitted",
-            reserved_cost_units=self.provider.cost_units_per_job,
-            delivery_rights=delivery_rights,
-            scope_key=scope_key,
-        )
-        self.jobs.put(ticket)
-        return ticket
+            task_ref = self.provider.submit(request, idempotency_key=submission_id)
+            if not task_ref.strip():
+                raise ValueError("spatial provider returned an empty task reference")
+            ticket = _SpatialGenerationTicket(
+                submission_id=submission_id,
+                scene_key=request.stable_key,
+                provider_id=self.provider.provider_id,
+                provider_version=self.provider.provider_version,
+                provider_task_ref=task_ref,
+                state="submitted",
+                reserved_cost_units=self.provider.cost_units_per_job,
+                delivery_rights=delivery_rights,
+                scope_key=scope_key,
+            )
+            self.jobs.put(ticket)
+            return ticket
 
     def poll(self, submission_id: str) -> _SpatialGenerationTicket:
         ticket = self.jobs.get(submission_id)
@@ -285,13 +289,7 @@ class _SpatialGenerationCoordinator:
             raise KeyError(submission_id)
         if ticket.state not in {"verified", "attached"} or not ticket.asset_refs:
             raise ValueError("only verified spatial assets may be attached")
-        try:
-            for ref in ticket.asset_refs:
-                content = self.objects.get(ref)
-                if len(content) != ref.size:
-                    raise ValueError("spatial asset size does not match persisted reference")
-        except (AssetNotFound, AssetCorrupt) as exc:
-            raise ValueError("verified spatial asset storage is unavailable") from exc
+        _require_spatial_asset_refs(self.objects, ticket.asset_refs)
         catalog.attach(ticket.scene_key, ticket.asset_refs)
         if ticket.state == "attached":
             return ticket
