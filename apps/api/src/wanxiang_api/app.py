@@ -48,6 +48,7 @@ from wanxiang_api.limits import PayloadTooLarge
 from wanxiang_api.lineage_routes import router as lineage_router
 from wanxiang_api.living_world_routes import router as living_world_router
 from wanxiang_api.one_click_routes import router as one_click_router
+from wanxiang_api.panorama_tokenhub_runtime import panorama_tokenhub_runtime_from_env
 from wanxiang_api.playable_routes import router as playable_router
 from wanxiang_api.player_routes import router as player_router
 from wanxiang_api.player_spatial_routes import router as player_spatial_router
@@ -111,8 +112,6 @@ def create_app(
         raise ValueError("visual_max_cost_units must be non-negative")
     if panorama_max_cost_units < 0:
         raise ValueError("panorama_max_cost_units must be non-negative")
-    if panorama_allow_network and panorama_provider is None:
-        raise ValueError("panorama_allow_network requires an injected panorama_provider")
     if spatial_max_cost_units < 0:
         raise ValueError("spatial_max_cost_units must be non-negative")
     if visual_provider is None:
@@ -123,6 +122,14 @@ def create_app(
             visual_max_cost_units = http_visual.max_cost_units
     if visual_allow_network and visual_provider is None:
         raise ValueError("visual_allow_network requires an injected visual_provider")
+    if panorama_provider is None:
+        tokenhub_panorama = panorama_tokenhub_runtime_from_env()
+        panorama_provider = tokenhub_panorama.provider
+        panorama_allow_network = panorama_allow_network or tokenhub_panorama.allow_network
+        if panorama_max_cost_units == 0:
+            panorama_max_cost_units = tokenhub_panorama.max_cost_units
+    if panorama_allow_network and panorama_provider is None:
+        raise ValueError("panorama_allow_network requires a configured panorama provider")
     if spatial_provider is None:
         http_spatial = spatial_http_runtime_from_env()
         spatial_provider = http_spatial.provider
