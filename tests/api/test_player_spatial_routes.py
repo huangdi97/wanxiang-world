@@ -364,3 +364,35 @@ def test_t3_application_factory_fails_closed_for_invalid_network_or_budget_confi
         create_app(build_reference_runtime(), spatial_allow_network=True)
     with pytest.raises(ValueError, match="spatial_max_cost_units"):
         create_app(build_reference_runtime(), spatial_max_cost_units=-1)
+
+def test_t3_restart_does_not_rehydrate_missing_spatial_blob() -> None:
+    app, client, profile_id = _world()
+    provider = _FakeSpatialProvider()
+    app.state.spatial_asset_provider = provider
+    app.state.spatial_asset_allow_network = True
+    app.state.spatial_asset_max_cost_units = 7
+    owner = {"X-Wanxiang-User": "studio"}
+    endpoint = f"/experience/player/worlds/{profile_id}/spatial"
+
+    submitted = client.post(endpoint, headers=owner, json={"place_name": "Garden"})
+    submission_id = str(submitted.json()["spatial"]["submission_id"])
+    attached = client.get(f"{endpoint}/{submission_id}", headers=owner)
+    assert attached.status_code == 200
+
+    ticket = app.state.spatial_asset_jobs.get(submission_id)
+    assert ticket is not None and ticket.asset_refs
+    app.state.spatial_asset_objects.delete(ticket.asset_refs[0])
+    app.state.playable._spatial_asset_refs.clear()
+
+    listed = client.get(endpoint, headers=owner)
+    assert listed.status_code == 200
+    assert listed.json()["rehydrated_attachments"] == 0
+    assert listed.json()["unavailable_attachments"] == 1
+
+    world = client.get(f"/experience/player/worlds/{profile_id}", headers=owner)
+    scenes = world.json()["world"]["visual"]["scenes"]
+    assert not any(scene.get("spatial", {}).get("ready") is True for scene in scenes)
+
+    recovered = client.get(f"{endpoint}/{submission_id}", headers=owner)
+    assert recovered.status_code == 409
+    assert recovered.json()["detail"] == "verified spatial asset storage is unavailable"

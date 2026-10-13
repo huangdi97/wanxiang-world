@@ -12,6 +12,7 @@ from typing import cast
 
 from wanxiang_substrate.assets.book_scene_interprocess import _exclusive_index_lock
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
+from wanxiang_substrate.assets.errors import AssetCorrupt, AssetNotFound
 from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialArtifactCandidate,
     _SpatialGenerationProvider,
@@ -20,11 +21,7 @@ from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialPollResult,
 )
 from wanxiang_substrate.assets.book_spatial_validation import _known_spatial_signature_matches
-from wanxiang_substrate.assets.storage import (
-    AssetRef,
-    InMemoryObjectStore,
-    ObjectStore,
-)
+from wanxiang_substrate.assets.storage import AssetRef, InMemoryObjectStore, ObjectStore
 
 
 class _InMemorySpatialJobStore(_SpatialJobStore):
@@ -286,12 +283,18 @@ class _SpatialGenerationCoordinator:
         ticket = self.jobs.get(submission_id)
         if ticket is None:
             raise KeyError(submission_id)
-        if ticket.state == "attached" and ticket.asset_refs:
-            catalog.attach(ticket.scene_key, ticket.asset_refs)
-            return ticket
-        if ticket.state != "verified" or not ticket.asset_refs:
+        if ticket.state not in {"verified", "attached"} or not ticket.asset_refs:
             raise ValueError("only verified spatial assets may be attached")
+        try:
+            for ref in ticket.asset_refs:
+                content = self.objects.get(ref)
+                if len(content) != ref.size:
+                    raise ValueError("spatial asset size does not match persisted reference")
+        except (AssetNotFound, AssetCorrupt) as exc:
+            raise ValueError("verified spatial asset storage is unavailable") from exc
         catalog.attach(ticket.scene_key, ticket.asset_refs)
+        if ticket.state == "attached":
+            return ticket
         attached = replace(ticket, state="attached")
         self.jobs.put(attached)
         return attached

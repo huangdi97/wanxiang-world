@@ -10,7 +10,7 @@ from typing import cast
 from fastapi import APIRouter, Header, HTTPException, Request, Response
 from pydantic import BaseModel, Field
 from wanxiang_substrate.assets.errors import AssetCorrupt, AssetNotFound
-from wanxiang_substrate.assets.storage import ObjectStore
+from wanxiang_substrate.assets.storage import AssetRef, ObjectStore
 from wanxiang_substrate.playable import PlayableService
 from wanxiang_substrate.playable.player_service import player_world
 from wanxiang_substrate.spatial import (
@@ -84,6 +84,17 @@ def _coordinator(request: Request) -> SpatialGenerationCoordinator:
     )
 
 
+
+def _stored_spatial_refs_available(
+    request: Request, refs: tuple[AssetRef, ...]
+) -> bool:
+    store = cast(ObjectStore, request.app.state.spatial_asset_objects)
+    try:
+        return all(len(store.get(ref)) == ref.size for ref in refs)
+    except (AssetNotFound, AssetCorrupt):
+        return False
+
+
 def _profile_package(service: PlayableService, profile_id: str):
     package = service.packages.get(profile_id)
     if package is None:
@@ -108,8 +119,12 @@ def player_list_spatial_places(
     visible = service.spatial_assets(profile_id, viewer_id=viewer)
     catalog = cast(DerivedSpatialAttachments, request.app.state.spatial_asset_catalog)
     rehydrated = 0
+    unavailable = 0
     for ticket in tickets:
         if ticket.state != "attached" or not ticket.asset_refs or ticket.scene_key in visible:
+            continue
+        if not _stored_spatial_refs_available(request, ticket.asset_refs):
+            unavailable += 1
             continue
         service.attach_spatial_assets(profile_id, ticket.scene_key, ticket.asset_refs)
         catalog.attach(ticket.scene_key, ticket.asset_refs)
@@ -118,6 +133,7 @@ def player_list_spatial_places(
         "spatial_jobs": spatial_ticket_views_for_world(package, tickets),
         "generation": spatial_generation_view(request, package),
         "rehydrated_attachments": rehydrated,
+        "unavailable_attachments": unavailable,
     }
 
 
@@ -227,6 +243,11 @@ def player_poll_spatial_place(
     if ticket.state in {"verified", "attached"}:
         if not ticket.asset_refs:
             raise HTTPException(status_code=409, detail="verified spatial ticket has no assets")
+        if not _stored_spatial_refs_available(request, ticket.asset_refs):
+            raise HTTPException(
+                status_code=409,
+                detail="verified spatial asset storage is unavailable",
+            )
         service.attach_spatial_assets(profile_id, ticket.scene_key, ticket.asset_refs)
         catalog = cast(DerivedSpatialAttachments, request.app.state.spatial_asset_catalog)
         catalog.attach(ticket.scene_key, ticket.asset_refs)

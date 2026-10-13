@@ -409,3 +409,32 @@ def test_t3_batch_verification_writes_nothing_when_any_artifact_is_invalid() -> 
     assert failed.state == "failed"
     assert failed.asset_refs == ()
     assert objects.put_calls == 0
+
+def test_attached_t3_ticket_does_not_rehydrate_when_blob_is_missing() -> None:
+    payload = _glb(b"missing-after-restart")
+    provider = _FakeSpatialProvider(
+        polls=[
+            _SpatialPollResult(
+                "succeeded",
+                (
+                    _SpatialArtifactCandidate(
+                        payload,
+                        "model/gltf-binary",
+                        hashlib.sha256(payload).hexdigest(),
+                    ),
+                ),
+            )
+        ]
+    )
+    objects = InMemoryObjectStore()
+    coordinator = _SpatialGenerationCoordinator(provider, objects=objects)
+    submitted = _submit(coordinator)
+    verified = coordinator.poll(submitted.submission_id)
+    attached = coordinator.attach(verified.submission_id, _DerivedSpatialAttachments())
+    objects.delete(attached.asset_refs[0])
+
+    restored_catalog = _DerivedSpatialAttachments()
+    with pytest.raises(ValueError, match="storage is unavailable"):
+        coordinator.attach(attached.submission_id, restored_catalog)
+
+    assert restored_catalog.get("bridge") == ()
