@@ -128,6 +128,7 @@ STRINGS: dict[str, str] = {
     "spatial_upgrade_available": "{place} can be upgraded · estimated {cost} budget unit(s)",
     "spatial_upgrade_pending": "Spatial scene for {place} is in progress · {state}",
     "spatial_upgrade_ready": "Spatial scene for {place} is ready · {count} spatial asset(s)",
+    "spatial_upgrade_terminal": "Spatial task for {place}: {state}. The current scene remains usable.",
     "spatial_upgrade_unavailable_provider": "No spatial generator is configured; the current illustrated scene remains usable.",
     "spatial_upgrade_unavailable_network": "The spatial generator is not allowed to use the network; the current scene remains usable.",
     "spatial_upgrade_unavailable_rights": "The source does not authorize external spatial generation; keep using local/existing visuals.",
