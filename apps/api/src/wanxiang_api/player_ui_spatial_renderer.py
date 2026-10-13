@@ -7,11 +7,11 @@ SPATIAL_RENDERER_SCRIPT = r"""
 const state={active:false,key:"",scene:null,profile:"",headers:{},cleanup:null};
 const byId=id=>document.getElementById(id);
 const renderer=()=>window.__WANXIANG_SPATIAL_RENDERER__||null;
-const canRender=scene=>{const r=renderer(),types=scene?.spatial?.media_types||[];return Boolean(scene?.spatial?.ready&&Number(scene.spatial.asset_count||0)>0&&r&&typeof r.mount==="function"&&(!r.supports||r.supports(types)))};
+const canRender=scene=>{try{const r=renderer(),types=scene?.spatial?.media_types||[];return Boolean(scene?.spatial?.ready&&Number(scene.spatial.asset_count||0)>0&&r&&typeof r.mount==="function"&&(!r.supports||r.supports(types)))}catch{return false}};
 const setButton=(available,active)=>{const button=byId("spatial-stage-toggle");if(!button)return;button.hidden=!available;button.setAttribute("aria-pressed",String(Boolean(active)))};
 async function deactivate(){
   const host=byId("world-stage-spatial"),r=renderer();
-  try{if(typeof state.cleanup==="function")await state.cleanup();else if(r&&typeof r.unmount==="function"&&host)await r.unmount(host)}finally{
+  try{if(typeof state.cleanup==="function")await state.cleanup();else if(r&&typeof r.unmount==="function"&&host)await r.unmount(host)}catch{}finally{
     state.cleanup=null;state.active=false;if(host){host.replaceChildren();host.hidden=true}setButton(canRender(state.scene),false)
   }
   return false
@@ -38,7 +38,7 @@ function sync(scene,profile,headers){
   state.key=key;state.scene=scene||null;state.profile=profile||"";state.headers=headers||{};
   const available=canRender(state.scene);setButton(available,state.active);
   if(!available&&state.active){void deactivate();return}
-  if(changed&&wasActive){void deactivate().then(()=>activate())}
+  if(changed&&wasActive){void deactivate().then(()=>activate()).catch(()=>{})}
 }
 window.__WANXIANG_SPATIAL_STAGE__={sync,toggle:async()=>state.active?deactivate():activate(),deactivate,isActive:()=>state.active};
 })();

@@ -157,6 +157,113 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                     page.evaluate("window.__PLAYER_I18N__?.strings?.hero_title")
                     == "创造世界，进入世界，让世界继续发生。"
                 )
+                page.route(
+                    "**/spatial-assets/0**",
+                    lambda route: route.fulfill(
+                        status=200,
+                        content_type="model/gltf-binary",
+                        body=b"glTF-test",
+                    ),
+                )
+                page.evaluate(
+                    """() => {
+                      window.__WANXIANG_SPATIAL_RENDERER__ = {
+                        supports: types => types.includes("model/gltf-binary"),
+                        mount: async ({container, loadAsset}) => {
+                          const asset = await loadAsset(0);
+                          container.dataset.loaded = asset.mediaType;
+                          return () => { container.dataset.cleaned = "true"; };
+                        }
+                      };
+                      window.__WANXIANG_SPATIAL_STAGE__.sync(
+                        {
+                          place_name: "Test Place",
+                          spatial: {
+                            ready: true,
+                            asset_count: 1,
+                            media_types: ["model/gltf-binary"]
+                          }
+                        },
+                        "profile-test",
+                        {"x-wanxiang-user": "studio"}
+                      );
+                    }"""
+                )
+                assert (
+                    page.evaluate("document.querySelector('#spatial-stage-toggle').hidden")
+                    is False
+                )
+                assert page.evaluate("window.__WANXIANG_SPATIAL_STAGE__.toggle()") is True
+                assert (
+                    page.evaluate("document.querySelector('#world-stage-spatial').hidden")
+                    is False
+                )
+                assert (
+                    page.evaluate(
+                        "document.querySelector('#world-stage-spatial').dataset.loaded"
+                    )
+                    == "model/gltf-binary"
+                )
+                assert page.evaluate("window.__WANXIANG_SPATIAL_STAGE__.toggle()") is False
+                assert (
+                    page.evaluate("document.querySelector('#world-stage-spatial').hidden")
+                    is True
+                )
+                assert (
+                    page.evaluate(
+                        "document.querySelector('#world-stage-spatial').dataset.cleaned"
+                    )
+                    == "true"
+                )
+                page.evaluate(
+                    """() => {
+                      window.__WANXIANG_SPATIAL_RENDERER__ = {
+                        supports: () => { throw new Error("supports-failure"); },
+                        mount: async () => null
+                      };
+                      window.__WANXIANG_SPATIAL_STAGE__.sync(
+                        {
+                          place_name: "Broken",
+                          spatial: {
+                            ready: true,
+                            asset_count: 1,
+                            media_types: ["model/gltf-binary"]
+                          }
+                        },
+                        "profile-test",
+                        {}
+                      );
+                    }"""
+                )
+                assert (
+                    page.evaluate("document.querySelector('#spatial-stage-toggle').hidden")
+                    is True
+                )
+                page.evaluate(
+                    """() => {
+                      window.__WANXIANG_SPATIAL_RENDERER__ = {
+                        supports: () => true,
+                        mount: async () => () => {
+                          throw new Error("cleanup-failure");
+                        }
+                      };
+                      window.__WANXIANG_SPATIAL_STAGE__.sync(
+                        {
+                          place_name: "Cleanup",
+                          spatial: {
+                            ready: true,
+                            asset_count: 1,
+                            media_types: ["model/gltf-binary"]
+                          }
+                        },
+                        "profile-test",
+                        {}
+                      );
+                    }"""
+                )
+                assert page.evaluate("window.__WANXIANG_SPATIAL_STAGE__.toggle()") is True
+                assert page.evaluate("window.__WANXIANG_SPATIAL_STAGE__.deactivate()") is False
+                page.unroute("**/spatial-assets/0**")
                 assert page.get_by_role(
                     "heading", name="创造世界，进入世界，让世界继续发生。"
                 ).is_visible()
