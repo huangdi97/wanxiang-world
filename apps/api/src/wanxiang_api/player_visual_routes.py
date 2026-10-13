@@ -8,11 +8,11 @@ from typing import cast
 
 from fastapi import APIRouter, Header, HTTPException, Request
 from pydantic import BaseModel, Field
-from wanxiang_substrate.assets.book_scene_panorama_budget import _PanoramaBudgetLedger
-from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
+from wanxiang_substrate.assets.book_scene_panorama_budget import PanoramaBudgetLedger
 from wanxiang_substrate.assets.book_scene_types import SceneImageProvider
 from wanxiang_substrate.playable import PlayableService
 from wanxiang_substrate.playable.player_service import player_world
+from wanxiang_substrate.spatial import plan_book_scene_assets
 
 from wanxiang_api.player_panorama_views import panorama_generation_view
 
@@ -115,7 +115,7 @@ def player_upgrade_visual_place_to_panorama(
     place = payload.place_name.strip()
     if place not in package.draft.places:
         raise HTTPException(status_code=404, detail="source-grounded place not found")
-    plan = _plan_book_scene_assets(
+    plan = plan_book_scene_assets(
         package,
         max_preview_scenes=1,
         preferred_places=(place,),
@@ -137,7 +137,7 @@ def player_upgrade_visual_place_to_panorama(
             detail=str(generation.get("reason") or "panorama generation unavailable"),
         )
 
-    ledger = cast(_PanoramaBudgetLedger, request.app.state.panorama_budget_ledger)
+    ledger = cast(PanoramaBudgetLedger, request.app.state.panorama_budget_ledger)
     budget = int(request.app.state.panorama_asset_max_cost_units)
     scene_request = plan.scene_requests[0]
     reservation_key = (

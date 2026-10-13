@@ -145,3 +145,7 @@ class _LocalJson_PanoramaBudgetLedger(_PanoramaBudgetLedger):
             scoped[reservation_key] = cost_units
             self._write(rows)
             return _snapshot(dict(scoped), budget)
+
+
+PanoramaBudgetLedger = _PanoramaBudgetLedger
+LocalJsonPanoramaBudgetLedger = _LocalJson_PanoramaBudgetLedger
