@@ -72,8 +72,6 @@ class PlayableService:
 
     @property
     def packages(self) -> Mapping[str, WorldPackageDraft]:
-        """Expose package metadata to read-only projection adapters."""
-
         return self._packages
 
     def visual_access_allowed(self, profile_id: str, *, viewer_id: str) -> bool:
@@ -92,13 +90,8 @@ class PlayableService:
         return _visible_visual_assets(self, profile_id, viewer_id=viewer_id)
 
     def spatial_assets(
-        self,
-        profile_id: str,
-        *,
-        viewer_id: str,
+        self, profile_id: str, *, viewer_id: str
     ) -> dict[str, tuple[AssetRef, ...]]:
-        """Return rights-filtered derived T3 assets for one playable world."""
-
         return _visible_spatial_assets(self, profile_id, viewer_id=viewer_id)
 
     def materialize_visual_place(
