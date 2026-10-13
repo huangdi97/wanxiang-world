@@ -9,6 +9,7 @@ import json
 from typing import Any
 
 from fastapi.testclient import TestClient
+import pytest
 from scripts.reference_runtime import build_reference_runtime
 from wanxiang_api.app import create_app
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
@@ -69,8 +70,18 @@ def _source() -> dict[str, object]:
     }
 
 
-def _world() -> tuple[Any, Any, str]:
-    app = create_app(build_reference_runtime())
+def _world(
+    *,
+    spatial_provider: _SpatialGenerationProvider | None = None,
+    spatial_allow_network: bool = False,
+    spatial_max_cost_units: int = 0,
+) -> tuple[Any, Any, str]:
+    app = create_app(
+        build_reference_runtime(),
+        spatial_provider=spatial_provider,
+        spatial_allow_network=spatial_allow_network,
+        spatial_max_cost_units=spatial_max_cost_units,
+    )
     client: Any = TestClient(app)
     created = client.post(
         "/studio/one-click",
@@ -182,3 +193,29 @@ def test_t3_poll_ticket_cannot_be_reused_against_another_world() -> None:
     )
     assert denied.status_code == 404
     assert provider.polls == []
+
+
+
+def test_t3_provider_can_be_injected_through_application_factory() -> None:
+    provider = _FakeSpatialProvider()
+    app, client, profile_id = _world(
+        spatial_provider=provider,
+        spatial_allow_network=True,
+        spatial_max_cost_units=7,
+    )
+    owner = {"X-Wanxiang-User": "studio"}
+    endpoint = f"/experience/player/worlds/{profile_id}/spatial"
+
+    submitted = client.post(endpoint, headers=owner, json={"place_name": "Garden"})
+
+    assert submitted.status_code == 202
+    assert submitted.json()["spatial"]["reserved_cost_units"] == 7
+    assert len(provider.submissions) == 1
+    assert app.state.spatial_asset_provider is provider
+
+
+def test_t3_application_factory_fails_closed_for_invalid_network_or_budget_config() -> None:
+    with pytest.raises(ValueError, match="spatial_allow_network"):
+        create_app(build_reference_runtime(), spatial_allow_network=True)
+    with pytest.raises(ValueError, match="spatial_max_cost_units"):
+        create_app(build_reference_runtime(), spatial_max_cost_units=-1)

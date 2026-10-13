@@ -37,6 +37,7 @@ from wanxiang_substrate.spatial import (
     DerivedSpatialAttachments,
     InMemorySpatialJobStore,
     LocalJsonSpatialJobStore,
+    SpatialGenerationProvider,
 )
 from wanxiang_substrate.workshop import LocalPromptGenesisProvider, WorkshopService
 
@@ -98,9 +99,14 @@ def create_app(
     visual_provider: SceneImageProvider | None = None,
     visual_allow_network: bool = False,
     visual_max_cost_units: int = 0,
+    spatial_provider: SpatialGenerationProvider | None = None,
+    spatial_allow_network: bool = False,
+    spatial_max_cost_units: int = 0,
 ) -> FastAPI:
     if visual_max_cost_units < 0:
         raise ValueError("visual_max_cost_units must be non-negative")
+    if spatial_max_cost_units < 0:
+        raise ValueError("spatial_max_cost_units must be non-negative")
     if visual_provider is None:
         http_visual = visual_http_runtime_from_env()
         visual_provider = http_visual.provider
@@ -109,6 +115,8 @@ def create_app(
             visual_max_cost_units = http_visual.max_cost_units
     if visual_allow_network and visual_provider is None:
         raise ValueError("visual_allow_network requires an injected visual_provider")
+    if spatial_allow_network and spatial_provider is None:
+        raise ValueError("spatial_allow_network requires an injected spatial_provider")
     app = FastAPI(title=API_TITLE, version=API_VERSION)
     identity_mode = os.environ.get("WANXIANG_IDENTITY_MODE", "local-demo").strip()
     if identity_mode not in {"local-demo", "trusted"}:
@@ -187,9 +195,9 @@ def create_app(
         app.state.spatial_asset_jobs = InMemorySpatialJobStore()
         app.state.spatial_asset_objects = InMemoryObjectStore()
     app.state.spatial_asset_catalog = DerivedSpatialAttachments()
-    app.state.spatial_asset_provider = None
-    app.state.spatial_asset_allow_network = False
-    app.state.spatial_asset_max_cost_units = 0
+    app.state.spatial_asset_provider = spatial_provider
+    app.state.spatial_asset_allow_network = spatial_allow_network
+    app.state.spatial_asset_max_cost_units = spatial_max_cost_units
     app.state.workshop = WorkshopService(app.state.authoring, providers=providers)
     app.state.playable = (
         PlayableService(runtime, visual_cache=app.state.visual_asset_cache)
