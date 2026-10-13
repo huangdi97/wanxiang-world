@@ -10,6 +10,7 @@ import wanxiang_substrate.playable.player_i18n as _player_i18n
 
 from wanxiang_api.player_ui_panorama_builtin import BUILTIN_PANORAMA_RENDERER_SCRIPT
 from wanxiang_api.player_ui_panorama_renderer import PANORAMA_RENDERER_SCRIPT
+from wanxiang_api.player_ui_panorama_upgrade import PANORAMA_UPGRADE_SCRIPT
 from wanxiang_api.player_ui_script import SCRIPT
 from wanxiang_api.player_ui_spatial_renderer import SPATIAL_RENDERER_SCRIPT
 from wanxiang_api.player_ui_style import STYLE
@@ -73,6 +74,7 @@ def player_html(locale: str | None = None) -> str:
         f'<div class="detail-mode"><span>{text("mode_label")}</span><strong id="detail-mode">{text("mode_character")}</strong></div>'
         f'<div class="form-panel"><strong>{text("recommended_opening")}</strong><p class="muted" id="detail-opening"></p></div></div></div>'
         f'<section class="visual-gallery-wrap" id="visual-gallery-wrap" hidden><h3>{text("visual_gallery_heading")}</h3><div class="visual-gallery" id="visual-gallery"></div><div class="visual-places-wrap" id="visual-places-wrap" hidden><strong>{text("visual_places_heading")}</strong><label class="visual-place-search-label" for="visual-place-search">{text("visual_place_search_label")}</label><input class="visual-place-search" type="search" id="visual-place-search" autocomplete="off"><div class="visual-places" id="visual-places"></div><div class="visual-place-toolbar"><span id="visual-place-count" aria-live="polite"></span><button class="text-button" type="button" id="visual-place-more" hidden>{text("visual_place_more")}</button></div></div><div class="visual-relations-wrap" id="visual-relations-wrap" hidden><strong>{text("visual_relations_heading")}</strong><div class="visual-relations" id="visual-relations"></div></div></section>'
+        f'<section class="panorama-upgrade-panel" id="panorama-upgrade-panel" hidden><div><span class="eyebrow">{text("panorama_upgrade_eyebrow")}</span><h3>{text("panorama_upgrade_heading")}</h3><p id="panorama-upgrade-copy"></p></div><div class="panorama-upgrade-actions"><button class="primary-button" type="button" id="panorama-upgrade-submit" hidden>{text("panorama_upgrade_submit")}</button></div></section>'
         f'<section class="spatial-upgrade-panel" id="spatial-upgrade-panel" hidden><div><span class="eyebrow">{text("spatial_upgrade_eyebrow")}</span><h3>{text("spatial_upgrade_heading")}</h3><p id="spatial-upgrade-copy"></p><div class="spatial-job-list" id="spatial-job-list"></div></div><div class="spatial-upgrade-actions"><button class="primary-button" type="button" id="spatial-submit" hidden>{text("spatial_upgrade_submit")}</button><button class="secondary-button" type="button" id="spatial-refresh" hidden>{text("spatial_upgrade_refresh")}</button></div></section>'
         f'<div class="selection"><div class="selection-head"><h3>{text("choose_character")}</h3><button class="text-button" id="create-character-inline" type="button">{text("create_character_inline")}</button></div><div class="character-list" id="character-list"></div>'
         f'<div class="entry-actions"><button class="secondary-button" id="enter-observer" type="button">{text("enter_as_observer")}</button><button class="primary-button" id="enter-world" type="button">{text("enter_as_character")}</button></div></div></section>'
@@ -104,5 +106,6 @@ def player_html(locale: str | None = None) -> str:
         f"<script>{SPATIAL_RENDERER_SCRIPT}</script>"
         f"<script>{BUILTIN_PANORAMA_RENDERER_SCRIPT}</script>"
         f"<script>{PANORAMA_RENDERER_SCRIPT}</script>"
+        f"<script>{PANORAMA_UPGRADE_SCRIPT}</script>"
         f"<script>{SCRIPT}</script></body></html>"
     )
