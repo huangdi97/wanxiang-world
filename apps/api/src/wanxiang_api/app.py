@@ -27,12 +27,12 @@ from wanxiang_substrate.assets.book_scene_cache import (
     VisualAssetCache,
 )
 from wanxiang_substrate.assets.book_scene_types import SceneImageProvider
-from wanxiang_substrate.assets.book_spatial_jobs import (
-    _DerivedSpatialAttachments,
-    _InMemorySpatialJobStore,
-    _LocalJsonSpatialJobStore,
-)
 from wanxiang_substrate.assets.storage import InMemoryObjectStore, LocalObjectStore
+from wanxiang_substrate.spatial import (
+    DerivedSpatialAttachments,
+    InMemorySpatialJobStore,
+    LocalJsonSpatialJobStore,
+)
 from wanxiang_substrate.authoring import AuthoringService, LocalSemanticProvider
 from wanxiang_substrate.authoring.providers import ProviderRouter
 from wanxiang_substrate.lineage import LineageGraph
@@ -179,14 +179,14 @@ def create_app(
     app.state.visual_asset_allow_network = visual_allow_network
     app.state.visual_asset_max_cost_units = visual_max_cost_units
     if visual_cache_path is not None:
-        app.state.spatial_asset_jobs = _LocalJsonSpatialJobStore(
+        app.state.spatial_asset_jobs = LocalJsonSpatialJobStore(
             visual_cache_path / "spatial-jobs.json"
         )
         app.state.spatial_asset_objects = LocalObjectStore(visual_cache_path / "spatial-blobs")
     else:
-        app.state.spatial_asset_jobs = _InMemorySpatialJobStore()
+        app.state.spatial_asset_jobs = InMemorySpatialJobStore()
         app.state.spatial_asset_objects = InMemoryObjectStore()
-    app.state.spatial_asset_catalog = _DerivedSpatialAttachments()
+    app.state.spatial_asset_catalog = DerivedSpatialAttachments()
     app.state.spatial_asset_provider = None
     app.state.spatial_asset_allow_network = False
     app.state.spatial_asset_max_cost_units = 0

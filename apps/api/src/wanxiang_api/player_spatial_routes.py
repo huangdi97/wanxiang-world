@@ -9,20 +9,18 @@ from typing import cast
 
 from fastapi import APIRouter, Header, HTTPException, Request
 from pydantic import BaseModel, Field
-from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
-from wanxiang_substrate.assets.book_spatial_jobs import (
-    _DerivedSpatialAttachments,
-    _SpatialGenerationCoordinator,
-)
-from wanxiang_substrate.assets.book_spatial_types import (
-    _SpatialGenerationProvider,
-    _SpatialGenerationTicket,
-    _SpatialJobStore,
-)
 from wanxiang_substrate.assets.storage import ObjectStore
 from wanxiang_substrate.playable import PlayableService
 from wanxiang_substrate.playable.player_service import player_world
-from wanxiang_substrate.playable.service_visual import _source_scene_key_allowed
+from wanxiang_substrate.spatial import (
+    DerivedSpatialAttachments,
+    SpatialGenerationCoordinator,
+    SpatialGenerationProvider,
+    SpatialGenerationTicket,
+    SpatialJobStore,
+    plan_book_scene_assets,
+    source_scene_key_allowed,
+)
 
 router = APIRouter(prefix="/experience/player")
 
@@ -58,9 +56,9 @@ def _owner_service(request: Request, profile_id: str, viewer: str) -> PlayableSe
     return service
 
 
-def _provider(request: Request) -> _SpatialGenerationProvider:
+def _provider(request: Request) -> SpatialGenerationProvider:
     provider = cast(
-        _SpatialGenerationProvider | None,
+        SpatialGenerationProvider | None,
         request.app.state.spatial_asset_provider,
     )
     if provider is None:
@@ -68,19 +66,19 @@ def _provider(request: Request) -> _SpatialGenerationProvider:
     return provider
 
 
-def _jobs(request: Request) -> _SpatialJobStore:
-    return cast(_SpatialJobStore, request.app.state.spatial_asset_jobs)
+def _jobs(request: Request) -> SpatialJobStore:
+    return cast(SpatialJobStore, request.app.state.spatial_asset_jobs)
 
 
-def _coordinator(request: Request) -> _SpatialGenerationCoordinator:
-    return _SpatialGenerationCoordinator(
+def _coordinator(request: Request) -> SpatialGenerationCoordinator:
+    return SpatialGenerationCoordinator(
         _provider(request),
         jobs=_jobs(request),
         objects=cast(ObjectStore, request.app.state.spatial_asset_objects),
     )
 
 
-def _ticket_view(ticket: _SpatialGenerationTicket) -> dict[str, object]:
+def _ticket_view(ticket: SpatialGenerationTicket) -> dict[str, object]:
     return {
         "submission_id": ticket.submission_id,
         "state": ticket.state,
@@ -114,7 +112,7 @@ def player_submit_spatial_place(
     place = payload.place_name.strip()
     if place not in package.draft.places:
         raise HTTPException(status_code=404, detail="source-grounded place not found")
-    plan = _plan_book_scene_assets(
+    plan = plan_book_scene_assets(
         package,
         max_preview_scenes=1,
         preferred_places=(place,),
@@ -150,7 +148,7 @@ def player_poll_spatial_place(
     package = _profile_package(service, profile_id)
     jobs = _jobs(request)
     ticket = jobs.get(submission_id)
-    if ticket is None or not _source_scene_key_allowed(package, ticket.scene_key):
+    if ticket is None or not source_scene_key_allowed(package, ticket.scene_key):
         raise HTTPException(status_code=404, detail="spatial generation ticket not found")
 
     if ticket.state in {"submitted", "queued", "running"}:
@@ -163,7 +161,7 @@ def player_poll_spatial_place(
         if not ticket.asset_refs:
             raise HTTPException(status_code=409, detail="verified spatial ticket has no assets")
         service.attach_spatial_assets(profile_id, ticket.scene_key, ticket.asset_refs)
-        catalog = cast(_DerivedSpatialAttachments, request.app.state.spatial_asset_catalog)
+        catalog = cast(DerivedSpatialAttachments, request.app.state.spatial_asset_catalog)
         catalog.attach(ticket.scene_key, ticket.asset_refs)
         if ticket.state == "verified":
             ticket = replace(ticket, state="attached")
