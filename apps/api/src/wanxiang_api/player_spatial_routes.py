@@ -84,9 +84,7 @@ def _coordinator(request: Request) -> SpatialGenerationCoordinator:
     )
 
 
-def _stored_spatial_refs_available(
-    request: Request, refs: tuple[AssetRef, ...]
-) -> bool:
+def _stored_spatial_refs_available(request: Request, refs: tuple[AssetRef, ...]) -> bool:
     store = cast(ObjectStore, request.app.state.spatial_asset_objects)
     try:
         return all(len(store.get(ref)) == ref.size for ref in refs)
