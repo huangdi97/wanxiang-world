@@ -7,13 +7,9 @@ _SPATIAL_STRINGS: dict[str, str] = {
     "spatial_upgrade_heading": "Upgrade this place into a spatial scene",
     "spatial_upgrade_submit": "Generate spatial scene",
     "spatial_upgrade_refresh": "Refresh generation status",
-    "spatial_upgrade_available": (
-        "{place} can be upgraded · estimated {cost} budget unit(s)"
-    ),
+    "spatial_upgrade_available": ("{place} can be upgraded · estimated {cost} budget unit(s)"),
     "spatial_upgrade_pending": "Spatial scene for {place} is in progress · {state}",
-    "spatial_upgrade_ready": (
-        "Spatial scene for {place} is ready · {count} spatial asset(s)"
-    ),
+    "spatial_upgrade_ready": ("Spatial scene for {place} is ready · {count} spatial asset(s)"),
     "spatial_upgrade_terminal": (
         "Spatial task for {place}: {state}. The current scene remains usable."
     ),
@@ -22,7 +18,7 @@ _SPATIAL_STRINGS: dict[str, str] = {
     ),
     "spatial_upgrade_unavailable_network": (
         "The spatial generator is not allowed to use the network; "
-        "the current scene remains usable."
+        + "the current scene remains usable."
     ),
     "spatial_upgrade_unavailable_rights": (
         "The source does not authorize external spatial generation; "
@@ -44,7 +40,7 @@ _SPATIAL_STRINGS: dict[str, str] = {
     "spatial_upgrade_state_expired": "expired",
     "status_spatial_submitted": (
         "Spatial generation for {place} was submitted; "
-        "you can keep using the current world."
+        + "you can keep using the current world."
     ),
     "status_spatial_refreshed": "Spatial generation status refreshed.",
 }
