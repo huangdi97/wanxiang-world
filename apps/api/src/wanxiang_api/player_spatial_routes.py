@@ -129,6 +129,7 @@ def player_submit_spatial_place(
             ),
             max_cost_units=int(request.app.state.spatial_asset_max_cost_units),
             delivery_rights=plan.delivery_rights,
+            scope_key=profile_id,
         )
     except ValueError as exc:
         raise HTTPException(status_code=409, detail=str(exc)) from exc
@@ -148,7 +149,11 @@ def player_poll_spatial_place(
     package = _profile_package(service, profile_id)
     jobs = _jobs(request)
     ticket = jobs.get(submission_id)
-    if ticket is None or not source_scene_key_allowed(package, ticket.scene_key):
+    if (
+        ticket is None
+        or ticket.scope_key != profile_id
+        or not source_scene_key_allowed(package, ticket.scene_key)
+    ):
         raise HTTPException(status_code=404, detail="spatial generation ticket not found")
 
     if ticket.state in {"submitted", "queued", "running"}:

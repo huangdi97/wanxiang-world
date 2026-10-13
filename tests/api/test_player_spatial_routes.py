@@ -195,6 +195,51 @@ def test_t3_poll_ticket_cannot_be_reused_against_another_world() -> None:
     assert provider.polls == []
 
 
+def test_t3_same_source_in_two_worlds_gets_distinct_world_scoped_ticket() -> None:
+    app, client, first_id = _world()
+    provider = _FakeSpatialProvider()
+    app.state.spatial_asset_provider = provider
+    app.state.spatial_asset_allow_network = True
+    app.state.spatial_asset_max_cost_units = 7
+    owner = {"X-Wanxiang-User": "studio"}
+
+    second_profile = client.post(
+        "/studio/jobs/spatial_api_job/playable-profile",
+        json={
+            "owner_id": "studio",
+            "visibility": "public",
+            "display_name": "Spatial API World Copy",
+        },
+    )
+    assert second_profile.status_code == 200
+    second_id = str(second_profile.json()["profile"]["profile_id"])
+    assert second_id != first_id
+
+    first = client.post(
+        f"/experience/player/worlds/{first_id}/spatial",
+        headers=owner,
+        json={"place_name": "Garden"},
+    )
+    second = client.post(
+        f"/experience/player/worlds/{second_id}/spatial",
+        headers=owner,
+        json={"place_name": "Garden"},
+    )
+
+    assert first.status_code == second.status_code == 202
+    first_ticket = str(first.json()["spatial"]["submission_id"])
+    second_ticket = str(second.json()["spatial"]["submission_id"])
+    assert first_ticket != second_ticket
+    assert len(provider.submissions) == 2
+
+    cross_poll = client.get(
+        f"/experience/player/worlds/{second_id}/spatial/{first_ticket}",
+        headers=owner,
+    )
+    assert cross_poll.status_code == 404
+    assert provider.polls == []
+
+
 def test_t3_provider_can_be_injected_through_application_factory() -> None:
     provider = _FakeSpatialProvider()
     app, client, profile_id = _world(

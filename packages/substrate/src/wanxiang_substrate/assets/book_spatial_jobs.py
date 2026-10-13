@@ -72,6 +72,7 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
             state=cast(object, data["state"]),  # type: ignore[arg-type]
             reserved_cost_units=cast(int, data["reserved_cost_units"]),
             delivery_rights=cast(str, data["delivery_rights"]),
+            scope_key=cast(str, data.get("scope_key", "")),
             asset_refs=assets,
             reason=cast(str, data.get("reason", "")),
         )
@@ -106,6 +107,7 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
                 "state": ticket.state,
                 "reserved_cost_units": ticket.reserved_cost_units,
                 "delivery_rights": ticket.delivery_rights,
+                "scope_key": ticket.scope_key,
                 "reason": ticket.reason,
                 "asset_refs": [
                     {
@@ -155,9 +157,9 @@ class _SpatialGenerationCoordinator:
         self.objects = objects or InMemoryObjectStore()
         self.max_asset_bytes = max_asset_bytes
 
-    def _submission_id(self, request: _SourceSceneRequest) -> str:
+    def _submission_id(self, request: _SourceSceneRequest, scope_key: str) -> str:
         identity = (
-            f"{request.cache_key}:t3-job-v1:"
+            f"{scope_key}:{request.cache_key}:t3-job-v2:"
             f"{self.provider.provider_id}@{self.provider.provider_version}"
         )
         return hashlib.sha256(identity.encode()).hexdigest()
@@ -171,8 +173,9 @@ class _SpatialGenerationCoordinator:
         private_source: bool,
         max_cost_units: int,
         delivery_rights: str,
+        scope_key: str = "",
     ) -> _SpatialGenerationTicket:
-        submission_id = self._submission_id(request)
+        submission_id = self._submission_id(request, scope_key)
         if not self.provider.provider_id or not self.provider.provider_version:
             raise ValueError("spatial provider requires id and version")
         if self.provider.cost_units_per_job < 0 or max_cost_units < 0:
@@ -211,6 +214,7 @@ class _SpatialGenerationCoordinator:
             state="submitted",
             reserved_cost_units=self.provider.cost_units_per_job,
             delivery_rights=delivery_rights,
+            scope_key=scope_key,
         )
         self.jobs.put(ticket)
         return ticket

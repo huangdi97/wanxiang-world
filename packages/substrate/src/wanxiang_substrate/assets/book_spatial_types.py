@@ -47,6 +47,7 @@ class _SpatialGenerationTicket:
     state: _SpatialJobState
     reserved_cost_units: int
     delivery_rights: str
+    scope_key: str = ""
     asset_refs: tuple[AssetRef, ...] = ()
     reason: str = ""
 
