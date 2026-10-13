@@ -40,9 +40,7 @@ def _media_types_env() -> frozenset[str]:
     )
     values = frozenset(item.strip() for item in raw.split(",") if item.strip())
     if not values or not values.issubset(_KNOWN_MEDIA_TYPES):
-        raise ValueError(
-            "WANXIANG_SPATIAL_ALLOWED_MEDIA_TYPES contains unsupported media types"
-        )
+        raise ValueError("WANXIANG_SPATIAL_ALLOWED_MEDIA_TYPES contains unsupported media types")
     return values
 
 
@@ -53,9 +51,7 @@ def spatial_http_runtime_from_env() -> SpatialHttpRuntime:
     max_cost_units = _int_env("WANXIANG_SPATIAL_MAX_COST_UNITS", default=0)
     if not submit_endpoint and not poll_endpoint:
         if allow_network:
-            raise ValueError(
-                "WANXIANG_SPATIAL_ALLOW_NETWORK requires spatial HTTP endpoints"
-            )
+            raise ValueError("WANXIANG_SPATIAL_ALLOW_NETWORK requires spatial HTTP endpoints")
         return SpatialHttpRuntime(None, False, max_cost_units)
     if not submit_endpoint or not poll_endpoint:
         raise ValueError("spatial HTTP gateway requires both submit and poll endpoints")
@@ -67,12 +63,8 @@ def spatial_http_runtime_from_env() -> SpatialHttpRuntime:
             os.environ.get("WANXIANG_SPATIAL_PROVIDER_ID", "http-json-spatial").strip()
             or "http-json-spatial"
         ),
-        provider_version=(
-            os.environ.get("WANXIANG_SPATIAL_PROVIDER_VERSION", "1").strip() or "1"
-        ),
-        timeout_seconds=float(
-            _int_env("WANXIANG_SPATIAL_HTTP_TIMEOUT_SECONDS", default=60)
-        ),
+        provider_version=(os.environ.get("WANXIANG_SPATIAL_PROVIDER_VERSION", "1").strip() or "1"),
+        timeout_seconds=float(_int_env("WANXIANG_SPATIAL_HTTP_TIMEOUT_SECONDS", default=60)),
         cost_units_per_job=_int_env("WANXIANG_SPATIAL_COST_UNITS", default=1),
         private_safe=_bool_env("WANXIANG_SPATIAL_PRIVATE_SAFE"),
         allowed_media_types=_media_types_env(),

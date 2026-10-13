@@ -124,9 +124,10 @@ class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
     def submit(self, request: _SourceSceneRequest, *, idempotency_key: str) -> str:
         if not idempotency_key.strip() or "\r" in idempotency_key or "\n" in idempotency_key:
             raise ValueError("spatial HTTP submission requires a safe idempotency key")
-        style_key = request.style_key or hashlib.sha256(
-            f"{request.cache_key}:story-style".encode()
-        ).hexdigest()[:24]
+        style_key = (
+            request.style_key
+            or hashlib.sha256(f"{request.cache_key}:story-style".encode()).hexdigest()[:24]
+        )
         profile = _story_visual_profile_from_style_key(style_key)
         brief = replace(_compile_scene_generation_brief(request, profile), source_refs=())
         body = self._post_json(
@@ -189,9 +190,7 @@ class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
             try:
                 content = base64.b64decode(encoded, validate=True)
             except (ValueError, binascii.Error) as exc:
-                raise ValueError(
-                    "spatial HTTP gateway returned invalid base64 artifact"
-                ) from exc
+                raise ValueError("spatial HTTP gateway returned invalid base64 artifact") from exc
             if len(content) > self.max_artifact_bytes:
                 raise ValueError("spatial HTTP artifact exceeds size limit")
         else:
@@ -204,12 +203,7 @@ class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
         )
 
     def poll(self, task_ref: str) -> _SpatialPollResult:
-        if (
-            not task_ref.strip()
-            or len(task_ref) > 1024
-            or "\r" in task_ref
-            or "\n" in task_ref
-        ):
+        if not task_ref.strip() or len(task_ref) > 1024 or "\r" in task_ref or "\n" in task_ref:
             raise ValueError("spatial HTTP poll requires a safe task_ref")
         body = self._post_json(self.poll_endpoint, {"task_ref": task_ref})
         state = body.get("state")

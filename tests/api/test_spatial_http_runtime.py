@@ -53,9 +53,7 @@ def test_spatial_http_runtime_builds_governed_provider_from_env(
     assert runtime.provider.provider_id == "provider:world-gateway"
     assert runtime.provider.provider_version == "2026-10"
     assert runtime.provider.cost_units_per_job == 7
-    assert runtime.provider.allowed_media_types == frozenset(
-        {"model/gltf-binary", "model/ply"}
-    )
+    assert runtime.provider.allowed_media_types == frozenset({"model/gltf-binary", "model/ply"})
     assert runtime.allow_network is True
     assert runtime.max_cost_units == 11
 

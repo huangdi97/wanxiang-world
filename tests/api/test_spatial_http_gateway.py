@@ -43,9 +43,7 @@ class _FakeOpener:
         return _FakeResponse(self.payloads.pop(0))
 
 
-def _install_opener(
-    monkeypatch: pytest.MonkeyPatch, payloads: list[bytes]
-) -> _FakeOpener:
+def _install_opener(monkeypatch: pytest.MonkeyPatch, payloads: list[bytes]) -> _FakeOpener:
     opener = _FakeOpener(payloads)
 
     def factory(*handlers: object) -> _FakeOpener:
