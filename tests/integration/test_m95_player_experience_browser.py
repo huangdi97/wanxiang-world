@@ -469,7 +469,7 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 known_copy = page.locator("#known-people-list").inner_text()
                 assert "Alice" not in people_copy
                 assert "Bob" not in people_copy
-                assert "Alice" in known_copy
+                assert "Alice" not in known_copy
                 assert "Bob" in known_copy
                 assert "位置未核实" in known_copy
                 assert "Beijing" not in people_copy
