@@ -307,21 +307,6 @@
         "operationId": "workshop_home_workshop_get"
       }
     },
-    "/workshop/{workshop_id}": {
-      "get": {
-        "operationId": "get_workshop_workshop__workshop_id__get"
-      }
-    },
-    "/workshop/{workshop_id}/evidence": {
-      "get": {
-        "operationId": "workshop_evidence_workshop__workshop_id__evidence_get"
-      }
-    },
-    "/workshop/{workshop_id}/review": {
-      "post": {
-        "operationId": "review_workshop_workshop__workshop_id__review_post"
-      }
-    },
     "/workshop/from-hybrid": {
       "post": {
         "operationId": "create_hybrid_workshop_from_hybrid_post"
@@ -335,6 +320,21 @@
     "/workshop/from-source": {
       "post": {
         "operationId": "create_from_source_workshop_from_source_post"
+      }
+    },
+    "/workshop/{workshop_id}": {
+      "get": {
+        "operationId": "get_workshop_workshop__workshop_id__get"
+      }
+    },
+    "/workshop/{workshop_id}/evidence": {
+      "get": {
+        "operationId": "workshop_evidence_workshop__workshop_id__evidence_get"
+      }
+    },
+    "/workshop/{workshop_id}/review": {
+      "post": {
+        "operationId": "review_workshop_workshop__workshop_id__review_post"
       }
     },
     "/worlds": {
