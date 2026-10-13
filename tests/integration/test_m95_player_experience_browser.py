@@ -190,29 +190,22 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                     }"""
                 )
                 assert (
-                    page.evaluate("document.querySelector('#spatial-stage-toggle').hidden")
-                    is False
+                    page.evaluate("document.querySelector('#spatial-stage-toggle').hidden") is False
                 )
                 assert page.evaluate("window.__WANXIANG_SPATIAL_STAGE__.toggle()") is True
                 assert (
-                    page.evaluate("document.querySelector('#world-stage-spatial').hidden")
-                    is False
+                    page.evaluate("document.querySelector('#world-stage-spatial').hidden") is False
                 )
                 assert (
-                    page.evaluate(
-                        "document.querySelector('#world-stage-spatial').dataset.loaded"
-                    )
+                    page.evaluate("document.querySelector('#world-stage-spatial').dataset.loaded")
                     == "model/gltf-binary"
                 )
                 assert page.evaluate("window.__WANXIANG_SPATIAL_STAGE__.toggle()") is False
                 assert (
-                    page.evaluate("document.querySelector('#world-stage-spatial').hidden")
-                    is True
+                    page.evaluate("document.querySelector('#world-stage-spatial').hidden") is True
                 )
                 assert (
-                    page.evaluate(
-                        "document.querySelector('#world-stage-spatial').dataset.cleaned"
-                    )
+                    page.evaluate("document.querySelector('#world-stage-spatial').dataset.cleaned")
                     == "true"
                 )
                 page.evaluate(
@@ -236,8 +229,7 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                     }"""
                 )
                 assert (
-                    page.evaluate("document.querySelector('#spatial-stage-toggle').hidden")
-                    is True
+                    page.evaluate("document.querySelector('#spatial-stage-toggle').hidden") is True
                 )
                 page.evaluate(
                     """() => {
