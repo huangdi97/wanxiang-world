@@ -51,7 +51,10 @@ def _owner_service(request: Request, profile_id: str, viewer: str) -> PlayableSe
     service = _service(request)
     profile = service.plaza.require_access(profile_id, viewer)
     if not profile.owner_id or profile.owner_id != viewer:
-        raise HTTPException(status_code=403, detail="only the world owner may generate spatial assets")
+        raise HTTPException(
+            status_code=403,
+            detail="only the world owner may generate spatial assets",
+        )
     return service
 
 
