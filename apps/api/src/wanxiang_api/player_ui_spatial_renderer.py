@@ -19,6 +19,7 @@ async function deactivate(){
 async function activate(){
   const host=byId("world-stage-spatial"),r=renderer(),scene=state.scene;
   if(!host||!r||!canRender(scene))return false;
+  await window.__WANXIANG_PANORAMA_STAGE__?.deactivate();
   const assetCount=Number(scene.spatial.asset_count||0);
   const loadAsset=async index=>{
     if(!Number.isInteger(index)||index<0||index>=assetCount)throw new RangeError("spatial asset index out of range");

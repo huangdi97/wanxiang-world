@@ -213,6 +213,7 @@ function rowList(items,emptyKey,renderer){return items?.length?items.map(rendere
 function relationLabel(value){const raw=String(value||"").toLowerCase();if(raw.includes("friend"))return tr("relation_friend");if(raw.includes("family"))return tr("relation_family");if(raw.includes("work"))return tr("relation_work");return tr("relation_default")}
 function renderPlay(){
   const v=model.view||{},w=v.world||{},observer=v.session?.entry_mode==="observer";const worldVisual=observer&&model.world?.world?.profile_id===w.profile_id?(model.world.world.visual||{}):{};const sceneCatalog=worldVisual.scenes||[],placeCatalog=worldVisual.places||[];const toured=sceneCatalog.find(item=>item.place_name===model.observerScene)||null;const visual=toured||v.visual_scene||null;const stage=$("world-stage"),frame=$("scene-visual-frame"),visualImg=$("scene-visual-image");frame.hidden=!visual;stage?.classList.toggle("has-visual",Boolean(visual));if(!visual)model.stageFocus=false;stage?.classList.toggle("focus-mode",model.stageFocus);$("stage-focus-toggle").setAttribute("aria-pressed",String(model.stageFocus));$("stage-focus-toggle").textContent=tr(model.stageFocus?"stage_focus_restore":"stage_focus_enable");$("stage-focus-toggle").disabled=!visual;if(visual){visualImg.src=visual.data_uri;visualImg.alt=visual.place_name||w.name||tr("world");const groundingKey=toured?"observer_tour_caption":visual.grounding==="current_location"?"visual_current_scene":visual.grounding==="entry_location"?"visual_entry_scene":"visual_world_preview";$("scene-visual-caption").textContent=`${tr(groundingKey,{place:visual.place_name||shown(v.location)})} · ${visualProof(visual)}`}
+  const panoramaStage=window.__WANXIANG_PANORAMA_STAGE__;panoramaStage?.sync(visual);$("panorama-stage-toggle").textContent=tr(panoramaStage?.isActive()?"panorama_stage_exit":"panorama_stage_enter");
   const spatialStage=window.__WANXIANG_SPATIAL_STAGE__;spatialStage?.sync(visual,w.profile_id,headers);$("spatial-stage-toggle").textContent=tr(spatialStage?.isActive()?"spatial_stage_exit":"spatial_stage_enter");
   const clues=visual?.clues||[],clueWrap=$("scene-visual-clues-wrap"),clueNode=$("scene-visual-clues");clueWrap.hidden=!clues.length;clueNode.innerHTML=clues.map(item=>`<span class="scene-clue">${safe(item)}</span>`).join("");
   const explorer=$("observer-scene-explorer"),list=$("observer-scene-list");
@@ -248,7 +249,7 @@ async function sendAction(){
 }
 async function leaveWorld(){
   busy(true);status(tr("status_saving_position"));
-  try{await api(`/experience/player/instances/${encodeURIComponent(model.instanceId)}/leave`,{method:"POST"});await window.__WANXIANG_SPATIAL_STAGE__?.deactivate();model.instanceId="";model.view=null;view("home-view");await loadHome();status(tr("status_home_returned"))}
+  try{await api(`/experience/player/instances/${encodeURIComponent(model.instanceId)}/leave`,{method:"POST"});await window.__WANXIANG_PANORAMA_STAGE__?.deactivate();await window.__WANXIANG_SPATIAL_STAGE__?.deactivate();model.instanceId="";model.view=null;view("home-view");await loadHome();status(tr("status_home_returned"))}
   catch(error){status(error.message,true)}finally{busy(false)}
 }
 async function loadHome(){
@@ -267,6 +268,7 @@ async function createCharacter(event){
 document.querySelectorAll(".filter-button").forEach(node=>node.addEventListener("click",()=>{model.filter=node.dataset.filter;renderPlaza()}));
 $("world-search").addEventListener("input",event=>{model.query=event.target.value;renderWorlds()});
 $("stage-focus-toggle").addEventListener("click",()=>{model.stageFocus=!model.stageFocus;renderPlay()});
+$("panorama-stage-toggle").addEventListener("click",async()=>{try{const active=await window.__WANXIANG_PANORAMA_STAGE__?.toggle();$("panorama-stage-toggle").textContent=tr(active?"panorama_stage_exit":"panorama_stage_enter")}catch{status(tr("panorama_stage_error"),true)}});
 $("spatial-stage-toggle").addEventListener("click",async()=>{try{const active=await window.__WANXIANG_SPATIAL_STAGE__?.toggle();$("spatial-stage-toggle").textContent=tr(active?"spatial_stage_exit":"spatial_stage_enter")}catch{status(tr("spatial_stage_error"),true)}});
 $("spatial-submit").addEventListener("click",()=>submitSpatialPlace($("spatial-submit").dataset.place||""));
 $("spatial-refresh").addEventListener("click",refreshSpatialJobs);

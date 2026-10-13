@@ -16,3 +16,14 @@ def test_player_html_exposes_optional_spatial_stage_without_vendor_dependency() 
     assert "three.js" not in SPATIAL_RENDERER_SCRIPT.casefold()
     assert "worldlabs" not in SPATIAL_RENDERER_SCRIPT.casefold()
     assert "hunyuan" not in SPATIAL_RENDERER_SCRIPT.casefold()
+
+def test_player_html_exposes_optional_panorama_stage_without_vendor_dependency() -> None:
+    html = player_html("zh-CN")
+
+    assert 'id="world-stage-panorama"' in html
+    assert 'id="panorama-stage-toggle"' in html
+    assert "__WANXIANG_PANORAMA_RENDERER__" in html
+    assert "__WANXIANG_PANORAMA_STAGE__" in html
+    assert "dataUri" in html
+    assert "pannellum" not in html.casefold()
+    assert "marzipano" not in html.casefold()
