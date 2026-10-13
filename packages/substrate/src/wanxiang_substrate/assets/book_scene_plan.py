@@ -17,6 +17,7 @@ from wanxiang_substrate.assets.book_scene_evidence import (
     _bounded_confidence,
     _cache_evidence_ref,
     _json_list,
+    _json_string_map,
     _object_dict,
     _string_list,
 )
@@ -88,6 +89,11 @@ def _plan_book_scene_assets(
     fingerprints = tuple(
         sorted(item for item in decoded_fingerprints if isinstance(item, str) and item)
     )
+    fingerprint_map = _json_string_map(
+        package.draft.compiler_metadata.get("source_fingerprint_map_v1", "{}")
+    )
+    if not fingerprint_map and len(package.source_versions) == len(fingerprints) == 1:
+        fingerprint_map = {package.source_versions[0][0]: fingerprints[0]}
     source_identity = json.dumps(
         {
             "source_fingerprints": fingerprints,
@@ -222,18 +228,11 @@ def _plan_book_scene_assets(
                 if isinstance(kind, str) and isinstance(label, str) and label:
                     context_candidates.append(f"{kind}:{label}")
         context_candidates = list(dict.fromkeys(context_candidates))[:8]
-        # Preserve original source refs for provenance, but use content-pinned
-        # locator identity for the *cache* of a one-source book. Re-importing
-        # identical bytes under a different job/source ID must not re-bill T1.
-        # Multi-source bundles keep exact locators until source-ID-to-fingerprint
-        # binding is available, to avoid aliasing distinct works.
-        single_source = (
-            (package.source_versions[0][0], fingerprints[0])
-            if len(package.source_versions) == len(fingerprints) == 1
-            else None
-        )
+        # Cache identity may use content fingerprints, while audit/projection
+        # keeps the original source locators unchanged.
         cache_evidence_refs = tuple(
-            _cache_evidence_ref(ref, single_source=single_source) for ref in source_refs
+            _cache_evidence_ref(ref, source_fingerprints=fingerprint_map)
+            for ref in source_refs
         )
         evidence_identity = json.dumps(
             {

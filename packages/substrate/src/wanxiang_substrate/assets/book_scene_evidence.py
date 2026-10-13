@@ -26,6 +26,20 @@ def _object_dict(value: object) -> dict[str, object] | None:
     return cast(dict[str, object], value) if isinstance(value, dict) else None
 
 
+def _json_string_map(raw: str) -> dict[str, str]:
+    try:
+        decoded: object = json.loads(raw)
+    except (TypeError, ValueError):
+        return {}
+    if not isinstance(decoded, dict):
+        return {}
+    return {
+        key: value
+        for key, value in cast(dict[object, object], decoded).items()
+        if isinstance(key, str) and key and isinstance(value, str) and value
+    }
+
+
 def _string_list(value: object) -> tuple[str, ...]:
     if not isinstance(value, list):
         return ()
@@ -46,18 +60,18 @@ def _bounded_confidence(value: object) -> float:
     return score if math.isfinite(score) and 0.0 <= score <= 1.0 else 0.0
 
 
-def _cache_evidence_ref(ref: str, *, single_source: tuple[str, str] | None) -> str:
-    """Replace a known source ID by its verified fingerprint *only for caching*."""
-    if single_source is None:
+def _cache_evidence_ref(
+    ref: str, *, source_fingerprints: dict[str, str]
+) -> str:
+    """Use content identity only for cache keys; preserve original refs elsewhere."""
+    if not source_fingerprints:
         return ref
-    source_name, fingerprint = single_source
-    if ref == source_name:
-        return f"content-sha256:{fingerprint}"
-    if ref.startswith(f"{source_name}#"):
-        return f"content-sha256:{fingerprint}#{ref.partition('#')[2]}"
     scheme, separator, remainder = ref.partition("://")
-    source_id, marker, locator = remainder.partition("#")
-    if not scheme or not separator or source_id != source_name:
+    source_ref = remainder if separator else ref
+    source_id, marker, locator = source_ref.partition("#")
+    fingerprint = source_fingerprints.get(source_id)
+    if fingerprint is None:
         return ref
+    prefix = f"{scheme}://" if separator else ""
     suffix = f"#{locator}" if marker and locator else ""
-    return f"{scheme}://content-sha256:{fingerprint}{suffix}"
+    return f"{prefix}content-sha256:{fingerprint}{suffix}"
