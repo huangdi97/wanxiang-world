@@ -16,6 +16,7 @@ from wanxiang_substrate.playable import (
 )
 from wanxiang_substrate.playable.player_service import player_observe, player_world
 
+from wanxiang_api.player_spatial_recovery import rehydrate_spatial_attachments
 from wanxiang_api.playable_routes import (
     ActionRequest,
     CharacterCreateRequest,
@@ -115,6 +116,7 @@ def player_world_detail(
     viewer = _viewer(x_wanxiang_user)
     locale = _locale(x_wanxiang_locale)
     service = _service(request)
+    rehydrate_spatial_attachments(request, service, profile_id, viewer_id=viewer)
     world = player_world(
         service,
         profile_id,
@@ -176,6 +178,7 @@ def player_enter_world(
     viewer = _viewer(x_wanxiang_user)
     locale = _locale(x_wanxiang_locale)
     service = _service(request)
+    rehydrate_spatial_attachments(request, service, profile_id, viewer_id=viewer)
     entered = service.enter(
         profile_id,
         viewer_id=viewer,

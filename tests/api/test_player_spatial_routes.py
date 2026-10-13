@@ -215,6 +215,42 @@ def test_t3_player_api_is_owner_only_idempotent_and_rehydrates_attachment() -> N
     assert provider.polls == ["provider-secret-task-ref"]
 
 
+
+def test_public_visitor_rehydrates_attached_t3_scene_without_owner_warmup() -> None:
+    app, client, profile_id = _world()
+    owner = {"X-Wanxiang-User": "studio"}
+    visitor = {"X-Wanxiang-User": "visitor"}
+    endpoint = f"/experience/player/worlds/{profile_id}/spatial"
+    provider = _FakeSpatialProvider()
+    app.state.spatial_asset_provider = provider
+    app.state.spatial_asset_allow_network = True
+    app.state.spatial_asset_max_cost_units = 7
+
+    submitted = client.post(endpoint, headers=owner, json={"place_name": "Garden"})
+    submission_id = str(submitted.json()["spatial"]["submission_id"])
+    attached = client.get(f"{endpoint}/{submission_id}", headers=owner)
+    assert attached.status_code == 200
+
+    app.state.playable._spatial_asset_refs.clear()
+    restored_world = client.get(
+        f"/experience/player/worlds/{profile_id}",
+        headers=visitor,
+    )
+    assert restored_world.status_code == 200
+    scenes = restored_world.json()["world"]["visual"]["scenes"]
+    assert any(scene.get("spatial", {}).get("ready") is True for scene in scenes)
+
+    visitor_asset = client.get(
+        f"/experience/player/worlds/{profile_id}/spatial-assets/0",
+        params={"place_name": "Garden"},
+        headers=visitor,
+    )
+    assert visitor_asset.status_code == 200
+    assert visitor_asset.content.startswith(b"glTF")
+    assert provider.polls == ["provider-secret-task-ref"]
+
+
+
 def test_t3_source_gated_spatial_asset_is_not_delivered_to_public_visitor() -> None:
     app = create_app(build_reference_runtime())
     client: Any = TestClient(app)
@@ -259,6 +295,15 @@ def test_t3_source_gated_spatial_asset_is_not_delivered_to_public_visitor() -> N
 
     assert owner_asset.status_code == 200
     assert visitor_asset.status_code == 404
+
+    app.state.playable._spatial_asset_refs.clear()
+    visitor_world = client.get(
+        f"/experience/player/worlds/{profile_id}",
+        headers={"X-Wanxiang-User": "visitor"},
+    )
+    assert visitor_world.status_code == 200
+    scenes = visitor_world.json()["world"]["visual"]["scenes"]
+    assert not any(scene.get("spatial", {}).get("ready") is True for scene in scenes)
 
 
 def test_t3_poll_ticket_cannot_be_reused_against_another_world() -> None:
