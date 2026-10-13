@@ -11,6 +11,7 @@ from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.spatial import (
     SpatialGenerationProvider,
     SpatialGenerationTicket,
+    SpatialJobStore,
     plan_book_scene_assets,
     source_scene_key,
 )
@@ -27,36 +28,73 @@ def spatial_ticket_view(ticket: SpatialGenerationTicket) -> dict[str, object]:
     }
 
 
-def spatial_generation_view(request: Request, package: WorldPackageDraft) -> dict[str, object]:
+def spatial_generation_view(
+    request: Request,
+    package: WorldPackageDraft,
+    scope_key: str,
+) -> dict[str, object]:
     provider = cast(SpatialGenerationProvider | None, request.app.state.spatial_asset_provider)
     if provider is None:
-        return {"available": False, "reason": "provider_not_configured", "cost_units": 0}
+        return {
+            "available": False,
+            "reason": "provider_not_configured",
+            "cost_units": 0,
+            "budget_total": budget,
+            "budget_reserved": reserved,
+            "budget_remaining": remaining,
+        }
     allow_network = bool(request.app.state.spatial_asset_allow_network)
     budget = int(request.app.state.spatial_asset_max_cost_units)
+    jobs = cast(SpatialJobStore, request.app.state.spatial_asset_jobs)
+    reserved = sum(ticket.reserved_cost_units for ticket in jobs.list_scope(scope_key))
+    remaining = max(0, budget - reserved)
     plan = plan_book_scene_assets(package, max_preview_scenes=0)
     private_source = (
         package.draft.compiler_metadata.get("visual_private_source_v1", "true") == "true"
     )
     if provider.requires_network and not allow_network:
-        return {"available": False, "reason": "network_not_allowed", "cost_units": 0}
+        return {
+            "available": False,
+            "reason": "network_not_allowed",
+            "cost_units": 0,
+            "budget_total": budget,
+            "budget_reserved": reserved,
+            "budget_remaining": remaining,
+        }
     if provider.requires_network and not plan.external_processing_allowed:
         return {
             "available": False,
             "reason": "source_external_processing_not_allowed",
             "cost_units": 0,
+            "budget_total": budget,
+            "budget_reserved": reserved,
+            "budget_remaining": remaining,
         }
     if private_source and not provider.private_safe:
         return {
             "available": False,
             "reason": "private_source_provider_not_safe",
             "cost_units": 0,
+            "budget_total": budget,
+            "budget_reserved": reserved,
+            "budget_remaining": remaining,
         }
-    if provider.cost_units_per_job > budget:
-        return {"available": False, "reason": "budget_insufficient", "cost_units": 0}
+    if provider.cost_units_per_job > remaining:
+        return {
+            "available": False,
+            "reason": "budget_insufficient",
+            "cost_units": provider.cost_units_per_job,
+            "budget_total": budget,
+            "budget_reserved": reserved,
+            "budget_remaining": remaining,
+        }
     return {
         "available": True,
         "reason": "",
         "cost_units": provider.cost_units_per_job,
+        "budget_total": budget,
+        "budget_reserved": reserved,
+        "budget_remaining": remaining,
         "provider": {"id": provider.provider_id, "version": provider.provider_version},
     }
 
