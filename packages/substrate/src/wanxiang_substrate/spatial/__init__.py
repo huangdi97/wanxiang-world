@@ -8,6 +8,7 @@ from wanxiang_substrate.assets.book_scene_plan import (
     _plan_book_scene_assets,
     _SourceVisualPlan,
 )
+from wanxiang_substrate.assets.book_spatial_http_gateway import _build_http_spatial_provider
 from wanxiang_substrate.assets.book_spatial_jobs import (
     _DerivedSpatialAttachments,
     _InMemorySpatialJobStore,
@@ -53,6 +54,7 @@ SpatialGenerationCoordinator = _SpatialGenerationCoordinator
 SpatialGenerationProvider = _SpatialGenerationProvider
 SpatialGenerationTicket = _SpatialGenerationTicket
 SpatialJobStore = _SpatialJobStore
+build_http_spatial_provider = _build_http_spatial_provider
 
 
 def plan_book_scene_assets(
@@ -99,6 +101,7 @@ __all__ = [
     "SpatialQuery",
     "SpatialSnapshot",
     "build_house_fixture_commands",
+    "build_http_spatial_provider",
     "plan_book_scene_assets",
     "register_spatial_resolvers",
     "source_scene_key_allowed",

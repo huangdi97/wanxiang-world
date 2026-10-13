@@ -56,6 +56,7 @@ from wanxiang_api.player_visual_routes import router as player_visual_router
 from wanxiang_api.promotion_routes import router as promotion_router
 from wanxiang_api.review_routes import router as review_router
 from wanxiang_api.routes import router
+from wanxiang_api.spatial_http_gateway import spatial_http_runtime_from_env
 from wanxiang_api.studio_ui_routes import router as studio_ui_router
 from wanxiang_api.visual_http_gateway import visual_http_runtime_from_env
 from wanxiang_api.workshop_routes import router as workshop_router
@@ -115,6 +116,12 @@ def create_app(
             visual_max_cost_units = http_visual.max_cost_units
     if visual_allow_network and visual_provider is None:
         raise ValueError("visual_allow_network requires an injected visual_provider")
+    if spatial_provider is None:
+        http_spatial = spatial_http_runtime_from_env()
+        spatial_provider = http_spatial.provider
+        spatial_allow_network = spatial_allow_network or http_spatial.allow_network
+        if spatial_max_cost_units == 0:
+            spatial_max_cost_units = http_spatial.max_cost_units
     if spatial_allow_network and spatial_provider is None:
         raise ValueError("spatial_allow_network requires an injected spatial_provider")
     app = FastAPI(title=API_TITLE, version=API_VERSION)

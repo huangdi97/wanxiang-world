@@ -1889,6 +1889,7 @@
     "wanxiang_substrate.build_full_semantic_world",
     "wanxiang_substrate.build_house_fixture_commands",
     "wanxiang_substrate.build_http_scene_provider",
+    "wanxiang_substrate.build_http_spatial_provider",
     "wanxiang_substrate.build_initial_events",
     "wanxiang_substrate.build_institution_fixture_commands",
     "wanxiang_substrate.build_living_world_view",
