@@ -118,3 +118,8 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
                 encoding="utf-8",
             )
             temporary.replace(self._path)
+
+    def list_scope(self, scope_key: str) -> tuple[_SpatialGenerationTicket, ...]:
+        with _exclusive_index_lock(self._path.with_suffix(".lock")):
+            rows = tuple(self._ticket(row) for row in self._rows().values())
+        return tuple(row for row in rows if row.scope_key == scope_key)
