@@ -140,9 +140,7 @@ def test_tokenhub_spatial_poll_downloads_only_supported_allowlisted_artifacts(
     ]
     assert all("world.spz" not in request.full_url for request in opener.requests)
     assert opener.requests[0].headers["Authorization"] == "Bearer secret"
-    assert all(
-        request.headers.get("Authorization") is None for request in opener.requests[1:]
-    )
+    assert all(request.headers.get("Authorization") is None for request in opener.requests[1:])
 
 
 @pytest.mark.parametrize(
