@@ -13,6 +13,7 @@ const reasonKey=value=>({
   source_external_processing_not_allowed:"panorama_upgrade_unavailable_rights",
   private_source_provider_not_safe:"panorama_upgrade_unavailable_privacy",
   budget_insufficient:"panorama_upgrade_unavailable_budget",
+  budget_ledger_unavailable:"panorama_upgrade_unavailable_budget",
   package_not_found:"panorama_upgrade_unavailable_provider"
 }[value]||"panorama_upgrade_unavailable_provider");
 async function load(profileId,api){

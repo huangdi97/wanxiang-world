@@ -30,7 +30,12 @@ def _source() -> dict[str, object]:
     return {
         "source_id": "panorama_book",
         "kind": "text",
-        "content": "# Chapter\nCharacter: Alice\nAlice arrived in Garden in 1985.\n",
+        "content": (
+            "# Chapter\n"
+            "Character: Alice\n"
+            "Alice arrived in Garden in 1985.\n"
+            "Alice arrived in Harbor in 1986.\n"
+        ),
         "stage": "E3",
         "rights_approved": True,
         "access": "public",
@@ -81,6 +86,8 @@ def test_t2_panorama_is_explicit_owner_upgrade_and_cached_for_player() -> None:
     assert capability.status_code == 200
     assert capability.json()["generation"]["available"] is True
     assert capability.json()["generation"]["cost_units"] == 3
+    assert capability.json()["generation"]["budget_reserved"] == 0
+    assert capability.json()["generation"]["budget_remaining"] == 3
     assert capability.json()["ready_places"] == []
 
     denied = client.post(
@@ -103,6 +110,22 @@ def test_t2_panorama_is_explicit_owner_upgrade_and_cached_for_player() -> None:
     after_capability = client.get(endpoint, headers={"X-Wanxiang-User": "studio"})
     assert after_capability.status_code == 200
     assert after_capability.json()["ready_places"] == ["Garden"]
+    assert after_capability.json()["generation"]["available"] is False
+    assert after_capability.json()["generation"]["reason"] == "budget_insufficient"
+    assert after_capability.json()["generation"]["budget_reserved"] == 3
+    assert after_capability.json()["generation"]["budget_remaining"] == 0
+    assert first.json()["budget"]["reserved"] == 3
+    assert first.json()["budget"]["remaining"] == 0
+
+    blocked_second_place = client.post(
+        endpoint,
+        headers={"X-Wanxiang-User": "studio"},
+        json={"place_name": "Harbor"},
+    )
+    assert blocked_second_place.status_code == 409
+    assert blocked_second_place.json()["detail"] == "budget_insufficient"
+    assert provider_client.calls == 1
+
     scenes = first.json()["world"]["visual"]["scenes"]
     garden = next(scene for scene in scenes if scene["place_name"] == "Garden")
     assert garden["presentation_kind"] == "panorama"

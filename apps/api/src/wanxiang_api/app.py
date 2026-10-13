@@ -26,6 +26,10 @@ from wanxiang_substrate.assets.book_scene_cache import (
     LocalJsonVisualCacheIndex,
     VisualAssetCache,
 )
+from wanxiang_substrate.assets.book_scene_panorama_budget import (
+    LocalJsonPanoramaBudgetLedger,
+    PanoramaBudgetLedger,
+)
 from wanxiang_substrate.assets.book_scene_types import SceneImageProvider
 from wanxiang_substrate.assets.storage import InMemoryObjectStore, LocalObjectStore
 from wanxiang_substrate.authoring import AuthoringService, LocalSemanticProvider
@@ -210,6 +214,11 @@ def create_app(
     app.state.panorama_asset_provider = panorama_provider
     app.state.panorama_asset_allow_network = panorama_allow_network
     app.state.panorama_asset_max_cost_units = panorama_max_cost_units
+    app.state.panorama_budget_ledger = (
+        LocalJsonPanoramaBudgetLedger(visual_cache_path / "panorama-budget.json")
+        if visual_cache_path is not None
+        else PanoramaBudgetLedger()
+    )
     if visual_cache_path is not None:
         app.state.spatial_asset_jobs = LocalJsonSpatialJobStore(
             visual_cache_path / "spatial-jobs.json"

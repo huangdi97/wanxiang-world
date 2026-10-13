@@ -7,6 +7,7 @@ from __future__ import annotations
 from typing import cast
 
 from fastapi import Request
+from wanxiang_substrate.assets.book_scene_panorama_budget import PanoramaBudgetLedger
 from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
 from wanxiang_substrate.assets.book_scene_types import SceneImageProvider
 from wanxiang_substrate.playable import PlayableService
@@ -41,12 +42,23 @@ def panorama_generation_view(
     )
     provider = cast(SceneImageProvider | None, request.app.state.panorama_asset_provider)
     budget = int(request.app.state.panorama_asset_max_cost_units)
+    ledger = cast(PanoramaBudgetLedger, request.app.state.panorama_budget_ledger)
+    try:
+        usage = ledger.usage(profile_id, budget)
+    except ValueError:
+        usage = None
     generation: dict[str, object] = {
         "available": False,
         "reason": "",
         "cost_units": 0,
         "budget_total": budget,
+        "budget_reserved": usage.reserved if usage is not None else budget,
+        "budget_remaining": usage.remaining if usage is not None else 0,
+        "reservation_count": usage.reservations if usage is not None else 0,
     }
+    if usage is None:
+        generation["reason"] = "budget_ledger_unavailable"
+        return {"generation": generation, "ready_places": ready_places}
     if provider is None:
         generation["reason"] = "provider_not_configured"
         return {"generation": generation, "ready_places": ready_places}
@@ -66,7 +78,10 @@ def panorama_generation_view(
         generation["reason"] = "source_external_processing_not_allowed"
     elif private_source and not provider.private_safe:
         generation["reason"] = "private_source_provider_not_safe"
-    elif provider.cost_units_per_asset < 0 or budget < provider.cost_units_per_asset:
+    elif (
+        provider.cost_units_per_asset < 0
+        or usage.remaining < provider.cost_units_per_asset
+    ):
         generation["reason"] = "budget_insufficient"
     else:
         generation.update(
