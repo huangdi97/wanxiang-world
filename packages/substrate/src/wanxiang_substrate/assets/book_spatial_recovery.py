@@ -1,6 +1,6 @@
 """Public API job stores with world-scoped recovery over durable T3 tickets."""
 
-# pyright: reportPrivateUsage=false
+# pyright: reportPrivateUsage=false, reportUnusedClass=false
 
 from __future__ import annotations
 
