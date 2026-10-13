@@ -1,5 +1,7 @@
 """Simplified Chinese Player vocabulary."""
 
+# pyright: reportPrivateUsage=false
+
 from __future__ import annotations
 
 from wanxiang_substrate.playable.player_i18n_panorama_zh import _PANORAMA_STRINGS
