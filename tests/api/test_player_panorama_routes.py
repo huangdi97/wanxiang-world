@@ -75,6 +75,14 @@ def test_t2_panorama_is_explicit_owner_upgrade_and_cached_for_player() -> None:
     profile_id = str(profile.json()["profile"]["profile_id"])
     endpoint = f"/experience/player/worlds/{profile_id}/panoramas"
 
+    denied_status = client.get(endpoint, headers={"X-Wanxiang-User": "visitor"})
+    assert denied_status.status_code == 403
+    capability = client.get(endpoint, headers={"X-Wanxiang-User": "studio"})
+    assert capability.status_code == 200
+    assert capability.json()["generation"]["available"] is True
+    assert capability.json()["generation"]["cost_units"] == 3
+    assert capability.json()["ready_places"] == []
+
     denied = client.post(
         endpoint,
         headers={"X-Wanxiang-User": "visitor"},
@@ -92,6 +100,9 @@ def test_t2_panorama_is_explicit_owner_upgrade_and_cached_for_player() -> None:
     assert first.json()["tier"] == "T2"
     assert first.json()["provider_calls"] == 1
     assert first.json()["cost_units"] == 3
+    after_capability = client.get(endpoint, headers={"X-Wanxiang-User": "studio"})
+    assert after_capability.status_code == 200
+    assert after_capability.json()["ready_places"] == ["Garden"]
     scenes = first.json()["world"]["visual"]["scenes"]
     garden = next(scene for scene in scenes if scene["place_name"] == "Garden")
     assert garden["presentation_kind"] == "panorama"
