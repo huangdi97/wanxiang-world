@@ -93,6 +93,35 @@ def _ticket_view(ticket: SpatialGenerationTicket) -> dict[str, object]:
     }
 
 
+def _generation_view(request: Request, package) -> dict[str, object]:
+    provider = cast(
+        SpatialGenerationProvider | None,
+        request.app.state.spatial_asset_provider,
+    )
+    if provider is None:
+        return {"available": False, "reason": "provider_not_configured", "cost_units": 0}
+    allow_network = bool(request.app.state.spatial_asset_allow_network)
+    budget = int(request.app.state.spatial_asset_max_cost_units)
+    plan = plan_book_scene_assets(package, max_preview_scenes=0)
+    private_source = (
+        package.draft.compiler_metadata.get("visual_private_source_v1", "true") == "true"
+    )
+    if provider.requires_network and not allow_network:
+        return {"available": False, "reason": "network_not_allowed", "cost_units": 0}
+    if provider.requires_network and not plan.external_processing_allowed:
+        return {"available": False, "reason": "source_external_processing_not_allowed", "cost_units": 0}
+    if private_source and not provider.private_safe:
+        return {"available": False, "reason": "private_source_provider_not_safe", "cost_units": 0}
+    if provider.cost_units_per_job > budget:
+        return {"available": False, "reason": "budget_insufficient", "cost_units": 0}
+    return {
+        "available": True,
+        "reason": "",
+        "cost_units": provider.cost_units_per_job,
+        "provider": {"id": provider.provider_id, "version": provider.provider_version},
+    }
+
+
 def _profile_package(service: PlayableService, profile_id: str):
     package = service.packages.get(profile_id)
     if package is None:
@@ -114,7 +143,10 @@ def player_list_spatial_places(
         for ticket in _jobs(request).list_scope(profile_id)
         if source_scene_key_allowed(package, ticket.scene_key)
     )
-    return {"spatial_jobs": [_ticket_view(ticket) for ticket in tickets]}
+    return {
+        "spatial_jobs": [_ticket_view(ticket) for ticket in tickets],
+        "generation": _generation_view(request, package),
+    }
 
 
 @router.post("/worlds/{profile_id}/spatial", status_code=202)
