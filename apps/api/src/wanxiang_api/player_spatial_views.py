@@ -48,6 +48,15 @@ def spatial_generation_view(
             "budget_reserved": reserved,
             "budget_remaining": remaining,
         }
+    if provider.cost_units_per_job < 0:
+        return {
+            "available": False,
+            "reason": "budget_insufficient",
+            "cost_units": 0,
+            "budget_total": budget,
+            "budget_reserved": reserved,
+            "budget_remaining": remaining,
+        }
     plan = plan_book_scene_assets(package, max_preview_scenes=0)
     private_source = (
         package.draft.compiler_metadata.get("visual_private_source_v1", "true") == "true"

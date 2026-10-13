@@ -101,6 +101,28 @@ def _world(
     return app, client, str(profile.json()["profile"]["profile_id"])
 
 
+def test_t3_capability_fails_closed_for_negative_provider_cost() -> None:
+    provider = _FakeSpatialProvider()
+    provider.cost_units_per_job = -1
+    _, client, profile_id = _world(
+        spatial_provider=provider,
+        spatial_allow_network=True,
+        spatial_max_cost_units=7,
+    )
+    endpoint = f"/experience/player/worlds/{profile_id}/spatial"
+    response = client.get(endpoint, headers={"X-Wanxiang-User": "studio"})
+
+    assert response.status_code == 200
+    assert response.json()["generation"] == {
+        "available": False,
+        "reason": "budget_insufficient",
+        "cost_units": 0,
+        "budget_total": 7,
+        "budget_reserved": 0,
+        "budget_remaining": 7,
+    }
+
+
 def test_t3_player_api_is_owner_only_idempotent_and_rehydrates_attachment() -> None:
     app, client, profile_id = _world()
     owner = {"X-Wanxiang-User": "studio"}
