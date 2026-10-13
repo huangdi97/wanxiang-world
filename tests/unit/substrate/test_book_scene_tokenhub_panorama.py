@@ -41,9 +41,7 @@ class _Opener:
         return _Response(self.payloads.pop(0))
 
 
-def _install_opener(
-    monkeypatch: pytest.MonkeyPatch, payloads: list[bytes]
-) -> _Opener:
+def _install_opener(monkeypatch: pytest.MonkeyPatch, payloads: list[bytes]) -> _Opener:
     opener = _Opener(payloads)
 
     def factory(*handlers: object) -> _Opener:

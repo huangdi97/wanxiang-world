@@ -39,9 +39,7 @@ def panorama_tokenhub_runtime_from_env() -> PanoramaTokenHubRuntime:
         endpoint=endpoint,
         bearer_token=os.environ.get("WANXIANG_PANORAMA_TOKENHUB_API_KEY", ""),
         artifact_hosts=_artifact_hosts(),
-        timeout_seconds=float(
-            _int_env("WANXIANG_PANORAMA_TOKENHUB_TIMEOUT_SECONDS", default=120)
-        ),
+        timeout_seconds=float(_int_env("WANXIANG_PANORAMA_TOKENHUB_TIMEOUT_SECONDS", default=120)),
         cost_units_per_asset=_int_env(
             "WANXIANG_PANORAMA_COST_UNITS",
             default=500_000,
