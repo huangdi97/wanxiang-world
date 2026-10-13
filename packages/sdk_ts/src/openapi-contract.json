@@ -91,6 +91,11 @@
         "operationId": "player_submit_spatial_place_experience_player_worlds__profile_id__spatial_post"
       }
     },
+    "/experience/player/worlds/{profile_id}/spatial-assets/{asset_index}": {
+      "get": {
+        "operationId": "player_spatial_asset_experience_player_worlds__profile_id__spatial_assets__asset_index__get"
+      }
+    },
     "/experience/player/worlds/{profile_id}/spatial/{submission_id}": {
       "get": {
         "operationId": "player_poll_spatial_place_experience_player_worlds__profile_id__spatial__submission_id__get"
