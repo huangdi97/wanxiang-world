@@ -1,5 +1,7 @@
 """Visual compiler metadata derived from source rights and fused evidence."""
 
+# pyright: reportUnusedFunction=false
+
 from __future__ import annotations
 
 import json
