@@ -10,7 +10,6 @@ from typing import cast
 from fastapi import APIRouter, Header, HTTPException, Request, Response
 from pydantic import BaseModel, Field
 from wanxiang_substrate.assets.errors import AssetCorrupt, AssetNotFound
-from wanxiang_substrate.assets.book_scene_identity import _source_scene_key
 from wanxiang_substrate.assets.storage import ObjectStore
 from wanxiang_substrate.playable import PlayableService
 from wanxiang_substrate.playable.player_service import player_world
@@ -18,10 +17,14 @@ from wanxiang_substrate.spatial import (
     DerivedSpatialAttachments,
     SpatialGenerationCoordinator,
     SpatialGenerationProvider,
-    SpatialGenerationTicket,
     SpatialJobStore,
-    plan_book_scene_assets,
     source_scene_key_allowed,
+)
+
+from wanxiang_api.player_spatial_views import (
+    spatial_generation_view,
+    spatial_ticket_view,
+    spatial_ticket_views_for_world,
 )
 
 router = APIRouter(prefix="/experience/player")
@@ -80,65 +83,6 @@ def _coordinator(request: Request) -> SpatialGenerationCoordinator:
     )
 
 
-def _ticket_view(ticket: SpatialGenerationTicket) -> dict[str, object]:
-    return {
-        "submission_id": ticket.submission_id,
-        "state": ticket.state,
-        "provider": {
-            "id": ticket.provider_id,
-            "version": ticket.provider_version,
-        },
-        "reserved_cost_units": ticket.reserved_cost_units,
-        "asset_count": len(ticket.asset_refs),
-        "media_types": sorted({ref.content_type for ref in ticket.asset_refs}),
-    }
-
-
-def _generation_view(request: Request, package) -> dict[str, object]:
-    provider = cast(
-        SpatialGenerationProvider | None,
-        request.app.state.spatial_asset_provider,
-    )
-    if provider is None:
-        return {"available": False, "reason": "provider_not_configured", "cost_units": 0}
-    allow_network = bool(request.app.state.spatial_asset_allow_network)
-    budget = int(request.app.state.spatial_asset_max_cost_units)
-    plan = plan_book_scene_assets(package, max_preview_scenes=0)
-    private_source = (
-        package.draft.compiler_metadata.get("visual_private_source_v1", "true") == "true"
-    )
-    if provider.requires_network and not allow_network:
-        return {"available": False, "reason": "network_not_allowed", "cost_units": 0}
-    if provider.requires_network and not plan.external_processing_allowed:
-        return {"available": False, "reason": "source_external_processing_not_allowed", "cost_units": 0}
-    if private_source and not provider.private_safe:
-        return {"available": False, "reason": "private_source_provider_not_safe", "cost_units": 0}
-    if provider.cost_units_per_job > budget:
-        return {"available": False, "reason": "budget_insufficient", "cost_units": 0}
-    return {
-        "available": True,
-        "reason": "",
-        "cost_units": provider.cost_units_per_job,
-        "provider": {"id": provider.provider_id, "version": provider.provider_version},
-    }
-
-
-def _ticket_views_for_world(package, tickets: tuple[SpatialGenerationTicket, ...]) -> list[dict[str, object]]:
-    plan = plan_book_scene_assets(package, max_preview_scenes=0)
-    place_by_scene = {
-        _source_scene_key(plan.source_digest, place): place for place in package.draft.places
-    }
-    rows: list[dict[str, object]] = []
-    for ticket in tickets:
-        place = place_by_scene.get(ticket.scene_key)
-        if place is None:
-            continue
-        row = _ticket_view(ticket)
-        row["place_name"] = place
-        rows.append(row)
-    return rows
-
-
 def _profile_package(service: PlayableService, profile_id: str):
     package = service.packages.get(profile_id)
     if package is None:
@@ -161,8 +105,8 @@ def player_list_spatial_places(
         if source_scene_key_allowed(package, ticket.scene_key)
     )
     return {
-        "spatial_jobs": _ticket_views_for_world(package, tickets),
-        "generation": _generation_view(request, package),
+        "spatial_jobs": spatial_ticket_views_for_world(package, tickets),
+        "generation": spatial_generation_view(request, package),
     }
 
 
@@ -200,7 +144,7 @@ def player_submit_spatial_place(
         )
     except ValueError as exc:
         raise HTTPException(status_code=409, detail=str(exc)) from exc
-    return {"spatial": _ticket_view(ticket)}
+    return {"spatial": spatial_ticket_view(ticket)}
 
 
 @router.get("/worlds/{profile_id}/spatial-assets/{asset_index}")
@@ -282,7 +226,7 @@ def player_poll_spatial_place(
     locale = _locale(x_wanxiang_locale)
     return {
         "locale": locale,
-        "spatial": _ticket_view(ticket),
+        "spatial": spatial_ticket_view(ticket),
         "world": player_world(
             service,
             profile_id,
