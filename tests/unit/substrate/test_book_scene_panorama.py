@@ -2,7 +2,7 @@
 
 # pyright: reportPrivateUsage=false
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
 from wanxiang_substrate.assets.book_scene_external import (
     _ExternalImageClient,
@@ -112,3 +112,51 @@ def test_panorama_materialization_reuses_content_addressed_cache() -> None:
     assert second.cost_units == 0
     assert second.assets[0].presentation_kind == "panorama"
     assert len(client.briefs) == 1
+
+
+class _MislabelledPanoramaProvider(_PromptedPanoramaSceneProvider):
+    def produce(self, request: _SourceSceneRequest):
+        return replace(super().produce(request), presentation_kind="still")
+
+
+def test_panorama_kind_mismatch_is_rejected_before_cache_write() -> None:
+    client = _Client([])
+    provider = _MislabelledPanoramaProvider(
+        provider_id="provider:panorama-kind-check",
+        provider_version="2026-10",
+        client=client,
+        cost_units_per_asset=0,
+        private_safe=True,
+    )
+    cache = _VisualAssetCache()
+
+    try:
+        _materialize_visual_plan(
+            _plan(),
+            provider=provider,
+            cache=cache,
+            allow_network=True,
+            max_cost_units=0,
+        )
+    except ValueError as exc:
+        assert "presentation kind" in str(exc)
+    else:
+        raise AssertionError("mislabeled panorama must be rejected")
+
+    assert client.briefs
+    retried = _materialize_visual_plan(
+        _plan(),
+        provider=_PromptedPanoramaSceneProvider(
+            provider_id="provider:panorama-kind-check",
+            provider_version="2026-10",
+            client=client,
+            cost_units_per_asset=0,
+            private_safe=True,
+        ),
+        cache=cache,
+        allow_network=True,
+        max_cost_units=0,
+    )
+    assert retried.provider_calls == 1
+    assert retried.cache_hits == 0
+    assert retried.assets[0].presentation_kind == "panorama"

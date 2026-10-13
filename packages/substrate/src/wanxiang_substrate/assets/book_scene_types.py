@@ -43,6 +43,7 @@ class SceneImageProvider:
     requires_network: bool = False
     cost_units_per_asset: int = 0
     private_safe: bool = False
+    presentation_kind: str = "still"
 
     def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
         raise TypeError("concrete visual implementation required")

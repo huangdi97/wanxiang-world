@@ -72,6 +72,7 @@ def _materialize_visual_plan(
                     or cached_asset.provider_id != selected_provider.provider_id
                     or cached_asset.provider_version != selected_provider.provider_version
                     or (request.style_key and cached_asset.style_key != request.style_key)
+                    or cached_asset.presentation_kind != selected_provider.presentation_kind
                 ):
                     # An index row may exist but belong to another scene/provider.
                     # Never mislabel an unrelated image as source-grounded evidence.
@@ -169,9 +170,12 @@ def _materialize_visual_plan(
                     cache_hits=len(cached_rows),
                     provider=selected_provider,
                 )
-            if asset.presentation_kind not in {"still", "panorama"}:
+            if (
+                asset.presentation_kind not in {"still", "panorama"}
+                or asset.presentation_kind != selected_provider.presentation_kind
+            ):
                 raise _provider_failure(
-                    "visual provider returned unsupported presentation kind",
+                    "visual provider returned mismatched presentation kind",
                     attempted_calls=attempted_calls,
                     cache_hits=len(cached_rows),
                     provider=selected_provider,

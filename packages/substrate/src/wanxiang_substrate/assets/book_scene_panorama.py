@@ -20,6 +20,8 @@ from wanxiang_substrate.assets.book_scene_types import _SceneVisualAsset
 class _PromptedPanoramaSceneProvider(_PromptedExternalSceneProvider):
     """Explicit T2 upgrade provider; never used by default book ingestion."""
 
+    presentation_kind: str = "panorama"
+
     def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
         asset = _PromptedExternalSceneProvider.produce(self, request)
         return replace(asset, presentation_kind="panorama")
