@@ -340,9 +340,10 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 assert ready_place.get_attribute("aria-pressed") == "true"
                 assert ready_name in page.locator("#detail-visual-caption").inner_text()
                 assert page.locator("#panorama-upgrade-panel").is_visible()
-                assert "未配置可用的全景生成器" in page.locator(
-                    "#panorama-upgrade-copy"
-                ).inner_text()
+                assert (
+                    "未配置可用的全景生成器"
+                    in page.locator("#panorama-upgrade-copy").inner_text()
+                )
                 assert page.locator("#panorama-upgrade-submit").is_hidden()
                 assert "原文证据" in page.locator("#detail-visual-caption").inner_text()
                 assert "插画投影" in page.locator("#detail-visual-caption").inner_text()
