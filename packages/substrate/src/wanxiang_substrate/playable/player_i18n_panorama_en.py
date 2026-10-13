@@ -11,9 +11,7 @@ _PANORAMA_STRINGS: dict[str, str] = {
     "panorama_upgrade_eyebrow": "Panorama upgrade",
     "panorama_upgrade_heading": "Upgrade this place to an explorable panorama",
     "panorama_upgrade_submit": "Generate panorama",
-    "panorama_upgrade_ready": (
-        "{place} has an interactive panorama ready for world entry."
-    ),
+    "panorama_upgrade_ready": ("{place} has an interactive panorama ready for world entry."),
     "panorama_upgrade_available": (
         "{place} can be upgraded · estimated {cost}; per-call budget {budget}"
     ),
@@ -29,8 +27,6 @@ _PANORAMA_STRINGS: dict[str, str] = {
     "panorama_upgrade_unavailable_privacy": (
         "The configured panorama provider does not meet this source's privacy requirements."
     ),
-    "panorama_upgrade_unavailable_budget": (
-        "The per-call panorama budget is insufficient."
-    ),
+    "panorama_upgrade_unavailable_budget": ("The per-call panorama budget is insufficient."),
     "status_panorama_generated": "The panorama for {place} was generated and cached.",
 }
