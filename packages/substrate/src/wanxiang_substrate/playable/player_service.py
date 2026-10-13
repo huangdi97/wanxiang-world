@@ -1,6 +1,6 @@
 """Player projection adapter over the shared playable service ports."""
 
-# pyright: reportUnusedFunction=false
+# pyright: reportPrivateUsage=false, reportUnusedFunction=false
 
 from __future__ import annotations
 
