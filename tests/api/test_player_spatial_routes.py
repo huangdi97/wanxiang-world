@@ -215,7 +215,6 @@ def test_t3_player_api_is_owner_only_idempotent_and_rehydrates_attachment() -> N
     assert provider.polls == ["provider-secret-task-ref"]
 
 
-
 def test_public_visitor_rehydrates_attached_t3_scene_without_owner_warmup() -> None:
     app, client, profile_id = _world()
     owner = {"X-Wanxiang-User": "studio"}
@@ -248,7 +247,6 @@ def test_public_visitor_rehydrates_attached_t3_scene_without_owner_warmup() -> N
     assert visitor_asset.status_code == 200
     assert visitor_asset.content.startswith(b"glTF")
     assert provider.polls == ["provider-secret-task-ref"]
-
 
 
 def test_t3_source_gated_spatial_asset_is_not_delivered_to_public_visitor() -> None:
