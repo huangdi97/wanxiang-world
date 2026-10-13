@@ -35,9 +35,10 @@ def test_player_html_exposes_optional_panorama_stage_without_vendor_dependency()
 def test_player_bundles_dependency_free_interactive_panorama_renderer() -> None:
     html = player_html("zh-CN")
 
-    assert "getContext(\"webgl\"" in BUILTIN_PANORAMA_RENDERER_SCRIPT
+    assert 'getContext("webgl"' in BUILTIN_PANORAMA_RENDERER_SCRIPT
     assert "pointermove" in BUILTIN_PANORAMA_RENDERER_SCRIPT
     assert "ArrowLeft" in BUILTIN_PANORAMA_RENDERER_SCRIPT
     assert "ResizeObserver" in BUILTIN_PANORAMA_RENDERER_SCRIPT
+    assert "TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE" in BUILTIN_PANORAMA_RENDERER_SCRIPT
     assert "window.__WANXIANG_PANORAMA_RENDERER__={supports:" in BUILTIN_PANORAMA_RENDERER_SCRIPT
     assert html.index(BUILTIN_PANORAMA_RENDERER_SCRIPT) < html.index(PANORAMA_RENDERER_SCRIPT)
