@@ -163,10 +163,16 @@ class _TokenHubSpatialProvider(_SpatialGenerationProvider):
         host = (urlsplit(endpoint).hostname or "").casefold()
         if host not in self.artifact_hosts:
             raise ValueError("TokenHub spatial artifact host is not allowed")
+        # Provider credentials are scoped to TokenHub control-plane calls.
+        # Returned artifact URLs may point at signed COS/CDN hosts; never
+        # forward the TokenHub bearer token outside the provider endpoint.
         content = self._open(
             Request(
                 endpoint,
-                headers=self._headers(accept="*/*"),
+                headers={
+                    "accept": "*/*",
+                    "user-agent": "Wanxiang-T3-TokenHub/1",
+                },
                 method="GET",
             ),
             label="TokenHub spatial artifact",
