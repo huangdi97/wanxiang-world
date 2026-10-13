@@ -100,6 +100,23 @@ def _profile_package(service: PlayableService, profile_id: str):
     return package
 
 
+@router.get("/worlds/{profile_id}/spatial")
+def player_list_spatial_places(
+    profile_id: str,
+    request: Request,
+    x_wanxiang_user: str | None = Header(default=None),
+) -> dict[str, object]:
+    viewer = _viewer(x_wanxiang_user)
+    service = _owner_service(request, profile_id, viewer)
+    package = _profile_package(service, profile_id)
+    tickets = tuple(
+        ticket
+        for ticket in _jobs(request).list_scope(profile_id)
+        if source_scene_key_allowed(package, ticket.scene_key)
+    )
+    return {"spatial_jobs": [_ticket_view(ticket) for ticket in tickets]}
+
+
 @router.post("/worlds/{profile_id}/spatial", status_code=202)
 def player_submit_spatial_place(
     profile_id: str,
