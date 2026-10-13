@@ -18,6 +18,7 @@ from wanxiang_substrate.spatial import (
     SpatialGenerationCoordinator,
     SpatialGenerationProvider,
     SpatialJobStore,
+    plan_book_scene_assets,
     source_scene_key_allowed,
 )
 
