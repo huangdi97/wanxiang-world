@@ -300,8 +300,7 @@ def test_t3_source_gated_spatial_asset_is_not_delivered_to_public_visitor() -> N
         headers={"X-Wanxiang-User": "visitor"},
     )
     assert visitor_world.status_code == 200
-    scenes = visitor_world.json()["world"]["visual"]["scenes"]
-    assert not any(scene.get("spatial", {}).get("ready") is True for scene in scenes)
+    assert visitor_world.json()["world"]["visual"] is None
 
 
 def test_t3_poll_ticket_cannot_be_reused_against_another_world() -> None:
