@@ -78,10 +78,7 @@ def panorama_generation_view(
         generation["reason"] = "source_external_processing_not_allowed"
     elif private_source and not provider.private_safe:
         generation["reason"] = "private_source_provider_not_safe"
-    elif (
-        provider.cost_units_per_asset < 0
-        or usage.remaining < provider.cost_units_per_asset
-    ):
+    elif provider.cost_units_per_asset < 0 or usage.remaining < provider.cost_units_per_asset:
         generation["reason"] = "budget_insufficient"
     else:
         generation.update(

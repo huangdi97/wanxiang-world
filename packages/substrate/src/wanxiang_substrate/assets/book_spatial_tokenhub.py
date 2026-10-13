@@ -35,9 +35,7 @@ from wanxiang_substrate.assets.book_spatial_types import (
 
 _MAX_JSON_BYTES = 2 * 1024 * 1024
 _MAX_ARTIFACT_BYTES = 128 * 1024 * 1024
-_SUPPORTED_MEDIA_TYPES = frozenset(
-    {"model/ply", "image/png", "image/jpeg", "image/webp"}
-)
+_SUPPORTED_MEDIA_TYPES = frozenset({"model/ply", "image/png", "image/jpeg", "image/webp"})
 
 
 def _image_media_type(content: bytes) -> str:
@@ -160,9 +158,7 @@ class _TokenHubSpatialProvider(_SpatialGenerationProvider):
             raise ValueError("TokenHub spatial submit returned invalid task id")
         return task_ref.strip()
 
-    def _download(
-        self, url: str, *, media_type: str | None
-    ) -> _SpatialArtifactCandidate:
+    def _download(self, url: str, *, media_type: str | None) -> _SpatialArtifactCandidate:
         endpoint = _validate_provider_endpoint(url, label="TokenHub spatial artifact")
         host = (urlsplit(endpoint).hostname or "").casefold()
         if host not in self.artifact_hosts:
@@ -200,7 +196,8 @@ class _TokenHubSpatialProvider(_SpatialGenerationProvider):
             return _SpatialPollResult(state)  # type: ignore[arg-type]
         if state in {"failed", "cancelled"}:
             return _SpatialPollResult(
-                state, reason="provider_task_terminal"  # type: ignore[arg-type]
+                state,
+                reason="provider_task_terminal",  # type: ignore[arg-type]
             )
         if state == "unknown":
             return _SpatialPollResult("failed", reason="provider_task_unknown")

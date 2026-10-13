@@ -28,32 +28,22 @@ def _artifact_hosts() -> frozenset[str]:
 
 
 def spatial_tokenhub_runtime_from_env() -> SpatialTokenHubRuntime:
-    submit_endpoint = os.environ.get(
-        "WANXIANG_SPATIAL_TOKENHUB_SUBMIT_ENDPOINT", ""
-    ).strip()
-    tasks_endpoint = os.environ.get(
-        "WANXIANG_SPATIAL_TOKENHUB_TASKS_ENDPOINT", ""
-    ).strip()
+    submit_endpoint = os.environ.get("WANXIANG_SPATIAL_TOKENHUB_SUBMIT_ENDPOINT", "").strip()
+    tasks_endpoint = os.environ.get("WANXIANG_SPATIAL_TOKENHUB_TASKS_ENDPOINT", "").strip()
     allow_network = _bool_env("WANXIANG_SPATIAL_ALLOW_NETWORK")
     max_cost_units = _int_env("WANXIANG_SPATIAL_MAX_COST_UNITS", default=0)
 
     if not submit_endpoint and not tasks_endpoint:
         return SpatialTokenHubRuntime(None, False, max_cost_units)
     if not submit_endpoint or not tasks_endpoint:
-        raise ValueError(
-            "TokenHub spatial runtime requires both submit and tasks endpoints"
-        )
+        raise ValueError("TokenHub spatial runtime requires both submit and tasks endpoints")
     provider = build_tokenhub_spatial_provider(
         submit_endpoint=submit_endpoint,
         tasks_endpoint=tasks_endpoint,
         bearer_token=os.environ.get("WANXIANG_SPATIAL_TOKENHUB_API_KEY", ""),
         artifact_hosts=_artifact_hosts(),
-        timeout_seconds=float(
-            _int_env("WANXIANG_SPATIAL_TOKENHUB_TIMEOUT_SECONDS", default=120)
-        ),
-        cost_units_per_job=_int_env(
-            "WANXIANG_SPATIAL_TOKENHUB_COST_UNITS", default=8_000_000
-        ),
+        timeout_seconds=float(_int_env("WANXIANG_SPATIAL_TOKENHUB_TIMEOUT_SECONDS", default=120)),
+        cost_units_per_job=_int_env("WANXIANG_SPATIAL_TOKENHUB_COST_UNITS", default=8_000_000),
         private_safe=_bool_env("WANXIANG_SPATIAL_PRIVATE_SAFE"),
     )
     return SpatialTokenHubRuntime(provider, allow_network, max_cost_units)

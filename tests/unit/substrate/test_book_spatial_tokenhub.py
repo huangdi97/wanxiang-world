@@ -193,5 +193,6 @@ def test_tokenhub_spatial_requires_key_and_artifact_allowlist() -> None:
             artifact_hosts=frozenset(),
         )
 
+
 def test_raw_tokenhub_spatial_submit_is_not_claimed_idempotent() -> None:
     assert _provider().submit_is_idempotent is False
