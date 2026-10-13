@@ -14,6 +14,7 @@ import hashlib
 import json
 from dataclasses import replace
 from typing import cast
+from urllib.parse import urlsplit
 from urllib.request import Request, build_opener
 
 from wanxiang_substrate.assets.book_http_transport import _NoRedirects
@@ -53,9 +54,22 @@ class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
         timeout_seconds: float,
         max_json_response_bytes: int,
         max_artifact_bytes: int,
+        artifact_hosts: frozenset[str] = frozenset(),
     ) -> None:
         self.submit_endpoint = _validate_endpoint(submit_endpoint)
         self.poll_endpoint = _validate_endpoint(poll_endpoint)
+        endpoint_hosts = {
+            host.casefold()
+            for host in (
+                urlsplit(self.submit_endpoint).hostname,
+                urlsplit(self.poll_endpoint).hostname,
+            )
+            if host
+        }
+        extra_hosts = frozenset(host.strip().casefold() for host in artifact_hosts if host.strip())
+        if any("/" in host or "://" in host or "@" in host for host in extra_hosts):
+            raise ValueError("spatial artifact hosts must be bare hostnames")
+        self.artifact_hosts = frozenset(endpoint_hosts) | extra_hosts
         if "\r" in bearer_token or "\n" in bearer_token:
             raise ValueError("spatial HTTP bearer token cannot contain line breaks")
         if not provider_id.strip() or not provider_version.strip():
@@ -158,6 +172,9 @@ class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
 
     def _download_artifact(self, url: str) -> bytes:
         endpoint = _validate_endpoint(url)
+        host = (urlsplit(endpoint).hostname or "").casefold()
+        if host not in self.artifact_hosts:
+            raise ValueError("spatial artifact host is not allowed")
         request = Request(
             endpoint,
             headers={"accept": "*/*", "user-agent": "Wanxiang-T3-Gateway/1"},
@@ -246,6 +263,7 @@ def _build_http_spatial_provider(
     timeout_seconds: float = 60.0,
     max_json_response_bytes: int = _MAX_JSON_RESPONSE_BYTES,
     max_artifact_bytes: int = _MAX_ARTIFACT_BYTES,
+    artifact_hosts: frozenset[str] = frozenset(),
 ) -> _SpatialGenerationProvider:
     return _HttpJsonSpatialProvider(
         submit_endpoint,
@@ -259,4 +277,5 @@ def _build_http_spatial_provider(
         timeout_seconds=timeout_seconds,
         max_json_response_bytes=max_json_response_bytes,
         max_artifact_bytes=max_artifact_bytes,
+        artifact_hosts=artifact_hosts,
     )

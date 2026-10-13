@@ -86,6 +86,7 @@ def _provider():
         provider_version="2026-10",
         cost_units_per_job=7,
         allowed_media_types=frozenset({"model/gltf-binary"}),
+        artifact_hosts=frozenset({"assets.example"}),
     )
 
 
@@ -255,3 +256,46 @@ def test_t3_http_gateway_rejects_unknown_state_or_ambiguous_artifact(
     )
     with pytest.raises(ValueError, match="exactly one content source"):
         _provider().poll("operation-123")
+
+
+def test_t3_http_poll_rejects_artifact_url_on_unapproved_host(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _install_opener(
+        monkeypatch,
+        [
+            json.dumps(
+                {
+                    "state": "succeeded",
+                    "artifacts": [
+                        {
+                            "media_type": "model/gltf-binary",
+                            "artifact_url": "https://evil.example/world.glb",
+                        }
+                    ],
+                }
+            ).encode()
+        ],
+    )
+
+    with pytest.raises(ValueError, match="artifact host is not allowed"):
+        _provider().poll("operation-123")
+
+
+def test_t3_http_gateway_allows_explicit_artifact_cdn_host() -> None:
+    provider = build_http_spatial_provider(
+        submit_endpoint="https://gateway.example/submit",
+        poll_endpoint="https://gateway.example/poll",
+        artifact_hosts=frozenset({"cdn.example"}),
+    )
+    assert "gateway.example" in provider.artifact_hosts
+    assert "cdn.example" in provider.artifact_hosts
+
+
+def test_t3_http_gateway_rejects_malformed_artifact_host_allowlist() -> None:
+    with pytest.raises(ValueError, match="bare hostnames"):
+        build_http_spatial_provider(
+            submit_endpoint="https://gateway.example/submit",
+            poll_endpoint="https://gateway.example/poll",
+            artifact_hosts=frozenset({"https://cdn.example/path"}),
+        )

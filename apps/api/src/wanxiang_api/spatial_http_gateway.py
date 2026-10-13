@@ -33,6 +33,11 @@ class SpatialHttpRuntime:
     max_cost_units: int
 
 
+def _artifact_hosts_env() -> frozenset[str]:
+    raw = os.environ.get("WANXIANG_SPATIAL_ARTIFACT_HOSTS", "")
+    return frozenset(item.strip() for item in raw.split(",") if item.strip())
+
+
 def _media_types_env() -> frozenset[str]:
     raw = os.environ.get(
         "WANXIANG_SPATIAL_ALLOWED_MEDIA_TYPES",
@@ -68,5 +73,6 @@ def spatial_http_runtime_from_env() -> SpatialHttpRuntime:
         cost_units_per_job=_int_env("WANXIANG_SPATIAL_COST_UNITS", default=1),
         private_safe=_bool_env("WANXIANG_SPATIAL_PRIVATE_SAFE"),
         allowed_media_types=_media_types_env(),
+        artifact_hosts=_artifact_hosts_env(),
     )
     return SpatialHttpRuntime(provider, allow_network, max_cost_units)

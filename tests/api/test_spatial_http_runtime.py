@@ -46,6 +46,7 @@ def test_spatial_http_runtime_builds_governed_provider_from_env(
     monkeypatch.setenv("WANXIANG_SPATIAL_PROVIDER_ID", "provider:world-gateway")
     monkeypatch.setenv("WANXIANG_SPATIAL_PROVIDER_VERSION", "2026-10")
     monkeypatch.setenv("WANXIANG_SPATIAL_ALLOWED_MEDIA_TYPES", "model/gltf-binary,model/ply")
+    monkeypatch.setenv("WANXIANG_SPATIAL_ARTIFACT_HOSTS", "cdn.example,assets.example")
 
     runtime = spatial_http_runtime_from_env()
 
@@ -54,6 +55,9 @@ def test_spatial_http_runtime_builds_governed_provider_from_env(
     assert runtime.provider.provider_version == "2026-10"
     assert runtime.provider.cost_units_per_job == 7
     assert runtime.provider.allowed_media_types == frozenset({"model/gltf-binary", "model/ply"})
+    assert {"gateway.example", "cdn.example", "assets.example"}.issubset(
+        runtime.provider.artifact_hosts
+    )
     assert runtime.allow_network is True
     assert runtime.max_cost_units == 11
 
