@@ -4,7 +4,7 @@ The remote endpoint receives one bounded scene brief, never a full source. It
 must honor Wanxiang's idempotency key and expose a submit/poll JSON protocol.
 """
 
-# pyright: reportPrivateUsage=false
+# pyright: reportPrivateUsage=false, reportUnusedFunction=false
 
 from __future__ import annotations
 
@@ -215,9 +215,12 @@ class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
         if state != "succeeded":
             return _SpatialPollResult(state, reason=reason[:2000])  # type: ignore[arg-type]
         raw_artifacts = body.get("artifacts", [])
-        if not isinstance(raw_artifacts, list) or len(raw_artifacts) > _MAX_ARTIFACTS:
+        if not isinstance(raw_artifacts, list):
             raise ValueError("spatial HTTP gateway returned invalid artifact list")
-        artifacts = tuple(self._artifact(item) for item in cast(list[object], raw_artifacts))
+        artifact_rows = cast(list[object], raw_artifacts)
+        if len(artifact_rows) > _MAX_ARTIFACTS:
+            raise ValueError("spatial HTTP gateway returned invalid artifact list")
+        artifacts = tuple(self._artifact(item) for item in artifact_rows)
         return _SpatialPollResult("succeeded", artifacts, reason[:2000])
 
 

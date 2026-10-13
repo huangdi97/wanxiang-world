@@ -199,7 +199,9 @@ class _SpatialGenerationCoordinator:
             if existing.reserved_cost_units > max_cost_units:
                 raise ValueError("persisted spatial ticket exceeds current budget")
             if existing.delivery_rights != delivery_rights:
-                raise ValueError("persisted spatial ticket rights do not match current delivery rights")
+                raise ValueError(
+                    "persisted spatial ticket rights do not match current delivery rights"
+                )
             return existing
 
         task_ref = self.provider.submit(request, idempotency_key=submission_id)

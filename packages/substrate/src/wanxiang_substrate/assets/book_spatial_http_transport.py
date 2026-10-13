@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+# pyright: reportUnusedClass=false, reportUnusedFunction=false
+
 import ipaddress
 from typing import Any
 from urllib.parse import urlsplit
