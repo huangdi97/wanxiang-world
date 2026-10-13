@@ -89,9 +89,7 @@ class PlayableService:
 
         return _visible_visual_assets(self, profile_id, viewer_id=viewer_id)
 
-    def spatial_assets(
-        self, profile_id: str, *, viewer_id: str
-    ) -> dict[str, tuple[AssetRef, ...]]:
+    def spatial_assets(self, profile_id: str, *, viewer_id: str) -> dict[str, tuple[AssetRef, ...]]:
         return _visible_spatial_assets(self, profile_id, viewer_id=viewer_id)
 
     def materialize_visual_place(
