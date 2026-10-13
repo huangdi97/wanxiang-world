@@ -198,13 +198,14 @@ class _TokenHubSpatialProvider(_SpatialGenerationProvider):
             label="TokenHub spatial poll",
         )
         state = body.get("status")
-        if state in {"queued", "running"}:
-            return _SpatialPollResult(state)  # type: ignore[arg-type]
-        if state in {"failed", "cancelled"}:
-            return _SpatialPollResult(
-                state,
-                reason="provider_task_terminal",  # type: ignore[arg-type]
-            )
+        if state == "queued":
+            return _SpatialPollResult("queued")
+        if state == "running":
+            return _SpatialPollResult("running")
+        if state == "failed":
+            return _SpatialPollResult("failed", reason="provider_task_terminal")
+        if state == "cancelled":
+            return _SpatialPollResult("cancelled", reason="provider_task_terminal")
         if state == "unknown":
             return _SpatialPollResult("failed", reason="provider_task_unknown")
         if state != "succeeded":

@@ -1,6 +1,6 @@
 """World-scoped conservative budget reservations for synchronous T2 panoramas."""
 
-# pyright: reportPrivateUsage=false
+# pyright: reportPrivateUsage=false, reportUnusedClass=false
 
 from __future__ import annotations
 
