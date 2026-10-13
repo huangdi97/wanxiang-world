@@ -11,6 +11,7 @@ from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
 from wanxiang_substrate.assets.storage import AssetRef
 
 _SpatialJobState = Literal[
+    "submission_ambiguous",
     "submitted",
     "queued",
     "running",
@@ -62,6 +63,7 @@ class _SpatialGenerationProvider:
     cost_units_per_job: int = 0
     allowed_media_types: frozenset[str] = frozenset()
     artifact_hosts: frozenset[str] = frozenset()
+    submit_is_idempotent: bool = False
 
     def submit(self, request: _SourceSceneRequest, *, idempotency_key: str) -> str:
         raise TypeError("concrete spatial provider required")

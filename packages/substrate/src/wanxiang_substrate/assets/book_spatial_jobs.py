@@ -102,34 +102,68 @@ class _SpatialGenerationCoordinator:
                     raise ValueError(
                         "persisted spatial ticket rights do not match current delivery rights"
                     )
+                if existing.state == "submission_ambiguous":
+                    if existing.provider_task_ref:
+                        raise ValueError("ambiguous spatial submission has an invalid task reference")
+                    if not self.provider.submit_is_idempotent:
+                        raise ValueError(
+                            "spatial submission outcome is ambiguous; automatic resubmit blocked"
+                        )
+                    return self._submit_reserved_intent(request, existing)
                 return existing
 
             reserved_total = sum(row.reserved_cost_units for row in self.jobs.list_scope(scope_key))
             if reserved_total + self.provider.cost_units_per_job > max_cost_units:
                 raise ValueError("spatial world budget is exhausted")
 
-            task_ref = self.provider.submit(request, idempotency_key=submission_id)
-            if not task_ref.strip():
-                raise ValueError("spatial provider returned an empty task reference")
-            ticket = _SpatialGenerationTicket(
+            # Persist the cost reservation and uncertain submission outcome
+            # before any provider call. If this process dies after the remote
+            # task is accepted but before its task id is stored, a non-idempotent
+            # provider cannot be silently billed again on restart.
+            intent = _SpatialGenerationTicket(
                 submission_id=submission_id,
                 scene_key=request.stable_key,
                 provider_id=self.provider.provider_id,
                 provider_version=self.provider.provider_version,
-                provider_task_ref=task_ref,
-                state="submitted",
+                provider_task_ref="",
+                state="submission_ambiguous",
                 reserved_cost_units=self.provider.cost_units_per_job,
                 delivery_rights=delivery_rights,
                 scope_key=scope_key,
+                reason="provider_submit_outcome_unknown",
             )
-            self.jobs.put(ticket)
-            return ticket
+            self.jobs.put(intent)
+            return self._submit_reserved_intent(request, intent)
+
+    def _submit_reserved_intent(
+        self,
+        request: _SourceSceneRequest,
+        intent: _SpatialGenerationTicket,
+    ) -> _SpatialGenerationTicket:
+        task_ref = self.provider.submit(request, idempotency_key=intent.submission_id)
+        if not task_ref.strip():
+            raise ValueError("spatial provider returned an empty task reference")
+        submitted = replace(
+            intent,
+            provider_task_ref=task_ref.strip(),
+            state="submitted",
+            reason="",
+        )
+        self.jobs.put(submitted)
+        return submitted
 
     def poll(self, submission_id: str) -> _SpatialGenerationTicket:
         ticket = self.jobs.get(submission_id)
         if ticket is None:
             raise KeyError(submission_id)
-        if ticket.state in {"verified", "attached", "failed", "cancelled", "expired"}:
+        if ticket.state in {
+            "submission_ambiguous",
+            "verified",
+            "attached",
+            "failed",
+            "cancelled",
+            "expired",
+        }:
             return ticket
         if (
             ticket.provider_id != self.provider.provider_id

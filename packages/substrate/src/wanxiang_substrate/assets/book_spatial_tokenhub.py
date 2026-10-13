@@ -53,6 +53,9 @@ def _image_media_type(content: bytes) -> str:
 class _TokenHubSpatialProvider(_SpatialGenerationProvider):
     """Translate TokenHub's async task protocol into Wanxiang's T3 provider ABI."""
 
+    # The raw TokenHub request schema does not provide Wanxiang's idempotency key.
+    submit_is_idempotent = False
+
     def __init__(
         self,
         submit_endpoint: str,

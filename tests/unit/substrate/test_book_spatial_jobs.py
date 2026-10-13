@@ -479,3 +479,67 @@ def test_t3_world_budget_is_cumulative_across_distinct_scene_submissions() -> No
     replay = submit(_request())
     assert replay == first
     assert len(provider.submissions) == 2
+
+
+class _AmbiguousSubmitProvider(_FakeSpatialProvider):
+    def __init__(self, *, idempotent: bool) -> None:
+        super().__init__()
+        self.submit_is_idempotent = idempotent
+        self.fail_first = True
+
+    def submit(self, request: _SourceSceneRequest, *, idempotency_key: str) -> str:
+        _ = request
+        self.submissions.append(idempotency_key)
+        if self.fail_first:
+            self.fail_first = False
+            raise RuntimeError("simulated lost submit response")
+        return "task:recovered"
+
+
+def test_non_idempotent_t3_submit_crash_persists_ambiguity_and_blocks_rebill(
+    tmp_path: pathlib.Path,
+) -> None:
+    provider = _AmbiguousSubmitProvider(idempotent=False)
+    path = tmp_path / "spatial-jobs.json"
+    first = _SpatialGenerationCoordinator(
+        provider,
+        jobs=_LocalJsonSpatialJobStore(path),
+    )
+
+    with pytest.raises(RuntimeError, match="lost submit response"):
+        _submit(first)
+
+    persisted = _LocalJsonSpatialJobStore(path).list_scope("")
+    assert len(persisted) == 1
+    ambiguous = persisted[0]
+    assert ambiguous.state == "submission_ambiguous"
+    assert ambiguous.provider_task_ref == ""
+    assert ambiguous.reserved_cost_units == 7
+    assert ambiguous.reason == "provider_submit_outcome_unknown"
+
+    restarted = _SpatialGenerationCoordinator(
+        provider,
+        jobs=_LocalJsonSpatialJobStore(path),
+    )
+    with pytest.raises(ValueError, match="automatic resubmit blocked"):
+        _submit(restarted)
+
+    assert len(provider.submissions) == 1
+    assert restarted.poll(ambiguous.submission_id) == ambiguous
+
+
+def test_idempotent_t3_gateway_can_recover_ambiguous_submit_with_same_key() -> None:
+    provider = _AmbiguousSubmitProvider(idempotent=True)
+    jobs = _InMemorySpatialJobStore()
+    coordinator = _SpatialGenerationCoordinator(provider, jobs=jobs)
+
+    with pytest.raises(RuntimeError, match="lost submit response"):
+        _submit(coordinator)
+
+    recovered = _submit(coordinator)
+
+    assert recovered.state == "submitted"
+    assert recovered.provider_task_ref == "task:recovered"
+    assert len(provider.submissions) == 2
+    assert provider.submissions[0] == provider.submissions[1] == recovered.submission_id
+    assert sum(row.reserved_cost_units for row in jobs.list_scope("")) == 7

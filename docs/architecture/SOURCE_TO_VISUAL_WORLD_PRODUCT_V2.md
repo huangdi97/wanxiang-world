@@ -625,6 +625,7 @@ Required T3 states:
 
 ~~~text
 not_requested
+ -> submission_ambiguous (durable pre-submit intent)
  -> submitted
  -> queued/running
  -> succeeded -> verified -> attached
@@ -658,6 +659,7 @@ The generic T3 path is now implemented as projection infrastructure:
 - asynchronous submit/poll/verify/attach tickets with provider id/version and idempotency;
 - restart-safe ticket persistence and rehydration of verified spatial AssetRefs;
 - duplicate-submit coalescing before a provider-side billing call, including local multi-process execution;
+- a durable `submission_ambiguous` intent is written before any billable submit; providers that do not guarantee idempotent submit are never automatically re-submitted after an uncertain/crashed request;
 - artifact batch verification before object-store writes, including digest, size, media type and known file signatures;
 - one unified Player World Stage that can mount a renderer-neutral T3 adapter while retaining T0/T1 fallback;
 - source-derived attachment policy: only compiled source places can receive spatial assets, and attachment rights must match current source-derived delivery rights;
@@ -717,11 +719,11 @@ GET /v1/wand/hunyuan-video/tasks/{id}
 
 Wanxiang's generic gateway intentionally uses a different normalized contract so provider-specific authentication, response mapping, artifact-host policy and task semantics stay outside Canon/Player code.
 
-Most importantly, the current Tencent documentation tells clients not to submit a task repeatedly after creation and to poll the returned task id, but the documented request fields do not define a Wanxiang-style idempotency key. Therefore a direct raw-TokenHub adapter must **not** claim Wanxiang's crash-safe at-most-once billing guarantee unless an adapter/gateway durably supplies that missing idempotency mapping.
+Most importantly, the current Tencent documentation tells clients not to submit a task repeatedly after creation and to poll the returned task id, but the documented request fields do not define a Wanxiang-style idempotency key. The direct adapter therefore writes a durable `submission_ambiguous` intent before the remote POST. If the process loses the submit response before a task id is durably recorded, Wanxiang keeps the world budget reserved and blocks automatic re-submit. A gateway that explicitly honors Wanxiang's idempotency key may safely retry with the same identity; raw TokenHub may not.
 
 A production Tencent bridge must prove all of the following before `REAL_T3` can move from `EXTERNAL_BLOCKED`:
 
-1. durable Wanxiang idempotency-key -> Tencent task-id mapping before retry ambiguity can cause a second paid task;
+1. durable pre-submit intent plus fail-closed ambiguous-submit handling, so a missing Tencent task id can never trigger an automatic second paid task;
 2. task status mapping `queued/running/succeeded/failed/cancelled/unknown` into Wanxiang's T3 state machine;
 3. bounded prompt mapping within the provider's documented 600-character prompt limit;
 4. explicit allowlisting of returned COS artifact hosts;

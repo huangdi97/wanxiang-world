@@ -299,3 +299,6 @@ def test_t3_http_gateway_rejects_malformed_artifact_host_allowlist() -> None:
             poll_endpoint="https://gateway.example/poll",
             artifact_hosts=frozenset({"https://cdn.example/path"}),
         )
+
+def test_t3_http_gateway_declares_retry_safe_idempotency_contract() -> None:
+    assert _provider().submit_is_idempotent is True

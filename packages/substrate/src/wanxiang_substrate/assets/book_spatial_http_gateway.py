@@ -40,6 +40,9 @@ _VALID_STATES = frozenset({"queued", "running", "succeeded", "failed", "cancelle
 
 
 class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
+    # This adapter protocol requires the gateway to honor idempotency-key.
+    submit_is_idempotent = True
+
     def __init__(
         self,
         submit_endpoint: str,
