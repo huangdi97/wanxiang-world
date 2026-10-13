@@ -33,6 +33,7 @@ class _VisualCacheRecord:
     size: int
     illustrative: bool
     style_key: str
+    presentation_kind: str = "still"
 
 
 class _VisualCacheIndex:
@@ -113,6 +114,11 @@ class LocalJsonVisualCacheIndex(_VisualCacheIndex):
             size=size,
             illustrative=illustrative,
             style_key=cast(str, raw["style_key"]),
+            presentation_kind=(
+                cast(str, raw["presentation_kind"])
+                if isinstance(raw.get("presentation_kind"), str)
+                else "still"
+            ),
         )
 
     def get(self, cache_key: str) -> _VisualCacheRecord | None:
@@ -141,6 +147,7 @@ class LocalJsonVisualCacheIndex(_VisualCacheIndex):
                 "size": record.size,
                 "illustrative": record.illustrative,
                 "style_key": record.style_key,
+                "presentation_kind": record.presentation_kind,
             }
             temporary = self._path.with_suffix(self._path.suffix + ".tmp")
             temporary.write_text(
@@ -221,6 +228,7 @@ class VisualAssetCache:
                 illustrative=metadata.illustrative,
                 style_key=metadata.style_key,
                 provider_version=metadata.provider_version,
+                presentation_kind=metadata.presentation_kind,
             ),
             ref,
         )
@@ -240,6 +248,7 @@ class VisualAssetCache:
                 size=ref.size,
                 illustrative=asset.illustrative,
                 style_key=asset.style_key,
+                presentation_kind=asset.presentation_kind,
             )
         )
         return ref

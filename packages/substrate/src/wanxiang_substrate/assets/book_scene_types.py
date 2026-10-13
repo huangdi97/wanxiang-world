@@ -28,6 +28,7 @@ class _SceneVisualAsset:
     illustrative: bool = True
     style_key: str = ""
     provider_version: str = "1.0.0"
+    presentation_kind: str = "still"
 
     def data_uri(self) -> str:
         payload = base64.b64encode(self.content).decode("ascii")

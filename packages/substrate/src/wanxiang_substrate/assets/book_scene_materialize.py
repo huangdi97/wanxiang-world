@@ -169,6 +169,13 @@ def _materialize_visual_plan(
                     cache_hits=len(cached_rows),
                     provider=selected_provider,
                 )
+            if asset.presentation_kind not in {"still", "panorama"}:
+                raise _provider_failure(
+                    "visual provider returned unsupported presentation kind",
+                    attempted_calls=attempted_calls,
+                    cache_hits=len(cached_rows),
+                    provider=selected_provider,
+                )
             if not asset.media_type.startswith("image/") or not asset.content:
                 raise _provider_failure(
                     "visual provider must return non-empty image content",
