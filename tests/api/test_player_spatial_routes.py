@@ -195,7 +195,6 @@ def test_t3_poll_ticket_cannot_be_reused_against_another_world() -> None:
     assert provider.polls == []
 
 
-
 def test_t3_provider_can_be_injected_through_application_factory() -> None:
     provider = _FakeSpatialProvider()
     app, client, profile_id = _world(
