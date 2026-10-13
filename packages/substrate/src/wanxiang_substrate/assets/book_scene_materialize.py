@@ -32,6 +32,7 @@ def _materialize_visual_plan(
     max_cost_units: int = 0,
     rights: str | None = None,
     private_source: bool = False,
+    allow_provider_generation: bool = True,
 ) -> _VisualMaterialization:
     """Generate only cache misses, under explicit network/cost governance."""
     if plan.status not in {"READY_FOR_ASSET_PROVIDER", "BUDGET_ZERO"}:
@@ -83,6 +84,11 @@ def _materialize_visual_plan(
         # Network, external-processing permission, provider privacy and budget
         # govern generation only. A cache hit is a local delivery operation and
         # must remain reusable during replay/offline browsing without re-billing.
+        if misses and provider is not None and not allow_provider_generation:
+            raise _VisualProviderIneligible(
+                "viewer cannot trigger configured visual provider generation",
+                reason="provider_generation_not_allowed",
+            )
         if misses and selected_provider.requires_network and not allow_network:
             raise _VisualProviderIneligible(
                 "network visual provider requires explicit allow_network",
@@ -203,6 +209,7 @@ def _materialize_product_visual_plan(
     max_cost_units: int = 0,
     rights: str | None = None,
     private_source: bool = False,
+    allow_provider_generation: bool = True,
 ) -> _VisualMaterialization:
     """Use cached/T1 visuals when possible; otherwise expose a metered T0 fallback."""
     selected = provider
@@ -215,6 +222,7 @@ def _materialize_product_visual_plan(
             max_cost_units=max_cost_units,
             rights=rights,
             private_source=private_source,
+            allow_provider_generation=allow_provider_generation,
         )
     except _VisualProviderIneligible as ineligible:
         if selected is None:

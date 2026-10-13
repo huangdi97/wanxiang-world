@@ -260,6 +260,49 @@ def test_t3_known_spatial_formats_require_matching_file_signatures() -> None:
         coordinator.jobs = _InMemorySpatialJobStore()
 
 
+def test_attached_t3_ticket_rehydrates_derived_catalog_after_restart(
+    tmp_path: pathlib.Path,
+) -> None:
+    payload = _glb(b"restart")
+    provider = _FakeSpatialProvider(
+        polls=[
+            _SpatialPollResult(
+                "succeeded",
+                (
+                    _SpatialArtifactCandidate(
+                        payload,
+                        "model/gltf-binary",
+                        hashlib.sha256(payload).hexdigest(),
+                    ),
+                ),
+            )
+        ]
+    )
+    jobs_path = tmp_path / "spatial-jobs.json"
+    objects_path = tmp_path / "objects"
+    first = _SpatialGenerationCoordinator(
+        provider,
+        jobs=_LocalJsonSpatialJobStore(jobs_path),
+        objects=LocalObjectStore(objects_path),
+    )
+    submitted = _submit(first)
+    verified = first.poll(submitted.submission_id)
+    first_catalog = _DerivedSpatialAttachments()
+    attached = first.attach(verified.submission_id, first_catalog)
+
+    restarted = _SpatialGenerationCoordinator(
+        provider,
+        jobs=_LocalJsonSpatialJobStore(jobs_path),
+        objects=LocalObjectStore(objects_path),
+    )
+    restored_catalog = _DerivedSpatialAttachments()
+    restored = restarted.attach(attached.submission_id, restored_catalog)
+
+    assert restored == attached
+    assert restored_catalog.get("bridge") == attached.asset_refs
+    assert len(provider.submissions) == 1
+
+
 def test_t3_terminal_failure_never_attaches_assets() -> None:
     provider = _FakeSpatialProvider(
         polls=[_SpatialPollResult("failed", reason="provider task failed")]

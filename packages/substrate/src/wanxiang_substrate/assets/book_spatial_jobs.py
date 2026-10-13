@@ -12,6 +12,7 @@ from typing import cast
 
 from wanxiang_substrate.assets.book_scene_interprocess import _exclusive_index_lock
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
+from wanxiang_substrate.assets.book_spatial_validation import _known_spatial_signature_matches
 from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialArtifactCandidate,
     _SpatialGenerationProvider,
@@ -248,31 +249,13 @@ class _SpatialGenerationCoordinator:
         self.jobs.put(verified)
         return verified
 
-    @staticmethod
-    def _known_signature_matches(media_type: str, content: bytes) -> bool:
-        if media_type == "model/gltf-binary":
-            if len(content) < 12 or content[:4] != b"glTF":
-                return False
-            version = int.from_bytes(content[4:8], "little")
-            declared_length = int.from_bytes(content[8:12], "little")
-            return version == 2 and declared_length == len(content)
-        if media_type in {"application/x-ply", "model/ply"}:
-            return content.startswith(b"ply\n") or content.startswith(b"ply\r\n")
-        if media_type == "image/png":
-            return content.startswith(bytes.fromhex("89504e470d0a1a0a"))
-        if media_type == "image/jpeg":
-            return content.startswith(bytes.fromhex("ffd8ff"))
-        if media_type == "image/webp":
-            return content.startswith(b"RIFF") and content[8:12] == b"WEBP"
-        return True
-
     def _valid_artifact(self, artifact: _SpatialArtifactCandidate) -> bool:
         return (
             artifact.media_type in self.provider.allowed_media_types
             and bool(artifact.content)
             and len(artifact.content) <= self.max_asset_bytes
             and hashlib.sha256(artifact.content).hexdigest() == artifact.content_sha256
-            and self._known_signature_matches(artifact.media_type, artifact.content)
+            and _known_spatial_signature_matches(artifact.media_type, artifact.content)
         )
 
     def _verification_failed(self, ticket: _SpatialGenerationTicket) -> _SpatialGenerationTicket:
@@ -288,6 +271,9 @@ class _SpatialGenerationCoordinator:
         ticket = self.jobs.get(submission_id)
         if ticket is None:
             raise KeyError(submission_id)
+        if ticket.state == "attached" and ticket.asset_refs:
+            catalog.attach(ticket.scene_key, ticket.asset_refs)
+            return ticket
         if ticket.state != "verified" or not ticket.asset_refs:
             raise ValueError("only verified spatial assets may be attached")
         catalog.attach(ticket.scene_key, ticket.asset_refs)

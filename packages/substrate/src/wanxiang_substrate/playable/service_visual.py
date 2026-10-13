@@ -117,7 +117,7 @@ def _materialize_visual_place(
     allow_network: bool = False,
     max_cost_units: int = 0,
 ) -> _VisualMaterialization:
-    service.plaza.require_access(profile_id, viewer_id)
+    profile = service.plaza.require_access(profile_id, viewer_id)
     if not _visual_access_allowed(service, profile_id, viewer_id=viewer_id):
         raise NotFound(f"visual world {profile_id!r} not found")
     package = service._packages.get(profile_id)
@@ -145,6 +145,7 @@ def _materialize_visual_place(
             package.draft.compiler_metadata.get("visual_private_source_v1", "true") == "true"
         ),
         rights=plan.delivery_rights,
+        allow_provider_generation=bool(profile.owner_id) and viewer_id == profile.owner_id,
     )
     combined: dict[str, tuple[_SceneVisualAsset, AssetRef]] = {
         asset.scene_key: (asset, ref)
