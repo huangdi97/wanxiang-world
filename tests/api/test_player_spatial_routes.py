@@ -123,6 +123,21 @@ def test_t3_player_api_is_owner_only_idempotent_and_rehydrates_attachment() -> N
     assert spatial["reserved_cost_units"] == 7
     assert len(provider.submissions) == 1
 
+    listed = client.get(endpoint, headers=owner)
+    assert listed.status_code == 200
+    jobs = listed.json()["spatial_jobs"]
+    assert len(jobs) == 1
+    assert jobs[0]["submission_id"] == submission_id
+    assert jobs[0]["state"] == "submitted"
+    serialized_jobs = json.dumps(jobs, sort_keys=True)
+    assert "provider_task_ref" not in serialized_jobs
+    assert "provider-secret-task-ref" not in serialized_jobs
+    assert "asset_id" not in serialized_jobs
+    assert "content_hash" not in serialized_jobs
+
+    denied_list = client.get(endpoint, headers=visitor)
+    assert denied_list.status_code == 403
+
     duplicate = client.post(endpoint, headers=owner, json={"place_name": "Garden"})
     assert duplicate.status_code == 202
     assert duplicate.json()["spatial"]["submission_id"] == submission_id
