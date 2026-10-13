@@ -27,12 +27,8 @@ def spatial_ticket_view(ticket: SpatialGenerationTicket) -> dict[str, object]:
     }
 
 
-def spatial_generation_view(
-    request: Request, package: WorldPackageDraft
-) -> dict[str, object]:
-    provider = cast(
-        SpatialGenerationProvider | None, request.app.state.spatial_asset_provider
-    )
+def spatial_generation_view(request: Request, package: WorldPackageDraft) -> dict[str, object]:
+    provider = cast(SpatialGenerationProvider | None, request.app.state.spatial_asset_provider)
     if provider is None:
         return {"available": False, "reason": "provider_not_configured", "cost_units": 0}
     allow_network = bool(request.app.state.spatial_asset_allow_network)
