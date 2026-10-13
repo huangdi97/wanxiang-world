@@ -2,6 +2,10 @@
 
 # pyright: reportPrivateUsage=false
 
+from __future__ import annotations
+
+from typing import cast
+
 from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
 from wanxiang_substrate.assets.storage import AssetRef
 from wanxiang_substrate.playable.models import PlayableWorldProfile
@@ -42,7 +46,8 @@ def test_player_world_detail_surfaces_t3_readiness_without_storage_identity() ->
     )
     visual = detail["visual"]
     assert isinstance(visual, dict)
-    scene = visual["scenes"][0]
+    scenes = cast(list[dict[str, object]], visual["scenes"])
+    scene = scenes[0]
     assert scene["spatial"] == {
         "ready": True,
         "asset_count": 1,
@@ -57,7 +62,8 @@ def test_player_world_detail_marks_t3_not_ready_without_attachment() -> None:
     detail = player_world_detail(_profile(), package, include_visual=True)
     visual = detail["visual"]
     assert isinstance(visual, dict)
-    assert visual["scenes"][0]["spatial"] == {
+    scenes = cast(list[dict[str, object]], visual["scenes"])
+    assert scenes[0]["spatial"] == {
         "ready": False,
         "asset_count": 0,
         "media_types": [],

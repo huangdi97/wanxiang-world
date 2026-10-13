@@ -83,7 +83,9 @@ def _attach_spatial_assets(
         raise NotFound(f"playable package {profile_id!r} not found")
     if not asset_refs:
         raise ValueError("spatial attachment requires at least one asset")
-    valid_scene_keys = {request.stable_key for request in _plan_book_scene_assets(package).scene_requests}
+    valid_scene_keys = {
+        request.stable_key for request in _plan_book_scene_assets(package).scene_requests
+    }
     if scene_key not in valid_scene_keys:
         raise NotFound(f"spatial scene {scene_key!r} not found")
     service._spatial_asset_refs.setdefault(profile_id, {})[scene_key] = asset_refs

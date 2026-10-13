@@ -23,10 +23,6 @@ from wanxiang_substrate.assets.book_scene_visual import (
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.playable.models import PlayableWorldProfile
 from wanxiang_substrate.playable.player_i18n import _copy_for
-from wanxiang_substrate.playable.player_spatial_projection import (
-    _SpatialAssetMap,
-    _spatial_capability,
-)
 from wanxiang_substrate.playable.player_projection_support import (
     _actor_owned_entities,
     _change_card,
@@ -43,6 +39,10 @@ from wanxiang_substrate.playable.player_projection_support import (
     _person_card,
     _relation_card,
     _status_label,
+)
+from wanxiang_substrate.playable.player_spatial_projection import (
+    _SpatialAssetMap,
+    _spatial_capability,
 )
 from wanxiang_substrate.playable.state_diff import CommittedStateDiff
 
