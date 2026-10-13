@@ -109,6 +109,13 @@ def test_t3_player_api_is_owner_only_idempotent_and_rehydrates_attachment() -> N
 
     unavailable = client.post(endpoint, headers=owner, json={"place_name": "Garden"})
     assert unavailable.status_code == 503
+    initial_status = client.get(endpoint, headers=owner)
+    assert initial_status.status_code == 200
+    assert initial_status.json()["generation"] == {
+        "available": False,
+        "reason": "provider_not_configured",
+        "cost_units": 0,
+    }
 
     provider = _FakeSpatialProvider()
     app.state.spatial_asset_provider = provider
@@ -129,6 +136,12 @@ def test_t3_player_api_is_owner_only_idempotent_and_rehydrates_attachment() -> N
     assert len(jobs) == 1
     assert jobs[0]["submission_id"] == submission_id
     assert jobs[0]["state"] == "submitted"
+    assert listed.json()["generation"] == {
+        "available": True,
+        "reason": "",
+        "cost_units": 7,
+        "provider": {"id": "spatial:api-test", "version": "2026-10"},
+    }
     serialized_jobs = json.dumps(jobs, sort_keys=True)
     assert "provider_task_ref" not in serialized_jobs
     assert "provider-secret-task-ref" not in serialized_jobs
