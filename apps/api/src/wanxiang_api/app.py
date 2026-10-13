@@ -28,16 +28,16 @@ from wanxiang_substrate.assets.book_scene_cache import (
 )
 from wanxiang_substrate.assets.book_scene_types import SceneImageProvider
 from wanxiang_substrate.assets.storage import InMemoryObjectStore, LocalObjectStore
-from wanxiang_substrate.spatial import (
-    DerivedSpatialAttachments,
-    InMemorySpatialJobStore,
-    LocalJsonSpatialJobStore,
-)
 from wanxiang_substrate.authoring import AuthoringService, LocalSemanticProvider
 from wanxiang_substrate.authoring.providers import ProviderRouter
 from wanxiang_substrate.lineage import LineageGraph
 from wanxiang_substrate.playable import PlayableService
 from wanxiang_substrate.preview import register_preview_resolvers
+from wanxiang_substrate.spatial import (
+    DerivedSpatialAttachments,
+    InMemorySpatialJobStore,
+    LocalJsonSpatialJobStore,
+)
 from wanxiang_substrate.workshop import LocalPromptGenesisProvider, WorkshopService
 
 from wanxiang_api.authoring_routes import router as authoring_router
