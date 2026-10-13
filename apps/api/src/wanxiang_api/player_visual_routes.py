@@ -65,6 +65,7 @@ def player_materialize_visual_place(
         ),
     }
 
+
 @router.post("/worlds/{profile_id}/panoramas")
 def player_upgrade_visual_place_to_panorama(
     profile_id: str,

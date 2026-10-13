@@ -17,6 +17,7 @@ def test_player_html_exposes_optional_spatial_stage_without_vendor_dependency() 
     assert "worldlabs" not in SPATIAL_RENDERER_SCRIPT.casefold()
     assert "hunyuan" not in SPATIAL_RENDERER_SCRIPT.casefold()
 
+
 def test_player_html_exposes_optional_panorama_stage_without_vendor_dependency() -> None:
     html = player_html("zh-CN")
 

@@ -88,6 +88,7 @@ class PlayableService:
         """Return source-derived visual assets allowed for this viewer."""
 
         return _visible_visual_assets(self, profile_id, viewer_id=viewer_id)
+
     def spatial_assets(self, profile_id: str, *, viewer_id: str) -> dict[str, tuple[AssetRef, ...]]:
         return _visible_spatial_assets(self, profile_id, viewer_id=viewer_id)
 
@@ -102,8 +103,6 @@ class PlayableService:
         max_cost_units: int = 0,
         fallback_to_t0: bool = True,
     ) -> _VisualMaterialization:
-        """Generate/cache one already-source-grounded place without changing Canon."""
-
         return _materialize_visual_place(
             self,
             profile_id,
