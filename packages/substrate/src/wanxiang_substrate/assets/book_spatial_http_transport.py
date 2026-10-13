@@ -1,6 +1,6 @@
 """T3-specific bounded reads over shared safe HTTP endpoint primitives."""
 
-# pyright: reportUnusedFunction=false
+# pyright: reportPrivateUsage=false, reportUnusedFunction=false
 
 from __future__ import annotations
 
