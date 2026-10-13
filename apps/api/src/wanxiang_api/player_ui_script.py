@@ -128,6 +128,7 @@ function focusDetailVisual(item,galleryItems){
   image.hidden=false;image.src=item.data_uri;image.alt=label;image.dataset.selectedPlace=item.place_name||"";
   $("detail-visual-caption").textContent=item.kind==="atlas"?tr("visual_atlas_caption"):`${label} · ${visualProof(item)}`;
   renderAtlasEntrances(item,galleryItems);
+  renderSpatialPanel(item.kind==="atlas"?null:item);
   $("visual-gallery").querySelectorAll("[data-visual-index]").forEach(node=>node.setAttribute("aria-pressed",String(galleryItems[Number(node.dataset.visualIndex)]===item)));
   $("visual-places").querySelectorAll("[data-focus-place]").forEach(node=>node.setAttribute("aria-pressed",String(node.dataset.focusPlace===item.place_name)));
 }
