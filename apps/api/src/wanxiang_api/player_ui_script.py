@@ -7,7 +7,7 @@ const USER="studio";
 const i18n=window.__PLAYER_I18N__||{locale:"zh-CN",strings:{}};
 const LOCALE=i18n.locale||"zh-CN";
 const tr=(key,values={})=>String(i18n.strings?.[key]??key).replace(/\{(\w+)\}/g,(_,name)=>String(values[name]??""));
-const model={plaza:null,characters:[],world:null,view:null,instanceId:"",filter:"all",query:"",selectedCharacter:"",placeQuery:"",placeLimit:36,observerScene:"",stageFocus:false};
+const model={plaza:null,characters:[],world:null,view:null,instanceId:"",filter:"all",query:"",selectedCharacter:"",placeQuery:"",placeLimit:36,observerScene:"",stageFocus:false,spatialStatus:null};
 const $=id=>document.getElementById(id);
 const safe=value=>String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[char]));
 const shown=(value,emptyKey="not_recorded")=>value===null||value===undefined||value===""?tr(emptyKey):String(value);
@@ -143,11 +143,23 @@ function renderVisualPlaceList(scenes,galleryItems,visual){
   placeList.querySelectorAll("[data-generate-place]").forEach(node=>node.addEventListener("click",()=>generateVisualPlace(node.dataset.generatePlace||"")));
   placeList.querySelectorAll("[data-focus-place]").forEach(node=>node.addEventListener("click",()=>{const item=scenes.find(scene=>scene.place_name===node.dataset.focusPlace);if(item)focusDetailVisual(item,galleryItems)}));
 }
+async function loadSpatialStatus(profile){try{return await api(`/experience/player/worlds/${encodeURIComponent(profile)}/spatial`)}catch{return null}}
+function spatialStateLabel(value){return tr(`spatial_upgrade_state_${value||"submitted"}`)}
+function renderSpatialPanel(scene){
+  const panel=$("spatial-upgrade-panel"),submit=$("spatial-submit"),refresh=$("spatial-refresh"),copy=$("spatial-upgrade-copy"),jobsNode=$("spatial-job-list"),spatial=model.spatialStatus;const place=scene?.place_name||"";panel.hidden=!place||!spatial;if(panel.hidden){jobsNode.innerHTML="";return}
+  const jobs=(spatial.spatial_jobs||[]).filter(item=>item.place_name===place),job=jobs[jobs.length-1]||null,generation=spatial.generation||{},ready=Boolean(scene?.spatial?.ready)||job?.state==="attached",pending=Boolean(job&&["submitted","queued","running","verified"].includes(job.state)),terminal=Boolean(job&&["failed","cancelled","expired"].includes(job.state));
+  const reasonKey={provider_not_configured:"spatial_upgrade_unavailable_provider",network_not_allowed:"spatial_upgrade_unavailable_network",source_external_processing_not_allowed:"spatial_upgrade_unavailable_rights",private_source_provider_not_safe:"spatial_upgrade_unavailable_privacy",budget_insufficient:"spatial_upgrade_unavailable_budget"}[generation.reason]||"spatial_upgrade_unavailable_provider";
+  copy.textContent=ready?tr("spatial_upgrade_ready",{place,count:scene?.spatial?.asset_count||job?.asset_count||0}):pending?tr("spatial_upgrade_pending",{place,state:spatialStateLabel(job.state)}):terminal?tr("spatial_upgrade_terminal",{place,state:spatialStateLabel(job.state)}):generation.available?tr("spatial_upgrade_available",{place,cost:generation.cost_units||0}):tr(reasonKey);
+  jobsNode.innerHTML=jobs.map(item=>`<span class="spatial-job-chip">${safe(item.place_name)} · ${safe(spatialStateLabel(item.state))}</span>`).join("");submit.hidden=ready||Boolean(job)||!generation.available;submit.dataset.place=place;refresh.hidden=!pending;
+}
+async function submitSpatialPlace(place){const profile=model.world?.world?.profile_id;if(!profile||!place)return;busy(true);try{await api(`/experience/player/worlds/${encodeURIComponent(profile)}/spatial`,{method:"POST",body:JSON.stringify({place_name:place})});model.spatialStatus=await loadSpatialStatus(profile);renderDetail(place);status(tr("status_spatial_submitted",{place}))}catch(error){status(error.message,true)}finally{busy(false)}}
+async function refreshSpatialJobs(){const profile=model.world?.world?.profile_id;if(!profile)return;busy(true);try{const jobs=model.spatialStatus?.spatial_jobs||[];for(const job of jobs.filter(item=>["submitted","queued","running","verified"].includes(item.state))){const result=await api(`/experience/player/worlds/${encodeURIComponent(profile)}/spatial/${encodeURIComponent(job.submission_id)}`);if(result.world)model.world.world=result.world}model.spatialStatus=await loadSpatialStatus(profile);const selected=$("detail-visual-image").dataset.selectedPlace||"";renderDetail(selected);status(tr("status_spatial_refreshed"))}catch(error){status(error.message,true)}finally{busy(false)}}
 function renderDetail(preferredPlace=""){
   const world=model.world.world;
   const setting=world.setting||{};
   const scenes=world.visual?.scenes||[],topology=world.visual?.topology||[],atlas=world.visual?.atlas||null;const visual=(preferredPlace?scenes.find(item=>item.place_name===preferredPlace):null)||atlas||scenes[0]||null;const visualImg=$("detail-visual-image");visualImg.hidden=!visual;visualImg.dataset.selectedPlace=visual?.place_name||"";if(visual){visualImg.src=visual.data_uri;visualImg.alt=visual.kind==="atlas"?tr("visual_atlas_label"):visual.place_name||world.name;$("detail-visual-caption").textContent=visual.kind==="atlas"?tr("visual_atlas_caption"):`${visual.place_name||world.name} · ${visualProof(visual)}`}else{$("detail-visual-caption").textContent=tr("world_plate_copy")}
   const galleryItems=atlas?[atlas,...scenes]:scenes;renderAtlasEntrances(visual,galleryItems);const galleryWrap=$("visual-gallery-wrap"),gallery=$("visual-gallery");galleryWrap.hidden=!galleryItems.length;gallery.innerHTML=galleryItems.map((item,index)=>{const label=item.kind==="atlas"?tr("visual_atlas_label"):item.place_name||world.name;return `<button class="visual-thumb" type="button" data-visual-index="${index}" aria-pressed="${item===visual?"true":"false"}"><img alt="${safe(label)}" src="${safe(item.data_uri)}"><span>${safe(label)}${item.kind==="atlas"?"":`<small class="visual-proof">${safe(visualProof(item))}</small>`}</span></button>`}).join("");gallery.querySelectorAll("[data-visual-index]").forEach(node=>node.addEventListener("click",()=>{const item=galleryItems[Number(node.dataset.visualIndex)]||null;if(item)focusDetailVisual(item,galleryItems)}));const places=world.visual?.places||[],placesWrap=$("visual-places-wrap");placesWrap.hidden=!places.length;const placeSearch=$("visual-place-search");placeSearch.value=model.placeQuery;placeSearch.oninput=()=>{model.placeQuery=placeSearch.value;model.placeLimit=36;renderVisualPlaceList(scenes,galleryItems,visual)};$("visual-place-more").onclick=()=>{model.placeLimit+=36;renderVisualPlaceList(scenes,galleryItems,visual)};renderVisualPlaceList(scenes,galleryItems,visual);const relationsWrap=$("visual-relations-wrap"),relations=$("visual-relations");relationsWrap.hidden=!topology.length;relations.innerHTML=topology.map(item=>`<span class="visual-relation">${safe(item.from)} <b>→</b> ${safe(item.to)}</span>`).join("");$("detail-title").textContent=world.name;$("detail-plate-title").textContent=world.name;$("detail-description").textContent=world.description;$("detail-scenario").textContent=world.scenario.name;$("detail-opening").textContent=world.scenario.opening;$("detail-era").textContent=shown(setting.era);$("detail-location").textContent=shown(setting.location);$("detail-environment").textContent=shown(setting.environment);$("detail-time").textContent=shown(setting.time,"time_after_enter");$("detail-now").textContent=shown(setting.happening);$("detail-mode").textContent=world.mode||tr("mode_character");
+  renderSpatialPanel(visual?.kind==="atlas"?null:visual);
   const list=$("character-list"),items=model.world.characters||[];
   list.innerHTML=items.length?items.map(item=>characterLine(item,true)).join(""):`<div class="empty-state"><strong>${safe(tr("no_compatible_title"))}</strong><p>${safe(tr("no_compatible_body"))}</p><button type="button" class="text-button" data-open-characters>${safe(tr("create_character_from_world"))}</button></div>`;
   if(items.length&&!items.some(item=>item.character_id===model.selectedCharacter)){model.selectedCharacter=items[0].character_id;const radio=list.querySelector("input");if(radio)radio.checked=true}
@@ -155,7 +167,7 @@ function renderDetail(preferredPlace=""){
 }
 async function openWorld(profileId){
   busy(true);status(tr("status_open_world"));view("detail-view");
-  try{model.world=await api(`/experience/player/worlds/${encodeURIComponent(profileId)}`);model.selectedCharacter="";model.placeQuery="";model.placeLimit=36;renderDetail();status("")}
+  try{model.world=await api(`/experience/player/worlds/${encodeURIComponent(profileId)}`);model.spatialStatus=await loadSpatialStatus(profileId);model.selectedCharacter="";model.placeQuery="";model.placeLimit=36;renderDetail();status("")}
   catch(error){status(error.message,true)}finally{busy(false)}
 }
 let visualGenerationInFlight=false;
@@ -253,6 +265,8 @@ async function createCharacter(event){
 document.querySelectorAll(".filter-button").forEach(node=>node.addEventListener("click",()=>{model.filter=node.dataset.filter;renderPlaza()}));
 $("world-search").addEventListener("input",event=>{model.query=event.target.value;renderWorlds()});
 $("stage-focus-toggle").addEventListener("click",()=>{model.stageFocus=!model.stageFocus;renderPlay()});
+$("spatial-submit").addEventListener("click",()=>submitSpatialPlace($("spatial-submit").dataset.place||""));
+$("spatial-refresh").addEventListener("click",refreshSpatialJobs);
 $("enter-world").addEventListener("click",enterWorld);$("enter-observer").addEventListener("click",enterObserver);$("send-action").addEventListener("click",sendAction);$("leave-world").addEventListener("click",leaveWorld);$("character-form").addEventListener("submit",createCharacter);
 $("create-character-inline").addEventListener("click",()=>{view("characters-view");document.querySelector('[data-nav="characters-view"]').classList.add("is-active");$("character-form-panel").open=true;$("character-name").focus()});
 $("action-input").addEventListener("keydown",event=>{if(event.key==="Enter"&&!event.shiftKey){event.preventDefault();sendAction()}});
