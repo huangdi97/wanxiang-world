@@ -650,3 +650,22 @@ Genie 3 remains correctly classified as a T4 live/sensory projection: official m
 ### Current implementation boundary
 
 The repository deliberately does **not** claim a real T3 provider execution. The existing G96 external-engine boundary remains discovery/projection infrastructure, and real T3 stays `EXTERNAL_BLOCKED` until an authorized provider task is executed with real task, latency, billing, asset and rights evidence.
+
+### Repository-side T3 closure
+
+The generic T3 path is now implemented as projection infrastructure:
+
+- asynchronous submit/poll/verify/attach tickets with provider id/version and idempotency;
+- restart-safe ticket persistence and rehydration of verified spatial AssetRefs;
+- duplicate-submit coalescing before a provider-side billing call, including local multi-process execution;
+- artifact batch verification before object-store writes, including digest, size, media type and known file signatures;
+- one unified Player World Stage that can mount a renderer-neutral T3 adapter while retaining T0/T1 fallback;
+- source-derived attachment policy: only compiled source places can receive spatial assets, and attachment rights must match current source-derived delivery rights;
+- remote artifact URLs are restricted to the configured submit/poll hosts plus explicit deployment allowlist `WANXIANG_SPATIAL_ARTIFACT_HOSTS`; bearer credentials are never forwarded to artifact downloads;
+- `WANXIANG_SPATIAL_MAX_COST_UNITS` is enforced cumulatively per world/profile, not merely per job. Existing idempotent tickets do not reserve twice, while different scene submissions share one persisted reservation ceiling;
+- durable local submissions serialize reservation and provider submit under one world-scoped cross-process budget lock, so simultaneous different-scene requests cannot race through the ceiling;
+- Player capability projection reports total, reserved and remaining world budget without exposing task refs, object ids or content hashes.
+
+The reservation is intentionally conservative: a persisted job keeps its reserved units even after a terminal provider state because Wanxiang cannot infer whether an external provider ultimately billed that job. Releasing or reconciling reservations requires real provider billing evidence or an explicit provider-specific policy; generic code must not silently assume a failed/cancelled task was free.
+
+None of these mechanisms grants T3 any Canon authority. Spatial task completion changes only derived AssetRefs / Player projection. World state changes still require Player intent -> Commit Authority -> canonical History.
