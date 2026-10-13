@@ -230,9 +230,7 @@ def test_t3_restart_refuses_to_poll_a_ticket_with_another_provider() -> None:
 
 def test_t3_known_spatial_formats_require_matching_file_signatures() -> None:
     provider = _FakeSpatialProvider(
-        allowed_media_types=frozenset(
-            {"model/gltf-binary", "application/x-ply", "image/png"}
-        )
+        allowed_media_types=frozenset({"model/gltf-binary", "application/x-ply", "image/png"})
     )
     coordinator = _coordinator(provider)
     candidates = (
