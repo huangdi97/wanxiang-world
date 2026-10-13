@@ -41,8 +41,8 @@ from wanxiang_substrate.playable.player_projection_support import (
     _status_label,
 )
 from wanxiang_substrate.playable.player_spatial_projection import (
-    _SpatialAssetMap,
     _spatial_capability,
+    _SpatialAssetMap,
 )
 from wanxiang_substrate.playable.state_diff import CommittedStateDiff
 
