@@ -12,6 +12,7 @@ import pytest
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
 from wanxiang_substrate.assets.book_spatial_jobs import (
     _DerivedSpatialAttachments,
+    _InMemorySpatialJobStore,
     _LocalJsonSpatialJobStore,
     _SpatialGenerationCoordinator,
 )
