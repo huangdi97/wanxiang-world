@@ -100,6 +100,43 @@ def _person_card(entity: EntityState, copy: _PlayerCopy) -> dict[str, object]:
     }
 
 
+def _known_people_cards(
+    people: tuple[EntityState, ...],
+    relations: tuple[Any, ...],
+    actor_id: str,
+    location: str | None,
+    copy: _PlayerCopy,
+) -> list[dict[str, object]]:
+    """Expose only co-located or actor-related people; remote state stays hidden."""
+    present_ids = {
+        person.entity_id.value
+        for person in people
+        if location and _person_card(person, copy)["location"] == location
+    }
+    related_ids: set[str] = set()
+    if actor_id:
+        for relation in relations:
+            source_id = relation.source_id.value
+            target_id = relation.target_id.value
+            if source_id == actor_id:
+                related_ids.add(target_id)
+            elif target_id == actor_id:
+                related_ids.add(source_id)
+    allowed_ids = present_ids | related_ids
+    allowed_ids.discard(actor_id)
+    cards: list[dict[str, object]] = []
+    for person in people:
+        person_id = person.entity_id.value
+        if person_id not in allowed_ids:
+            continue
+        card = _person_card(person, copy)
+        if person_id not in present_ids:
+            card["location"] = None
+            card["status"] = None
+        cards.append(card)
+    return cards
+
+
 def _relation_card(
     relation: Any, names: dict[str, str], actor_id: str, copy: _PlayerCopy
 ) -> dict[str, object]:

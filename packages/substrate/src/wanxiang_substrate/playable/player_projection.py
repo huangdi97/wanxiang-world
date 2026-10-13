@@ -34,6 +34,7 @@ from wanxiang_substrate.playable.player_projection_support import (
     _first_text_from_entities,
     _is_person,
     _memory_cards,
+    _known_people_cards,
     _narrative,
     _opportunity_cards,
     _person_card,
@@ -209,15 +210,18 @@ def player_observation(
     )
     setting = world["setting"]
     assert isinstance(setting, dict)
-    relations = [_relation_card(item, names, actor_id, copy) for item in state.relations()]
+    state_relations = state.relations()
+    relations = [_relation_card(item, names, actor_id, copy) for item in state_relations]
     actor = next((item for item in entities if item.entity_id.value == actor_id), None)
     actor_fields = _entity_fields(actor)
     # The actor's position is not the location of an arbitrary world entity.
     canonical_location = _first_text(actor_fields, ("location", "place"))
     location = canonical_location or actor_starting_location or None
-    known_people = [_person_card(entity, copy) for entity in entities if _is_person(entity)]
+    person_entities = tuple(entity for entity in entities if _is_person(entity))
+    person_cards = [_person_card(entity, copy) for entity in person_entities]
     # Only explicit co-location is sufficient to call someone "present".
-    people = [person for person in known_people if location and person["location"] == location]
+    people = [person for person in person_cards if location and person["location"] == location]
+    known_people = _known_people_cards(person_entities, state_relations, actor_id, location, copy)
     environment = _first_text_from_entities(entities, ("environment", "setting"))
     weather = _first_text_from_entities(entities, ("weather", "climate"))
     current_event = _event_card(entities, names, copy)
@@ -231,6 +235,11 @@ def player_observation(
     ]
     changes = [_change_card(change, names, copy) for change in (diff.changes if diff else ())]
     world_time = event_list[-1].world_time.ticks if event_list else 0
+    actor_relations = [
+        {key: value for key, value in item.items() if key != "involves_actor"}
+        for item in relations
+        if item.get("involves_actor") is True
+    ]
     player = {
         "name": actor_name or (_entity_name(actor, copy) if actor else copy.text("your_character")),
         "status": _status_label(actor_fields, copy),
@@ -241,11 +250,9 @@ def player_observation(
         "goals": _actor_owned_entities(
             entities, {"task", "opportunity", "challenge"}, copy, actor_id
         ),
-        "relations": [dict(item) for item in relations if item.get("involves_actor") is True],
+        "relations": actor_relations,
         "memories": memories,
     }
-    for item in relations:
-        item.pop("involves_actor", None)
     scene_visual: dict[str, object] | None = None
     if package is not None and visual_access_allowed:
         plan = _plan_book_scene_assets(package)
@@ -287,7 +294,7 @@ def player_observation(
         "opportunities": opportunities,
         "narrative": _narrative(current_event, actor_name, copy),
         "player": player,
-        "relations": relations,
+        "relations": actor_relations,
         "memories": memories,
         "recent_changes": changes,
         "chronicle": chronicle,
