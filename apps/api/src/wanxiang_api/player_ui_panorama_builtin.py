@@ -1,0 +1,35 @@
+"""Dependency-free equirectangular panorama renderer for the Player World Stage."""
+
+# ruff: noqa: E501
+
+BUILTIN_PANORAMA_RENDERER_SCRIPT = r"""
+(()=>{
+if(window.__WANXIANG_PANORAMA_RENDERER__)return;
+const TYPES=new Set(["image/png","image/jpeg","image/webp"]);
+const shader=(gl,type,source)=>{const value=gl.createShader(type);if(!value)throw new Error("panorama shader unavailable");gl.shaderSource(value,source);gl.compileShader(value);if(!gl.getShaderParameter(value,gl.COMPILE_STATUS)){const message=gl.getShaderInfoLog(value)||"panorama shader failed";gl.deleteShader(value);throw new Error(message)}return value};
+const fallback=({container,placeName,dataUri})=>{
+  const view=document.createElement("div");view.tabIndex=0;view.setAttribute("role","img");view.setAttribute("aria-label",placeName||"360 panorama");Object.assign(view.style,{width:"100%",height:"100%",cursor:"grab",backgroundImage:`url("${dataUri}")`,backgroundRepeat:"repeat-x",backgroundPosition:"0 center",backgroundSize:"220% auto",touchAction:"none"});
+  container.replaceChildren(view);let x=0,zoom=220,drag=false,last=0;const draw=()=>{view.style.backgroundPosition=`${x}px center`;view.style.backgroundSize=`${zoom}% auto`};const down=e=>{drag=true;last=e.clientX;view.setPointerCapture?.(e.pointerId);view.style.cursor="grabbing"};const move=e=>{if(!drag)return;x+=e.clientX-last;last=e.clientX;draw()};const up=()=>{drag=false;view.style.cursor="grab"};const wheel=e=>{e.preventDefault();zoom=Math.max(130,Math.min(360,zoom+Math.sign(e.deltaY)*18));draw()};const key=e=>{if(e.key==="ArrowLeft")x+=32;else if(e.key==="ArrowRight")x-=32;else return;e.preventDefault();draw()};
+  view.addEventListener("pointerdown",down);view.addEventListener("pointermove",move);view.addEventListener("pointerup",up);view.addEventListener("pointercancel",up);view.addEventListener("wheel",wheel,{passive:false});view.addEventListener("keydown",key);
+  return()=>{view.removeEventListener("pointerdown",down);view.removeEventListener("pointermove",move);view.removeEventListener("pointerup",up);view.removeEventListener("pointercancel",up);view.removeEventListener("wheel",wheel);view.removeEventListener("keydown",key);container.replaceChildren()};
+};
+const mount=async({container,placeName,dataUri,mediaType})=>{
+  if(!container||!dataUri||!TYPES.has(mediaType||""))throw new Error("unsupported panorama asset");
+  const canvas=document.createElement("canvas");canvas.tabIndex=0;canvas.setAttribute("role","img");canvas.setAttribute("aria-label",placeName||"360 panorama");Object.assign(canvas.style,{width:"100%",height:"100%",display:"block",cursor:"grab",touchAction:"none"});
+  const gl=canvas.getContext("webgl",{alpha:false,antialias:true,preserveDrawingBuffer:false});
+  if(!gl)return fallback({container,placeName,dataUri});
+  const vertex=shader(gl,gl.VERTEX_SHADER,`attribute vec2 a;varying vec2 v;void main(){v=a*.5+.5;gl_Position=vec4(a,0.,1.);}`);
+  const fragment=shader(gl,gl.FRAGMENT_SHADER,`precision mediump float;varying vec2 v;uniform sampler2D t;uniform vec2 look;uniform float fov;uniform float aspect;const float PI=3.141592653589793;void main(){vec2 p=v*2.-1.;float q=tan(fov*.5);vec3 d=normalize(vec3(p.x*q*aspect,-p.y*q,-1.));float cp=cos(look.y),sp=sin(look.y);d=vec3(d.x,d.y*cp-d.z*sp,d.y*sp+d.z*cp);float cy=cos(look.x),sy=sin(look.x);d=vec3(d.x*cy-d.z*sy,d.y,d.x*sy+d.z*cy);float lon=atan(d.x,-d.z),lat=asin(clamp(d.y,-1.,1.));vec2 uv=vec2(fract(lon/(2.*PI)+.5),.5-lat/PI);gl_FragColor=texture2D(t,uv);}`);
+  const program=gl.createProgram();if(!program)throw new Error("panorama program unavailable");gl.attachShader(program,vertex);gl.attachShader(program,fragment);gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(program)||"panorama program failed");gl.useProgram(program);
+  const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);const a=gl.getAttribLocation(program,"a");gl.enableVertexAttribArray(a);gl.vertexAttribPointer(a,2,gl.FLOAT,false,0,0);
+  const image=new Image();image.decoding="async";const loaded=new Promise((resolve,reject)=>{image.onload=()=>resolve(true);image.onerror=()=>reject(new Error("panorama image failed to load"))});image.src=dataUri;await loaded;
+  const texture=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,texture);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,1);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.REPEAT);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,image);
+  const lookLoc=gl.getUniformLocation(program,"look"),fovLoc=gl.getUniformLocation(program,"fov"),aspectLoc=gl.getUniformLocation(program,"aspect");let yaw=0,pitch=0,fov=1.35,drag=false,x=0,y=0,raf=0;
+  const draw=()=>{raf=0;const ratio=Math.min(2,window.devicePixelRatio||1),w=Math.max(1,Math.round(container.clientWidth*ratio)),h=Math.max(1,Math.round(container.clientHeight*ratio));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h}gl.viewport(0,0,w,h);gl.uniform2f(lookLoc,yaw,pitch);gl.uniform1f(fovLoc,fov);gl.uniform1f(aspectLoc,w/h);gl.drawArrays(gl.TRIANGLES,0,6)};
+  const requestDraw=()=>{if(!raf)raf=requestAnimationFrame(draw)};const down=e=>{drag=true;x=e.clientX;y=e.clientY;canvas.setPointerCapture?.(e.pointerId);canvas.style.cursor="grabbing"};const move=e=>{if(!drag)return;yaw-=(e.clientX-x)*.005;pitch=Math.max(-1.35,Math.min(1.35,pitch+(e.clientY-y)*.005));x=e.clientX;y=e.clientY;requestDraw()};const up=()=>{drag=false;canvas.style.cursor="grab"};const wheel=e=>{e.preventDefault();fov=Math.max(.55,Math.min(1.75,fov+Math.sign(e.deltaY)*.08));requestDraw()};const key=e=>{if(e.key==="ArrowLeft")yaw+=.12;else if(e.key==="ArrowRight")yaw-=.12;else if(e.key==="ArrowUp")pitch=Math.max(-1.35,pitch-.08);else if(e.key==="ArrowDown")pitch=Math.min(1.35,pitch+.08);else return;e.preventDefault();requestDraw()};
+  canvas.addEventListener("pointerdown",down);canvas.addEventListener("pointermove",move);canvas.addEventListener("pointerup",up);canvas.addEventListener("pointercancel",up);canvas.addEventListener("wheel",wheel,{passive:false});canvas.addEventListener("keydown",key);const resize=new ResizeObserver(requestDraw);resize.observe(container);container.replaceChildren(canvas);requestDraw();
+  return()=>{if(raf)cancelAnimationFrame(raf);resize.disconnect();canvas.removeEventListener("pointerdown",down);canvas.removeEventListener("pointermove",move);canvas.removeEventListener("pointerup",up);canvas.removeEventListener("pointercancel",up);canvas.removeEventListener("wheel",wheel);canvas.removeEventListener("keydown",key);if(texture)gl.deleteTexture(texture);if(buffer)gl.deleteBuffer(buffer);gl.deleteProgram(program);gl.deleteShader(vertex);gl.deleteShader(fragment);container.replaceChildren()};
+};
+window.__WANXIANG_PANORAMA_RENDERER__={supports:mediaType=>TYPES.has(mediaType||""),mount};
+})();
+"""

@@ -8,6 +8,7 @@ from html import escape
 
 import wanxiang_substrate.playable.player_i18n as _player_i18n
 
+from wanxiang_api.player_ui_panorama_builtin import BUILTIN_PANORAMA_RENDERER_SCRIPT
 from wanxiang_api.player_ui_panorama_renderer import PANORAMA_RENDERER_SCRIPT
 from wanxiang_api.player_ui_script import SCRIPT
 from wanxiang_api.player_ui_spatial_renderer import SPATIAL_RENDERER_SCRIPT
@@ -101,6 +102,7 @@ def player_html(locale: str | None = None) -> str:
         "</main></div>"
         f"<script>window.__PLAYER_I18N__={_player_i18n._serialize_copy(copy)};</script>"
         f"<script>{SPATIAL_RENDERER_SCRIPT}</script>"
+        f"<script>{BUILTIN_PANORAMA_RENDERER_SCRIPT}</script>"
         f"<script>{PANORAMA_RENDERER_SCRIPT}</script>"
         f"<script>{SCRIPT}</script></body></html>"
     )
