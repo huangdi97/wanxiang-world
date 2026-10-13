@@ -118,6 +118,7 @@ STRINGS: dict[str, str] = {
     "spatial_upgrade_available": "{place} 可生成空间场景 · 预计占用 {cost} 个预算单位",
     "spatial_upgrade_pending": "{place} 的空间场景正在生成 · {state}",
     "spatial_upgrade_ready": "{place} 的空间场景已就绪 · {count} 个空间资产",
+    "spatial_upgrade_terminal": "{place} 的空间任务状态：{state}。现有场景仍可继续使用。",
     "spatial_upgrade_unavailable_provider": "当前未配置空间生成器；现有插画场景仍可正常使用。",
     "spatial_upgrade_unavailable_network": "空间生成器当前未获准联网；现有场景不受影响。",
     "spatial_upgrade_unavailable_rights": "来源未授权外部空间生成；继续使用本地/已有视觉。",
