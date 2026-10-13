@@ -231,8 +231,7 @@ def _plan_book_scene_assets(
         # Cache identity may use content fingerprints, while audit/projection
         # keeps the original source locators unchanged.
         cache_evidence_refs = tuple(
-            _cache_evidence_ref(ref, source_fingerprints=fingerprint_map)
-            for ref in source_refs
+            _cache_evidence_ref(ref, source_fingerprints=fingerprint_map) for ref in source_refs
         )
         evidence_identity = json.dumps(
             {

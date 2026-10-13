@@ -94,8 +94,7 @@ def _visual_compiler_metadata(
             "true"
             if records
             and all(
-                record.rights is not None
-                and record.rights.allows("external_model_processing")
+                record.rights is not None and record.rights.allows("external_model_processing")
                 for record in records
             )
             else "false"

@@ -60,9 +60,7 @@ def _bounded_confidence(value: object) -> float:
     return score if math.isfinite(score) and 0.0 <= score <= 1.0 else 0.0
 
 
-def _cache_evidence_ref(
-    ref: str, *, source_fingerprints: dict[str, str]
-) -> str:
+def _cache_evidence_ref(ref: str, *, source_fingerprints: dict[str, str]) -> str:
     """Use content identity only for cache keys; preserve original refs elsewhere."""
     if not source_fingerprints:
         return ref
