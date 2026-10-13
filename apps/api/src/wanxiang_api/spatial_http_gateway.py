@@ -1,5 +1,7 @@
 """Deployment configuration for the vendor-neutral T3 HTTP gateway."""
 
+# pyright: reportPrivateUsage=false
+
 from __future__ import annotations
 
 import os

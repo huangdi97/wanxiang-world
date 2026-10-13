@@ -20,6 +20,11 @@ from wanxiang_substrate.assets.book_scene_prompt import (
     _compile_scene_generation_brief,
     _story_visual_profile_from_style_key,
 )
+from wanxiang_substrate.assets.book_spatial_http_transport import (
+    _NoRedirects,
+    _bounded_read,
+    _validate_endpoint,
+)
 from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialArtifactCandidate,
     _SpatialGenerationProvider,
@@ -30,13 +35,6 @@ _MAX_JSON_RESPONSE_BYTES = 48 * 1024 * 1024
 _MAX_ARTIFACT_BYTES = 128 * 1024 * 1024
 _MAX_ARTIFACTS = 8
 _VALID_STATES = frozenset({"queued", "running", "succeeded", "failed", "cancelled", "expired"})
-
-
-from wanxiang_substrate.assets.book_spatial_http_transport import (
-    _NoRedirects,
-    _bounded_read,
-    _validate_endpoint,
-)
 
 
 class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
