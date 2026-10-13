@@ -14,7 +14,7 @@ from wanxiang_substrate.assets.book_spatial_safety import (
 )
 from wanxiang_substrate.assets.book_spatial_store import (
     _InMemorySpatialJobStore,
-    _LocalJsonSpatialJobStore,
+    _LocalJsonSpatialJobStore,  # noqa: F401 - compatibility re-export
 )
 from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialArtifactCandidate,
