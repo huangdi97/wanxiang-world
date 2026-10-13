@@ -21,4 +21,4 @@ def _known_spatial_signature_matches(media_type: str, content: bytes) -> bool:
         return content.startswith(bytes.fromhex("ffd8ff"))
     if media_type == "image/webp":
         return content.startswith(b"RIFF") and content[8:12] == b"WEBP"
-    return True
+    return False

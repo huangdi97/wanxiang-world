@@ -1,8 +1,8 @@
 """Shared safe HTTP primitives for the T3 spatial gateway."""
 
-from __future__ import annotations
-
 # pyright: reportUnusedClass=false, reportUnusedFunction=false
+
+from __future__ import annotations
 
 import ipaddress
 from typing import Any

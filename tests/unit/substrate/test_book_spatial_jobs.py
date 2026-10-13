@@ -285,6 +285,33 @@ def test_t3_known_spatial_formats_require_matching_file_signatures() -> None:
         coordinator.jobs = _InMemorySpatialJobStore()
 
 
+def test_t3_unknown_spatial_media_type_fails_closed_even_if_provider_allows_it() -> None:
+    payload = b"vendor-binary"
+    provider = _FakeSpatialProvider(
+        allowed_media_types=frozenset({"application/octet-stream"}),
+        polls=[
+            _SpatialPollResult(
+                "succeeded",
+                (
+                    _SpatialArtifactCandidate(
+                        payload,
+                        "application/octet-stream",
+                        hashlib.sha256(payload).hexdigest(),
+                    ),
+                ),
+            )
+        ],
+    )
+    coordinator = _coordinator(provider)
+    ticket = _submit(coordinator)
+
+    failed = coordinator.poll(ticket.submission_id)
+
+    assert failed.state == "failed"
+    assert failed.reason == "artifact_verification_failed"
+    assert failed.asset_refs == ()
+
+
 def test_attached_t3_ticket_rehydrates_derived_catalog_after_restart(
     tmp_path: pathlib.Path,
 ) -> None:
