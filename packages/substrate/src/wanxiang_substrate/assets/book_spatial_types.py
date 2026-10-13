@@ -77,3 +77,6 @@ class _SpatialJobStore:
 
     def put(self, ticket: _SpatialGenerationTicket) -> None:
         raise TypeError("concrete spatial job store required")
+
+    def list_scope(self, scope_key: str) -> tuple[_SpatialGenerationTicket, ...]:
+        raise TypeError("concrete spatial job store required")
