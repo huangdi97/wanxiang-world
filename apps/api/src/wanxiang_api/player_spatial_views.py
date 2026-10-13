@@ -7,12 +7,12 @@ from __future__ import annotations
 from typing import cast
 
 from fastapi import Request
-from wanxiang_substrate.assets.book_scene_identity import _source_scene_key
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.spatial import (
     SpatialGenerationProvider,
     SpatialGenerationTicket,
     plan_book_scene_assets,
+    source_scene_key,
 )
 
 
@@ -67,7 +67,7 @@ def spatial_ticket_views_for_world(
 ) -> list[dict[str, object]]:
     plan = plan_book_scene_assets(package, max_preview_scenes=0)
     place_by_scene = {
-        _source_scene_key(plan.source_digest, place): place for place in package.draft.places
+        source_scene_key(plan.source_digest, place): place for place in package.draft.places
     }
     rows: list[dict[str, object]] = []
     for ticket in tickets:
