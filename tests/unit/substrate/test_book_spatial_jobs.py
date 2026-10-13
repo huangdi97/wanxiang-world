@@ -368,6 +368,7 @@ def test_t3_terminal_failure_never_attaches_assets() -> None:
     with pytest.raises(ValueError, match="only verified"):
         coordinator.attach(ticket.submission_id, _DerivedSpatialAttachments())
 
+
 def test_t3_batch_verification_writes_nothing_when_any_artifact_is_invalid() -> None:
     class _CountingStore(InMemoryObjectStore):
         def __init__(self) -> None:
