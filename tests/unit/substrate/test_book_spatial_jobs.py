@@ -444,22 +444,26 @@ def test_attached_t3_ticket_does_not_rehydrate_when_blob_is_missing() -> None:
 def test_t3_world_budget_is_cumulative_across_distinct_scene_submissions() -> None:
     provider = _FakeSpatialProvider()
     coordinator = _coordinator(provider)
-    options = {
-        "allow_network": True,
-        "external_processing_allowed": True,
-        "private_source": False,
-        "max_cost_units": 14,
-        "delivery_rights": "source-gated",
-        "scope_key": "world:budget",
-    }
-    first = coordinator.submit(_request(), **options)
+
+    def submit(request: _SourceSceneRequest):
+        return coordinator.submit(
+            request,
+            allow_network=True,
+            external_processing_allowed=True,
+            private_source=False,
+            max_cost_units=14,
+            delivery_rights="source-gated",
+            scope_key="world:budget",
+        )
+
+    first = submit(_request())
     second_request = replace(
         _request(),
         place_name="码头",
         stable_key="dock",
         cache_key="cache-dock",
     )
-    second = coordinator.submit(second_request, **options)
+    second = submit(second_request)
     third_request = replace(
         _request(),
         place_name="山门",
@@ -468,10 +472,10 @@ def test_t3_world_budget_is_cumulative_across_distinct_scene_submissions() -> No
     )
 
     with pytest.raises(ValueError, match="world budget"):
-        coordinator.submit(third_request, **options)
+        submit(third_request)
 
     assert first.reserved_cost_units == second.reserved_cost_units == 7
     assert len(provider.submissions) == 2
-    replay = coordinator.submit(_request(), **options)
+    replay = submit(_request())
     assert replay == first
     assert len(provider.submissions) == 2
