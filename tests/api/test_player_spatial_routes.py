@@ -136,6 +136,8 @@ def test_t3_player_api_is_owner_only_idempotent_and_rehydrates_attachment() -> N
     assert len(jobs) == 1
     assert jobs[0]["submission_id"] == submission_id
     assert jobs[0]["state"] == "submitted"
+    assert jobs[0]["place_name"] == "Garden"
+    assert "scene_key" not in jobs[0]
     assert listed.json()["generation"] == {
         "available": True,
         "reason": "",
