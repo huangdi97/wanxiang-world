@@ -10,6 +10,8 @@ from wanxiang_substrate.assets.book_scene_types import SceneImageProvider
 from wanxiang_substrate.playable import PlayableService
 from wanxiang_substrate.playable.player_service import player_world
 
+from wanxiang_api.player_panorama_views import panorama_generation_view
+
 router = APIRouter(prefix="/experience/player")
 
 
@@ -64,6 +66,20 @@ def player_materialize_visual_place(
             include_visual=True,
         ),
     }
+
+
+@router.get("/worlds/{profile_id}/panoramas")
+def player_panorama_generation_status(
+    profile_id: str,
+    request: Request,
+    x_wanxiang_user: str | None = Header(default=None),
+) -> dict[str, object]:
+    viewer = x_wanxiang_user or "anonymous"
+    service = _service(request)
+    profile = service.plaza.require_access(profile_id, viewer)
+    if not profile.owner_id or profile.owner_id != viewer:
+        raise HTTPException(status_code=403, detail="only the world owner may generate panoramas")
+    return panorama_generation_view(request, service, profile_id, viewer_id=viewer)
 
 
 @router.post("/worlds/{profile_id}/panoramas")
