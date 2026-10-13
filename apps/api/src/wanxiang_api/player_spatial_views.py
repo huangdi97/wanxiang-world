@@ -34,6 +34,11 @@ def spatial_generation_view(
     scope_key: str,
 ) -> dict[str, object]:
     provider = cast(SpatialGenerationProvider | None, request.app.state.spatial_asset_provider)
+    allow_network = bool(request.app.state.spatial_asset_allow_network)
+    budget = int(request.app.state.spatial_asset_max_cost_units)
+    jobs = cast(SpatialJobStore, request.app.state.spatial_asset_jobs)
+    reserved = sum(ticket.reserved_cost_units for ticket in jobs.list_scope(scope_key))
+    remaining = max(0, budget - reserved)
     if provider is None:
         return {
             "available": False,
@@ -43,11 +48,6 @@ def spatial_generation_view(
             "budget_reserved": reserved,
             "budget_remaining": remaining,
         }
-    allow_network = bool(request.app.state.spatial_asset_allow_network)
-    budget = int(request.app.state.spatial_asset_max_cost_units)
-    jobs = cast(SpatialJobStore, request.app.state.spatial_asset_jobs)
-    reserved = sum(ticket.reserved_cost_units for ticket in jobs.list_scope(scope_key))
-    remaining = max(0, budget - reserved)
     plan = plan_book_scene_assets(package, max_preview_scenes=0)
     private_source = (
         package.draft.compiler_metadata.get("visual_private_source_v1", "true") == "true"
