@@ -85,20 +85,45 @@ def test_t3_submission_is_idempotent_before_billing_or_network_retry() -> None:
     coordinator = _coordinator(provider)
 
     first = _submit(coordinator)
-    replay = coordinator.submit(
-        _request(),
-        allow_network=False,
-        external_processing_allowed=False,
-        private_source=True,
-        max_cost_units=0,
-        delivery_rights="source-gated",
-    )
+    replay = _submit(coordinator)
 
     assert first == replay
     assert len(provider.submissions) == 1
     assert first.reserved_cost_units == 7
     assert not hasattr(coordinator, "commit")
     assert not hasattr(coordinator, "apply")
+
+
+@pytest.mark.parametrize(
+    ("kwargs", "message"),
+    [
+        ({"allow_network": False}, "network permission"),
+        ({"external_processing_allowed": False}, "source rights"),
+        ({"private_source": True}, "private-safe"),
+        ({"max_cost_units": 6}, "reserved budget"),
+        ({"delivery_rights": "public"}, "rights do not match"),
+    ],
+)
+def test_t3_existing_ticket_still_obeys_current_governance(
+    kwargs: dict[str, object],
+    message: str,
+) -> None:
+    provider = _FakeSpatialProvider()
+    coordinator = _coordinator(provider)
+    _submit(coordinator)
+    options: dict[str, object] = {
+        "allow_network": True,
+        "external_processing_allowed": True,
+        "private_source": False,
+        "max_cost_units": 7,
+        "delivery_rights": "source-gated",
+    }
+    options.update(kwargs)
+
+    with pytest.raises(ValueError, match=message):
+        coordinator.submit(_request(), **options)  # type: ignore[arg-type]
+
+    assert len(provider.submissions) == 1
 
 
 @pytest.mark.parametrize(

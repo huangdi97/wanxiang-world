@@ -173,9 +173,6 @@ class _SpatialGenerationCoordinator:
         delivery_rights: str,
     ) -> _SpatialGenerationTicket:
         submission_id = self._submission_id(request)
-        existing = self.jobs.get(submission_id)
-        if existing is not None:
-            return existing
         if not self.provider.provider_id or not self.provider.provider_version:
             raise ValueError("spatial provider requires id and version")
         if self.provider.cost_units_per_job < 0 or max_cost_units < 0:
@@ -188,6 +185,19 @@ class _SpatialGenerationCoordinator:
             raise ValueError("private source requires a private-safe spatial provider")
         if self.provider.cost_units_per_job > max_cost_units:
             raise ValueError("spatial provider cost exceeds reserved budget")
+
+        existing = self.jobs.get(submission_id)
+        if existing is not None:
+            if (
+                existing.provider_id != self.provider.provider_id
+                or existing.provider_version != self.provider.provider_version
+            ):
+                raise ValueError("configured spatial provider does not match persisted ticket")
+            if existing.reserved_cost_units > max_cost_units:
+                raise ValueError("persisted spatial ticket exceeds current budget")
+            if existing.delivery_rights != delivery_rights:
+                raise ValueError("persisted spatial ticket rights do not match current delivery rights")
+            return existing
 
         task_ref = self.provider.submit(request, idempotency_key=submission_id)
         if not task_ref.strip():
