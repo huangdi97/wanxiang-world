@@ -10,6 +10,7 @@ from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
 from wanxiang_substrate.assets.storage import AssetRef
 from wanxiang_substrate.playable.models import PlayableWorldProfile
 from wanxiang_substrate.playable.player_projection import player_world_detail
+from wanxiang_substrate.playable.service_visual import _source_scene_key_allowed
 
 from tests.unit.substrate.test_book_scene_plan import package_from_book
 
@@ -68,3 +69,22 @@ def test_player_world_detail_marks_t3_not_ready_without_attachment() -> None:
         "asset_count": 0,
         "media_types": [],
     }
+
+
+def test_t3_anchor_may_target_a_deferred_source_place() -> None:
+    places = tuple(f"地点-{index}" for index in range(1, 9))
+    package = package_from_book("spatial-long", places)
+    initial = _plan_book_scene_assets(package)
+    assert initial.deferred_scene_count == 5
+
+    deferred_place = places[-1]
+    targeted = _plan_book_scene_assets(
+        package,
+        max_preview_scenes=1,
+        preferred_places=(deferred_place,),
+    )
+    deferred_scene_key = targeted.scene_requests[0].stable_key
+
+    assert deferred_place not in {item.place_name for item in initial.scene_requests}
+    assert _source_scene_key_allowed(package, deferred_scene_key)
+    assert not _source_scene_key_allowed(package, "not-a-source-scene")

@@ -20,6 +20,7 @@ from wanxiang_substrate.assets.book_scene_evidence import (
     _object_dict,
     _string_list,
 )
+from wanxiang_substrate.assets.book_scene_identity import _source_scene_key
 from wanxiang_substrate.assets.foundry import SemanticSceneSpec
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 
@@ -245,9 +246,7 @@ def _plan_book_scene_assets(
             separators=(",", ":"),
         )
         evidence_digest = hashlib.sha256(evidence_identity.encode("utf-8")).hexdigest()
-        stable_key = hashlib.sha256(
-            json.dumps((source_digest, place), ensure_ascii=False).encode("utf-8")
-        ).hexdigest()[:24]
+        stable_key = _source_scene_key(source_digest, place)
         # Style/media decisions are made by the Experience / provider, not by a
         # city-specific hand-authored renderer. Label is source-derived context.
         spec = SemanticSceneSpec(

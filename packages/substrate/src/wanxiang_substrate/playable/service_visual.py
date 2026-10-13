@@ -12,6 +12,7 @@ from typing import TYPE_CHECKING
 
 from wanxiang_domain.errors import NotFound
 
+from wanxiang_substrate.assets.book_scene_identity import _source_scene_key
 from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
 from wanxiang_substrate.assets.book_scene_visual import (
     _materialize_product_visual_plan,
@@ -72,6 +73,13 @@ def _visible_spatial_assets(
     }
 
 
+def _source_scene_key_allowed(package: WorldPackageDraft, scene_key: str) -> bool:
+    plan = _plan_book_scene_assets(package, max_preview_scenes=0)
+    return scene_key in {
+        _source_scene_key(plan.source_digest, place) for place in plan.place_names
+    }
+
+
 def _attach_spatial_assets(
     service: PlayableService,
     profile_id: str,
@@ -83,10 +91,7 @@ def _attach_spatial_assets(
         raise NotFound(f"playable package {profile_id!r} not found")
     if not asset_refs:
         raise ValueError("spatial attachment requires at least one asset")
-    valid_scene_keys = {
-        request.stable_key for request in _plan_book_scene_assets(package).scene_requests
-    }
-    if scene_key not in valid_scene_keys:
+    if not _source_scene_key_allowed(package, scene_key):
         raise NotFound(f"spatial scene {scene_key!r} not found")
     service._spatial_asset_refs.setdefault(profile_id, {})[scene_key] = asset_refs
 
