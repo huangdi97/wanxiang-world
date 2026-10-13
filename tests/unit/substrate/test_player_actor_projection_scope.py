@@ -68,6 +68,7 @@ def test_person_cards_preserve_unknown_location() -> None:
     person = _person_card(_entity("remote-person", "person"), copy)
     assert person["location"] is None
 
+
 def test_known_people_are_actor_scoped_and_remote_live_state_is_redacted() -> None:
     copy = _copy_for("zh-CN")
     alice = _entity("actor-alice", "person", location="Garden")
