@@ -87,6 +87,9 @@
       }
     },
     "/experience/player/worlds/{profile_id}/panoramas": {
+      "get": {
+        "operationId": "player_panorama_generation_status_experience_player_worlds__profile_id__panoramas_get"
+      },
       "post": {
         "operationId": "player_upgrade_visual_place_to_panorama_experience_player_worlds__profile_id__panoramas_post"
       }
