@@ -1,5 +1,7 @@
 """File-signature validation for known T3 spatial artifact formats."""
 
+# pyright: reportUnusedFunction=false
+
 from __future__ import annotations
 
 
