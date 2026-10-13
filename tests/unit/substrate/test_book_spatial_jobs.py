@@ -22,7 +22,7 @@ from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialPollResult,
 )
 from wanxiang_substrate.assets.foundry import SemanticSceneSpec
-from wanxiang_substrate.assets.storage import LocalObjectStore
+from wanxiang_substrate.assets.storage import InMemoryObjectStore, LocalObjectStore
 
 
 def _glb(payload: bytes = b"scene") -> bytes:
@@ -367,3 +367,44 @@ def test_t3_terminal_failure_never_attaches_assets() -> None:
     assert failed.state == "failed"
     with pytest.raises(ValueError, match="only verified"):
         coordinator.attach(ticket.submission_id, _DerivedSpatialAttachments())
+
+def test_t3_batch_verification_writes_nothing_when_any_artifact_is_invalid() -> None:
+    class _CountingStore(InMemoryObjectStore):
+        def __init__(self) -> None:
+            super().__init__()
+            self.put_calls = 0
+
+        def put(self, blob: bytes, *, content_type: str, rights: str = "public"):
+            self.put_calls += 1
+            return super().put(blob, content_type=content_type, rights=rights)
+
+    valid = _glb(b"valid")
+    invalid = b"not-a-glb"
+    provider = _FakeSpatialProvider(
+        polls=[
+            _SpatialPollResult(
+                "succeeded",
+                (
+                    _SpatialArtifactCandidate(
+                        valid,
+                        "model/gltf-binary",
+                        hashlib.sha256(valid).hexdigest(),
+                    ),
+                    _SpatialArtifactCandidate(
+                        invalid,
+                        "model/gltf-binary",
+                        hashlib.sha256(invalid).hexdigest(),
+                    ),
+                ),
+            )
+        ]
+    )
+    objects = _CountingStore()
+    coordinator = _SpatialGenerationCoordinator(provider, objects=objects)
+    ticket = _submit(coordinator)
+
+    failed = coordinator.poll(ticket.submission_id)
+
+    assert failed.state == "failed"
+    assert failed.asset_refs == ()
+    assert objects.put_calls == 0

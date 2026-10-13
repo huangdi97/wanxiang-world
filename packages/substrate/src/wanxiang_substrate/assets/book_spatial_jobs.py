@@ -250,17 +250,16 @@ class _SpatialGenerationCoordinator:
     ) -> _SpatialGenerationTicket:
         if not result.artifacts:
             return self._verification_failed(ticket)
-        refs: list[AssetRef] = []
-        for artifact in result.artifacts:
-            if not self._valid_artifact(artifact):
-                return self._verification_failed(ticket)
-            refs.append(
-                self.objects.put(
-                    artifact.content,
-                    content_type=artifact.media_type,
-                    rights=ticket.delivery_rights,
-                )
+        if not all(self._valid_artifact(artifact) for artifact in result.artifacts):
+            return self._verification_failed(ticket)
+        refs = [
+            self.objects.put(
+                artifact.content,
+                content_type=artifact.media_type,
+                rights=ticket.delivery_rights,
             )
+            for artifact in result.artifacts
+        ]
         verified = replace(ticket, state="verified", asset_refs=tuple(refs), reason="")
         self.jobs.put(verified)
         return verified
