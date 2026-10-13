@@ -29,12 +29,18 @@ def _require_spatial_asset_refs(objects: ObjectStore, refs: tuple[AssetRef, ...]
 
 
 @contextmanager
-def _spatial_submission_guard(jobs: object, submission_id: str) -> Generator[None, None, None]:
-    """Serialize one logical T3 submit before any provider-side billing call."""
+def _spatial_submission_guard(
+    jobs: object,
+    submission_id: str,
+    *,
+    scope_key: str = "",
+) -> Generator[None, None, None]:
+    """Serialize T3 budget reservation and submit before provider-side billing."""
     path = getattr(jobs, "_path", None)
     if isinstance(path, pathlib.Path):
-        digest = hashlib.sha256(submission_id.encode()).hexdigest()[:24]
-        lock_path = path.with_suffix(path.suffix + f".submit-{digest}.lock")
+        lock_identity = scope_key or submission_id
+        digest = hashlib.sha256(lock_identity.encode()).hexdigest()[:24]
+        lock_path = path.with_suffix(path.suffix + f".budget-{digest}.lock")
         with _exclusive_index_lock(lock_path):
             yield
         return
