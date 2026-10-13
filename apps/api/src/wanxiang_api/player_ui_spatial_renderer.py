@@ -1,5 +1,7 @@
 """Renderer-neutral browser bridge for verified T3 Player assets."""
 
+# ruff: noqa: E501
+
 SPATIAL_RENDERER_SCRIPT = r"""
 (()=>{
 const state={active:false,key:"",scene:null,profile:"",headers:{},cleanup:null};

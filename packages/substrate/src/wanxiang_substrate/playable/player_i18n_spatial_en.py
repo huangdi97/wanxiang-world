@@ -5,7 +5,9 @@ from __future__ import annotations
 _SPATIAL_STRINGS: dict[str, str] = {
     "spatial_stage_enter": "Enter spatial scene",
     "spatial_stage_exit": "Return to visual scene",
-    "spatial_stage_error": "The spatial renderer failed; the current visual scene remains available.",
+    "spatial_stage_error": (
+        "The spatial renderer failed; the current visual scene remains available."
+    ),
     "spatial_upgrade_eyebrow": "Spatial upgrade",
     "spatial_upgrade_heading": "Upgrade this place into a spatial scene",
     "spatial_upgrade_submit": "Generate spatial scene",
