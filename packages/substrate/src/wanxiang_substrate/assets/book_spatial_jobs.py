@@ -104,7 +104,9 @@ class _SpatialGenerationCoordinator:
                     )
                 if existing.state == "submission_ambiguous":
                     if existing.provider_task_ref:
-                        raise ValueError("ambiguous spatial submission has an invalid task reference")
+                        raise ValueError(
+                            "ambiguous spatial submission has an invalid task reference"
+                        )
                     if not self.provider.submit_is_idempotent:
                         raise ValueError(
                             "spatial submission outcome is ambiguous; automatic resubmit blocked"
