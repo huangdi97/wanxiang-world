@@ -87,6 +87,9 @@
       }
     },
     "/experience/player/worlds/{profile_id}/spatial": {
+      "get": {
+        "operationId": "player_list_spatial_places_experience_player_worlds__profile_id__spatial_get"
+      },
       "post": {
         "operationId": "player_submit_spatial_place_experience_player_worlds__profile_id__spatial_post"
       }
