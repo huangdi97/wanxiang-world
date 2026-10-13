@@ -189,7 +189,9 @@ class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
             try:
                 content = base64.b64decode(encoded, validate=True)
             except (ValueError, binascii.Error) as exc:
-                raise ValueError("spatial HTTP gateway returned invalid base64 artifact") from exc
+                raise ValueError(
+                    "spatial HTTP gateway returned invalid base64 artifact"
+                ) from exc
             if len(content) > self.max_artifact_bytes:
                 raise ValueError("spatial HTTP artifact exceeds size limit")
         else:

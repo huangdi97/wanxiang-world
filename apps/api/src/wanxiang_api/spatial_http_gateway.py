@@ -40,7 +40,9 @@ def _media_types_env() -> frozenset[str]:
     )
     values = frozenset(item.strip() for item in raw.split(",") if item.strip())
     if not values or not values.issubset(_KNOWN_MEDIA_TYPES):
-        raise ValueError("WANXIANG_SPATIAL_ALLOWED_MEDIA_TYPES contains unsupported media types")
+        raise ValueError(
+            "WANXIANG_SPATIAL_ALLOWED_MEDIA_TYPES contains unsupported media types"
+        )
     return values
 
 
