@@ -241,6 +241,10 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 assert ready_name in page.locator("#detail-visual-caption").inner_text()
                 assert "原文证据" in page.locator("#detail-visual-caption").inner_text()
                 assert "插画投影" in page.locator("#detail-visual-caption").inner_text()
+                assert page.locator("#spatial-upgrade-panel").is_visible()
+                assert "未配置空间生成器" in page.locator("#spatial-upgrade-copy").inner_text()
+                assert page.locator("#spatial-submit").is_hidden()
+                assert page.locator("#spatial-refresh").is_hidden()
                 page.locator('#visual-gallery [data-visual-index="0"]').click()
                 assert "叙事世界图谱" in page.locator("#detail-visual-caption").inner_text()
                 deferred_places = page.locator(
