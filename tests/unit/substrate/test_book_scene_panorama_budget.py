@@ -1,18 +1,20 @@
 """T2 panorama budgets remain cumulative, idempotent, and restart safe."""
 
+# pyright: reportPrivateUsage=false
+
 from __future__ import annotations
 
 import pathlib
 
 import pytest
 from wanxiang_substrate.assets.book_scene_panorama_budget import (
-    LocalJsonPanoramaBudgetLedger,
-    PanoramaBudgetLedger,
+    _LocalJson_PanoramaBudgetLedger,
+    _PanoramaBudgetLedger,
 )
 
 
 def test_in_memory_panorama_budget_reserves_once_and_exhausts() -> None:
-    ledger = PanoramaBudgetLedger()
+    ledger = _PanoramaBudgetLedger()
 
     first = ledger.reserve("world-a", "scene-a", 3, 5)
     repeated = ledger.reserve("world-a", "scene-a", 3, 5)
@@ -27,10 +29,10 @@ def test_in_memory_panorama_budget_reserves_once_and_exhausts() -> None:
 
 def test_local_panorama_budget_survives_restart(tmp_path: pathlib.Path) -> None:
     path = tmp_path / "panorama-budget.json"
-    first = LocalJsonPanoramaBudgetLedger(path)
+    first = _LocalJson_PanoramaBudgetLedger(path)
     first.reserve("world-a", "scene-a", 4, 10)
 
-    restarted = LocalJsonPanoramaBudgetLedger(path)
+    restarted = _LocalJson_PanoramaBudgetLedger(path)
     usage = restarted.usage("world-a", 10)
     assert usage.reserved == 4
     assert usage.remaining == 6
@@ -44,7 +46,7 @@ def test_local_panorama_budget_survives_restart(tmp_path: pathlib.Path) -> None:
 def test_local_panorama_budget_corruption_fails_closed(tmp_path: pathlib.Path) -> None:
     path = tmp_path / "panorama-budget.json"
     path.write_text("{not-json", encoding="utf-8")
-    ledger = LocalJsonPanoramaBudgetLedger(path)
+    ledger = _LocalJson_PanoramaBudgetLedger(path)
 
     with pytest.raises(ValueError, match="unreadable"):
         ledger.usage("world-a", 10)

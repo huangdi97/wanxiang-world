@@ -7,7 +7,7 @@ from __future__ import annotations
 from typing import cast
 
 from fastapi import Request
-from wanxiang_substrate.assets.book_scene_panorama_budget import PanoramaBudgetLedger
+from wanxiang_substrate.assets.book_scene_panorama_budget import _PanoramaBudgetLedger
 from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
 from wanxiang_substrate.assets.book_scene_types import SceneImageProvider
 from wanxiang_substrate.playable import PlayableService
@@ -42,7 +42,7 @@ def panorama_generation_view(
     )
     provider = cast(SceneImageProvider | None, request.app.state.panorama_asset_provider)
     budget = int(request.app.state.panorama_asset_max_cost_units)
-    ledger = cast(PanoramaBudgetLedger, request.app.state.panorama_budget_ledger)
+    ledger = cast(_PanoramaBudgetLedger, request.app.state.panorama_budget_ledger)
     try:
         usage = ledger.usage(profile_id, budget)
     except ValueError:

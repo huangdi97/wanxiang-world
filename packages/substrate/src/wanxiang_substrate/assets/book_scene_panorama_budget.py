@@ -14,7 +14,7 @@ from wanxiang_substrate.assets.book_scene_interprocess import _exclusive_index_l
 
 
 @dataclass(frozen=True, slots=True)
-class PanoramaBudgetSnapshot:
+class _PanoramaBudgetSnapshot:
     reserved: int
     remaining: int
     reservations: int
@@ -27,25 +27,25 @@ class PanoramaBudgetSnapshot:
         }
 
 
-def _snapshot(rows: dict[str, int], budget: int) -> PanoramaBudgetSnapshot:
+def _snapshot(rows: dict[str, int], budget: int) -> _PanoramaBudgetSnapshot:
     if budget < 0:
         raise ValueError("panorama budget must be non-negative")
     reserved = sum(rows.values())
-    return PanoramaBudgetSnapshot(
+    return _PanoramaBudgetSnapshot(
         reserved=reserved,
         remaining=max(0, budget - reserved),
         reservations=len(rows),
     )
 
 
-class PanoramaBudgetLedger:
+class _PanoramaBudgetLedger:
     """Thread-safe conservative reservation ledger for one API process."""
 
     def __init__(self) -> None:
         self._rows: dict[str, dict[str, int]] = {}
         self._lock = Lock()
 
-    def usage(self, scope_key: str, budget: int) -> PanoramaBudgetSnapshot:
+    def usage(self, scope_key: str, budget: int) -> _PanoramaBudgetSnapshot:
         with self._lock:
             return _snapshot(dict(self._rows.get(scope_key, {})), budget)
 
@@ -55,7 +55,7 @@ class PanoramaBudgetLedger:
         reservation_key: str,
         cost_units: int,
         budget: int,
-    ) -> PanoramaBudgetSnapshot:
+    ) -> _PanoramaBudgetSnapshot:
         if not scope_key or not reservation_key:
             raise ValueError("panorama reservation requires scope and identity")
         if cost_units < 0 or budget < 0:
@@ -73,7 +73,7 @@ class PanoramaBudgetLedger:
             return _snapshot(dict(rows), budget)
 
 
-class LocalJsonPanoramaBudgetLedger(PanoramaBudgetLedger):
+class _LocalJson_PanoramaBudgetLedger(_PanoramaBudgetLedger):
     """Cross-process local reservation ledger; malformed state fails closed."""
 
     def __init__(self, path: pathlib.Path) -> None:
@@ -114,7 +114,7 @@ class LocalJsonPanoramaBudgetLedger(PanoramaBudgetLedger):
         )
         temporary.replace(self._path)
 
-    def usage(self, scope_key: str, budget: int) -> PanoramaBudgetSnapshot:
+    def usage(self, scope_key: str, budget: int) -> _PanoramaBudgetSnapshot:
         lock_path = self._path.with_suffix(self._path.suffix + ".lock")
         with _exclusive_index_lock(lock_path):
             rows = self._read()
@@ -126,7 +126,7 @@ class LocalJsonPanoramaBudgetLedger(PanoramaBudgetLedger):
         reservation_key: str,
         cost_units: int,
         budget: int,
-    ) -> PanoramaBudgetSnapshot:
+    ) -> _PanoramaBudgetSnapshot:
         if not scope_key or not reservation_key:
             raise ValueError("panorama reservation requires scope and identity")
         if cost_units < 0 or budget < 0:

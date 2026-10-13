@@ -8,7 +8,7 @@ from typing import cast
 
 from fastapi import APIRouter, Header, HTTPException, Request
 from pydantic import BaseModel, Field
-from wanxiang_substrate.assets.book_scene_panorama_budget import PanoramaBudgetLedger
+from wanxiang_substrate.assets.book_scene_panorama_budget import _PanoramaBudgetLedger
 from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
 from wanxiang_substrate.assets.book_scene_types import SceneImageProvider
 from wanxiang_substrate.playable import PlayableService
@@ -104,7 +104,10 @@ def player_upgrade_visual_place_to_panorama(
     if provider is None:
         raise HTTPException(status_code=503, detail="panorama provider is not configured")
     if provider.presentation_kind != "panorama":
-        raise HTTPException(status_code=409, detail="configured provider is not a panorama provider")
+        raise HTTPException(
+            status_code=409,
+            detail="configured provider is not a panorama provider",
+        )
 
     package = service.packages.get(profile_id)
     if package is None:
@@ -134,7 +137,7 @@ def player_upgrade_visual_place_to_panorama(
             detail=str(generation.get("reason") or "panorama generation unavailable"),
         )
 
-    ledger = cast(PanoramaBudgetLedger, request.app.state.panorama_budget_ledger)
+    ledger = cast(_PanoramaBudgetLedger, request.app.state.panorama_budget_ledger)
     budget = int(request.app.state.panorama_asset_max_cost_units)
     scene_request = plan.scene_requests[0]
     reservation_key = (
