@@ -231,6 +231,12 @@ def test_public_visitor_rehydrates_attached_t3_scene_without_owner_warmup() -> N
     assert attached.status_code == 200
 
     app.state.playable._spatial_asset_refs.clear()
+    visitor_asset = client.get(
+        f"/experience/player/worlds/{profile_id}/spatial-assets/0",
+        params={"place_name": "Garden"},
+        headers=visitor,
+    )
+    assert visitor_asset.status_code == 200
     restored_world = client.get(
         f"/experience/player/worlds/{profile_id}",
         headers=visitor,
@@ -239,12 +245,6 @@ def test_public_visitor_rehydrates_attached_t3_scene_without_owner_warmup() -> N
     scenes = restored_world.json()["world"]["visual"]["scenes"]
     assert any(scene.get("spatial", {}).get("ready") is True for scene in scenes)
 
-    visitor_asset = client.get(
-        f"/experience/player/worlds/{profile_id}/spatial-assets/0",
-        params={"place_name": "Garden"},
-        headers=visitor,
-    )
-    assert visitor_asset.status_code == 200
     assert visitor_asset.content.startswith(b"glTF")
     assert provider.polls == ["provider-secret-task-ref"]
 
@@ -295,6 +295,12 @@ def test_t3_source_gated_spatial_asset_is_not_delivered_to_public_visitor() -> N
     assert visitor_asset.status_code == 404
 
     app.state.playable._spatial_asset_refs.clear()
+    visitor_asset_after_restart = client.get(
+        f"/experience/player/worlds/{profile_id}/spatial-assets/0",
+        params={"place_name": "Garden"},
+        headers={"X-Wanxiang-User": "visitor"},
+    )
+    assert visitor_asset_after_restart.status_code == 404
     visitor_world = client.get(
         f"/experience/player/worlds/{profile_id}",
         headers={"X-Wanxiang-User": "visitor"},

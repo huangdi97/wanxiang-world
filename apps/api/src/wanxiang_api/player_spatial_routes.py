@@ -22,6 +22,7 @@ from wanxiang_substrate.spatial import (
     source_scene_key_allowed,
 )
 
+from wanxiang_api.player_spatial_recovery import rehydrate_spatial_attachments
 from wanxiang_api.player_spatial_views import (
     spatial_generation_view,
     spatial_ticket_view,
@@ -113,19 +114,12 @@ def player_list_spatial_places(
         for ticket in _jobs(request).list_scope(profile_id)
         if source_scene_key_allowed(package, ticket.scene_key)
     )
-    visible = service.spatial_assets(profile_id, viewer_id=viewer)
-    catalog = cast(DerivedSpatialAttachments, request.app.state.spatial_asset_catalog)
-    rehydrated = 0
-    unavailable = 0
-    for ticket in tickets:
-        if ticket.state != "attached" or not ticket.asset_refs or ticket.scene_key in visible:
-            continue
-        if not _stored_spatial_refs_available(request, ticket.asset_refs):
-            unavailable += 1
-            continue
-        service.attach_spatial_assets(profile_id, ticket.scene_key, ticket.asset_refs)
-        catalog.attach(ticket.scene_key, ticket.asset_refs)
-        rehydrated += 1
+    rehydrated, unavailable = rehydrate_spatial_attachments(
+        request,
+        service,
+        profile_id,
+        viewer_id=viewer,
+    )
     return {
         "spatial_jobs": spatial_ticket_views_for_world(package, tickets),
         "generation": spatial_generation_view(request, package, profile_id),
@@ -181,6 +175,7 @@ def player_spatial_asset(
 ) -> Response:
     viewer = _viewer(x_wanxiang_user)
     service = _service(request)
+    rehydrate_spatial_attachments(request, service, profile_id, viewer_id=viewer)
     package = _profile_package(service, profile_id)
     place = place_name.strip()
     if place not in package.draft.places:

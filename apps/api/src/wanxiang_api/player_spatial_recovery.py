@@ -30,6 +30,7 @@ def rehydrate_spatial_attachments(
 
     jobs = cast(SpatialJobStore, request.app.state.spatial_asset_jobs)
     objects = cast(ObjectStore, request.app.state.spatial_asset_objects)
+    existing = service.spatial_assets(profile_id, viewer_id=viewer_id)
     restored = 0
     unavailable = 0
     for ticket in jobs.list_scope(profile_id):
@@ -38,6 +39,8 @@ def rehydrate_spatial_attachments(
             or not ticket.asset_refs
             or not source_scene_key_allowed(package, ticket.scene_key)
         ):
+            continue
+        if existing.get(ticket.scene_key) == ticket.asset_refs:
             continue
         try:
             if not all(len(objects.get(ref)) == ref.size for ref in ticket.asset_refs):
