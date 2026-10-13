@@ -118,7 +118,9 @@ STRINGS: dict[str, str] = {
     "spatial_upgrade_heading": "把这个地点升级为空间场景",
     "spatial_upgrade_submit": "生成空间场景",
     "spatial_upgrade_refresh": "刷新生成状态",
-    "spatial_upgrade_available": "{place} 可生成空间场景 · 本次预计 {cost}；世界剩余 {remaining} 个预算单位",
+    "spatial_upgrade_available": (
+        "{place} 可生成空间场景 · 本次预计 {cost}；世界剩余 {remaining} 个预算单位"
+    ),
     "spatial_upgrade_pending": "{place} 的空间场景正在生成 · {state}",
     "spatial_upgrade_ready": "{place} 的空间场景已就绪 · {count} 个空间资产",
     "spatial_upgrade_terminal": "{place} 的空间任务状态：{state}。现有场景仍可继续使用。",
