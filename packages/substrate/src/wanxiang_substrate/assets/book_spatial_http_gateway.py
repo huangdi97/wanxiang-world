@@ -21,9 +21,9 @@ from wanxiang_substrate.assets.book_scene_prompt import (
     _compile_scene_generation_brief,
     _story_visual_profile_from_style_key,
 )
+from wanxiang_substrate.assets.book_http_transport import _NoRedirects
 from wanxiang_substrate.assets.book_spatial_http_transport import (
     _bounded_read,
-    _NoRedirects,
     _validate_endpoint,
 )
 from wanxiang_substrate.assets.book_spatial_types import (

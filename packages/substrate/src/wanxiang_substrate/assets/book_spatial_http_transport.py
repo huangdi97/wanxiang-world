@@ -6,10 +6,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from wanxiang_substrate.assets.book_http_transport import (
-    _NoRedirects,
-    _validate_provider_endpoint,
-)
+from wanxiang_substrate.assets.book_http_transport import _validate_provider_endpoint
 
 
 def _validate_endpoint(endpoint: str) -> str:
