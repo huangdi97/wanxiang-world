@@ -1,6 +1,6 @@
 """Restart-safe T3 spatial generation without any Canon/History write authority."""
 
-# pyright: reportPrivateUsage=false, reportUnusedClass=false
+# pyright: reportPrivateUsage=false, reportUnusedClass=false, reportUnusedImport=false
 
 from __future__ import annotations
 
