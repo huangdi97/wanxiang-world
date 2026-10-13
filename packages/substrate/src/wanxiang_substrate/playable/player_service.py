@@ -14,6 +14,7 @@ from wanxiang_substrate.playable.player_projection import (
     player_observation,
     player_world_detail,
 )
+from wanxiang_substrate.playable.service_visual import _visible_spatial_assets
 from wanxiang_substrate.playable.state_diff import CommittedStateDiff
 from wanxiang_substrate.playable.store import ExperienceInstanceRecord
 
@@ -38,6 +39,7 @@ def player_world(
         locale=locale,
         include_visual=include_visual,
         visual_assets=service.visual_assets(profile_id, viewer_id=viewer_id),
+        spatial_assets=_visible_spatial_assets(service, profile_id, viewer_id=viewer_id),
         visual_access_allowed=service.visual_access_allowed(profile_id, viewer_id=viewer_id),
     )
 
@@ -85,6 +87,9 @@ def player_observe(
         locale=locale,
         events_since_revision=effective_events_since_revision,
         visual_assets=service.visual_assets(record.profile_id, viewer_id=viewer_id),
+        spatial_assets=_visible_spatial_assets(
+            service, record.profile_id, viewer_id=viewer_id
+        ),
         visual_access_allowed=service.visual_access_allowed(
             record.profile_id,
             viewer_id=viewer_id,

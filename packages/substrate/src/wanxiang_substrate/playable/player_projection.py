@@ -23,6 +23,10 @@ from wanxiang_substrate.assets.book_scene_visual import (
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.playable.models import PlayableWorldProfile
 from wanxiang_substrate.playable.player_i18n import _copy_for
+from wanxiang_substrate.playable.player_spatial_projection import (
+    SpatialAssetMap,
+    _spatial_capability,
+)
 from wanxiang_substrate.playable.player_projection_support import (
     _actor_owned_entities,
     _change_card,
@@ -76,6 +80,7 @@ def player_world_detail(
     locale: str | None = None,
     include_visual: bool = False,
     visual_assets: tuple[_SceneVisualAsset, ...] | None = None,
+    spatial_assets: SpatialAssetMap | None = None,
     visual_access_allowed: bool = True,
 ) -> dict[str, object]:
     """Return the detail copy used before a player enters a world."""
@@ -135,6 +140,7 @@ def player_world_detail(
                     "provider_version": asset.provider_version,
                     "clues": list(support_by_key.get(asset.scene_key, ((), 0))[0]),
                     "source_evidence_count": support_by_key.get(asset.scene_key, ((), 0))[1],
+                    "spatial": _spatial_capability(asset.scene_key, spatial_assets),
                 }
                 for asset in assets
             ],
@@ -189,6 +195,7 @@ def player_observation(
     locale: str | None = None,
     events_since_revision: int | None = None,
     visual_assets: tuple[_SceneVisualAsset, ...] | None = None,
+    spatial_assets: SpatialAssetMap | None = None,
     visual_access_allowed: bool = True,
 ) -> dict[str, object]:
     """Project one observation without exposing IDs, hashes, or raw payloads."""
@@ -263,6 +270,7 @@ def player_observation(
                 "provider_version": chosen.provider_version,
                 "clues": list(support_by_key.get(chosen.scene_key, ((), 0))[0]),
                 "source_evidence_count": support_by_key.get(chosen.scene_key, ((), 0))[1],
+                "spatial": _spatial_capability(chosen.scene_key, spatial_assets),
             }
 
     return {

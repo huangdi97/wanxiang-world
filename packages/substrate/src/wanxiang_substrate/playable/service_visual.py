@@ -55,6 +55,40 @@ def _visible_visual_assets(
     return tuple(asset for asset, ref in zip(assets, refs, strict=True) if ref.rights == "public")
 
 
+def _visible_spatial_assets(
+    service: PlayableService,
+    profile_id: str,
+    *,
+    viewer_id: str,
+) -> dict[str, tuple[AssetRef, ...]]:
+    profile = service.plaza.require_access(profile_id, viewer_id)
+    rows = service._spatial_asset_refs.get(profile_id, {})
+    if profile.owner_id and viewer_id == profile.owner_id:
+        return dict(rows)
+    return {
+        scene_key: tuple(ref for ref in refs if ref.rights == "public")
+        for scene_key, refs in rows.items()
+        if any(ref.rights == "public" for ref in refs)
+    }
+
+
+def _attach_spatial_assets(
+    service: PlayableService,
+    profile_id: str,
+    scene_key: str,
+    asset_refs: tuple[AssetRef, ...],
+) -> None:
+    package = service._packages.get(profile_id)
+    if package is None:
+        raise NotFound(f"playable package {profile_id!r} not found")
+    if not asset_refs:
+        raise ValueError("spatial attachment requires at least one asset")
+    valid_scene_keys = {request.stable_key for request in _plan_book_scene_assets(package).scene_requests}
+    if scene_key not in valid_scene_keys:
+        raise NotFound(f"spatial scene {scene_key!r} not found")
+    service._spatial_asset_refs.setdefault(profile_id, {})[scene_key] = asset_refs
+
+
 def _materialize_visual_place(
     service: PlayableService,
     profile_id: str,

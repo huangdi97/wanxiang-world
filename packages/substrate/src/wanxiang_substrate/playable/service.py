@@ -34,6 +34,7 @@ from wanxiang_substrate.playable.service_session import _owned_instance, _save_i
 from wanxiang_substrate.playable.service_support import instance_dict
 from wanxiang_substrate.playable.service_visual import (
     _attach_package_visuals,
+    _attach_spatial_assets,
     _materialize_visual_place,
     _visible_visual_assets,
     _visual_access_allowed,
@@ -61,6 +62,7 @@ class PlayableService:
         self._visual_cache = visual_cache or _VisualAssetCache()
         self._visual_assets: dict[str, tuple[_SceneVisualAsset, ...]] = {}
         self._visual_asset_refs: dict[str, tuple[AssetRef, ...]] = {}
+        self._spatial_asset_refs: dict[str, dict[str, tuple[AssetRef, ...]]] = {}
         self.plaza = WorldPlaza(self.store)
         self.entry = CharacterEntryService(self.store)
         self._packages: dict[str, WorldPackageDraft] = {}
@@ -109,6 +111,12 @@ class PlayableService:
             allow_network=allow_network,
             max_cost_units=max_cost_units,
         )
+
+    def attach_spatial_assets(
+        self, profile_id: str, scene_key: str, asset_refs: tuple[AssetRef, ...]
+    ) -> None:
+        """Attach verified T3 assets to the derived Player catalog only."""
+        _attach_spatial_assets(self, profile_id, scene_key, asset_refs)
 
     def register_package(
         self,
