@@ -8,12 +8,12 @@ from collections.abc import Mapping
 
 from wanxiang_substrate.assets.storage import AssetRef
 
-SpatialAssetMap = Mapping[str, tuple[AssetRef, ...]]
+_SpatialAssetMap = Mapping[str, tuple[AssetRef, ...]]
 
 
 def _spatial_capability(
     scene_key: str,
-    spatial_assets: SpatialAssetMap | None,
+    spatial_assets: _SpatialAssetMap | None,
 ) -> dict[str, object]:
     """Expose renderer capability without leaking storage identity or provenance."""
     refs = tuple((spatial_assets or {}).get(scene_key, ()))

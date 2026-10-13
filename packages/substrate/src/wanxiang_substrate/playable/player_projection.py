@@ -24,7 +24,7 @@ from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.playable.models import PlayableWorldProfile
 from wanxiang_substrate.playable.player_i18n import _copy_for
 from wanxiang_substrate.playable.player_spatial_projection import (
-    SpatialAssetMap,
+    _SpatialAssetMap,
     _spatial_capability,
 )
 from wanxiang_substrate.playable.player_projection_support import (
@@ -80,7 +80,7 @@ def player_world_detail(
     locale: str | None = None,
     include_visual: bool = False,
     visual_assets: tuple[_SceneVisualAsset, ...] | None = None,
-    spatial_assets: SpatialAssetMap | None = None,
+    spatial_assets: _SpatialAssetMap | None = None,
     visual_access_allowed: bool = True,
 ) -> dict[str, object]:
     """Return the detail copy used before a player enters a world."""
@@ -195,7 +195,7 @@ def player_observation(
     locale: str | None = None,
     events_since_revision: int | None = None,
     visual_assets: tuple[_SceneVisualAsset, ...] | None = None,
-    spatial_assets: SpatialAssetMap | None = None,
+    spatial_assets: _SpatialAssetMap | None = None,
     visual_access_allowed: bool = True,
 ) -> dict[str, object]:
     """Project one observation without exposing IDs, hashes, or raw payloads."""
