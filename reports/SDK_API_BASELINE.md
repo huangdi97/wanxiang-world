@@ -1,6 +1,6 @@
 # SDK API Baseline (G17A)
 
-- API routes: 80
+- API routes: 81
 - TypeScript surface symbols: 5
 - Python public names (stable packages): 2166
 
@@ -14,6 +14,7 @@
 - `GET /experience/player/instances/{instance_id}`
 - `GET /experience/player/plaza`
 - `GET /experience/player/worlds/{profile_id}`
+- `GET /experience/player/worlds/{profile_id}/panoramas`
 - `GET /experience/player/worlds/{profile_id}/spatial`
 - `GET /experience/player/worlds/{profile_id}/spatial-assets/{asset_index}`
 - `GET /experience/player/worlds/{profile_id}/spatial/{submission_id}`
