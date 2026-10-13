@@ -18,6 +18,7 @@ from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialGenerationProvider,
     _SpatialPollResult,
 )
+from wanxiang_substrate.playable.factory import profile_from_world_package
 
 
 def _glb(payload: bytes = b"api-spatial") -> bytes:
@@ -261,25 +262,16 @@ def test_t3_same_source_in_two_worlds_gets_distinct_world_scoped_ticket() -> Non
     app.state.spatial_asset_max_cost_units = 7
     owner = {"X-Wanxiang-User": "studio"}
 
-    second_job = client.post(
-        "/studio/one-click",
-        json={
-            "job_id": "spatial_api_job_copy",
-            "profile": "book",
-            "sources": [{**_source(), "source_id": "spatial_api_book_copy"}],
-        },
+    package = app.state.playable.packages[first_id]
+    second_profile = profile_from_world_package(
+        package,
+        profile_id=f"{first_id}:copy",
+        owner_id="studio",
+        visibility="public",
+        display_name="Spatial API World Copy",
     )
-    assert second_job.status_code == 201
-    second_profile = client.post(
-        "/studio/jobs/spatial_api_job_copy/playable-profile",
-        json={
-            "owner_id": "studio",
-            "visibility": "public",
-            "display_name": "Spatial API World Copy",
-        },
-    )
-    assert second_profile.status_code == 200
-    second_id = str(second_profile.json()["profile"]["profile_id"])
+    app.state.playable.register_profile(second_profile, package)
+    second_id = second_profile.profile_id
     assert second_id != first_id
 
     first = client.post(

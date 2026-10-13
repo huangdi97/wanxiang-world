@@ -36,6 +36,7 @@ from wanxiang_substrate.playable.service_visual import (
     _attach_package_visuals,
     _attach_spatial_assets,
     _materialize_visual_place,
+    _visible_spatial_assets,
     _visible_visual_assets,
     _visual_access_allowed,
 )
@@ -89,6 +90,16 @@ class PlayableService:
         """Return source-derived visual assets allowed for this viewer."""
 
         return _visible_visual_assets(self, profile_id, viewer_id=viewer_id)
+
+    def spatial_assets(
+        self,
+        profile_id: str,
+        *,
+        viewer_id: str,
+    ) -> dict[str, tuple[AssetRef, ...]]:
+        """Return rights-filtered derived T3 assets for one playable world."""
+
+        return _visible_spatial_assets(self, profile_id, viewer_id=viewer_id)
 
     def materialize_visual_place(
         self,

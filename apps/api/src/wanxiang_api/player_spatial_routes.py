@@ -13,7 +13,6 @@ from wanxiang_substrate.assets.errors import AssetCorrupt, AssetNotFound
 from wanxiang_substrate.assets.storage import ObjectStore
 from wanxiang_substrate.playable import PlayableService
 from wanxiang_substrate.playable.player_service import player_world
-from wanxiang_substrate.playable.service_visual import _visible_spatial_assets
 from wanxiang_substrate.spatial import (
     DerivedSpatialAttachments,
     SpatialGenerationCoordinator,
@@ -160,7 +159,7 @@ def player_spatial_asset(
     if not plan.scene_requests or plan.scene_requests[0].place_name != place:
         raise HTTPException(status_code=404, detail="spatial asset not found")
     scene_key = plan.scene_requests[0].stable_key
-    refs = _visible_spatial_assets(service, profile_id, viewer_id=viewer).get(scene_key, ())
+    refs = service.spatial_assets(profile_id, viewer_id=viewer).get(scene_key, ())
     if asset_index < 0 or asset_index >= len(refs):
         raise HTTPException(status_code=404, detail="spatial asset not found")
     ref = refs[asset_index]
