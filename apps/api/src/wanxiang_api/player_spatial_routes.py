@@ -10,6 +10,7 @@ from typing import cast
 from fastapi import APIRouter, Header, HTTPException, Request, Response
 from pydantic import BaseModel, Field
 from wanxiang_substrate.assets.errors import AssetCorrupt, AssetNotFound
+from wanxiang_substrate.assets.book_scene_identity import _source_scene_key
 from wanxiang_substrate.assets.storage import ObjectStore
 from wanxiang_substrate.playable import PlayableService
 from wanxiang_substrate.playable.player_service import player_world
@@ -122,6 +123,22 @@ def _generation_view(request: Request, package) -> dict[str, object]:
     }
 
 
+def _ticket_views_for_world(package, tickets: tuple[SpatialGenerationTicket, ...]) -> list[dict[str, object]]:
+    plan = plan_book_scene_assets(package, max_preview_scenes=0)
+    place_by_scene = {
+        _source_scene_key(plan.source_digest, place): place for place in package.draft.places
+    }
+    rows: list[dict[str, object]] = []
+    for ticket in tickets:
+        place = place_by_scene.get(ticket.scene_key)
+        if place is None:
+            continue
+        row = _ticket_view(ticket)
+        row["place_name"] = place
+        rows.append(row)
+    return rows
+
+
 def _profile_package(service: PlayableService, profile_id: str):
     package = service.packages.get(profile_id)
     if package is None:
@@ -144,7 +161,7 @@ def player_list_spatial_places(
         if source_scene_key_allowed(package, ticket.scene_key)
     )
     return {
-        "spatial_jobs": [_ticket_view(ticket) for ticket in tickets],
+        "spatial_jobs": _ticket_views_for_world(package, tickets),
         "generation": _generation_view(request, package),
     }
 
