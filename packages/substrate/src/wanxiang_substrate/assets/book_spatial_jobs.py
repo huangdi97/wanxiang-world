@@ -174,7 +174,7 @@ class _SpatialGenerationCoordinator:
             raise ValueError("configured spatial provider does not match persisted ticket")
         result = self.provider.poll(ticket.provider_task_ref)
         if result.state in {"queued", "running"}:
-            updated = replace(ticket, state=result.state)
+            updated = replace(ticket, state=result.state, reason=result.reason[:240])
             self.jobs.put(updated)
             return updated
         if result.state in {"failed", "cancelled", "expired"}:

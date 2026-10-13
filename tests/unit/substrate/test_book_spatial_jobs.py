@@ -178,6 +178,20 @@ def test_t3_ticket_survives_restart_and_resumes_existing_provider_task(
     assert resumed.provider_task_ref == "task:1"
 
 
+def test_t3_nonterminal_provider_reason_is_persisted_for_retry_diagnostics() -> None:
+    provider = _FakeSpatialProvider(
+        polls=[_SpatialPollResult("running", reason="provider_task_unknown")]
+    )
+    coordinator = _coordinator(provider)
+    ticket = _submit(coordinator)
+
+    running = coordinator.poll(ticket.submission_id)
+
+    assert running.state == "running"
+    assert running.reason == "provider_task_unknown"
+    assert coordinator.jobs.get(ticket.submission_id) == running
+
+
 def test_t3_poll_verifies_assets_then_attaches_only_to_derived_catalog() -> None:
     payload = _glb()
     provider = _FakeSpatialProvider(
