@@ -8,6 +8,7 @@
     "GET /experience/player/instances/{instance_id}",
     "GET /experience/player/plaza",
     "GET /experience/player/worlds/{profile_id}",
+    "GET /experience/player/worlds/{profile_id}/spatial",
     "GET /experience/player/worlds/{profile_id}/spatial-assets/{asset_index}",
     "GET /experience/player/worlds/{profile_id}/spatial/{submission_id}",
     "GET /experience/plaza",
