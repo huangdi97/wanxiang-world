@@ -1,5 +1,7 @@
 """T3 submission and persisted-asset safety helpers."""
 
+# pyright: reportPrivateUsage=false, reportUnusedFunction=false
+
 from __future__ import annotations
 
 import hashlib
