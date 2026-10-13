@@ -120,6 +120,7 @@ STRINGS: dict[str, str] = {
     "visual_source_evidence_none": "Only the place name is source-grounded",
     "visual_provider": "Visual provider {provider}",
     "visual_projection_only": "Illustrative projection, not canonical world truth",
+    "visual_spatial_ready": "Spatial scene ready · {count} spatial asset(s)",
     "visual_places_heading": "World places",
     "visual_place_search_label": "Find a place",
     "visual_place_search_placeholder": "Search source places…",
