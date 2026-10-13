@@ -2,6 +2,7 @@
 
 from wanxiang_api.player_ui_asset import player_html
 from wanxiang_api.player_ui_panorama_builtin import BUILTIN_PANORAMA_RENDERER_SCRIPT
+from wanxiang_api.player_ui_panorama_renderer import PANORAMA_RENDERER_SCRIPT
 from wanxiang_api.player_ui_spatial_renderer import SPATIAL_RENDERER_SCRIPT
 
 
