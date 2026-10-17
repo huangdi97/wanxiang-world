@@ -134,7 +134,7 @@
 | packages/substrate/src/wanxiang_substrate/observation/query.py | PerspectiveService | 29 |
 | packages/substrate/src/wanxiang_substrate/parsing/checkpoint.py | ParseCheckpointService | 14 |
 | packages/substrate/src/wanxiang_substrate/playable/entry.py | CharacterEntryService | 37 |
-| packages/substrate/src/wanxiang_substrate/playable/service.py | PlayableService | 46 |
+| packages/substrate/src/wanxiang_substrate/playable/service.py | PlayableService | 47 |
 | packages/substrate/src/wanxiang_substrate/projection/service.py | ProjectionService | 32 |
 | packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | CheckpointService | 89 |
 | packages/substrate/src/wanxiang_substrate/recovery/recovery.py | RecoveryService | 31 |
@@ -210,7 +210,7 @@
 | packages/substrate/src/wanxiang_substrate/preview/runtime.py | PreviewRuntimePort | 52 |
 | packages/substrate/src/wanxiang_substrate/reality/bridge.py | ObservationAdapter | 21 |
 | packages/substrate/src/wanxiang_substrate/reality/challenge.py | OpportunityDetector | 204 |
-| packages/substrate/src/wanxiang_substrate/runtime_port.py | WorldRuntimePort | 29 |
+| packages/substrate/src/wanxiang_substrate/runtime_port.py | WorldRuntimePort | 30 |
 | packages/substrate/src/wanxiang_substrate/sources/adapter.py | SourceAdapter | 49 |
 | packages/substrate/src/wanxiang_substrate/workshop/genesis_provider.py | PromptGenesisProvider | 28 |
 | packages/substrate/src/wanxiang_substrate/world_lab/external_engine.py | ExternalEngineAdapter | 102 |
