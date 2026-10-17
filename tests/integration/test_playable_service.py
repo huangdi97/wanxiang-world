@@ -274,6 +274,56 @@ def test_restarted_service_never_reuses_another_book_preview_world() -> None:
     assert str(cast(dict[str, object], entered_c["instance"])["instance_id"]) == instance_a
 
 
+def _gedcom_source() -> SourceRecord:
+    content = (
+        "0 HEAD\n1 SOUR TEST\n"
+        "0 @I1@ INDI\n1 NAME Alice /Doe/\n"
+        "0 @I2@ INDI\n1 NAME Bob /Doe/\n"
+        "0 @F1@ FAM\n1 HUSB @I1@\n1 WIFE @I2@\n"
+        "0 TRLR\n"
+    )
+    return SourceRecord(
+        source_id="playable_gedcom_types",
+        kind="gedcom",
+        content_hash=payload_hash(content),
+        content_ref="memory://playable_gedcom_types",
+        stage="E3",
+        rights=RightsEnvelope(owner="test", usage="test", approved=True),
+        payload=content,
+        provenance="synthetic:gedcom-types",
+        access="private",
+    )
+
+
+def test_gedcom_family_is_not_canonicalized_as_an_actor() -> None:
+    authored = OneClickAuthoring().run(
+        "job_gedcom_entity_types",
+        (_gedcom_source(),),
+        profile="family",
+    )
+    declared = dict(authored.package.draft.entity_types)
+    assert sorted(declared.values()) == ["actor", "actor", "family"]
+
+    playable = PlayableService(build_reference_runtime())
+    profile = playable.register_package(authored.package, owner_id="alice")
+    entered = playable.enter(
+        profile.profile_id,
+        viewer_id="alice",
+        mode="observer",
+        session_id="gedcom_types",
+    )
+    entities = cast(
+        list[dict[str, object]],
+        cast(dict[str, object], entered["state"])["entities"],
+    )
+    families = [entity for entity in entities if entity["type"] == "family"]
+    actors = [entity for entity in entities if entity["type"] == "actor"]
+    assert len(families) == 1
+    assert len(actors) == 2
+    assert "Family F1" in json.dumps(families[0]["components"], ensure_ascii=False)
+    assert "Family" not in json.dumps([a["components"] for a in actors], ensure_ascii=False)
+
+
 def test_worldline_fork_preserves_parent_and_diverges_independently() -> None:
     authored = OneClickAuthoring().run("job_worldline_fork", (_source(),), profile="book")
     playable = PlayableService(build_reference_runtime())

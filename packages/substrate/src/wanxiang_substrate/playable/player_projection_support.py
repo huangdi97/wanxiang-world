@@ -34,6 +34,7 @@ _CATEGORY_KEYS = {
     "task": "category_task",
     "knowledge": "category_knowledge",
     "organization": "category_organization",
+    "family": "category_organization",
     "state": "category_state",
 }
 

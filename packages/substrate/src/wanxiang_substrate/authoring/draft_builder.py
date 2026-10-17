@@ -39,6 +39,22 @@ def _entities(fusion: FusionResult) -> tuple[tuple[str, str], ...]:
     )
 
 
+def _entity_types(fusion: FusionResult) -> tuple[tuple[str, str], ...]:
+    """Keep source-declared kinds (e.g. GEDCOM family) instead of flattening to actor."""
+    typed: dict[str, str] = {}
+    for candidate in fusion.candidates:
+        if candidate.kind in ("identity", "character"):
+            kind = "actor"
+        elif candidate.kind == "organization":
+            kind = field(candidate, "entity_type", default="organization") or "organization"
+        else:
+            continue
+        key = field(candidate, "key", "identity_key", "subject_key")
+        if key and field(candidate, "display_name", "name", "key", "subject_key"):
+            typed[key] = kind
+    return tuple(sorted(typed.items()))
+
+
 def _relations(fusion: FusionResult) -> tuple[tuple[str, str, str], ...]:
     by_xref = {
         field(candidate, "xref"): field(candidate, "key")
@@ -134,6 +150,7 @@ def build_pipeline_build(
         selected_domains=domain_order,
         dependency_lock=domain_order,
         entities=_entities(fusion),
+        entity_types=_entity_types(fusion),
         relations=_relations(fusion),
         places=_names(fusion, "place"),
         objects=_names(fusion, "object"),
