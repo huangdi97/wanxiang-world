@@ -154,4 +154,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 .stage-replay-exit{min-height:36px;padding:.4rem .7rem;border:1px solid #b98a55;border-radius:999px;background:#fff;color:#5d3c18;font:inherit;font-weight:850;cursor:pointer}
 .chronicle-replay{border:0;background:transparent;color:inherit;font:inherit;font-weight:inherit;padding:0;text-align:left;cursor:pointer;text-decoration:underline dotted;text-underline-offset:3px}
 .chronicle-replay:focus-visible{outline:2px solid var(--cobalt);outline-offset:2px}
+.record-heading-end{display:flex;align-items:baseline;gap:.55rem}
+.chronicle-expand{font-size:.74rem;color:var(--cobalt);padding:.15rem .3rem;font-weight:850}
 """

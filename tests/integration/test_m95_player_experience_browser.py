@@ -583,6 +583,17 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 assert not page.locator("#send-action").is_disabled()
                 assert not page.locator("#action-input").is_disabled()
                 assert page.locator("#play-mode").inner_text() == "角色体验"
+                expand = page.locator("#chronicle-expand")
+                assert expand.is_visible()
+                expand.click()
+                page.wait_for_function(
+                    "document.querySelector('#chronicle-expand')?.textContent === '收起纪事'"
+                )
+                assert page.locator("#chronicle-list [data-replay-time]").count() >= 1
+                expand.click()
+                page.wait_for_function(
+                    "document.querySelector('#chronicle-expand')?.textContent === '查看完整纪事'"
+                )
                 assert not page_errors, page_errors
                 page.locator("#leave-world").click()
                 page.wait_for_selector("[data-continue]")

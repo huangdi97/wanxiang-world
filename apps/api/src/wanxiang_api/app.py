@@ -54,6 +54,7 @@ from wanxiang_api.living_world_routes import router as living_world_router
 from wanxiang_api.one_click_routes import router as one_click_router
 from wanxiang_api.panorama_tokenhub_runtime import panorama_tokenhub_runtime_from_env
 from wanxiang_api.playable_routes import router as playable_router
+from wanxiang_api.player_history_routes import router as player_history_router
 from wanxiang_api.player_routes import router as player_router
 from wanxiang_api.player_spatial_routes import router as player_spatial_router
 from wanxiang_api.player_ui_routes import router as player_ui_router
@@ -271,6 +272,7 @@ def create_app(
     app.include_router(workshop_router)
     app.include_router(playable_router)
     app.include_router(player_router)
+    app.include_router(player_history_router)
     app.include_router(player_spatial_router)
     app.include_router(player_visual_router)
     app.include_router(player_ui_router)

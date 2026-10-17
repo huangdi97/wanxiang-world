@@ -237,6 +237,85 @@ def test_player_replay_projects_a_past_tick_without_committing() -> None:
     assert negative.status_code == 422
 
 
+def test_player_history_lists_the_full_chronicle_newest_first() -> None:
+    client = _client()
+    plaza = client.get("/experience/player/plaza", headers=HEADERS)
+    profile_id = str(plaza.json()["worlds"][0]["profile_id"])
+    entered = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=HEADERS,
+        json={
+            "mode": "embodiment",
+            "session_id": "m95_history_session",
+            "character_id": "ent_alice",
+        },
+    )
+    instance_id = str(entered.json()["instance_id"])
+    for text in ("让自己保持清醒", "让自己保持警觉"):
+        response = client.post(
+            f"/experience/player/instances/{instance_id}/action",
+            headers=HEADERS,
+            json={"text": text},
+        )
+        assert response.status_code == 200
+
+    history = client.get(
+        f"/experience/player/instances/{instance_id}/history",
+        headers=HEADERS,
+    )
+    assert history.status_code == 200
+    body = cast(dict[str, Any], history.json())
+    events = cast(list[dict[str, Any]], body["events"])
+    assert body["total"] == len(events) >= 3
+    assert body["returned"] == len(events)
+    times = [int(item["time"]) for item in events]
+    assert times == sorted(times, reverse=True)
+    assert "event_id" not in json.dumps(body, ensure_ascii=False)
+    assert "state_hash" not in json.dumps(body, ensure_ascii=False)
+    assert "branch_id" not in json.dumps(body, ensure_ascii=False)
+
+    page = client.get(
+        f"/experience/player/instances/{instance_id}/history",
+        headers=HEADERS,
+        params={"limit": 1},
+    )
+    assert page.status_code == 200
+    assert page.json()["returned"] == 1
+    assert page.json()["total"] == body["total"]
+    assert page.json()["events"][0]["time"] == times[0]
+
+    for item in events:
+        replay = client.get(
+            f"/experience/player/instances/{instance_id}/replay",
+            headers=HEADERS,
+            params={"at_ticks": item["time"]},
+        )
+        assert replay.status_code == 200
+        assert replay.json()["replay"]["world_ticks"] == item["time"]
+
+    assert (
+        client.get(
+            f"/experience/player/instances/{instance_id}/history",
+            headers=HEADERS,
+            params={"limit": 0},
+        ).status_code
+        == 422
+    )
+    assert (
+        client.get(
+            f"/experience/player/instances/{instance_id}/history",
+            headers=HEADERS,
+            params={"limit": 501},
+        ).status_code
+        == 422
+    )
+    other = client.get(
+        f"/experience/player/instances/{instance_id}/history",
+        headers={"X-Wanxiang-User": "someone-else"},
+    )
+    assert other.status_code == 404
+
+
 def test_player_entry_is_separate_from_english_studio_surface() -> None:
     client: Any = TestClient(create_app(build_reference_runtime()))
     player = client.get("/")

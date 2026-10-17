@@ -20,6 +20,7 @@ from wanxiang_substrate.playable.entry import CharacterEntryService
 from wanxiang_substrate.playable.experience import ExperiencePackage
 from wanxiang_substrate.playable.models import PlayableWorldProfile
 from wanxiang_substrate.playable.service_action import _perform_action
+from wanxiang_substrate.playable.service_history import _history
 from wanxiang_substrate.playable.service_lifecycle import (
     _continue_instance,
     _enter,
@@ -226,6 +227,23 @@ class PlayableService:
             instance_id,
             viewer_id=viewer_id,
             at_ticks=at_ticks,
+            locale=locale,
+        )
+
+    def history(
+        self,
+        instance_id: str,
+        *,
+        viewer_id: str,
+        limit: int = 200,
+        locale: str | None = None,
+    ) -> dict[str, object]:
+        """Return the player-safe chronicle, newest first."""
+        return _history(
+            self,
+            instance_id,
+            viewer_id=viewer_id,
+            limit=limit,
             locale=locale,
         )
 

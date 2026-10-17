@@ -211,34 +211,6 @@ def player_observe_instance(
     }
 
 
-@router.get("/instances/{instance_id}/replay")
-def player_replay_instance(
-    instance_id: str,
-    at_ticks: int,
-    request: Request,
-    x_wanxiang_user: str | None = Header(default=None),
-    x_wanxiang_locale: str | None = Header(default=None),
-) -> dict[str, object]:
-    """Return a read-only projection of the instance at a past world tick."""
-    viewer = _viewer(x_wanxiang_user)
-    locale = _locale(x_wanxiang_locale)
-    try:
-        view = _service(request).replay_at(
-            instance_id,
-            viewer_id=viewer,
-            at_ticks=at_ticks,
-            locale=locale,
-        )
-    except ValueError as exc:
-        raise HTTPException(status_code=422, detail=str(exc)) from exc
-    return {
-        "locale": locale,
-        "instance_id": instance_id,
-        "replay": view.get("replay"),
-        "view": view,
-    }
-
-
 @router.post("/instances/{instance_id}/action")
 def player_action_instance(
     instance_id: str,
