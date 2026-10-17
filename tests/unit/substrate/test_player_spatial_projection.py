@@ -103,6 +103,7 @@ def test_spatial_attachment_cannot_upgrade_source_gated_rights_to_public() -> No
         SimpleNamespace(
             _packages={"profile": package},
             _spatial_asset_refs={},
+            _spatial_projection_frames={},
         ),
     )
     public_ref = AssetRef(
