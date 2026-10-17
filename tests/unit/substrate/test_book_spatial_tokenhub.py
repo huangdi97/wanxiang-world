@@ -125,6 +125,14 @@ def test_tokenhub_spatial_poll_downloads_only_supported_allowlisted_artifacts(
                     "mesh_simplified_url": "https://assets.example/world-simple.ply",
                     "mesh_url": "https://assets.example/world.ply",
                     "super_resolution_image_url": "https://assets.example/preview.png",
+                    "position_info": json.dumps(
+                        {
+                            "up_direction": [0, 1, 0],
+                            "facing_direction": [0, 0, -1],
+                            "center_point": [1.5, 2.0, -3.0],
+                            "scale": 0.25,
+                        }
+                    ),
                 }
             ],
             "tokenhub_usage": {"total_tokens": 8000000},
@@ -150,6 +158,12 @@ def test_tokenhub_spatial_poll_downloads_only_supported_allowlisted_artifacts(
         "https://assets.example/preview.png",
     ]
     assert result.artifacts[0].content == point
+    assert result.projection_frame is not None
+    assert result.projection_frame.up == (0.0, 1.0, 0.0)
+    assert result.projection_frame.forward == (0.0, 0.0, -1.0)
+    assert result.projection_frame.center == (1.5, 2.0, -3.0)
+    assert result.projection_frame.scale == 0.25
+    assert result.projection_frame.convention == "tokenhub-hy-world2"
     assert all("world.spz" not in request.full_url for request in opener.requests)
     assert opener.requests[0].headers["Authorization"] == "Bearer secret"
     assert all(request.headers.get("Authorization") is None for request in opener.requests[1:])
