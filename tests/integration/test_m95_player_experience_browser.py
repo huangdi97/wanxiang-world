@@ -642,6 +642,21 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 page.wait_for_function(
                     "document.querySelector('#status')?.textContent.includes('已切换')"
                 )
+                third = _api(
+                    page,
+                    f"/experience/player/instances/{forked_instance}/fork",
+                    "POST",
+                    {},
+                )
+                third_instance = str(cast(dict[str, object], third["worldline"])["instance_id"])
+                page.locator("#worldline-toggle").click()
+                page.wait_for_selector("#worldline-panel:not([hidden])")
+                assert page.locator("#worldline-list li").count() == 3
+                page.locator(f'[data-switch-worldline="{third_instance}"]').click()
+                page.wait_for_function(f'model.instanceId === "{third_instance}"')
+                page.wait_for_function(
+                    "document.querySelector('#status')?.textContent.includes('已切换')"
+                )
                 page.set_viewport_size({"width": 390, "height": 844})
                 page.evaluate("window.scrollTo(0, 0)")
                 page.wait_for_timeout(50)
@@ -654,6 +669,20 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 assert page.evaluate(
                     "getComputedStyle(document.querySelector('.world-action-dock')).paddingBottom"
                 ) not in {"0px", ""}
+                page.locator("#worldline-toggle").click()
+                page.wait_for_selector("#worldline-panel:not([hidden])")
+                assert page.locator("#worldline-list li").count() == 3
+                mobile_panel_box = page.locator("#worldline-panel").bounding_box()
+                assert mobile_panel_box is not None
+                assert mobile_panel_box["width"] <= 390
+                assert (
+                    page.evaluate(
+                        "getComputedStyle(document.querySelector('[data-compare-worldline]')).minHeight"
+                    )
+                    == "44px"
+                )
+                page.keyboard.press("Escape")
+                assert page.locator("#worldline-panel").is_hidden()
                 mobile_stage_box = page.locator("#world-stage").bounding_box()
                 mobile_dock_box = page.locator(".world-action-dock").bounding_box()
                 assert mobile_stage_box is not None
