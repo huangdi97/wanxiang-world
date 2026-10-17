@@ -506,3 +506,46 @@ def test_worldline_fork_preserves_parent_and_diverges_independently() -> None:
     right_recent = cast(list[dict[str, object]], recent["right"])
     assert cast(int, right_recent[-1]["time"]) > cast(int, left_recent[-1]["time"])
     assert "event_id" not in json.dumps(recent, ensure_ascii=False)
+
+    # A grandchild inherits both ancestors in revision order and replays cleanly.
+    playable.leave(child, viewer_id="alice")
+    grandchild = str(playable.fork_worldline(child, viewer_id="alice")["instance_id"])
+    playable.continue_instance(grandchild, viewer_id="alice")
+    inherited = playable.runtime.worldline_events(runtime_id, BranchId(grandchild))
+    assert len(inherited) == 5
+    revisions = [event.revision.value for event in inherited]
+    assert revisions == sorted(revisions)
+
+    listing_three = playable.worldlines(grandchild, viewer_id="alice")
+    cards_three = cast(list[dict[str, object]], listing_three["worldlines"])
+    assert listing_three["branches"] == 3
+    assert [card["instance_id"] for card in cards_three] == [parent, child, grandchild]
+
+    before_child_action = inherited[3].world_time.ticks
+    at_child_action = inherited[4].world_time.ticks
+    replay_before = playable.replay_at(
+        grandchild,
+        viewer_id="alice",
+        at_ticks=before_child_action,
+    )
+    assert cast(dict[str, object], replay_before["replay"])["event_count"] == 4
+    assert cast(dict[str, object], replay_before["player"])["status"] == "清醒"
+    replay_after = playable.replay_at(
+        grandchild,
+        viewer_id="alice",
+        at_ticks=at_child_action,
+    )
+    assert cast(dict[str, object], replay_after["replay"])["event_count"] == 5
+    assert cast(dict[str, object], replay_after["player"])["status"] == "警觉"
+
+    history = playable.history(grandchild, viewer_id="alice")
+    assert history["total"] == 5
+    three_way = playable.compare_worldlines(
+        parent,
+        other_instance_id=grandchild,
+        viewer_id="alice",
+    )
+    assert (
+        cast(dict[str, object], three_way["common"])["revision"]
+        == (child_card["forked_from_revision"])
+    )
