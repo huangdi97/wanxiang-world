@@ -1,4 +1,4 @@
-﻿import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import contract from "./openapi-contract.json";
 import { API_VERSION_POLICY, parseOpenApi, type OpenApiDocument } from "./openapi.js";
@@ -6,7 +6,7 @@ import { API_VERSION_POLICY, parseOpenApi, type OpenApiDocument } from "./openap
 describe("G13D openapi contract", () => {
   it("parses the exported server contract deterministically", () => {
     const ops = parseOpenApi(contract as unknown as OpenApiDocument);
-    expect(ops.length).toBe(81);
+    expect(ops.length).toBe(82);
     const again = parseOpenApi(contract as unknown as OpenApiDocument);
     expect(JSON.stringify(ops)).toBe(JSON.stringify(again));
   });
@@ -33,6 +33,7 @@ describe("G13D openapi contract", () => {
       "player_submit_spatial_place_experience_player_worlds__profile_id__spatial_post",
       "player_poll_spatial_place_experience_player_worlds__profile_id__spatial__submission_id__get",
       "player_action_instance_experience_player_instances__instance_id__action_post",
+      "player_replay_instance_experience_player_instances__instance_id__replay_get",
     ]) {
       expect(ids).toContain(expected);
     }
