@@ -32,10 +32,22 @@ class _SpatialArtifactCandidate:
 
 
 @dataclass(frozen=True, slots=True)
+class _SpatialProjectionFrame:
+    """Provider geometry orientation used only by derived visual projection."""
+
+    up: tuple[float, float, float]
+    forward: tuple[float, float, float]
+    center: tuple[float, float, float]
+    scale: float
+    convention: str = ""
+
+
+@dataclass(frozen=True, slots=True)
 class _SpatialPollResult:
     state: _SpatialProviderState
     artifacts: tuple[_SpatialArtifactCandidate, ...] = ()
     reason: str = ""
+    projection_frame: _SpatialProjectionFrame | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -51,6 +63,7 @@ class _SpatialGenerationTicket:
     scope_key: str = ""
     asset_refs: tuple[AssetRef, ...] = ()
     reason: str = ""
+    projection_frame: _SpatialProjectionFrame | None = None
 
 
 class _SpatialGenerationProvider:
