@@ -1,9 +1,12 @@
 """G88H core E2E: source-created package to action, diff, leave and continue."""
 
+# pyright: reportPrivateUsage=false
+
 from __future__ import annotations
 
 import json
 import pathlib
+from dataclasses import replace
 from typing import cast
 
 import pytest
@@ -11,15 +14,35 @@ from scripts.reference_runtime import build_reference_runtime
 from tests.conftest import make_world_runtime
 from wanxiang_domain.errors import NotFound
 from wanxiang_domain.ids import BranchId, WorldInstanceId
+from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
+from wanxiang_substrate.assets.book_scene_render import _ProceduralSvgSceneProvider
+from wanxiang_substrate.assets.book_scene_types import SceneImageProvider, _SceneVisualAsset
 from wanxiang_substrate.authoring.local_semantic_provider import LocalSemanticProvider
 from wanxiang_substrate.authoring.one_click import OneClickAuthoring
 from wanxiang_substrate.authoring.providers import ProviderRouter
 from wanxiang_substrate.authoring.service import AuthoringService
 from wanxiang_substrate.playable import PlayableService
 from wanxiang_substrate.playable.player_world_detail import player_world_detail
+from wanxiang_substrate.playable.service_visual import visual_budget_usage
 from wanxiang_substrate.playable.store import ExperienceInstanceRecord
 from wanxiang_substrate.preview.runtime import register_preview_resolvers
 from wanxiang_substrate.sources.model import RightsEnvelope, SourceRecord, payload_hash
+
+
+class _CustomSceneProvider(SceneImageProvider):
+    provider_id = "provider:branch-test"
+    provider_version = "1.0"
+    cost_units_per_asset = 1
+    private_safe = True
+
+    def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
+        produced = _ProceduralSvgSceneProvider().produce(request)
+        return replace(
+            produced,
+            provider_id=self.provider_id,
+            provider_version=self.provider_version,
+            cache_key=f"{request.cache_key}:{self.provider_id}@{self.provider_version}",
+        )
 
 
 def _source() -> SourceRecord:
@@ -432,6 +455,33 @@ def test_worldline_fork_preserves_parent_and_diverges_independently() -> None:
         viewer_id="alice",
     )
     assert playable.observe(child, "alice") == canon_before
+
+    # T1 cache and budget are world-scoped, not branch-scoped.
+    place = authored.visual_plan.place_names[0]
+    provider = _CustomSceneProvider()
+    generated = playable.materialize_visual_place(
+        profile.profile_id,
+        place,
+        viewer_id="alice",
+        provider=provider,
+        max_cost_units=5,
+        max_deferred_generations=5,
+    )
+    assert generated.provider_calls == 1
+    reused = playable.materialize_visual_place(
+        profile.profile_id,
+        place,
+        viewer_id="alice",
+        provider=provider,
+        max_cost_units=5,
+        max_deferred_generations=5,
+    )
+    assert reused.provider_calls == 0
+    assert reused.cache_hits == 1
+    assert place in {
+        asset.place_name for asset in playable.visual_assets(profile.profile_id, viewer_id="alice")
+    }
+    assert visual_budget_usage(playable, profile.profile_id) == 1
 
     diverged = playable.compare_worldlines(
         parent,
