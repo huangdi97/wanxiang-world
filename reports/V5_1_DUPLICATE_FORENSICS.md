@@ -27,7 +27,7 @@
 | packages/substrate/src/wanxiang_substrate/workshop/registry.py | WorldRegistryCatalog | 99 |
 | packages/substrate/src/wanxiang_substrate/world_lab/registry.py | ExperimentRegistry | 28 |
 
-## state_classes (40)
+## state_classes (41)
 
 | path | name | line |
 |---|---|---|
@@ -40,6 +40,7 @@
 | packages/substrate/src/wanxiang_substrate/actor_continuity/projection.py | ActorContinuitySnapshot | 73 |
 | packages/substrate/src/wanxiang_substrate/actor_continuity/projection.py | ActorContinuityProjection | 95 |
 | packages/substrate/src/wanxiang_substrate/actor_continuity/relationship_model.py | RelationshipState | 56 |
+| packages/substrate/src/wanxiang_substrate/assets/book_scene_panorama_budget.py | _PanoramaBudgetSnapshot | 17 |
 | packages/substrate/src/wanxiang_substrate/authoring/living_ports.py | ReplayState | 36 |
 | packages/substrate/src/wanxiang_substrate/authoring/model.py | AuthoringSnapshot | 49 |
 | packages/substrate/src/wanxiang_substrate/authoring/scenario_engine.py | InitialSnapshot | 25 |
@@ -72,7 +73,7 @@
 | packages/substrate/src/wanxiang_substrate/world_lab/physical_models.py | PhysicalSnapshot | 78 |
 | packages/substrate/src/wanxiang_substrate/world_lab/visual_models.py | VisualSceneState | 129 |
 
-## store_classes (36)
+## store_classes (43)
 
 | path | name | line |
 |---|---|---|
@@ -92,9 +93,16 @@
 | packages/runtime/src/wanxiang_runtime/snapshot.py | SnapshotStore | 26 |
 | packages/runtime/src/wanxiang_runtime/snapshot.py | InMemorySnapshotStore | 74 |
 | packages/substrate/src/wanxiang_substrate/actor_continuity/trajectory.py | ActorTrajectoryLedger | 139 |
-| packages/substrate/src/wanxiang_substrate/assets/storage.py | ObjectStore | 35 |
-| packages/substrate/src/wanxiang_substrate/assets/storage.py | LocalObjectStore | 44 |
-| packages/substrate/src/wanxiang_substrate/assets/storage.py | InMemoryObjectStore | 93 |
+| packages/substrate/src/wanxiang_substrate/assets/book_scene_panorama_budget.py | _PanoramaBudgetLedger | 41 |
+| packages/substrate/src/wanxiang_substrate/assets/book_scene_panorama_budget.py | _LocalJson_PanoramaBudgetLedger | 76 |
+| packages/substrate/src/wanxiang_substrate/assets/book_spatial_recovery.py | _RecoverableInMemorySpatialJobStore | 15 |
+| packages/substrate/src/wanxiang_substrate/assets/book_spatial_recovery.py | _RecoverableLocalJsonSpatialJobStore | 20 |
+| packages/substrate/src/wanxiang_substrate/assets/book_spatial_store.py | _InMemorySpatialJobStore | 23 |
+| packages/substrate/src/wanxiang_substrate/assets/book_spatial_store.py | _LocalJsonSpatialJobStore | 37 |
+| packages/substrate/src/wanxiang_substrate/assets/book_spatial_types.py | _SpatialJobStore | 88 |
+| packages/substrate/src/wanxiang_substrate/assets/storage.py | ObjectStore | 36 |
+| packages/substrate/src/wanxiang_substrate/assets/storage.py | LocalObjectStore | 45 |
+| packages/substrate/src/wanxiang_substrate/assets/storage.py | InMemoryObjectStore | 104 |
 | packages/substrate/src/wanxiang_substrate/capability/runtime_control.py | RuntimeControlLedger | 84 |
 | packages/substrate/src/wanxiang_substrate/draft/store.py | DraftStore | 20 |
 | packages/substrate/src/wanxiang_substrate/evidence/conflict.py | ConflictLedger | 38 |
@@ -126,7 +134,7 @@
 | packages/substrate/src/wanxiang_substrate/observation/query.py | PerspectiveService | 29 |
 | packages/substrate/src/wanxiang_substrate/parsing/checkpoint.py | ParseCheckpointService | 14 |
 | packages/substrate/src/wanxiang_substrate/playable/entry.py | CharacterEntryService | 37 |
-| packages/substrate/src/wanxiang_substrate/playable/service.py | PlayableService | 49 |
+| packages/substrate/src/wanxiang_substrate/playable/service.py | PlayableService | 46 |
 | packages/substrate/src/wanxiang_substrate/projection/service.py | ProjectionService | 32 |
 | packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | CheckpointService | 89 |
 | packages/substrate/src/wanxiang_substrate/recovery/recovery.py | RecoveryService | 31 |
@@ -184,7 +192,7 @@
 | packages/substrate/src/wanxiang_substrate/agency/policy.py | PolicyContext | 13 |
 | packages/substrate/src/wanxiang_substrate/agency/policy.py | Policy | 21 |
 | packages/substrate/src/wanxiang_substrate/assets/foundry.py | AssetGenerator | 38 |
-| packages/substrate/src/wanxiang_substrate/assets/storage.py | ObjectStore | 35 |
+| packages/substrate/src/wanxiang_substrate/assets/storage.py | ObjectStore | 36 |
 | packages/substrate/src/wanxiang_substrate/authoring/living_ports.py | LivingRuntimePort | 16 |
 | packages/substrate/src/wanxiang_substrate/authoring/living_ports.py | ReplayState | 36 |
 | packages/substrate/src/wanxiang_substrate/authoring/living_ports.py | BranchResult | 40 |
