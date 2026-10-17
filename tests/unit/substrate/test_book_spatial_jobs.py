@@ -20,6 +20,7 @@ from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialArtifactCandidate,
     _SpatialGenerationProvider,
     _SpatialPollResult,
+    _SpatialProjectionFrame,
 )
 from wanxiang_substrate.assets.foundry import SemanticSceneSpec
 from wanxiang_substrate.assets.storage import InMemoryObjectStore, LocalObjectStore
@@ -190,6 +191,49 @@ def test_t3_nonterminal_provider_reason_is_persisted_for_retry_diagnostics() -> 
     assert running.state == "running"
     assert running.reason == "provider_task_unknown"
     assert coordinator.jobs.get(ticket.submission_id) == running
+
+
+
+def test_t3_verified_projection_frame_survives_ticket_persistence(
+    tmp_path: pathlib.Path,
+) -> None:
+    payload = _glb(b"oriented")
+    frame = _SpatialProjectionFrame(
+        up=(0.0, 1.0, 0.0),
+        forward=(0.0, 0.0, -1.0),
+        center=(1.0, 2.0, 3.0),
+        scale=0.5,
+        convention="provider-test",
+    )
+    provider = _FakeSpatialProvider(
+        polls=[
+            _SpatialPollResult(
+                "succeeded",
+                (
+                    _SpatialArtifactCandidate(
+                        payload,
+                        "model/gltf-binary",
+                        hashlib.sha256(payload).hexdigest(),
+                    ),
+                ),
+                projection_frame=frame,
+            )
+        ]
+    )
+    jobs_path = tmp_path / "spatial-frame-jobs.json"
+    coordinator = _SpatialGenerationCoordinator(
+        provider,
+        jobs=_LocalJsonSpatialJobStore(jobs_path),
+        objects=LocalObjectStore(tmp_path / "objects"),
+    )
+    submitted = _submit(coordinator)
+    verified = coordinator.poll(submitted.submission_id)
+
+    assert verified.projection_frame == frame
+    restored = _LocalJsonSpatialJobStore(jobs_path).get(submitted.submission_id)
+    assert restored is not None
+    assert restored.projection_frame == frame
+
 
 
 def test_t3_poll_verifies_assets_then_attaches_only_to_derived_catalog() -> None:
