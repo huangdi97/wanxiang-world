@@ -436,6 +436,25 @@ def test_world_atlas_uses_places_and_only_source_grounded_relations() -> None:
     assert "关系不等于地理坐标".encode() in atlas.content
 
 
+def test_world_atlas_discloses_places_beyond_the_first_screen() -> None:
+    places = tuple(f"地点{index}" for index in range(30))
+    plan = _SourceVisualPlan(
+        package_id="world:atlas-truncated",
+        source_digest="d" * 64,
+        status="READY_FOR_ASSET_PROVIDER",
+        scene_requests=(),
+        deferred_scene_count=30,
+        place_names=places,
+    )
+
+    atlas = _render_world_atlas(plan)
+
+    assert atlas is not None
+    assert "地点23".encode() in atlas.content
+    assert "地点24".encode() not in atlas.content
+    assert "另有 6 个来源地点未绘制；可在地点列表中查看".encode() in atlas.content
+
+
 class _RemoteLikeProviderV3(_RemoteLikeProvider):
     provider_version = "3.0.0"
 

@@ -160,7 +160,7 @@ def _render_world_atlas(plan: _SourceVisualPlan) -> _SceneVisualAsset | None:
     omitted = max(0, len(places) - len(visible_places))
     omitted_label = (
         f'<text x="600" y="825" text-anchor="middle" font-size="18" '
-        f'fill="#536a70">另有 {omitted} 个来源地点未在首屏展开</text>'
+        f'fill="#536a70">另有 {omitted} 个来源地点未绘制；可在地点列表中查看</text>'
         if omitted
         else ""
     )

@@ -117,6 +117,27 @@ def test_partial_provider_cache_hits_survive_offline_fallback() -> None:
     assert result.assets[1].place_name == "城门"
 
 
+def test_external_provider_never_receives_source_locators() -> None:
+    client = _FakeImageClient([])
+    provider = _PromptedExternalSceneProvider(
+        provider_id="provider:test-image",
+        provider_version="2026-10",
+        client=client,
+        cost_units_per_asset=1,
+        private_safe=False,
+    )
+
+    _materialize_visual_plan(
+        _plan(),
+        provider=provider,
+        allow_network=True,
+        max_cost_units=1,
+    )
+
+    assert client.briefs
+    assert client.briefs[0].source_refs == ()
+
+
 def test_external_provider_gets_minimal_brief_and_obeys_materializer_governance() -> None:
     client = _FakeImageClient([])
     provider = _PromptedExternalSceneProvider(

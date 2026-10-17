@@ -180,5 +180,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 .worldline-diff{margin-top:.55rem;font-size:.74rem}
 .worldline-diff .plain-list{margin:.35rem 0 0;padding-left:1rem}
 .worldline-diff li{padding:.15rem 0;border:0}
+.atlas-more{display:block;margin-top:.35rem;font-size:.7rem}
 @media(max-width:720px){.worldline-compare-grid{grid-template-columns:1fr}}
 """

@@ -130,6 +130,7 @@ STRINGS: dict[str, str] = {
     "visual_tier_t1": "T1 · 高质量场景",
     "visual_tier_t3": "T3 · 3D 空间",
     "visual_evidence_count": "{count} 条原文证据",
+    "atlas_more_places": "另有 {count} 个地点，见下方地点列表",
     "status_generating_scene": "正在生成 {place} 的场景…",
     "status_scene_ready": "{place} 场景已加入世界图册",
     "status_scene_fallback": "高阶视觉暂不可用，已使用离线保底场景 · {place}（{reason}）",

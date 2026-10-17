@@ -114,7 +114,9 @@ function renderAtlasEntrances(item,galleryItems){
   const nav=$("atlas-entrances"),places=model.world?.world?.visual?.places||[];
   nav.hidden=item?.kind!=="atlas"||!places.length;
   if(nav.hidden){nav.innerHTML="";return}
-  nav.innerHTML=`<strong>${safe(tr("atlas_entrances_heading"))}</strong><div class="atlas-entrances-list">${places.slice(0,7).map(place=>`<button class="atlas-entrance" type="button" data-atlas-place="${safe(place.name)}" title="${safe(tr("visual_evidence_count",{count:place.source_evidence_count||0}))}"><span>${safe(place.name)}</span><small>${safe(tr(place.generated?"visual_place_ready":"visual_place_generate"))}${place.tier&&place.tier!=="deferred"?` · ${safe(tr("visual_tier_"+String(place.tier).toLowerCase()))}`:""}</small></button>`).join("")}</div>`;
+  const hidden=Math.max(0,places.length-7);
+  const more=hidden?`<small class="muted atlas-more">${safe(tr("atlas_more_places",{count:hidden}))}</small>`:"";
+  nav.innerHTML=`<strong>${safe(tr("atlas_entrances_heading"))}</strong><div class="atlas-entrances-list">${places.slice(0,7).map(place=>`<button class="atlas-entrance" type="button" data-atlas-place="${safe(place.name)}" title="${safe(tr("visual_evidence_count",{count:place.source_evidence_count||0}))}"><span>${safe(place.name)}</span><small>${safe(tr(place.generated?"visual_place_ready":"visual_place_generate"))}${place.tier&&place.tier!=="deferred"?` · ${safe(tr("visual_tier_"+String(place.tier).toLowerCase()))}`:""}</small></button>`).join("")}</div>${more}`;
   nav.querySelectorAll("[data-atlas-place]").forEach(node=>node.addEventListener("click",()=>{
     const name=node.dataset.atlasPlace||"";
     const scene=(model.world?.world?.visual?.scenes||[]).find(row=>row.place_name===name);
