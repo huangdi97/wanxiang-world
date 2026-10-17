@@ -1,6 +1,6 @@
 """Validated provider coordinate frames for non-canonical T3 projection."""
 
-# pyright: reportUnusedFunction=false
+# pyright: reportPrivateUsage=false, reportUnusedFunction=false
 
 from __future__ import annotations
 
@@ -12,10 +12,13 @@ from wanxiang_substrate.assets.book_spatial_types import _SpatialProjectionFrame
 
 
 def _vector3(value: object, *, label: str) -> tuple[float, float, float]:
-    if not isinstance(value, (list, tuple)) or len(value) != 3:
+    if not isinstance(value, (list, tuple)):
+        raise ValueError(f"spatial projection frame {label} must contain three numbers")
+    parts = cast(list[object] | tuple[object, ...], value)
+    if len(parts) != 3:
         raise ValueError(f"spatial projection frame {label} must contain three numbers")
     result: list[float] = []
-    for raw in cast(list[object] | tuple[object, ...], value):
+    for raw in parts:
         if isinstance(raw, bool) or not isinstance(raw, (int, float)):
             raise ValueError(f"spatial projection frame {label} must contain finite numbers")
         number = float(raw)
