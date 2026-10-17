@@ -10,6 +10,7 @@ def test_mobile_stage_uses_44px_touch_targets_and_safe_area() -> None:
     assert "env(safe-area-inset-bottom)" in STYLE
     assert ".visual-place" in STYLE
     assert "#observer-scene-list button" in STYLE
+    assert ".worldline-actions .secondary-button{min-height:44px}" in STYLE
 
 
 def test_player_html_links_the_mobile_style() -> None:
