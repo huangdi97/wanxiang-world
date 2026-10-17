@@ -42,7 +42,8 @@ def _ledger_for(service: PlayableService, profile_id: str) -> VisualBudgetLedger
     return ledger
 
 
-def _visual_budget_usage(service: PlayableService, profile_id: str) -> int:
+def visual_budget_usage(service: PlayableService, profile_id: str) -> int:
+    """Public read of one world's recorded paid on-demand visual calls."""
     return _ledger_for(service, profile_id).used(profile_id)
 
 
