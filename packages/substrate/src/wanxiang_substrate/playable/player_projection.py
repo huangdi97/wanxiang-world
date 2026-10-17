@@ -43,8 +43,9 @@ from wanxiang_substrate.playable.player_projection_support import (
     _status_label,
 )
 from wanxiang_substrate.playable.player_spatial_projection import (
-    _spatial_capability,
     _SpatialAssetMap,
+    _SpatialProjectionFrameMap,
+    _spatial_capability,
 )
 from wanxiang_substrate.playable.state_diff import CommittedStateDiff
 
@@ -83,6 +84,7 @@ def player_world_detail(
     include_visual: bool = False,
     visual_assets: tuple[_SceneVisualAsset, ...] | None = None,
     spatial_assets: _SpatialAssetMap | None = None,
+    spatial_frames: _SpatialProjectionFrameMap | None = None,
     visual_access_allowed: bool = True,
 ) -> dict[str, object]:
     """Return the detail copy used before a player enters a world."""
@@ -142,7 +144,11 @@ def player_world_detail(
                     "presentation_kind": asset.presentation_kind,
                     "clues": list(support_by_key.get(asset.scene_key, ((), 0))[0]),
                     "source_evidence_count": support_by_key.get(asset.scene_key, ((), 0))[1],
-                    "spatial": _spatial_capability(asset.scene_key, spatial_assets),
+                    "spatial": _spatial_capability(
+                        asset.scene_key,
+                        spatial_assets,
+                        spatial_frames,
+                    ),
                 }
                 for asset in assets
             ],
@@ -198,6 +204,7 @@ def player_observation(
     events_since_revision: int | None = None,
     visual_assets: tuple[_SceneVisualAsset, ...] | None = None,
     spatial_assets: _SpatialAssetMap | None = None,
+    spatial_frames: _SpatialProjectionFrameMap | None = None,
     visual_access_allowed: bool = True,
 ) -> dict[str, object]:
     """Project one observation without exposing IDs, hashes, or raw payloads."""
@@ -273,7 +280,11 @@ def player_observation(
                 "presentation_kind": chosen.presentation_kind,
                 "clues": list(support_by_key.get(chosen.scene_key, ((), 0))[0]),
                 "source_evidence_count": support_by_key.get(chosen.scene_key, ((), 0))[1],
-                "spatial": _spatial_capability(chosen.scene_key, spatial_assets),
+                "spatial": _spatial_capability(
+                    chosen.scene_key,
+                    spatial_assets,
+                    spatial_frames,
+                ),
             }
 
     return {

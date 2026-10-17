@@ -17,6 +17,7 @@ from wanxiang_substrate.assets.book_scene_visual import (
     _VisualAssetCache,
     _VisualMaterialization,
 )
+from wanxiang_substrate.assets.book_spatial_types import _SpatialProjectionFrame
 from wanxiang_substrate.assets.storage import AssetRef
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.playable.catalog import WorldPlaza
@@ -37,6 +38,7 @@ from wanxiang_substrate.playable.service_visual import (
     _attach_spatial_assets,
     _materialize_visual_place,
     _visible_spatial_assets,
+    _visible_spatial_projection_frames,
     _visible_visual_assets,
     _visual_access_allowed,
 )
@@ -64,6 +66,7 @@ class PlayableService:
         self._visual_assets: dict[str, tuple[_SceneVisualAsset, ...]] = {}
         self._visual_asset_refs: dict[str, tuple[AssetRef, ...]] = {}
         self._spatial_asset_refs: dict[str, dict[str, tuple[AssetRef, ...]]] = {}
+        self._spatial_projection_frames: dict[str, dict[str, _SpatialProjectionFrame]] = {}
         self.plaza = WorldPlaza(self.store)
         self.entry = CharacterEntryService(self.store)
         self._packages: dict[str, WorldPackageDraft] = {}
@@ -92,6 +95,14 @@ class PlayableService:
     def spatial_assets(self, profile_id: str, *, viewer_id: str) -> dict[str, tuple[AssetRef, ...]]:
         return _visible_spatial_assets(self, profile_id, viewer_id=viewer_id)
 
+    def spatial_projection_frames(
+        self,
+        profile_id: str,
+        *,
+        viewer_id: str,
+    ) -> dict[str, _SpatialProjectionFrame]:
+        return _visible_spatial_projection_frames(self, profile_id, viewer_id=viewer_id)
+
     def materialize_visual_place(
         self,
         profile_id: str,
@@ -115,10 +126,20 @@ class PlayableService:
         )
 
     def attach_spatial_assets(
-        self, profile_id: str, scene_key: str, asset_refs: tuple[AssetRef, ...]
+        self,
+        profile_id: str,
+        scene_key: str,
+        asset_refs: tuple[AssetRef, ...],
+        projection_frame: _SpatialProjectionFrame | None = None,
     ) -> None:
-        """Attach verified T3 assets to the derived Player catalog only."""
-        _attach_spatial_assets(self, profile_id, scene_key, asset_refs)
+        """Attach verified T3 assets and projection metadata to the derived Player catalog."""
+        _attach_spatial_assets(
+            self,
+            profile_id,
+            scene_key,
+            asset_refs,
+            projection_frame=projection_frame,
+        )
 
     def register_package(
         self,

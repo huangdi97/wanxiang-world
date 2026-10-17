@@ -21,6 +21,11 @@ from wanxiang_substrate.assets.book_scene_visual import (
     _SceneVisualAsset,
     _VisualMaterialization,
 )
+from wanxiang_substrate.assets.book_spatial_frame import (
+    _projection_frame_from_mapping,
+    _projection_frame_to_dict,
+)
+from wanxiang_substrate.assets.book_spatial_types import _SpatialProjectionFrame
 from wanxiang_substrate.assets.storage import AssetRef
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 
@@ -74,6 +79,17 @@ def _visible_spatial_assets(
     }
 
 
+def _visible_spatial_projection_frames(
+    service: PlayableService,
+    profile_id: str,
+    *,
+    viewer_id: str,
+) -> dict[str, _SpatialProjectionFrame]:
+    visible_assets = _visible_spatial_assets(service, profile_id, viewer_id=viewer_id)
+    frames = service._spatial_projection_frames.get(profile_id, {})
+    return {scene_key: frame for scene_key, frame in frames.items() if scene_key in visible_assets}
+
+
 def _spatial_attachment_policy(
     package: WorldPackageDraft,
 ) -> tuple[str, frozenset[str]]:
@@ -94,6 +110,7 @@ def _attach_spatial_assets(
     profile_id: str,
     scene_key: str,
     asset_refs: tuple[AssetRef, ...],
+    projection_frame: _SpatialProjectionFrame | None = None,
 ) -> None:
     package = service._packages.get(profile_id)
     if package is None:
@@ -106,6 +123,13 @@ def _attach_spatial_assets(
     if any(ref.rights != delivery_rights for ref in asset_refs):
         raise ValueError("spatial asset rights must match source-derived delivery rights")
     service._spatial_asset_refs.setdefault(profile_id, {})[scene_key] = asset_refs
+    frames = service._spatial_projection_frames.setdefault(profile_id, {})
+    if projection_frame is None:
+        frames.pop(scene_key, None)
+    else:
+        frames[scene_key] = _projection_frame_from_mapping(
+            _projection_frame_to_dict(projection_frame)
+        )
 
 
 def _materialize_visual_place(
