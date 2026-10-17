@@ -26,6 +26,7 @@ from wanxiang_substrate.assets.book_scene_prompt import (
     _compile_scene_generation_brief,
     _story_visual_profile_from_style_key,
 )
+from wanxiang_substrate.assets.book_spatial_frame import _projection_frame_from_mapping
 from wanxiang_substrate.assets.book_spatial_http_transport import _bounded_read
 from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialArtifactCandidate,
@@ -233,7 +234,24 @@ class _TokenHubSpatialProvider(_SpatialGenerationProvider):
                 artifacts.append(self._download(url, media_type=media_type))
         if not artifacts:
             raise ValueError("TokenHub spatial returned no locally supported artifacts")
-        return _SpatialPollResult("succeeded", tuple(artifacts))
+        projection_frame = None
+        raw_position = first.get("position_info")
+        if raw_position is not None:
+            if not isinstance(raw_position, str) or len(raw_position) > 16 * 1024:
+                raise ValueError("TokenHub spatial returned invalid position_info")
+            try:
+                position: object = json.loads(raw_position)
+            except ValueError as exc:
+                raise ValueError("TokenHub spatial returned invalid position_info") from exc
+            projection_frame = _projection_frame_from_mapping(
+                position,
+                convention="tokenhub-hy-world2",
+            )
+        return _SpatialPollResult(
+            "succeeded",
+            tuple(artifacts),
+            projection_frame=projection_frame,
+        )
 
 
 def build_tokenhub_spatial_provider(
