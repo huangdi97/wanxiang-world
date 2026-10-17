@@ -16,6 +16,7 @@ from wanxiang_substrate.authoring.one_click import OneClickAuthoring
 from wanxiang_substrate.authoring.providers import ProviderRouter
 from wanxiang_substrate.authoring.service import AuthoringService
 from wanxiang_substrate.playable import PlayableService
+from wanxiang_substrate.playable.player_world_detail import player_world_detail
 from wanxiang_substrate.playable.store import ExperienceInstanceRecord
 from wanxiang_substrate.preview.runtime import register_preview_resolvers
 from wanxiang_substrate.sources.model import RightsEnvelope, SourceRecord, payload_hash
@@ -173,6 +174,13 @@ def test_deferred_book_place_generates_once_then_reuses_visual_cache() -> None:
     target = next(
         place for place in authored.visual_plan.place_names if place not in generated_places
     )
+
+    detail = player_world_detail(profile, authored.package, include_visual=True)
+    visual = cast(dict[str, object], detail["visual"])
+    places = cast(list[dict[str, object]], visual["places"])
+    tiers = {str(item["name"]): item["tier"] for item in places}
+    assert tiers[target] == "deferred"
+    assert sum(1 for tier in tiers.values() if tier == "T0") == 3
 
     entered = playable.enter(
         profile.profile_id,

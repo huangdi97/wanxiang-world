@@ -22,6 +22,7 @@ from wanxiang_substrate.assets.book_scene_evidence import (
     _string_list,
 )
 from wanxiang_substrate.assets.book_scene_identity import _source_scene_key
+from wanxiang_substrate.assets.book_scene_ranking import _rank_places
 from wanxiang_substrate.assets.foundry import SemanticSceneSpec
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 
@@ -52,6 +53,16 @@ class _SourceTopologyRelation:
 
 
 @dataclass(frozen=True, slots=True)
+class _PlaceEvidence:
+    """Per-place source support used by the Atlas; never canonical geography."""
+
+    place_name: str
+    source_ref_count: int
+    confidence: float
+    clue_count: int
+
+
+@dataclass(frozen=True, slots=True)
 class _SourceVisualPlan:
     """Explicit budget/rights result for the generic book-to-visual pipeline."""
 
@@ -64,6 +75,7 @@ class _SourceVisualPlan:
     external_processing_allowed: bool = False
     topology_relations: tuple[_SourceTopologyRelation, ...] = ()
     place_names: tuple[str, ...] = ()
+    place_evidence: tuple[_PlaceEvidence, ...] = ()
 
 
 def _plan_book_scene_assets(
@@ -171,36 +183,12 @@ def _plan_book_scene_assets(
         if isinstance(name, str) and name in known_places:
             evidence_by_place.setdefault(name, []).append(row)
 
-    place_positions = {place: index for index, place in enumerate(distinct_places)}
-
-    def place_rank(place: str) -> tuple[int, float, int, int, str, int]:
-        matching = evidence_by_place.get(place, [])
-        refs = {ref for row in matching for ref in _string_list(row.get("source_refs", []))}
-        confidence = max(
-            (_bounded_confidence(row.get("confidence", 0.0)) for row in matching),
-            default=0.0,
-        )
-        context_count = sum(
-            len(cast(list[object], raw_context))
-            for row in matching
-            if isinstance((raw_context := row.get("cooccurring_candidates", [])), list)
-        )
-        first_ref = min(refs, default="")
-        return (
-            -len(refs),
-            -confidence,
-            -context_count,
-            0 if refs else 1,
-            first_ref,
-            place_positions[place],
-        )
-
-    ranked_places = tuple(sorted(distinct_places, key=place_rank))
+    ranked_places, stats_by_place = _rank_places(distinct_places, evidence_by_place)
     preferred = tuple(
         dict.fromkeys(
             place.strip()
             for place in preferred_places
-            if place.strip() and place.strip() in place_positions
+            if place.strip() and place.strip() in stats_by_place
         )
     )
     selected = tuple(dict.fromkeys((*preferred, *ranked_places)))[:max_preview_scenes]
@@ -208,13 +196,8 @@ def _plan_book_scene_assets(
     requests: list[_SourceSceneRequest] = []
     for place in selected:
         matching = evidence_by_place.get(place, [])
-        source_refs = tuple(
-            sorted({ref for row in matching for ref in _string_list(row.get("source_refs", []))})
-        )
-        confidence = max(
-            (_bounded_confidence(row.get("confidence", 0.0)) for row in matching),
-            default=0.0,
-        )
+        stats_refs, confidence, _ = stats_by_place[place]
+        source_refs = tuple(sorted(stats_refs))
         context_candidates: list[str] = []
         for row in matching:
             raw_context = row.get("cooccurring_candidates", [])
@@ -279,6 +262,17 @@ def _plan_book_scene_assets(
             )
         )
     status = "READY_FOR_ASSET_PROVIDER" if requests else "BUDGET_ZERO"
+    place_evidence: list[_PlaceEvidence] = []
+    for place in ranked_places:
+        refs, confidence, context_count = stats_by_place[place]
+        place_evidence.append(
+            _PlaceEvidence(
+                place_name=place,
+                source_ref_count=len(refs),
+                confidence=confidence,
+                clue_count=context_count,
+            )
+        )
     return _SourceVisualPlan(
         package_id=package.package_id,
         source_digest=source_digest,
@@ -289,4 +283,5 @@ def _plan_book_scene_assets(
         external_processing_allowed=external_processing_allowed,
         topology_relations=tuple(dict.fromkeys(topology_relations)),
         place_names=distinct_places,
+        place_evidence=tuple(place_evidence),
     )

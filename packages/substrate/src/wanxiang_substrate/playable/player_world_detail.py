@@ -50,6 +50,17 @@ def _scene_support_for_assets(
     return support
 
 
+def _place_tier(asset: _SceneVisualAsset | None, spatial_ready: bool) -> str:
+    """Visual tier from the attached asset only; never a canonical claim."""
+    if asset is None:
+        return "deferred"
+    if spatial_ready:
+        return "T3"
+    if asset.media_type == "image/svg+xml":
+        return "T0"
+    return "T1"
+
+
 def player_world_detail(
     profile: PlayableWorldProfile,
     package: WorldPackageDraft | None = None,
@@ -87,13 +98,27 @@ def player_world_detail(
             assets = _render_visual_plan(plan)
         support_by_key = _scene_support_for_assets(package, assets)
         generated_places = {asset.place_name for asset in assets}
+        asset_by_place = {asset.place_name: asset for asset in assets}
+        evidence_by_place = {item.place_name: item for item in plan.place_evidence}
+        spatial_keys = set((spatial_assets or {}).keys())
+
+        def place_row(place: str) -> dict[str, object]:
+            asset = asset_by_place.get(place)
+            evidence = evidence_by_place.get(place)
+            spatial_ready = asset is not None and asset.scene_key in spatial_keys
+            return {
+                "name": place,
+                "generated": place in generated_places,
+                "tier": _place_tier(asset, spatial_ready),
+                "source_evidence_count": evidence.source_ref_count if evidence else 0,
+                "confidence": round(evidence.confidence, 3) if evidence else 0.0,
+                "clue_count": evidence.clue_count if evidence else 0,
+            }
+
         atlas = _render_world_atlas(plan)
         visual = {
             "status": plan.status,
-            "places": [
-                {"name": place, "generated": place in generated_places}
-                for place in plan.place_names
-            ],
+            "places": [place_row(place) for place in plan.place_names],
             "atlas": (
                 {
                     "kind": "atlas",

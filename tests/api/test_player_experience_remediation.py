@@ -98,6 +98,11 @@ def test_player_projection_is_chinese_and_uses_committed_state_diff() -> None:
     assert detail.json()["characters"][0]["name"] == "沈砚"
     assert detail.json()["world"]["mode"] == "角色体验"
     assert detail.json()["world"]["setting"]["location"] == "Beijing"
+    places = cast(list[dict[str, Any]], detail.json()["world"]["visual"]["places"])
+    assert places and places[0]["name"] == "Beijing"
+    assert places[0]["generated"] is True
+    assert places[0]["tier"] == "T0"
+    assert int(places[0]["source_evidence_count"]) >= 1
     assert detail.json()["characters"][0]["knowledge_boundary"] == "只知道自己亲眼见过的事。"
 
     entered = client.post(

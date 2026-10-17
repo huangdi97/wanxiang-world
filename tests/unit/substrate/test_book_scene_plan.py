@@ -62,6 +62,40 @@ def test_two_unrelated_books_use_identical_generic_pipeline() -> None:
     )
 
 
+def test_place_evidence_records_source_support_for_every_atlas_place() -> None:
+    metadata = {
+        "scene_evidence_v1": json.dumps(
+            [
+                {
+                    "name": "Old Town",
+                    "source_refs": ["src://a#1", "src://a#2"],
+                    "confidence": 0.8,
+                    "cooccurring_candidates": [
+                        {"kind": "identity", "label": "Alice"},
+                        {"kind": "event", "label": "arrival"},
+                    ],
+                },
+                {"name": "Harbor", "source_refs": ["src://a#3"], "confidence": 0.9},
+            ]
+        )
+    }
+    package = package_from_book(
+        "long-book",
+        ("Old Town", "Harbor", "Tower"),
+        compiler_metadata=metadata,
+    )
+
+    plan = _plan_book_scene_assets(package, max_preview_scenes=2)
+
+    assert [request.place_name for request in plan.scene_requests] == ["Old Town", "Harbor"]
+    evidence = {item.place_name: item for item in plan.place_evidence}
+    assert evidence["Old Town"].source_ref_count == 2
+    assert evidence["Old Town"].confidence == pytest.approx(0.8)
+    assert evidence["Old Town"].clue_count == 2
+    assert evidence["Tower"].source_ref_count == 0
+    assert [item.place_name for item in plan.place_evidence] == ["Old Town", "Harbor", "Tower"]
+
+
 def test_no_invented_place_rights_and_budget_fail_closed() -> None:
     empty = _plan_book_scene_assets(package_from_book("unknown", ()))
     blocked = _plan_book_scene_assets(package_from_book("private", ("私有地点",), rights_ok=False))

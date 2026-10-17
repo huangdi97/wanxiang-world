@@ -114,7 +114,7 @@ function renderAtlasEntrances(item,galleryItems){
   const nav=$("atlas-entrances"),places=model.world?.world?.visual?.places||[];
   nav.hidden=item?.kind!=="atlas"||!places.length;
   if(nav.hidden){nav.innerHTML="";return}
-  nav.innerHTML=`<strong>${safe(tr("atlas_entrances_heading"))}</strong><div class="atlas-entrances-list">${places.slice(0,7).map(place=>`<button class="atlas-entrance" type="button" data-atlas-place="${safe(place.name)}"><span>${safe(place.name)}</span><small>${safe(tr(place.generated?"visual_place_ready":"visual_place_generate"))}</small></button>`).join("")}</div>`;
+  nav.innerHTML=`<strong>${safe(tr("atlas_entrances_heading"))}</strong><div class="atlas-entrances-list">${places.slice(0,7).map(place=>`<button class="atlas-entrance" type="button" data-atlas-place="${safe(place.name)}" title="${safe(tr("visual_evidence_count",{count:place.source_evidence_count||0}))}"><span>${safe(place.name)}</span><small>${safe(tr(place.generated?"visual_place_ready":"visual_place_generate"))}${place.tier&&place.tier!=="deferred"?` · ${safe(tr("visual_tier_"+String(place.tier).toLowerCase()))}`:""}</small></button>`).join("")}</div>`;
   nav.querySelectorAll("[data-atlas-place]").forEach(node=>node.addEventListener("click",()=>{
     const name=node.dataset.atlasPlace||"";
     const scene=(model.world?.world?.visual?.scenes||[]).find(row=>row.place_name===name);
@@ -139,7 +139,7 @@ function renderVisualPlaceList(scenes,galleryItems,visual){
   const matches=places.filter(item=>item.name.toLocaleLowerCase().includes(query));
   const visible=matches.slice(0,model.placeLimit);
   const selectedPlace=$("detail-visual-image").dataset.selectedPlace||"";
-  placeList.innerHTML=visible.length?visible.map(item=>`<button class="visual-place" type="button" data-generated="${item.generated?"true":"false"}"${item.generated?` data-focus-place="${safe(item.name)}" aria-pressed="${selectedPlace===item.name?"true":"false"}"`:` data-generate-place="${safe(item.name)}"`}><span>${safe(item.name)}</span><span>${safe(tr(item.generated?"visual_place_ready":"visual_place_generate"))}</span></button>`).join(""):`<p class="muted">${safe(tr("visual_places_empty"))}</p>`;
+  placeList.innerHTML=visible.length?visible.map(item=>`<button class="visual-place" type="button" data-generated="${item.generated?"true":"false"}"${item.generated?` data-focus-place="${safe(item.name)}" aria-pressed="${selectedPlace===item.name?"true":"false"}"`:` data-generate-place="${safe(item.name)}"`} title="${safe(tr("visual_evidence_count",{count:item.source_evidence_count||0}))}"><span>${safe(item.name)}</span><span>${safe(tr(item.generated?"visual_place_ready":"visual_place_generate"))}${item.tier&&item.tier!=="deferred"?` · ${safe(tr("visual_tier_"+String(item.tier).toLowerCase()))}`:""}</span></button>`).join(""):`<p class="muted">${safe(tr("visual_places_empty"))}</p>`;
   $("visual-place-count").textContent=tr("visual_place_count",{visible:visible.length,total:matches.length});
   $("visual-place-more").hidden=visible.length>=matches.length;
   placeList.querySelectorAll("[data-generate-place]").forEach(node=>node.addEventListener("click",()=>generateVisualPlace(node.dataset.generatePlace||"")));

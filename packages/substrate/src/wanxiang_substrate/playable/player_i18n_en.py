@@ -136,6 +136,10 @@ STRINGS: dict[str, str] = {
     "visual_places_empty": "No matching place found",
     "visual_place_ready": "Scene ready",
     "visual_place_generate": "Generate scene",
+    "visual_tier_t0": "T0 · offline scene",
+    "visual_tier_t1": "T1 · high-quality scene",
+    "visual_tier_t3": "T3 · 3D space",
+    "visual_evidence_count": "{count} source evidences",
     "status_generating_scene": "Generating the scene for {place}…",
     "status_scene_ready": "The {place} scene is now in the world atlas",
     "status_scene_fallback": (

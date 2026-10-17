@@ -61,6 +61,8 @@ def test_player_world_detail_surfaces_t3_readiness_without_storage_identity() ->
     }
     assert "secret-object-id" not in str(detail)
     assert "a" * 64 not in str(detail)
+    places = cast(list[dict[str, object]], visual["places"])
+    assert places[0]["tier"] == "T3"
 
 
 def test_player_world_detail_marks_t3_not_ready_without_attachment() -> None:
