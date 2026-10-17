@@ -174,7 +174,10 @@ def _materialize_visual_place(
         and deferred_calls.get(profile_id, 0) >= max_deferred_generations
         and service._visual_cache.get_for(request, provider, rights=plan.delivery_rights) is None
     ):
-        raise ContractError("world on-demand visual budget exhausted")
+        used = deferred_calls.get(profile_id, 0)
+        raise ContractError(
+            f"world on-demand visual budget exhausted ({used}/{max_deferred_generations})"
+        )
 
     materializer = _materialize_product_visual_plan if fallback_to_t0 else _materialize_visual_plan
     materialized = materializer(

@@ -101,6 +101,10 @@ class PlayableService:
     ) -> dict[str, _SpatialProjectionFrame]:
         return _visible_spatial_projection_frames(self, profile_id, viewer_id=viewer_id)
 
+    def deferred_visual_usage(self, profile_id: str) -> int:
+        """Paid on-demand visual calls recorded for this world in this process."""
+        return self._deferred_visual_calls.get(profile_id, 0)
+
     def materialize_visual_place(
         self,
         profile_id: str,

@@ -109,7 +109,7 @@ def test_owner_deferred_provider_calls_are_capped_but_cache_hits_stay_free() -> 
     )
     assert first.provider_calls == 1
 
-    with pytest.raises(ContractError, match="on-demand visual budget"):
+    with pytest.raises(ContractError, match=r"on-demand visual budget exhausted \(1/1\)"):
         _materialize_visual_place(
             service,
             "profile",

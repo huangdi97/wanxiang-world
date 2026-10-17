@@ -178,7 +178,8 @@ async function openWorld(profileId){
 }
 let visualGenerationInFlight=false;
 function sceneReadyStatus(result,place){
-  if(!result?.fallback_from_provider)return tr("status_scene_ready",{place});
+  const budget=result?.deferred_limit>0?` · ${tr("visual_budget_status",{used:Number(result.deferred_used||0),limit:result.deferred_limit})}`:"";
+  if(!result?.fallback_from_provider)return tr("status_scene_ready",{place})+budget;
   const reason=String(result.fallback_reason||"provider_failure").split(",")[0];
   const key={
     network_not_allowed:"visual_fallback_network",
@@ -187,7 +188,7 @@ function sceneReadyStatus(result,place){
     budget_insufficient:"visual_fallback_budget",
     provider_failure:"visual_fallback_provider"
   }[reason]||"visual_fallback_provider";
-  return tr("status_scene_fallback",{place,reason:tr(key)});
+  return tr("status_scene_fallback",{place,reason:tr(key)})+budget;
 }
 async function materializeVisualPlace(place){
   const profile=model.world?.world?.profile_id;if(!profile||!place||visualGenerationInFlight)return null;

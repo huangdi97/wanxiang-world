@@ -103,6 +103,14 @@ def test_player_projection_is_chinese_and_uses_committed_state_diff() -> None:
     assert places[0]["generated"] is True
     assert places[0]["tier"] == "T0"
     assert int(places[0]["source_evidence_count"]) >= 1
+    generated = client.post(
+        f"/experience/player/worlds/{profile_id}/visuals",
+        headers=HEADERS,
+        json={"place_name": "Beijing"},
+    )
+    assert generated.status_code == 200
+    assert generated.json()["deferred_used"] == 0
+    assert generated.json()["deferred_limit"] == 24
     assert detail.json()["characters"][0]["knowledge_boundary"] == "只知道自己亲眼见过的事。"
 
     entered = client.post(

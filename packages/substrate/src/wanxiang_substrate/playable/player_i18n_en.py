@@ -140,6 +140,7 @@ STRINGS: dict[str, str] = {
     "visual_tier_t1": "T1 · high-quality scene",
     "visual_tier_t3": "T3 · 3D space",
     "visual_evidence_count": "{count} source evidences",
+    "visual_budget_status": "on-demand visuals {used}/{limit}",
     "atlas_more_places": "{count} more places in the list below",
     "status_generating_scene": "Generating the scene for {place}…",
     "status_scene_ready": "The {place} scene is now in the world atlas",

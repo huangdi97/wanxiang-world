@@ -47,6 +47,7 @@ def player_materialize_visual_place(
     locale = _locale(x_wanxiang_locale)
     service = _service(request)
     provider = cast(SceneImageProvider | None, request.app.state.visual_asset_provider)
+    deferred_limit = int(request.app.state.visual_asset_max_deferred_generations)
     result = service.materialize_visual_place(
         profile_id,
         payload.place_name,
@@ -54,13 +55,15 @@ def player_materialize_visual_place(
         provider=provider,
         allow_network=bool(request.app.state.visual_asset_allow_network),
         max_cost_units=int(request.app.state.visual_asset_max_cost_units),
-        max_deferred_generations=int(request.app.state.visual_asset_max_deferred_generations),
+        max_deferred_generations=deferred_limit,
     )
     return {
         "locale": locale,
         "provider_calls": result.provider_calls,
         "cache_hits": result.cache_hits,
         "cost_units": result.cost_units,
+        "deferred_used": service.deferred_visual_usage(profile_id),
+        "deferred_limit": deferred_limit,
         "fallback_from_provider": result.fallback_from_provider,
         "fallback_reason": result.fallback_reason,
         "world": player_world(
