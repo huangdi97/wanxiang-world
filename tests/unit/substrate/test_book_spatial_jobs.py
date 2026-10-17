@@ -235,6 +235,58 @@ def test_t3_verified_projection_frame_survives_ticket_persistence(
     assert restored.projection_frame == frame
 
 
+@pytest.mark.parametrize(
+    "frame",
+    [
+        _SpatialProjectionFrame(
+            up=(0.0, 0.0, 0.0),
+            forward=(0.0, 0.0, -1.0),
+            center=(0.0, 0.0, 0.0),
+            scale=1.0,
+        ),
+        _SpatialProjectionFrame(
+            up=(0.0, 1.0, 0.0),
+            forward=(0.0, 2.0, 0.0),
+            center=(0.0, 0.0, 0.0),
+            scale=1.0,
+        ),
+        _SpatialProjectionFrame(
+            up=(0.0, 1.0, 0.0),
+            forward=(0.0, 0.0, -1.0),
+            center=(0.0, 0.0, 0.0),
+            scale=float("nan"),
+        ),
+    ],
+)
+def test_t3_provider_projection_frame_is_revalidated_at_coordinator_boundary(
+    frame: _SpatialProjectionFrame,
+) -> None:
+    payload = _glb(b"invalid-frame")
+    provider = _FakeSpatialProvider(
+        polls=[
+            _SpatialPollResult(
+                "succeeded",
+                (
+                    _SpatialArtifactCandidate(
+                        payload,
+                        "model/gltf-binary",
+                        hashlib.sha256(payload).hexdigest(),
+                    ),
+                ),
+                projection_frame=frame,
+            )
+        ]
+    )
+    coordinator = _coordinator(provider)
+    submitted = _submit(coordinator)
+
+    failed = coordinator.poll(submitted.submission_id)
+
+    assert failed.state == "failed"
+    assert failed.reason == "projection_frame_verification_failed"
+    assert failed.asset_refs == ()
+    assert failed.projection_frame is None
+
 
 def test_t3_poll_verifies_assets_then_attaches_only_to_derived_catalog() -> None:
     payload = _glb()

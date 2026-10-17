@@ -8,6 +8,10 @@ import hashlib
 from dataclasses import replace
 
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
+from wanxiang_substrate.assets.book_spatial_frame import (
+    _projection_frame_from_mapping,
+    _projection_frame_to_dict,
+)
 from wanxiang_substrate.assets.book_spatial_safety import (
     _require_spatial_asset_refs,
     _spatial_submission_guard,
@@ -192,6 +196,16 @@ class _SpatialGenerationCoordinator:
             return self._verification_failed(ticket)
         if not all(self._valid_artifact(artifact) for artifact in result.artifacts):
             return self._verification_failed(ticket)
+        projection_frame = None
+        if result.projection_frame is not None:
+            try:
+                projection_frame = _projection_frame_from_mapping(
+                    _projection_frame_to_dict(result.projection_frame)
+                )
+            except ValueError:
+                return self._verification_failed(
+                    ticket, reason="projection_frame_verification_failed"
+                )
         refs = [
             self.objects.put(
                 artifact.content,
@@ -205,7 +219,7 @@ class _SpatialGenerationCoordinator:
             state="verified",
             asset_refs=tuple(refs),
             reason="",
-            projection_frame=result.projection_frame,
+            projection_frame=projection_frame,
         )
         self.jobs.put(verified)
         return verified
@@ -219,8 +233,13 @@ class _SpatialGenerationCoordinator:
             and _known_spatial_signature_matches(artifact.media_type, artifact.content)
         )
 
-    def _verification_failed(self, ticket: _SpatialGenerationTicket) -> _SpatialGenerationTicket:
-        failed = replace(ticket, state="failed", reason="artifact_verification_failed")
+    def _verification_failed(
+        self,
+        ticket: _SpatialGenerationTicket,
+        *,
+        reason: str = "artifact_verification_failed",
+    ) -> _SpatialGenerationTicket:
+        failed = replace(ticket, state="failed", reason=reason)
         self.jobs.put(failed)
         return failed
 

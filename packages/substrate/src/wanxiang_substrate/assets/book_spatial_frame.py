@@ -17,14 +17,10 @@ def _vector3(value: object, *, label: str) -> tuple[float, float, float]:
     result: list[float] = []
     for raw in cast(list[object] | tuple[object, ...], value):
         if isinstance(raw, bool) or not isinstance(raw, (int, float)):
-            raise ValueError(
-                f"spatial projection frame {label} must contain finite numbers"
-            )
+            raise ValueError(f"spatial projection frame {label} must contain finite numbers")
         number = float(raw)
         if not math.isfinite(number):
-            raise ValueError(
-                f"spatial projection frame {label} must contain finite numbers"
-            )
+            raise ValueError(f"spatial projection frame {label} must contain finite numbers")
         result.append(number)
     return (result[0], result[1], result[2])
 
@@ -42,6 +38,9 @@ def _projection_frame_from_mapping(
     if not isinstance(value, Mapping):
         raise ValueError("spatial projection frame must be an object")
     row = cast(Mapping[object, object], value)
+    raw_convention = convention or row.get("convention", "")
+    if not isinstance(raw_convention, str):
+        raise ValueError("spatial projection frame convention must be text")
     up = _vector3(row.get("up", row.get("up_direction")), label="up")
     forward = _vector3(row.get("forward", row.get("facing_direction")), label="forward")
     center = _vector3(row.get("center", row.get("center_point")), label="center")
@@ -65,7 +64,7 @@ def _projection_frame_from_mapping(
         forward,
         center,
         scale,
-        convention.strip()[:80],
+        raw_convention.strip()[:80],
     )
 
 
