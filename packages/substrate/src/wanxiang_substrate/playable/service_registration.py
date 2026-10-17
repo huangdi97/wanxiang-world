@@ -16,7 +16,7 @@ from wanxiang_substrate.playable.experience import ExperiencePackage, experience
 from wanxiang_substrate.playable.factory import profile_from_world_package
 from wanxiang_substrate.playable.models import PlayableWorldProfile
 from wanxiang_substrate.playable.service_visual import _attach_package_visuals
-from wanxiang_substrate.preview import PreviewInstall
+from wanxiang_substrate.preview import PreviewInstall, preview_install_id
 
 if TYPE_CHECKING:
     from wanxiang_substrate.playable.service import PlayableService
@@ -42,7 +42,7 @@ def _install_visual(
         max_cost_units=max_cost_units,
     )
     return PreviewInstall(
-        preview_id=f"playable_{len(service._installs) + 1}",
+        preview_id=preview_install_id(package),
         package_id=package.package_id,
         draft_id=package.draft_id,
         package_hash=package.manifest.content_hash,

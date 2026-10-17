@@ -2119,6 +2119,7 @@
     "wanxiang_substrate.position_component",
     "wanxiang_substrate.practice_record_component",
     "wanxiang_substrate.prepare_promotion_candidate",
+    "wanxiang_substrate.preview_install_id",
     "wanxiang_substrate.profile_from_world_package",
     "wanxiang_substrate.promote_capability_candidate",
     "wanxiang_substrate.promote_long_horizon",

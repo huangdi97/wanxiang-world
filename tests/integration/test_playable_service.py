@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import pathlib
 from typing import cast
 
@@ -211,6 +212,66 @@ def test_deferred_book_place_generates_once_then_reuses_visual_cache() -> None:
             "不存在的地点",
             viewer_id="alice",
         )
+
+
+def test_restarted_service_never_reuses_another_book_preview_world() -> None:
+    second_content = (
+        "# Chapter\nCharacter: Carol\n"
+        "Carol arrived in Harbor in 1990.\n"
+        "rule: harbor closes at dusk\n"
+    )
+    second = SourceRecord(
+        source_id="playable_e2e_second",
+        kind="text",
+        content_hash=payload_hash(second_content),
+        content_ref="memory://playable_e2e_second",
+        stage="E3",
+        rights=RightsEnvelope(owner="test", usage="test", approved=True),
+        payload=second_content,
+        provenance="synthetic:g88h-second",
+        access="private",
+    )
+    authored_a = OneClickAuthoring().run("job_preview_first", (_source(),), profile="book")
+    authored_b = OneClickAuthoring().run("job_preview_second", (second,), profile="book")
+    runtime = build_reference_runtime()
+
+    service_a = PlayableService(runtime)
+    profile_a = service_a.register_package(authored_a.package, owner_id="alice")
+    entered_a = service_a.enter(
+        profile_a.profile_id,
+        viewer_id="alice",
+        mode="observer",
+        session_id="preview_first",
+    )
+    instance_a = str(cast(dict[str, object], entered_a["instance"])["instance_id"])
+
+    # A fresh service over the same (persistent) runtime must not reuse A's world.
+    service_b = PlayableService(runtime)
+    profile_b = service_b.register_package(authored_b.package, owner_id="alice")
+    entered_b = service_b.enter(
+        profile_b.profile_id,
+        viewer_id="alice",
+        mode="observer",
+        session_id="preview_second",
+    )
+    instance_b = str(cast(dict[str, object], entered_b["instance"])["instance_id"])
+    assert instance_a != instance_b
+    entities_b = json.dumps(
+        cast(dict[str, object], entered_b["state"])["entities"], ensure_ascii=False
+    )
+    assert "Carol" in entities_b
+    assert "Alice" not in entities_b
+
+    # Re-registering the same package reuses its content-addressed world.
+    service_c = PlayableService(runtime)
+    profile_c = service_c.register_package(authored_a.package, owner_id="alice")
+    entered_c = service_c.enter(
+        profile_c.profile_id,
+        viewer_id="alice",
+        mode="observer",
+        session_id="preview_first_again",
+    )
+    assert str(cast(dict[str, object], entered_c["instance"])["instance_id"]) == instance_a
 
 
 def test_worldline_fork_preserves_parent_and_diverges_independently() -> None:
