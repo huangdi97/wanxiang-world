@@ -738,6 +738,7 @@ def test_player_place_list_paginates_many_source_places(persist_db_path: pathlib
                     },
                 )
                 profile_id = str(cast(dict[str, object], profile["profile"])["profile_id"])
+                page.reload(wait_until="networkidle")
                 page.locator(f'#world-list [data-profile="{profile_id}"]').click()
                 page.wait_for_selector("#detail-view.is-active")
                 page.wait_for_selector("#visual-places .visual-place")
