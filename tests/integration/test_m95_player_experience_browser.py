@@ -219,7 +219,7 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 reset_view = page.get_by_role("button", name="复位视角")
                 assert reset_view.is_visible()
                 builtin_canvas.press("ArrowRight")
-                reset_view.click()
+                reset_view.press("Enter")
                 assert builtin_canvas.evaluate("node => document.activeElement === node") is True
                 assert page.evaluate("window.__WANXIANG_SPATIAL_STAGE__.deactivate()") is False
                 assert page.locator("#world-stage-spatial").is_hidden()
