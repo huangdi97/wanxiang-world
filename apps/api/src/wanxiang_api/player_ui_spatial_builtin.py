@@ -9,7 +9,8 @@ without interpreting pixels/geometry as canonical world truth.
 BUILTIN_SPATIAL_RENDERER_SCRIPT = r"""
 (()=>{
 if(window.__WANXIANG_SPATIAL_RENDERER__)return;
-const TYPES=new Set(["model/ply","application/x-ply"]),MAX_BYTES=64*1024*1024,MAX_VERTICES=5000000,MAX_POINTS=120000,MAX_HEADER=64*1024;\nconst copy=(key,fallback,values={})=>String(window.__PLAYER_I18N__?.strings?.[key]||fallback).replace(/\\{(\\w+)\\}/g,(_,name)=>String(values[name]??""));
+const TYPES=new Set(["model/ply","application/x-ply"]),MAX_BYTES=64*1024*1024,MAX_VERTICES=5000000,MAX_POINTS=120000,MAX_HEADER=64*1024;
+const copy=(key,fallback,values={})=>String(window.__PLAYER_I18N__?.strings?.[key]||fallback).replace(/\{(\w+)\}/g,(_,name)=>String(values[name]??""));
 const scalar={
   char:[1,(v,o)=>v.getInt8(o)],int8:[1,(v,o)=>v.getInt8(o)],uchar:[1,(v,o)=>v.getUint8(o)],uint8:[1,(v,o)=>v.getUint8(o)],
   short:[2,(v,o,l)=>v.getInt16(o,l)],int16:[2,(v,o,l)=>v.getInt16(o,l)],ushort:[2,(v,o,l)=>v.getUint16(o,l)],uint16:[2,(v,o,l)=>v.getUint16(o,l)],
