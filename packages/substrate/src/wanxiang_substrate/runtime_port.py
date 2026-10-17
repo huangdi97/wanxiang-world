@@ -14,6 +14,7 @@ from typing import Protocol
 
 from wanxiang_domain.command import CommandEnvelope
 from wanxiang_domain.event import CommittedEvent
+from wanxiang_domain.hierarchy import EventSeq
 from wanxiang_domain.ids import BranchId, WorldInstanceId
 from wanxiang_runtime.state import InMemoryCanonicalState
 
@@ -31,6 +32,10 @@ class WorldRuntimePort(Protocol):
 
     def current_state(
         self, instance_id: WorldInstanceId, branch_id: BranchId
+    ) -> InMemoryCanonicalState: ...
+
+    def state_at(
+        self, instance_id: WorldInstanceId, branch_id: BranchId, *, upto_seq: EventSeq
     ) -> InMemoryCanonicalState: ...
 
     def submit_command(self, command: CommandEnvelope) -> object: ...

@@ -162,6 +162,81 @@ def test_player_lease_conflict_is_structured_and_not_reported_as_network_failure
     assert "error_lease_conflict" in client.get("/", headers=HEADERS).text
 
 
+def test_player_replay_projects_a_past_tick_without_committing() -> None:
+    client = _client()
+    plaza = client.get("/experience/player/plaza", headers=HEADERS)
+    profile_id = str(plaza.json()["worlds"][0]["profile_id"])
+    entered = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=HEADERS,
+        json={
+            "mode": "embodiment",
+            "session_id": "m95_replay_session",
+            "character_id": "ent_alice",
+        },
+    )
+    assert entered.status_code == 200
+    instance_id = str(entered.json()["instance_id"])
+
+    first = client.post(
+        f"/experience/player/instances/{instance_id}/action",
+        headers=HEADERS,
+        json={"text": "让自己保持清醒"},
+    )
+    assert first.status_code == 200
+    first_view = cast(dict[str, Any], first.json()["view"])
+    first_ticks = int(cast(dict[str, Any], first_view["time"])["ticks"])
+
+    second = client.post(
+        f"/experience/player/instances/{instance_id}/action",
+        headers=HEADERS,
+        json={"text": "让自己保持警觉"},
+    )
+    assert second.status_code == 200
+    second_view = cast(dict[str, Any], second.json()["view"])
+    assert int(cast(dict[str, Any], second_view["time"])["ticks"]) > first_ticks
+
+    replay = client.get(
+        f"/experience/player/instances/{instance_id}/replay",
+        headers=HEADERS,
+        params={"at_ticks": first_ticks},
+    )
+    assert replay.status_code == 200
+    body = cast(dict[str, Any], replay.json())
+    replay_view = cast(dict[str, Any], body["view"])
+    assert body["replay"]["at_ticks"] == first_ticks
+    assert body["replay"]["world_ticks"] == first_ticks
+    assert int(body["replay"]["event_count"]) >= 1
+    # Replaying the first action's tick reproduces the projection observed then.
+    assert replay_view["time"] == first_view["time"]
+    assert replay_view["player"] == first_view["player"]
+    assert replay_view["location"] == first_view["location"]
+    assert replay_view["chronicle"] == first_view["chronicle"]
+    assert replay_view["present_people"] == first_view["present_people"]
+    assert "event_id" not in json.dumps(replay_view, ensure_ascii=False)
+
+    # Replay is read-only: the head projection is unchanged after the call.
+    head = client.get(f"/experience/player/instances/{instance_id}", headers=HEADERS).json()["view"]
+    assert head["time"] == second_view["time"]
+    assert head["player"]["status"] == second_view["player"]["status"]
+
+    empty = client.get(
+        f"/experience/player/instances/{instance_id}/replay",
+        headers=HEADERS,
+        params={"at_ticks": 0},
+    )
+    assert empty.status_code == 200
+    assert empty.json()["replay"]["event_count"] == 0
+    assert empty.json()["view"]["chronicle"] == []
+
+    negative = client.get(
+        f"/experience/player/instances/{instance_id}/replay",
+        headers=HEADERS,
+        params={"at_ticks": -1},
+    )
+    assert negative.status_code == 422
+
+
 def test_player_entry_is_separate_from_english_studio_surface() -> None:
     client: Any = TestClient(create_app(build_reference_runtime()))
     player = client.get("/")

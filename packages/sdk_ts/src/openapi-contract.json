@@ -71,6 +71,11 @@
         "operationId": "player_leave_instance_experience_player_instances__instance_id__leave_post"
       }
     },
+    "/experience/player/instances/{instance_id}/replay": {
+      "get": {
+        "operationId": "player_replay_instance_experience_player_instances__instance_id__replay_get"
+      }
+    },
     "/experience/player/plaza": {
       "get": {
         "operationId": "player_plaza_experience_player_plaza_get"

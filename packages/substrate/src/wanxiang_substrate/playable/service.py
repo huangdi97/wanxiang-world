@@ -31,6 +31,7 @@ from wanxiang_substrate.playable.service_registration import (
     _register_package,
     _register_profile,
 )
+from wanxiang_substrate.playable.service_replay import _replay_at
 from wanxiang_substrate.playable.service_visual import (
     _attach_spatial_assets,
     _materialize_visual_place,
@@ -210,6 +211,23 @@ class PlayableService:
 
     def observe(self, instance_id: str, viewer_id: str) -> dict[str, object]:
         return _observe(self, instance_id, viewer_id)
+
+    def replay_at(
+        self,
+        instance_id: str,
+        *,
+        viewer_id: str,
+        at_ticks: int,
+        locale: str | None = None,
+    ) -> dict[str, object]:
+        """Read the instance as of a past world tick without changing canon."""
+        return _replay_at(
+            self,
+            instance_id,
+            viewer_id=viewer_id,
+            at_ticks=at_ticks,
+            locale=locale,
+        )
 
     def action(
         self,

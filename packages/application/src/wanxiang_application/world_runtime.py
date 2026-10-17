@@ -236,6 +236,12 @@ class WorldRuntime:
     ) -> InMemoryCanonicalState:
         return self._state_reader.state_at(instance_id, branch_id)
 
+    def state_at(
+        self, instance_id: WorldInstanceId, branch_id: BranchId, *, upto_seq: EventSeq
+    ) -> InMemoryCanonicalState:
+        """Read-only canonical state at a branch-local event seq; never mutates."""
+        return self._state_reader.state_at(instance_id, branch_id, upto_seq=upto_seq)
+
     def events(
         self, instance_id: WorldInstanceId, branch_id: BranchId
     ) -> tuple[CommittedEvent, ...]:
