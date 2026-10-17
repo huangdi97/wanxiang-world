@@ -561,6 +561,29 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                     forbidden not in body_after_action
                     for forbidden in ("state_hash", "event_id", "branch_id", "profile_id")
                 )
+                replay_button = page.locator("#chronicle-list [data-replay-time]").first
+                assert replay_button.count() >= 1
+                replay_button.click()
+                page.wait_for_selector("#stage-replay-banner:not([hidden])")
+                assert "回看" in page.locator("#stage-replay-banner").inner_text()
+                assert "世界时间" in page.locator("#stage-replay-banner").inner_text()
+                assert page.locator("#play-mode").inner_text() == "历史回看"
+                assert page.locator("#send-action").is_disabled()
+                assert page.locator("#action-input").is_disabled()
+                replay_copy = page.locator("body").inner_text()
+                assert all(
+                    forbidden not in replay_copy
+                    for forbidden in ("state_hash", "event_id", "branch_id", "profile_id")
+                )
+                page.locator("#world-stage").screenshot(
+                    path=str(review / "replay-stage-desktop.png")
+                )
+                page.locator("#stage-replay-exit").click()
+                assert page.locator("#stage-replay-banner").is_hidden()
+                assert not page.locator("#send-action").is_disabled()
+                assert not page.locator("#action-input").is_disabled()
+                assert page.locator("#play-mode").inner_text() == "角色体验"
+                assert not page_errors, page_errors
                 page.locator("#leave-world").click()
                 page.wait_for_selector("[data-continue]")
                 page.locator('[data-filter="recent"]').click()

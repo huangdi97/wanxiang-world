@@ -7,7 +7,7 @@ const USER="studio";
 const i18n=window.__PLAYER_I18N__||{locale:"zh-CN",strings:{}};
 const LOCALE=i18n.locale||"zh-CN";
 const tr=(key,values={})=>String(i18n.strings?.[key]??key).replace(/\{(\w+)\}/g,(_,name)=>String(values[name]??""));
-const model={plaza:null,characters:[],world:null,view:null,instanceId:"",filter:"all",query:"",selectedCharacter:"",placeQuery:"",placeLimit:36,observerScene:"",stageFocus:false,spatialStatus:null};
+const model={plaza:null,characters:[],world:null,view:null,instanceId:"",filter:"all",query:"",selectedCharacter:"",placeQuery:"",placeLimit:36,observerScene:"",stageFocus:false,spatialStatus:null,replay:null};
 const $=id=>document.getElementById(id);
 const safe=value=>String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[char]));
 const shown=(value,emptyKey="not_recorded")=>value===null||value===undefined||value===""?tr(emptyKey):String(value);
@@ -204,18 +204,19 @@ async function enterWorld(){
   const character=document.querySelector('input[name="character"]:checked')?.value;
   if(!character){status(tr("error_need_character"),true);return}
   const profile=model.world.world.profile_id;busy(true);status(tr("status_open_world"));
-  try{const result=await api(`/experience/player/worlds/${encodeURIComponent(profile)}/enter`,{method:"POST",body:JSON.stringify({mode:"embodiment",session_id:`m95_player_${Date.now()}`,character_id:character})});model.instanceId=result.instance_id;model.view=result.view;model.observerScene="";model.stageFocus=false;renderPlay();view("play-view");status("")}
+  try{const result=await api(`/experience/player/worlds/${encodeURIComponent(profile)}/enter`,{method:"POST",body:JSON.stringify({mode:"embodiment",session_id:`m95_player_${Date.now()}`,character_id:character})});model.instanceId=result.instance_id;model.view=result.view;model.observerScene="";model.stageFocus=false;model.replay=null;renderPlay();view("play-view");status("")}
   catch(error){status(error.message,true)}finally{busy(false)}
 }
 async function enterObserver(){
   const profile=model.world.world.profile_id;busy(true);status(tr("status_open_world"));
-  try{const result=await api(`/experience/player/worlds/${encodeURIComponent(profile)}/enter`,{method:"POST",body:JSON.stringify({mode:"observer",session_id:`observer_${Date.now()}`})});model.instanceId=result.instance_id;model.view=result.view;model.observerScene="";model.stageFocus=false;renderPlay();view("play-view");status("")}
+  try{const result=await api(`/experience/player/worlds/${encodeURIComponent(profile)}/enter`,{method:"POST",body:JSON.stringify({mode:"observer",session_id:`observer_${Date.now()}`})});model.instanceId=result.instance_id;model.view=result.view;model.observerScene="";model.stageFocus=false;model.replay=null;renderPlay();view("play-view");status("")}
   catch(error){status(error.message,true)}finally{busy(false)}
 }
 function rowList(items,emptyKey,renderer){return items?.length?items.map(renderer).join(""):`<li class="muted">${safe(tr(emptyKey))}</li>`}
 function relationLabel(value){const raw=String(value||"").toLowerCase();if(raw.includes("friend"))return tr("relation_friend");if(raw.includes("family"))return tr("relation_family");if(raw.includes("work"))return tr("relation_work");return tr("relation_default")}
 function renderPlay(){
-  const v=model.view||{},w=v.world||{},observer=v.session?.entry_mode==="observer";const worldVisual=observer&&model.world?.world?.profile_id===w.profile_id?(model.world.world.visual||{}):{};const sceneCatalog=worldVisual.scenes||[],placeCatalog=worldVisual.places||[];const toured=sceneCatalog.find(item=>item.place_name===model.observerScene)||null;const visual=toured||v.visual_scene||null;const stage=$("world-stage"),frame=$("scene-visual-frame"),visualImg=$("scene-visual-image");frame.hidden=!visual;stage?.classList.toggle("has-visual",Boolean(visual));if(!visual)model.stageFocus=false;stage?.classList.toggle("focus-mode",model.stageFocus);$("stage-focus-toggle").setAttribute("aria-pressed",String(model.stageFocus));$("stage-focus-toggle").textContent=tr(model.stageFocus?"stage_focus_restore":"stage_focus_enable");$("stage-focus-toggle").disabled=!visual;if(visual){visualImg.src=visual.data_uri;visualImg.alt=visual.place_name||w.name||tr("world");const groundingKey=toured?"observer_tour_caption":visual.grounding==="current_location"?"visual_current_scene":visual.grounding==="entry_location"?"visual_entry_scene":"visual_world_preview";$("scene-visual-caption").textContent=`${tr(groundingKey,{place:visual.place_name||shown(v.location)})} · ${visualProof(visual)}`}
+  const replay=model.replay||null,v=replay?.view||model.view||{},w=v.world||{},observer=!replay&&v.session?.entry_mode==="observer",readOnly=Boolean(replay)||observer;const worldVisual=observer&&model.world?.world?.profile_id===w.profile_id?(model.world.world.visual||{}):{};const sceneCatalog=worldVisual.scenes||[],placeCatalog=worldVisual.places||[];const toured=sceneCatalog.find(item=>item.place_name===model.observerScene)||null;const visual=toured||v.visual_scene||null;const stage=$("world-stage"),frame=$("scene-visual-frame"),visualImg=$("scene-visual-image");frame.hidden=!visual;stage?.classList.toggle("has-visual",Boolean(visual));if(!visual)model.stageFocus=false;stage?.classList.toggle("focus-mode",model.stageFocus);$("stage-focus-toggle").setAttribute("aria-pressed",String(model.stageFocus));$("stage-focus-toggle").textContent=tr(model.stageFocus?"stage_focus_restore":"stage_focus_enable");$("stage-focus-toggle").disabled=!visual;if(visual){visualImg.src=visual.data_uri;visualImg.alt=visual.place_name||w.name||tr("world");const groundingKey=replay?"replay_scene_caption":toured?"observer_tour_caption":visual.grounding==="current_location"?"visual_current_scene":visual.grounding==="entry_location"?"visual_entry_scene":"visual_world_preview";$("scene-visual-caption").textContent=`${tr(groundingKey,{place:visual.place_name||shown(v.location)})} · ${visualProof(visual)}`}
+  const replayBanner=$("stage-replay-banner");replayBanner.hidden=!replay;if(replay){$("stage-replay-copy").textContent=tr("replay_banner",{time:replay.replay?.world_ticks??0,count:replay.replay?.event_count??0})}
   const panoramaStage=window.__WANXIANG_PANORAMA_STAGE__;panoramaStage?.sync(visual);$("panorama-stage-toggle").textContent=tr(panoramaStage?.isActive()?"panorama_stage_exit":"panorama_stage_enter");
   const spatialStage=window.__WANXIANG_SPATIAL_STAGE__;spatialStage?.sync(visual,w.profile_id,headers);$("spatial-stage-toggle").textContent=tr(spatialStage?.isActive()?"spatial_stage_exit":"spatial_stage_enter");
   const clues=visual?.clues||[],clueWrap=$("scene-visual-clues-wrap"),clueNode=$("scene-visual-clues");clueWrap.hidden=!clues.length;clueNode.innerHTML=clues.map(item=>`<span class="scene-clue">${safe(item)}</span>`).join("");
@@ -227,7 +228,7 @@ function renderPlay(){
     list.querySelectorAll("[data-observer-scene]").forEach(node=>node.addEventListener("click",()=>{model.observerScene=node.dataset.observerScene||"";renderPlay()}));
     list.querySelectorAll("[data-observer-generate]").forEach(node=>node.addEventListener("click",()=>generateObserverVisualPlace(node.dataset.observerGenerate||"")));
   }else{list.innerHTML=""}
-  $("play-mode").textContent=tr(observer?"observer_mode":"mode_character");$("play-mode-hint").textContent=observer?tr("observer_mode_hint"):"";$("action-input").disabled=observer;$("send-action").disabled=observer;document.querySelectorAll(".suggestion").forEach(node=>{node.disabled=observer});
+  $("play-mode").textContent=tr(replay?"replay_mode":observer?"observer_mode":"mode_character");$("play-mode-hint").textContent=replay?tr("replay_hint"):observer?tr("observer_mode_hint"):"";$("action-input").disabled=readOnly;$("send-action").disabled=readOnly;document.querySelectorAll(".suggestion").forEach(node=>{node.disabled=readOnly});
   $("play-world-name").textContent=w.name||tr("world");$("play-world-description").textContent=w.description||"";$("play-region").textContent=shown(v.region);$("play-time").textContent=tr("world_time",{time:v.time?.ticks??0});$("play-location").textContent=shown(v.location);$("play-environment").textContent=shown(v.environment);$("play-weather").textContent=shown(v.weather);
   const event=v.current_event;$("current-event").innerHTML=event?`<strong>${safe(event.name)}</strong><span>${safe(event.description||tr("event_response_fallback"))}</span>`:`<span class="muted">${safe(tr("event_waiting"))}</span>`;
   $("narrative").textContent=v.narrative||tr("narrative_waiting");
@@ -235,24 +236,25 @@ function renderPlay(){
   $("people-list").innerHTML=rowList(v.present_people,"people_empty",item=>`<li><strong>${safe(item.name)}</strong><span class="muted">${safe(item.role||item.status||tr("person_in_scene"))}</span></li>`);
   $("known-people-list").innerHTML=rowList(v.known_people,"known_people_empty",item=>`<li><strong>${safe(item.name)}</strong><span class="muted">${safe(item.location?tr("known_people_location",{location:item.location}):tr("known_people_hint"))}</span></li>`);
   $("change-list").innerHTML=rowList(v.recent_changes,"changes_empty",item=>`<li><strong>${safe(item.summary)}</strong><span class="muted">${safe(item.category||tr("status_category"))}</span></li>`);
-  $("chronicle-list").innerHTML=rowList(v.chronicle,"chronicle_empty",item=>`<li><strong>${safe(tr("moment",{time:item.time}))}</strong><span class="muted">${safe(item.summary)}</span></li>`);
+  $("chronicle-list").innerHTML=rowList(v.chronicle,"chronicle_empty",item=>`<li><button class="chronicle-replay" type="button" data-replay-time="${Number(item.time)||0}" title="${safe(tr("replay_open"))}" aria-label="${safe(tr("replay_open"))}">${safe(tr("moment",{time:item.time}))}</button><span class="muted">${safe(item.summary)}</span></li>`);
+  $("chronicle-list").querySelectorAll("[data-replay-time]").forEach(node=>node.addEventListener("click",()=>replayAt(Number(node.dataset.replayTime||0))));
   const p=v.player||{};$("player-name").textContent=observer?tr("observer_mode"):p.name||tr("your_character");$("player-status").textContent=shown(p.status);$("player-position").textContent=shown(p.location);$("player-items").innerHTML=rowList(p.items,"items_empty",item=>`<li>${safe(item)}</li>`);$("player-goals").innerHTML=rowList(p.goals,"goals_empty",item=>`<li>${safe(item)}</li>`);$("player-memory").textContent=p.memories?.length?tr("memory_count",{count:p.memories.length}):tr("memory_empty");$("memory-list").innerHTML=rowList(p.memories,"memory_empty",item=>`<li>${safe(item)}</li>`);
   $("relation-list").innerHTML=rowList(p.relations,"relations_empty",item=>`<li>${safe(item.from)} ${safe(tr("meta_separator"))}${safe(relationLabel(item.label))}${safe(tr("meta_separator"))}${safe(item.to)}</li>`);
 }
 async function continueWorld(instanceId){
   busy(true);status(tr("status_returning"));
-  try{const result=await api(`/experience/player/instances/${encodeURIComponent(instanceId)}/continue`,{method:"POST"});model.instanceId=result.instance_id;model.view=result.view;model.observerScene="";model.stageFocus=false;renderPlay();view("play-view");status("")}
+  try{const result=await api(`/experience/player/instances/${encodeURIComponent(instanceId)}/continue`,{method:"POST"});model.instanceId=result.instance_id;model.view=result.view;model.observerScene="";model.stageFocus=false;model.replay=null;renderPlay();view("play-view");status("")}
   catch(error){status(error.message,true)}finally{busy(false)}
 }
 async function sendAction(){
   const input=$("action-input"),text=input.value.trim();if(!text){status(tr("action_empty"),true);input.focus();return}
   busy(true);status(tr("status_world_response"));
-  try{const result=await api(`/experience/player/instances/${encodeURIComponent(model.instanceId)}/action`,{method:"POST",body:JSON.stringify({text})});model.view=result.view;renderPlay();input.value="";status(result.changed?tr("status_world_recorded"):tr("status_world_no_change"));input.focus()}
+  try{const result=await api(`/experience/player/instances/${encodeURIComponent(model.instanceId)}/action`,{method:"POST",body:JSON.stringify({text})});model.view=result.view;model.replay=null;renderPlay();input.value="";status(result.changed?tr("status_world_recorded"):tr("status_world_no_change"));input.focus()}
   catch(error){status(error.message,true)}finally{busy(false)}
 }
 async function leaveWorld(){
   busy(true);status(tr("status_saving_position"));
-  try{await api(`/experience/player/instances/${encodeURIComponent(model.instanceId)}/leave`,{method:"POST"});await window.__WANXIANG_PANORAMA_STAGE__?.deactivate();await window.__WANXIANG_SPATIAL_STAGE__?.deactivate();model.instanceId="";model.view=null;view("home-view");await loadHome();status(tr("status_home_returned"))}
+  try{await api(`/experience/player/instances/${encodeURIComponent(model.instanceId)}/leave`,{method:"POST"});await window.__WANXIANG_PANORAMA_STAGE__?.deactivate();await window.__WANXIANG_SPATIAL_STAGE__?.deactivate();model.instanceId="";model.view=null;model.replay=null;view("home-view");await loadHome();status(tr("status_home_returned"))}
   catch(error){status(error.message,true)}finally{busy(false)}
 }
 async function loadHome(){
