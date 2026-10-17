@@ -193,7 +193,6 @@ def test_t3_nonterminal_provider_reason_is_persisted_for_retry_diagnostics() -> 
     assert coordinator.jobs.get(ticket.submission_id) == running
 
 
-
 def test_t3_verified_projection_frame_survives_ticket_persistence(
     tmp_path: pathlib.Path,
 ) -> None:
