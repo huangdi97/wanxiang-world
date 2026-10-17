@@ -643,6 +643,8 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                     "document.querySelector('#status')?.textContent.includes('已切换')"
                 )
                 page.set_viewport_size({"width": 390, "height": 844})
+                page.evaluate("window.scrollTo(0, 0)")
+                page.wait_for_timeout(50)
                 assert (
                     page.evaluate(
                         "getComputedStyle(document.querySelector('#stage-focus-toggle')).minHeight"
