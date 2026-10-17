@@ -8,6 +8,8 @@ derived visual catalog. It never writes back to canonical state or History.
 
 from __future__ import annotations
 
+from typing import cast
+
 from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
 from wanxiang_substrate.assets.book_scene_visual import (
     _render_visual_plan,
@@ -87,9 +89,16 @@ def player_world_detail(
                 return value.strip()
         return None
 
+    entity_types = dict(cast(tuple[tuple[str, str], ...], getattr(draft, "entity_types", ()) or ()))
+    entities = cast(tuple[tuple[str, str], ...], getattr(draft, "entities", ()) or ())
+    people_count = sum(
+        1
+        for key, _display_name in entities
+        if entity_types.get(key, "actor") not in {"organization", "family"}
+    )
     character_count = len(tuple(getattr(draft, "character_profiles", ()) or ()))
     if not character_count:
-        character_count = len(tuple(getattr(draft, "entities", ()) or ()))
+        character_count = people_count
     visual: dict[str, object] | None = None
     if include_visual and package is not None and visual_access_allowed:
         plan = _plan_book_scene_assets(package)

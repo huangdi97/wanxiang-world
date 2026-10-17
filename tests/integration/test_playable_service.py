@@ -314,6 +314,9 @@ def test_gedcom_family_is_not_canonicalized_as_an_actor() -> None:
 
     playable = PlayableService(build_reference_runtime())
     profile = playable.register_package(authored.package, owner_id="alice")
+    detail = player_world_detail(profile, authored.package, include_visual=False)
+    counts = cast(dict[str, object], detail["counts"])
+    assert counts["characters"] == 2
     entered = playable.enter(
         profile.profile_id,
         viewer_id="alice",
