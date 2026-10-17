@@ -209,7 +209,10 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 assert canvas_box is not None
                 assert canvas_box["width"] > 100 and canvas_box["height"] > 100
                 assert builtin_canvas.get_attribute("aria-label") == "内置 PLY 空间"
-                assert builtin_canvas.get_attribute("aria-describedby") == "spatial-stage-controls-hint"
+                assert (
+                    builtin_canvas.get_attribute("aria-describedby")
+                    == "spatial-stage-controls-hint"
+                )
                 stage_copy = page.locator("#world-stage-spatial").inner_text()
                 assert "4 个空间点" in stage_copy
                 assert "拖动旋转" in stage_copy
