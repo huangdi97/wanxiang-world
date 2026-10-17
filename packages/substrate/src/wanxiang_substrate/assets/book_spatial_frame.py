@@ -29,7 +29,38 @@ def _vector3(value: object, *, label: str) -> tuple[float, float, float]:
 
 
 def _norm(value: tuple[float, float, float]) -> float:
-    return math.sqrt(sum(component * component for component in value))
+    return math.hypot(*value)
+
+
+def _dot(left: tuple[float, float, float], right: tuple[float, float, float]) -> float:
+    return sum(a * b for a, b in zip(left, right, strict=True))
+
+
+def _unit(value: tuple[float, float, float]) -> tuple[float, float, float]:
+    length = _norm(value)
+    return (value[0] / length, value[1] / length, value[2] / length)
+
+
+def _orthonormal_basis(
+    up: tuple[float, float, float],
+    forward: tuple[float, float, float],
+) -> tuple[tuple[float, float, float], tuple[float, float, float]]:
+    """Keep the provider look direction and remove any shear from the up vector.
+
+    Renderers treat the frame as an orthonormal camera basis. Providers may send
+    unnormalized or slightly skewed vectors, which would shear the projection, so
+    normalize forward and Gram-Schmidt the up vector against it.
+    """
+
+    unit_forward = _unit(forward)
+    orthogonal_up = (
+        up[0] - _dot(up, unit_forward) * unit_forward[0],
+        up[1] - _dot(up, unit_forward) * unit_forward[1],
+        up[2] - _dot(up, unit_forward) * unit_forward[2],
+    )
+    if _norm(orthogonal_up) < 1e-9:
+        raise ValueError("spatial projection frame up and forward must not be parallel")
+    return _unit(orthogonal_up), unit_forward
 
 
 def _projection_frame_from_mapping(
@@ -55,16 +86,10 @@ def _projection_frame_from_mapping(
         raise ValueError("spatial projection frame scale must be a finite positive number")
     if _norm(up) < 1e-9 or _norm(forward) < 1e-9:
         raise ValueError("spatial projection frame directions must be non-zero")
-    cross = (
-        up[1] * forward[2] - up[2] * forward[1],
-        up[2] * forward[0] - up[0] * forward[2],
-        up[0] * forward[1] - up[1] * forward[0],
-    )
-    if _norm(cross) < 1e-9:
-        raise ValueError("spatial projection frame up and forward must not be parallel")
+    unit_up, unit_forward = _orthonormal_basis(up, forward)
     return _SpatialProjectionFrame(
-        up,
-        forward,
+        unit_up,
+        unit_forward,
         center,
         scale,
         raw_convention.strip()[:80],
