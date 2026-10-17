@@ -99,6 +99,20 @@ def test_known_people_are_actor_scoped_and_remote_live_state_is_redacted() -> No
     assert "dave" not in by_name
 
 
+def test_tasks_and_opportunities_are_not_reported_as_current_events() -> None:
+    copy = _copy_for("zh-CN")
+    entities = (
+        _entity("alice-quest", "task", "actor-alice"),
+        _entity("open-call", "opportunity"),
+        _entity("world-event", "event"),
+    )
+
+    card = _event_card(entities, {}, copy, "actor-alice")
+
+    assert card == {"name": "world-event", "description": None, "status": None}
+    assert _event_card(entities[:2], {}, copy, "actor-alice") is None
+
+
 def test_owner_scoped_opportunities_and_current_event_stay_private() -> None:
     copy = _copy_for("zh-CN")
     entities = (

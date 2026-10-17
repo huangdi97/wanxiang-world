@@ -176,13 +176,9 @@ def _event_card(
     copy: _PlayerCopy,
     actor_id: str,
 ) -> dict[str, object] | None:
+    """Only a canonical event is a current event; tasks are not happenings."""
     for entity in entities:
-        if entity.entity_type.casefold() in {
-            "event",
-            "task",
-            "opportunity",
-            "challenge",
-        } and _visible_to_actor(entity, actor_id):
+        if entity.entity_type.casefold() == "event" and _visible_to_actor(entity, actor_id):
             fields = _entity_fields(entity)
             return {
                 "name": _entity_name(entity, copy),
