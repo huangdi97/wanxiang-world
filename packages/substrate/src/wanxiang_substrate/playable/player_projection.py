@@ -100,7 +100,7 @@ def player_observation(
     events_since_leave = [
         _chronicle_card(event, actor_id, copy)
         for event in event_list
-        if events_since_revision is not None and event.event_seq.value > events_since_revision
+        if events_since_revision is not None and event.revision.value > events_since_revision
     ]
     changes = [_change_card(change, names, copy) for change in (diff.changes if diff else ())]
     world_time = event_list[-1].world_time.ticks if event_list else 0

@@ -316,6 +316,92 @@ def test_player_history_lists_the_full_chronicle_newest_first() -> None:
     assert other.status_code == 404
 
 
+def test_player_worldline_fork_returns_a_detached_branch_handle() -> None:
+    client = _client()
+    plaza = client.get("/experience/player/plaza", headers=HEADERS)
+    profile_id = str(plaza.json()["worlds"][0]["profile_id"])
+    entered = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=HEADERS,
+        json={
+            "mode": "embodiment",
+            "session_id": "m95_fork_session",
+            "character_id": "ent_alice",
+        },
+    )
+    instance_id = str(entered.json()["instance_id"])
+    action = client.post(
+        f"/experience/player/instances/{instance_id}/action",
+        headers=HEADERS,
+        json={"text": "让自己保持清醒"},
+    )
+    assert action.status_code == 200
+    parent_view = cast(
+        dict[str, Any],
+        client.get(f"/experience/player/instances/{instance_id}", headers=HEADERS).json()["view"],
+    )
+
+    fork = client.post(
+        f"/experience/player/instances/{instance_id}/fork",
+        headers=HEADERS,
+    )
+    assert fork.status_code == 200
+    worldline = cast(dict[str, Any], fork.json()["worldline"])
+    child = str(worldline["instance_id"])
+    assert child != instance_id
+    assert worldline["parent_instance_id"] == instance_id
+    child_view = cast(
+        dict[str, Any],
+        client.get(f"/experience/player/instances/{child}", headers=HEADERS).json()["view"],
+    )
+    assert child_view["time"] == parent_view["time"]
+    assert child_view["player"] == parent_view["player"]
+    assert child_view["chronicle"] == parent_view["chronicle"]
+    assert (
+        client.get(f"/experience/player/instances/{instance_id}", headers=HEADERS).json()["view"][
+            "player"
+        ]
+        == parent_view["player"]
+    )
+    assert (
+        client.post(
+            f"/experience/player/instances/{instance_id}/fork",
+            headers={"X-Wanxiang-User": "someone-else"},
+        ).status_code
+        == 404
+    )
+
+    assert (
+        client.post(
+            f"/experience/player/instances/{instance_id}/leave",
+            headers=HEADERS,
+        ).status_code
+        == 200
+    )
+    continued = client.post(
+        f"/experience/player/instances/{child}/continue",
+        headers=HEADERS,
+    )
+    assert continued.status_code == 200
+    assert str(continued.json()["instance_id"]) == child
+    child_action = client.post(
+        f"/experience/player/instances/{child}/action",
+        headers=HEADERS,
+        json={"text": "让自己保持警觉"},
+    )
+    assert child_action.status_code == 200
+    child_after = cast(
+        dict[str, Any],
+        client.get(f"/experience/player/instances/{child}", headers=HEADERS).json()["view"],
+    )
+    parent_after = cast(
+        dict[str, Any],
+        client.get(f"/experience/player/instances/{instance_id}", headers=HEADERS).json()["view"],
+    )
+    assert child_after["player"] != parent_after["player"]
+    assert parent_after["player"] == parent_view["player"]
+
+
 def test_player_entry_is_separate_from_english_studio_surface() -> None:
     client: Any = TestClient(create_app(build_reference_runtime()))
     player = client.get("/")

@@ -17,6 +17,7 @@ from wanxiang_domain.ids import BranchId, WorldInstanceId
 
 from wanxiang_substrate.playable.player_projection import player_observation
 from wanxiang_substrate.playable.service_session import _owned_instance
+from wanxiang_substrate.playable.service_support import _runtime_instance_id
 from wanxiang_substrate.playable.service_visual import (
     _visible_spatial_assets,
     _visible_spatial_projection_frames,
@@ -50,12 +51,19 @@ def _replay_at(
         raise ValueError("replay at_ticks must be non-negative")
     record = _owned_instance(service, instance_id, viewer_id)
     profile = service.plaza.require_access(record.profile_id, viewer_id)
-    world_instance = WorldInstanceId(record.instance_id)
+    world_instance = WorldInstanceId(_runtime_instance_id(record))
     branch = BranchId(record.branch_id)
-    events = tuple(service.runtime.events(world_instance, branch))
+    events = tuple(service.runtime.worldline_events(world_instance, branch))
     eligible = tuple(event for event in events if event.world_time.ticks <= at_ticks)
-    upto_seq = eligible[-1].event_seq.value if eligible else 0
-    state = service.runtime.state_at(world_instance, branch, upto_seq=EventSeq(upto_seq))
+    if eligible:
+        target = eligible[-1]
+        target_branch = target.branch_id
+        upto_seq = target.event_seq.value
+    else:
+        # Before the first committed event the worldline is the empty root state.
+        target_branch = events[0].branch_id if events else branch
+        upto_seq = 0
+    state = service.runtime.state_at(world_instance, target_branch, upto_seq=EventSeq(upto_seq))
     actor_name, actor_starting_location = _actor_identity(service, record.actor_id)
     view = player_observation(
         profile,

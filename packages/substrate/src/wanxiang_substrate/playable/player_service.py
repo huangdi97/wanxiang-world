@@ -14,6 +14,7 @@ from wanxiang_substrate.playable.player_projection import (
     player_observation,
     player_world_detail,
 )
+from wanxiang_substrate.playable.service_support import _runtime_instance_id
 from wanxiang_substrate.playable.service_visual import (
     _visible_spatial_assets,
     _visible_spatial_projection_frames,
@@ -67,7 +68,7 @@ def player_observe(
     if record.owner_id != viewer_id:
         raise NotFound(f"playable instance {instance_id!r} not found")
     profile = service.plaza.require_access(record.profile_id, viewer_id)
-    world_instance_id = WorldInstanceId(record.instance_id)
+    world_instance_id = WorldInstanceId(_runtime_instance_id(record))
     branch_id = BranchId(record.branch_id)
     state = service.runtime.current_state(world_instance_id, branch_id)
     actor_name = ""
@@ -79,7 +80,7 @@ def player_observe(
             actor_starting_location = character.starting_location
         except NotFound:
             actor_name = ""
-    events = tuple(service.runtime.events(world_instance_id, branch_id))
+    events = tuple(service.runtime.worldline_events(world_instance_id, branch_id))
     effective_events_since_revision = events_since_revision
     if effective_events_since_revision is None and not record.session_id:
         effective_events_since_revision = record.last_revision
@@ -130,7 +131,7 @@ def _session_summary(
             (
                 event
                 for event in reversed(tuple(events))
-                if event.event_seq.value <= record.last_revision
+                if event.revision.value <= record.last_revision
             ),
             None,
         )

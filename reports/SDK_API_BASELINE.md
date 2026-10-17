@@ -1,8 +1,8 @@
 # SDK API Baseline (G17A)
 
-- API routes: 83
+- API routes: 84
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 2169
+- Python public names (stable packages): 2173
 
 ## API routes
 
@@ -54,6 +54,7 @@
 - `POST /experience/player/characters`
 - `POST /experience/player/instances/{instance_id}/action`
 - `POST /experience/player/instances/{instance_id}/continue`
+- `POST /experience/player/instances/{instance_id}/fork`
 - `POST /experience/player/instances/{instance_id}/leave`
 - `POST /experience/player/worlds/{profile_id}/enter`
 - `POST /experience/player/worlds/{profile_id}/panoramas`
@@ -108,6 +109,7 @@
 - `wanxiang_application.GovernedOperationRequest`
 - `wanxiang_application.HarnessStepResult`
 - `wanxiang_application.HarnessWorldLoop`
+- `wanxiang_application.LeaseFactory`
 - `wanxiang_application.Now`
 - `wanxiang_application.ObserverExperience`
 - `wanxiang_application.ObserverExperienceView`
@@ -123,9 +125,11 @@
 - `wanxiang_application.WorldRuntime`
 - `wanxiang_application.WorldSkill`
 - `wanxiang_application.find_root_branch`
+- `wanxiang_application.fork_branch_at`
 - `wanxiang_application.register_synthetic_resolvers`
 - `wanxiang_application.replay_branch`
 - `wanxiang_application.snapshot_is_valid`
+- `wanxiang_application.worldline_events`
 - `wanxiang_domain.ActorId`
 - `wanxiang_domain.BranchAncestry`
 - `wanxiang_domain.BranchId`
@@ -389,8 +393,5 @@
 - `wanxiang_substrate.ACTION_RECORD_RUN`
 - `wanxiang_substrate.ACTION_REJECT_ORDER`
 - `wanxiang_substrate.ACTION_RELAY_MESSAGE`
-- `wanxiang_substrate.ACTION_REPORT_ORDER`
-- `wanxiang_substrate.ACTION_REST`
-- `wanxiang_substrate.ACTION_SCHEDULE_APPOINTMENT`
 
 Machine-readable: reports/sdk_api_baseline.json.

@@ -14,7 +14,7 @@ from typing import Protocol
 
 from wanxiang_domain.command import CommandEnvelope
 from wanxiang_domain.event import CommittedEvent
-from wanxiang_domain.hierarchy import EventSeq
+from wanxiang_domain.hierarchy import BranchRevision, EventSeq
 from wanxiang_domain.ids import BranchId, WorldInstanceId
 from wanxiang_runtime.state import InMemoryCanonicalState
 
@@ -25,6 +25,13 @@ class WorldCreateResult:
 
     instance_id: WorldInstanceId
     root_branch_id: BranchId
+
+
+class BranchFork(Protocol):
+    """Substrate-local shape of a forked branch handle."""
+
+    @property
+    def branch_id(self) -> BranchId: ...
 
 
 class WorldRuntimePort(Protocol):
@@ -38,8 +45,20 @@ class WorldRuntimePort(Protocol):
         self, instance_id: WorldInstanceId, branch_id: BranchId, *, upto_seq: EventSeq
     ) -> InMemoryCanonicalState: ...
 
+    def create_branch(
+        self,
+        instance_id: WorldInstanceId,
+        parent_branch_id: BranchId,
+        *,
+        fork_revision: BranchRevision | None = None,
+    ) -> BranchFork: ...
+
     def submit_command(self, command: CommandEnvelope) -> object: ...
 
     def events(
+        self, instance_id: WorldInstanceId, branch_id: BranchId
+    ) -> tuple[CommittedEvent, ...]: ...
+
+    def worldline_events(
         self, instance_id: WorldInstanceId, branch_id: BranchId
     ) -> tuple[CommittedEvent, ...]: ...

@@ -595,7 +595,16 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                     "document.querySelector('#chronicle-expand')?.textContent === '查看完整纪事'"
                 )
                 assert not page_errors, page_errors
-                page.locator("#leave-world").click()
+                parent_instance = page.evaluate("model.instanceId")
+                page.locator("#fork-worldline").click()
+                page.wait_for_selector("#home-view.is-active")
+                page.wait_for_function(
+                    "document.querySelector('#status')?.textContent.includes('新世界线')"
+                )
+                forked_instance = page.evaluate(
+                    "window.__WANXIANG_LAST_FORKED_WORLDLINE__?.instance_id"
+                )
+                assert forked_instance and forked_instance != parent_instance
                 page.wait_for_selector("[data-continue]")
                 page.locator('[data-filter="recent"]').click()
                 assert page.locator("#world-list [data-profile]").count() == 1

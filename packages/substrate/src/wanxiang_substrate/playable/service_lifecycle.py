@@ -8,6 +8,7 @@ only playable session bookkeeping. They never mutate canonical world state.
 
 from __future__ import annotations
 
+from dataclasses import replace
 from typing import TYPE_CHECKING, cast
 
 from wanxiang_domain.errors import NotFound
@@ -16,7 +17,7 @@ from wanxiang_runtime.state import state_to_primitive
 
 from wanxiang_substrate.playable.experience import EntryMode
 from wanxiang_substrate.playable.service_session import _owned_instance, _save_instance
-from wanxiang_substrate.playable.service_support import instance_dict
+from wanxiang_substrate.playable.service_support import _runtime_instance_id, instance_dict
 from wanxiang_substrate.playable.store import ExperienceInstanceRecord
 from wanxiang_substrate.preview import instantiate_preview
 
@@ -49,8 +50,14 @@ def _enter(
         mode=cast(EntryMode, mode),
         character_id=character_id,
     )
-    _save_instance(service, receipt, viewer_id, world.branch_id.value, updated_seq=1)
-    return _observe(service, receipt.instance_id, viewer_id)
+    base = ExperienceInstanceRecord(
+        instance_id=world.instance_id.value,
+        profile_id=profile_id,
+        owner_id=viewer_id,
+        branch_id=world.branch_id.value,
+    )
+    _save_instance(service, receipt, base, updated_seq=1)
+    return _observe(service, base.instance_id, viewer_id)
 
 
 def _continue_instance(
@@ -68,19 +75,13 @@ def _continue_instance(
     receipt = service.entry.enter(
         experience,
         viewer_id=viewer_id,
-        instance_id=record.instance_id,
+        instance_id=_runtime_instance_id(record),
         branch_id=record.branch_id,
         session_id=next_session,
         mode=cast(EntryMode, record.mode),
         character_id=record.actor_id,
     )
-    _save_instance(
-        service,
-        receipt,
-        viewer_id,
-        record.branch_id,
-        updated_seq=record.updated_seq + 1,
-    )
+    _save_instance(service, receipt, record, updated_seq=record.updated_seq + 1)
     return _observe(service, instance_id, viewer_id)
 
 
@@ -94,16 +95,13 @@ def _leave(
     if record.session_id:
         service.entry.leave(record.session_id)
     state = service.runtime.current_state(
-        WorldInstanceId(record.instance_id), BranchId(record.branch_id)
+        WorldInstanceId(_runtime_instance_id(record)), BranchId(record.branch_id)
     )
     service.store.save_instance(
-        ExperienceInstanceRecord(
-            record.instance_id,
-            record.profile_id,
-            record.owner_id,
-            record.branch_id,
-            mode=record.mode,
-            actor_id=record.actor_id,
+        replace(
+            record,
+            session_id="",
+            lease_id="",
             last_revision=state.revision.value,
             updated_seq=record.updated_seq + 1,
         )
@@ -118,7 +116,7 @@ def _observe(
 ) -> dict[str, object]:
     record = _owned_instance(service, instance_id, viewer_id)
     state = service.runtime.current_state(
-        WorldInstanceId(record.instance_id), BranchId(record.branch_id)
+        WorldInstanceId(_runtime_instance_id(record)), BranchId(record.branch_id)
     )
     return {
         "instance": instance_dict(record),

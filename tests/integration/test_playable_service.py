@@ -211,3 +211,61 @@ def test_deferred_book_place_generates_once_then_reuses_visual_cache() -> None:
             "不存在的地点",
             viewer_id="alice",
         )
+
+
+def test_worldline_fork_preserves_parent_and_diverges_independently() -> None:
+    authored = OneClickAuthoring().run("job_worldline_fork", (_source(),), profile="book")
+    playable = PlayableService(build_reference_runtime())
+    profile = playable.register_package(authored.package, owner_id="alice", visibility="public")
+    character = playable.entry.create_character(
+        "alice",
+        "Alice",
+        compatible_profile_ids=(profile.experience_package_ref,),
+        character_id="ent_alice",
+    )
+    entered = playable.enter(
+        profile.profile_id,
+        viewer_id="alice",
+        mode="embodiment",
+        session_id="fork_parent_session",
+        character_id=character.character_id,
+    )
+    parent = str(cast(dict[str, object], entered["instance"])["instance_id"])
+    action = playable.action(parent, viewer_id="alice", text="让自己保持清醒")
+    assert action.diff.no_change is False
+    parent_before = playable.observe(parent, "alice")
+
+    fork = playable.fork_worldline(parent, viewer_id="alice")
+    child = str(fork["instance_id"])
+    assert child != parent
+    record = playable.store.get_instance(child)
+    assert record.branch_id == child
+    assert record.runtime_instance_id
+    assert record.session_id == ""
+    assert playable.observe(parent, "alice") == parent_before
+
+    child_before_continue = playable.observe(child, "alice")
+    assert child_before_continue["state_hash"] == parent_before["state_hash"]
+
+    playable.leave(parent, viewer_id="alice")
+    playable.continue_instance(child, viewer_id="alice")
+    child_action = playable.action(child, viewer_id="alice", text="让自己保持警觉")
+    assert child_action.diff.no_change is False
+
+    child_after = playable.observe(child, "alice")
+    parent_after = playable.observe(parent, "alice")
+    assert child_after["state_hash"] != parent_after["state_hash"]
+    assert parent_after["state_hash"] == parent_before["state_hash"]
+    assert parent_after["revision"] == parent_before["revision"]
+
+    # The forked worldline replays inherited history plus its own event.
+    runtime_id = WorldInstanceId(record.runtime_instance_id)
+    child_events = playable.runtime.events(runtime_id, BranchId(child))
+    assert len(child_events) == 1
+    replay = playable.replay_at(
+        child,
+        viewer_id="alice",
+        at_ticks=child_events[-1].world_time.ticks,
+    )
+    assert cast(dict[str, object], replay["replay"])["event_count"] == 5
+    assert cast(dict[str, object], replay["player"])["status"] == "警觉"

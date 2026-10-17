@@ -15,6 +15,7 @@ from wanxiang_domain.ids import BranchId, WorldInstanceId
 from wanxiang_substrate.playable.player_i18n import _copy_for
 from wanxiang_substrate.playable.player_projection_support import _chronicle_card
 from wanxiang_substrate.playable.service_session import _owned_instance
+from wanxiang_substrate.playable.service_support import _runtime_instance_id
 
 if TYPE_CHECKING:
     from wanxiang_substrate.playable.service import PlayableService
@@ -37,8 +38,8 @@ def _history(
     record = _owned_instance(service, instance_id, viewer_id)
     service.plaza.require_access(record.profile_id, viewer_id)
     events = tuple(
-        service.runtime.events(
-            WorldInstanceId(record.instance_id),
+        service.runtime.worldline_events(
+            WorldInstanceId(_runtime_instance_id(record)),
             BranchId(record.branch_id),
         )
     )

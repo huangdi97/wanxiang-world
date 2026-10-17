@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
 from typing import TYPE_CHECKING, cast
 
 from wanxiang_domain.errors import ContractError, NotFound
@@ -18,9 +19,8 @@ from wanxiang_substrate.playable.service_model import (
     SubmittedResult,
 )
 from wanxiang_substrate.playable.service_session import _owned_instance
-from wanxiang_substrate.playable.service_support import affordances
+from wanxiang_substrate.playable.service_support import _runtime_instance_id, affordances
 from wanxiang_substrate.playable.state_diff import CommittedStateDiff
-from wanxiang_substrate.playable.store import ExperienceInstanceRecord
 
 if TYPE_CHECKING:
     from wanxiang_substrate.playable.service import PlayableService
@@ -45,9 +45,10 @@ def _perform_action(
         raise NotFound(f"experience {record.profile_id!r} not found")
 
     compiler = IntentCompiler(affordances(experience))
+    runtime_instance = _runtime_instance_id(record)
     common = {
         "session_id": record.session_id,
-        "instance_id": record.instance_id,
+        "instance_id": runtime_instance,
         "branch_id": record.branch_id,
         "actor_id": record.actor_id,
     }
@@ -60,7 +61,7 @@ def _perform_action(
         raise ContractError(result.proposal.rejection_reason or result.proposal.clarification)
 
     before = service.runtime.current_state(
-        WorldInstanceId(record.instance_id), BranchId(record.branch_id)
+        WorldInstanceId(runtime_instance), BranchId(record.branch_id)
     )
     command = result.proposal.to_command(before.revision.value)
     submitted = cast(SubmittedResult, service.runtime.submit_command(command))
@@ -84,15 +85,8 @@ def _perform_action(
         diff=diff,
     )
     service.store.save_instance(
-        ExperienceInstanceRecord(
-            record.instance_id,
-            record.profile_id,
-            record.owner_id,
-            record.branch_id,
-            mode=record.mode,
-            actor_id=record.actor_id,
-            session_id=record.session_id,
-            lease_id=record.lease_id,
+        replace(
+            record,
             last_revision=submitted.state.revision.value,
             updated_seq=record.updated_seq + 1,
         )

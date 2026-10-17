@@ -4,12 +4,14 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
 from typing import TYPE_CHECKING
 
 from wanxiang_domain.errors import NotFound
 from wanxiang_domain.ids import BranchId, WorldInstanceId
 
 from wanxiang_substrate.playable.entry import EntryReceipt
+from wanxiang_substrate.playable.service_support import _runtime_instance_id
 from wanxiang_substrate.playable.store import ExperienceInstanceRecord
 
 if TYPE_CHECKING:
@@ -19,26 +21,25 @@ if TYPE_CHECKING:
 def _save_instance(
     service: PlayableService,
     receipt: EntryReceipt,
-    owner_id: str,
-    branch_id: str,
+    record: ExperienceInstanceRecord,
     *,
     updated_seq: int,
-) -> None:
-    state = service.runtime.current_state(WorldInstanceId(receipt.instance_id), BranchId(branch_id))
-    service.store.save_instance(
-        ExperienceInstanceRecord(
-            receipt.instance_id,
-            receipt.profile_id,
-            owner_id,
-            branch_id,
-            mode=receipt.mode,
-            actor_id=receipt.actor_id,
-            session_id=receipt.session_id,
-            lease_id=receipt.lease_id,
-            last_revision=state.revision.value,
-            updated_seq=updated_seq,
-        )
+) -> ExperienceInstanceRecord:
+    state = service.runtime.current_state(
+        WorldInstanceId(_runtime_instance_id(record)),
+        BranchId(record.branch_id),
     )
+    updated = replace(
+        record,
+        mode=receipt.mode,
+        actor_id=receipt.actor_id or record.actor_id,
+        session_id=receipt.session_id,
+        lease_id=receipt.lease_id,
+        last_revision=state.revision.value,
+        updated_seq=updated_seq,
+    )
+    service.store.save_instance(updated)
+    return updated
 
 
 def _owned_instance(

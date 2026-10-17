@@ -41,6 +41,7 @@ from wanxiang_substrate.playable.service_visual import (
     _visible_visual_assets,
     _visual_access_allowed,
 )
+from wanxiang_substrate.playable.service_worldline import _fork_worldline
 from wanxiang_substrate.playable.store import InMemoryPlayableStore, PlayableStore
 from wanxiang_substrate.preview import PreviewInstall, PreviewRuntimePort
 
@@ -246,6 +247,10 @@ class PlayableService:
             limit=limit,
             locale=locale,
         )
+
+    def fork_worldline(self, instance_id: str, *, viewer_id: str) -> dict[str, object]:
+        """Fork the owned branch at its head into a detached Player worldline."""
+        return _fork_worldline(self, instance_id, viewer_id=viewer_id)
 
     def action(
         self,

@@ -18,7 +18,6 @@ from wanxiang_runtime.authority import (
     CommitRequest,
     authorize_structural_write,
 )
-from wanxiang_runtime.branch import fork_branch
 from wanxiang_runtime.canonical_write import CanonicalWriteLease
 from wanxiang_runtime.diff import StateDiff, diff_states
 from wanxiang_runtime.invariants import InvariantCheck
@@ -26,6 +25,8 @@ from wanxiang_runtime.resolver import ResolverRegistry
 from wanxiang_runtime.snapshot import create_snapshot_metadata
 from wanxiang_runtime.state import InMemoryCanonicalState
 
+from wanxiang_application.branch_support import fork_branch_at
+from wanxiang_application.branch_support import worldline_events as _worldline_events
 from wanxiang_application.ports import PersistenceBundle
 from wanxiang_application.replay_support import RestoreResult, replay_branch
 from wanxiang_application.state_reader import StateReader
@@ -129,45 +130,16 @@ class WorldRuntime:
         *,
         fork_revision: BranchRevision | None = None,
     ) -> BranchMetadata:
-        parent = self.persistence.branches.get(parent_branch_id)
-        parent_state = self._state_reader.state_at(instance_id, parent_branch_id)
-        revision = fork_revision or parent_state.revision
-        if revision.value > parent_state.revision.value:
-            from wanxiang_domain.errors import ValidationRejected
-
-            raise ValidationRejected("cannot fork beyond the parent head")
-        fork_events = [
-            e
-            for e in self.persistence.event_store.load(instance_id, parent_branch_id)
-            if e.revision.value <= revision.value
-        ]
-        fork_event_seq = EventSeq(len(fork_events))
-        snapshot_ref = f"mem://{parent_branch_id.value}/fork/{revision.value}"
-        child = fork_branch(
-            parent,
-            parent_state,
-            fork_revision=revision,
-            fork_event_seq=fork_event_seq,
-            snapshot_ref=snapshot_ref,
+        return fork_branch_at(
+            self.persistence,
+            self._state_reader,
+            instance_id,
+            parent_branch_id,
+            fork_revision=fork_revision,
+            lease_for=lambda branch_id, reference: self._structural_lease(
+                instance_id, branch_id, reference
+            ),
         )
-        branch_lease = self._structural_lease(instance_id, child.branch_id, "create_branch")
-        self.persistence.branches.save(child, lease=branch_lease)
-        # Persist a snapshot of the fork baseline so restore/replay is deterministic.
-        fork_state = self._state_reader.state_at(
-            instance_id, parent_branch_id, upto_seq=fork_event_seq
-        )
-        # The fork-baseline snapshot is keyed by the parent branch at the fork
-        # revision (fork_state keeps the parent branch id), so it needs its own
-        # lease scoped to that worldline.
-        snapshot_lease = self._structural_lease(
-            instance_id, fork_state.branch_id, "create_branch_snapshot"
-        )
-        self.persistence.snapshot_store.save(
-            create_snapshot_metadata(fork_state, fork_event_seq, content_ref=snapshot_ref),
-            fork_state,
-            lease=snapshot_lease,
-        )
-        return child
 
     # -- command submission ---------------------------------------------
 
@@ -246,6 +218,12 @@ class WorldRuntime:
         self, instance_id: WorldInstanceId, branch_id: BranchId
     ) -> tuple[CommittedEvent, ...]:
         return self.persistence.event_store.load(instance_id, branch_id)
+
+    def worldline_events(
+        self, instance_id: WorldInstanceId, branch_id: BranchId
+    ) -> tuple[CommittedEvent, ...]:
+        """Committed events along the branch ancestry, oldest first."""
+        return _worldline_events(self.persistence, instance_id, branch_id)
 
     def create_checkpoint(
         self, instance_id: WorldInstanceId, branch_id: BranchId
