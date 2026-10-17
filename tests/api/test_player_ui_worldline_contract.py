@@ -16,6 +16,9 @@ def test_player_html_exposes_worldline_fork_control() -> None:
     assert 'id="worldline-toggle"' in html
     assert 'id="worldline-panel"' in html
     assert 'id="worldline-compare"' in html
+    assert 'role="region"' in html
+    assert 'aria-labelledby="worldline-heading"' in html
+    assert 'aria-live="polite"' in html
     assert "从此刻分支" in html
     assert "function forkWorldline(" in html
     assert "function toggleWorldlines(" in html
@@ -37,6 +40,8 @@ def test_worldline_script_lists_switches_and_compares_worldlines() -> None:
     assert '$("worldline-toggle").addEventListener("click",toggleWorldlines)' in WORLDLINE_SCRIPT
     assert "[data-switch-worldline]" in WORLDLINE_SCRIPT
     assert "[data-compare-worldline]" in WORLDLINE_SCRIPT
+    assert 'event.key!=="Escape"' in WORLDLINE_SCRIPT
+    assert '$("worldline-toggle").focus()' in WORLDLINE_SCRIPT
 
 
 def test_fork_copy_is_available_in_both_locales() -> None:

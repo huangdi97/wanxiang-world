@@ -624,6 +624,11 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 page.locator("#worldline-toggle").click()
                 page.wait_for_selector("#worldline-panel:not([hidden])")
                 assert page.locator("#worldline-list li").count() == 2
+                page.keyboard.press("Escape")
+                assert page.locator("#worldline-panel").is_hidden()
+                assert page.evaluate("document.activeElement.id") == "worldline-toggle"
+                page.locator("#worldline-toggle").click()
+                page.wait_for_selector("#worldline-panel:not([hidden])")
                 page.locator(f'[data-compare-worldline="{forked_instance}"]').click()
                 page.wait_for_selector("#worldline-compare:not([hidden])")
                 compare_copy = page.locator("#worldline-compare").inner_text()

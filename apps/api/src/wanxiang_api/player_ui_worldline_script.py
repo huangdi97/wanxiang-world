@@ -41,10 +41,10 @@ function renderWorldlines(cards){
 }
 async function toggleWorldlines(){
   const panel=$("worldline-panel");
-  if(!panel.hidden){panel.hidden=true;return}
+  if(!panel.hidden){panel.hidden=true;$("worldline-toggle").focus();return}
   if(!model.instanceId)return;
   busy(true);
-  try{const data=await api(`/experience/player/instances/${encodeURIComponent(model.instanceId)}/worldlines`);renderWorldlines(data.worldlines||[]);panel.hidden=false}
+  try{const data=await api(`/experience/player/instances/${encodeURIComponent(model.instanceId)}/worldlines`);renderWorldlines(data.worldlines||[]);panel.hidden=false;$("worldline-close").focus()}
   catch(error){status(error.message,true)}finally{busy(false)}
 }
 async function switchWorldline(handle){
@@ -70,5 +70,10 @@ async function forkWorldline(){
 }
 $("fork-worldline").addEventListener("click",forkWorldline);
 $("worldline-toggle").addEventListener("click",toggleWorldlines);
-$("worldline-close").addEventListener("click",()=>{$("worldline-panel").hidden=true});
+$("worldline-close").addEventListener("click",()=>{$("worldline-panel").hidden=true;$("worldline-toggle").focus()});
+document.addEventListener("keydown",event=>{
+  if(event.key!=="Escape"||$("worldline-panel").hidden)return;
+  $("worldline-panel").hidden=true;
+  $("worldline-toggle").focus();
+});
 """
