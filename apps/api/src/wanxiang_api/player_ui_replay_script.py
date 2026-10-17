@@ -10,12 +10,13 @@ that script first.
 
 REPLAY_SCRIPT = r"""
 function renderChronicle(v,model){
-  const items=model.historyExpanded&&model.history?.events?model.history.events:(v.chronicle||[]);
+  const expanded=!model.replay&&Boolean(model.historyExpanded&&model.history?.events);
+  const items=expanded?model.history.events:(v.chronicle||[]);
   const total=Number(model.history?.total||0),returned=Number(model.history?.returned||items.length);
-  const window=model.historyExpanded&&total>returned?`<li class="muted chronicle-window">${safe(tr("history_window",{returned,total}))}</li>`:"";
+  const window=expanded&&total>returned?`<li class="muted chronicle-window">${safe(tr("history_window",{returned,total}))}</li>`:"";
   $("chronicle-list").innerHTML=rowList(items,"chronicle_empty",item=>`<li><button class="chronicle-replay" type="button" data-replay-time="${Number(item.time)||0}" title="${safe(tr("replay_open"))}" aria-label="${safe(tr("replay_open"))}">${safe(tr("moment",{time:item.time}))}</button><span class="muted">${safe(item.summary)}</span></li>`)+window;
   $("chronicle-list").querySelectorAll("[data-replay-time]").forEach(node=>node.addEventListener("click",()=>replayAt(Number(node.dataset.replayTime||0))));
-  const button=$("chronicle-expand");button.hidden=!model.instanceId;button.textContent=tr(model.historyExpanded?"history_collapse":"history_expand");
+  const button=$("chronicle-expand");button.hidden=!model.instanceId||Boolean(model.replay);button.textContent=tr(model.historyExpanded?"history_collapse":"history_expand");
 }
 async function toggleHistory(){
   if(!model.instanceId)return;
@@ -27,7 +28,7 @@ async function toggleHistory(){
 async function replayAt(ticks){
   if(!model.instanceId)return;
   busy(true);status(tr("status_replaying"));
-  try{const result=await api(`/experience/player/instances/${encodeURIComponent(model.instanceId)}/replay?at_ticks=${encodeURIComponent(String(ticks))}`);model.replay=result;model.stageFocus=false;renderPlay();status("")}
+  try{const result=await api(`/experience/player/instances/${encodeURIComponent(model.instanceId)}/replay?at_ticks=${encodeURIComponent(String(ticks))}`);model.replay=result;model.historyExpanded=false;model.stageFocus=false;renderPlay();status("")}
   catch(error){status(error.message,true)}finally{busy(false)}
 }
 function exitReplay(){if(!model.replay)return;model.replay=null;renderPlay()}

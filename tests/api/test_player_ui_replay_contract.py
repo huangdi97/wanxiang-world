@@ -34,6 +34,9 @@ def test_player_script_replays_through_the_player_route_and_resets_on_entry() ->
     assert '$("chronicle-expand").addEventListener("click",toggleHistory)' in REPLAY_SCRIPT
     assert "history_window" in REPLAY_SCRIPT
     assert "total>returned" in REPLAY_SCRIPT
+    assert "model.replay=result;model.historyExpanded=false" in REPLAY_SCRIPT
+    assert "const expanded=!model.replay&&" in REPLAY_SCRIPT
+    assert "button.hidden=!model.instanceId||Boolean(model.replay)" in REPLAY_SCRIPT
 
 
 def test_replay_copy_is_available_in_both_locales() -> None:
