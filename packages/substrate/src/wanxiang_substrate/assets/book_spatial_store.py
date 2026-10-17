@@ -9,6 +9,10 @@ import pathlib
 from typing import cast
 
 from wanxiang_substrate.assets.book_scene_interprocess import _exclusive_index_lock
+from wanxiang_substrate.assets.book_spatial_frame import (
+    _projection_frame_from_mapping,
+    _projection_frame_to_dict,
+)
 from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialGenerationTicket,
     _SpatialJobStore,
@@ -67,6 +71,11 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
             scope_key=cast(str, data.get("scope_key", "")),
             asset_refs=assets,
             reason=cast(str, data.get("reason", "")),
+            projection_frame=(
+                _projection_frame_from_mapping(data["projection_frame"])
+                if data.get("projection_frame") is not None
+                else None
+            ),
         )
 
     def _rows(self) -> dict[str, dict[str, object]]:
@@ -101,6 +110,11 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
                 "delivery_rights": ticket.delivery_rights,
                 "scope_key": ticket.scope_key,
                 "reason": ticket.reason,
+                "projection_frame": (
+                    _projection_frame_to_dict(ticket.projection_frame)
+                    if ticket.projection_frame is not None
+                    else None
+                ),
                 "asset_refs": [
                     {
                         "asset_id": ref.asset_id,
