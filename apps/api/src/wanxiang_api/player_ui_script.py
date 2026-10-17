@@ -145,6 +145,7 @@ function renderVisualPlaceList(scenes,galleryItems,visual){
   const generation=model.world?.world?.visual?.generation;
   $("visual-place-count").textContent=tr("visual_place_count",{visible:visible.length,total:matches.length})+(generation?` · ${tr("visual_budget_status",{used:Number(generation.deferred_used||0),limit:generation.deferred_limit})}`:"");
   $("visual-place-more").hidden=visible.length>=matches.length;
+  $("visual-place-more").textContent=tr("visual_place_more_count",{count:Math.max(0,matches.length-visible.length)});
   placeList.querySelectorAll("[data-generate-place]").forEach(node=>node.addEventListener("click",()=>generateVisualPlace(node.dataset.generatePlace||"")));
   placeList.querySelectorAll("[data-focus-place]").forEach(node=>node.addEventListener("click",()=>{const item=scenes.find(scene=>scene.place_name===node.dataset.focusPlace);if(item)focusDetailVisual(item,galleryItems)}));
 }

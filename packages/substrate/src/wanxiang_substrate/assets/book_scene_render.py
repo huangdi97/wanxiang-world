@@ -144,9 +144,13 @@ def _render_world_atlas(plan: _SourceVisualPlan) -> _SceneVisualAsset | None:
         )
 
     nodes: list[str] = []
+    evidence_by_place = {item.place_name: item for item in plan.place_evidence}
     for index, place in enumerate(visible_places):
         x, y = positions[place]
         label = escape(place[:18])
+        evidence = evidence_by_place.get(place)
+        if evidence is not None and evidence.source_count > 1:
+            label = f"{label} · ×{evidence.source_count}"
         hue = (accent_hue + index * 17) % 360
         nodes.append(
             f'<g transform="translate({x:.1f} {y:.1f})">'
@@ -180,7 +184,7 @@ def _render_world_atlas(plan: _SourceVisualPlan) -> _SceneVisualAsset | None:
  font-family="system-ui, Noto Sans SC, sans-serif" fill="#17323d">万相 · 叙事世界图谱</text>
 <text x="57" y="108" font-size="18"
  font-family="system-ui, Noto Sans SC, sans-serif" fill="#536a70">
-节点来自原文地点；连线只表达来源关系；关系不等于地理坐标
+节点来自原文地点；连线只表达来源关系；×N 表示多个来源同名合并；关系不等于地理坐标
 </text>
 {"".join(edges)}
 {"".join(nodes)}

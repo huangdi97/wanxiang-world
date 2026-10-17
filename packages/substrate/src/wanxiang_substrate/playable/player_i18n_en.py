@@ -133,6 +133,7 @@ STRINGS: dict[str, str] = {
     "visual_place_search_placeholder": "Search source places…",
     "visual_place_count": "Showing {visible} of {total} places",
     "visual_place_more": "Show more places",
+    "visual_place_more_count": "Show more ({count} left)",
     "visual_places_empty": "No matching place found",
     "visual_place_ready": "Scene ready",
     "visual_place_generate": "Generate scene",

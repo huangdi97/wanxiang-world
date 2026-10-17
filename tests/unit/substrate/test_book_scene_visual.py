@@ -13,6 +13,7 @@ from typing import cast
 
 import pytest
 from wanxiang_substrate.assets.book_scene_plan import (
+    _PlaceEvidence,
     _SourceSceneRequest,
     _SourceTopologyRelation,
     _SourceVisualPlan,
@@ -434,6 +435,24 @@ def test_world_atlas_uses_places_and_only_source_grounded_relations() -> None:
     assert "码头".encode() in atlas.content
     assert b"<line " in atlas.content
     assert "关系不等于地理坐标".encode() in atlas.content
+
+
+def test_world_atlas_marks_places_merged_from_multiple_sources() -> None:
+    plan = _SourceVisualPlan(
+        package_id="world:atlas-merged",
+        source_digest="e" * 64,
+        status="READY_FOR_ASSET_PROVIDER",
+        scene_requests=(_request("Harbor", "harbor"),),
+        deferred_scene_count=0,
+        place_names=("Harbor",),
+        place_evidence=(_PlaceEvidence("Harbor", 2, 0.8, 1, source_count=2),),
+    )
+
+    atlas = _render_world_atlas(plan)
+
+    assert atlas is not None
+    assert "Harbor · ×2".encode() in atlas.content
+    assert "×N 表示多个来源同名合并".encode() in atlas.content
 
 
 def test_world_atlas_discloses_places_beyond_the_first_screen() -> None:

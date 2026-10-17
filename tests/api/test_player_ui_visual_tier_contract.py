@@ -15,6 +15,7 @@ def test_player_script_renders_visual_tier_and_source_evidence_count() -> None:
     assert "visual_budget_status" in SCRIPT
     assert "visual?.generation" in SCRIPT
     assert "visual_sources_merged" in SCRIPT
+    assert "visual_place_more_count" in SCRIPT
 
 
 def test_visual_tier_copy_is_available_in_both_locales() -> None:
@@ -28,3 +29,4 @@ def test_visual_tier_copy_is_available_in_both_locales() -> None:
         assert "{used}" in copy.text("visual_budget_status")
         assert "{limit}" in copy.text("visual_budget_status")
         assert "{count}" in copy.text("visual_sources_merged")
+        assert "{count}" in copy.text("visual_place_more_count")

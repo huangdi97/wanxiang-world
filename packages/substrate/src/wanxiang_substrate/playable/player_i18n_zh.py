@@ -123,6 +123,7 @@ STRINGS: dict[str, str] = {
     "visual_place_search_placeholder": "搜索原文地点…",
     "visual_place_count": "已展示 {visible} / {total} 个地点",
     "visual_place_more": "展开更多地点",
+    "visual_place_more_count": "展开更多（还有 {count} 个）",
     "visual_places_empty": "没有找到匹配的地点",
     "visual_place_ready": "已有场景",
     "visual_place_generate": "生成场景",
