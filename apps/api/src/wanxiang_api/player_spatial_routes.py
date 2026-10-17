@@ -240,7 +240,12 @@ def player_poll_spatial_place(
                 status_code=409,
                 detail="verified spatial asset storage is unavailable",
             )
-        service.attach_spatial_assets(profile_id, ticket.scene_key, ticket.asset_refs)
+        service.attach_spatial_assets(
+            profile_id,
+            ticket.scene_key,
+            ticket.asset_refs,
+            projection_frame=ticket.projection_frame,
+        )
         catalog = cast(DerivedSpatialAttachments, request.app.state.spatial_asset_catalog)
         catalog.attach(ticket.scene_key, ticket.asset_refs)
         if ticket.state == "verified":

@@ -17,6 +17,7 @@ from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialArtifactCandidate,
     _SpatialGenerationProvider,
     _SpatialPollResult,
+    _SpatialProjectionFrame,
 )
 from wanxiang_substrate.playable.factory import profile_from_world_package
 
@@ -53,6 +54,13 @@ class _FakeSpatialProvider(_SpatialGenerationProvider):
                     "model/gltf-binary",
                     hashlib.sha256(content).hexdigest(),
                 ),
+            ),
+            projection_frame=_SpatialProjectionFrame(
+                up=(0.0, 1.0, 0.0),
+                forward=(0.0, 0.0, -1.0),
+                center=(1.0, 2.0, 3.0),
+                scale=0.5,
+                convention="api-test-frame",
             ),
         )
 
@@ -214,9 +222,12 @@ def test_t3_player_api_is_owner_only_idempotent_and_rehydrates_attachment() -> N
     assert asset.headers["cache-control"] == "private, no-store"
 
     scenes = body["world"]["visual"]["scenes"]
-    assert any(scene.get("spatial", {}).get("ready") is True for scene in scenes)
+    spatial_scene = next(scene for scene in scenes if scene.get("spatial", {}).get("ready") is True)
+    assert spatial_scene["spatial"]["projection_frame"]["convention"] == "api-test-frame"
+    assert spatial_scene["spatial"]["projection_frame"]["scale"] == 0.5
 
     app.state.playable._spatial_asset_refs.clear()
+    app.state.playable._spatial_projection_frames.clear()
     restored_list = client.get(endpoint, headers=owner)
     assert restored_list.status_code == 200
     assert restored_list.json()["rehydrated_attachments"] == 1
@@ -225,10 +236,14 @@ def test_t3_player_api_is_owner_only_idempotent_and_rehydrates_attachment() -> N
         headers=owner,
     )
     restored_scenes = restored_world.json()["world"]["visual"]["scenes"]
-    assert any(scene.get("spatial", {}).get("ready") is True for scene in restored_scenes)
+    restored_scene = next(
+        scene for scene in restored_scenes if scene.get("spatial", {}).get("ready") is True
+    )
+    assert restored_scene["spatial"]["projection_frame"]["convention"] == "api-test-frame"
     assert provider.polls == ["provider-secret-task-ref"]
 
     app.state.playable._spatial_asset_refs.clear()
+    app.state.playable._spatial_projection_frames.clear()
     restored = client.get(f"{endpoint}/{submission_id}", headers=owner)
     assert restored.status_code == 200
     assert restored.json()["spatial"]["state"] == "attached"

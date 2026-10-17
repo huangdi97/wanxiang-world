@@ -31,6 +31,7 @@ def rehydrate_spatial_attachments(
     jobs = cast(SpatialJobStore, request.app.state.spatial_asset_jobs)
     objects = cast(ObjectStore, request.app.state.spatial_asset_objects)
     existing = service.spatial_assets(profile_id, viewer_id=viewer_id)
+    existing_frames = service.spatial_projection_frames(profile_id, viewer_id=viewer_id)
     restored = 0
     unavailable = 0
     for ticket in jobs.list_scope(profile_id):
@@ -40,7 +41,10 @@ def rehydrate_spatial_attachments(
             or not source_scene_key_allowed(package, ticket.scene_key)
         ):
             continue
-        if existing.get(ticket.scene_key) == ticket.asset_refs:
+        if (
+            existing.get(ticket.scene_key) == ticket.asset_refs
+            and existing_frames.get(ticket.scene_key) == ticket.projection_frame
+        ):
             continue
         try:
             if not all(len(objects.get(ref)) == ref.size for ref in ticket.asset_refs):
@@ -49,6 +53,11 @@ def rehydrate_spatial_attachments(
         except (AssetNotFound, AssetCorrupt):
             unavailable += 1
             continue
-        service.attach_spatial_assets(profile_id, ticket.scene_key, ticket.asset_refs)
+        service.attach_spatial_assets(
+            profile_id,
+            ticket.scene_key,
+            ticket.asset_refs,
+            projection_frame=ticket.projection_frame,
+        )
         restored += 1
     return (restored, unavailable)

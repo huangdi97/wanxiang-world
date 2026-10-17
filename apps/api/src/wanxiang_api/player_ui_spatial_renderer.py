@@ -30,12 +30,12 @@ async function activate(){
   };
   host.hidden=false;host.replaceChildren();
   try{
-    const cleanup=await r.mount({container:host,placeName:scene.place_name||"",mediaTypes:[...(scene.spatial.media_types||[])],assetCount,loadAsset});
+    const cleanup=await r.mount({container:host,placeName:scene.place_name||"",mediaTypes:[...(scene.spatial.media_types||[])],assetCount,projectionFrame:scene.spatial.projection_frame||null,loadAsset});
     state.cleanup=typeof cleanup==="function"?cleanup:null;state.active=true;setButton(true,true);return true
   }catch(error){await deactivate();throw error}
 }
 function sync(scene,profile,headers){
-  const key=`${profile||""}:${scene?.place_name||""}:${scene?.spatial?.asset_count||0}:${(scene?.spatial?.media_types||[]).join(",")}`,changed=key!==state.key,wasActive=state.active;
+  const frameKey=JSON.stringify(scene?.spatial?.projection_frame||null),key=`${profile||""}:${scene?.place_name||""}:${scene?.spatial?.asset_count||0}:${(scene?.spatial?.media_types||[]).join(",")}:${frameKey}`,changed=key!==state.key,wasActive=state.active;
   state.key=key;state.scene=scene||null;state.profile=profile||"";state.headers=headers||{};
   const available=canRender(state.scene);setButton(available,state.active);
   if(!available&&state.active){void deactivate();return}

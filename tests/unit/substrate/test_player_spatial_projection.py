@@ -9,6 +9,7 @@ from typing import cast
 
 from tests.unit.substrate.test_book_scene_plan import package_from_book
 from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
+from wanxiang_substrate.assets.book_spatial_types import _SpatialProjectionFrame
 from wanxiang_substrate.assets.storage import AssetRef
 from wanxiang_substrate.playable import PlayableService
 from wanxiang_substrate.playable.models import PlayableWorldProfile
@@ -128,3 +129,42 @@ def test_spatial_attachment_cannot_upgrade_source_gated_rights_to_public() -> No
 
     _attach_spatial_assets(service, "profile", request.stable_key, (gated_ref,))
     assert service._spatial_asset_refs["profile"][request.stable_key] == (gated_ref,)
+
+def test_player_world_detail_projects_verified_t3_frame_without_storage_identity() -> None:
+    package = package_from_book("spatial-frame", ("钟楼",))
+    request = _plan_book_scene_assets(package).scene_requests[0]
+    ref = AssetRef(
+        asset_id="private-object",
+        content_hash="d" * 64,
+        size=256,
+        content_type="model/ply",
+        rights="source-gated",
+    )
+    frame = _SpatialProjectionFrame(
+        up=(0.0, 1.0, 0.0),
+        forward=(0.0, 0.0, -1.0),
+        center=(1.0, 2.0, 3.0),
+        scale=0.25,
+        convention="provider-frame-v1",
+    )
+
+    detail = player_world_detail(
+        _profile(),
+        package,
+        include_visual=True,
+        spatial_assets={request.stable_key: (ref,)},
+        spatial_frames={request.stable_key: frame},
+    )
+
+    visual = cast(dict[str, object], detail["visual"])
+    scene = cast(list[dict[str, object]], visual["scenes"])[0]
+    spatial = cast(dict[str, object], scene["spatial"])
+    assert spatial["projection_frame"] == {
+        "up": [0.0, 1.0, 0.0],
+        "forward": [0.0, 0.0, -1.0],
+        "center": [1.0, 2.0, 3.0],
+        "scale": 0.25,
+        "convention": "provider-frame-v1",
+    }
+    assert "private-object" not in str(spatial)
+    assert "d" * 64 not in str(spatial)
