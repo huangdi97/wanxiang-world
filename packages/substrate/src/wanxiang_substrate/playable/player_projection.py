@@ -31,10 +31,10 @@ from wanxiang_substrate.playable.player_projection_support import (
     _entity_fields,
     _entity_name,
     _event_card,
-    _first_text,
     _first_text_from_entities,
     _is_person,
     _known_people_cards,
+    _location_text,
     _narrative,
     _opportunity_cards,
     _person_card,
@@ -85,7 +85,7 @@ def player_observation(
     relations = [_relation_card(item, names, actor_id, copy) for item in state_relations]
     actor = next((item for item in entities if item.entity_id.value == actor_id), None)
     actor_fields = _entity_fields(actor)
-    canonical_location = _first_text(actor_fields, ("location", "place"))
+    canonical_location = _location_text(actor_fields)
     location = canonical_location or actor_starting_location or None
     person_entities = tuple(entity for entity in entities if _is_person(entity))
     person_cards = [_person_card(entity, copy) for entity in person_entities]
@@ -108,9 +108,7 @@ def player_observation(
     player = {
         "name": actor_name or (_entity_name(actor, copy) if actor else copy.text("your_character")),
         "status": _status_label(actor_fields, copy),
-        "location": _first_text(actor_fields, ("location", "place"))
-        or actor_starting_location
-        or None,
+        "location": _location_text(actor_fields) or actor_starting_location or None,
         "items": _actor_owned_entities(entities, {"item", "object", "material"}, copy, actor_id),
         "goals": _actor_owned_entities(
             entities, {"task", "opportunity", "challenge"}, copy, actor_id

@@ -119,6 +119,18 @@ def test_person_cards_preserve_unknown_location() -> None:
     assert person["location"] is None
 
 
+def test_birth_place_is_not_current_presence() -> None:
+    copy = _copy_for("zh-CN")
+    born = _entity_with_fields(
+        "born",
+        "person",
+        {"name": "Born", "place_of_birth": "Garden"},
+    )
+
+    assert _person_card(born, copy)["location"] is None
+    assert _known_people_cards((born,), (), "", "Garden", copy) == []
+
+
 def test_known_people_are_actor_scoped_and_remote_live_state_is_redacted() -> None:
     copy = _copy_for("zh-CN")
     alice = _entity("actor-alice", "person", location="Garden")

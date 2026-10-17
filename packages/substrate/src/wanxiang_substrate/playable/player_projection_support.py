@@ -86,6 +86,18 @@ def _first_text_from_entities(
     return None
 
 
+_LOCATION_LEAVES = {"location", "current_location", "place", "current_place"}
+
+
+def _location_text(fields: dict[str, FieldValue]) -> str | None:
+    """Exact leaf names only: place_of_birth must never claim current presence."""
+    for key, value in fields.items():
+        leaf = key.rsplit(".", 1)[-1]
+        if leaf in _LOCATION_LEAVES and isinstance(value, str) and value.strip():
+            return value.strip()
+    return None
+
+
 def _status_label(fields: dict[str, FieldValue], copy: _PlayerCopy) -> str | None:
     value = _first_text(fields, ("status.value", "status"))
     return copy.text(_STATUS_KEYS[value]) if value in _STATUS_KEYS else value
@@ -97,7 +109,7 @@ def _person_card(entity: EntityState, copy: _PlayerCopy) -> dict[str, object]:
         "name": _entity_name(entity, copy),
         "role": _first_text(fields, ("role", "occupation")),
         "status": _status_label(fields, copy),
-        "location": _first_text(fields, ("location", "place")),
+        "location": _location_text(fields),
     }
 
 
