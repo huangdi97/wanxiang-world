@@ -537,7 +537,6 @@
     "wanxiang_substrate.BodyQuery",
     "wanxiang_substrate.BookAdapter",
     "wanxiang_substrate.BoundedSimulation",
-    "wanxiang_substrate.BranchFork",
     "wanxiang_substrate.BranchIsolationProof",
     "wanxiang_substrate.BranchResult",
     "wanxiang_substrate.BudgetAlert",
