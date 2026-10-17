@@ -62,6 +62,7 @@ class PlayableService:
         self._visual_cache = visual_cache or _VisualAssetCache()
         self._visual_assets: dict[str, tuple[_SceneVisualAsset, ...]] = {}
         self._visual_asset_refs: dict[str, tuple[AssetRef, ...]] = {}
+        self._deferred_visual_calls: dict[str, int] = {}
         self._spatial_asset_refs: dict[str, dict[str, tuple[AssetRef, ...]]] = {}
         self._spatial_projection_frames: dict[str, dict[str, _SpatialProjectionFrame]] = {}
         self.plaza = WorldPlaza(self.store)
@@ -109,6 +110,7 @@ class PlayableService:
         provider: _SceneImageProvider | None = None,
         allow_network: bool = False,
         max_cost_units: int = 0,
+        max_deferred_generations: int = 0,
         fallback_to_t0: bool = True,
     ) -> _VisualMaterialization:
         return _materialize_visual_place(
@@ -119,6 +121,7 @@ class PlayableService:
             provider=provider,
             allow_network=allow_network,
             max_cost_units=max_cost_units,
+            max_deferred_generations=max_deferred_generations,
             fallback_to_t0=fallback_to_t0,
         )
 

@@ -221,6 +221,10 @@ def create_app(
     app.state.visual_asset_provider = visual_provider
     app.state.visual_asset_allow_network = visual_allow_network
     app.state.visual_asset_max_cost_units = visual_max_cost_units
+    app.state.visual_asset_max_deferred_generations = max(
+        0,
+        int(os.environ.get("WANXIANG_VISUAL_MAX_DEFERRED_GENERATIONS", "24") or 24),
+    )
     app.state.panorama_asset_provider = panorama_provider
     app.state.panorama_asset_allow_network = panorama_allow_network
     app.state.panorama_asset_max_cost_units = panorama_max_cost_units

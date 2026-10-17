@@ -7,7 +7,9 @@ from __future__ import annotations
 from types import SimpleNamespace
 from typing import cast
 
+import pytest
 from tests.unit.substrate.test_book_scene_plan import package_from_book
+from wanxiang_domain.errors import ContractError
 from wanxiang_substrate.assets.book_scene_cache import VisualAssetCache
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
 from wanxiang_substrate.assets.book_scene_render import _ProceduralSvgSceneProvider
@@ -67,8 +69,85 @@ def _service() -> PlayableService:
             _visual_cache=VisualAssetCache(),
             _visual_assets={},
             _visual_asset_refs={},
+            _deferred_visual_calls={},
         ),
     )
+
+
+def test_owner_deferred_provider_calls_are_capped_but_cache_hits_stay_free() -> None:
+    package = package_from_book(
+        "budget-world",
+        ("Garden", "Harbor"),
+        compiler_metadata={
+            "visual_asset_rights_v1": "public",
+            "external_visual_processing_allowed_v1": "true",
+            "visual_private_source_v1": "false",
+        },
+    )
+    service = cast(
+        PlayableService,
+        SimpleNamespace(
+            plaza=_Plaza(),
+            _packages={"profile": package},
+            _visual_cache=VisualAssetCache(),
+            _visual_assets={},
+            _visual_asset_refs={},
+            _deferred_visual_calls={},
+        ),
+    )
+    provider = _CountingProvider()
+
+    first = _materialize_visual_place(
+        service,
+        "profile",
+        "Garden",
+        viewer_id="owner",
+        provider=provider,
+        allow_network=True,
+        max_cost_units=5,
+        max_deferred_generations=1,
+    )
+    assert first.provider_calls == 1
+
+    with pytest.raises(ContractError, match="on-demand visual budget"):
+        _materialize_visual_place(
+            service,
+            "profile",
+            "Harbor",
+            viewer_id="owner",
+            provider=provider,
+            allow_network=True,
+            max_cost_units=5,
+            max_deferred_generations=1,
+        )
+    assert provider.calls == 1
+
+    again = _materialize_visual_place(
+        service,
+        "profile",
+        "Garden",
+        viewer_id="owner",
+        provider=provider,
+        allow_network=True,
+        max_cost_units=5,
+        max_deferred_generations=1,
+    )
+    assert again.cache_hits == 1
+    assert provider.calls == 1
+
+    visitor = _materialize_visual_place(
+        service,
+        "profile",
+        "Harbor",
+        viewer_id="visitor",
+        provider=provider,
+        allow_network=True,
+        max_cost_units=5,
+        max_deferred_generations=1,
+    )
+    assert visitor.cost_units == 0
+    assert visitor.fallback_reason == "provider_generation_not_allowed"
+    assert provider.calls == 1
 
 
 def test_public_viewer_falls_back_locally_instead_of_creating_provider_spend() -> None:

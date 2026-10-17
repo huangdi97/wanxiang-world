@@ -19,6 +19,7 @@ def test_visual_composition_defaults_to_local_zero_budget_without_provider(
     assert app.state.visual_asset_provider is None
     assert app.state.visual_asset_allow_network is False
     assert app.state.visual_asset_max_cost_units == 0
+    assert app.state.visual_asset_max_deferred_generations == 24
 
 
 def test_visual_composition_accepts_explicit_provider_cache_and_budget() -> None:
@@ -57,6 +58,7 @@ def test_visual_composition_builds_http_provider_from_environment(
     monkeypatch.setenv("WANXIANG_VISUAL_COST_UNITS", "3")
     monkeypatch.setenv("WANXIANG_VISUAL_PROVIDER_ID", "gateway:test")
     monkeypatch.setenv("WANXIANG_VISUAL_PROVIDER_VERSION", "2026-10")
+    monkeypatch.setenv("WANXIANG_VISUAL_MAX_DEFERRED_GENERATIONS", "5")
 
     app = create_app()
 
@@ -66,6 +68,7 @@ def test_visual_composition_builds_http_provider_from_environment(
     assert app.state.visual_asset_provider.cost_units_per_asset == 3
     assert app.state.visual_asset_allow_network is True
     assert app.state.visual_asset_max_cost_units == 9
+    assert app.state.visual_asset_max_deferred_generations == 5
 
 
 def test_visual_composition_rejects_remote_http_or_network_without_endpoint(

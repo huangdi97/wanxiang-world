@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from wanxiang_domain.errors import NotFound
+from wanxiang_domain.errors import ContractError, NotFound
 
 from wanxiang_substrate.assets.book_scene_identity import _source_scene_key
 from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
@@ -141,6 +141,7 @@ def _materialize_visual_place(
     provider: _SceneImageProvider | None = None,
     allow_network: bool = False,
     max_cost_units: int = 0,
+    max_deferred_generations: int = 0,
     fallback_to_t0: bool = True,
 ) -> _VisualMaterialization:
     profile = service.plaza.require_access(profile_id, viewer_id)
@@ -160,6 +161,20 @@ def _materialize_visual_place(
     )
     if not plan.scene_requests or plan.scene_requests[0].place_name != normalized_place:
         raise NotFound(f"visual place {place_name!r} not found")
+    if max_deferred_generations < 0:
+        raise ValueError("deferred visual budget must be non-negative")
+
+    request = plan.scene_requests[0]
+    owner = bool(profile.owner_id) and viewer_id == profile.owner_id
+    deferred_calls = service._deferred_visual_calls
+    if (
+        owner
+        and provider is not None
+        and max_deferred_generations > 0
+        and deferred_calls.get(profile_id, 0) >= max_deferred_generations
+        and service._visual_cache.get_for(request, provider, rights=plan.delivery_rights) is None
+    ):
+        raise ContractError("world on-demand visual budget exhausted")
 
     materializer = _materialize_product_visual_plan if fallback_to_t0 else _materialize_visual_plan
     materialized = materializer(
@@ -174,6 +189,8 @@ def _materialize_visual_place(
         rights=plan.delivery_rights,
         allow_provider_generation=bool(profile.owner_id) and viewer_id == profile.owner_id,
     )
+    if owner and provider is not None and materialized.provider_calls > 0:
+        deferred_calls[profile_id] = deferred_calls.get(profile_id, 0) + materialized.provider_calls
     combined: dict[str, tuple[_SceneVisualAsset, AssetRef]] = {
         asset.scene_key: (asset, ref)
         for asset, ref in zip(

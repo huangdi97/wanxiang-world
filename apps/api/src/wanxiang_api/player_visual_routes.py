@@ -54,6 +54,7 @@ def player_materialize_visual_place(
         provider=provider,
         allow_network=bool(request.app.state.visual_asset_allow_network),
         max_cost_units=int(request.app.state.visual_asset_max_cost_units),
+        max_deferred_generations=int(request.app.state.visual_asset_max_deferred_generations),
     )
     return {
         "locale": locale,
