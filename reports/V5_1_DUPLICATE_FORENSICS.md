@@ -19,7 +19,7 @@
 | packages/substrate/src/wanxiang_substrate/lineage/presence.py | PresenceRegistry | 71 |
 | packages/substrate/src/wanxiang_substrate/packages/registry.py | PackageRegistry | 15 |
 | packages/substrate/src/wanxiang_substrate/packages/registry.py | InMemoryPackageRegistry | 24 |
-| packages/substrate/src/wanxiang_substrate/preview/scope.py | PreviewRegistry | 26 |
+| packages/substrate/src/wanxiang_substrate/preview/scope.py | PreviewRegistry | 38 |
 | packages/substrate/src/wanxiang_substrate/resolution/registry.py | AdjudicatorRegistry | 15 |
 | packages/substrate/src/wanxiang_substrate/skills/registry.py | SkillRegistry | 13 |
 | packages/substrate/src/wanxiang_substrate/sources/adapter.py | AdapterRegistry | 114 |
@@ -217,11 +217,9 @@
 | packages/substrate/src/wanxiang_substrate/world_lab/physical_provider.py | PhysicalWorldProvider | 12 |
 | packages/substrate/src/wanxiang_substrate/world_lab/visual_provider.py | VisualWorldProvider | 15 |
 
-## oversized_modules (1)
+## oversized_modules (0)
 
-| path | loc | limit |
-|---|---|---|
-| packages/substrate/src/wanxiang_substrate/playable/player_i18n_en.py | 309 | 300 |
+(none)
 
 ## commit_paths (1)
 
