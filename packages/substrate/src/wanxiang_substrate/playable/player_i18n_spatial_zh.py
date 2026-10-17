@@ -33,5 +33,5 @@ _SPATIAL_STRINGS: dict[str, str] = {
     "spatial_upgrade_state_cancelled": "已取消",
     "spatial_upgrade_state_expired": "已过期",
     "status_spatial_submitted": "{place} 的空间场景任务已提交；你可以继续使用当前世界。",
-    "status_spatial_refreshed": "空间场景状态已刷新。"
+    "status_spatial_refreshed": "空间场景状态已刷新。",
 }
