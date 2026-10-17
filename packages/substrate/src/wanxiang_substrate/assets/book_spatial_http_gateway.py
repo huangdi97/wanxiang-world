@@ -23,6 +23,7 @@ from wanxiang_substrate.assets.book_scene_prompt import (
     _compile_scene_generation_brief,
     _story_visual_profile_from_style_key,
 )
+from wanxiang_substrate.assets.book_spatial_frame import _projection_frame_from_mapping
 from wanxiang_substrate.assets.book_spatial_http_transport import (
     _bounded_read,
     _validate_endpoint,
@@ -241,7 +242,18 @@ class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
         if len(artifact_rows) > _MAX_ARTIFACTS:
             raise ValueError("spatial HTTP gateway returned invalid artifact list")
         artifacts = tuple(self._artifact(item) for item in artifact_rows)
-        return _SpatialPollResult("succeeded", artifacts, reason[:2000])
+        raw_frame = body.get("projection_frame")
+        projection_frame = (
+            None
+            if raw_frame is None
+            else _projection_frame_from_mapping(raw_frame)
+        )
+        return _SpatialPollResult(
+            "succeeded",
+            artifacts,
+            reason[:2000],
+            projection_frame,
+        )
 
 
 def _build_http_spatial_provider(
