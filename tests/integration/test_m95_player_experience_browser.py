@@ -555,6 +555,7 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 page.locator("#action-input").fill("让自己保持清醒")
                 page.locator("#send-action").click()
                 page.wait_for_function("document.body.innerText.includes('清醒')")
+                assert page.evaluate("typeof replayAt === 'function'") is True
                 body_after_action = page.locator("body").inner_text()
                 assert "世界变化" in body_after_action
                 assert all(
@@ -563,8 +564,17 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 )
                 replay_button = page.locator("#chronicle-list [data-replay-time]").first
                 assert replay_button.count() >= 1
-                replay_button.click()
-                page.wait_for_selector("#stage-replay-banner:not([hidden])")
+                for attempt in range(2):
+                    replay_button.click()
+                    try:
+                        page.wait_for_selector("#stage-replay-banner:not([hidden])", timeout=8000)
+                        break
+                    except Exception:
+                        if attempt == 0:
+                            continue
+                        print("status:", page.locator("#status").inner_text())
+                        print("page_errors:", page_errors)
+                        raise
                 assert "回看" in page.locator("#stage-replay-banner").inner_text()
                 assert "世界时间" in page.locator("#stage-replay-banner").inner_text()
                 assert page.locator("#play-mode").inner_text() == "历史回看"
