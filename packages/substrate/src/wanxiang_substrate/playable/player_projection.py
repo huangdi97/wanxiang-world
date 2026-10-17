@@ -22,6 +22,7 @@ from wanxiang_substrate.assets.book_scene_visual import (
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.playable.models import PlayableWorldProfile
 from wanxiang_substrate.playable.player_i18n import _copy_for
+from wanxiang_substrate.playable.player_memory import _memory_cards
 from wanxiang_substrate.playable.player_projection_support import (
     _actor_owned_entities,
     _actor_relation_cards,
@@ -34,7 +35,6 @@ from wanxiang_substrate.playable.player_projection_support import (
     _first_text_from_entities,
     _is_person,
     _known_people_cards,
-    _memory_cards,
     _narrative,
     _opportunity_cards,
     _person_card,

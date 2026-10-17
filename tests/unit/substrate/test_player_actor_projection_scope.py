@@ -10,6 +10,7 @@ from wanxiang_domain.entity import ComponentData, EntityState
 from wanxiang_domain.ids import ComponentId, EntityId
 from wanxiang_domain.versions import SchemaVersion
 from wanxiang_substrate.playable.player_i18n import _copy_for
+from wanxiang_substrate.playable.player_memory import _memory_cards
 from wanxiang_substrate.playable.player_projection_support import (
     _actor_owned_entities,
     _event_card,
@@ -41,6 +42,53 @@ def _entity(
         entity_type=kind,
         components={component.component_id: component},
     )
+
+
+def _entity_with_fields(identity: str, kind: str, fields: dict[str, str]) -> EntityState:
+    component = ComponentData(
+        component_id=ComponentId(f"component-{identity}"),
+        component_type=kind,
+        schema_version=SchemaVersion(1),
+        fields=fields,
+    )
+    return EntityState(
+        entity_id=EntityId(identity),
+        entity_type=kind,
+        components={component.component_id: component},
+    )
+
+
+def test_conflicting_owner_fields_never_widen_actor_scope() -> None:
+    copy = _copy_for("zh-CN")
+    conflicting = _entity_with_fields(
+        "conflict-task",
+        "task",
+        {"name": "conflict", "owner_id": "actor-bob", "actor_id": "actor-alice"},
+    )
+
+    assert _opportunity_cards((conflicting,), copy, "actor-alice") == []
+    assert _opportunity_cards((conflicting,), copy, "") == []
+
+    item = _entity_with_fields(
+        "conflict-item",
+        "item",
+        {"name": "relic", "holder_id": "actor-alice", "owner_id": "actor-bob"},
+    )
+    assert _actor_owned_entities((item,), {"item"}, copy, "actor-alice") == []
+
+    event = _entity_with_fields(
+        "conflict-event",
+        "event",
+        {"name": "secret", "actor_id": "actor-bob", "owner_id": "actor-alice"},
+    )
+    assert _event_card((event,), {}, copy, "actor-alice") is None
+
+    memory = _entity_with_fields(
+        "conflict-memory",
+        "memory",
+        {"content": "secret", "actor_id": "actor-bob", "owner_id": "actor-alice"},
+    )
+    assert _memory_cards((memory,), "actor-alice") == []
 
 
 def test_unowned_and_other_actor_objects_are_not_player_possessions() -> None:

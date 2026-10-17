@@ -5,7 +5,7 @@
 from wanxiang_domain.entity import ComponentData, EntityState
 from wanxiang_domain.ids import ComponentId, EntityId
 from wanxiang_domain.versions import SchemaVersion
-from wanxiang_substrate.playable.player_projection_support import _memory_cards
+from wanxiang_substrate.playable.player_memory import _memory_cards
 
 
 def _memory(identity: str, owner_id: str | None, content: str) -> EntityState:

@@ -157,17 +157,25 @@ def _relation_card(
     }
 
 
-def _private_owner(entity: EntityState) -> str | None:
-    """Return the actor a record is scoped to, if any; world-level records have none."""
+_OWNER_TOKENS = ("actor_id", "owner_id", "holder_id", "assignee_id")
 
-    return _first_text(_entity_fields(entity), ("actor_id", "owner_id", "holder_id", "assignee_id"))
+
+def _private_owners(entity: EntityState) -> set[str]:
+    """All explicit owner fields; conflicting owners must never widen access."""
+
+    fields = _entity_fields(entity)
+    return {
+        value.strip()
+        for key, value in fields.items()
+        if any(token in key for token in _OWNER_TOKENS) and isinstance(value, str) and value.strip()
+    }
 
 
 def _visible_to_actor(entity: EntityState, actor_id: str) -> bool:
     """World-level records are public; owner-scoped records belong only to their owner."""
 
-    owner = _private_owner(entity)
-    return owner is None or (bool(actor_id) and owner == actor_id)
+    owners = _private_owners(entity)
+    return not owners or (bool(actor_id) and owners == {actor_id})
 
 
 def _event_card(
@@ -212,29 +220,6 @@ def _opportunity_cards(
     return result
 
 
-def _memory_cards(entities: tuple[EntityState, ...], actor_id: str) -> list[str]:
-    # An observer, or a session without an identified actor, has no private
-    # memory scope. Do not infer permission from an absent owner field.
-    if not actor_id:
-        return []
-    result: list[str] = []
-    for entity in entities:
-        kinds = {entity.entity_type.casefold()}
-        kinds.update(
-            component.component_type.casefold() for component in entity.components.values()
-        )
-        if not any("memory" in kind or "knowledge" in kind or "belief" in kind for kind in kinds):
-            continue
-        fields = _entity_fields(entity)
-        owner = _first_text(fields, ("actor_id", "owner_id"))
-        if owner != actor_id:
-            continue
-        text = _first_text(fields, ("content", "text", "summary", "description"))
-        if text:
-            result.append(text)
-    return result
-
-
 def _actor_owned_entities(
     entities: tuple[EntityState, ...], types: set[str], copy: _PlayerCopy, actor_id: str
 ) -> list[str]:
@@ -244,7 +229,7 @@ def _actor_owned_entities(
     return [
         _entity_name(entity, copy)
         for entity in entities
-        if entity.entity_type.casefold() in types and _private_owner(entity) == actor_id
+        if entity.entity_type.casefold() in types and _private_owners(entity) == {actor_id}
     ]
 
 
