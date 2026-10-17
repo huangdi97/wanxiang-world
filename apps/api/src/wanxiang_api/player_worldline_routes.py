@@ -23,6 +23,17 @@ def _service(request: Request) -> PlayableService:
     return cast(PlayableService, service)
 
 
+@router.get("/instances/{instance_id}/worldlines")
+def player_list_worldlines(
+    instance_id: str,
+    request: Request,
+    x_wanxiang_user: str | None = Header(default=None),
+) -> dict[str, object]:
+    """List the viewer's playable worldlines of this runtime instance."""
+    viewer = _viewer(x_wanxiang_user)
+    return _service(request).worldlines(instance_id, viewer_id=viewer)
+
+
 @router.post("/instances/{instance_id}/fork")
 def player_fork_worldline(
     instance_id: str,

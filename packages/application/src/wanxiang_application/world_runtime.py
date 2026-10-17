@@ -225,6 +225,10 @@ class WorldRuntime:
         """Committed events along the branch ancestry, oldest first."""
         return _worldline_events(self.persistence, instance_id, branch_id)
 
+    def worldline_branches(self, instance_id: WorldInstanceId) -> tuple[BranchMetadata, ...]:
+        """All branches of one runtime instance, ordered by branch id."""
+        return self.persistence.branches.list(instance_id)
+
     def create_checkpoint(
         self, instance_id: WorldInstanceId, branch_id: BranchId
     ) -> SnapshotMetadata:

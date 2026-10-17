@@ -247,6 +247,21 @@ def test_worldline_fork_preserves_parent_and_diverges_independently() -> None:
     child_before_continue = playable.observe(child, "alice")
     assert child_before_continue["state_hash"] == parent_before["state_hash"]
 
+    listing = playable.worldlines(child, viewer_id="alice")
+    cards = cast(list[dict[str, object]], listing["worldlines"])
+    assert {str(card["instance_id"]) for card in cards} == {parent, child}
+    assert listing["branches"] == 2
+    child_card = next(card for card in cards if card["instance_id"] == child)
+    parent_card = next(card for card in cards if card["instance_id"] == parent)
+    assert child_card["current"] is True
+    assert parent_card["current"] is False
+    assert child_card["forked_from_revision"] is not None
+    parent_record = playable.store.get_instance(parent)
+    parent_events = playable.runtime.events(
+        WorldInstanceId(record.runtime_instance_id), BranchId(parent_record.branch_id)
+    )
+    assert child_card["world_time"] == parent_events[-1].world_time.ticks
+
     playable.leave(parent, viewer_id="alice")
     playable.continue_instance(child, viewer_id="alice")
     child_action = playable.action(child, viewer_id="alice", text="让自己保持警觉")

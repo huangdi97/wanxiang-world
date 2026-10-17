@@ -611,6 +611,14 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 page.locator('[data-filter="all"]').click()
                 page.locator("#continue-slot [data-continue]").click()
                 page.wait_for_selector("#play-view.is-active")
+                page.locator("#worldline-toggle").click()
+                page.wait_for_selector("#worldline-panel:not([hidden])")
+                assert page.locator("#worldline-list li").count() == 2
+                page.locator(f'[data-switch-worldline="{forked_instance}"]').click()
+                page.wait_for_function(f'model.instanceId === "{forked_instance}"')
+                page.wait_for_function(
+                    "document.querySelector('#status')?.textContent.includes('已切换')"
+                )
                 page.set_viewport_size({"width": 390, "height": 844})
                 mobile_stage_box = page.locator("#world-stage").bounding_box()
                 mobile_dock_box = page.locator(".world-action-dock").bounding_box()

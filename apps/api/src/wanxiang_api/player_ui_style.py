@@ -156,4 +156,14 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 .chronicle-replay:focus-visible{outline:2px solid var(--cobalt);outline-offset:2px}
 .record-heading-end{display:flex;align-items:baseline;gap:.55rem}
 .chronicle-expand{font-size:.74rem;color:var(--cobalt);padding:.15rem .3rem;font-weight:850}
+.worldline-panel{margin:.7rem 0;padding:.8rem .95rem;border:1px solid #c8d7d2;border-radius:12px;background:#f7fbf9;color:var(--ink)}
+.worldline-panel[hidden]{display:none}
+.worldline-heading{display:flex;align-items:center;justify-content:space-between;gap:.8rem;margin-bottom:.45rem}
+.worldline-heading strong{font-size:.86rem}
+#worldline-list li{display:flex;align-items:center;justify-content:space-between;gap:.8rem;padding:.55rem 0;border-bottom:1px solid #dde8e3}
+#worldline-list li:last-child{border-bottom:0}
+.worldline-copy{display:grid;gap:.15rem;min-width:0}
+.worldline-copy strong{font-size:.84rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.worldline-copy .muted{font-size:.72rem}
+.worldline-badge{padding:.1rem .4rem;border-radius:999px;background:var(--cobalt);color:#fff;font-size:.64rem;font-weight:850}
 """

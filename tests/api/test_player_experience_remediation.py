@@ -371,6 +371,25 @@ def test_player_worldline_fork_returns_a_detached_branch_handle() -> None:
         == 404
     )
 
+    listing = client.get(
+        f"/experience/player/instances/{child}/worldlines",
+        headers=HEADERS,
+    )
+    assert listing.status_code == 200
+    cards = cast(list[dict[str, Any]], listing.json()["worldlines"])
+    assert {str(card["instance_id"]) for card in cards} == {instance_id, child}
+    assert listing.json()["branches"] == 2
+    child_card = next(card for card in cards if card["instance_id"] == child)
+    assert child_card["current"] is True
+    assert child_card["forked_from_revision"] is not None
+    assert (
+        client.get(
+            f"/experience/player/instances/{child}/worldlines",
+            headers={"X-Wanxiang-User": "someone-else"},
+        ).status_code
+        == 404
+    )
+
     assert (
         client.post(
             f"/experience/player/instances/{instance_id}/leave",

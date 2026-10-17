@@ -86,6 +86,11 @@
         "operationId": "player_replay_instance_experience_player_instances__instance_id__replay_get"
       }
     },
+    "/experience/player/instances/{instance_id}/worldlines": {
+      "get": {
+        "operationId": "player_list_worldlines_experience_player_instances__instance_id__worldlines_get"
+      }
+    },
     "/experience/player/plaza": {
       "get": {
         "operationId": "player_plaza_experience_player_plaza_get"
