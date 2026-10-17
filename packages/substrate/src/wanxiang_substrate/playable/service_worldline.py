@@ -39,7 +39,10 @@ def _fork_worldline(
         parent_branch,
         fork_revision=head.revision,
     )
-    handle = child.branch_id.value
+    branch_id = getattr(child, "branch_id", None)
+    if not isinstance(branch_id, BranchId):
+        raise ValueError("runtime returned an invalid branch handle")
+    handle = branch_id.value
     service.store.save_instance(
         ExperienceInstanceRecord(
             instance_id=handle,

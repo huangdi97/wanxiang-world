@@ -27,13 +27,6 @@ class WorldCreateResult:
     root_branch_id: BranchId
 
 
-class BranchFork(Protocol):
-    """Substrate-local shape of a forked branch handle."""
-
-    @property
-    def branch_id(self) -> BranchId: ...
-
-
 class WorldRuntimePort(Protocol):
     """The slice of the authoritative application runtime substrate may use."""
 
@@ -51,7 +44,7 @@ class WorldRuntimePort(Protocol):
         parent_branch_id: BranchId,
         *,
         fork_revision: BranchRevision | None = None,
-    ) -> BranchFork: ...
+    ) -> object: ...
 
     def submit_command(self, command: CommandEnvelope) -> object: ...
 
