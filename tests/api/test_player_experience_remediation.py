@@ -398,6 +398,7 @@ def test_player_worldline_fork_returns_a_detached_branch_handle() -> None:
     assert shared_body["common"]["revision"] == child_card["forked_from_revision"]
     assert shared_body["diverged_events"] == {"left": 0, "right": 0}
     assert shared_body["differences"] == {"total": 0, "truncated": False, "items": []}
+    assert shared_body["recent"]["left"] == shared_body["recent"]["right"]
     assert (
         client.get(
             f"/experience/player/instances/{child}/worldlines",
@@ -446,6 +447,9 @@ def test_player_worldline_fork_returns_a_detached_branch_handle() -> None:
     assert diverged_body["diverged_events"] == {"left": 0, "right": 1}
     assert diverged_body["right"]["status"] == "警觉"
     assert diverged_body["differences"]["total"] >= 1
+    left_recent = cast(list[dict[str, Any]], diverged_body["recent"]["left"])
+    right_recent = cast(list[dict[str, Any]], diverged_body["recent"]["right"])
+    assert right_recent[-1]["time"] > left_recent[-1]["time"]
 
 
 def test_player_entry_is_separate_from_english_studio_surface() -> None:

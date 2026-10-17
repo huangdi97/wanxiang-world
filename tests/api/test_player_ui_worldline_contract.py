@@ -40,6 +40,8 @@ def test_worldline_script_lists_switches_and_compares_worldlines() -> None:
     assert '$("worldline-toggle").addEventListener("click",toggleWorldlines)' in WORLDLINE_SCRIPT
     assert "[data-switch-worldline]" in WORLDLINE_SCRIPT
     assert "[data-compare-worldline]" in WORLDLINE_SCRIPT
+    assert "data.recent" in WORLDLINE_SCRIPT
+    assert "worldlineRecent(" in WORLDLINE_SCRIPT
     assert 'event.key!=="Escape"' in WORLDLINE_SCRIPT
     assert '$("worldline-toggle").focus()' in WORLDLINE_SCRIPT
 
@@ -59,3 +61,4 @@ def test_fork_copy_is_available_in_both_locales() -> None:
         assert "{revision}" in copy.text("worldline_compare_common")
         assert copy.text("worldline_compare_no_diff")
         assert "{count}" in copy.text("worldline_compare_diff")
+        assert copy.text("worldline_recent")

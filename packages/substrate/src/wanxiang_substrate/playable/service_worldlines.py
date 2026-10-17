@@ -19,6 +19,7 @@ from wanxiang_runtime.state import InMemoryCanonicalState
 from wanxiang_substrate.playable.player_i18n import _copy_for, _PlayerCopy
 from wanxiang_substrate.playable.player_projection_support import (
     _CATEGORY_KEYS,
+    _chronicle_card,
     _entity_name,
 )
 from wanxiang_substrate.playable.player_service import player_observe
@@ -30,6 +31,23 @@ if TYPE_CHECKING:
     from wanxiang_substrate.playable.service import PlayableService
 
 _MAX_DIFF_ITEMS = 20
+_RECENT_HISTORY = 3
+
+
+def _recent_history(
+    service: PlayableService,
+    record: ExperienceInstanceRecord,
+    runtime_id: str,
+    locale: str | None,
+) -> list[dict[str, object]]:
+    """Last few player-safe chronicle moments of one worldline."""
+    events = service.runtime.worldline_events(
+        WorldInstanceId(runtime_id),
+        BranchId(record.branch_id),
+    )
+    copy = _copy_for(locale)
+    actor_id = record.actor_id or ""
+    return [_chronicle_card(event, actor_id, copy) for event in events[-_RECENT_HISTORY:]]
 
 
 def _belongs(record: ExperienceInstanceRecord, runtime_id: str) -> bool:
@@ -173,6 +191,10 @@ def _compare_worldlines(
         "left": _summary(service, left, viewer_id, locale),
         "right": _summary(service, right, viewer_id, locale),
         "differences": _differences(delta, left_state, right_state, locale),
+        "recent": {
+            "left": _recent_history(service, left, runtime_id, locale),
+            "right": _recent_history(service, right, runtime_id, locale),
+        },
     }
 
 

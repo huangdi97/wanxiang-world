@@ -36,4 +36,5 @@ STRINGS: dict[str, str] = {
     "worldline_compare_events": "分叉后 {count} 条事件",
     "worldline_compare_diff": "分叉差异 {count} 处",
     "worldline_compare_no_diff": "没有结构差异",
+    "worldline_recent": "最近纪事",
 }

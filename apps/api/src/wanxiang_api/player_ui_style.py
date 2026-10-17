@@ -180,6 +180,10 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 .worldline-diff{margin-top:.55rem;font-size:.74rem}
 .worldline-diff .plain-list{margin:.35rem 0 0;padding-left:1rem}
 .worldline-diff li{padding:.15rem 0;border:0}
+.worldline-recent-block{margin-top:.6rem;font-size:.76rem}
+.worldline-recent-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem;margin-top:.35rem}
+.worldline-recent .plain-list{margin:.3rem 0 0;padding-left:1rem}
+.worldline-recent li{padding:.12rem 0;border:0;font-size:.73rem}
 .atlas-more{display:block;margin-top:.35rem;font-size:.7rem}
-@media(max-width:720px){.worldline-compare-grid{grid-template-columns:1fr}}
+@media(max-width:720px){.worldline-compare-grid,.worldline-recent-grid{grid-template-columns:1fr}}
 """

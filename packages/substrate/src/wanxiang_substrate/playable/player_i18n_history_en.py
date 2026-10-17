@@ -36,4 +36,5 @@ STRINGS: dict[str, str] = {
     "worldline_compare_events": "{count} events after the fork",
     "worldline_compare_diff": "{count} structural differences",
     "worldline_compare_no_diff": "No structural differences",
+    "worldline_recent": "Recent history",
 }
