@@ -93,8 +93,8 @@ def player_observation(
     known_people = _known_people_cards(person_entities, state_relations, actor_id, location, copy)
     environment = _first_text_from_entities(entities, ("environment", "setting"))
     weather = _first_text_from_entities(entities, ("weather", "climate"))
-    current_event = _event_card(entities, names, copy)
-    opportunities = _opportunity_cards(entities, copy)
+    current_event = _event_card(entities, names, copy, actor_id)
+    opportunities = _opportunity_cards(entities, copy, actor_id)
     memories = _memory_cards(entities, actor_id)
     chronicle = [_chronicle_card(event, names, actor_id, copy) for event in event_list[-6:]]
     events_since_leave = [

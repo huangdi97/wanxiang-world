@@ -12,7 +12,9 @@ from wanxiang_domain.versions import SchemaVersion
 from wanxiang_substrate.playable.player_i18n import _copy_for
 from wanxiang_substrate.playable.player_projection_support import (
     _actor_owned_entities,
+    _event_card,
     _known_people_cards,
+    _opportunity_cards,
     _person_card,
 )
 
@@ -95,3 +97,30 @@ def test_known_people_are_actor_scoped_and_remote_live_state_is_redacted() -> No
     assert by_name["carol"]["location"] is None
     assert by_name["carol"]["status"] is None
     assert "dave" not in by_name
+
+
+def test_owner_scoped_opportunities_and_current_event_stay_private() -> None:
+    copy = _copy_for("zh-CN")
+    entities = (
+        _entity("bob-secret", "task", "actor-bob"),
+        _entity("alice-quest", "task", "actor-alice"),
+        _entity("open-call", "opportunity"),
+        _entity("bob-event", "event", "actor-bob"),
+    )
+
+    alice = _opportunity_cards(entities, copy, "actor-alice")
+    assert [str(row["name"]) for row in alice] == ["alice-quest", "open-call"]
+
+    observer = _opportunity_cards(entities, copy, "")
+    assert [str(row["name"]) for row in observer] == ["open-call"]
+
+    assert _event_card(
+        (_entity("bob-event", "event", "actor-bob"), _entity("world-event", "event")),
+        {},
+        copy,
+        "actor-alice",
+    ) == {"name": "world-event", "description": None, "status": None}
+    assert (
+        _event_card((_entity("bob-event", "event", "actor-bob"),), {}, copy, "actor-alice") is None
+    )
+    assert _event_card((_entity("bob-event", "event", "actor-bob"),), {}, copy, "") is None

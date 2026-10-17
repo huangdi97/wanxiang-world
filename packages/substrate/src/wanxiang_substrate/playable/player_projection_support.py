@@ -156,11 +156,32 @@ def _relation_card(
     }
 
 
+def _private_owner(entity: EntityState) -> str | None:
+    """Return the actor a record is scoped to, if any; world-level records have none."""
+
+    return _first_text(_entity_fields(entity), ("actor_id", "owner_id", "holder_id", "assignee_id"))
+
+
+def _visible_to_actor(entity: EntityState, actor_id: str) -> bool:
+    """World-level records are public; owner-scoped records belong only to their owner."""
+
+    owner = _private_owner(entity)
+    return owner is None or (bool(actor_id) and owner == actor_id)
+
+
 def _event_card(
-    entities: tuple[EntityState, ...], names: dict[str, str], copy: _PlayerCopy
+    entities: tuple[EntityState, ...],
+    names: dict[str, str],
+    copy: _PlayerCopy,
+    actor_id: str,
 ) -> dict[str, object] | None:
     for entity in entities:
-        if entity.entity_type.casefold() in {"event", "task", "opportunity", "challenge"}:
+        if entity.entity_type.casefold() in {
+            "event",
+            "task",
+            "opportunity",
+            "challenge",
+        } and _visible_to_actor(entity, actor_id):
             fields = _entity_fields(entity)
             return {
                 "name": _entity_name(entity, copy),
@@ -172,11 +193,17 @@ def _event_card(
 
 
 def _opportunity_cards(
-    entities: tuple[EntityState, ...], copy: _PlayerCopy
+    entities: tuple[EntityState, ...],
+    copy: _PlayerCopy,
+    actor_id: str,
 ) -> list[dict[str, object]]:
     result: list[dict[str, object]] = []
     for entity in entities:
-        if entity.entity_type.casefold() in {"task", "opportunity", "challenge"}:
+        if entity.entity_type.casefold() in {
+            "task",
+            "opportunity",
+            "challenge",
+        } and _visible_to_actor(entity, actor_id):
             fields = _entity_fields(entity)
             result.append(
                 {
@@ -220,11 +247,7 @@ def _actor_owned_entities(
     return [
         _entity_name(entity, copy)
         for entity in entities
-        if entity.entity_type.casefold() in types
-        and _first_text(
-            _entity_fields(entity), ("actor_id", "owner_id", "holder_id", "assignee_id")
-        )
-        == actor_id
+        if entity.entity_type.casefold() in types and _private_owner(entity) == actor_id
     ]
 
 
