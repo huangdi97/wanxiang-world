@@ -59,4 +59,3 @@ def test_player_bundles_dependency_free_ply_spatial_renderer() -> None:
     assert "three.js" not in BUILTIN_SPATIAL_RENDERER_SCRIPT.casefold()
     assert "tokenhub" not in BUILTIN_SPATIAL_RENDERER_SCRIPT.casefold()
     assert html.index(BUILTIN_SPATIAL_RENDERER_SCRIPT) < html.index(SPATIAL_RENDERER_SCRIPT)
-
