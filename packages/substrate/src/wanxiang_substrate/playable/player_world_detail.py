@@ -120,6 +120,7 @@ def player_world_detail(
                 "generated": place in generated_places,
                 "tier": _place_tier(asset, spatial_ready),
                 "source_evidence_count": evidence.source_ref_count if evidence else 0,
+                "source_count": evidence.source_count if evidence else 0,
                 "confidence": round(evidence.confidence, 3) if evidence else 0.0,
                 "clue_count": evidence.clue_count if evidence else 0,
             }

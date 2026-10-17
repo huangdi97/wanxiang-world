@@ -295,7 +295,7 @@ def test_invalid_source_confidence_never_outranks_verified_place() -> None:
 def test_duplicate_identical_sources_share_one_visual_identity() -> None:
     fingerprint = "b" * 64
 
-    def plan_for(sources: dict[str, str]) -> tuple[str, str, int]:
+    def plan_for(sources: dict[str, str]) -> tuple[str, str, int, int]:
         metadata = {
             "source_fingerprints_v1": json.dumps(sorted(sources.values())),
             "source_fingerprint_map_v1": json.dumps(sources),
@@ -316,7 +316,12 @@ def test_duplicate_identical_sources_share_one_visual_identity() -> None:
         )
         scene = plan.scene_requests[0]
         evidence = {item.place_name: item for item in plan.place_evidence}["Harbor"]
-        return plan.source_digest, scene.cache_key, evidence.source_ref_count
+        return (
+            plan.source_digest,
+            scene.cache_key,
+            evidence.source_ref_count,
+            evidence.source_count,
+        )
 
     single = plan_for({"s1": fingerprint})
     duplicate = plan_for({"s1": fingerprint, "s2": fingerprint})
@@ -325,12 +330,14 @@ def test_duplicate_identical_sources_share_one_visual_identity() -> None:
     assert single[1] == duplicate[1]
     assert single[2] == 1
     assert duplicate[2] == 2
+    assert single[3] == 1
+    assert duplicate[3] == 2
 
 
 def test_multi_source_bundle_merges_place_evidence_and_reacts_to_content_change() -> None:
     first_fingerprint, second_fingerprint = "1" * 64, "2" * 64
 
-    def plan_for(second: str) -> tuple[str, str, int]:
+    def plan_for(second: str) -> tuple[str, str, int, int]:
         metadata = {
             "source_fingerprints_v1": json.dumps(sorted([first_fingerprint, second])),
             "source_fingerprint_map_v1": json.dumps({"s1": first_fingerprint, "s2": second}),
@@ -355,12 +362,13 @@ def test_multi_source_bundle_merges_place_evidence_and_reacts_to_content_change(
         )
         scene = plan.scene_requests[0]
         evidence = {item.place_name: item for item in plan.place_evidence}["Harbor"]
-        return plan.source_digest, scene.cache_key, evidence.source_ref_count
+        return plan.source_digest, scene.cache_key, evidence.source_ref_count, evidence.source_count
 
     original = plan_for(second_fingerprint)
     changed = plan_for("3" * 64)
 
     assert original[2] == 2
+    assert original[3] == 2
     assert original[0] != changed[0]
     assert original[1] != changed[1]
 

@@ -14,6 +14,7 @@ def test_player_script_renders_visual_tier_and_source_evidence_count() -> None:
     assert "atlas_more_places" in SCRIPT
     assert "visual_budget_status" in SCRIPT
     assert "visual?.generation" in SCRIPT
+    assert "visual_sources_merged" in SCRIPT
 
 
 def test_visual_tier_copy_is_available_in_both_locales() -> None:
@@ -26,3 +27,4 @@ def test_visual_tier_copy_is_available_in_both_locales() -> None:
         assert "{count}" in copy.text("atlas_more_places")
         assert "{used}" in copy.text("visual_budget_status")
         assert "{limit}" in copy.text("visual_budget_status")
+        assert "{count}" in copy.text("visual_sources_merged")

@@ -102,6 +102,7 @@ def test_player_projection_is_chinese_and_uses_committed_state_diff() -> None:
     assert places and places[0]["name"] == "Beijing"
     assert places[0]["generated"] is True
     assert places[0]["tier"] == "T0"
+    assert places[0]["source_count"] == 1
     assert int(places[0]["source_evidence_count"]) >= 1
     generation = detail.json()["world"]["visual"]["generation"]
     assert generation == {"deferred_used": 0, "deferred_limit": 24}

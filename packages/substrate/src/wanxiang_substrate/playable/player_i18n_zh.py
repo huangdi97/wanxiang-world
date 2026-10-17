@@ -131,6 +131,7 @@ STRINGS: dict[str, str] = {
     "visual_tier_t3": "T3 · 3D 空间",
     "visual_evidence_count": "{count} 条原文证据",
     "visual_budget_status": "按需生成 {used}/{limit}",
+    "visual_sources_merged": "来源 ×{count}",
     "atlas_more_places": "另有 {count} 个地点，见下方地点列表",
     "status_generating_scene": "正在生成 {place} 的场景…",
     "status_scene_ready": "{place} 场景已加入世界图册",

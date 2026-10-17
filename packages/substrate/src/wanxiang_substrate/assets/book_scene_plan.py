@@ -60,6 +60,7 @@ class _PlaceEvidence:
     source_ref_count: int
     confidence: float
     clue_count: int
+    source_count: int = 1
 
 
 @dataclass(frozen=True, slots=True)
@@ -270,12 +271,17 @@ def _plan_book_scene_assets(
     place_evidence: list[_PlaceEvidence] = []
     for place in ranked_places:
         refs, confidence, context_count = stats_by_place[place]
+        source_ids = {
+            ref.partition("://")[2].partition("#")[0] if "://" in ref else ref.partition("#")[0]
+            for ref in refs
+        }
         place_evidence.append(
             _PlaceEvidence(
                 place_name=place,
                 source_ref_count=len(refs),
                 confidence=confidence,
                 clue_count=context_count,
+                source_count=len(source_ids),
             )
         )
     return _SourceVisualPlan(
