@@ -9,10 +9,10 @@ from html import escape
 import wanxiang_substrate.playable.player_i18n as _player_i18n
 
 from wanxiang_api.player_ui_panorama_builtin import BUILTIN_PANORAMA_RENDERER_SCRIPT
-from wanxiang_api.player_ui_spatial_builtin import BUILTIN_SPATIAL_RENDERER_SCRIPT
 from wanxiang_api.player_ui_panorama_renderer import PANORAMA_RENDERER_SCRIPT
 from wanxiang_api.player_ui_panorama_upgrade import PANORAMA_UPGRADE_SCRIPT
 from wanxiang_api.player_ui_script import SCRIPT
+from wanxiang_api.player_ui_spatial_builtin import BUILTIN_SPATIAL_RENDERER_SCRIPT
 from wanxiang_api.player_ui_spatial_renderer import SPATIAL_RENDERER_SCRIPT
 from wanxiang_api.player_ui_style import STYLE
 
