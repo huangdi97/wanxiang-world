@@ -643,6 +643,15 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                     "document.querySelector('#status')?.textContent.includes('已切换')"
                 )
                 page.set_viewport_size({"width": 390, "height": 844})
+                assert (
+                    page.evaluate(
+                        "getComputedStyle(document.querySelector('#stage-focus-toggle')).minHeight"
+                    )
+                    == "44px"
+                )
+                assert page.evaluate(
+                    "getComputedStyle(document.querySelector('.world-action-dock')).paddingBottom"
+                ) not in {"0px", ""}
                 mobile_stage_box = page.locator("#world-stage").bounding_box()
                 mobile_dock_box = page.locator(".world-action-dock").bounding_box()
                 assert mobile_stage_box is not None

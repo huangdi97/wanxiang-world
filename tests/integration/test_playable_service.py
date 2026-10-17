@@ -423,6 +423,16 @@ def test_worldline_fork_preserves_parent_and_diverges_independently() -> None:
     assert cast(dict[str, object], replay["replay"])["event_count"] == 5
     assert cast(dict[str, object], replay["player"])["status"] == "警觉"
 
+    # Visual generation is a projection, even after switching to a child branch.
+    canon_before = playable.observe(child, "alice")
+    assert authored.visual_plan is not None
+    playable.materialize_visual_place(
+        profile.profile_id,
+        authored.visual_plan.place_names[0],
+        viewer_id="alice",
+    )
+    assert playable.observe(child, "alice") == canon_before
+
     diverged = playable.compare_worldlines(
         parent,
         other_instance_id=child,
