@@ -8,6 +8,9 @@ _SPATIAL_STRINGS: dict[str, str] = {
     "spatial_stage_error": (
         "The spatial renderer failed; the current visual scene remains available."
     ),
+    "spatial_stage_reset": "Reset view",
+    "spatial_stage_controls_hint": "Drag to rotate · wheel to zoom · arrows/WASD to look",
+    "spatial_stage_point_count": "{place} · {count} pts",
     "spatial_upgrade_eyebrow": "Spatial upgrade",
     "spatial_upgrade_heading": "Upgrade this place into a spatial scene",
     "spatial_upgrade_submit": "Generate spatial scene",
