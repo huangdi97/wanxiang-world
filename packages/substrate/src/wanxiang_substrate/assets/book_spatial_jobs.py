@@ -200,7 +200,13 @@ class _SpatialGenerationCoordinator:
             )
             for artifact in result.artifacts
         ]
-        verified = replace(ticket, state="verified", asset_refs=tuple(refs), reason="")
+        verified = replace(
+            ticket,
+            state="verified",
+            asset_refs=tuple(refs),
+            reason="",
+            projection_frame=result.projection_frame,
+        )
         self.jobs.put(verified)
         return verified
 
