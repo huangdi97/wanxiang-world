@@ -37,4 +37,5 @@ STRINGS: dict[str, str] = {
     "worldline_compare_diff": "{count} structural differences",
     "worldline_compare_no_diff": "No structural differences",
     "worldline_recent": "Recent history",
+    "history_window": "Showing the latest {returned} of {total} records",
 }

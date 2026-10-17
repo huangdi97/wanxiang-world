@@ -37,4 +37,5 @@ STRINGS: dict[str, str] = {
     "worldline_compare_diff": "分叉差异 {count} 处",
     "worldline_compare_no_diff": "没有结构差异",
     "worldline_recent": "最近纪事",
+    "history_window": "显示最近 {returned} / 共 {total} 条纪事",
 }

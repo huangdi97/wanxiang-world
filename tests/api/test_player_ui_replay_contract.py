@@ -32,6 +32,8 @@ def test_player_script_replays_through_the_player_route_and_resets_on_entry() ->
     assert "model.history=null" in SCRIPT
     assert '$("stage-replay-exit").addEventListener("click",exitReplay)' in REPLAY_SCRIPT
     assert '$("chronicle-expand").addEventListener("click",toggleHistory)' in REPLAY_SCRIPT
+    assert "history_window" in REPLAY_SCRIPT
+    assert "total>returned" in REPLAY_SCRIPT
 
 
 def test_replay_copy_is_available_in_both_locales() -> None:
@@ -43,5 +45,7 @@ def test_replay_copy_is_available_in_both_locales() -> None:
         assert copy.text("replay_exit")
         assert copy.text("history_expand")
         assert copy.text("history_collapse")
+        assert "{returned}" in copy.text("history_window")
+        assert "{total}" in copy.text("history_window")
         assert "{time}" in banner
         assert "{count}" in banner

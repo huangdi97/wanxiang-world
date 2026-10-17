@@ -156,6 +156,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 .chronicle-replay:focus-visible{outline:2px solid var(--cobalt);outline-offset:2px}
 .record-heading-end{display:flex;align-items:baseline;gap:.55rem}
 .chronicle-expand{font-size:.74rem;color:var(--cobalt);padding:.15rem .3rem;font-weight:850}
+.chronicle-window{font-size:.72rem;color:var(--ink-soft)}
 .worldline-panel{margin:.7rem 0;padding:.8rem .95rem;border:1px solid #c8d7d2;border-radius:12px;background:#f7fbf9;color:var(--ink)}
 .worldline-panel[hidden]{display:none}
 .worldline-heading{display:flex;align-items:center;justify-content:space-between;gap:.8rem;margin-bottom:.45rem}
