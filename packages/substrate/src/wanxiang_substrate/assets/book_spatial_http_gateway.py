@@ -243,11 +243,7 @@ class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
             raise ValueError("spatial HTTP gateway returned invalid artifact list")
         artifacts = tuple(self._artifact(item) for item in artifact_rows)
         raw_frame = body.get("projection_frame")
-        projection_frame = (
-            None
-            if raw_frame is None
-            else _projection_frame_from_mapping(raw_frame)
-        )
+        projection_frame = None if raw_frame is None else _projection_frame_from_mapping(raw_frame)
         return _SpatialPollResult(
             "succeeded",
             artifacts,
