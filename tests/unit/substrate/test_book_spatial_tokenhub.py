@@ -110,7 +110,9 @@ def test_tokenhub_spatial_submit_uses_bounded_text_scene_request(
 def test_tokenhub_spatial_poll_downloads_only_supported_allowlisted_artifacts(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    mesh = b"ply\nformat ascii 1.0\nend_header\n"
+    point = b"ply\nformat ascii 1.0\ncomment point\nend_header\n"
+    simplified = b"ply\nformat ascii 1.0\ncomment simplified\nend_header\n"
+    mesh = b"ply\nformat ascii 1.0\ncomment mesh\nend_header\n"
     preview = bytes.fromhex("89504e470d0a1a0a") + b"preview"
     poll = json.dumps(
         {
@@ -119,6 +121,8 @@ def test_tokenhub_spatial_poll_downloads_only_supported_allowlisted_artifacts(
             "data": [
                 {
                     "scene_url": "https://assets.example/world.spz",
+                    "point_url": "https://assets.example/world-point.ply",
+                    "mesh_simplified_url": "https://assets.example/world-simple.ply",
                     "mesh_url": "https://assets.example/world.ply",
                     "super_resolution_image_url": "https://assets.example/preview.png",
                 }
@@ -126,18 +130,26 @@ def test_tokenhub_spatial_poll_downloads_only_supported_allowlisted_artifacts(
             "tokenhub_usage": {"total_tokens": 8000000},
         }
     ).encode()
-    opener = _install(monkeypatch, [poll, mesh, preview])
+    opener = _install(monkeypatch, [poll, point, simplified, mesh, preview])
     provider = _provider()
 
     result = provider.poll("task-1")
 
     assert result.state == "succeeded"
-    assert [item.media_type for item in result.artifacts] == ["model/ply", "image/png"]
+    assert [item.media_type for item in result.artifacts] == [
+        "model/ply",
+        "model/ply",
+        "model/ply",
+        "image/png",
+    ]
     assert [request.full_url for request in opener.requests] == [
         "https://tokenhub.tencentmaas.com/v1/wand/hunyuan-video/tasks/task-1",
+        "https://assets.example/world-point.ply",
+        "https://assets.example/world-simple.ply",
         "https://assets.example/world.ply",
         "https://assets.example/preview.png",
     ]
+    assert result.artifacts[0].content == point
     assert all("world.spz" not in request.full_url for request in opener.requests)
     assert opener.requests[0].headers["Authorization"] == "Bearer secret"
     assert all(request.headers.get("Authorization") is None for request in opener.requests[1:])

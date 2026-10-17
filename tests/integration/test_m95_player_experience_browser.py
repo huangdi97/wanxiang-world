@@ -157,6 +157,60 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                     page.evaluate("window.__PLAYER_I18N__?.strings?.hero_title")
                     == "创造世界，进入世界，让世界继续发生。"
                 )
+
+                builtin_ply = (
+                    b"ply\n"
+                    b"format ascii 1.0\n"
+                    b"element vertex 4\n"
+                    b"property float x\n"
+                    b"property float y\n"
+                    b"property float z\n"
+                    b"property uchar red\n"
+                    b"property uchar green\n"
+                    b"property uchar blue\n"
+                    b"end_header\n"
+                    b"-1 -1 0 255 96 80\n"
+                    b"1 -1 0 80 220 180\n"
+                    b"-1 1 0 90 150 255\n"
+                    b"1 1 0 245 230 120\n"
+                )
+                page.route(
+                    "**/spatial-assets/0**",
+                    lambda route: route.fulfill(
+                        status=200,
+                        content_type="model/ply",
+                        body=builtin_ply,
+                    ),
+                )
+                page.evaluate(
+                    """() => {
+                      window.__WANXIANG_SPATIAL_STAGE__.sync(
+                        {
+                          place_name: "内置 PLY 空间",
+                          spatial: {
+                            ready: true,
+                            asset_count: 1,
+                            media_types: ["model/ply"]
+                          }
+                        },
+                        "profile-builtin-ply",
+                        {"x-wanxiang-user": "studio"}
+                      );
+                    }"""
+                )
+                assert (
+                    page.evaluate("document.querySelector('#spatial-stage-toggle').hidden") is False
+                )
+                assert page.evaluate("window.__WANXIANG_SPATIAL_STAGE__.toggle()") is True
+                builtin_canvas = page.locator("#world-stage-spatial canvas")
+                assert builtin_canvas.is_visible()
+                assert builtin_canvas.get_attribute("aria-label") == "内置 PLY 空间"
+                assert "4 pts" in page.locator("#world-stage-spatial").inner_text()
+                builtin_canvas.press("ArrowRight")
+                assert page.evaluate("window.__WANXIANG_SPATIAL_STAGE__.deactivate()") is False
+                assert page.locator("#world-stage-spatial").is_hidden()
+                page.unroute("**/spatial-assets/0**")
+
                 page.route(
                     "**/spatial-assets/0**",
                     lambda route: route.fulfill(

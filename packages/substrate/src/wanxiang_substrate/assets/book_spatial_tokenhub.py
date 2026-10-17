@@ -218,10 +218,12 @@ class _TokenHubSpatialProvider(_SpatialGenerationProvider):
         if not isinstance(data, list) or not data or not isinstance(data[0], dict):
             raise ValueError("TokenHub spatial succeeded without artifact data")
         first = cast(dict[str, object], data[0])
+        # Prefer the provider's point-cloud PLY for the lightweight browser
+        # renderer, then simplified/full collision meshes for richer adapters.
         specs = (
-            ("mesh_url", "model/ply"),
-            ("mesh_simplified_url", "model/ply"),
             ("point_url", "model/ply"),
+            ("mesh_simplified_url", "model/ply"),
+            ("mesh_url", "model/ply"),
             ("super_resolution_image_url", None),
         )
         artifacts: list[_SpatialArtifactCandidate] = []
