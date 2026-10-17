@@ -65,6 +65,19 @@ class _FakeSpatialProvider(_SpatialGenerationProvider):
         )
 
 
+class _SubmitUnavailableSpatialProvider(_FakeSpatialProvider):
+    def submit(self, request: _SourceSceneRequest, *, idempotency_key: str) -> str:
+        _ = request, idempotency_key
+        raise RuntimeError("provider transport unavailable")
+
+
+class _PollUnavailableSpatialProvider(_FakeSpatialProvider):
+    def poll(self, task_ref: str) -> _SpatialPollResult:
+        _ = task_ref
+        raise RuntimeError("artifact URL temporarily unavailable")
+
+
+
 def _source() -> dict[str, object]:
     return {
         "source_id": "spatial_api_book",
@@ -129,6 +142,46 @@ def test_t3_capability_fails_closed_for_negative_provider_cost() -> None:
         "budget_reserved": 0,
         "budget_remaining": 7,
     }
+
+
+def test_t3_submit_transport_failure_is_retryable_without_fabricating_terminal_state() -> None:
+    provider = _SubmitUnavailableSpatialProvider()
+    app, client, profile_id = _world(
+        spatial_provider=provider,
+        spatial_allow_network=True,
+        spatial_max_cost_units=7,
+    )
+    owner = {"X-Wanxiang-User": "studio"}
+    endpoint = f"/experience/player/worlds/{profile_id}/spatial"
+
+    response = client.post(endpoint, headers=owner, json={"place_name": "Garden"})
+
+    assert response.status_code == 503
+    assert response.json()["detail"] == "spatial provider temporarily unavailable"
+    tickets = app.state.spatial_asset_jobs.list_scope(profile_id)
+    assert len(tickets) == 1
+    assert tickets[0].state == "submission_ambiguous"
+
+
+def test_t3_poll_transport_failure_is_retryable_and_keeps_submitted_ticket() -> None:
+    provider = _PollUnavailableSpatialProvider()
+    app, client, profile_id = _world(
+        spatial_provider=provider,
+        spatial_allow_network=True,
+        spatial_max_cost_units=7,
+    )
+    owner = {"X-Wanxiang-User": "studio"}
+    endpoint = f"/experience/player/worlds/{profile_id}/spatial"
+    submitted = client.post(endpoint, headers=owner, json={"place_name": "Garden"})
+    submission_id = str(submitted.json()["spatial"]["submission_id"])
+
+    response = client.get(f"{endpoint}/{submission_id}", headers=owner)
+
+    assert response.status_code == 503
+    assert response.json()["detail"] == "spatial provider temporarily unavailable"
+    ticket = app.state.spatial_asset_jobs.get(submission_id)
+    assert ticket is not None
+    assert ticket.state == "submitted"
 
 
 def test_t3_player_api_is_owner_only_idempotent_and_rehydrates_attachment() -> None:

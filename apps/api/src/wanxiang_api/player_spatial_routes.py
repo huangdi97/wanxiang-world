@@ -160,6 +160,11 @@ def player_submit_spatial_place(
             delivery_rights=plan.delivery_rights,
             scope_key=profile_id,
         )
+    except RuntimeError as exc:
+        raise HTTPException(
+            status_code=503,
+            detail="spatial provider temporarily unavailable",
+        ) from exc
     except ValueError as exc:
         raise HTTPException(status_code=409, detail=str(exc)) from exc
     return {"spatial": spatial_ticket_view(ticket)}
@@ -229,6 +234,11 @@ def player_poll_spatial_place(
     if ticket.state in {"submitted", "queued", "running"}:
         try:
             ticket = _coordinator(request).poll(submission_id)
+        except RuntimeError as exc:
+            raise HTTPException(
+                status_code=503,
+                detail="spatial provider temporarily unavailable",
+            ) from exc
         except ValueError as exc:
             raise HTTPException(status_code=409, detail=str(exc)) from exc
 
