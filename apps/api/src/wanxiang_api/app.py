@@ -259,6 +259,7 @@ def create_app(
     )
     if app.state.playable is not None:
         app.state.playable._visual_budget = app.state.visual_budget
+        app.state.playable._visual_deferred_limit = app.state.visual_asset_max_deferred_generations
     install_error_handler(app)
 
     @app.exception_handler(PayloadTooLarge)

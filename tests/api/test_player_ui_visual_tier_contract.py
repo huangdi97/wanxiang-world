@@ -13,6 +13,7 @@ def test_player_script_renders_visual_tier_and_source_evidence_count() -> None:
     assert "visual_evidence_count" in SCRIPT
     assert "atlas_more_places" in SCRIPT
     assert "visual_budget_status" in SCRIPT
+    assert "visual?.generation" in SCRIPT
 
 
 def test_visual_tier_copy_is_available_in_both_locales() -> None:

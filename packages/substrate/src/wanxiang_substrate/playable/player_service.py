@@ -18,6 +18,7 @@ from wanxiang_substrate.playable.service_support import _runtime_instance_id
 from wanxiang_substrate.playable.service_visual import (
     _visible_spatial_assets,
     _visible_spatial_projection_frames,
+    visual_budget_usage,
 )
 from wanxiang_substrate.playable.state_diff import CommittedStateDiff
 from wanxiang_substrate.playable.store import ExperienceInstanceRecord
@@ -37,7 +38,7 @@ def player_world(
     """Return the non-technical world detail projection for Player UI."""
 
     profile = service.plaza.require_access(profile_id, viewer_id)
-    return player_world_detail(
+    view = player_world_detail(
         profile,
         service.packages.get(profile_id),
         locale=locale,
@@ -51,6 +52,14 @@ def player_world(
         ),
         visual_access_allowed=service.visual_access_allowed(profile_id, viewer_id=viewer_id),
     )
+    limit = service._visual_deferred_limit
+    visual = view.get("visual")
+    if limit > 0 and isinstance(visual, dict) and profile.owner_id == viewer_id:
+        visual["generation"] = {
+            "deferred_used": visual_budget_usage(service, profile_id),
+            "deferred_limit": limit,
+        }
+    return view
 
 
 def player_observe(

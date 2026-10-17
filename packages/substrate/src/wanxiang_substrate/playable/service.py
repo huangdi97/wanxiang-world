@@ -64,6 +64,7 @@ class PlayableService:
         self._visual_assets: dict[str, tuple[_SceneVisualAsset, ...]] = {}
         self._visual_asset_refs: dict[str, tuple[AssetRef, ...]] = {}
         self._visual_budget: VisualBudgetLedger | None = None
+        self._visual_deferred_limit: int = 0
         self._spatial_asset_refs: dict[str, dict[str, tuple[AssetRef, ...]]] = {}
         self._spatial_projection_frames: dict[str, dict[str, _SpatialProjectionFrame]] = {}
         self.plaza = WorldPlaza(self.store)
