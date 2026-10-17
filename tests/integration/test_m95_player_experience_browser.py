@@ -201,14 +201,19 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 assert (
                     page.evaluate("document.querySelector('#spatial-stage-toggle').hidden") is False
                 )
+                page.evaluate("document.querySelector('#play-view').classList.add('is-active')")
                 assert page.evaluate("window.__WANXIANG_SPATIAL_STAGE__.toggle()") is True
                 builtin_canvas = page.locator("#world-stage-spatial canvas")
                 assert builtin_canvas.is_visible()
+                canvas_box = builtin_canvas.bounding_box()
+                assert canvas_box is not None
+                assert canvas_box["width"] > 100 and canvas_box["height"] > 100
                 assert builtin_canvas.get_attribute("aria-label") == "内置 PLY 空间"
                 assert "4 pts" in page.locator("#world-stage-spatial").inner_text()
                 builtin_canvas.press("ArrowRight")
                 assert page.evaluate("window.__WANXIANG_SPATIAL_STAGE__.deactivate()") is False
                 assert page.locator("#world-stage-spatial").is_hidden()
+                page.evaluate("document.querySelector('#play-view').classList.remove('is-active')")
                 page.unroute("**/spatial-assets/0**")
 
                 page.route(
