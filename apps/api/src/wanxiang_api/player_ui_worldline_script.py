@@ -1,8 +1,9 @@
-"""Worldline fork and switching controls for the Player World Stage.
+"""Worldline fork, list, switch, and comparison controls for the Player Stage.
 
-A fork creates a real Kernel child branch and a detached Player handle; the list
-shows every playable worldline of the runtime instance and lets the player
-switch by leaving the current session and continuing the chosen handle.
+Forks create real Kernel child branches as detached Player handles; the panel
+lists every playable worldline, lets the player compare two heads through a
+read-only endpoint, and switches by leaving the current session and continuing
+the chosen handle.
 """
 
 # ruff: noqa: E501
@@ -11,12 +12,30 @@ WORLDLINE_SCRIPT = r"""
 function worldlineCard(card,index){
   const current=Boolean(card.current),meta=[tr("worldline_time",{time:card.world_time})];
   if(card.forked_from_revision!==null&&card.forked_from_revision!==undefined)meta.push(tr("worldline_forked_at",{revision:card.forked_from_revision}));
-  return `<li data-worldline="${safe(card.instance_id)}" data-current="${current?"true":"false"}"><div class="worldline-copy"><strong>${safe(tr("worldline_label",{index:index+1}))}${current?` <span class="worldline-badge">${safe(tr("worldline_current"))}</span>`:""}</strong><span class="muted">${safe(meta.join(" · "))}</span></div>${current?"":`<button class="secondary-button" type="button" data-switch-worldline="${safe(card.instance_id)}">${safe(tr("worldline_switch"))}</button>`}</li>`;
+  const actions=current?"":`<div class="worldline-actions"><button class="secondary-button" type="button" data-compare-worldline="${safe(card.instance_id)}">${safe(tr("worldline_compare"))}</button><button class="secondary-button" type="button" data-switch-worldline="${safe(card.instance_id)}">${safe(tr("worldline_switch"))}</button></div>`;
+  return `<li data-worldline="${safe(card.instance_id)}" data-current="${current?"true":"false"}"><div class="worldline-copy"><strong>${safe(tr("worldline_label",{index:index+1}))}${current?` <span class="worldline-badge">${safe(tr("worldline_current"))}</span>`:""}</strong><span class="muted">${safe(meta.join(" · "))}</span></div>${actions}</li>`;
+}
+function worldlineSide(label,row,count){
+  const people=(row.present_people||[]).join("、");
+  return `<div class="worldline-side"><span class="stage-label">${safe(label)}</span><strong>${safe(tr("worldline_time",{time:row.world_time}))}</strong><span class="muted">${safe(shown(row.location))} · ${safe(shown(row.status))}</span><span class="muted">${safe(tr("worldline_compare_events",{count:count||0}))}${people?` · ${safe(people)}`:""}</span></div>`;
+}
+function renderWorldlineCompare(data){
+  const block=$("worldline-compare"),left=data.left||{},right=data.right||{},diverged=data.diverged_events||{};
+  block.innerHTML=`<div class="worldline-compare-head"><strong>${safe(tr("worldline_compare_heading"))}</strong><span class="muted">${safe(tr("worldline_compare_common",{revision:data.common?.revision??0}))}</span></div><div class="worldline-compare-grid">${worldlineSide(tr("worldline_compare_this"),left,diverged.left)}${worldlineSide(tr("worldline_compare_other"),right,diverged.right)}</div><div class="worldline-compare-badge" data-identical="${data.identical?"true":"false"}">${safe(tr(data.identical?"worldline_compare_same":"worldline_compare_diverged"))}</div>`;
+  block.hidden=false;
+}
+async function compareWorldline(handle){
+  if(!handle||!model.instanceId)return;
+  busy(true);
+  try{const data=await api(`/experience/player/instances/${encodeURIComponent(model.instanceId)}/compare?with=${encodeURIComponent(handle)}`);renderWorldlineCompare(data)}
+  catch(error){status(error.message,true)}finally{busy(false)}
 }
 function renderWorldlines(cards){
   const list=$("worldline-list");
   list.innerHTML=cards.length?cards.map(worldlineCard).join(""):`<li class="muted">${safe(tr("worldlines_empty"))}</li>`;
+  list.querySelectorAll("[data-compare-worldline]").forEach(node=>node.addEventListener("click",()=>compareWorldline(node.dataset.compareWorldline||"")));
   list.querySelectorAll("[data-switch-worldline]").forEach(node=>node.addEventListener("click",()=>switchWorldline(node.dataset.switchWorldline||"")));
+  const compare=$("worldline-compare");compare.hidden=true;compare.innerHTML="";
 }
 async function toggleWorldlines(){
   const panel=$("worldline-panel");

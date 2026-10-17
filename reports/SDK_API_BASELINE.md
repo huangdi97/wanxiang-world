@@ -1,8 +1,8 @@
 # SDK API Baseline (G17A)
 
-- API routes: 85
+- API routes: 86
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 2173
+- Python public names (stable packages): 2174
 
 ## API routes
 
@@ -12,6 +12,7 @@
 - `GET /experience/instances/{instance_id}`
 - `GET /experience/player/characters`
 - `GET /experience/player/instances/{instance_id}`
+- `GET /experience/player/instances/{instance_id}/compare`
 - `GET /experience/player/instances/{instance_id}/history`
 - `GET /experience/player/instances/{instance_id}/replay`
 - `GET /experience/player/instances/{instance_id}/worldlines`
@@ -130,6 +131,7 @@
 - `wanxiang_application.register_synthetic_resolvers`
 - `wanxiang_application.replay_branch`
 - `wanxiang_application.snapshot_is_valid`
+- `wanxiang_application.worldline_compare_point`
 - `wanxiang_application.worldline_events`
 - `wanxiang_domain.ActorId`
 - `wanxiang_domain.BranchAncestry`
@@ -393,6 +395,5 @@
 - `wanxiang_substrate.ACTION_RECORD_PRACTICE`
 - `wanxiang_substrate.ACTION_RECORD_RUN`
 - `wanxiang_substrate.ACTION_REJECT_ORDER`
-- `wanxiang_substrate.ACTION_RELAY_MESSAGE`
 
 Machine-readable: reports/sdk_api_baseline.json.

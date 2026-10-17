@@ -25,7 +25,7 @@ from wanxiang_runtime.resolver import ResolverRegistry
 from wanxiang_runtime.snapshot import create_snapshot_metadata
 from wanxiang_runtime.state import InMemoryCanonicalState
 
-from wanxiang_application.branch_support import fork_branch_at
+from wanxiang_application.branch_support import fork_branch_at, worldline_compare_point
 from wanxiang_application.branch_support import worldline_events as _worldline_events
 from wanxiang_application.ports import PersistenceBundle
 from wanxiang_application.replay_support import RestoreResult, replay_branch
@@ -228,6 +228,21 @@ class WorldRuntime:
     def worldline_branches(self, instance_id: WorldInstanceId) -> tuple[BranchMetadata, ...]:
         """All branches of one runtime instance, ordered by branch id."""
         return self.persistence.branches.list(instance_id)
+
+    def worldline_compare_point(
+        self,
+        instance_id: WorldInstanceId,
+        left_branch_id: BranchId,
+        right_branch_id: BranchId,
+    ) -> tuple[BranchId, int]:
+        """Deepest shared branch and revision of two worldlines."""
+        return worldline_compare_point(
+            self.persistence,
+            self._state_reader,
+            instance_id,
+            left_branch_id,
+            right_branch_id,
+        )
 
     def create_checkpoint(
         self, instance_id: WorldInstanceId, branch_id: BranchId

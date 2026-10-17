@@ -42,7 +42,7 @@ from wanxiang_substrate.playable.service_visual import (
     _visual_access_allowed,
 )
 from wanxiang_substrate.playable.service_worldline import _fork_worldline
-from wanxiang_substrate.playable.service_worldlines import _worldlines
+from wanxiang_substrate.playable.service_worldlines import _compare_worldlines, _worldlines
 from wanxiang_substrate.playable.store import InMemoryPlayableStore, PlayableStore
 from wanxiang_substrate.preview import PreviewInstall, PreviewRuntimePort
 
@@ -256,6 +256,23 @@ class PlayableService:
     def worldlines(self, instance_id: str, *, viewer_id: str) -> dict[str, object]:
         """List the viewer's worldlines for this instance's runtime branch set."""
         return _worldlines(self, instance_id, viewer_id=viewer_id)
+
+    def compare_worldlines(
+        self,
+        instance_id: str,
+        *,
+        other_instance_id: str,
+        viewer_id: str,
+        locale: str | None = None,
+    ) -> dict[str, object]:
+        """Compare two owned worldlines of the same runtime instance."""
+        return _compare_worldlines(
+            self,
+            instance_id,
+            other_instance_id=other_instance_id,
+            viewer_id=viewer_id,
+            locale=locale,
+        )
 
     def action(
         self,

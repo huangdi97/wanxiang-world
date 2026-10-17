@@ -166,4 +166,16 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 .worldline-copy strong{font-size:.84rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .worldline-copy .muted{font-size:.72rem}
 .worldline-badge{padding:.1rem .4rem;border-radius:999px;background:var(--cobalt);color:#fff;font-size:.64rem;font-weight:850}
+.worldline-actions{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:flex-end}
+.worldline-actions .secondary-button{min-height:32px;padding:.32rem .55rem;font-size:.72rem;border-radius:999px}
+.worldline-compare{margin-top:.7rem;padding:.7rem .8rem;border:1px dashed #c8d7d2;border-radius:10px;background:#fff}
+.worldline-compare[hidden]{display:none}
+.worldline-compare-head{display:flex;align-items:baseline;justify-content:space-between;gap:.6rem;font-size:.8rem}
+.worldline-compare-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem;margin-top:.55rem}
+.worldline-side{display:grid;gap:.18rem;padding:.55rem .6rem;border:1px solid var(--line);border-radius:9px;background:var(--paper-deep)}
+.worldline-side strong{font-size:.82rem}
+.worldline-side .muted{font-size:.71rem}
+.worldline-compare-badge{margin-top:.55rem;font-size:.75rem;font-weight:850;color:var(--cobalt)}
+.worldline-compare-badge[data-identical="false"]{color:var(--coral)}
+@media(max-width:720px){.worldline-compare-grid{grid-template-columns:1fr}}
 """

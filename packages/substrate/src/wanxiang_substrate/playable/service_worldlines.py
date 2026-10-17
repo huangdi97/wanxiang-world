@@ -8,11 +8,12 @@ read-only; the view exposes no event ids, hashes, or storage refs.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from wanxiang_domain.hierarchy import BranchRevision
 from wanxiang_domain.ids import BranchId, WorldInstanceId
 
+from wanxiang_substrate.playable.player_service import player_observe
 from wanxiang_substrate.playable.service_session import _owned_instance
 from wanxiang_substrate.playable.service_support import _runtime_instance_id
 from wanxiang_substrate.playable.store import ExperienceInstanceRecord
@@ -23,6 +24,76 @@ if TYPE_CHECKING:
 
 def _belongs(record: ExperienceInstanceRecord, runtime_id: str) -> bool:
     return (record.runtime_instance_id or record.instance_id) == runtime_id
+
+
+def _summary(
+    service: PlayableService,
+    record: ExperienceInstanceRecord,
+    viewer_id: str,
+    locale: str | None,
+) -> dict[str, object]:
+    view = player_observe(service, record.instance_id, viewer_id, locale=locale)
+    time = view.get("time")
+    player = view.get("player")
+    people = view.get("present_people")
+    time_row = cast(dict[str, object], time) if isinstance(time, dict) else None
+    player_row = cast(dict[str, object], player) if isinstance(player, dict) else None
+    names: list[str] = []
+    if isinstance(people, list):
+        for item in cast(list[object], people):
+            row = cast(dict[str, object], item) if isinstance(item, dict) else None
+            name = row.get("name") if row is not None else None
+            if isinstance(name, str) and name:
+                names.append(name)
+    return {
+        "instance_id": record.instance_id,
+        "world_time": time_row.get("ticks", 0) if time_row is not None else 0,
+        "location": view.get("location"),
+        "status": player_row.get("status") if player_row is not None else None,
+        "present_people": names,
+    }
+
+
+def _compare_worldlines(
+    service: PlayableService,
+    instance_id: str,
+    *,
+    other_instance_id: str,
+    viewer_id: str,
+    locale: str | None = None,
+) -> dict[str, object]:
+    """Compare two owned worldlines of the same runtime instance without ids."""
+
+    left = _owned_instance(service, instance_id, viewer_id)
+    right = _owned_instance(service, other_instance_id, viewer_id)
+    service.plaza.require_access(left.profile_id, viewer_id)
+    service.plaza.require_access(right.profile_id, viewer_id)
+    runtime_id = _runtime_instance_id(left)
+    if _runtime_instance_id(right) != runtime_id:
+        raise ValueError("worldlines belong to different runtime instances")
+    world_instance = WorldInstanceId(runtime_id)
+    _common_branch, common_revision = service.runtime.worldline_compare_point(
+        world_instance,
+        BranchId(left.branch_id),
+        BranchId(right.branch_id),
+    )
+    left_state = service.runtime.current_state(world_instance, BranchId(left.branch_id))
+    right_state = service.runtime.current_state(world_instance, BranchId(right.branch_id))
+
+    def diverged_events(record: ExperienceInstanceRecord) -> int:
+        events = service.runtime.events(world_instance, BranchId(record.branch_id))
+        return sum(1 for event in events if event.revision.value > common_revision)
+
+    return {
+        "common": {"revision": common_revision},
+        "identical": left_state.semantic_hash() == right_state.semantic_hash(),
+        "diverged_events": {
+            "left": diverged_events(left),
+            "right": diverged_events(right),
+        },
+        "left": _summary(service, left, viewer_id, locale),
+        "right": _summary(service, right, viewer_id, locale),
+    }
 
 
 def _branch_metadata(

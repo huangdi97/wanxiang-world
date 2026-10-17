@@ -57,3 +57,10 @@ class WorldRuntimePort(Protocol):
     ) -> tuple[CommittedEvent, ...]: ...
 
     def worldline_branches(self, instance_id: WorldInstanceId) -> tuple[object, ...]: ...
+
+    def worldline_compare_point(
+        self,
+        instance_id: WorldInstanceId,
+        left_branch_id: BranchId,
+        right_branch_id: BranchId,
+    ) -> tuple[BranchId, int]: ...

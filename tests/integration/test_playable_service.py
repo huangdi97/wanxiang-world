@@ -323,6 +323,18 @@ def test_worldline_fork_preserves_parent_and_diverges_independently() -> None:
     )
     assert child_card["world_time"] == parent_events[-1].world_time.ticks
 
+    shared = playable.compare_worldlines(
+        parent,
+        other_instance_id=child,
+        viewer_id="alice",
+    )
+    assert shared["identical"] is True
+    assert (
+        cast(dict[str, object], shared["common"])["revision"]
+        == (child_card["forked_from_revision"])
+    )
+    assert shared["diverged_events"] == {"left": 0, "right": 0}
+
     playable.leave(parent, viewer_id="alice")
     playable.continue_instance(child, viewer_id="alice")
     child_action = playable.action(child, viewer_id="alice", text="让自己保持警觉")
@@ -345,3 +357,16 @@ def test_worldline_fork_preserves_parent_and_diverges_independently() -> None:
     )
     assert cast(dict[str, object], replay["replay"])["event_count"] == 5
     assert cast(dict[str, object], replay["player"])["status"] == "警觉"
+
+    diverged = playable.compare_worldlines(
+        parent,
+        other_instance_id=child,
+        viewer_id="alice",
+    )
+    assert diverged["identical"] is False
+    assert diverged["diverged_events"] == {"left": 0, "right": 1}
+    left = cast(dict[str, object], diverged["left"])
+    right = cast(dict[str, object], diverged["right"])
+    assert left["status"] != right["status"]
+    assert right["status"] == "警觉"
+    assert cast(int, left["world_time"]) < cast(int, right["world_time"])

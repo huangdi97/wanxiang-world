@@ -26,4 +26,12 @@ STRINGS: dict[str, str] = {
     "worldline_close": "Close",
     "status_switching_worldline": "Switching worldline…",
     "status_worldline_switched": "Worldline switched.",
+    "worldline_compare": "Compare",
+    "worldline_compare_heading": "Worldline comparison",
+    "worldline_compare_common": "Shared history up to revision {revision}",
+    "worldline_compare_same": "Both worldlines currently hold the same state",
+    "worldline_compare_diverged": "Diverged",
+    "worldline_compare_this": "This worldline",
+    "worldline_compare_other": "Compared worldline",
+    "worldline_compare_events": "{count} events after the fork",
 }

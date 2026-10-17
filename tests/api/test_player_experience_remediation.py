@@ -382,6 +382,16 @@ def test_player_worldline_fork_returns_a_detached_branch_handle() -> None:
     child_card = next(card for card in cards if card["instance_id"] == child)
     assert child_card["current"] is True
     assert child_card["forked_from_revision"] is not None
+    shared = client.get(
+        f"/experience/player/instances/{instance_id}/compare",
+        headers=HEADERS,
+        params={"with": child},
+    )
+    assert shared.status_code == 200
+    shared_body = cast(dict[str, Any], shared.json())
+    assert shared_body["identical"] is True
+    assert shared_body["common"]["revision"] == child_card["forked_from_revision"]
+    assert shared_body["diverged_events"] == {"left": 0, "right": 0}
     assert (
         client.get(
             f"/experience/player/instances/{child}/worldlines",
@@ -419,6 +429,16 @@ def test_player_worldline_fork_returns_a_detached_branch_handle() -> None:
     )
     assert child_after["player"] != parent_after["player"]
     assert parent_after["player"] == parent_view["player"]
+    diverged = client.get(
+        f"/experience/player/instances/{instance_id}/compare",
+        headers=HEADERS,
+        params={"with": child},
+    )
+    assert diverged.status_code == 200
+    diverged_body = cast(dict[str, Any], diverged.json())
+    assert diverged_body["identical"] is False
+    assert diverged_body["diverged_events"] == {"left": 0, "right": 1}
+    assert diverged_body["right"]["status"] == "警觉"
 
 
 def test_player_entry_is_separate_from_english_studio_surface() -> None:

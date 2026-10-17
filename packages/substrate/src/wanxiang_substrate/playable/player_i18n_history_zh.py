@@ -26,4 +26,12 @@ STRINGS: dict[str, str] = {
     "worldline_close": "收起",
     "status_switching_worldline": "正在切换世界线…",
     "status_worldline_switched": "已切换世界线。",
+    "worldline_compare": "对比",
+    "worldline_compare_heading": "世界线对比",
+    "worldline_compare_common": "共同历史到 revision {revision}",
+    "worldline_compare_same": "两条世界线当前状态相同",
+    "worldline_compare_diverged": "已分叉",
+    "worldline_compare_this": "当前世界线",
+    "worldline_compare_other": "对比世界线",
+    "worldline_compare_events": "分叉后 {count} 条事件",
 }

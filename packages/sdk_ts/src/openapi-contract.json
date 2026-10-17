@@ -61,6 +61,11 @@
         "operationId": "player_action_instance_experience_player_instances__instance_id__action_post"
       }
     },
+    "/experience/player/instances/{instance_id}/compare": {
+      "get": {
+        "operationId": "player_compare_worldlines_experience_player_instances__instance_id__compare_get"
+      }
+    },
     "/experience/player/instances/{instance_id}/continue": {
       "post": {
         "operationId": "player_continue_instance_experience_player_instances__instance_id__continue_post"
