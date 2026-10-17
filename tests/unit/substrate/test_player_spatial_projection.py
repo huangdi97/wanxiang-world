@@ -130,6 +130,7 @@ def test_spatial_attachment_cannot_upgrade_source_gated_rights_to_public() -> No
     _attach_spatial_assets(service, "profile", request.stable_key, (gated_ref,))
     assert service._spatial_asset_refs["profile"][request.stable_key] == (gated_ref,)
 
+
 def test_player_world_detail_projects_verified_t3_frame_without_storage_identity() -> None:
     package = package_from_book("spatial-frame", ("钟楼",))
     request = _plan_book_scene_assets(package).scene_requests[0]
