@@ -683,3 +683,77 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
         server.should_exit = True
         thread.join(timeout=10)
         assert not thread.is_alive()
+
+
+@pytest.mark.e2e
+def test_player_place_list_paginates_many_source_places(persist_db_path: pathlib.Path) -> None:
+    places = [f"Site{chr(65 + index // 26)}{chr(65 + index % 26)}" for index in range(40)]
+    content = (
+        "# Chapter\nCharacter: Alice\n"
+        + "".join(f"Alice arrived in {place}.\n" for place in places)
+        + "rule: visitors register\n"
+    )
+    server, thread, base = _start(persist_db_path)
+    try:
+        with sync_playwright() as playwright:
+            browser = _launch(playwright.chromium)
+            try:
+                page = browser.new_page(viewport={"width": 390, "height": 844})
+                page_errors: list[str] = []
+                page.on("pageerror", lambda error: page_errors.append(str(error)))
+                page.goto(f"{base}/", wait_until="domcontentloaded")
+                _api(
+                    page,
+                    "/studio/one-click",
+                    "POST",
+                    {
+                        "job_id": "m95_many_places",
+                        "profile": "book",
+                        "semantic_provider": "local",
+                        "sources": [
+                            {
+                                "source_id": "m95_many_places_source",
+                                "kind": "text",
+                                "content": content,
+                                "stage": "E3",
+                                "rights_approved": True,
+                                "access": "private",
+                                "private_analysis_allowed": True,
+                                "package_inclusion_allowed": True,
+                                "public_export_allowed": False,
+                                "training_allowed": False,
+                            }
+                        ],
+                    },
+                )
+                profile = _api(
+                    page,
+                    "/studio/jobs/m95_many_places/playable-profile",
+                    "POST",
+                    {
+                        "owner_id": "studio",
+                        "visibility": "public",
+                        "display_name": "四十桥世界",
+                        "description": "由四十个来源地点组成的测试世界。",
+                    },
+                )
+                profile_id = str(cast(dict[str, object], profile["profile"])["profile_id"])
+                page.locator(f'#world-list [data-profile="{profile_id}"]').click()
+                page.wait_for_selector("#detail-view.is-active")
+                page.wait_for_selector("#visual-places .visual-place")
+                assert page.locator("#visual-places .visual-place").count() == 36
+                more = page.locator("#visual-place-more")
+                assert more.is_visible()
+                assert "还有 4 个" in more.inner_text()
+                more.click()
+                page.wait_for_function(
+                    "document.querySelectorAll('#visual-places .visual-place').length === 40"
+                )
+                assert more.is_hidden()
+                assert not page_errors, page_errors
+            finally:
+                browser.close()
+    finally:
+        server.should_exit = True
+        thread.join(timeout=10)
+        assert not thread.is_alive()
