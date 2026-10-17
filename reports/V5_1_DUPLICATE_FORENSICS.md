@@ -73,7 +73,7 @@
 | packages/substrate/src/wanxiang_substrate/world_lab/physical_models.py | PhysicalSnapshot | 78 |
 | packages/substrate/src/wanxiang_substrate/world_lab/visual_models.py | VisualSceneState | 129 |
 
-## store_classes (43)
+## store_classes (44)
 
 | path | name | line |
 |---|---|---|
@@ -93,6 +93,7 @@
 | packages/runtime/src/wanxiang_runtime/snapshot.py | SnapshotStore | 26 |
 | packages/runtime/src/wanxiang_runtime/snapshot.py | InMemorySnapshotStore | 74 |
 | packages/substrate/src/wanxiang_substrate/actor_continuity/trajectory.py | ActorTrajectoryLedger | 139 |
+| packages/substrate/src/wanxiang_substrate/assets/book_scene_budget.py | VisualBudgetLedger | 19 |
 | packages/substrate/src/wanxiang_substrate/assets/book_scene_panorama_budget.py | _PanoramaBudgetLedger | 41 |
 | packages/substrate/src/wanxiang_substrate/assets/book_scene_panorama_budget.py | _LocalJson_PanoramaBudgetLedger | 76 |
 | packages/substrate/src/wanxiang_substrate/assets/book_spatial_recovery.py | _RecoverableInMemorySpatialJobStore | 15 |
@@ -134,7 +135,7 @@
 | packages/substrate/src/wanxiang_substrate/observation/query.py | PerspectiveService | 29 |
 | packages/substrate/src/wanxiang_substrate/parsing/checkpoint.py | ParseCheckpointService | 14 |
 | packages/substrate/src/wanxiang_substrate/playable/entry.py | CharacterEntryService | 37 |
-| packages/substrate/src/wanxiang_substrate/playable/service.py | PlayableService | 50 |
+| packages/substrate/src/wanxiang_substrate/playable/service.py | PlayableService | 51 |
 | packages/substrate/src/wanxiang_substrate/projection/service.py | ProjectionService | 32 |
 | packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | CheckpointService | 89 |
 | packages/substrate/src/wanxiang_substrate/recovery/recovery.py | RecoveryService | 31 |

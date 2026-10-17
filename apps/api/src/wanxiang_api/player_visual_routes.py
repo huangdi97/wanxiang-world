@@ -12,6 +12,7 @@ from wanxiang_substrate.assets.book_scene_panorama_budget import PanoramaBudgetL
 from wanxiang_substrate.assets.book_scene_types import SceneImageProvider
 from wanxiang_substrate.playable import PlayableService
 from wanxiang_substrate.playable.player_service import player_world
+from wanxiang_substrate.playable.service_visual import _visual_budget_usage
 from wanxiang_substrate.spatial import plan_book_scene_assets
 
 from wanxiang_api.player_panorama_views import panorama_generation_view
@@ -62,7 +63,7 @@ def player_materialize_visual_place(
         "provider_calls": result.provider_calls,
         "cache_hits": result.cache_hits,
         "cost_units": result.cost_units,
-        "deferred_used": service.deferred_visual_usage(profile_id),
+        "deferred_used": _visual_budget_usage(service, profile_id),
         "deferred_limit": deferred_limit,
         "fallback_from_provider": result.fallback_from_provider,
         "fallback_reason": result.fallback_reason,

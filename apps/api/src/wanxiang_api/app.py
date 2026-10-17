@@ -22,6 +22,7 @@ from wanxiang_persistence.event_store import SqlAlchemyEventStore
 from wanxiang_persistence.instance_repository import WorldInstanceRepository
 from wanxiang_persistence.snapshot_store import SqlAlchemySnapshotStore
 from wanxiang_runtime.resolver import ResolverRegistry
+from wanxiang_substrate.assets.book_scene_budget import VisualBudgetLedger
 from wanxiang_substrate.assets.book_scene_cache import (
     LocalJsonVisualCacheIndex,
     VisualAssetCache,
@@ -218,6 +219,11 @@ def create_app(
         )
     else:
         app.state.visual_asset_cache = VisualAssetCache()
+    app.state.visual_budget = (
+        VisualBudgetLedger(visual_cache_path / "budget.json")
+        if visual_cache_path is not None
+        else VisualBudgetLedger()
+    )
     app.state.visual_asset_provider = visual_provider
     app.state.visual_asset_allow_network = visual_allow_network
     app.state.visual_asset_max_cost_units = visual_max_cost_units
@@ -251,6 +257,8 @@ def create_app(
         if runtime is not None
         else None
     )
+    if app.state.playable is not None:
+        app.state.playable._visual_budget = app.state.visual_budget
     install_error_handler(app)
 
     @app.exception_handler(PayloadTooLarge)

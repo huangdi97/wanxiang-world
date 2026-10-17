@@ -12,6 +12,7 @@ from typing import TYPE_CHECKING
 
 from wanxiang_domain.errors import ContractError, NotFound
 
+from wanxiang_substrate.assets.book_scene_budget import VisualBudgetLedger
 from wanxiang_substrate.assets.book_scene_identity import _source_scene_key
 from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
 from wanxiang_substrate.assets.book_scene_visual import (
@@ -31,6 +32,18 @@ from wanxiang_substrate.compile.assembler import WorldPackageDraft
 
 if TYPE_CHECKING:
     from wanxiang_substrate.playable.service import PlayableService
+
+
+def _ledger_for(service: PlayableService, profile_id: str) -> VisualBudgetLedger:
+    ledger = service._visual_budget
+    if ledger is None:
+        ledger = VisualBudgetLedger()
+        service._visual_budget = ledger
+    return ledger
+
+
+def _visual_budget_usage(service: PlayableService, profile_id: str) -> int:
+    return _ledger_for(service, profile_id).used(profile_id)
 
 
 def _visual_access_allowed(
@@ -166,15 +179,14 @@ def _materialize_visual_place(
 
     request = plan.scene_requests[0]
     owner = bool(profile.owner_id) and viewer_id == profile.owner_id
-    deferred_calls = service._deferred_visual_calls
+    used = _ledger_for(service, profile_id).used(profile_id)
     if (
         owner
         and provider is not None
         and max_deferred_generations > 0
-        and deferred_calls.get(profile_id, 0) >= max_deferred_generations
+        and used >= max_deferred_generations
         and service._visual_cache.get_for(request, provider, rights=plan.delivery_rights) is None
     ):
-        used = deferred_calls.get(profile_id, 0)
         raise ContractError(
             f"world on-demand visual budget exhausted ({used}/{max_deferred_generations})"
         )
@@ -193,7 +205,7 @@ def _materialize_visual_place(
         allow_provider_generation=bool(profile.owner_id) and viewer_id == profile.owner_id,
     )
     if owner and provider is not None and materialized.provider_calls > 0:
-        deferred_calls[profile_id] = deferred_calls.get(profile_id, 0) + materialized.provider_calls
+        _ledger_for(service, profile_id).record(profile_id, materialized.provider_calls)
     combined: dict[str, tuple[_SceneVisualAsset, AssetRef]] = {
         asset.scene_key: (asset, ref)
         for asset, ref in zip(
