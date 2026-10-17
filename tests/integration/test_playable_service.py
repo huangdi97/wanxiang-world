@@ -384,6 +384,7 @@ def test_worldline_fork_preserves_parent_and_diverges_independently() -> None:
         == (child_card["forked_from_revision"])
     )
     assert shared["diverged_events"] == {"left": 0, "right": 0}
+    assert shared["differences"] == {"total": 0, "truncated": False, "items": []}
 
     playable.leave(parent, viewer_id="alice")
     playable.continue_instance(child, viewer_id="alice")
@@ -420,3 +421,9 @@ def test_worldline_fork_preserves_parent_and_diverges_independently() -> None:
     assert left["status"] != right["status"]
     assert right["status"] == "警觉"
     assert cast(int, left["world_time"]) < cast(int, right["world_time"])
+    differences = cast(dict[str, object], diverged["differences"])
+    assert cast(int, differences["total"]) >= 1
+    assert cast(list[object], differences["items"])
+    dumped = json.dumps(differences, ensure_ascii=False)
+    assert "entity_id" not in dumped
+    assert "state_hash" not in dumped

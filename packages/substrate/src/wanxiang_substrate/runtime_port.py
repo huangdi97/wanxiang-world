@@ -64,3 +64,10 @@ class WorldRuntimePort(Protocol):
         left_branch_id: BranchId,
         right_branch_id: BranchId,
     ) -> tuple[BranchId, int]: ...
+
+    def diff(
+        self,
+        instance_id: WorldInstanceId,
+        branch_a: BranchId,
+        branch_b: BranchId,
+    ) -> object: ...

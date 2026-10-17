@@ -10,9 +10,17 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, cast
 
+from wanxiang_domain.entity import EntityState, RelationState
 from wanxiang_domain.hierarchy import BranchRevision
 from wanxiang_domain.ids import BranchId, WorldInstanceId
+from wanxiang_runtime.diff import StateDiff
+from wanxiang_runtime.state import InMemoryCanonicalState
 
+from wanxiang_substrate.playable.player_i18n import _copy_for, _PlayerCopy
+from wanxiang_substrate.playable.player_projection_support import (
+    _CATEGORY_KEYS,
+    _entity_name,
+)
 from wanxiang_substrate.playable.player_service import player_observe
 from wanxiang_substrate.playable.service_session import _owned_instance
 from wanxiang_substrate.playable.service_support import _runtime_instance_id
@@ -20,6 +28,8 @@ from wanxiang_substrate.playable.store import ExperienceInstanceRecord
 
 if TYPE_CHECKING:
     from wanxiang_substrate.playable.service import PlayableService
+
+_MAX_DIFF_ITEMS = 20
 
 
 def _belongs(record: ExperienceInstanceRecord, runtime_id: str) -> bool:
@@ -54,6 +64,67 @@ def _summary(
     }
 
 
+def _entity_card(
+    kind: str,
+    entity: EntityState | None,
+    copy: _PlayerCopy,
+) -> dict[str, object] | None:
+    if entity is None:
+        return None
+    category = copy.text(_CATEGORY_KEYS.get(entity.entity_type.casefold(), "category_state"))
+    return {"kind": kind, "name": _entity_name(entity, copy), "category": category}
+
+
+def _relation_card(
+    kind: str,
+    relation: RelationState | None,
+    state: InMemoryCanonicalState,
+    copy: _PlayerCopy,
+) -> dict[str, object] | None:
+    if relation is None:
+        return None
+    source = state.entity(relation.source_id)
+    target = state.entity(relation.target_id)
+    label = f"{_entity_name(source, copy)} — {_entity_name(target, copy)}"
+    return {"kind": kind, "name": label, "category": relation.relation_type}
+
+
+def _differences(
+    delta: StateDiff,
+    left_state: InMemoryCanonicalState,
+    right_state: InMemoryCanonicalState,
+    locale: str | None,
+) -> dict[str, object]:
+    """Player-safe structural diff: names and categories, never ids or hashes."""
+
+    copy = _copy_for(locale)
+    items: list[dict[str, object]] = []
+
+    def collect(card: dict[str, object] | None) -> None:
+        if card is not None:
+            items.append(card)
+
+    for entity_id in delta.added_entities:
+        collect(_entity_card("added_entity", right_state.entity(entity_id), copy))
+    for entity_id in delta.removed_entities:
+        collect(_entity_card("removed_entity", left_state.entity(entity_id), copy))
+    for entity_id in delta.updated_entities:
+        collect(_entity_card("updated_entity", right_state.entity(entity_id), copy))
+    for relation_id in delta.added_relations:
+        collect(
+            _relation_card("added_relation", right_state.relation(relation_id), right_state, copy)
+        )
+    for relation_id in delta.removed_relations:
+        collect(
+            _relation_card("removed_relation", left_state.relation(relation_id), left_state, copy)
+        )
+    return {
+        "total": len(items),
+        "truncated": len(items) > _MAX_DIFF_ITEMS,
+        "items": items[:_MAX_DIFF_ITEMS],
+    }
+
+
 def _compare_worldlines(
     service: PlayableService,
     instance_id: str,
@@ -79,6 +150,14 @@ def _compare_worldlines(
     )
     left_state = service.runtime.current_state(world_instance, BranchId(left.branch_id))
     right_state = service.runtime.current_state(world_instance, BranchId(right.branch_id))
+    delta = cast(
+        StateDiff,
+        service.runtime.diff(
+            world_instance,
+            BranchId(left.branch_id),
+            BranchId(right.branch_id),
+        ),
+    )
 
     def diverged_events(record: ExperienceInstanceRecord) -> int:
         events = service.runtime.events(world_instance, BranchId(record.branch_id))
@@ -93,6 +172,7 @@ def _compare_worldlines(
         },
         "left": _summary(service, left, viewer_id, locale),
         "right": _summary(service, right, viewer_id, locale),
+        "differences": _differences(delta, left_state, right_state, locale),
     }
 
 

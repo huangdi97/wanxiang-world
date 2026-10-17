@@ -21,7 +21,9 @@ function worldlineSide(label,row,count){
 }
 function renderWorldlineCompare(data){
   const block=$("worldline-compare"),left=data.left||{},right=data.right||{},diverged=data.diverged_events||{};
-  block.innerHTML=`<div class="worldline-compare-head"><strong>${safe(tr("worldline_compare_heading"))}</strong><span class="muted">${safe(tr("worldline_compare_common",{revision:data.common?.revision??0}))}</span></div><div class="worldline-compare-grid">${worldlineSide(tr("worldline_compare_this"),left,diverged.left)}${worldlineSide(tr("worldline_compare_other"),right,diverged.right)}</div><div class="worldline-compare-badge" data-identical="${data.identical?"true":"false"}">${safe(tr(data.identical?"worldline_compare_same":"worldline_compare_diverged"))}</div>`;
+  const differences=data.differences||{},items=differences.items||[];
+  const diffHtml=`<div class="worldline-diff"><strong>${safe(tr("worldline_compare_diff",{count:differences.total??0}))}</strong><ul class="plain-list">${items.length?items.slice(0,5).map(item=>`<li>${safe(item.name)} <span class="muted">${safe(item.category)}</span></li>`).join(""):`<li class="muted">${safe(tr("worldline_compare_no_diff"))}</li>`}</ul></div>`;
+  block.innerHTML=`<div class="worldline-compare-head"><strong>${safe(tr("worldline_compare_heading"))}</strong><span class="muted">${safe(tr("worldline_compare_common",{revision:data.common?.revision??0}))}</span></div><div class="worldline-compare-grid">${worldlineSide(tr("worldline_compare_this"),left,diverged.left)}${worldlineSide(tr("worldline_compare_other"),right,diverged.right)}</div><div class="worldline-compare-badge" data-identical="${data.identical?"true":"false"}">${safe(tr(data.identical?"worldline_compare_same":"worldline_compare_diverged"))}</div>${diffHtml}`;
   block.hidden=false;
 }
 async function compareWorldline(handle){

@@ -177,5 +177,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 .worldline-side .muted{font-size:.71rem}
 .worldline-compare-badge{margin-top:.55rem;font-size:.75rem;font-weight:850;color:var(--cobalt)}
 .worldline-compare-badge[data-identical="false"]{color:var(--coral)}
+.worldline-diff{margin-top:.55rem;font-size:.74rem}
+.worldline-diff .plain-list{margin:.35rem 0 0;padding-left:1rem}
+.worldline-diff li{padding:.15rem 0;border:0}
 @media(max-width:720px){.worldline-compare-grid{grid-template-columns:1fr}}
 """

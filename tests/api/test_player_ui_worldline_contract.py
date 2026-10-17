@@ -52,3 +52,5 @@ def test_fork_copy_is_available_in_both_locales() -> None:
         assert copy.text("worldline_compare")
         assert copy.text("worldline_compare_heading")
         assert "{revision}" in copy.text("worldline_compare_common")
+        assert copy.text("worldline_compare_no_diff")
+        assert "{count}" in copy.text("worldline_compare_diff")
