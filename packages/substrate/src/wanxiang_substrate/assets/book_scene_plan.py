@@ -99,7 +99,7 @@ def _plan_book_scene_assets(
     raw_fingerprints = package.draft.compiler_metadata.get("source_fingerprints_v1", "[]")
     decoded_fingerprints = _json_list(raw_fingerprints)
     fingerprints = tuple(
-        sorted(item for item in decoded_fingerprints if isinstance(item, str) and item)
+        sorted({item for item in decoded_fingerprints if isinstance(item, str) and item})
     )
     fingerprint_map = _json_string_map(
         package.draft.compiler_metadata.get("source_fingerprint_map_v1", "{}")
@@ -214,7 +214,12 @@ def _plan_book_scene_assets(
         # Cache identity may use content fingerprints, while audit/projection
         # keeps the original source locators unchanged.
         cache_evidence_refs = tuple(
-            _cache_evidence_ref(ref, source_fingerprints=fingerprint_map) for ref in source_refs
+            sorted(
+                {
+                    _cache_evidence_ref(ref, source_fingerprints=fingerprint_map)
+                    for ref in source_refs
+                }
+            )
         )
         evidence_identity = json.dumps(
             {

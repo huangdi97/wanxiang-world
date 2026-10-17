@@ -292,6 +292,79 @@ def test_invalid_source_confidence_never_outranks_verified_place() -> None:
     assert by_place == {"城门": 0.76, "虚影": 0.0, "港湾": 0.0}
 
 
+def test_duplicate_identical_sources_share_one_visual_identity() -> None:
+    fingerprint = "b" * 64
+
+    def plan_for(sources: dict[str, str]) -> tuple[str, str, int]:
+        metadata = {
+            "source_fingerprints_v1": json.dumps(sorted(sources.values())),
+            "source_fingerprint_map_v1": json.dumps(sources),
+            "scene_evidence_v1": json.dumps(
+                [
+                    {
+                        "name": "Harbor",
+                        "source_refs": [f"text://{source_id}#p1"],
+                        "confidence": 0.7,
+                    }
+                    for source_id in sources
+                ],
+                ensure_ascii=False,
+            ),
+        }
+        plan = _plan_book_scene_assets(
+            package_from_book("bundle", ("Harbor",), compiler_metadata=metadata)
+        )
+        scene = plan.scene_requests[0]
+        evidence = {item.place_name: item for item in plan.place_evidence}["Harbor"]
+        return plan.source_digest, scene.cache_key, evidence.source_ref_count
+
+    single = plan_for({"s1": fingerprint})
+    duplicate = plan_for({"s1": fingerprint, "s2": fingerprint})
+
+    assert single[0] == duplicate[0]
+    assert single[1] == duplicate[1]
+    assert single[2] == 1
+    assert duplicate[2] == 2
+
+
+def test_multi_source_bundle_merges_place_evidence_and_reacts_to_content_change() -> None:
+    first_fingerprint, second_fingerprint = "1" * 64, "2" * 64
+
+    def plan_for(second: str) -> tuple[str, str, int]:
+        metadata = {
+            "source_fingerprints_v1": json.dumps(sorted([first_fingerprint, second])),
+            "source_fingerprint_map_v1": json.dumps({"s1": first_fingerprint, "s2": second}),
+            "scene_evidence_v1": json.dumps(
+                [
+                    {
+                        "name": "Harbor",
+                        "source_refs": ["text://s1#p1"],
+                        "confidence": 0.6,
+                    },
+                    {
+                        "name": "Harbor",
+                        "source_refs": ["text://s2#p2"],
+                        "confidence": 0.9,
+                    },
+                ],
+                ensure_ascii=False,
+            ),
+        }
+        plan = _plan_book_scene_assets(
+            package_from_book("bundle", ("Harbor",), compiler_metadata=metadata)
+        )
+        scene = plan.scene_requests[0]
+        evidence = {item.place_name: item for item in plan.place_evidence}["Harbor"]
+        return plan.source_digest, scene.cache_key, evidence.source_ref_count
+
+    original = plan_for(second_fingerprint)
+    changed = plan_for("3" * 64)
+
+    assert original[2] == 2
+    assert original[0] != changed[0]
+    assert original[1] != changed[1]
+
+
 def test_same_source_fingerprint_reuses_cache_across_distinct_source_ids() -> None:
     fingerprint = "a" * 64
 
