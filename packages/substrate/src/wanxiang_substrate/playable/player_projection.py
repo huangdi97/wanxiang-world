@@ -96,9 +96,9 @@ def player_observation(
     current_event = _event_card(entities, names, copy, actor_id)
     opportunities = _opportunity_cards(entities, copy, actor_id)
     memories = _memory_cards(entities, actor_id)
-    chronicle = [_chronicle_card(event, names, actor_id, copy) for event in event_list[-6:]]
+    chronicle = [_chronicle_card(event, actor_id, copy) for event in event_list[-6:]]
     events_since_leave = [
-        _chronicle_card(event, names, actor_id, copy)
+        _chronicle_card(event, actor_id, copy)
         for event in event_list
         if events_since_revision is not None and event.event_seq.value > events_since_revision
     ]

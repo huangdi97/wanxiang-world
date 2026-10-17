@@ -252,7 +252,9 @@ def _actor_owned_entities(
 
 
 def _chronicle_card(
-    event: CommittedEvent, names: dict[str, str], actor_id: str, copy: _PlayerCopy
+    event: CommittedEvent,
+    actor_id: str,
+    copy: _PlayerCopy,
 ) -> dict[str, object]:
     operations = event.delta.operations
     summary = copy.text("chronicle_progress")
@@ -266,7 +268,6 @@ def _chronicle_card(
         summary = copy.text("chronicle_new_relation")
     elif any(isinstance(item, (EntityDelete, RelationDelete)) for item in operations):
         summary = copy.text("chronicle_ended_fact")
-    _ = names
     return {"time": event.world_time.ticks, "summary": summary}
 
 

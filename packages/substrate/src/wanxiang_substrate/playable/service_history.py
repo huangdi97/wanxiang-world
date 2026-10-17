@@ -13,7 +13,7 @@ from typing import TYPE_CHECKING
 from wanxiang_domain.ids import BranchId, WorldInstanceId
 
 from wanxiang_substrate.playable.player_i18n import _copy_for
-from wanxiang_substrate.playable.player_projection_support import _chronicle_card, _entity_name
+from wanxiang_substrate.playable.player_projection_support import _chronicle_card
 from wanxiang_substrate.playable.service_session import _owned_instance
 
 if TYPE_CHECKING:
@@ -45,11 +45,6 @@ def _history(
     if not events:
         return {"total": 0, "returned": 0, "events": []}
     copy = _copy_for(locale)
-    state = service.runtime.current_state(
-        WorldInstanceId(record.instance_id),
-        BranchId(record.branch_id),
-    )
-    names = {entity.entity_id.value: _entity_name(entity, copy) for entity in state.entities()}
     selected = events[-limit:]
-    cards = [_chronicle_card(event, names, record.actor_id, copy) for event in reversed(selected)]
+    cards = [_chronicle_card(event, record.actor_id, copy) for event in reversed(selected)]
     return {"total": len(events), "returned": len(cards), "events": cards}
