@@ -2,7 +2,7 @@
 
 # pyright: reportPrivateUsage=false
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 
 import pytest
 from wanxiang_substrate.assets.book_scene_external import (
@@ -15,7 +15,11 @@ from wanxiang_substrate.assets.book_scene_plan import (
     _SourceVisualPlan,
 )
 from wanxiang_substrate.assets.book_scene_prompt import _SceneGenerationBrief
-from wanxiang_substrate.assets.book_scene_visual import _materialize_visual_plan
+from wanxiang_substrate.assets.book_scene_visual import (
+    _materialize_product_visual_plan,
+    _materialize_visual_plan,
+    _VisualAssetCache,
+)
 from wanxiang_substrate.assets.foundry import SemanticSceneSpec
 
 
@@ -59,6 +63,58 @@ def _plan() -> _SourceVisualPlan:
         delivery_rights="source-gated",
         external_processing_allowed=True,
     )
+
+
+def test_partial_provider_cache_hits_survive_offline_fallback() -> None:
+    first = _request()
+    second = replace(
+        first,
+        place_name="城门",
+        stable_key="gate",
+        cache_key="cache-gate",
+    )
+    plan = _SourceVisualPlan(
+        package_id="world:partial",
+        source_digest="2" * 64,
+        status="READY_FOR_ASSET_PROVIDER",
+        scene_requests=(first, second),
+        deferred_scene_count=0,
+        delivery_rights="source-gated",
+        external_processing_allowed=True,
+    )
+    cache = _VisualAssetCache()
+    client = _FakeImageClient([])
+    provider = _PromptedExternalSceneProvider(
+        provider_id="provider:test-image",
+        provider_version="2026-10",
+        client=client,
+        cost_units_per_asset=1,
+        private_safe=False,
+    )
+    _materialize_visual_plan(
+        replace(plan, scene_requests=(first,)),
+        provider=provider,
+        cache=cache,
+        allow_network=True,
+        max_cost_units=1,
+    )
+    assert len(client.briefs) == 1
+
+    # Offline now: the paid T1 hit must not be downgraded to a T0 placeholder.
+    result = _materialize_product_visual_plan(
+        plan,
+        provider=provider,
+        cache=cache,
+        allow_network=False,
+        max_cost_units=0,
+    )
+
+    assert result.fallback_reason == "network_not_allowed"
+    assert result.cache_hits >= 1
+    assert result.assets[0].provider_id == "provider:test-image"
+    assert result.assets[0].content.startswith(b"\x89PNG\r\n\x1a\n")
+    assert result.assets[1].media_type == "image/svg+xml"
+    assert result.assets[1].place_name == "城门"
 
 
 def test_external_provider_gets_minimal_brief_and_obeys_materializer_governance() -> None:

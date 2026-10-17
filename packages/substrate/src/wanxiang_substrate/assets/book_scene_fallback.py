@@ -4,7 +4,13 @@
 
 from __future__ import annotations
 
-from wanxiang_substrate.assets.book_scene_types import SceneImageProvider
+from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
+from wanxiang_substrate.assets.book_scene_types import (
+    SceneImageProvider,
+    _SceneVisualAsset,
+    _VisualMaterialization,
+)
+from wanxiang_substrate.assets.storage import AssetRef
 
 
 class _VisualProviderIneligible(ValueError):
@@ -51,3 +57,18 @@ def _provider_identity(provider: SceneImageProvider) -> str:
     provider_id = provider.provider_id or "configured-provider"
     provider_version = provider.provider_version or "unknown"
     return f"{provider_id}@{provider_version}"
+
+
+def _merge_provider_cache_hits(
+    requests: tuple[_SourceSceneRequest, ...],
+    provider_hits: dict[str, tuple[_SceneVisualAsset, AssetRef]],
+    fallback: _VisualMaterialization,
+) -> tuple[tuple[_SceneVisualAsset, ...], tuple[AssetRef, ...]]:
+    """Combine paid cached provider assets with rendered fallback assets in plan order."""
+    merged = dict(provider_hits)
+    for asset, ref in zip(fallback.assets, fallback.asset_refs, strict=True):
+        merged[asset.scene_key] = (asset, ref)
+    return (
+        tuple(merged[request.stable_key][0] for request in requests),
+        tuple(merged[request.stable_key][1] for request in requests),
+    )

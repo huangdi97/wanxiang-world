@@ -9,8 +9,6 @@ import hashlib
 from wanxiang_substrate.assets.book_scene_cache import VisualAssetCache
 from wanxiang_substrate.assets.book_scene_fallback import (
     _provider_failure,
-    _provider_identity,
-    _VisualProviderFailure,
     _VisualProviderIneligible,
 )
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest, _SourceVisualPlan
@@ -59,24 +57,7 @@ def _materialize_visual_plan(
         cached_rows: dict[str, tuple[_SceneVisualAsset, AssetRef]] = {}
 
         for request in plan.scene_requests:
-            provider_cache_key = (
-                f"{request.cache_key}:{selected_provider.provider_id}@"
-                f"{selected_provider.provider_version}"
-            )
-            cached = asset_cache.get(provider_cache_key, rights=delivery_rights)
-            if cached is not None:
-                cached_asset = cached[0]
-                if (
-                    cached_asset.scene_key != request.stable_key
-                    or cached_asset.place_name != request.place_name
-                    or cached_asset.provider_id != selected_provider.provider_id
-                    or cached_asset.provider_version != selected_provider.provider_version
-                    or (request.style_key and cached_asset.style_key != request.style_key)
-                    or cached_asset.presentation_kind != selected_provider.presentation_kind
-                ):
-                    # An index row may exist but belong to another scene/provider.
-                    # Never mislabel an unrelated image as source-grounded evidence.
-                    cached = None
+            cached = asset_cache.get_for(request, selected_provider, rights=delivery_rights)
             if cached is None:
                 misses.append(request)
             else:
@@ -208,74 +189,6 @@ def _materialize_visual_plan(
             provider_calls=len(misses),
             cache_hits=len(plan.scene_requests) - len(misses),
             cost_units=expected_cost,
-        )
-
-
-def _materialize_product_visual_plan(
-    plan: _SourceVisualPlan,
-    provider: SceneImageProvider | None = None,
-    *,
-    cache: VisualAssetCache | None = None,
-    allow_network: bool = False,
-    max_cost_units: int = 0,
-    rights: str | None = None,
-    private_source: bool = False,
-    allow_provider_generation: bool = True,
-) -> _VisualMaterialization:
-    """Use cached/T1 visuals when possible; otherwise expose a metered T0 fallback."""
-    selected = provider
-    try:
-        return _materialize_visual_plan(
-            plan,
-            provider=selected,
-            cache=cache,
-            allow_network=allow_network,
-            max_cost_units=max_cost_units,
-            rights=rights,
-            private_source=private_source,
-            allow_provider_generation=allow_provider_generation,
-        )
-    except _VisualProviderIneligible as ineligible:
-        if selected is None:
-            raise
-        fallback = _materialize_visual_plan(
-            plan,
-            provider=None,
-            cache=cache,
-            allow_network=False,
-            max_cost_units=0,
-            rights=rights,
-            private_source=private_source,
-        )
-        return _VisualMaterialization(
-            assets=fallback.assets,
-            asset_refs=fallback.asset_refs,
-            provider_calls=fallback.provider_calls,
-            cache_hits=fallback.cache_hits,
-            cost_units=0,
-            fallback_from_provider=_provider_identity(selected),
-            fallback_reason=ineligible.reason,
-        )
-    except _VisualProviderFailure as failure:
-        if selected is None:
-            raise
-        fallback = _materialize_visual_plan(
-            plan,
-            provider=None,
-            cache=cache,
-            allow_network=False,
-            max_cost_units=0,
-            rights=rights,
-            private_source=private_source,
-        )
-        return _VisualMaterialization(
-            assets=fallback.assets,
-            asset_refs=fallback.asset_refs,
-            provider_calls=failure.provider_calls + fallback.provider_calls,
-            cache_hits=failure.cache_hits + fallback.cache_hits,
-            cost_units=failure.cost_units,
-            fallback_from_provider=_provider_identity(selected),
-            fallback_reason="provider_failure",
         )
 
 

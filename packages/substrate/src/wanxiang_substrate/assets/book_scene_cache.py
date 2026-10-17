@@ -15,7 +15,8 @@ from threading import Lock
 from typing import cast
 
 from wanxiang_substrate.assets.book_scene_interprocess import _exclusive_index_lock
-from wanxiang_substrate.assets.book_scene_types import _SceneVisualAsset
+from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
+from wanxiang_substrate.assets.book_scene_types import SceneImageProvider, _SceneVisualAsset
 from wanxiang_substrate.assets.errors import AssetCorrupt, AssetNotFound
 from wanxiang_substrate.assets.storage import AssetRef, InMemoryObjectStore, ObjectStore
 
@@ -232,6 +233,30 @@ class VisualAssetCache:
             ),
             ref,
         )
+
+    def get_for(
+        self,
+        request: _SourceSceneRequest,
+        provider: SceneImageProvider,
+        *,
+        rights: str = "public",
+    ) -> tuple[_SceneVisualAsset, AssetRef] | None:
+        """Hit only when the request, scene, style, and provider identity all match."""
+        cache_key = f"{request.cache_key}:{provider.provider_id}@{provider.provider_version}"
+        cached = self.get(cache_key, rights=rights)
+        if cached is None:
+            return None
+        asset = cached[0]
+        if (
+            asset.scene_key != request.stable_key
+            or asset.place_name != request.place_name
+            or asset.provider_id != provider.provider_id
+            or asset.provider_version != provider.provider_version
+            or (request.style_key and asset.style_key != request.style_key)
+            or asset.presentation_kind != provider.presentation_kind
+        ):
+            return None
+        return cached
 
     def put(self, asset: _SceneVisualAsset, *, rights: str = "public") -> AssetRef:
         ref = self.store.put(asset.content, content_type=asset.media_type, rights=rights)

@@ -324,7 +324,7 @@ class _SecondCallFailingProvider(_RemoteLikeProvider):
         return super().produce(request)
 
 
-def test_runtime_fallback_keeps_attempted_t1_cost_visible_after_partial_success() -> None:
+def test_runtime_fallback_keeps_paid_t1_asset_and_attempted_cost_after_partial_success() -> None:
     provider = _SecondCallFailingProvider()
     plan = _plan(
         _request("场景一", "partial-one"),
@@ -340,10 +340,11 @@ def test_runtime_fallback_keeps_attempted_t1_cost_visible_after_partial_success(
 
     assert provider.calls == 2
     assert [asset.provider_id for asset in result.assets] == [
-        "procedural-svg",
+        "remote-test",
         "procedural-svg",
     ]
-    assert result.provider_calls == 4
+    assert result.provider_calls == 3
+    assert result.cache_hits == 1
     assert result.cost_units == 4
     assert result.fallback_from_provider == "remote-test@2.3.0"
     assert result.fallback_reason == "provider_failure"
