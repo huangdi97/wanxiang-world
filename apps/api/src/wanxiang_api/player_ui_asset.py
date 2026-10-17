@@ -9,6 +9,7 @@ from html import escape
 import wanxiang_substrate.playable.player_i18n as _player_i18n
 
 from wanxiang_api.player_ui_panorama_builtin import BUILTIN_PANORAMA_RENDERER_SCRIPT
+from wanxiang_api.player_ui_spatial_builtin import BUILTIN_SPATIAL_RENDERER_SCRIPT
 from wanxiang_api.player_ui_panorama_renderer import PANORAMA_RENDERER_SCRIPT
 from wanxiang_api.player_ui_panorama_upgrade import PANORAMA_UPGRADE_SCRIPT
 from wanxiang_api.player_ui_script import SCRIPT
@@ -103,6 +104,7 @@ def player_html(locale: str | None = None) -> str:
         f'<aside class="world-record-panel player-panel" aria-labelledby="player-heading"><div class="record-heading"><span class="stage-label">{text("your_character")}</span><h3 id="player-heading">{text("your_character")}</h3></div><div class="player-facts"><div class="player-stat"><span>{text("name_label")}</span><strong id="player-name">{text("your_character")}</strong></div><div class="player-stat"><span>{text("status_label")}</span><strong id="player-status">{text("not_recorded")}</strong></div><div class="player-stat"><span>{text("position_label")}</span><strong id="player-position">{text("not_recorded")}</strong></div></div><div class="player-columns"><div class="player-stat"><span>{text("items_heading")}</span><ul class="plain-list" id="player-items"></ul></div><div class="player-stat"><span>{text("goals_heading")}</span><ul class="plain-list" id="player-goals"></ul></div><div class="player-stat"><span>{text("recent_memories_heading")}</span><strong id="player-memory">{text("memory_empty")}</strong><ul class="plain-list" id="memory-list"></ul></div><div class="player-stat"><span>{text("relations_heading")}</span><ul class="plain-list" id="relation-list"></ul></div></div></aside></div></section>'
         "</main></div>"
         f"<script>window.__PLAYER_I18N__={_player_i18n._serialize_copy(copy)};</script>"
+        f"<script>{BUILTIN_SPATIAL_RENDERER_SCRIPT}</script>"
         f"<script>{SPATIAL_RENDERER_SCRIPT}</script>"
         f"<script>{BUILTIN_PANORAMA_RENDERER_SCRIPT}</script>"
         f"<script>{PANORAMA_RENDERER_SCRIPT}</script>"
