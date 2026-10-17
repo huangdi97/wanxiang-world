@@ -77,7 +77,6 @@ class _PollUnavailableSpatialProvider(_FakeSpatialProvider):
         raise RuntimeError("artifact URL temporarily unavailable")
 
 
-
 def _source() -> dict[str, object]:
     return {
         "source_id": "spatial_api_book",
