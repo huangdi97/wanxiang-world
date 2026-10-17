@@ -21,6 +21,7 @@ from wanxiang_api.playable_routes import (
     CharacterCreateRequest,
     EnterExperienceRequest,
 )
+from wanxiang_api.player_spatial_recovery import rehydrate_spatial_attachments
 
 router = APIRouter(prefix="/experience/player")
 
@@ -115,7 +116,14 @@ def player_world_detail(
     viewer = _viewer(x_wanxiang_user)
     locale = _locale(x_wanxiang_locale)
     service = _service(request)
-    world = player_world(service, profile_id, viewer_id=viewer, locale=locale)
+    rehydrate_spatial_attachments(request, service, profile_id, viewer_id=viewer)
+    world = player_world(
+        service,
+        profile_id,
+        viewer_id=viewer,
+        locale=locale,
+        include_visual=True,
+    )
     characters = [
         _character(item)
         for item in service.entry.my_characters(viewer)
@@ -170,6 +178,7 @@ def player_enter_world(
     viewer = _viewer(x_wanxiang_user)
     locale = _locale(x_wanxiang_locale)
     service = _service(request)
+    rehydrate_spatial_attachments(request, service, profile_id, viewer_id=viewer)
     entered = service.enter(
         profile_id,
         viewer_id=viewer,

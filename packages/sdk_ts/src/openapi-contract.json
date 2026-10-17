@@ -61,14 +61,39 @@
         "operationId": "player_action_instance_experience_player_instances__instance_id__action_post"
       }
     },
+    "/experience/player/instances/{instance_id}/compare": {
+      "get": {
+        "operationId": "player_compare_worldlines_experience_player_instances__instance_id__compare_get"
+      }
+    },
     "/experience/player/instances/{instance_id}/continue": {
       "post": {
         "operationId": "player_continue_instance_experience_player_instances__instance_id__continue_post"
       }
     },
+    "/experience/player/instances/{instance_id}/fork": {
+      "post": {
+        "operationId": "player_fork_worldline_experience_player_instances__instance_id__fork_post"
+      }
+    },
+    "/experience/player/instances/{instance_id}/history": {
+      "get": {
+        "operationId": "player_instance_history_experience_player_instances__instance_id__history_get"
+      }
+    },
     "/experience/player/instances/{instance_id}/leave": {
       "post": {
         "operationId": "player_leave_instance_experience_player_instances__instance_id__leave_post"
+      }
+    },
+    "/experience/player/instances/{instance_id}/replay": {
+      "get": {
+        "operationId": "player_replay_instance_experience_player_instances__instance_id__replay_get"
+      }
+    },
+    "/experience/player/instances/{instance_id}/worldlines": {
+      "get": {
+        "operationId": "player_list_worldlines_experience_player_instances__instance_id__worldlines_get"
       }
     },
     "/experience/player/plaza": {
@@ -84,6 +109,37 @@
     "/experience/player/worlds/{profile_id}/enter": {
       "post": {
         "operationId": "player_enter_world_experience_player_worlds__profile_id__enter_post"
+      }
+    },
+    "/experience/player/worlds/{profile_id}/panoramas": {
+      "get": {
+        "operationId": "player_panorama_generation_status_experience_player_worlds__profile_id__panoramas_get"
+      },
+      "post": {
+        "operationId": "player_upgrade_visual_place_to_panorama_experience_player_worlds__profile_id__panoramas_post"
+      }
+    },
+    "/experience/player/worlds/{profile_id}/spatial": {
+      "get": {
+        "operationId": "player_list_spatial_places_experience_player_worlds__profile_id__spatial_get"
+      },
+      "post": {
+        "operationId": "player_submit_spatial_place_experience_player_worlds__profile_id__spatial_post"
+      }
+    },
+    "/experience/player/worlds/{profile_id}/spatial-assets/{asset_index}": {
+      "get": {
+        "operationId": "player_spatial_asset_experience_player_worlds__profile_id__spatial_assets__asset_index__get"
+      }
+    },
+    "/experience/player/worlds/{profile_id}/spatial/{submission_id}": {
+      "get": {
+        "operationId": "player_poll_spatial_place_experience_player_worlds__profile_id__spatial__submission_id__get"
+      }
+    },
+    "/experience/player/worlds/{profile_id}/visuals": {
+      "post": {
+        "operationId": "player_materialize_visual_place_experience_player_worlds__profile_id__visuals_post"
       }
     },
     "/experience/plaza": {

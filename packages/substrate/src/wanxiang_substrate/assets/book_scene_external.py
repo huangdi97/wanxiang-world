@@ -1,0 +1,96 @@
+"""Generic T1 external image adapter over bounded Wanxiang scene briefs.
+
+Vendor-specific HTTP/auth code lives behind _ExternalImageClient. This module
+contains no API keys, endpoints, canonical writers, or raw-book transport.
+"""
+
+# pyright: reportPrivateUsage=false
+# pyright: reportUnusedClass=false
+
+from __future__ import annotations
+
+import hashlib
+from dataclasses import dataclass, field, replace
+
+from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
+from wanxiang_substrate.assets.book_scene_prompt import (
+    _compile_scene_generation_brief,
+    _SceneGenerationBrief,
+    _story_visual_profile_from_style_key,
+)
+from wanxiang_substrate.assets.book_scene_visual import (
+    _SceneImageProvider,
+    _SceneVisualAsset,
+)
+
+
+@dataclass(frozen=True, slots=True)
+class _ExternalImageResult:
+    content: bytes
+    media_type: str
+
+
+class _ExternalImageClient:
+    def generate(self, brief: _SceneGenerationBrief) -> _ExternalImageResult:
+        raise TypeError("concrete visual implementation required")
+
+
+@dataclass(frozen=True, slots=True)
+class _PromptedExternalSceneProvider(_SceneImageProvider):
+    """T1 provider adapter; network/privacy/cost policy is enforced by materializer."""
+
+    provider_id: str = field()
+    provider_version: str = field()
+    client: _ExternalImageClient = field()
+    cost_units_per_asset: int = field()
+    private_safe: bool = field()
+    max_output_bytes: int = 20 * 1024 * 1024
+    requires_network: bool = True
+
+    def __post_init__(self) -> None:
+        if not self.provider_id or not self.provider_version:
+            raise ValueError("external visual provider requires id and version")
+        if self.cost_units_per_asset < 0:
+            raise ValueError("external visual provider cost must be non-negative")
+        if self.max_output_bytes <= 0:
+            raise ValueError("external visual provider output limit must be positive")
+
+    def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
+        style_key = (
+            request.style_key
+            or hashlib.sha256(f"{request.cache_key}:story-style".encode()).hexdigest()[:24]
+        )
+        profile = _story_visual_profile_from_style_key(style_key)
+        internal_brief = _compile_scene_generation_brief(request, profile)
+        # Locator references remain available for internal audit, but an
+        # untrusted external client does not need stable source identifiers.
+        brief = replace(internal_brief, source_refs=())
+        result = self.client.generate(brief)
+        if not result.content:
+            raise ValueError("external visual provider returned empty image bytes")
+        if len(result.content) > self.max_output_bytes:
+            raise ValueError("external visual provider output exceeds size limit")
+        if result.media_type not in {"image/png", "image/jpeg", "image/webp"}:
+            raise ValueError("external visual provider requires a raster image media type")
+        signature_matches = (
+            result.content.startswith(bytes.fromhex("89504e470d0a1a0a"))
+            if result.media_type == "image/png"
+            else result.content.startswith(bytes.fromhex("ffd8ff"))
+            if result.media_type == "image/jpeg"
+            else result.content.startswith(b"RIFF") and result.content[8:12] == b"WEBP"
+        )
+        if not signature_matches:
+            raise ValueError("external image bytes do not match declared media type")
+        digest = hashlib.sha256(result.content).hexdigest()
+        return _SceneVisualAsset(
+            scene_key=request.stable_key,
+            place_name=request.place_name,
+            provider_id=self.provider_id,
+            media_type=result.media_type,
+            content=result.content,
+            content_sha256=digest,
+            cache_key=(f"{request.cache_key}:{self.provider_id}@{self.provider_version}"),
+            illustrative=True,
+            style_key=style_key,
+            provider_version=self.provider_version,
+        )

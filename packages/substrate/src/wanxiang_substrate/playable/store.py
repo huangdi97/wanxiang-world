@@ -25,6 +25,9 @@ class ExperienceInstanceRecord:
     lease_id: str = ""
     last_revision: int = 0
     updated_seq: int = 0
+    # Forked worldlines use the branch id as the product handle, while canonical
+    # reads still target the runtime instance that owns the branch.
+    runtime_instance_id: str = ""
 
     def __post_init__(self) -> None:
         if not self.instance_id or not self.profile_id or not self.owner_id or not self.branch_id:

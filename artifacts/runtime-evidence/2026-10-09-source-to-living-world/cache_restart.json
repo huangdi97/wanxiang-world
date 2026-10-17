@@ -1,0 +1,27 @@
+{
+  "first_process": {
+    "provider_calls": 3,
+    "cache_hits": 0,
+    "content_sha256": "4eb4fcbe71b65d537dfa6edacb7272d4c837ac710ed58773b51a49f49afcd0de",
+    "media_type": "image/svg+xml",
+    "scene_count": 3,
+    "blob_count": 3,
+    "disk_index_exists": true,
+    "blobs_dir": "E:\\AI\\wanxiang\\artifacts\\local-visual-cache\\blobs",
+    "index_path": "E:\\AI\\wanxiang\\artifacts\\local-visual-cache\\index.json"
+  },
+  "restarted_process": {
+    "provider_calls": 0,
+    "cache_hits": 3,
+    "content_sha256": "4eb4fcbe71b65d537dfa6edacb7272d4c837ac710ed58773b51a49f49afcd0de",
+    "media_type": "image/svg+xml",
+    "scene_count": 3,
+    "blob_count": 3,
+    "disk_index_exists": true,
+    "blobs_dir": "E:\\AI\\wanxiang\\artifacts\\local-visual-cache\\blobs",
+    "index_path": "E:\\AI\\wanxiang\\artifacts\\local-visual-cache\\index.json"
+  },
+  "provider_calls_after_restart": 0,
+  "cache_hits_after_restart": 3,
+  "content_sha256_unchanged": true
+}

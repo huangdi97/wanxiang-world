@@ -1,6 +1,6 @@
 """Player projection adapter over the shared playable service ports."""
 
-# pyright: reportUnusedFunction=false
+# pyright: reportPrivateUsage=false, reportUnusedFunction=false
 
 from __future__ import annotations
 
@@ -13,6 +13,11 @@ from wanxiang_domain.ids import BranchId, WorldInstanceId
 from wanxiang_substrate.playable.player_projection import (
     player_observation,
     player_world_detail,
+)
+from wanxiang_substrate.playable.service_support import _runtime_instance_id
+from wanxiang_substrate.playable.service_visual import (
+    _visible_spatial_assets,
+    _visible_spatial_projection_frames,
 )
 from wanxiang_substrate.playable.state_diff import CommittedStateDiff
 from wanxiang_substrate.playable.store import ExperienceInstanceRecord
@@ -27,11 +32,25 @@ def player_world(
     *,
     viewer_id: str,
     locale: str | None = None,
+    include_visual: bool = False,
 ) -> dict[str, object]:
     """Return the non-technical world detail projection for Player UI."""
 
     profile = service.plaza.require_access(profile_id, viewer_id)
-    return player_world_detail(profile, service.packages.get(profile_id), locale=locale)
+    return player_world_detail(
+        profile,
+        service.packages.get(profile_id),
+        locale=locale,
+        include_visual=include_visual,
+        visual_assets=service.visual_assets(profile_id, viewer_id=viewer_id),
+        spatial_assets=_visible_spatial_assets(service, profile_id, viewer_id=viewer_id),
+        spatial_frames=_visible_spatial_projection_frames(
+            service,
+            profile_id,
+            viewer_id=viewer_id,
+        ),
+        visual_access_allowed=service.visual_access_allowed(profile_id, viewer_id=viewer_id),
+    )
 
 
 def player_observe(
@@ -49,7 +68,7 @@ def player_observe(
     if record.owner_id != viewer_id:
         raise NotFound(f"playable instance {instance_id!r} not found")
     profile = service.plaza.require_access(record.profile_id, viewer_id)
-    world_instance_id = WorldInstanceId(record.instance_id)
+    world_instance_id = WorldInstanceId(_runtime_instance_id(record))
     branch_id = BranchId(record.branch_id)
     state = service.runtime.current_state(world_instance_id, branch_id)
     actor_name = ""
@@ -61,7 +80,7 @@ def player_observe(
             actor_starting_location = character.starting_location
         except NotFound:
             actor_name = ""
-    events = tuple(service.runtime.events(world_instance_id, branch_id))
+    events = tuple(service.runtime.worldline_events(world_instance_id, branch_id))
     effective_events_since_revision = events_since_revision
     if effective_events_since_revision is None and not record.session_id:
         effective_events_since_revision = record.last_revision
@@ -72,9 +91,21 @@ def player_observe(
         events,
         actor_id=record.actor_id,
         actor_name=actor_name,
+        actor_starting_location=actor_starting_location,
         diff=diff,
         locale=locale,
         events_since_revision=effective_events_since_revision,
+        visual_assets=service.visual_assets(record.profile_id, viewer_id=viewer_id),
+        spatial_assets=_visible_spatial_assets(service, record.profile_id, viewer_id=viewer_id),
+        spatial_frames=_visible_spatial_projection_frames(
+            service,
+            record.profile_id,
+            viewer_id=viewer_id,
+        ),
+        visual_access_allowed=service.visual_access_allowed(
+            record.profile_id,
+            viewer_id=viewer_id,
+        ),
     )
     view["session"] = _session_summary(record, view, events, actor_starting_location)
     return view
@@ -100,7 +131,7 @@ def _session_summary(
             (
                 event
                 for event in reversed(tuple(events))
-                if event.event_seq.value <= record.last_revision
+                if event.revision.value <= record.last_revision
             ),
             None,
         )
@@ -115,4 +146,5 @@ def _session_summary(
         "events_since_leave": view["events_since_leave"],
         "last_change": view["last_committed_change"],
         "status": "saved" if left else "active",
+        "entry_mode": record.mode,
     }

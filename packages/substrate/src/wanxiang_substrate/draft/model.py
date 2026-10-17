@@ -64,6 +64,7 @@ class WorldDraft:
     selected_domains: tuple[str, ...] = ()
     dependency_lock: tuple[str, ...] = ()
     entities: tuple[tuple[str, str], ...] = ()  # (key, display_name)
+    entity_types: tuple[tuple[str, str], ...] = ()  # (key, source-declared kind)
     aliases: tuple[tuple[str, str], ...] = ()  # (identity_key, alias)
     character_profiles: tuple[str, ...] = ()
     organizations: tuple[str, ...] = ()
@@ -116,6 +117,7 @@ class WorldDraft:
             selected_domains=self.selected_domains,
             dependency_lock=self.dependency_lock,
             entities=self.entities,
+            entity_types=self.entity_types,
             aliases=self.aliases,
             character_profiles=self.character_profiles,
             organizations=self.organizations,

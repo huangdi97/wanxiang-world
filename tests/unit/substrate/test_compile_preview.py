@@ -127,6 +127,20 @@ def test_m57_compiles_pins_and_instantiates_through_host() -> None:
     assert preview.replay_hash() != before
 
 
+def test_preview_install_ids_are_content_addressed_not_counters() -> None:
+    from tests.unit.substrate.test_book_scene_plan import package_from_book
+
+    first = PreviewRegistry().install(package_from_book("book-a", ("A-place",)))
+    second = PreviewRegistry().install(package_from_book("book-b", ("B-place",)))
+    assert first.preview_id != second.preview_id
+    assert first.preview_id.startswith("preview_")
+
+    registry = PreviewRegistry()
+    installed_once = registry.install(package_from_book("book-a", ("A-place",)))
+    installed_again = registry.install(package_from_book("book-a", ("A-place",)))
+    assert installed_once == installed_again
+
+
 @pytest.mark.unit
 def test_m57_publish_keeps_completion_gap_out_of_canon() -> None:
     draft = _draft(gaps=("object continuity",))

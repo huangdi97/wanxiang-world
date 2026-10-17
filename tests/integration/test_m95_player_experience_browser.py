@@ -82,6 +82,8 @@ def _seed(page: Page) -> str:
         "content": (
             "# Chapter\nCharacter: Alice\nCharacter: Bob\n"
             "Alice arrived in Beijing in 1985.\nBob visited Beijing.\n"
+            "Alice 来到江南城。\nAlice 来到机关桥。\n"
+            "Alice 来到潮汐港。\nAlice 来到望月亭。\nAlice 来到青石巷。\n"
             "relationship: Alice -> Bob\nrule: visitors register\n"
         ),
         "stage": "E3",
@@ -96,7 +98,12 @@ def _seed(page: Page) -> str:
         page,
         "/studio/one-click",
         "POST",
-        {"job_id": "m95_browser_job", "profile": "book", "sources": [source]},
+        {
+            "job_id": "m95_browser_job",
+            "profile": "book",
+            "semantic_provider": "local",
+            "sources": [source],
+        },
     )
     profile = _api(
         page,
@@ -150,6 +157,174 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                     page.evaluate("window.__PLAYER_I18N__?.strings?.hero_title")
                     == "创造世界，进入世界，让世界继续发生。"
                 )
+
+                builtin_ply = (
+                    b"ply\n"
+                    b"format ascii 1.0\n"
+                    b"element vertex 4\n"
+                    b"property float x\n"
+                    b"property float y\n"
+                    b"property float z\n"
+                    b"property uchar red\n"
+                    b"property uchar green\n"
+                    b"property uchar blue\n"
+                    b"end_header\n"
+                    b"-1 -1 0 255 96 80\n"
+                    b"1 -1 0 80 220 180\n"
+                    b"-1 1 0 90 150 255\n"
+                    b"1 1 0 245 230 120\n"
+                )
+                page.route(
+                    "**/spatial-assets/0**",
+                    lambda route: route.fulfill(
+                        status=200,
+                        content_type="model/ply",
+                        body=builtin_ply,
+                    ),
+                )
+                page.evaluate(
+                    """() => {
+                      window.__WANXIANG_SPATIAL_STAGE__.sync(
+                        {
+                          place_name: "内置 PLY 空间",
+                          spatial: {
+                            ready: true,
+                            asset_count: 1,
+                            media_types: ["model/ply"]
+                          }
+                        },
+                        "profile-builtin-ply",
+                        {"x-wanxiang-user": "studio"}
+                      );
+                    }"""
+                )
+                assert (
+                    page.evaluate("document.querySelector('#spatial-stage-toggle').hidden") is False
+                )
+                page.evaluate("document.querySelector('#play-view').classList.add('is-active')")
+                assert page.evaluate("window.__WANXIANG_SPATIAL_STAGE__.toggle()") is True
+                builtin_canvas = page.locator("#world-stage-spatial canvas")
+                assert builtin_canvas.is_visible()
+                canvas_box = builtin_canvas.bounding_box()
+                assert canvas_box is not None
+                assert canvas_box["width"] > 100 and canvas_box["height"] > 100
+                assert builtin_canvas.get_attribute("aria-label") == "内置 PLY 空间"
+                assert (
+                    builtin_canvas.get_attribute("aria-describedby")
+                    == "spatial-stage-controls-hint"
+                )
+                stage_copy = page.locator("#world-stage-spatial").inner_text()
+                assert "4 个空间点" in stage_copy
+                assert "拖动旋转" in stage_copy
+                reset_view = page.get_by_role("button", name="复位视角")
+                assert reset_view.is_visible()
+                builtin_canvas.press("ArrowRight")
+                reset_view.press("Enter")
+                assert builtin_canvas.evaluate("node => document.activeElement === node") is True
+                assert page.evaluate("window.__WANXIANG_SPATIAL_STAGE__.deactivate()") is False
+                assert page.locator("#world-stage-spatial").is_hidden()
+                page.evaluate("document.querySelector('#play-view').classList.remove('is-active')")
+                page.unroute("**/spatial-assets/0**")
+
+                page.route(
+                    "**/spatial-assets/0**",
+                    lambda route: route.fulfill(
+                        status=200,
+                        content_type="model/gltf-binary",
+                        body=b"glTF-test",
+                    ),
+                )
+                page.evaluate(
+                    """() => {
+                      window.__WANXIANG_SPATIAL_RENDERER__ = {
+                        supports: types => types.includes("model/gltf-binary"),
+                        mount: async ({container, loadAsset}) => {
+                          const asset = await loadAsset(0);
+                          container.dataset.loaded = asset.mediaType;
+                          return () => { container.dataset.cleaned = "true"; };
+                        }
+                      };
+                      window.__WANXIANG_SPATIAL_STAGE__.sync(
+                        {
+                          place_name: "Test Place",
+                          spatial: {
+                            ready: true,
+                            asset_count: 1,
+                            media_types: ["model/gltf-binary"]
+                          }
+                        },
+                        "profile-test",
+                        {"x-wanxiang-user": "studio"}
+                      );
+                    }"""
+                )
+                assert (
+                    page.evaluate("document.querySelector('#spatial-stage-toggle').hidden") is False
+                )
+                assert page.evaluate("window.__WANXIANG_SPATIAL_STAGE__.toggle()") is True
+                assert (
+                    page.evaluate("document.querySelector('#world-stage-spatial').hidden") is False
+                )
+                assert (
+                    page.evaluate("document.querySelector('#world-stage-spatial').dataset.loaded")
+                    == "model/gltf-binary"
+                )
+                assert page.evaluate("window.__WANXIANG_SPATIAL_STAGE__.toggle()") is False
+                assert (
+                    page.evaluate("document.querySelector('#world-stage-spatial').hidden") is True
+                )
+                assert (
+                    page.evaluate("document.querySelector('#world-stage-spatial').dataset.cleaned")
+                    == "true"
+                )
+                page.evaluate(
+                    """() => {
+                      window.__WANXIANG_SPATIAL_RENDERER__ = {
+                        supports: () => { throw new Error("supports-failure"); },
+                        mount: async () => null
+                      };
+                      window.__WANXIANG_SPATIAL_STAGE__.sync(
+                        {
+                          place_name: "Broken",
+                          spatial: {
+                            ready: true,
+                            asset_count: 1,
+                            media_types: ["model/gltf-binary"]
+                          }
+                        },
+                        "profile-test",
+                        {}
+                      );
+                    }"""
+                )
+                assert (
+                    page.evaluate("document.querySelector('#spatial-stage-toggle').hidden") is True
+                )
+                page.evaluate(
+                    """() => {
+                      window.__WANXIANG_SPATIAL_RENDERER__ = {
+                        supports: () => true,
+                        mount: async () => () => {
+                          throw new Error("cleanup-failure");
+                        }
+                      };
+                      window.__WANXIANG_SPATIAL_STAGE__.sync(
+                        {
+                          place_name: "Cleanup",
+                          spatial: {
+                            ready: true,
+                            asset_count: 1,
+                            media_types: ["model/gltf-binary"]
+                          }
+                        },
+                        "profile-test",
+                        {}
+                      );
+                    }"""
+                )
+                assert page.evaluate("window.__WANXIANG_SPATIAL_STAGE__.toggle()") is True
+                assert page.evaluate("window.__WANXIANG_SPATIAL_STAGE__.deactivate()") is False
+                page.unroute("**/spatial-assets/0**")
                 assert page.get_by_role(
                     "heading", name="创造世界，进入世界，让世界继续发生。"
                 ).is_visible()
@@ -194,32 +369,293 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                     "document.querySelector('#detail-scenario')?.textContent === '潮汐门初启'"
                 )
                 assert page.locator("#detail-mode").text_content() == "角色体验"
+                detail_visual = page.locator("#detail-visual-image")
+                assert detail_visual.is_visible()
+                assert (detail_visual.get_attribute("src") or "").startswith(
+                    "data:image/svg+xml;base64,"
+                )
+                assert page.locator("#visual-gallery-wrap").is_visible()
+                assert page.locator("#visual-gallery .visual-thumb").count() >= 2
+                assert page.locator("#panorama-upgrade-panel").is_hidden()
+                assert "叙事世界图谱" in page.locator("#detail-visual-caption").inner_text()
+                entrances = page.locator("#atlas-entrances [data-atlas-place]")
+                assert entrances.count() >= 3
+                assert page.locator("#atlas-entrances").is_visible()
+                ready_entrance = (
+                    page.locator("#atlas-entrances [data-atlas-place]")
+                    .filter(has=page.locator("small", has_text="已有场景"))
+                    .first
+                )
+                assert ready_entrance.count() == 1
+                entrance_name = ready_entrance.get_attribute("data-atlas-place")
+                assert entrance_name
+                ready_entrance.click()
+                assert entrance_name in page.locator("#detail-visual-caption").inner_text()
+                assert page.locator("#atlas-entrances").is_hidden()
+                page.locator('#visual-gallery [data-visual-index="0"]').click()
+                assert page.locator("#atlas-entrances").is_visible()
+                place_buttons = page.locator("#visual-places .visual-place")
+                assert place_buttons.count() >= 5
+                assert page.locator("#visual-place-count").is_visible()
+                place_search = page.locator("#visual-place-search")
+                place_search.fill("机关桥")
+                assert place_buttons.count() == 1
+                place_search.fill("")
+                assert place_buttons.count() >= 5
+                ready_place = page.locator("#visual-places [data-focus-place]").first
+                ready_name = ready_place.get_attribute("data-focus-place")
+                assert ready_name
+                ready_place.click()
+                assert ready_place.get_attribute("aria-pressed") == "true"
+                assert ready_name in page.locator("#detail-visual-caption").inner_text()
+                assert page.locator("#panorama-upgrade-panel").is_visible()
+                assert (
+                    "未配置可用的全景生成器" in page.locator("#panorama-upgrade-copy").inner_text()
+                )
+                assert page.locator("#panorama-upgrade-submit").is_hidden()
+                assert "原文证据" in page.locator("#detail-visual-caption").inner_text()
+                assert "插画投影" in page.locator("#detail-visual-caption").inner_text()
+                assert page.locator("#spatial-upgrade-panel").is_visible()
+                assert "未配置空间生成器" in page.locator("#spatial-upgrade-copy").inner_text()
+                assert page.locator("#spatial-submit").is_hidden()
+                assert page.locator("#spatial-refresh").is_hidden()
+                page.locator('#visual-gallery [data-visual-index="0"]').click()
+                assert "叙事世界图谱" in page.locator("#detail-visual-caption").inner_text()
+                deferred_places = page.locator(
+                    '#visual-places .visual-place[data-generated="false"]'
+                )
+                assert deferred_places.count() >= 1
+                before_gallery_count = page.locator("#visual-gallery .visual-thumb").count()
+                before_deferred_count = deferred_places.count()
+                deferred_name = deferred_places.first.get_attribute("data-generate-place")
+                assert deferred_name
+                deferred_places.first.click()
+                page.wait_for_function(
+                    f"document.querySelectorAll('#visual-gallery .visual-thumb').length > "
+                    f"{before_gallery_count}"
+                )
+                assert page.locator(
+                    '#visual-places .visual-place[data-generated="false"]'
+                ).count() == (before_deferred_count - 1)
+                assert deferred_name in page.locator("#detail-visual-caption").inner_text()
+                assert (
+                    page.locator(
+                        f'#visual-places [data-focus-place="{deferred_name}"]'
+                    ).get_attribute("aria-pressed")
+                    == "true"
+                )
                 assert not page_errors, page_errors
                 assert page.locator('input[name="character"]').count() == 1, page.locator(
                     "#detail-view"
                 ).inner_html()
                 assert "以此角色进入" in page.locator("#detail-view").inner_text()
+                assert "先以观察者进入" in page.locator("#detail-view").inner_text()
+                fallback_copy = page.evaluate(
+                    """sceneReadyStatus(
+                        {
+                          fallback_from_provider:'provider:test@1',
+                          fallback_reason:'provider_failure'
+                        },
+                        '机关桥'
+                    )"""
+                )
+                assert "已使用离线保底场景" in fallback_copy
+                assert "高阶视觉生成失败" in fallback_copy
+                page.locator("#enter-observer").click()
+                page.wait_for_selector("#play-view.is-active")
+                assert page.locator("#play-mode").inner_text() == "观察模式"
+                assert page.locator("#send-action").is_disabled()
+                assert page.locator("#scene-visual-image").is_visible()
+                assert page.locator("#relation-list").inner_text().count("Alice") == 0
+                focus = page.locator("#stage-focus-toggle")
+                focus.click()
+                assert focus.get_attribute("aria-pressed") == "true"
+                assert page.locator(".world-stage-hud").is_hidden()
+                assert page.locator("#scene-visual-image").is_visible()
+                focus.click()
+                assert focus.get_attribute("aria-pressed") == "false"
+                assert page.locator(".world-stage-hud").is_visible()
+                assert page.locator("#observer-scene-explorer").is_visible()
+                before_location = page.locator("#play-location").inner_text()
+                deferred_stage_button = page.locator(
+                    "#observer-scene-list [data-observer-generate]"
+                ).first
+                assert deferred_stage_button.count() == 1
+                deferred_stage_name = deferred_stage_button.get_attribute("data-observer-generate")
+                assert deferred_stage_name
+                deferred_stage_button.click()
+                generated_stage_button = page.locator(
+                    f'#observer-scene-list [data-observer-scene="{deferred_stage_name}"]'
+                )
+                generated_stage_button.wait_for(state="visible")
+                assert deferred_stage_name in page.locator("#scene-visual-caption").inner_text()
+                assert "非此刻位置" in page.locator("#scene-visual-caption").inner_text()
+                assert "原文证据" in page.locator("#scene-visual-caption").inner_text()
+                assert (
+                    "视觉生成器 procedural-svg@1.1.0"
+                    in page.locator("#scene-visual-caption").inner_text()
+                )
+                assert "插画投影" in page.locator("#scene-visual-caption").inner_text()
+                assert page.locator("#play-location").inner_text() == before_location
+                assert page.locator("#send-action").is_disabled()
+                scene_button = page.locator(
+                    '#observer-scene-list [data-observer-scene]:not([data-observer-scene=""])'
+                ).last
+                preview_place = scene_button.get_attribute("data-observer-scene")
+                assert preview_place
+                scene_button.click()
+                assert preview_place in page.locator("#scene-visual-caption").inner_text()
+                assert "非此刻位置" in page.locator("#scene-visual-caption").inner_text()
+                assert page.locator("#play-location").inner_text() == before_location
+                assert page.locator("#send-action").is_disabled()
+                page.locator('#observer-scene-list [data-observer-scene=""]').click()
+                assert page.locator("#play-location").inner_text() == before_location
+                page.locator("#world-stage").screenshot(
+                    path=str(review / "observer-stage-desktop.png")
+                )
+                page.locator("#leave-world").click()
+                page.wait_for_selector("#home-view.is-active")
+                page.locator(f'#world-list [data-profile="{profile_id}"]').click()
+                page.wait_for_selector("#detail-view.is-active")
                 page.locator('input[name="character"]').check()
                 page.locator("#enter-world").click()
+                page.wait_for_selector("#play-view.is-active")
                 page.wait_for_function(
                     "document.querySelector('#play-world-name')?.textContent === '江南机关城'"
+                )
+                scene_visual = page.locator("#scene-visual-image")
+                assert scene_visual.is_visible()
+                assert (scene_visual.get_attribute("src") or "").startswith(
+                    "data:image/svg+xml;base64,"
+                )
+                stage = page.locator("#world-stage")
+                assert page.locator("#observer-scene-explorer").is_hidden()
+                assert stage.is_visible()
+                stage_box = stage.bounding_box()
+                visual_box = scene_visual.bounding_box()
+                assert stage_box is not None and stage_box["height"] >= 600
+                assert visual_box is not None
+                assert visual_box["width"] >= stage_box["width"] * 0.9
+                assert visual_box["height"] >= stage_box["height"] * 0.9
+                assert page.locator(".world-stage-hud").is_visible()
+                assert page.locator(".world-stage-story").is_visible()
+                assert page.locator(".world-action-dock").is_visible()
+                people_copy = page.locator("#people-list").inner_text()
+                known_copy = page.locator("#known-people-list").inner_text()
+                assert "Alice" not in people_copy
+                assert "Bob" not in people_copy
+                assert "Alice" not in known_copy
+                assert "Bob" in known_copy
+                assert "位置未核实" in known_copy
+                assert "Beijing" not in people_copy
+                assert "世界视觉预览" in page.locator("#scene-visual-caption").inner_text()
+                page.locator("#world-stage").screenshot(
+                    path=str(review / "embodied-stage-desktop.png")
                 )
                 page.locator("#action-input").fill("让自己保持清醒")
                 page.locator("#send-action").click()
                 page.wait_for_function("document.body.innerText.includes('清醒')")
+                assert page.evaluate("typeof replayAt === 'function'") is True
                 body_after_action = page.locator("body").inner_text()
                 assert "世界变化" in body_after_action
                 assert all(
                     forbidden not in body_after_action
                     for forbidden in ("state_hash", "event_id", "branch_id", "profile_id")
                 )
-                page.locator("#leave-world").click()
+                replay_button = page.locator("#chronicle-list [data-replay-time]").first
+                assert replay_button.count() >= 1
+                for attempt in range(2):
+                    replay_button.click()
+                    try:
+                        page.wait_for_selector("#stage-replay-banner:not([hidden])", timeout=8000)
+                        break
+                    except Exception:
+                        if attempt == 0:
+                            continue
+                        print("status:", page.locator("#status").inner_text())
+                        print("page_errors:", page_errors)
+                        raise
+                assert "回看" in page.locator("#stage-replay-banner").inner_text()
+                assert "世界时间" in page.locator("#stage-replay-banner").inner_text()
+                assert page.locator("#play-mode").inner_text() == "历史回看"
+                assert page.locator("#send-action").is_disabled()
+                assert page.locator("#action-input").is_disabled()
+                replay_copy = page.locator("body").inner_text()
+                assert all(
+                    forbidden not in replay_copy
+                    for forbidden in ("state_hash", "event_id", "branch_id", "profile_id")
+                )
+                page.locator("#world-stage").screenshot(
+                    path=str(review / "replay-stage-desktop.png")
+                )
+                page.locator("#stage-replay-exit").click()
+                assert page.locator("#stage-replay-banner").is_hidden()
+                assert not page.locator("#send-action").is_disabled()
+                assert not page.locator("#action-input").is_disabled()
+                assert page.locator("#play-mode").inner_text() == "角色体验"
+                expand = page.locator("#chronicle-expand")
+                assert expand.is_visible()
+                expand.click()
+                page.wait_for_function(
+                    "document.querySelector('#chronicle-expand')?.textContent === '收起纪事'"
+                )
+                assert page.locator("#chronicle-list [data-replay-time]").count() >= 1
+                expand.click()
+                page.wait_for_function(
+                    "document.querySelector('#chronicle-expand')?.textContent === '查看完整纪事'"
+                )
+                assert not page_errors, page_errors
+                parent_instance = page.evaluate("model.instanceId")
+                page.locator("#fork-worldline").click()
+                page.wait_for_selector("#home-view.is-active")
+                page.wait_for_function(
+                    "document.querySelector('#status')?.textContent.includes('新世界线')"
+                )
+                forked_instance = page.evaluate(
+                    "window.__WANXIANG_LAST_FORKED_WORLDLINE__?.instance_id"
+                )
+                assert forked_instance and forked_instance != parent_instance
                 page.wait_for_selector("[data-continue]")
                 page.locator('[data-filter="recent"]').click()
                 assert page.locator("#world-list [data-profile]").count() == 1
                 page.locator('[data-filter="all"]').click()
                 page.locator("#continue-slot [data-continue]").click()
                 page.wait_for_selector("#play-view.is-active")
+                page.locator("#worldline-toggle").click()
+                page.wait_for_selector("#worldline-panel:not([hidden])")
+                assert page.locator("#worldline-list li").count() == 2
+                page.locator(f'[data-compare-worldline="{forked_instance}"]').click()
+                page.wait_for_selector("#worldline-compare:not([hidden])")
+                compare_copy = page.locator("#worldline-compare").inner_text()
+                assert "共同历史" in compare_copy
+                assert "revision" in compare_copy
+                assert "当前状态相同" in compare_copy
+                assert "没有结构差异" in compare_copy
+                page.locator(f'[data-switch-worldline="{forked_instance}"]').click()
+                page.wait_for_function(f'model.instanceId === "{forked_instance}"')
+                page.wait_for_function(
+                    "document.querySelector('#status')?.textContent.includes('已切换')"
+                )
+                page.set_viewport_size({"width": 390, "height": 844})
+                mobile_stage_box = page.locator("#world-stage").bounding_box()
+                mobile_dock_box = page.locator(".world-action-dock").bounding_box()
+                assert mobile_stage_box is not None
+                assert mobile_dock_box is not None
+                assert mobile_dock_box["y"] >= (
+                    mobile_stage_box["y"] + mobile_stage_box["height"] - 2
+                )
+                page.locator("#world-stage").screenshot(
+                    path=str(review / "embodied-stage-mobile.png")
+                )
+                mobile_focus = page.locator("#stage-focus-toggle")
+                mobile_focus.click()
+                assert page.locator(".world-stage-story").is_hidden()
+                assert page.locator("#scene-visual-image").is_visible()
+                page.locator("#world-stage").screenshot(
+                    path=str(review / "focused-stage-mobile.png")
+                )
+                mobile_focus.click()
+                assert page.locator(".world-stage-story").is_visible()
                 mobile = browser.new_page(viewport={"width": 390, "height": 844})
                 mobile.goto(f"{base}/", wait_until="networkidle")
                 mobile.screenshot(path=str(review / "mobile.png"), full_page=True)
