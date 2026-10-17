@@ -54,8 +54,10 @@ def test_player_world_detail_surfaces_t3_readiness_without_storage_identity() ->
     assert isinstance(visual, dict)
     scenes = cast(list[dict[str, object]], visual["scenes"])
     scene = scenes[0]
+    assert scene["projection_only"] is True
     assert scene["spatial"] == {
         "ready": True,
+        "projection_only": True,
         "asset_count": 1,
         "media_types": ["model/gltf-binary"],
     }
@@ -73,6 +75,7 @@ def test_player_world_detail_marks_t3_not_ready_without_attachment() -> None:
     scenes = cast(list[dict[str, object]], visual["scenes"])
     assert scenes[0]["spatial"] == {
         "ready": False,
+        "projection_only": True,
         "asset_count": 0,
         "media_types": [],
     }
@@ -163,6 +166,7 @@ def test_player_world_detail_projects_verified_t3_frame_without_storage_identity
     visual = cast(dict[str, object], detail["visual"])
     scene = cast(list[dict[str, object]], visual["scenes"])[0]
     spatial = cast(dict[str, object], scene["spatial"])
+    assert spatial["projection_only"] is True
     assert spatial["projection_frame"] == {
         "up": [0.0, 1.0, 0.0],
         "forward": [0.0, 0.0, -1.0],

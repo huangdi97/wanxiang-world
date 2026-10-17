@@ -129,6 +129,7 @@ def test_t2_panorama_is_explicit_owner_upgrade_and_cached_for_player() -> None:
     scenes = first.json()["world"]["visual"]["scenes"]
     garden = next(scene for scene in scenes if scene["place_name"] == "Garden")
     assert garden["presentation_kind"] == "panorama"
+    assert garden["projection_only"] is True
     assert provider_client.calls == 1
 
     second = client.post(
@@ -153,3 +154,4 @@ def test_t2_panorama_is_explicit_owner_upgrade_and_cached_for_player() -> None:
         if scene["place_name"] == "Garden"
     )
     assert public_scene["presentation_kind"] == "panorama"
+    assert public_scene["projection_only"] is True

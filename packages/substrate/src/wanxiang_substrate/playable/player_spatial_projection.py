@@ -23,6 +23,7 @@ def _spatial_capability(
     media_types = tuple(dict.fromkeys(ref.content_type for ref in refs))
     capability: dict[str, object] = {
         "ready": bool(refs),
+        "projection_only": True,
         "asset_count": len(refs),
         "media_types": list(media_types),
     }

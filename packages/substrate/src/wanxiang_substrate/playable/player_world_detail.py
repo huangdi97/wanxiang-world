@@ -127,6 +127,7 @@ def player_world_detail(
                     "data_uri": atlas.data_uri(),
                     "content_sha256": atlas.content_sha256,
                     "illustrative": atlas.illustrative,
+                    "projection_only": True,
                 }
                 if atlas is not None
                 else None
@@ -138,6 +139,7 @@ def player_world_detail(
                     "data_uri": asset.data_uri(),
                     "content_sha256": asset.content_sha256,
                     "illustrative": asset.illustrative,
+                    "projection_only": True,
                     "provider_id": asset.provider_id,
                     "provider_version": asset.provider_version,
                     "presentation_kind": asset.presentation_kind,
