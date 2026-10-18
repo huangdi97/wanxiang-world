@@ -1,7 +1,6 @@
 """Browser behavior for the Player Experience; it only calls player routes."""
 
 # ruff: noqa: E501
-
 SCRIPT = r"""
 const USER="studio";
 const i18n=window.__PLAYER_I18N__||{locale:"zh-CN",strings:{}};
@@ -169,6 +168,7 @@ function renderDetail(preferredPlace=""){
   window.__WANXIANG_PANORAMA_UPGRADE__?.render(visual?.kind==="atlas"?null:visual,tr);
   renderSpatialPanel(visual?.kind==="atlas"?null:visual);
   const list=$("character-list"),items=model.world.characters||[];
+  renderCast(world.cast||[]);
   list.innerHTML=items.length?items.map(item=>characterLine(item,true)).join(""):`<div class="empty-state"><strong>${safe(tr("no_compatible_title"))}</strong><p>${safe(tr("no_compatible_body"))}</p><button type="button" class="text-button" data-open-characters>${safe(tr("create_character_from_world"))}</button></div>`;
   if(items.length&&!items.some(item=>item.character_id===model.selectedCharacter)){model.selectedCharacter=items[0].character_id;const radio=list.querySelector("input");if(radio)radio.checked=true}
   list.querySelectorAll('input[name="character"]').forEach(node=>node.addEventListener("change",()=>{model.selectedCharacter=node.value}));
@@ -266,9 +266,10 @@ async function loadHome(){
   try{const [plaza,characters]=await Promise.all([api("/experience/player/plaza"),api("/experience/player/characters")]);model.plaza=plaza;model.characters=characters.characters||[];renderPlaza();renderCharacterView();status("")}
   catch(error){$("world-list").innerHTML=`<div class="error-state"><strong>${safe(tr("plaza_unavailable_title"))}</strong><p>${safe(error.message)}</p><button class="secondary-button" id="retry-home">${safe(tr("retry"))}</button></div>`;$("retry-home").addEventListener("click",loadHome);status(error.message,true)}finally{busy(false)}
 }
+function renderCast(cast){const select=$("character-actor");if(!select)return;const current=select.value;const available=cast.filter(item=>item.available);select.innerHTML=`<option value="">${safe(tr("cast_auto"))}</option>`+available.map(item=>`<option value="${safe(item.character_id)}">${safe(item.name)}</option>`).join("");if(current&&available.some(item=>item.character_id===current))select.value=current}
 async function createCharacter(event){
   event.preventDefault();const form=event.currentTarget;const values=id=>$(id).value.trim();
-  const body={display_name:values("character-name"),identity:values("character-identity"),intro:values("character-intro"),stance:values("character-stance"),starting_location:values("character-location"),knowledge_boundary:values("character-knowledge"),compatible_profile_ids:model.world?.world?.profile_id?[model.world.world.profile_id]:[]};
+  const body={display_name:values("character-name"),character_id:values("character-actor")||undefined,identity:values("character-identity"),intro:values("character-intro"),stance:values("character-stance"),starting_location:values("character-location"),knowledge_boundary:values("character-knowledge"),compatible_profile_ids:model.world?.world?.profile_id?[model.world.world.profile_id]:[]};
   if(!body.display_name){status(tr("character_name_required"),true);return}
   busy(true);status(tr("status_saving_character"));
   try{const result=await api("/experience/player/characters",{method:"POST",body:JSON.stringify(body)});model.characters.push(result.character);form.reset();renderCharacterView();if(model.world){const refreshed=await api(`/experience/player/worlds/${encodeURIComponent(model.world.world.profile_id)}`);model.world=refreshed;renderDetail()}status(tr("status_character_saved"))}

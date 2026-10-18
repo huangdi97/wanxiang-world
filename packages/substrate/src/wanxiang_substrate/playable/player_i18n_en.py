@@ -112,6 +112,8 @@ STRINGS: dict[str, str] = {
     "starting_location_aria": "Starting place",
     "knowledge_label": "What you know",
     "knowledge_aria": "What the character knows on entry",
+    "cast_label": "Source role (optional)",
+    "cast_auto": "Auto-bind a source role",
     "save_character": "Save character profile",
     "leave_world": "Leave world",
     "scene_heading": "Live scene",

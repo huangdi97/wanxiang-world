@@ -102,6 +102,8 @@ STRINGS: dict[str, str] = {
     "starting_location_aria": "初始地点，例如沉水巷",
     "knowledge_label": "你知道什么",
     "knowledge_aria": "角色进入时已有的了解",
+    "cast_label": "来源角色（可选）",
+    "cast_auto": "自动匹配来源角色",
     "save_character": "保存角色资料",
     "leave_world": "离开世界",
     "scene_heading": "此刻现场",

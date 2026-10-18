@@ -85,6 +85,7 @@ def player_html(locale: str | None = None) -> str:
         f'<p>{text("characters_intro")}</p></div></div><div class="character-list" id="all-character-list"></div>'
         f'<details class="form-panel" id="character-form-panel"><summary>{text("create_character_summary")}</summary><form id="character-form"><div class="form-grid">'
         f'<div class="field"><label for="character-name">{text("name_label")}</label><input id="character-name" required aria-label="{text("name_aria")}"></div>'
+        f'<div class="field"><label for="character-actor">{text("cast_label")}</label><select id="character-actor" aria-label="{text("cast_label")}"><option value="">{text("cast_auto")}</option></select></div>'
         f'<div class="field"><label for="character-identity">{text("identity_label")}</label><input id="character-identity" aria-label="{text("identity_aria")}"></div>'
         f'<div class="field form-wide"><label for="character-intro">{text("intro_label")}</label><textarea id="character-intro" aria-label="{text("intro_aria")}"></textarea></div>'
         f'<div class="field"><label for="character-stance">{text("stance_label")}</label><input id="character-stance" aria-label="{text("stance_aria")}"></div>'
