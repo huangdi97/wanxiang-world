@@ -36,7 +36,7 @@ def _source() -> dict[str, object]:
     }
 
 
-def _client(*, with_character: bool = True) -> Any:
+def _client(*, with_character: bool = True, visibility: str = "public") -> Any:
     app = create_app(build_reference_runtime())
     client: Any = TestClient(app)
     response = client.post(
@@ -48,7 +48,7 @@ def _client(*, with_character: bool = True) -> Any:
         "/studio/jobs/m95_zh_projection_job/playable-profile",
         json={
             "owner_id": "studio",
-            "visibility": "public",
+            "visibility": visibility,
             "display_name": "江南机关城",
             "description": "一座沿水道展开的机关城，机关与人情都从清晨开始。",
             "scenario_name": "潮汐门初启",
@@ -498,6 +498,10 @@ def test_grounded_actor_reentry_and_fork_keep_one_actor() -> None:
     assert fork.status_code == 200, fork.text
     child = str(cast(dict[str, Any], fork.json()["worldline"])["instance_id"])
     playable = client.app.state.playable
+    parent_record = playable.store.get_instance_for(instance_id, "studio")
+    assert parent_record is not None
+    parent_world = WorldInstanceId(parent_record.runtime_instance_id or parent_record.instance_id)
+    parent_branch = BranchId(parent_record.branch_id)
     child_record = playable.store.get_instance_for(child, "studio")
     assert child_record is not None
     child_world = WorldInstanceId(child_record.runtime_instance_id or child_record.instance_id)
@@ -513,6 +517,33 @@ def test_grounded_actor_reentry_and_fork_keep_one_actor() -> None:
     )
     child_after = playable.runtime.current_state(child_world, child_branch)
     assert child_after.semantic_hash() == child_before.semantic_hash()
+    assert (
+        client.post(
+            f"/experience/player/instances/{instance_id}/leave",
+            headers=HEADERS,
+        ).status_code
+        == 200
+    )
+    parent_before_child_action = playable.runtime.current_state(parent_world, parent_branch)
+    assert (
+        client.post(
+            f"/experience/player/instances/{child}/continue",
+            headers=HEADERS,
+        ).status_code
+        == 200
+    )
+    assert (
+        client.post(
+            f"/experience/player/instances/{child}/action",
+            headers=HEADERS,
+            json={"text": "set status to alert"},
+        ).status_code
+        == 200
+    )
+    child_after_action = playable.runtime.current_state(child_world, child_branch)
+    assert child_after_action.semantic_hash() != child_before.semantic_hash()
+    parent_after_child_action = playable.runtime.current_state(parent_world, parent_branch)
+    assert parent_after_child_action.semantic_hash() == parent_before_child_action.semantic_hash()
     child_view = client.get(f"/experience/player/instances/{child}", headers=HEADERS)
     assert child_view.status_code == 200
     child_player = cast(dict[str, Any], child_view.json()["view"]["player"])
@@ -579,6 +610,38 @@ def test_foreign_character_cannot_ground_an_actor() -> None:
     after = playable.runtime.current_state(world_instance, branch)
     assert after.semantic_hash() == before.semantic_hash()
     assert after.revision.value == before.revision.value
+
+
+def test_private_world_does_not_ground_foreign_actor() -> None:
+    client = _client(with_character=False, visibility="private")
+    profiles = client.app.state.playable.store.list_profiles()
+    profile_id = profiles[0].profile_id
+    alice_headers = {"X-Wanxiang-User": "alice"}
+    created = client.post(
+        "/experience/player/characters",
+        headers=alice_headers,
+        json={
+            "display_name": "Outsider",
+            "character_id": "outsider",
+            "compatible_profile_ids": [profile_id],
+        },
+    )
+    assert created.status_code == 201, created.text
+    denied = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=alice_headers,
+        json={
+            "mode": "embodiment",
+            "session_id": "private_outsider",
+            "character_id": "outsider",
+        },
+    )
+    assert denied.status_code == 404
+    playable = client.app.state.playable
+    install = playable._installs[profile_id]
+    assert (
+        playable.runtime.find_existing_world(WorldInstanceId(f"prv_{install.preview_id}")) is None
+    )
 
 
 def test_public_visual_world_hides_cost_details_from_visitors() -> None:
