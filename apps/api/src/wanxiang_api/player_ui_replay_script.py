@@ -9,6 +9,7 @@ that script first.
 # ruff: noqa: E501
 
 REPLAY_SCRIPT = r"""
+const HISTORY_PAGE_SIZE=50;
 function renderChronicle(v,model){
   const expanded=!model.replay&&Boolean(model.historyExpanded&&model.history?.events);
   const items=expanded?model.history.events:(v.chronicle||[]);
@@ -22,14 +23,14 @@ function renderChronicle(v,model){
 async function loadMoreHistory(){
   if(!model.instanceId||!model.history?.next_before)return;
   busy(true);status(tr("status_loading_history"));
-  try{const before=Number(model.history.next_before);const result=await api(`/experience/player/instances/${encodeURIComponent(model.instanceId)}/history?limit=200&before=${encodeURIComponent(String(before))}`);model.history={...result,events:(model.history?.events||[]).concat(result.events||[]),returned:((model.history?.events||[]).length+(result.events||[]).length)};renderPlay();status("")}
+  try{const before=Number(model.history.next_before);const result=await api(`/experience/player/instances/${encodeURIComponent(model.instanceId)}/history?limit=${HISTORY_PAGE_SIZE}&before=${encodeURIComponent(String(before))}`);model.history={...result,events:(model.history?.events||[]).concat(result.events||[]),returned:((model.history?.events||[]).length+(result.events||[]).length)};renderPlay();status("")}
   catch(error){status(error.message,true)}finally{busy(false)}
 }
 async function toggleHistory(){
   if(!model.instanceId)return;
   if(model.historyExpanded){model.historyExpanded=false;renderPlay();return}
   busy(true);status(tr("status_loading_history"));
-  try{const result=await api(`/experience/player/instances/${encodeURIComponent(model.instanceId)}/history?limit=200`);model.history=result;model.historyExpanded=true;renderPlay();status("")}
+  try{const result=await api(`/experience/player/instances/${encodeURIComponent(model.instanceId)}/history?limit=${HISTORY_PAGE_SIZE}`);model.history=result;model.historyExpanded=true;renderPlay();status("")}
   catch(error){status(error.message,true)}finally{busy(false)}
 }
 async function replayAt(ticks){

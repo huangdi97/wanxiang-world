@@ -827,3 +827,116 @@ def test_player_place_list_paginates_many_source_places(persist_db_path: pathlib
         server.should_exit = True
         thread.join(timeout=10)
         assert not thread.is_alive()
+
+
+@pytest.mark.e2e
+def test_player_history_loads_earlier_pages_in_browser(persist_db_path: pathlib.Path) -> None:
+    source = {
+        "source_id": "m95_history_pages_source",
+        "kind": "text",
+        "content": (
+            "# Chapter\nCharacter: Alice\nAlice arrived in Beijing in 1985.\n"
+            "rule: visitors register\n"
+        ),
+        "stage": "E3",
+        "rights_approved": True,
+        "access": "private",
+        "private_analysis_allowed": True,
+        "package_inclusion_allowed": True,
+        "public_export_allowed": False,
+        "training_allowed": False,
+    }
+    server, thread, base = _start(persist_db_path)
+    try:
+        with sync_playwright() as playwright:
+            browser = _launch(playwright.chromium)
+            try:
+                page = browser.new_page(viewport={"width": 1440, "height": 1000})
+                page_errors: list[str] = []
+                page.on("pageerror", lambda error: page_errors.append(str(error)))
+                page.goto(f"{base}/", wait_until="domcontentloaded")
+                _api(
+                    page,
+                    "/studio/one-click",
+                    "POST",
+                    {
+                        "job_id": "m95_history_pages",
+                        "profile": "book",
+                        "semantic_provider": "local",
+                        "sources": [source],
+                    },
+                )
+                profile = _api(
+                    page,
+                    "/studio/jobs/m95_history_pages/playable-profile",
+                    "POST",
+                    {
+                        "owner_id": "studio",
+                        "visibility": "public",
+                        "display_name": "长史世界",
+                    },
+                )
+                profile_id = str(cast(dict[str, object], profile["profile"])["profile_id"])
+                _api(
+                    page,
+                    "/experience/player/characters",
+                    "POST",
+                    {
+                        "display_name": "沈砚",
+                        "character_id": "ent_alice",
+                        "compatible_profile_ids": [profile_id],
+                        "identity": "守夜人",
+                    },
+                )
+                entered = _api(
+                    page,
+                    f"/experience/player/worlds/{profile_id}/enter",
+                    "POST",
+                    {
+                        "mode": "embodiment",
+                        "session_id": "history_pages_session",
+                        "character_id": "ent_alice",
+                    },
+                )
+                instance = str(entered["instance_id"])
+                for index in range(51):
+                    _api(
+                        page,
+                        f"/experience/player/instances/{instance}/action",
+                        "POST",
+                        {"text": ("让自己保持清醒" if index % 2 == 0 else "让自己保持平静")},
+                    )
+
+                page.reload(wait_until="networkidle")
+                page.locator("#continue-slot [data-continue]").click()
+                page.wait_for_selector("#play-view.is-active")
+                page.locator("#chronicle-expand").click()
+                page.wait_for_function(
+                    "document.querySelectorAll('#chronicle-list [data-replay-time]').length >= 50"
+                )
+                total = int(page.evaluate("Number(model.history.total)"))
+                assert total > 50
+                more = page.locator("#chronicle-more")
+                assert more.is_visible()
+                more.click()
+                page.wait_for_function(
+                    "document.querySelectorAll('#chronicle-list [data-replay-time]').length ==="
+                    f" {total}"
+                )
+                assert more.is_hidden()
+                times = cast(
+                    list[int],
+                    page.evaluate(
+                        "[...document.querySelectorAll('#chronicle-list [data-replay-time]')]"
+                        ".map(node=>Number(node.dataset.replayTime))"
+                    ),
+                )
+                assert times == sorted(times, reverse=True)
+                assert len(set(times)) == len(times)
+                assert not page_errors, page_errors
+            finally:
+                browser.close()
+    finally:
+        server.should_exit = True
+        thread.join(timeout=10)
+        assert not thread.is_alive()
