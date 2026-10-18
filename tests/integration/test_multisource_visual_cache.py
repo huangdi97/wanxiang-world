@@ -22,6 +22,42 @@ def _source(source_id: str, character: str, place: str) -> SourceRecord:
     )
 
 
+def test_multisource_bundle_ranks_by_combined_evidence_and_keeps_refs() -> None:
+    def source_with_mentions(
+        source_id: str,
+        character: str,
+        mentions: tuple[str, ...],
+    ) -> SourceRecord:
+        text = (
+            f"# Chapter\nCharacter: {character}\n"
+            + "\n".join(f"{character} arrived in {place} in 1985." for place in mentions)
+            + "\n"
+        )
+        return SourceRecord(
+            source_id=source_id,
+            kind="text",
+            content_hash=payload_hash(text),
+            content_ref=f"memory://{source_id}",
+            stage="E3",
+            rights=RightsEnvelope(owner="synthetic", usage="test", approved=True),
+            payload=text,
+            provenance=f"synthetic:multisource-rank:{source_id}",
+            access="public",
+        )
+
+    first = source_with_mentions("bundle-a", "Alice", ("Garden",) * 8 + ("Harbor",))
+    second = source_with_mentions("bundle-b", "Bob", ("Library",) * 7 + ("Market",))
+    result = OneClickAuthoring().run("bundle-ranked", (first, second), profile="book")
+
+    assert result.visual_plan is not None
+    scenes = result.visual_plan.scene_requests
+    assert [scene.place_name for scene in scenes[:2]] == ["Garden", "Library"]
+    assert result.visual_plan.deferred_scene_count == 1
+    by_place = {scene.place_name: scene for scene in scenes}
+    assert all("bundle-a" in ref for ref in by_place["Garden"].source_refs)
+    assert all("bundle-b" in ref for ref in by_place["Library"].source_refs)
+
+
 def test_equivalent_multisource_bundle_reuses_visual_cache_across_new_source_ids() -> None:
     cache = _VisualAssetCache()
     first = OneClickAuthoring(visual_cache=cache).run(
