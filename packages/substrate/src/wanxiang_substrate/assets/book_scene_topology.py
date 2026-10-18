@@ -31,6 +31,11 @@ class _SourceTopologyRelation:
     conflicting: bool = False
 
 
+def _normalize_relation_type(value: str) -> str:
+    """Collapse lexical formatting without merging genuinely different types."""
+    return "_".join(value.strip().lower().replace("-", " ").split())
+
+
 def _topology_relations(
     raw_topology: str,
     known_places: set[str],
@@ -51,17 +56,18 @@ def _topology_relations(
             or target_place not in known_places
         ):
             continue
+        normalized_type = _normalize_relation_type(relation_type)
         source_refs = _string_list(row.get("source_refs", []))
         confidence = _bounded_confidence(row.get("confidence", 0.0))
-        if not source_refs or not relation_type.strip() or confidence <= 0.0:
+        if not source_refs or not normalized_type or confidence <= 0.0:
             continue
-        key = (source_place, target_place, relation_type.strip())
+        key = (source_place, target_place, normalized_type)
         existing = merged.get(key)
         if existing is None:
             merged[key] = _SourceTopologyRelation(
                 source_place=source_place,
                 target_place=target_place,
-                relation_type=relation_type.strip(),
+                relation_type=normalized_type,
                 source_refs=source_refs,
                 confidence=confidence,
             )

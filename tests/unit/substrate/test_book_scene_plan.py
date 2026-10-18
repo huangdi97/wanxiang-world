@@ -250,6 +250,73 @@ def test_topology_requires_source_locator_and_bounded_confidence() -> None:
     assert plan.topology_relations[0].confidence == 0.91
 
 
+def test_relation_type_identity_ignores_case_and_separators() -> None:
+    first = {
+        "source_place": "海港",
+        "target_place": "城门",
+        "relation_type": "Route",
+        "source_refs": ["book#chapter-2"],
+        "confidence": 0.6,
+    }
+    second = {
+        **first,
+        "relation_type": " route ",
+        "source_refs": ["book#chapter-3"],
+        "confidence": 0.7,
+    }
+    third = {
+        **first,
+        "relation_type": "route",
+        "source_refs": ["book#chapter-4"],
+        "confidence": 0.8,
+    }
+    package = package_from_book(
+        "topology-normalized",
+        ("海港", "城门"),
+        compiler_metadata={
+            "scene_topology_evidence_v1": json.dumps(
+                [first, second, third],
+                ensure_ascii=False,
+            )
+        },
+    )
+    plan = _plan_book_scene_assets(package)
+
+    assert len(plan.topology_relations) == 1
+    relation = plan.topology_relations[0]
+    assert relation.relation_type == "route"
+    assert relation.source_refs == ("book#chapter-2", "book#chapter-3", "book#chapter-4")
+    assert relation.confidence == 0.8
+    assert relation.conflicting is False
+
+
+def test_relation_type_identity_normalizes_spaces_and_hyphens() -> None:
+    base = {
+        "source_place": "海港",
+        "target_place": "城门",
+        "source_refs": ["book#chapter-2"],
+        "confidence": 0.7,
+    }
+    package = package_from_book(
+        "topology-separators",
+        ("海港", "城门"),
+        compiler_metadata={
+            "scene_topology_evidence_v1": json.dumps(
+                [
+                    {**base, "relation_type": "located-in"},
+                    {**base, "relation_type": "Located In", "source_refs": ["book#chapter-3"]},
+                ],
+                ensure_ascii=False,
+            )
+        },
+    )
+    plan = _plan_book_scene_assets(package)
+
+    assert len(plan.topology_relations) == 1
+    assert plan.topology_relations[0].relation_type == "located_in"
+    assert plan.topology_relations[0].source_refs == ("book#chapter-2", "book#chapter-3")
+
+
 def test_opposing_or_multi_type_relations_are_marked_conflicting() -> None:
     forward = {
         "source_place": "海港",
