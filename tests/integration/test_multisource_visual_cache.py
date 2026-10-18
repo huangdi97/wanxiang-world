@@ -58,6 +58,21 @@ def test_multisource_bundle_ranks_by_combined_evidence_and_keeps_refs() -> None:
     assert all("bundle-b" in ref for ref in by_place["Library"].source_refs)
 
 
+def test_same_named_place_from_two_sources_merges_with_both_refs() -> None:
+    first = _source("same-name-a", "Alice", "Garden")
+    second = _source("same-name-b", "Bob", "Garden")
+    result = OneClickAuthoring().run("bundle-same-name", (first, second), profile="book")
+
+    assert result.visual_plan is not None
+    scenes = result.visual_plan.scene_requests
+    assert [scene.place_name for scene in scenes] == ["Garden"]
+    refs = scenes[0].source_refs
+    assert any("same-name-a" in ref for ref in refs)
+    assert any("same-name-b" in ref for ref in refs)
+    assert result.visual_plan.deferred_scene_count == 0
+    assert len(result.visual_assets) == 1
+
+
 def test_equivalent_multisource_bundle_reuses_visual_cache_across_new_source_ids() -> None:
     cache = _VisualAssetCache()
     first = OneClickAuthoring(visual_cache=cache).run(

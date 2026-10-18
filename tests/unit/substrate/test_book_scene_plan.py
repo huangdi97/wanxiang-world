@@ -219,6 +219,11 @@ def test_topology_requires_source_locator_and_bounded_confidence() -> None:
     excessive_confidence = {**valid, "confidence": 3.0}
     nonfinite_confidence = {**valid, "confidence": float("nan")}
     fake_place = {**valid, "target_place": "虚构山谷"}
+    duplicate = {
+        **valid,
+        "source_refs": ["book#chapter-3"],
+        "confidence": 0.91,
+    }
     package = package_from_book(
         "topology-proof",
         ("海港", "城门"),
@@ -232,6 +237,7 @@ def test_topology_requires_source_locator_and_bounded_confidence() -> None:
                     nonfinite_confidence,
                     fake_place,
                     valid,
+                    duplicate,
                 ],
                 ensure_ascii=False,
             )
@@ -240,8 +246,8 @@ def test_topology_requires_source_locator_and_bounded_confidence() -> None:
     plan = _plan_book_scene_assets(package)
 
     assert len(plan.topology_relations) == 1
-    assert plan.topology_relations[0].source_refs == ("book#chapter-2",)
-    assert plan.topology_relations[0].confidence == 0.84
+    assert plan.topology_relations[0].source_refs == ("book#chapter-2", "book#chapter-3")
+    assert plan.topology_relations[0].confidence == 0.91
 
 
 def test_reviewed_scene_evidence_invalidates_pixels_without_changing_world_identity() -> None:

@@ -14,15 +14,17 @@ from dataclasses import dataclass
 from typing import cast
 
 from wanxiang_substrate.assets.book_scene_evidence import (
-    _bounded_confidence,
     _cache_evidence_ref,
     _json_list,
     _json_string_map,
     _object_dict,
-    _string_list,
 )
 from wanxiang_substrate.assets.book_scene_identity import _source_scene_key
 from wanxiang_substrate.assets.book_scene_ranking import _rank_places
+from wanxiang_substrate.assets.book_scene_topology import (
+    _SourceTopologyRelation,
+    _topology_relations,
+)
 from wanxiang_substrate.assets.foundry import SemanticSceneSpec
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 
@@ -39,17 +41,6 @@ class _SourceSceneRequest:
     confidence: float = 0.0
     style_key: str = ""
     context_candidates: tuple[str, ...] = ()
-
-
-@dataclass(frozen=True, slots=True)
-class _SourceTopologyRelation:
-    """An explicit, source-grounded relation between named places."""
-
-    source_place: str
-    target_place: str
-    relation_type: str
-    source_refs: tuple[str, ...] = ()
-    confidence: float = 0.0
 
 
 @dataclass(frozen=True, slots=True)
@@ -129,40 +120,11 @@ def _plan_book_scene_assets(
     if not distinct_places:
         return _SourceVisualPlan(package.package_id, source_digest, "PLACES_NOT_EXTRACTED", (), 0)
 
-    raw_topology = package.draft.compiler_metadata.get("scene_topology_evidence_v1", "[]")
-    decoded_topology = _json_list(raw_topology)
-    topology_relations: list[_SourceTopologyRelation] = []
     known_places = set(distinct_places)
-    for raw_row in decoded_topology:
-        row = _object_dict(raw_row)
-        if row is None:
-            continue
-        source_place = row.get("source_place")
-        target_place = row.get("target_place")
-        relation_type = row.get("relation_type")
-        if (
-            not isinstance(source_place, str)
-            or not isinstance(target_place, str)
-            or not isinstance(relation_type, str)
-            or source_place not in known_places
-            or target_place not in known_places
-        ):
-            continue
-        source_refs = _string_list(row.get("source_refs", []))
-        confidence = _bounded_confidence(row.get("confidence", 0.0))
-        # A relation without a source locator is a claim, not an atlas edge.
-        # Unbounded/NaN confidence can also mislead a player about evidence.
-        if not source_refs or not relation_type.strip() or confidence <= 0.0:
-            continue
-        topology_relations.append(
-            _SourceTopologyRelation(
-                source_place=source_place,
-                target_place=target_place,
-                relation_type=relation_type,
-                source_refs=source_refs,
-                confidence=confidence,
-            )
-        )
+    topology_relations = _topology_relations(
+        package.draft.compiler_metadata.get("scene_topology_evidence_v1", "[]"),
+        known_places,
+    )
     delivery_rights = package.draft.compiler_metadata.get("visual_asset_rights_v1", "source-gated")
     if delivery_rights not in {"public", "source-gated"}:
         delivery_rights = "source-gated"
