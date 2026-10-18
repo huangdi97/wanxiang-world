@@ -278,6 +278,45 @@ def test_english_suggestion_commits_through_player_browser(
 
 
 @pytest.mark.e2e
+def test_english_lease_conflict_stays_english(
+    persist_db_path: pathlib.Path,
+) -> None:
+    server, thread, base = _start(persist_db_path)
+    try:
+        with sync_playwright() as playwright:
+            browser = _launch(playwright.chromium)
+            try:
+                first = browser.new_page(viewport={"width": 1440, "height": 1000})
+                first.goto(f"{base}/", wait_until="domcontentloaded")
+                profile_id = _seed(first)
+                first.goto(f"{base}/?locale=en-US", wait_until="networkidle")
+                first.locator(f'#world-list [data-profile="{profile_id}"]').click()
+                first.locator('input[name="character"]').check()
+                first.locator("#enter-world").click()
+                first.wait_for_selector("#play-view.is-active")
+
+                second = browser.new_page(viewport={"width": 1440, "height": 1000})
+                second.goto(f"{base}/?locale=en-US", wait_until="networkidle")
+                second.locator(f'#world-list [data-profile="{profile_id}"]').click()
+                second.locator('input[name="character"]').check()
+                second.locator("#enter-world").click()
+                second.wait_for_function(
+                    "document.querySelector('#status')?.textContent"
+                    " === 'This character is already in another session."
+                    " Leave that session before trying again.'"
+                )
+                error_copy = second.locator("#status").inner_text()
+                assert re.search(r"[\u4e00-\u9fff]", error_copy) is None
+                assert first.locator("#play-view").is_visible()
+            finally:
+                browser.close()
+    finally:
+        server.should_exit = True
+        thread.join(timeout=10)
+        assert not thread.is_alive()
+
+
+@pytest.mark.e2e
 def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Path) -> None:
     server, thread, base = _start(persist_db_path)
     review = pathlib.Path(".impeccable/review")
