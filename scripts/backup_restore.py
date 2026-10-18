@@ -28,6 +28,22 @@ def _sha256(path: pathlib.Path) -> str:
     return __import__("hashlib").sha256(path.read_bytes()).hexdigest()
 
 
+def _copy_database(source: pathlib.Path, destination: pathlib.Path) -> None:
+    """Take a consistent SQLite snapshot, including uncheckpointed WAL frames."""
+
+    if not source.exists():
+        raise FileNotFoundError("database missing")
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.unlink(missing_ok=True)
+    source_connection = sqlite3.connect(source)
+    destination_connection = sqlite3.connect(destination)
+    try:
+        source_connection.backup(destination_connection)
+    finally:
+        destination_connection.close()
+        source_connection.close()
+
+
 def _tree_digest(root: pathlib.Path) -> tuple[int, str]:
     digest = __import__("hashlib").sha256()
     files = sorted(path for path in root.rglob("*") if path.is_file())
@@ -79,7 +95,7 @@ def backup(
     """Copy the DB, Player sidecar, optional visual cache, and an integrity manifest."""
     dest_dir.mkdir(parents=True, exist_ok=True)
     db_copy = dest_dir / "wanxiang.db"
-    shutil.copy2(db_path, db_copy)
+    _copy_database(db_path, db_copy)
     player_store = db_path.with_name(db_path.name + PLAYER_STORE_SUFFIX)
     player_entry = _player_store_entry(player_store)
     if player_entry is not None:

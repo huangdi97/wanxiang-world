@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import pathlib
 import shutil
+import sqlite3
 from dataclasses import replace
 
 import pytest
@@ -85,6 +86,32 @@ def test_backup_and_restore_keep_the_player_catalog(tmp_path: pathlib.Path) -> N
     assert [card.profile_id for card in restored.plaza.explore_worlds("alice")] == [
         profile.profile_id
     ]
+
+
+def test_backup_captures_uncheckpointed_wal_data(tmp_path: pathlib.Path) -> None:
+    db_path = tmp_path / "wal-world.db"
+    make_world_runtime(db_path, extra_resolvers=register_preview_resolvers)
+    writer = sqlite3.connect(db_path)
+    try:
+        writer.execute("PRAGMA journal_mode=WAL")
+        writer.execute("CREATE TABLE wal_probe (value TEXT)")
+        writer.execute("INSERT INTO wal_probe VALUES ('visible-after-restore')")
+        writer.commit()
+
+        backup_dir = tmp_path / "wal-backup"
+        backup(db_path, backup_dir)
+    finally:
+        writer.close()
+
+    restored_db = tmp_path / "wal-restored.db"
+    restore(backup_dir, restored_db)
+    restored = sqlite3.connect(restored_db)
+    try:
+        assert restored.execute("SELECT value FROM wal_probe").fetchone() == (
+            "visible-after-restore",
+        )
+    finally:
+        restored.close()
 
 
 def test_backup_without_a_player_catalog_still_restores_the_database(
