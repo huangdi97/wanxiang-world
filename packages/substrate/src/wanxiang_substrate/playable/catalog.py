@@ -73,14 +73,13 @@ class SessionCard:
         )
 
     def to_dict(self) -> dict[str, object]:
+        # Player-facing plaza cards keep only product handles; branch ids,
+        # revisions and touch counters are storage internals.
         return {
             "instance_id": self.instance_id,
             "profile_id": self.profile_id,
-            "branch_id": self.branch_id,
             "mode": self.mode,
             "actor_id": self.actor_id,
-            "last_revision": self.last_revision,
-            "updated_seq": self.updated_seq,
         }
 
 
