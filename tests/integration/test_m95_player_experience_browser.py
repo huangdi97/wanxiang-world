@@ -899,7 +899,7 @@ def test_player_history_loads_earlier_pages_in_browser(persist_db_path: pathlib.
                     },
                 )
                 instance = str(entered["instance_id"])
-                for index in range(51):
+                for index in range(260):
                     _api(
                         page,
                         f"/experience/player/instances/{instance}/action",
@@ -921,14 +921,25 @@ def test_player_history_loads_earlier_pages_in_browser(persist_db_path: pathlib.
                     "document.querySelectorAll('#chronicle-list [data-replay-time]').length >= 50"
                 )
                 total = int(page.evaluate("Number(model.history.total)"))
-                assert total > 50
+                assert total > 250
                 more = page.locator("#chronicle-more")
                 assert more.is_visible()
-                more.click()
-                page.wait_for_function(
-                    "document.querySelectorAll('#chronicle-list [data-replay-time]').length ==="
-                    f" {total}"
-                )
+                pages = 0
+                while more.is_visible():
+                    pages += 1
+                    previous = int(
+                        page.evaluate(
+                            "document.querySelectorAll('#chronicle-list [data-replay-time]').length"
+                        )
+                    )
+                    more.click()
+                    page.wait_for_function(
+                        "document.querySelectorAll('#chronicle-list [data-replay-time]').length >"
+                        f" {previous}"
+                    )
+                    assert pages <= 20
+                assert pages >= 4
+                assert page.locator("#chronicle-list [data-replay-time]").count() == total
                 assert more.is_hidden()
                 times = cast(
                     list[int],
