@@ -19,6 +19,23 @@ if TYPE_CHECKING:
     from wanxiang_substrate.assets.book_scene_budget import VisualBudgetLedger
 
 
+def _configured_store_path() -> pathlib.Path | None:
+    """Explicit path wins; otherwise persist beside a file-backed SQLite DB."""
+
+    configured = os.environ.get("WANXIANG_PLAYABLE_STORE_PATH", "").strip()
+    if configured:
+        return pathlib.Path(configured)
+    database_url = os.environ.get("WANXIANG_DATABASE_URL", "").strip()
+    prefix = "sqlite:///"
+    if not database_url.startswith(prefix):
+        return None
+    raw_path = database_url[len(prefix) :]
+    if not raw_path or raw_path == ":memory:" or raw_path.startswith("file:"):
+        return None
+    path = pathlib.Path(raw_path)
+    return path.with_name(path.name + ".playable.json")
+
+
 def build_playable_service(
     runtime: PreviewRuntimePort,
     *,
@@ -29,9 +46,9 @@ def build_playable_service(
 ) -> PlayableService:
     store = playable_store
     if store is None:
-        configured = os.environ.get("WANXIANG_PLAYABLE_STORE_PATH", "").strip()
-        if configured:
-            store = LocalJsonPlayableStore(pathlib.Path(configured))
+        configured = _configured_store_path()
+        if configured is not None:
+            store = LocalJsonPlayableStore(configured)
     service = PlayableService(runtime, store=store, visual_cache=visual_cache)
     restore_playable_service(service)
     service._visual_budget = visual_budget
