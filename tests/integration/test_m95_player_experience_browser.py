@@ -268,6 +268,8 @@ def test_english_suggestion_commits_through_player_browser(
                 error_copy = page.locator("#status").inner_text()
                 assert error_copy == "Write what you want to do first."
                 assert re.search(r"[\u4e00-\u9fff]", error_copy) is None
+                assert page.locator("#status").get_attribute("role") == "alert"
+                assert page.locator("#status").get_attribute("aria-live") == "assertive"
                 assert not page_errors, page_errors
             finally:
                 browser.close()

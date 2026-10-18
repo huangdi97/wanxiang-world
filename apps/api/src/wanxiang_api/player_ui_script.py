@@ -36,7 +36,7 @@ async function api(path,options={}){
   return payload;
 }
 function status(message,isError=false){
-  const node=$("status");node.textContent=message||"";node.classList.toggle("is-error",isError);
+  const node=$("status");node.setAttribute("role",isError?"alert":"status");node.setAttribute("aria-live",isError?"assertive":"polite");node.textContent=message||"";node.classList.toggle("is-error",isError);
 }
 function busy(value){document.body.setAttribute("aria-busy",value?"true":"false")}
 function view(name){
