@@ -570,6 +570,10 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 )
                 assert page.locator("#visual-gallery-wrap").is_visible()
                 assert page.locator("#visual-gallery .visual-thumb").count() >= 2
+                assert (
+                    page.locator("#visual-gallery .visual-thumb img").first.get_attribute("alt")
+                    == ""
+                )
                 assert page.locator("#panorama-upgrade-panel").is_hidden()
                 assert "叙事世界图谱" in page.locator("#detail-visual-caption").inner_text()
                 entrances = page.locator("#atlas-entrances [data-atlas-place]")

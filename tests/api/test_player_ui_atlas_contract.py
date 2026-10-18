@@ -25,3 +25,7 @@ def test_visual_images_describe_their_captions() -> None:
 
     assert 'aria-describedby="detail-visual-caption"' in html
     assert 'aria-describedby="scene-visual-caption"' in html
+
+
+def test_gallery_thumbnails_are_decorative() -> None:
+    assert '<img alt="" src="${safe(item.data_uri)}">' in SCRIPT
