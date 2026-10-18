@@ -122,9 +122,7 @@ STRINGS: dict[str, str] = {
     "atlas_entrances_heading": "Explore places in the atlas",
     "visual_atlas_caption": "Narrative world atlas · links are not geographic coordinates",
     "visual_scene_alt": "{place} — illustrative scene preview, not canonical truth",
-    "visual_atlas_alt": (
-        "Narrative world atlas: {place}. Links are source relations, not geography."
-    ),
+    "visual_atlas_alt": "Atlas: {place}. Links are source relations, not geography.",
     "visual_relations_heading": "Source-grounded place links",
     "visual_relation_conflict": "Sources disagree",
     "visual_clues_heading": "Source scene clues",
