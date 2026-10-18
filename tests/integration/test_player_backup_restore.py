@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import pathlib
 
+import pytest
 from scripts.backup_restore import PLAYER_STORE_COPY, backup, restore
 from tests.conftest import make_world_runtime
 from wanxiang_substrate.authoring.one_click import OneClickAuthoring
@@ -87,3 +88,34 @@ def test_backup_without_a_player_catalog_still_restores_the_database(
     restore(backup_dir, restored_db)
     assert restored_db.exists()
     assert not restored_db.with_name(restored_db.name + ".playable.json").exists()
+
+
+def test_backup_and_restore_keep_the_visual_and_spatial_cache(tmp_path: pathlib.Path) -> None:
+    db_path = tmp_path / "cache-world.db"
+    make_world_runtime(db_path, extra_resolvers=register_preview_resolvers)
+    visual = tmp_path / "visual-cache"
+    (visual / "blobs").mkdir(parents=True)
+    (visual / "blobs" / "aa").write_bytes(b"\x89PNG\r\n\x1a\npayload")
+    (visual / "index.json").write_text("{}", encoding="utf-8")
+    (visual / "spatial-jobs.json").write_text('{"ticket": {}}', encoding="utf-8")
+
+    backup_dir = tmp_path / "cache-backup"
+    manifest = backup(db_path, backup_dir, visual_cache_dir=visual)
+    assert manifest["visual_cache"]["file_count"] == 3
+
+    restored_visual = tmp_path / "restored-visual"
+    restore(
+        backup_dir,
+        tmp_path / "cache-restored.db",
+        visual_cache_dir=restored_visual,
+    )
+    assert (restored_visual / "blobs" / "aa").read_bytes() == b"\x89PNG\r\n\x1a\npayload"
+    assert (restored_visual / "spatial-jobs.json").read_text(encoding="utf-8") == '{"ticket": {}}'
+
+    (backup_dir / "visual-cache" / "blobs" / "aa").write_bytes(b"tampered")
+    with pytest.raises(ValueError, match="visual cache integrity"):
+        restore(
+            backup_dir,
+            tmp_path / "cache2.db",
+            visual_cache_dir=tmp_path / "visual2",
+        )
