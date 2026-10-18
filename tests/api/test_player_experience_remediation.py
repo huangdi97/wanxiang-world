@@ -35,7 +35,7 @@ def _source() -> dict[str, object]:
     }
 
 
-def _client() -> Any:
+def _client(*, with_character: bool = True) -> Any:
     app = create_app(build_reference_runtime())
     client: Any = TestClient(app)
     response = client.post(
@@ -56,6 +56,8 @@ def _client() -> Any:
     )
     assert profile.status_code == 200
     profile_id = str(profile.json()["profile"]["profile_id"])
+    if not with_character:
+        return client
     character = client.post(
         "/experience/player/characters",
         headers=HEADERS,
@@ -265,6 +267,96 @@ def test_source_gated_visual_detail_is_withheld_from_guests() -> None:
     assert owner_detail.status_code == 200
     owner_world = cast(dict[str, Any], owner_detail.json()["world"])
     assert owner_world["visual"]["places"]
+
+
+def test_two_players_share_one_worldline_without_overwriting_sessions() -> None:
+    client = _client(with_character=False)
+    plaza = client.get("/experience/player/plaza", headers=HEADERS).json()
+    profile_id = str(plaza["worlds"][0]["profile_id"])
+    users = {"alice": "ent_alice", "bob": "ent_bob"}
+    for user, character_id in users.items():
+        created = client.post(
+            "/experience/player/characters",
+            headers={"X-Wanxiang-User": user},
+            json={
+                "display_name": user.title(),
+                "character_id": character_id,
+                "compatible_profile_ids": [profile_id],
+            },
+        )
+        assert created.status_code == 201, created.text
+
+    alice_headers = {"X-Wanxiang-User": "alice"}
+    bob_headers = {"X-Wanxiang-User": "bob"}
+    entered = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=alice_headers,
+        json={
+            "mode": "embodiment",
+            "session_id": "shared_alice",
+            "character_id": users["alice"],
+        },
+    )
+    assert entered.status_code == 200, entered.text
+    instance_id = str(entered.json()["instance_id"])
+    assert (
+        client.post(
+            f"/experience/player/instances/{instance_id}/leave",
+            headers=alice_headers,
+        ).status_code
+        == 200
+    )
+
+    bob_entered = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=bob_headers,
+        json={
+            "mode": "embodiment",
+            "session_id": "shared_bob",
+            "character_id": users["bob"],
+        },
+    )
+    assert bob_entered.status_code == 200, bob_entered.text
+    assert str(bob_entered.json()["instance_id"]) == instance_id
+    bob_action = client.post(
+        f"/experience/player/instances/{instance_id}/action",
+        headers=bob_headers,
+        json={"text": "set status to alert"},
+    )
+    assert bob_action.status_code == 200, bob_action.text
+    assert (
+        client.post(
+            f"/experience/player/instances/{instance_id}/leave",
+            headers=bob_headers,
+        ).status_code
+        == 200
+    )
+
+    alice_plaza = client.get("/experience/player/plaza", headers=alice_headers)
+    assert alice_plaza.status_code == 200
+    alice_continue = cast(dict[str, Any], alice_plaza.json()["continue"])
+    assert alice_continue["instance_id"] == instance_id
+    assert alice_continue["events_since_leave"]
+    alice_resumed = client.post(
+        f"/experience/player/instances/{instance_id}/continue",
+        headers=alice_headers,
+    )
+    assert alice_resumed.status_code == 200, alice_resumed.text
+    assert alice_resumed.json()["view"]["session"]["status"] == "active"
+    assert alice_resumed.json()["view"]["session"]["events_since_leave"] == []
+
+    bob_plaza = client.get("/experience/player/plaza", headers=bob_headers)
+    bob_continue = cast(dict[str, Any], bob_plaza.json()["continue"])
+    assert bob_continue["instance_id"] == instance_id
+    assert bob_continue["events_since_leave"] == []
+
+    alice_worldlines = client.get(
+        f"/experience/player/instances/{instance_id}/worldlines",
+        headers=alice_headers,
+    )
+    assert alice_worldlines.status_code == 200
+    assert alice_worldlines.json()["branches"] == 1
+    assert len(cast(list[dict[str, Any]], alice_worldlines.json()["worldlines"])) == 1
 
 
 def test_public_visual_world_hides_cost_details_from_visitors() -> None:
