@@ -212,6 +212,8 @@ def test_conflicting_source_relations_are_marked_in_browser(
                     assert visual_src.startswith("data:image/svg+xml;base64,")
                     atlas_svg = base64.b64decode(visual_src.split(",", 1)[1]).decode("utf-8")
                     assert "stroke-dasharray" in atlas_svg
+                    assert "<desc>" in atlas_svg
+                    assert "Garden → Harbor [route]" in atlas_svg
                     if locale == "en-US":
                         assert "Narrative World Atlas" in atlas_svg
                         assert "Orange dashed edges" in atlas_svg

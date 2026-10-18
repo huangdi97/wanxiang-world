@@ -137,11 +137,18 @@ def _render_world_atlas(
     accent_hue = 18 + style_digest[1] % 52
 
     edges: list[str] = []
+    relation_descriptions: list[str] = []
     for relation in plan.topology_relations:
         source = positions.get(relation.source_place)
         target = positions.get(relation.target_place)
         if source is None or target is None:
             continue
+        conflict_suffix = " (sources disagree)" if english else "（来源存在不同说法）"
+        relation_descriptions.append(
+            f"{relation.source_place} → {relation.target_place} "
+            f"[{relation.relation_type}]"
+            f"{conflict_suffix if relation.conflicting else ''}"
+        )
         if relation.conflicting:
             stroke = "hsl(28 78% 45%)"
             marker = "arrow-conflict"
@@ -208,7 +215,14 @@ def _render_world_atlas(
         if any(relation.conflicting for relation in plan.topology_relations)
         else ""
     )
+    relation_description = (
+        "; ".join(relation_descriptions)
+        if relation_descriptions
+        else ("No source-grounded place relations." if english else "没有来源支持的地点关系。")
+    )
     svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img">
+<title>{escape(title)}</title>
+<desc>{escape(relation_description)}</desc>
 <defs>
   <linearGradient id="paper" x2="0" y2="1">
     <stop stop-color="hsl({base_hue} 34% 94%)"/>

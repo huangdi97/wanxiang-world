@@ -464,7 +464,10 @@ def test_world_atlas_marks_conflicting_relations_visually() -> None:
     assert atlas is not None
     assert b"arrow-conflict" in atlas.content
     assert b"stroke-dasharray" in atlas.content
-    assert "来源存在相反或不同类型的关系说法".encode() in atlas.content
+    assert b"<desc>" in atlas.content
+    assert "园林 → 书房 [route]".encode() in atlas.content
+    assert "来源存在不同说法".encode() in atlas.content
+    assert "橙色虚线：来源存在相反或不同类型的关系说法".encode() in atlas.content
 
 
 def test_world_atlas_localizes_english_labels() -> None:
@@ -492,6 +495,7 @@ def test_world_atlas_localizes_english_labels() -> None:
     assert atlas.place_name == "World Atlas"
     assert b"Narrative World Atlas" in atlas.content
     assert b"Orange dashed edges" in atlas.content
+    assert b"sources disagree" in atlas.content
     assert "橙色虚线".encode() not in atlas.content
 
 
