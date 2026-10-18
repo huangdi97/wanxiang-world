@@ -92,7 +92,7 @@ function renderWorlds(){
   const titleKey=model.query?"empty_search_title":"empty_worlds_title";
   const bodyKey=model.query?"empty_search_body":"empty_worlds_body";
   list.innerHTML=items.length?items.map(card).join(""):`<div class="empty-state"><strong>${safe(tr(titleKey))}</strong><p>${safe(tr(bodyKey))}</p></div>`;
-  list.querySelectorAll("[data-profile]").forEach(node=>node.addEventListener("click",()=>openWorld(node.dataset.profile)));
+  list.querySelectorAll("[data-profile]").forEach(node=>node.addEventListener("click",()=>openWorld(node.dataset.profile)));$("world-list-status").textContent=tr("world_count",{count:items.length});
 }
 function renderPlaza(){
   renderContinue();renderWorlds();renderHomeShelves();

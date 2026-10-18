@@ -29,3 +29,11 @@ def test_visual_images_describe_their_captions() -> None:
 
 def test_gallery_thumbnails_are_decorative() -> None:
     assert '<img alt="" src="${safe(item.data_uri)}">' in SCRIPT
+
+
+def test_world_list_announces_count_without_reading_every_card() -> None:
+    html = player_html("en-US")
+
+    assert 'id="world-list-status"' in html
+    assert 'id="world-list" aria-live' not in html
+    assert "world_count" in SCRIPT

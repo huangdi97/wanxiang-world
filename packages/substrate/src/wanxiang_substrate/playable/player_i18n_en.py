@@ -62,6 +62,7 @@ STRINGS: dict[str, str] = {
     "search_worlds": "Search worlds",
     "search_worlds_aria": "Search world names or tags",
     "filter_all": "All worlds",
+    "world_count": "{count} world(s) shown",
     "filter_public": "Public worlds",
     "filter_recent": "Recent experiences",
     "filter_mine": "My worlds",

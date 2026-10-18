@@ -54,6 +54,7 @@ STRINGS: dict[str, str] = {
     "search_worlds": "搜索世界",
     "search_worlds_aria": "搜索世界名称或标签",
     "filter_all": "全部世界",
+    "world_count": "显示 {count} 个世界",
     "filter_public": "公开世界",
     "filter_recent": "最近经历",
     "filter_mine": "我的世界",
