@@ -137,6 +137,9 @@ def test_created_characters_bind_to_free_source_actors() -> None:
     action = playable.action(instance_id, viewer_id="alice", text="set status to alert")
     assert action.proposal.accepted
     assert action.event_id
+    resting = playable.action(instance_id, viewer_id="alice", text="set status to resting")
+    assert resting.proposal.accepted
+    assert resting.event_id
 
 
 def test_instance_handles_are_owner_scoped(tmp_path: pathlib.Path) -> None:
