@@ -66,8 +66,9 @@ def player_plaza(
     cards = service.plaza.explore_worlds(viewer)
     mine = service.plaza.my_worlds(viewer)
     recent = service.plaza.recent_sessions(viewer)
+    owned_sessions = service.plaza.recent_sessions(viewer, limit=None)
     current = service.plaza.continue_last(viewer)
-    recent_ids = {item.profile_id for item in recent}
+    recent_ids = {item.profile_id for item in owned_sessions}
 
     def world_cards(items: tuple[WorldCard, ...]) -> list[dict[str, object]]:
         mine_ids = {owned.profile_id for owned in mine}

@@ -95,7 +95,12 @@ class WorldPlaza:
     def my_worlds(self, viewer_id: str) -> tuple[WorldCard, ...]:
         return self._cards(viewer_id, owned_only=True)
 
-    def recent_sessions(self, viewer_id: str) -> tuple[SessionCard, ...]:
+    def recent_sessions(
+        self,
+        viewer_id: str,
+        *,
+        limit: int | None = 20,
+    ) -> tuple[SessionCard, ...]:
         sessions = [
             instance
             for instance in self._store.list_instances()
@@ -103,6 +108,8 @@ class WorldPlaza:
             and self._profile_visible(instance.profile_id, viewer_id)
         ]
         sessions.sort(key=lambda item: (-item.updated_seq, item.instance_id))
+        if limit is not None:
+            sessions = sessions[: max(0, limit)]
         return tuple(SessionCard.from_record(item) for item in sessions)
 
     def continue_last(self, viewer_id: str) -> SessionCard | None:
