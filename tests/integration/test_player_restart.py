@@ -193,7 +193,12 @@ def test_t1_cache_hit_is_free_after_service_restart(tmp_path: pathlib.Path) -> N
         LocalObjectStore(tmp_path / "blobs"),
         LocalJsonVisualCacheIndex(tmp_path / "index.json"),
     )
-    first = PlayableService(runtime, visual_cache=first_cache)
+    store_path = tmp_path / "t1-store.json"
+    first = PlayableService(
+        runtime,
+        store=LocalJsonPlayableStore(store_path),
+        visual_cache=first_cache,
+    )
     profile = first.register_package(authored.package, owner_id="alice", visibility="public")
     provider = _RestartProvider()
     generated = first.materialize_visual_place(
@@ -210,15 +215,19 @@ def test_t1_cache_hit_is_free_after_service_restart(tmp_path: pathlib.Path) -> N
         LocalObjectStore(tmp_path / "blobs"),
         LocalJsonVisualCacheIndex(tmp_path / "index.json"),
     )
-    second = PlayableService(runtime, visual_cache=restarted_cache)
-    restored_profile = second.register_package(
-        authored.package,
-        owner_id="alice",
-        visibility="public",
+    second = PlayableService(
+        runtime,
+        store=LocalJsonPlayableStore(store_path),
+        visual_cache=restarted_cache,
     )
-    assert restored_profile.profile_id == profile.profile_id
+    assert restore_playable_service(second) == 1
+    restored_assets = second.visual_assets(profile.profile_id, viewer_id="alice")
+    assert provider.provider_id in {asset.provider_id for asset in restored_assets}
+    assert {
+        asset.place_name for asset in restored_assets if asset.provider_id == provider.provider_id
+    } == {place}
     reused = second.materialize_visual_place(
-        restored_profile.profile_id,
+        profile.profile_id,
         place,
         viewer_id="alice",
         provider=provider,

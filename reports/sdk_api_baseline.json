@@ -1930,6 +1930,7 @@
     "wanxiang_substrate.build_tokenhub_spatial_provider",
     "wanxiang_substrate.build_town_fixture_commands",
     "wanxiang_substrate.build_town_packages",
+    "wanxiang_substrate.cached_visual_for",
     "wanxiang_substrate.calendar_delta",
     "wanxiang_substrate.can_transition",
     "wanxiang_substrate.candidate_id",

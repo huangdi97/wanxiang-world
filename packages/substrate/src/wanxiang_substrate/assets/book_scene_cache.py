@@ -46,6 +46,9 @@ class _VisualCacheIndex:
     def put(self, record: _VisualCacheRecord) -> None:
         raise TypeError("concrete visual implementation required")
 
+    def list(self) -> tuple[_VisualCacheRecord, ...]:
+        raise TypeError("concrete visual implementation required")
+
 
 class _InMemoryVisualCacheIndex(_VisualCacheIndex):
     def __init__(self) -> None:
@@ -56,6 +59,9 @@ class _InMemoryVisualCacheIndex(_VisualCacheIndex):
 
     def put(self, record: _VisualCacheRecord) -> None:
         self._rows[record.cache_key] = record
+
+    def list(self) -> tuple[_VisualCacheRecord, ...]:
+        return tuple(self._rows[key] for key in sorted(self._rows))
 
 
 class LocalJsonVisualCacheIndex(_VisualCacheIndex):
@@ -125,6 +131,10 @@ class LocalJsonVisualCacheIndex(_VisualCacheIndex):
     def get(self, cache_key: str) -> _VisualCacheRecord | None:
         raw = self._rows().get(cache_key)
         return self._record(raw) if raw is not None else None
+
+    def list(self) -> tuple[_VisualCacheRecord, ...]:
+        records = (self._record(raw) for raw in self._rows().values())
+        return tuple(record for record in records if record is not None)
 
     @contextmanager
     def generation_guard(self) -> Generator[None, None, None]:
