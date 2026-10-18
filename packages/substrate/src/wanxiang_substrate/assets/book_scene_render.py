@@ -76,12 +76,13 @@ class _ProceduralSvgSceneProvider(SceneImageProvider):
 <rect x="0" y="0" width="1200" height="900" fill="url(#mist)" opacity=".14"/>
 <g font-family="system-ui, 'Noto Sans SC', sans-serif" fill="#102b35">
   <text x="58" y="82" font-size="48" font-weight="800">{place}</text>
-  <text x="60" y="125" font-size="22" opacity=".78">万相 · 来源驱动视觉预览</text>
+  <text x="60" y="125" font-size="20" opacity=".78">万相 · 来源视觉预览 /
+Wanxiang · source-grounded preview</text>
 </g>
-<g transform="translate(58 805)" font-family="system-ui, 'Noto Sans SC', sans-serif">
-  <rect width="650" height="52" rx="12" fill="#0f2734" opacity=".84"/>
-  <text x="18" y="34" font-size="18" fill="#f2f5ed">
-   示意投影：未证实的空间关系不会写入世界真相
+<g transform="translate(58 795)" font-family="system-ui, 'Noto Sans SC', sans-serif">
+  <rect width="820" height="58" rx="12" fill="#0f2734" opacity=".84"/>
+  <text x="18" y="36" font-size="17" fill="#f2f5ed">
+   示意投影，不是世界真相 / Illustrative projection, not world truth
   </text>
 </g>
 </svg>"""

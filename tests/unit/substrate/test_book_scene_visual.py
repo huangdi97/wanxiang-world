@@ -74,6 +74,9 @@ def test_two_unrelated_places_use_same_provider_but_different_visuals() -> None:
     assert garden.content_sha256 != fortress.content_sha256
     assert "园林".encode() in garden.content
     assert "堡垒".encode() in fortress.content
+    assert b"Wanxiang" in garden.content
+    assert b"source-grounded preview" in garden.content
+    assert b"Illustrative projection, not world truth" in garden.content
     assert garden.data_uri().startswith("data:image/svg+xml;base64,")
     assert garden.illustrative is True
 
