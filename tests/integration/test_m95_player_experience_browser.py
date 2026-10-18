@@ -211,6 +211,10 @@ def test_conflicting_source_relations_are_marked_in_browser(
                     assert alt_copy is not None
                     expected_alt = "Atlas:" if locale == "en-US" else "叙事世界图谱"
                     assert expected_alt in alt_copy
+                    assert (
+                        page.locator("#detail-visual-image").get_attribute("aria-describedby")
+                        == "detail-visual-caption"
+                    )
                     visual_src = page.locator("#detail-visual-image").get_attribute("src")
                     assert visual_src is not None
                     assert visual_src.startswith("data:image/svg+xml;base64,")

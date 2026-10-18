@@ -18,3 +18,10 @@ def test_atlas_relation_chips_mark_source_conflicts() -> None:
     html = player_html("zh-CN")
     assert "来源存在不同说法" in html
     assert "is-conflicting" in html
+
+
+def test_visual_images_describe_their_captions() -> None:
+    html = player_html("en-US")
+
+    assert 'aria-describedby="detail-visual-caption"' in html
+    assert 'aria-describedby="scene-visual-caption"' in html
