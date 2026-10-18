@@ -226,6 +226,9 @@ def test_t1_cache_hit_is_free_after_service_restart(tmp_path: pathlib.Path) -> N
     assert {
         asset.place_name for asset in restored_assets if asset.provider_id == provider.provider_id
     } == {place}
+    assert second.visual_access_allowed(profile.profile_id, viewer_id="alice") is True
+    assert second.visual_access_allowed(profile.profile_id, viewer_id="guest") is False
+    assert second.visual_assets(profile.profile_id, viewer_id="guest") == ()
     reused = second.materialize_visual_place(
         profile.profile_id,
         place,
