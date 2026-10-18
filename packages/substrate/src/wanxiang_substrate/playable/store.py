@@ -12,6 +12,7 @@ from wanxiang_substrate.playable.models import PlayableWorldProfile
 
 if TYPE_CHECKING:
     from wanxiang_substrate.compile.assembler import WorldPackageDraft
+    from wanxiang_substrate.playable.experience import ExperiencePackage
 
 
 @dataclass(frozen=True, slots=True)
@@ -96,9 +97,16 @@ class PlayableStore(Protocol):
 
     def list_characters(self, owner_id: str) -> tuple[CharacterRecord, ...]: ...
 
-    def save_package(self, profile_id: str, package: WorldPackageDraft) -> None: ...
+    def save_package(
+        self,
+        profile_id: str,
+        package: WorldPackageDraft,
+        experience: ExperiencePackage | None = None,
+    ) -> None: ...
 
     def load_packages(self) -> dict[str, WorldPackageDraft]: ...
+
+    def load_experiences(self) -> dict[str, ExperiencePackage]: ...
 
 
 class InMemoryPlayableStore:
@@ -109,6 +117,7 @@ class InMemoryPlayableStore:
         self._instances: dict[str, ExperienceInstanceRecord] = {}
         self._characters: dict[str, CharacterRecord] = {}
         self._packages: dict[str, dict[str, object]] = {}
+        self._experiences: dict[str, dict[str, object]] = {}
 
     def save_profile(self, profile: PlayableWorldProfile) -> None:
         profile.validate()
@@ -169,8 +178,15 @@ class InMemoryPlayableStore:
             if self._characters[key].owner_id == owner_id
         )
 
-    def save_package(self, profile_id: str, package: WorldPackageDraft) -> None:
+    def save_package(
+        self,
+        profile_id: str,
+        package: WorldPackageDraft,
+        experience: ExperiencePackage | None = None,
+    ) -> None:
         self._packages[profile_id] = package.to_dict()
+        if experience is not None:
+            self._experiences[profile_id] = experience.to_dict()
 
     def load_packages(self) -> dict[str, WorldPackageDraft]:
         from wanxiang_substrate.compile.assembler import WorldPackageDraft
@@ -178,4 +194,12 @@ class InMemoryPlayableStore:
         return {
             profile_id: WorldPackageDraft.from_dict(payload)
             for profile_id, payload in self._packages.items()
+        }
+
+    def load_experiences(self) -> dict[str, ExperiencePackage]:
+        from wanxiang_substrate.playable.experience import ExperiencePackage
+
+        return {
+            profile_id: ExperiencePackage.from_dict(payload)
+            for profile_id, payload in self._experiences.items()
         }

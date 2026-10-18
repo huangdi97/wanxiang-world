@@ -75,7 +75,7 @@ def _register_package(
     )
     experience = experience_from_profile(profile, allowed_actions=allowed_actions)
     service.store.save_profile(profile)
-    service.store.save_package(profile.profile_id, package)
+    service.store.save_package(profile.profile_id, package, experience)
     service._packages[profile.profile_id] = package
     service._experiences[profile.profile_id] = experience
     service._installs[profile.profile_id] = _install_visual(
@@ -101,9 +101,10 @@ def _register_profile(
 ) -> None:
     profile.validate()
     service.store.save_profile(profile)
-    service.store.save_package(profile.profile_id, package)
+    resolved_experience = experience or experience_from_profile(profile)
+    service.store.save_package(profile.profile_id, package, resolved_experience)
     service._packages[profile.profile_id] = package
-    service._experiences[profile.profile_id] = experience or experience_from_profile(profile)
+    service._experiences[profile.profile_id] = resolved_experience
     service._installs[profile.profile_id] = _install_visual(
         service,
         profile,

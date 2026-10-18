@@ -23,13 +23,17 @@ def restore_playable_service(service: PlayableService) -> int:
     """Restore derived package/experience/install maps; return world count."""
 
     packages = service.store.load_packages()
+    experiences = service.store.load_experiences()
     restored = 0
     for profile in service.store.list_profiles():
         package = packages.get(profile.profile_id)
         if package is None:
             continue
         service._packages[profile.profile_id] = package
-        service._experiences[profile.profile_id] = experience_from_profile(profile)
+        service._experiences[profile.profile_id] = experiences.get(
+            profile.profile_id,
+            experience_from_profile(profile),
+        )
         service._installs[profile.profile_id] = _install_visual(
             service,
             profile,

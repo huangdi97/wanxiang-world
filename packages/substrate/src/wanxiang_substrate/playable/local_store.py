@@ -11,7 +11,7 @@ import json
 import pathlib
 import threading
 from dataclasses import asdict
-from typing import cast
+from typing import TYPE_CHECKING, cast
 
 from wanxiang_domain.errors import ContractError
 
@@ -22,6 +22,9 @@ from wanxiang_substrate.playable.store import (
     ExperienceInstanceRecord,
     InMemoryPlayableStore,
 )
+
+if TYPE_CHECKING:
+    from wanxiang_substrate.playable.experience import ExperiencePackage
 
 _STORE_VERSION = 1
 
@@ -63,7 +66,16 @@ class LocalJsonPlayableStore(InMemoryPlayableStore):
             for profile_id, payload in cast(dict[object, object], packages).items():
                 if not isinstance(profile_id, str) or not isinstance(payload, dict):
                     raise ContractError("playable store package payload is invalid")
-                self._packages[profile_id] = cast(dict[str, object], payload)
+                entry = cast(dict[str, object], payload)
+                package_payload = entry.get("package")
+                if isinstance(package_payload, dict):
+                    self._packages[profile_id] = cast(dict[str, object], package_payload)
+                    experience_payload = entry.get("experience")
+                    if isinstance(experience_payload, dict):
+                        self._experiences[profile_id] = cast(dict[str, object], experience_payload)
+                else:
+                    # Legacy version-1 files stored the package payload directly.
+                    self._packages[profile_id] = entry
 
     @staticmethod
     def _list(value: object) -> list[object]:
@@ -118,7 +130,7 @@ class LocalJsonPlayableStore(InMemoryPlayableStore):
                 "profiles": [self._profiles[key].to_dict() for key in sorted(self._profiles)],
                 "instances": [asdict(self._instances[key]) for key in sorted(self._instances)],
                 "characters": [asdict(self._characters[key]) for key in sorted(self._characters)],
-                "packages": {key: self._packages[key] for key in sorted(self._packages)},
+                "packages": {key: self._package_entry(key) for key in sorted(self._packages)},
             }
             self.path.parent.mkdir(parents=True, exist_ok=True)
             temporary = self.path.with_name(self.path.name + ".tmp")
@@ -127,6 +139,13 @@ class LocalJsonPlayableStore(InMemoryPlayableStore):
                 encoding="utf-8",
             )
             temporary.replace(self.path)
+
+    def _package_entry(self, profile_id: str) -> dict[str, object]:
+        entry: dict[str, object] = {"package": self._packages[profile_id]}
+        experience = self._experiences.get(profile_id)
+        if experience is not None:
+            entry["experience"] = experience
+        return entry
 
     def save_profile(self, profile: PlayableWorldProfile) -> None:
         with self._lock:
@@ -143,7 +162,12 @@ class LocalJsonPlayableStore(InMemoryPlayableStore):
             super().save_character(character)
             self._persist()
 
-    def save_package(self, profile_id: str, package: WorldPackageDraft) -> None:
+    def save_package(
+        self,
+        profile_id: str,
+        package: WorldPackageDraft,
+        experience: ExperiencePackage | None = None,
+    ) -> None:
         with self._lock:
-            super().save_package(profile_id, package)
+            super().save_package(profile_id, package, experience)
             self._persist()
