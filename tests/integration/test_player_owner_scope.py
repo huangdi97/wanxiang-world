@@ -9,7 +9,7 @@ from typing import cast
 
 import pytest
 from scripts.reference_runtime import build_reference_runtime
-from wanxiang_domain.errors import NotFound
+from wanxiang_domain.errors import ContractError, NotFound
 from wanxiang_substrate.authoring.one_click import OneClickAuthoring
 from wanxiang_substrate.playable import PlayableService
 from wanxiang_substrate.playable.local_store import LocalJsonPlayableStore
@@ -112,6 +112,12 @@ def test_created_characters_bind_to_free_source_actors() -> None:
     )
     assert alice.character_id == "ent_alice"
     assert bob.character_id == "ent_bob"
+    with pytest.raises(ContractError, match="unbound source actor"):
+        playable.entry.create_character(
+            "carol",
+            "Carol",
+            compatible_profile_ids=(profile.experience_package_ref,),
+        )
 
     entered = playable.enter(
         profile.profile_id,

@@ -286,6 +286,13 @@ def test_two_players_share_one_worldline_without_overwriting_sessions() -> None:
         assert created.status_code == 201, created.text
         users[user] = str(created.json()["character"]["character_id"])
     assert users == {"alice": "ent_alice", "bob": "ent_bob"}
+    exhausted = client.post(
+        "/experience/player/characters",
+        headers={"X-Wanxiang-User": "carol"},
+        json={"display_name": "Carol", "compatible_profile_ids": [profile_id]},
+    )
+    assert exhausted.status_code == 422
+    assert "unbound source actor" in exhausted.text
 
     alice_headers = {"X-Wanxiang-User": "alice"}
     bob_headers = {"X-Wanxiang-User": "bob"}

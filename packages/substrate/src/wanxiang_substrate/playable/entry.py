@@ -89,15 +89,21 @@ class CharacterEntryService:
         """Pick an unclaimed source actor so a created character can act."""
 
         packages = self._store.load_packages()
+        packages_found = False
         for profile_id in profile_ids:
             package = packages.get(profile_id)
             if package is None:
                 continue
+            packages_found = True
             for candidate in source_actor_ids(package):
                 try:
                     self._store.get_character(candidate)
                 except NotFound:
                     return candidate
+        if packages_found:
+            raise ContractError(
+                "no unbound source actor is available for this world; choose an existing character"
+            )
         return None
 
     def enter(
