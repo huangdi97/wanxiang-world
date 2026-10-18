@@ -207,6 +207,9 @@ def test_conflicting_source_relations_are_marked_in_browser(
                     assert expected in first.inner_text()
                     assert "route" in first.inner_text()
                     assert first.get_attribute("title") == expected
+                    alt_copy = page.locator("#detail-visual-image").get_attribute("alt")
+                    assert alt_copy is not None
+                    assert alt_copy.startswith("Narrative world atlas:")
                     visual_src = page.locator("#detail-visual-image").get_attribute("src")
                     assert visual_src is not None
                     assert visual_src.startswith("data:image/svg+xml;base64,")
@@ -249,6 +252,8 @@ def test_english_suggestion_commits_through_player_browser(
                 page.locator("#enter-world").click()
                 page.wait_for_selector("#play-view.is-active")
                 assert page.locator("#play-mode").inner_text() == "Character experience"
+                scene_visual = page.locator("#scene-visual-image")
+                assert "illustrative scene preview" in (scene_visual.get_attribute("alt") or "")
 
                 suggestion = page.locator('.suggestion[data-action="set status to awake"]')
                 assert suggestion.inner_text() == "Stay awake"
