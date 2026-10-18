@@ -7,6 +7,7 @@ restorable, and recompilable.
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import dataclass, field
 from typing import Literal
 
@@ -138,3 +139,14 @@ class WorldDraft:
             quality=self.quality,
             compiler_metadata=dict(self.compiler_metadata),
         )
+
+    def to_dict(self) -> dict[str, object]:
+        from wanxiang_substrate.draft.serialization import draft_to_dict
+
+        return draft_to_dict(self)
+
+    @classmethod
+    def from_dict(cls, data: Mapping[str, object]) -> WorldDraft:
+        from wanxiang_substrate.draft.serialization import draft_from_dict
+
+        return draft_from_dict(data)
