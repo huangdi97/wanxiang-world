@@ -99,8 +99,13 @@ class _ProceduralSvgSceneProvider(SceneImageProvider):
         )
 
 
-def _render_world_atlas(plan: _SourceVisualPlan) -> _SceneVisualAsset | None:
+def _render_world_atlas(
+    plan: _SourceVisualPlan,
+    *,
+    locale: str = "zh-CN",
+) -> _SceneVisualAsset | None:
     """Render a narrative topology atlas; coordinates are layout only, never geography."""
+    english = locale.lower().startswith("en")
     places = plan.place_names or tuple(
         dict.fromkeys(request.place_name for request in plan.scene_requests)
     )
@@ -172,15 +177,33 @@ def _render_world_atlas(plan: _SourceVisualPlan) -> _SceneVisualAsset | None:
         )
 
     omitted = max(0, len(places) - len(visible_places))
+    title = "Wanxiang · Narrative World Atlas" if english else "万相 · 叙事世界图谱"
+    subtitle = (
+        "Nodes are source places; links are source relations; "
+        "×N merges same-name sources; relations are not geography"
+        if english
+        else "节点来自原文地点；连线只表达来源关系；×N 表示多个来源同名合并；关系不等于地理坐标"
+    )
+    omitted_copy = (
+        f"{omitted} more source place(s) are not drawn; see the place list"
+        if english
+        else f"另有 {omitted} 个来源地点未绘制；可在地点列表中查看"
+    )
+    conflict_copy = (
+        "Orange dashed edges: sources disagree or use different relation types"
+        if english
+        else "橙色虚线：来源存在相反或不同类型的关系说法"
+    )
+    atlas_name = "World Atlas" if english else "世界图谱"
     omitted_label = (
         f'<text x="600" y="825" text-anchor="middle" font-size="18" '
-        f'fill="#536a70">另有 {omitted} 个来源地点未绘制；可在地点列表中查看</text>'
+        f'fill="#536a70">{omitted_copy}</text>'
         if omitted
         else ""
     )
     conflict_legend = (
-        '<text x="600" y="858" text-anchor="middle" font-size="18" fill="#9a3412">'
-        "橙色虚线：来源存在相反或不同类型的关系说法</text>"
+        f'<text x="600" y="858" text-anchor="middle" font-size="18" fill="#9a3412">'
+        f"{conflict_copy}</text>"
         if any(relation.conflicting for relation in plan.topology_relations)
         else ""
     )
@@ -201,10 +224,10 @@ def _render_world_atlas(plan: _SourceVisualPlan) -> _SceneVisualAsset | None:
 </defs>
 <rect width="1200" height="900" fill="url(#paper)"/>
 <text x="56" y="70" font-size="38" font-weight="800"
- font-family="system-ui, Noto Sans SC, sans-serif" fill="#17323d">万相 · 叙事世界图谱</text>
+ font-family="system-ui, Noto Sans SC, sans-serif" fill="#17323d">{title}</text>
 <text x="57" y="108" font-size="18"
  font-family="system-ui, Noto Sans SC, sans-serif" fill="#536a70">
-节点来自原文地点；连线只表达来源关系；×N 表示多个来源同名合并；关系不等于地理坐标
+{subtitle}
 </text>
 {"".join(edges)}
 {"".join(nodes)}
@@ -214,12 +237,12 @@ def _render_world_atlas(plan: _SourceVisualPlan) -> _SceneVisualAsset | None:
     content = svg.encode()
     return _SceneVisualAsset(
         scene_key=f"atlas-{plan.source_digest[:24]}",
-        place_name="世界图谱",
+        place_name=atlas_name,
         provider_id="narrative-atlas-v1",
         media_type="image/svg+xml",
         content=content,
         content_sha256=hashlib.sha256(content).hexdigest(),
-        cache_key=f"{plan.source_digest}:narrative-atlas-v1",
+        cache_key=f"{plan.source_digest}:narrative-atlas-v1:{locale}",
         illustrative=True,
         style_key=style_seed,
     )

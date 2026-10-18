@@ -464,6 +464,34 @@ def test_world_atlas_marks_conflicting_relations_visually() -> None:
     assert "来源存在相反或不同类型的关系说法".encode() in atlas.content
 
 
+def test_world_atlas_localizes_english_labels() -> None:
+    plan = _SourceVisualPlan(
+        package_id="world:atlas-en",
+        source_digest="1" * 64,
+        status="READY_FOR_ASSET_PROVIDER",
+        scene_requests=(_request("Garden", "garden"), _request("Harbor", "harbor")),
+        deferred_scene_count=0,
+        topology_relations=(
+            _SourceTopologyRelation(
+                "Garden",
+                "Harbor",
+                "route",
+                ("book#1",),
+                0.8,
+                conflicting=True,
+            ),
+        ),
+        place_names=("Garden", "Harbor"),
+    )
+    atlas = _render_world_atlas(plan, locale="en-US")
+
+    assert atlas is not None
+    assert atlas.place_name == "World Atlas"
+    assert b"Narrative World Atlas" in atlas.content
+    assert b"Orange dashed edges" in atlas.content
+    assert "橙色虚线".encode() not in atlas.content
+
+
 def test_world_atlas_marks_places_merged_from_multiple_sources() -> None:
     plan = _SourceVisualPlan(
         package_id="world:atlas-merged",

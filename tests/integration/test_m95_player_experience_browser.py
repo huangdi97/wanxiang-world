@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import base64
 import os
 import pathlib
 import time
@@ -204,6 +205,17 @@ def test_conflicting_source_relations_are_marked_in_browser(
                     first = chips.first
                     assert expected in first.inner_text()
                     assert first.get_attribute("title") == expected
+                    visual_src = page.locator("#detail-visual-image").get_attribute("src")
+                    assert visual_src is not None
+                    assert visual_src.startswith("data:image/svg+xml;base64,")
+                    atlas_svg = base64.b64decode(visual_src.split(",", 1)[1]).decode("utf-8")
+                    assert "stroke-dasharray" in atlas_svg
+                    if locale == "en-US":
+                        assert "Narrative World Atlas" in atlas_svg
+                        assert "Orange dashed edges" in atlas_svg
+                    else:
+                        assert "叙事世界图谱" in atlas_svg
+                        assert "橙色虚线" in atlas_svg
                 assert not page_errors, page_errors
             finally:
                 browser.close()

@@ -125,7 +125,7 @@ def player_world_detail(
                 "clue_count": evidence.clue_count if evidence else 0,
             }
 
-        atlas = _render_world_atlas(plan)
+        atlas = _render_world_atlas(plan, locale=copy.locale)
         visual = {
             "status": plan.status,
             "places": [place_row(place) for place in plan.place_names],
