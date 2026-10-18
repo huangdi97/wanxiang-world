@@ -680,6 +680,22 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 page.wait_for_function(
                     "document.querySelector('#status')?.textContent.includes('已切换')"
                 )
+                for _ in range(6):
+                    _api(
+                        page,
+                        f"/experience/player/instances/{fourth_instance}/fork",
+                        "POST",
+                        {},
+                    )
+                page.locator("#worldline-toggle").click()
+                page.wait_for_selector("#worldline-panel:not([hidden])")
+                assert page.locator("#worldline-list li").count() == 10
+                labels = page.locator("#worldline-list .worldline-copy strong").all_inner_texts()
+                assert any(label.startswith("世界线 10") for label in labels)
+                assert page.locator('#worldline-list li[data-current="true"]').count() == 1
+                assert page.locator("#worldline-list .worldline-badge").count() == 1
+                page.keyboard.press("Escape")
+                assert page.locator("#worldline-panel").is_hidden()
                 page.set_viewport_size({"width": 390, "height": 844})
                 page.evaluate("window.scrollTo(0, 0)")
                 page.wait_for_timeout(50)
@@ -694,7 +710,7 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 ) not in {"0px", ""}
                 page.locator("#worldline-toggle").click()
                 page.wait_for_selector("#worldline-panel:not([hidden])")
-                assert page.locator("#worldline-list li").count() == 4
+                assert page.locator("#worldline-list li").count() == 10
                 mobile_panel_box = page.locator("#worldline-panel").bounding_box()
                 assert mobile_panel_box is not None
                 assert mobile_panel_box["width"] <= 390
