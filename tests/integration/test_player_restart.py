@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import pathlib
+from dataclasses import replace
 from typing import Any, cast
 
 import pytest
@@ -13,6 +14,14 @@ from scripts.reference_runtime import build_reference_runtime
 from tests.conftest import make_world_runtime
 from wanxiang_api.app import create_app
 from wanxiang_domain.errors import ContractError
+from wanxiang_substrate.assets.book_scene_cache import (
+    LocalJsonVisualCacheIndex,
+    VisualAssetCache,
+)
+from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
+from wanxiang_substrate.assets.book_scene_render import _ProceduralSvgSceneProvider
+from wanxiang_substrate.assets.book_scene_types import SceneImageProvider, _SceneVisualAsset
+from wanxiang_substrate.assets.storage import LocalObjectStore
 from wanxiang_substrate.authoring.one_click import OneClickAuthoring
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.playable import PlayableService
@@ -156,6 +165,69 @@ def test_player_world_resumes_after_restart(
 def test_in_memory_service_has_no_durable_packages_by_default() -> None:
     service = PlayableService(build_reference_runtime())
     assert service.store.load_packages() == {}
+
+
+class _RestartProvider(SceneImageProvider):
+    provider_id = "provider:restart-cache"
+    provider_version = "1.0"
+    cost_units_per_asset = 1
+    private_safe = True
+
+    def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
+        produced = _ProceduralSvgSceneProvider().produce(request)
+        return replace(
+            produced,
+            provider_id=self.provider_id,
+            provider_version=self.provider_version,
+            cache_key=f"{request.cache_key}:{self.provider_id}@{self.provider_version}",
+        )
+
+
+def test_t1_cache_hit_is_free_after_service_restart(tmp_path: pathlib.Path) -> None:
+    authored = OneClickAuthoring().run("job_restart_cache", (_source(),), profile="book")
+    assert authored.visual_plan is not None
+    place = authored.visual_plan.place_names[0]
+    runtime = build_reference_runtime()
+
+    first_cache = VisualAssetCache(
+        LocalObjectStore(tmp_path / "blobs"),
+        LocalJsonVisualCacheIndex(tmp_path / "index.json"),
+    )
+    first = PlayableService(runtime, visual_cache=first_cache)
+    profile = first.register_package(authored.package, owner_id="alice", visibility="public")
+    provider = _RestartProvider()
+    generated = first.materialize_visual_place(
+        profile.profile_id,
+        place,
+        viewer_id="alice",
+        provider=provider,
+        max_cost_units=5,
+        max_deferred_generations=5,
+    )
+    assert generated.provider_calls == 1
+
+    restarted_cache = VisualAssetCache(
+        LocalObjectStore(tmp_path / "blobs"),
+        LocalJsonVisualCacheIndex(tmp_path / "index.json"),
+    )
+    second = PlayableService(runtime, visual_cache=restarted_cache)
+    restored_profile = second.register_package(
+        authored.package,
+        owner_id="alice",
+        visibility="public",
+    )
+    assert restored_profile.profile_id == profile.profile_id
+    reused = second.materialize_visual_place(
+        restored_profile.profile_id,
+        place,
+        viewer_id="alice",
+        provider=provider,
+        max_cost_units=5,
+        max_deferred_generations=5,
+    )
+    assert reused.provider_calls == 0
+    assert reused.cache_hits == 1
+    assert {asset.provider_id for asset in reused.assets} == {provider.provider_id}
 
 
 def test_app_restart_resumes_world_from_saved_catalog(
