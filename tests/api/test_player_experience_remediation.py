@@ -240,6 +240,33 @@ def test_session_cards_and_history_keep_worldline_state_separate() -> None:
     assert second_parent["events_since_leave"] == []
 
 
+def test_source_gated_visual_detail_is_withheld_from_guests() -> None:
+    client = _client()
+    plaza = client.get("/experience/player/plaza", headers=HEADERS).json()
+    profile_id = str(plaza["worlds"][0]["profile_id"])
+
+    guest_detail = client.get(
+        f"/experience/player/worlds/{profile_id}",
+        headers={"X-Wanxiang-User": "guest"},
+    )
+    assert guest_detail.status_code == 200
+    guest_world = cast(dict[str, Any], guest_detail.json()["world"])
+    assert guest_world["visual"] is None
+    assert guest_world["counts"]["characters"] == 0
+
+    denied = client.post(
+        f"/experience/player/worlds/{profile_id}/visuals",
+        headers={"X-Wanxiang-User": "guest"},
+        json={"place_name": "Beijing"},
+    )
+    assert denied.status_code == 404
+
+    owner_detail = client.get(f"/experience/player/worlds/{profile_id}", headers=HEADERS)
+    assert owner_detail.status_code == 200
+    owner_world = cast(dict[str, Any], owner_detail.json()["world"])
+    assert owner_world["visual"]["places"]
+
+
 def test_public_visual_world_hides_cost_details_from_visitors() -> None:
     client: Any = TestClient(create_app(build_reference_runtime()))
     source = {
