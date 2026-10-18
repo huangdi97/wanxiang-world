@@ -39,7 +39,7 @@ async function replayAt(ticks){
   try{const result=await api(`/experience/player/instances/${encodeURIComponent(model.instanceId)}/replay?at_ticks=${encodeURIComponent(String(ticks))}`);model.replay=result;model.historyExpanded=false;model.stageFocus=false;renderPlay();status("")}
   catch(error){status(error.message,true)}finally{busy(false)}
 }
-function exitReplay(){if(!model.replay)return;model.replay=null;renderPlay()}
+function exitReplay(){if(!model.replay)return;model.replay=null;model.historyExpanded=Boolean(model.history?.events?.length);renderPlay()}
 $("stage-replay-exit").addEventListener("click",exitReplay);
 $("chronicle-expand").addEventListener("click",toggleHistory);$("chronicle-more").addEventListener("click",loadMoreHistory);
 """

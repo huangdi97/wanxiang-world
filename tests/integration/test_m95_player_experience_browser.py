@@ -939,6 +939,14 @@ def test_player_history_loads_earlier_pages_in_browser(persist_db_path: pathlib.
                 )
                 assert times == sorted(times, reverse=True)
                 assert len(set(times)) == len(times)
+                page.locator("#chronicle-list [data-replay-time]").last.click()
+                page.wait_for_selector("#stage-replay-banner:not([hidden])")
+                page.locator("#stage-replay-exit").click()
+                page.wait_for_function(
+                    "document.querySelectorAll('#chronicle-list [data-replay-time]').length ==="
+                    f" {total}"
+                )
+                assert page.locator("#chronicle-more").is_hidden()
                 assert not page_errors, page_errors
             finally:
                 browser.close()
