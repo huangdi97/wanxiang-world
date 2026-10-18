@@ -74,6 +74,72 @@ def _client() -> Any:
     return client
 
 
+def test_session_cards_and_history_keep_worldline_state_separate() -> None:
+    client = _client()
+    plaza = client.get("/experience/player/plaza", headers=HEADERS).json()
+    profile_id = str(plaza["worlds"][0]["profile_id"])
+    entered = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=HEADERS,
+        json={
+            "mode": "embodiment",
+            "session_id": "session_card_parent",
+            "character_id": "ent_alice",
+        },
+    )
+    parent = str(entered.json()["instance_id"])
+    assert (
+        client.post(
+            f"/experience/player/instances/{parent}/action",
+            headers=HEADERS,
+            json={"text": "让自己保持清醒"},
+        ).status_code
+        == 200
+    )
+    fork = client.post(f"/experience/player/instances/{parent}/fork", headers=HEADERS)
+    child = str(cast(dict[str, Any], fork.json()["worldline"])["instance_id"])
+    assert (
+        client.post(
+            f"/experience/player/instances/{parent}/action",
+            headers=HEADERS,
+            json={"text": "让自己保持警觉"},
+        ).status_code
+        == 200
+    )
+
+    cards = cast(
+        list[dict[str, Any]],
+        client.get("/experience/player/plaza", headers=HEADERS).json()["recent_sessions"],
+    )
+    by_instance = {str(card["instance_id"]): card for card in cards}
+    child_card = by_instance[child]
+    parent_card = by_instance[parent]
+    assert child_card["world_name"] == parent_card["world_name"] == "江南机关城"
+    assert child_card["character_name"] == parent_card["character_name"]
+    assert child_card["status"] == "saved"
+    assert parent_card["status"] == "active"
+    assert int(child_card["time"]["ticks"]) < int(parent_card["time"]["ticks"])
+    assert child_card["events_since_leave"] == []
+
+    child_history = client.get(
+        f"/experience/player/instances/{child}/history",
+        headers=HEADERS,
+        params={"limit": 2},
+    )
+    assert child_history.status_code == 200
+    child_body = cast(dict[str, Any], child_history.json())
+    assert child_body["total"] >= 3
+    assert child_body["returned"] == 2
+    assert len(child_body["events"]) == 2
+    for invalid in (0, 501):
+        rejected = client.get(
+            f"/experience/player/instances/{child}/history",
+            headers=HEADERS,
+            params={"limit": invalid},
+        )
+        assert rejected.status_code == 422
+
+
 def test_public_visual_world_hides_cost_details_from_visitors() -> None:
     client: Any = TestClient(create_app(build_reference_runtime()))
     source = {
