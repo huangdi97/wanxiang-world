@@ -246,6 +246,37 @@ def test_long_book_builds_bounded_preview_and_keeps_deferred_world_places() -> N
     assert all(scene.source_refs for scene in result.visual_plan.scene_requests)
 
 
+def test_long_book_prefers_scenes_with_more_source_evidence() -> None:
+    chapters: list[str] = []
+    mention_plan = ("Garden",) * 12 + ("Harbor",) * 5 + ("Library",) * 2 + ("Market",)
+    for index, place in enumerate(mention_plan, start=1):
+        chapters.append(
+            f"# Chapter {index}\nCharacter: Alice\n"
+            f"Alice arrived in {place} in 1985.\n"
+            f"rule: chapter-{index} visitors register\n"
+        )
+    text = "\n".join(chapters)
+    source = SourceRecord(
+        source_id="long_book_ranked_source",
+        kind="text",
+        content_hash=payload_hash(text),
+        content_ref="memory://long_book_ranked_source",
+        stage="E3",
+        rights=RightsEnvelope(owner="synthetic", usage="test", approved=True),
+        payload=text,
+        provenance="synthetic:source-to-visual:ranked",
+        access="public",
+    )
+    result = OneClickAuthoring().run("visual_ranked_book", (source,), profile="book")
+
+    assert result.visual_plan is not None
+    selected = [scene.place_name for scene in result.visual_plan.scene_requests]
+    assert selected[0] == "Garden"
+    assert {"Garden", "Harbor"}.issubset(selected)
+    assert "Market" not in selected
+    assert result.visual_plan.deferred_scene_count == 1
+
+
 class _OneClickExternalClient(_ExternalImageClient):
     def __init__(self) -> None:
         self.calls: list[_SceneGenerationBrief] = []
