@@ -138,6 +138,77 @@ def _seed(page: Page) -> str:
 
 
 @pytest.mark.e2e
+def test_conflicting_source_relations_are_marked_in_browser(
+    persist_db_path: pathlib.Path,
+) -> None:
+    server, thread, base = _start(persist_db_path)
+    try:
+        with sync_playwright() as playwright:
+            browser = _launch(playwright.chromium)
+            try:
+                page = browser.new_page(viewport={"width": 1440, "height": 1000})
+                page_errors: list[str] = []
+                page.on("pageerror", lambda error: page_errors.append(str(error)))
+                page.goto(f"{base}/", wait_until="domcontentloaded")
+                source = {
+                    "source_id": "m95_conflict_browser_source",
+                    "kind": "text",
+                    "content": (
+                        "# Chapter\nCharacter: Alice\nCharacter: Bob\n"
+                        "Alice arrived in Garden in 1985.\n"
+                        "Alice visited Harbor.\n"
+                        "Alice walked from Garden to Harbor.\n"
+                        "Bob walked from Harbor to Garden.\n"
+                        "relationship: Alice -> Bob\nrule: visitors register\n"
+                    ),
+                    "stage": "E3",
+                    "rights_approved": True,
+                    "access": "private",
+                    "private_analysis_allowed": True,
+                    "package_inclusion_allowed": True,
+                    "public_export_allowed": False,
+                    "training_allowed": False,
+                }
+                _api(
+                    page,
+                    "/studio/one-click",
+                    "POST",
+                    {
+                        "job_id": "m95_conflict_browser_job",
+                        "profile": "book",
+                        "semantic_provider": "local",
+                        "sources": [source],
+                    },
+                )
+                profile = _api(
+                    page,
+                    "/studio/jobs/m95_conflict_browser_job/playable-profile",
+                    "POST",
+                    {
+                        "owner_id": "studio",
+                        "visibility": "public",
+                        "display_name": "冲突世界",
+                    },
+                )
+                profile_id = str(cast(dict[str, object], profile["profile"])["profile_id"])
+                page.reload(wait_until="networkidle")
+                page.locator(f'#world-list [data-profile="{profile_id}"]').click()
+                page.wait_for_selector("#visual-relations .visual-relation.is-conflicting")
+                chips = page.locator("#visual-relations .visual-relation.is-conflicting")
+                assert chips.count() >= 2
+                first = chips.first
+                assert "来源存在不同说法" in first.inner_text()
+                assert first.get_attribute("title") == "来源存在不同说法"
+                assert not page_errors, page_errors
+            finally:
+                browser.close()
+    finally:
+        server.should_exit = True
+        thread.join(timeout=10)
+        assert not thread.is_alive()
+
+
+@pytest.mark.e2e
 def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Path) -> None:
     server, thread, base = _start(persist_db_path)
     review = pathlib.Path(".impeccable/review")
