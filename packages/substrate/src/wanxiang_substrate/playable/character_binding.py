@@ -16,17 +16,23 @@ from wanxiang_substrate.preview.runtime import _safe_id
 _ACTOR_TYPES = frozenset({"actor", "person", "character"})
 
 
-def source_actor_ids(package: WorldPackageDraft) -> tuple[str, ...]:
-    """Return canonical ids for actor entities, in preview creation order."""
+def source_actor_options(package: WorldPackageDraft) -> tuple[tuple[str, str], ...]:
+    """Return (canonical id, source display name) for actor entities."""
 
     entity_types = dict(package.draft.entity_types)
     used: set[str] = set()
-    actor_ids: list[str] = []
+    options: list[tuple[str, str]] = []
     for index, (key, display_name) in enumerate(package.draft.entities, start=1):
         readable = display_name if key.startswith("gedcom:") else key
         canonical_id = _safe_id(readable, index, used)
         used.add(canonical_id)
         entity_type = entity_types.get(key, "actor").strip() or "actor"
         if entity_type in _ACTOR_TYPES:
-            actor_ids.append(canonical_id)
-    return tuple(actor_ids)
+            options.append((canonical_id, display_name))
+    return tuple(options)
+
+
+def source_actor_ids(package: WorldPackageDraft) -> tuple[str, ...]:
+    """Return canonical ids for actor entities, in preview creation order."""
+
+    return tuple(character_id for character_id, _name in source_actor_options(package))

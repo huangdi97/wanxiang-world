@@ -254,6 +254,7 @@ def test_source_gated_visual_detail_is_withheld_from_guests() -> None:
     assert guest_detail.status_code == 200
     guest_world = cast(dict[str, Any], guest_detail.json()["world"])
     assert guest_world["visual"] is None
+    assert "cast" not in guest_world
     assert guest_world["counts"]["characters"] == 0
 
     denied = client.post(
@@ -273,6 +274,9 @@ def test_two_players_share_one_worldline_without_overwriting_sessions() -> None:
     client = _client(with_character=False)
     plaza = client.get("/experience/player/plaza", headers=HEADERS).json()
     profile_id = str(plaza["worlds"][0]["profile_id"])
+    initial = client.get(f"/experience/player/worlds/{profile_id}", headers=HEADERS)
+    initial_cast = cast(list[dict[str, Any]], initial.json()["world"]["cast"])
+    assert [item["available"] for item in initial_cast] == [True, True]
     users: dict[str, str] = {}
     for user in ("alice", "bob"):
         created = client.post(
@@ -286,6 +290,15 @@ def test_two_players_share_one_worldline_without_overwriting_sessions() -> None:
         assert created.status_code == 201, created.text
         users[user] = str(created.json()["character"]["character_id"])
     assert users == {"alice": "ent_alice", "bob": "ent_bob"}
+    cast_detail = client.get(
+        f"/experience/player/worlds/{profile_id}",
+        headers=HEADERS,
+    )
+    cast_rows = cast(list[dict[str, Any]], cast_detail.json()["world"]["cast"])
+    assert [(item["name"], item["character_id"], item["available"]) for item in cast_rows] == [
+        ("Alice", "ent_alice", False),
+        ("Bob", "ent_bob", False),
+    ]
     exhausted = client.post(
         "/experience/player/characters",
         headers={"X-Wanxiang-User": "carol"},

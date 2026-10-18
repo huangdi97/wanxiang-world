@@ -10,6 +10,7 @@ from wanxiang_domain.errors import NotFound
 from wanxiang_domain.event import CommittedEvent
 from wanxiang_domain.ids import BranchId, WorldInstanceId
 
+from wanxiang_substrate.playable.character_binding import source_actor_options
 from wanxiang_substrate.playable.player_projection import (
     player_observation,
     player_world_detail,
@@ -38,9 +39,11 @@ def player_world(
     """Return the non-technical world detail projection for Player UI."""
 
     profile = service.plaza.require_access(profile_id, viewer_id)
+    package = service.packages.get(profile_id)
+    visual_allowed = service.visual_access_allowed(profile_id, viewer_id=viewer_id)
     view = player_world_detail(
         profile,
-        service.packages.get(profile_id),
+        package,
         locale=locale,
         include_visual=include_visual,
         visual_assets=service.visual_assets(profile_id, viewer_id=viewer_id),
@@ -50,8 +53,24 @@ def player_world(
             profile_id,
             viewer_id=viewer_id,
         ),
-        visual_access_allowed=service.visual_access_allowed(profile_id, viewer_id=viewer_id),
+        visual_access_allowed=visual_allowed,
     )
+    if package is not None and visual_allowed:
+        cast: list[dict[str, object]] = []
+        for character_id, display_name in source_actor_options(package):
+            try:
+                service.store.get_character(character_id)
+                available = False
+            except NotFound:
+                available = True
+            cast.append(
+                {
+                    "name": display_name,
+                    "character_id": character_id,
+                    "available": available,
+                }
+            )
+        view["cast"] = cast
     limit = service._visual_deferred_limit
     visual = view.get("visual")
     if limit > 0 and isinstance(visual, dict) and profile.owner_id == viewer_id:

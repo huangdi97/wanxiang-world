@@ -10,9 +10,9 @@ hard invariants that must hold at every milestone.
 | Metric | Count |
 |---|---|
 | Production files | 733 |
-| Production LOC | 88025 |
+| Production LOC | 88050 |
 | Public classes | 1396 |
-| Public functions | 649 |
+| Public functions | 650 |
 | Registries | 20 |
 | Managers | 0 |
 | Services | 25 |
