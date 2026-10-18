@@ -112,6 +112,7 @@ STRINGS: dict[str, str] = {
     "atlas_entrances_heading": "从图谱进入地点",
     "visual_atlas_caption": "叙事世界图谱 · 关系不等于地理坐标",
     "visual_relations_heading": "原文明示的地点连接",
+    "visual_relation_conflict": "来源存在不同说法",
     "visual_clues_heading": "原文场景线索",
     "visual_source_evidence": "原文证据 {count} 条",
     "visual_source_evidence_none": "仅地点名有来源",

@@ -122,6 +122,7 @@ STRINGS: dict[str, str] = {
     "atlas_entrances_heading": "Explore places in the atlas",
     "visual_atlas_caption": "Narrative world atlas · links are not geographic coordinates",
     "visual_relations_heading": "Source-grounded place links",
+    "visual_relation_conflict": "Sources disagree",
     "visual_clues_heading": "Source scene clues",
     "visual_source_evidence": "{count} source evidence reference(s)",
     "visual_source_evidence_none": "Only the place name is source-grounded",
