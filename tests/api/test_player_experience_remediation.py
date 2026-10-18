@@ -191,6 +191,54 @@ def test_session_cards_and_history_keep_worldline_state_separate() -> None:
     )
     assert negative.status_code == 422
 
+    assert (
+        client.post(
+            f"/experience/player/instances/{parent}/leave",
+            headers=HEADERS,
+        ).status_code
+        == 200
+    )
+    saved_cards = cast(
+        list[dict[str, Any]],
+        client.get("/experience/player/plaza", headers=HEADERS).json()["recent_sessions"],
+    )
+    saved_parent = {str(card["instance_id"]): card for card in saved_cards}[parent]
+    assert saved_parent["status"] == "saved"
+    first_leave = int(saved_parent["leave_time"]["ticks"])
+    assert first_leave > 0
+    assert saved_parent["events_since_leave"] == []
+    assert saved_parent["last_change"]["summary"]
+
+    resumed = client.post(
+        f"/experience/player/instances/{parent}/continue",
+        headers=HEADERS,
+    )
+    assert resumed.status_code == 200
+    assert (
+        client.post(
+            f"/experience/player/instances/{parent}/action",
+            headers=HEADERS,
+            json={"text": "让自己保持紧张"},
+        ).status_code
+        == 200
+    )
+    assert (
+        client.post(
+            f"/experience/player/instances/{parent}/leave",
+            headers=HEADERS,
+        ).status_code
+        == 200
+    )
+    second_cards = cast(
+        list[dict[str, Any]],
+        client.get("/experience/player/plaza", headers=HEADERS).json()["recent_sessions"],
+    )
+    second_parent = {str(card["instance_id"]): card for card in second_cards}[parent]
+    assert second_parent["status"] == "saved"
+    assert int(second_parent["leave_time"]["ticks"]) > first_leave
+    assert second_parent["last_change"]["summary"]
+    assert second_parent["events_since_leave"] == []
+
 
 def test_public_visual_world_hides_cost_details_from_visitors() -> None:
     client: Any = TestClient(create_app(build_reference_runtime()))
