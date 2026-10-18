@@ -136,11 +136,21 @@ def _render_world_atlas(plan: _SourceVisualPlan) -> _SceneVisualAsset | None:
         target = positions.get(relation.target_place)
         if source is None or target is None:
             continue
+        if relation.conflicting:
+            stroke = "hsl(28 78% 45%)"
+            marker = "arrow-conflict"
+            width = 5
+            dash = ' stroke-dasharray="10 7"'
+        else:
+            stroke = f"hsl({base_hue} 32% 43%)"
+            marker = "arrow"
+            width = 4
+            dash = ""
         edges.append(
             f'<line x1="{source[0]:.1f}" y1="{source[1]:.1f}" '
             f'x2="{target[0]:.1f}" y2="{target[1]:.1f}" '
-            f'stroke="hsl({base_hue} 32% 43%)" stroke-width="4" '
-            'marker-end="url(#arrow)" opacity=".78"/>'
+            f'stroke="{stroke}" stroke-width="{width}" '
+            f'marker-end="url(#{marker})" opacity=".78"{dash}/>'
         )
 
     nodes: list[str] = []
@@ -168,6 +178,12 @@ def _render_world_atlas(plan: _SourceVisualPlan) -> _SceneVisualAsset | None:
         if omitted
         else ""
     )
+    conflict_legend = (
+        '<text x="600" y="858" text-anchor="middle" font-size="18" fill="#9a3412">'
+        "橙色虚线：来源存在相反或不同类型的关系说法</text>"
+        if any(relation.conflicting for relation in plan.topology_relations)
+        else ""
+    )
     svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img">
 <defs>
   <linearGradient id="paper" x2="0" y2="1">
@@ -177,6 +193,10 @@ def _render_world_atlas(plan: _SourceVisualPlan) -> _SceneVisualAsset | None:
   <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="3"
    orient="auto" markerUnits="strokeWidth">
     <path d="M0,0 L0,6 L9,3 z" fill="hsl({base_hue} 32% 43%)"/>
+  </marker>
+  <marker id="arrow-conflict" markerWidth="9" markerHeight="9" refX="8" refY="3"
+   orient="auto" markerUnits="strokeWidth">
+    <path d="M0,0 L0,6 L9,3 z" fill="hsl(28 78% 45%)"/>
   </marker>
 </defs>
 <rect width="1200" height="900" fill="url(#paper)"/>
@@ -189,6 +209,7 @@ def _render_world_atlas(plan: _SourceVisualPlan) -> _SceneVisualAsset | None:
 {"".join(edges)}
 {"".join(nodes)}
 {omitted_label}
+{conflict_legend}
 </svg>"""
     content = svg.encode()
     return _SceneVisualAsset(

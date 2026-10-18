@@ -437,6 +437,33 @@ def test_world_atlas_uses_places_and_only_source_grounded_relations() -> None:
     assert "关系不等于地理坐标".encode() in atlas.content
 
 
+def test_world_atlas_marks_conflicting_relations_visually() -> None:
+    plan = _SourceVisualPlan(
+        package_id="world:atlas-conflict",
+        source_digest="f" * 64,
+        status="READY_FOR_ASSET_PROVIDER",
+        scene_requests=(_request("园林", "garden"), _request("书房", "study")),
+        deferred_scene_count=0,
+        topology_relations=(
+            _SourceTopologyRelation(
+                "园林",
+                "书房",
+                "route",
+                ("book#1",),
+                0.8,
+                conflicting=True,
+            ),
+        ),
+        place_names=("园林", "书房"),
+    )
+    atlas = _render_world_atlas(plan)
+
+    assert atlas is not None
+    assert b"arrow-conflict" in atlas.content
+    assert b"stroke-dasharray" in atlas.content
+    assert "来源存在相反或不同类型的关系说法".encode() in atlas.content
+
+
 def test_world_atlas_marks_places_merged_from_multiple_sources() -> None:
     plan = _SourceVisualPlan(
         package_id="world:atlas-merged",
