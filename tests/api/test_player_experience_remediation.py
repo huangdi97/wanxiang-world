@@ -74,6 +74,69 @@ def _client() -> Any:
     return client
 
 
+def test_public_visual_world_hides_cost_details_from_visitors() -> None:
+    client: Any = TestClient(create_app(build_reference_runtime()))
+    source = {
+        "source_id": "m95_public_visual_source",
+        "kind": "text",
+        "content": (
+            "# Chapter\nCharacter: Alice\nAlice arrived in Beijing in 1985.\n"
+            "rule: visitors register\n"
+        ),
+        "stage": "E3",
+        "rights_approved": True,
+        "access": "public",
+        "private_analysis_allowed": True,
+        "package_inclusion_allowed": True,
+        "public_export_allowed": True,
+        "training_allowed": False,
+    }
+    created = client.post(
+        "/studio/one-click",
+        json={
+            "job_id": "m95_public_visual_job",
+            "profile": "book",
+            "sources": [source],
+        },
+    )
+    assert created.status_code == 201, created.text
+    profile = client.post(
+        "/studio/jobs/m95_public_visual_job/playable-profile",
+        json={"owner_id": "studio", "visibility": "public", "display_name": "公共视觉世界"},
+    )
+    assert profile.status_code == 200, profile.text
+    profile_id = str(profile.json()["profile"]["profile_id"])
+
+    visitor = client.post(
+        f"/experience/player/worlds/{profile_id}/visuals",
+        headers={"X-Wanxiang-User": "guest"},
+        json={"place_name": "Beijing"},
+    )
+    assert visitor.status_code == 200, visitor.text
+    visitor_body = cast(dict[str, Any], visitor.json())
+    for internal in (
+        "deferred_used",
+        "deferred_limit",
+        "cost_units",
+        "provider_calls",
+        "cache_hits",
+        "fallback_from_provider",
+        "fallback_reason",
+    ):
+        assert internal not in visitor_body
+    assert visitor_body["world"]["visual"]["places"]
+
+    owner = client.post(
+        f"/experience/player/worlds/{profile_id}/visuals",
+        headers=HEADERS,
+        json={"place_name": "Beijing"},
+    )
+    assert owner.status_code == 200, owner.text
+    owner_body = cast(dict[str, Any], owner.json())
+    assert owner_body["deferred_limit"] == 24
+    assert "deferred_used" in owner_body
+
+
 def test_player_projection_is_chinese_and_uses_committed_state_diff() -> None:
     client = _client()
     plaza = client.get("/experience/player/plaza", headers=HEADERS)

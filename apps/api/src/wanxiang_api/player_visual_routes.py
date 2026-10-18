@@ -49,6 +49,8 @@ def player_materialize_visual_place(
     service = _service(request)
     provider = cast(SceneImageProvider | None, request.app.state.visual_asset_provider)
     deferred_limit = int(request.app.state.visual_asset_max_deferred_generations)
+    profile = service.plaza.require_access(profile_id, viewer)
+    owner = bool(profile.owner_id) and profile.owner_id == viewer
     result = service.materialize_visual_place(
         profile_id,
         payload.place_name,
@@ -58,15 +60,8 @@ def player_materialize_visual_place(
         max_cost_units=int(request.app.state.visual_asset_max_cost_units),
         max_deferred_generations=deferred_limit,
     )
-    return {
+    response: dict[str, object] = {
         "locale": locale,
-        "provider_calls": result.provider_calls,
-        "cache_hits": result.cache_hits,
-        "cost_units": result.cost_units,
-        "deferred_used": visual_budget_usage(service, profile_id),
-        "deferred_limit": deferred_limit,
-        "fallback_from_provider": result.fallback_from_provider,
-        "fallback_reason": result.fallback_reason,
         "world": player_world(
             service,
             profile_id,
@@ -75,6 +70,19 @@ def player_materialize_visual_place(
             include_visual=True,
         ),
     }
+    if owner:
+        response.update(
+            {
+                "provider_calls": result.provider_calls,
+                "cache_hits": result.cache_hits,
+                "cost_units": result.cost_units,
+                "deferred_used": visual_budget_usage(service, profile_id),
+                "deferred_limit": deferred_limit,
+                "fallback_from_provider": result.fallback_from_provider,
+                "fallback_reason": result.fallback_reason,
+            }
+        )
+    return response
 
 
 @router.get("/worlds/{profile_id}/panoramas")
