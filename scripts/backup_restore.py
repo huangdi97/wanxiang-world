@@ -9,6 +9,7 @@ this profile and is named accurately as such.
 from __future__ import annotations
 
 import json
+import os
 import pathlib
 import shutil
 import sqlite3
@@ -43,6 +44,13 @@ def _visual_cache_entry(source: pathlib.Path | None) -> dict[str, object] | None
         return None
     count, tree_hash = _tree_digest(source)
     return {"name": "visual-cache", "file_count": count, "tree_sha256": tree_hash}
+
+
+def visual_cache_from_environment() -> pathlib.Path | None:
+    """Use the same cache directory the app reads by default for CLI backups."""
+
+    configured = os.environ.get("WANXIANG_VISUAL_CACHE_DIR", "").strip()
+    return pathlib.Path(configured) if configured else None
 
 
 def _player_store_entry(source: pathlib.Path) -> dict[str, object] | None:
@@ -135,10 +143,10 @@ if __name__ == "__main__":
     sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
     action = sys.argv[1] if len(sys.argv) > 1 else ""
     if action == "backup":
-        visual = pathlib.Path(sys.argv[4]) if len(sys.argv) > 4 else None
+        visual = pathlib.Path(sys.argv[4]) if len(sys.argv) > 4 else visual_cache_from_environment()
         backup(pathlib.Path(sys.argv[2]), pathlib.Path(sys.argv[3]), visual_cache_dir=visual)
     elif action == "restore":
-        visual = pathlib.Path(sys.argv[4]) if len(sys.argv) > 4 else None
+        visual = pathlib.Path(sys.argv[4]) if len(sys.argv) > 4 else visual_cache_from_environment()
         restore(pathlib.Path(sys.argv[2]), pathlib.Path(sys.argv[3]), visual_cache_dir=visual)
     else:
         raise SystemExit("usage: backup_restore.py backup|restore <path> <path> [visual_cache_dir]")
