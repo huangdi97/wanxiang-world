@@ -191,14 +191,19 @@ def test_conflicting_source_relations_are_marked_in_browser(
                     },
                 )
                 profile_id = str(cast(dict[str, object], profile["profile"])["profile_id"])
-                page.reload(wait_until="networkidle")
-                page.locator(f'#world-list [data-profile="{profile_id}"]').click()
-                page.wait_for_selector("#visual-relations .visual-relation.is-conflicting")
-                chips = page.locator("#visual-relations .visual-relation.is-conflicting")
-                assert chips.count() >= 2
-                first = chips.first
-                assert "来源存在不同说法" in first.inner_text()
-                assert first.get_attribute("title") == "来源存在不同说法"
+                for locale, expected in (
+                    ("zh-CN", "来源存在不同说法"),
+                    ("en-US", "Sources disagree"),
+                ):
+                    page.goto(f"{base}/?locale={locale}", wait_until="networkidle")
+                    assert page.locator("html").get_attribute("lang") == locale
+                    page.locator(f'#world-list [data-profile="{profile_id}"]').click()
+                    page.wait_for_selector("#visual-relations .visual-relation.is-conflicting")
+                    chips = page.locator("#visual-relations .visual-relation.is-conflicting")
+                    assert chips.count() >= 2
+                    first = chips.first
+                    assert expected in first.inner_text()
+                    assert first.get_attribute("title") == expected
                 assert not page_errors, page_errors
             finally:
                 browser.close()
