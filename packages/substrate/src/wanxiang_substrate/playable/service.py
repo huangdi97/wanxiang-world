@@ -243,6 +243,7 @@ class PlayableService:
         *,
         viewer_id: str,
         limit: int = 200,
+        before: int | None = None,
         locale: str | None = None,
     ) -> dict[str, object]:
         """Return the player-safe chronicle, newest first."""
@@ -251,6 +252,7 @@ class PlayableService:
             instance_id,
             viewer_id=viewer_id,
             limit=limit,
+            before=before,
             locale=locale,
         )
 

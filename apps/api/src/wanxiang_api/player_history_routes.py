@@ -61,6 +61,7 @@ def player_instance_history(
     instance_id: str,
     request: Request,
     limit: int = 200,
+    before: int | None = None,
     x_wanxiang_user: str | None = Header(default=None),
     x_wanxiang_locale: str | None = Header(default=None),
 ) -> dict[str, object]:
@@ -72,6 +73,7 @@ def player_instance_history(
             instance_id,
             viewer_id=viewer,
             limit=limit,
+            before=before,
             locale=locale,
         )
     except ValueError as exc:

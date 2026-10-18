@@ -16,6 +16,8 @@ def test_player_html_exposes_replay_banner_and_exit_control() -> None:
     assert 'id="stage-replay-banner"' in html
     assert 'id="stage-replay-exit"' in html
     assert 'id="chronicle-expand"' in html
+    assert 'id="chronicle-more"' in html
+    assert "载入更早" in html
     assert "返回现在" in html
     assert "查看完整纪事" in html
     assert "function replayAt(" in html
@@ -37,6 +39,10 @@ def test_player_script_replays_through_the_player_route_and_resets_on_entry() ->
     assert "model.replay=result;model.historyExpanded=false" in REPLAY_SCRIPT
     assert "const expanded=!model.replay&&" in REPLAY_SCRIPT
     assert "button.hidden=!model.instanceId||Boolean(model.replay)" in REPLAY_SCRIPT
+    assert "function loadMoreHistory(" in REPLAY_SCRIPT
+    assert "&before=" in REPLAY_SCRIPT
+    assert "model.history?.has_more" in REPLAY_SCRIPT
+    assert '$("chronicle-more").addEventListener("click",loadMoreHistory)' in REPLAY_SCRIPT
 
 
 def test_replay_copy_is_available_in_both_locales() -> None:
@@ -48,6 +54,7 @@ def test_replay_copy_is_available_in_both_locales() -> None:
         assert copy.text("replay_exit")
         assert copy.text("history_expand")
         assert copy.text("history_collapse")
+        assert copy.text("history_more")
         assert "{returned}" in copy.text("history_window")
         assert "{total}" in copy.text("history_window")
         assert "{time}" in banner

@@ -17,6 +17,13 @@ function renderChronicle(v,model){
   $("chronicle-list").innerHTML=rowList(items,"chronicle_empty",item=>`<li><button class="chronicle-replay" type="button" data-replay-time="${Number(item.time)||0}" title="${safe(tr("replay_open"))}" aria-label="${safe(tr("replay_open"))}">${safe(tr("moment",{time:item.time}))}</button><span class="muted">${safe(item.summary)}</span></li>`)+window;
   $("chronicle-list").querySelectorAll("[data-replay-time]").forEach(node=>node.addEventListener("click",()=>replayAt(Number(node.dataset.replayTime||0))));
   const button=$("chronicle-expand");button.hidden=!model.instanceId||Boolean(model.replay);button.textContent=tr(model.historyExpanded?"history_collapse":"history_expand");
+  $("chronicle-more").hidden=!expanded||!model.history?.has_more;
+}
+async function loadMoreHistory(){
+  if(!model.instanceId||!model.history?.next_before)return;
+  busy(true);status(tr("status_loading_history"));
+  try{const before=Number(model.history.next_before);const result=await api(`/experience/player/instances/${encodeURIComponent(model.instanceId)}/history?limit=200&before=${encodeURIComponent(String(before))}`);model.history={...result,events:(model.history?.events||[]).concat(result.events||[]),returned:((model.history?.events||[]).length+(result.events||[]).length)};renderPlay();status("")}
+  catch(error){status(error.message,true)}finally{busy(false)}
 }
 async function toggleHistory(){
   if(!model.instanceId)return;
@@ -33,5 +40,5 @@ async function replayAt(ticks){
 }
 function exitReplay(){if(!model.replay)return;model.replay=null;renderPlay()}
 $("stage-replay-exit").addEventListener("click",exitReplay);
-$("chronicle-expand").addEventListener("click",toggleHistory);
+$("chronicle-expand").addEventListener("click",toggleHistory);$("chronicle-more").addEventListener("click",loadMoreHistory);
 """

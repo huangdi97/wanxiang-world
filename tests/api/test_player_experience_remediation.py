@@ -131,6 +131,22 @@ def test_session_cards_and_history_keep_worldline_state_separate() -> None:
     assert child_body["total"] >= 3
     assert child_body["returned"] == 2
     assert len(child_body["events"]) == 2
+    assert child_body["has_more"] is True
+    assert int(child_body["next_before"]) > 0
+    older = client.get(
+        f"/experience/player/instances/{child}/history",
+        headers=HEADERS,
+        params={"limit": 2, "before": int(child_body["next_before"])},
+    )
+    assert older.status_code == 200
+    older_body = cast(dict[str, Any], older.json())
+    assert older_body["returned"] == 2
+    assert older_body["has_more"] is False
+    assert older_body["next_before"] is None
+    page_times = [int(item["time"]) for item in child_body["events"]]
+    older_times = [int(item["time"]) for item in older_body["events"]]
+    assert all(time < int(child_body["next_before"]) for time in older_times)
+    assert len(set(page_times + older_times)) == 4
     for invalid in (0, 501):
         rejected = client.get(
             f"/experience/player/instances/{child}/history",
@@ -138,6 +154,12 @@ def test_session_cards_and_history_keep_worldline_state_separate() -> None:
             params={"limit": invalid},
         )
         assert rejected.status_code == 422
+    negative = client.get(
+        f"/experience/player/instances/{child}/history",
+        headers=HEADERS,
+        params={"before": -1},
+    )
+    assert negative.status_code == 422
 
 
 def test_public_visual_world_hides_cost_details_from_visitors() -> None:

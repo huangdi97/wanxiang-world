@@ -11,6 +11,7 @@ STRINGS: dict[str, str] = {
     "replay_scene_caption": "History replay · {place} (scene at that time)",
     "status_replaying": "Replaying world history…",
     "history_expand": "View full chronicle",
+    "history_more": "Load earlier",
     "history_collapse": "Collapse chronicle",
     "status_loading_history": "Loading the world chronicle…",
     "fork_worldline": "Branch from here",

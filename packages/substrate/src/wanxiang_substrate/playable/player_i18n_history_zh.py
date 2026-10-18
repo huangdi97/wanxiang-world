@@ -11,6 +11,7 @@ STRINGS: dict[str, str] = {
     "replay_scene_caption": "历史回看 · {place}（当时场景）",
     "status_replaying": "正在回看世界历史…",
     "history_expand": "查看完整纪事",
+    "history_more": "载入更早",
     "history_collapse": "收起纪事",
     "status_loading_history": "正在读取世界纪事…",
     "fork_worldline": "从此刻分支",
