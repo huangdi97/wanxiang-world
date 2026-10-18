@@ -12,6 +12,7 @@ from fastapi.testclient import TestClient
 from scripts.reference_runtime import build_reference_runtime
 from wanxiang_api.app import create_app
 from wanxiang_api.player_ui_asset import player_html
+from wanxiang_domain.ids import BranchId, WorldInstanceId
 
 HEADERS = {"X-Wanxiang-User": "studio"}
 
@@ -496,6 +497,22 @@ def test_grounded_actor_reentry_and_fork_keep_one_actor() -> None:
     )
     assert fork.status_code == 200, fork.text
     child = str(cast(dict[str, Any], fork.json()["worldline"])["instance_id"])
+    playable = client.app.state.playable
+    child_record = playable.store.get_instance_for(child, "studio")
+    assert child_record is not None
+    child_world = WorldInstanceId(child_record.runtime_instance_id or child_record.instance_id)
+    child_branch = BranchId(child_record.branch_id)
+    child_before = playable.runtime.current_state(child_world, child_branch)
+    assert (
+        client.post(
+            f"/experience/player/instances/{instance_id}/action",
+            headers=HEADERS,
+            json={"text": "set status to calm"},
+        ).status_code
+        == 200
+    )
+    child_after = playable.runtime.current_state(child_world, child_branch)
+    assert child_after.semantic_hash() == child_before.semantic_hash()
     child_view = client.get(f"/experience/player/instances/{child}", headers=HEADERS)
     assert child_view.status_code == 200
     child_player = cast(dict[str, Any], child_view.json()["view"]["player"])
@@ -506,6 +523,62 @@ def test_grounded_actor_reentry_and_fork_keep_one_actor() -> None:
     )
     assert child_history.status_code == 200
     assert int(cast(int, child_history.json()["total"])) > first_total
+
+
+def test_foreign_character_cannot_ground_an_actor() -> None:
+    client = _client(with_character=False)
+    plaza = client.get("/experience/player/plaza", headers=HEADERS).json()
+    profile_id = str(plaza["worlds"][0]["profile_id"])
+    alice_headers = {"X-Wanxiang-User": "alice"}
+    bob_headers = {"X-Wanxiang-User": "bob"}
+    created = client.post(
+        "/experience/player/characters",
+        headers=alice_headers,
+        json={
+            "display_name": "Alice Actor",
+            "character_id": "alice_actor",
+            "compatible_profile_ids": [profile_id],
+        },
+    )
+    assert created.status_code == 201, created.text
+    entered = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=alice_headers,
+        json={
+            "mode": "embodiment",
+            "session_id": "alice_actor_session",
+            "character_id": "alice_actor",
+        },
+    )
+    assert entered.status_code == 200, entered.text
+    instance_id = str(entered.json()["instance_id"])
+    assert (
+        client.post(
+            f"/experience/player/instances/{instance_id}/leave",
+            headers=alice_headers,
+        ).status_code
+        == 200
+    )
+
+    playable = client.app.state.playable
+    record = playable.store.get_instance_for(instance_id, "alice")
+    assert record is not None
+    world_instance = WorldInstanceId(record.runtime_instance_id or record.instance_id)
+    branch = BranchId(record.branch_id)
+    before = playable.runtime.current_state(world_instance, branch)
+    denied = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=bob_headers,
+        json={
+            "mode": "embodiment",
+            "session_id": "bob_uses_alice_actor",
+            "character_id": "alice_actor",
+        },
+    )
+    assert denied.status_code == 404
+    after = playable.runtime.current_state(world_instance, branch)
+    assert after.semantic_hash() == before.semantic_hash()
+    assert after.revision.value == before.revision.value
 
 
 def test_public_visual_world_hides_cost_details_from_visitors() -> None:
