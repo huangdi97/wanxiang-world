@@ -45,6 +45,23 @@ class _CustomSceneProvider(SceneImageProvider):
         )
 
 
+def _second_source() -> SourceRecord:
+    content = (
+        "# Chapter\nCharacter: Carol\nCarol arrived in Shanghai in 1990.\nrule: visitors register\n"
+    )
+    return SourceRecord(
+        source_id="playable_e2e_source_b",
+        kind="text",
+        content_hash=payload_hash(content),
+        content_ref="memory://playable_e2e_source_b",
+        stage="E3",
+        rights=RightsEnvelope(owner="test", usage="test", approved=True),
+        payload=content,
+        provenance="synthetic:g88h",
+        access="private",
+    )
+
+
 def _source() -> SourceRecord:
     content = (
         "# Chapter\nCharacter: Alice\nCharacter: Bob\n"
@@ -551,6 +568,56 @@ def test_worldline_fork_preserves_parent_and_diverges_independently() -> None:
         cast(dict[str, object], three_way["common"])["revision"]
         == (child_card["forked_from_revision"])
     )
+
+
+def test_continue_and_worldlines_stay_isolated_across_worlds() -> None:
+    authored_a = OneClickAuthoring().run("job_world_a", (_source(),), profile="book")
+    authored_b = OneClickAuthoring().run("job_world_b", (_second_source(),), profile="book")
+    playable = PlayableService(build_reference_runtime())
+    profile_a = playable.register_package(authored_a.package, owner_id="alice", visibility="public")
+    profile_b = playable.register_package(authored_b.package, owner_id="alice", visibility="public")
+    character = playable.entry.create_character(
+        "alice",
+        "Alice",
+        compatible_profile_ids=(profile_a.experience_package_ref,),
+        character_id="ent_alice",
+    )
+    entered_a = playable.enter(
+        profile_a.profile_id,
+        viewer_id="alice",
+        mode="embodiment",
+        session_id="world_a_parent",
+        character_id=character.character_id,
+    )
+    instance_a = str(cast(dict[str, object], entered_a["instance"])["instance_id"])
+    playable.leave(instance_a, viewer_id="alice")
+
+    entered_b = playable.enter(
+        profile_b.profile_id,
+        viewer_id="alice",
+        mode="observer",
+        session_id="world_b_observer",
+    )
+    instance_b = str(cast(dict[str, object], entered_b["instance"])["instance_id"])
+    playable.leave(instance_b, viewer_id="alice")
+
+    playable.continue_instance(instance_a, viewer_id="alice")
+    playable.leave(instance_a, viewer_id="alice")
+
+    current = playable.plaza.continue_last("alice")
+    assert current is not None
+    assert current.instance_id == instance_a
+    recent_ids = {card.instance_id for card in playable.plaza.recent_sessions("alice")}
+    assert {instance_a, instance_b} <= recent_ids
+
+    listing_a = playable.worldlines(instance_a, viewer_id="alice")
+    listing_b = playable.worldlines(instance_b, viewer_id="alice")
+    cards_a = cast(list[dict[str, object]], listing_a["worldlines"])
+    cards_b = cast(list[dict[str, object]], listing_b["worldlines"])
+    assert [card["instance_id"] for card in cards_a] == [instance_a]
+    assert [card["instance_id"] for card in cards_b] == [instance_b]
+    assert cast(int, listing_a["branches"]) == 1
+    assert cast(int, listing_b["branches"]) == 1
 
 
 def test_continue_last_prefers_the_most_recently_touched_worldline() -> None:
