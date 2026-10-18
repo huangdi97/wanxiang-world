@@ -419,6 +419,95 @@ def test_explicit_new_character_is_grounded_through_commit() -> None:
     assert history.json()["total"] >= 2
 
 
+def test_grounded_actor_reentry_and_fork_keep_one_actor() -> None:
+    client = _client(with_character=False)
+    plaza = client.get("/experience/player/plaza", headers=HEADERS).json()
+    profile_id = str(plaza["worlds"][0]["profile_id"])
+    created = client.post(
+        "/experience/player/characters",
+        headers=HEADERS,
+        json={
+            "display_name": "Newcomer",
+            "character_id": "newcomer",
+            "compatible_profile_ids": [profile_id],
+        },
+    )
+    assert created.status_code == 201, created.text
+    entered = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=HEADERS,
+        json={
+            "mode": "embodiment",
+            "session_id": "grounded_once",
+            "character_id": "newcomer",
+        },
+    )
+    assert entered.status_code == 200, entered.text
+    instance_id = str(entered.json()["instance_id"])
+    assert (
+        client.post(
+            f"/experience/player/instances/{instance_id}/action",
+            headers=HEADERS,
+            json={"text": "set status to alert"},
+        ).status_code
+        == 200
+    )
+    first_history = client.get(
+        f"/experience/player/instances/{instance_id}/history",
+        headers=HEADERS,
+    )
+    first_total = int(cast(int, first_history.json()["total"]))
+    assert first_total >= 2
+    assert (
+        client.post(
+            f"/experience/player/instances/{instance_id}/leave",
+            headers=HEADERS,
+        ).status_code
+        == 200
+    )
+
+    resumed = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=HEADERS,
+        json={
+            "mode": "embodiment",
+            "session_id": "grounded_twice",
+            "character_id": "newcomer",
+        },
+    )
+    assert resumed.status_code == 200, resumed.text
+    reentry_history = client.get(
+        f"/experience/player/instances/{instance_id}/history",
+        headers=HEADERS,
+    )
+    assert int(cast(int, reentry_history.json()["total"])) == first_total
+    assert (
+        client.post(
+            f"/experience/player/instances/{instance_id}/action",
+            headers=HEADERS,
+            json={"text": "set status to calm"},
+        ).status_code
+        == 200
+    )
+
+    fork = client.post(
+        f"/experience/player/instances/{instance_id}/fork",
+        headers=HEADERS,
+    )
+    assert fork.status_code == 200, fork.text
+    child = str(cast(dict[str, Any], fork.json()["worldline"])["instance_id"])
+    child_view = client.get(f"/experience/player/instances/{child}", headers=HEADERS)
+    assert child_view.status_code == 200
+    child_player = cast(dict[str, Any], child_view.json()["view"]["player"])
+    assert child_player["name"] == "Newcomer"
+    child_history = client.get(
+        f"/experience/player/instances/{child}/history",
+        headers=HEADERS,
+    )
+    assert child_history.status_code == 200
+    assert int(cast(int, child_history.json()["total"])) > first_total
+
+
 def test_public_visual_world_hides_cost_details_from_visitors() -> None:
     client: Any = TestClient(create_app(build_reference_runtime()))
     source = {
