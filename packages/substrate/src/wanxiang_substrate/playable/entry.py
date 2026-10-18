@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from wanxiang_domain.errors import ContractError, NotFound
 from wanxiang_domain.ids import WorldInstanceId
 
+from wanxiang_substrate.playable.character_binding import source_actor_ids
 from wanxiang_substrate.playable.experience import EntryMode, ExperiencePackage
 from wanxiang_substrate.playable.store import CharacterRecord, PlayableStore
 from wanxiang_substrate.session import EmbodimentLease, LeaseService, SessionService
@@ -65,9 +66,10 @@ class CharacterEntryService:
     ) -> CharacterRecord:
         if not owner_id or not display_name.strip():
             raise ContractError("character creation requires owner and display name")
+        bound_id = character_id or self._source_actor_character_id(compatible_profile_ids)
         number = len(self._store.list_characters(owner_id)) + 1
         character = CharacterRecord(
-            character_id=character_id or f"character:{owner_id}:{number}",
+            character_id=bound_id or f"character:{owner_id}:{number}",
             owner_id=owner_id,
             display_name=display_name.strip(),
             compatible_profile_ids=compatible_profile_ids,
@@ -82,6 +84,21 @@ class CharacterEntryService:
 
     def my_characters(self, owner_id: str) -> tuple[CharacterRecord, ...]:
         return self._store.list_characters(owner_id)
+
+    def _source_actor_character_id(self, profile_ids: tuple[str, ...]) -> str | None:
+        """Pick an unclaimed source actor so a created character can act."""
+
+        packages = self._store.load_packages()
+        for profile_id in profile_ids:
+            package = packages.get(profile_id)
+            if package is None:
+                continue
+            for candidate in source_actor_ids(package):
+                try:
+                    self._store.get_character(candidate)
+                except NotFound:
+                    return candidate
+        return None
 
     def enter(
         self,

@@ -273,18 +273,19 @@ def test_two_players_share_one_worldline_without_overwriting_sessions() -> None:
     client = _client(with_character=False)
     plaza = client.get("/experience/player/plaza", headers=HEADERS).json()
     profile_id = str(plaza["worlds"][0]["profile_id"])
-    users = {"alice": "ent_alice", "bob": "ent_bob"}
-    for user, character_id in users.items():
+    users: dict[str, str] = {}
+    for user in ("alice", "bob"):
         created = client.post(
             "/experience/player/characters",
             headers={"X-Wanxiang-User": user},
             json={
                 "display_name": user.title(),
-                "character_id": character_id,
                 "compatible_profile_ids": [profile_id],
             },
         )
         assert created.status_code == 201, created.text
+        users[user] = str(created.json()["character"]["character_id"])
+    assert users == {"alice": "ent_alice", "bob": "ent_bob"}
 
     alice_headers = {"X-Wanxiang-User": "alice"}
     bob_headers = {"X-Wanxiang-User": "bob"}

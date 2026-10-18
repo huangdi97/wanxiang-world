@@ -2240,6 +2240,7 @@
     "wanxiang_substrate.sign_world_pack",
     "wanxiang_substrate.skill_instance_component",
     "wanxiang_substrate.snapshot_restart",
+    "wanxiang_substrate.source_actor_ids",
     "wanxiang_substrate.source_scene_key",
     "wanxiang_substrate.source_scene_key_allowed",
     "wanxiang_substrate.source_slice",

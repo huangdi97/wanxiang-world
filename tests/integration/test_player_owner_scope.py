@@ -96,6 +96,36 @@ def test_shared_world_changes_appear_after_the_player_returns() -> None:
     assert active_session["status"] == "active"
 
 
+def test_created_characters_bind_to_free_source_actors() -> None:
+    authored = OneClickAuthoring().run("job_character_binding", (_source(),), profile="book")
+    playable = PlayableService(build_reference_runtime())
+    profile = playable.register_package(authored.package, owner_id="alice", visibility="public")
+    alice = playable.entry.create_character(
+        "alice",
+        "Alice",
+        compatible_profile_ids=(profile.experience_package_ref,),
+    )
+    bob = playable.entry.create_character(
+        "bob",
+        "Bob",
+        compatible_profile_ids=(profile.experience_package_ref,),
+    )
+    assert alice.character_id == "ent_alice"
+    assert bob.character_id == "ent_bob"
+
+    entered = playable.enter(
+        profile.profile_id,
+        viewer_id="alice",
+        mode="embodiment",
+        session_id="binding_alice",
+        character_id=alice.character_id,
+    )
+    instance_id = str(cast(dict[str, object], entered["instance"])["instance_id"])
+    action = playable.action(instance_id, viewer_id="alice", text="set status to alert")
+    assert action.proposal.accepted
+    assert action.event_id
+
+
 def test_instance_handles_are_owner_scoped(tmp_path: pathlib.Path) -> None:
     authored = OneClickAuthoring().run("job_owner_scope", (_source(),), profile="book")
     store_path = tmp_path / "owner-scope.json"
