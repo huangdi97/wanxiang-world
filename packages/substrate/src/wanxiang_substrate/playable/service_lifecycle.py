@@ -16,7 +16,11 @@ from wanxiang_domain.ids import BranchId, WorldInstanceId
 from wanxiang_runtime.state import state_to_primitive
 
 from wanxiang_substrate.playable.experience import EntryMode
-from wanxiang_substrate.playable.service_session import _owned_instance, _save_instance
+from wanxiang_substrate.playable.service_session import (
+    _next_touch,
+    _owned_instance,
+    _save_instance,
+)
 from wanxiang_substrate.playable.service_support import _runtime_instance_id, instance_dict
 from wanxiang_substrate.playable.store import ExperienceInstanceRecord
 from wanxiang_substrate.preview import instantiate_preview
@@ -56,7 +60,7 @@ def _enter(
         owner_id=viewer_id,
         branch_id=world.branch_id.value,
     )
-    _save_instance(service, receipt, base, updated_seq=1)
+    _save_instance(service, receipt, base)
     return _observe(service, base.instance_id, viewer_id)
 
 
@@ -71,7 +75,7 @@ def _continue_instance(
     experience = service._experiences.get(profile.profile_id)
     if experience is None:
         raise NotFound(f"experience {profile.profile_id!r} not found")
-    next_session = f"resume_{record.instance_id}_{record.updated_seq + 1}"
+    next_session = f"resume_{record.instance_id}_{_next_touch(service)}"
     receipt = service.entry.enter(
         experience,
         viewer_id=viewer_id,
@@ -81,7 +85,7 @@ def _continue_instance(
         mode=cast(EntryMode, record.mode),
         character_id=record.actor_id,
     )
-    _save_instance(service, receipt, record, updated_seq=record.updated_seq + 1)
+    _save_instance(service, receipt, record)
     return _observe(service, instance_id, viewer_id)
 
 
@@ -103,7 +107,7 @@ def _leave(
             session_id="",
             lease_id="",
             last_revision=state.revision.value,
-            updated_seq=record.updated_seq + 1,
+            updated_seq=_next_touch(service),
         )
     )
     return {"instance_id": instance_id, "status": "left", "revision": state.revision.value}

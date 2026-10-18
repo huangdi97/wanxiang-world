@@ -553,6 +553,39 @@ def test_worldline_fork_preserves_parent_and_diverges_independently() -> None:
     )
 
 
+def test_continue_last_prefers_the_most_recently_touched_worldline() -> None:
+    authored = OneClickAuthoring().run("job_continue_last", (_source(),), profile="book")
+    playable = PlayableService(build_reference_runtime())
+    profile = playable.register_package(authored.package, owner_id="alice", visibility="public")
+    character = playable.entry.create_character(
+        "alice",
+        "Alice",
+        compatible_profile_ids=(profile.experience_package_ref,),
+        character_id="ent_alice",
+    )
+    entered = playable.enter(
+        profile.profile_id,
+        viewer_id="alice",
+        mode="embodiment",
+        session_id="continue_last_parent",
+        character_id=character.character_id,
+    )
+    parent = str(cast(dict[str, object], entered["instance"])["instance_id"])
+    for text in ("让自己保持清醒", "让自己保持平静", "让自己保持紧张"):
+        playable.action(parent, viewer_id="alice", text=text)
+
+    child = str(playable.fork_worldline(parent, viewer_id="alice")["instance_id"])
+    playable.leave(parent, viewer_id="alice")
+    playable.continue_instance(child, viewer_id="alice")
+    playable.leave(child, viewer_id="alice")
+
+    recent = playable.plaza.recent_sessions("alice")
+    assert recent[0].instance_id == child
+    current = playable.plaza.continue_last("alice")
+    assert current is not None
+    assert current.instance_id == child
+
+
 def test_compare_after_parent_advances_past_the_fork_point() -> None:
     authored = OneClickAuthoring().run("job_compare_advance", (_source(),), profile="book")
     playable = PlayableService(build_reference_runtime())

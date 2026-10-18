@@ -18,12 +18,19 @@ if TYPE_CHECKING:
     from wanxiang_substrate.playable.service import PlayableService
 
 
+def _next_touch(service: PlayableService) -> int:
+    """Monotonic save order shared by every worldline of the store.
+
+    ``updated_seq`` is a touch counter, not a per-branch event count, so
+    ``continue_last`` can resume the worldline the player actually used last.
+    """
+    return max((item.updated_seq for item in service.store.list_instances()), default=0) + 1
+
+
 def _save_instance(
     service: PlayableService,
     receipt: EntryReceipt,
     record: ExperienceInstanceRecord,
-    *,
-    updated_seq: int,
 ) -> ExperienceInstanceRecord:
     state = service.runtime.current_state(
         WorldInstanceId(_runtime_instance_id(record)),
@@ -36,7 +43,7 @@ def _save_instance(
         session_id=receipt.session_id,
         lease_id=receipt.lease_id,
         last_revision=state.revision.value,
-        updated_seq=updated_seq,
+        updated_seq=_next_touch(service),
     )
     service.store.save_instance(updated)
     return updated

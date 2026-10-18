@@ -14,7 +14,7 @@ from typing import TYPE_CHECKING
 from wanxiang_domain.errors import ContractError
 from wanxiang_domain.ids import BranchId, WorldInstanceId
 
-from wanxiang_substrate.playable.service_session import _owned_instance
+from wanxiang_substrate.playable.service_session import _next_touch, _owned_instance
 from wanxiang_substrate.playable.service_support import _runtime_instance_id
 from wanxiang_substrate.playable.store import ExperienceInstanceRecord
 
@@ -55,7 +55,7 @@ def _fork_worldline(
             mode=record.mode,
             actor_id=record.actor_id,
             last_revision=head.revision.value,
-            updated_seq=1,
+            updated_seq=_next_touch(service),
             runtime_instance_id=runtime_id,
         )
     )

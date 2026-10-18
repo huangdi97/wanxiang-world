@@ -18,7 +18,7 @@ from wanxiang_substrate.playable.service_model import (
     PlayableActionResult,
     SubmittedResult,
 )
-from wanxiang_substrate.playable.service_session import _owned_instance
+from wanxiang_substrate.playable.service_session import _next_touch, _owned_instance
 from wanxiang_substrate.playable.service_support import _runtime_instance_id, affordances
 from wanxiang_substrate.playable.state_diff import CommittedStateDiff
 
@@ -88,7 +88,7 @@ def _perform_action(
         replace(
             record,
             last_revision=submitted.state.revision.value,
-            updated_seq=record.updated_seq + 1,
+            updated_seq=_next_touch(service),
         )
     )
     return PlayableActionResult(
