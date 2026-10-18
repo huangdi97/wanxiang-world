@@ -147,6 +147,36 @@ def test_session_cards_and_history_keep_worldline_state_separate() -> None:
     older_times = [int(item["time"]) for item in older_body["events"]]
     assert all(time < int(child_body["next_before"]) for time in older_times)
     assert len(set(page_times + older_times)) == 4
+    paged_times: list[int] = []
+    cursor: int | None = None
+    for _ in range(int(child_body["total"]) + 2):
+        params: dict[str, int] = {"limit": 1}
+        if cursor is not None:
+            params["before"] = cursor
+        page = client.get(
+            f"/experience/player/instances/{child}/history",
+            headers=HEADERS,
+            params=params,
+        )
+        assert page.status_code == 200
+        body = cast(dict[str, Any], page.json())
+        paged_times.extend(int(item["time"]) for item in body["events"])
+        if not body["has_more"]:
+            break
+        cursor = int(body["next_before"])
+    assert len(paged_times) == int(child_body["total"])
+    assert len(set(paged_times)) == len(paged_times)
+    assert paged_times == sorted(paged_times, reverse=True)
+    empty = client.get(
+        f"/experience/player/instances/{child}/history",
+        headers=HEADERS,
+        params={"before": 0},
+    )
+    empty_body = cast(dict[str, Any], empty.json())
+    assert empty_body["returned"] == 0
+    assert empty_body["events"] == []
+    assert empty_body["has_more"] is False
+    assert empty_body["total"] == child_body["total"]
     for invalid in (0, 501):
         rejected = client.get(
             f"/experience/player/instances/{child}/history",

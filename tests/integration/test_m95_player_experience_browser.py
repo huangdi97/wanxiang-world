@@ -947,6 +947,16 @@ def test_player_history_loads_earlier_pages_in_browser(persist_db_path: pathlib.
                     f" {total}"
                 )
                 assert page.locator("#chronicle-more").is_hidden()
+                page.locator("#chronicle-expand").click()
+                page.wait_for_function(
+                    "document.querySelectorAll('#chronicle-list [data-replay-time]').length <"
+                    f" {total}"
+                )
+                page.locator("#chronicle-expand").click()
+                page.wait_for_function(
+                    "document.querySelectorAll('#chronicle-list [data-replay-time]').length ==="
+                    f" {total}"
+                )
                 assert not page_errors, page_errors
             finally:
                 browser.close()

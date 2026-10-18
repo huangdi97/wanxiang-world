@@ -43,6 +43,7 @@ def test_player_script_replays_through_the_player_route_and_resets_on_entry() ->
     assert "&before=" in REPLAY_SCRIPT
     assert "model.history?.has_more" in REPLAY_SCRIPT
     assert "model.historyExpanded=Boolean(model.history?.events?.length)" in REPLAY_SCRIPT
+    assert "if(model.history?.events?.length){model.historyExpanded=true" in REPLAY_SCRIPT
     assert '$("chronicle-more").addEventListener("click",loadMoreHistory)' in REPLAY_SCRIPT
 
 

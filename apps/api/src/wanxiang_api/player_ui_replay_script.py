@@ -29,6 +29,7 @@ async function loadMoreHistory(){
 async function toggleHistory(){
   if(!model.instanceId)return;
   if(model.historyExpanded){model.historyExpanded=false;renderPlay();return}
+  if(model.history?.events?.length){model.historyExpanded=true;renderPlay();return}
   busy(true);status(tr("status_loading_history"));
   try{const result=await api(`/experience/player/instances/${encodeURIComponent(model.instanceId)}/history?limit=${HISTORY_PAGE_SIZE}`);model.history=result;model.historyExpanded=true;renderPlay();status("")}
   catch(error){status(error.message,true)}finally{busy(false)}
