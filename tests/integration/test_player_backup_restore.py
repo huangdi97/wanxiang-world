@@ -1,12 +1,24 @@
 """Backups must carry the Player catalog sidecar with the SQLite database."""
 
+# pyright: reportPrivateUsage=false
+
 from __future__ import annotations
 
 import pathlib
+import shutil
+from dataclasses import replace
 
 import pytest
 from scripts.backup_restore import PLAYER_STORE_COPY, backup, restore
 from tests.conftest import make_world_runtime
+from wanxiang_substrate.assets.book_scene_cache import (
+    LocalJsonVisualCacheIndex,
+    VisualAssetCache,
+)
+from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
+from wanxiang_substrate.assets.book_scene_render import _ProceduralSvgSceneProvider
+from wanxiang_substrate.assets.book_scene_types import SceneImageProvider, _SceneVisualAsset
+from wanxiang_substrate.assets.storage import LocalObjectStore
 from wanxiang_substrate.authoring.one_click import OneClickAuthoring
 from wanxiang_substrate.playable import PlayableService
 from wanxiang_substrate.playable.local_store import LocalJsonPlayableStore
@@ -119,3 +131,84 @@ def test_backup_and_restore_keep_the_visual_and_spatial_cache(tmp_path: pathlib.
             tmp_path / "cache2.db",
             visual_cache_dir=tmp_path / "visual2",
         )
+
+
+class _BackupProvider(SceneImageProvider):
+    provider_id = "provider:backup-cache"
+    provider_version = "1.0"
+    cost_units_per_asset = 1
+    private_safe = True
+
+    def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
+        produced = _ProceduralSvgSceneProvider().produce(request)
+        return replace(
+            produced,
+            provider_id=self.provider_id,
+            provider_version=self.provider_version,
+            cache_key=f"{request.cache_key}:{self.provider_id}@{self.provider_version}",
+        )
+
+
+def test_backup_restore_keeps_t1_cache_hits_free(tmp_path: pathlib.Path) -> None:
+    db_path = tmp_path / "t1-world.db"
+    sidecar = db_path.with_name(db_path.name + ".playable.json")
+    visual = tmp_path / "visual-cache"
+    runtime = make_world_runtime(db_path, extra_resolvers=register_preview_resolvers)
+    cache = VisualAssetCache(
+        LocalObjectStore(visual / "blobs"),
+        LocalJsonVisualCacheIndex(visual / "index.json"),
+    )
+    authored = OneClickAuthoring().run("job_backup_t1", (_source(),), profile="book")
+    assert authored.visual_plan is not None
+    place = authored.visual_plan.place_names[0]
+    service = PlayableService(
+        runtime,
+        store=LocalJsonPlayableStore(sidecar),
+        visual_cache=cache,
+    )
+    profile = service.register_package(authored.package, owner_id="alice", visibility="public")
+    provider = _BackupProvider()
+    generated = service.materialize_visual_place(
+        profile.profile_id,
+        place,
+        viewer_id="alice",
+        provider=provider,
+        max_cost_units=5,
+        max_deferred_generations=5,
+    )
+    assert generated.provider_calls == 1
+
+    backup_dir = tmp_path / "t1-backup"
+    backup(db_path, backup_dir, visual_cache_dir=visual)
+    db_path.unlink()
+    sidecar.unlink()
+    shutil.rmtree(visual)
+    restored_db = tmp_path / "t1-restored.db"
+    restored_visual = tmp_path / "t1-restored-visual"
+    restore(backup_dir, restored_db, visual_cache_dir=restored_visual)
+
+    restored_runtime = make_world_runtime(
+        restored_db,
+        extra_resolvers=register_preview_resolvers,
+    )
+    restored = PlayableService(
+        restored_runtime,
+        store=LocalJsonPlayableStore(restored_db.with_name(restored_db.name + ".playable.json")),
+        visual_cache=VisualAssetCache(
+            LocalObjectStore(restored_visual / "blobs"),
+            LocalJsonVisualCacheIndex(restored_visual / "index.json"),
+        ),
+    )
+    assert restore_playable_service(restored) == 1
+    assets = restored.visual_assets(profile.profile_id, viewer_id="alice")
+    assert provider.provider_id in {asset.provider_id for asset in assets}
+    reused = restored.materialize_visual_place(
+        profile.profile_id,
+        place,
+        viewer_id="alice",
+        provider=provider,
+        max_cost_units=5,
+        max_deferred_generations=5,
+    )
+    assert reused.provider_calls == 0
+    assert reused.cache_hits == 1
