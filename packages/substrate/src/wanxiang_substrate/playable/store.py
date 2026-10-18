@@ -84,6 +84,7 @@ def _instance_key(instance: ExperienceInstanceRecord) -> str:
 
 class PlayableStore(Protocol):
     """Persistence port for experience metadata only."""
+
     def save_profile(self, profile: PlayableWorldProfile) -> None: ...
 
     def get_profile(self, profile_id: str) -> PlayableWorldProfile: ...
