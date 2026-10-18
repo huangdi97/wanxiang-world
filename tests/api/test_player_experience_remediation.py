@@ -419,7 +419,9 @@ def test_player_worldline_fork_returns_a_detached_branch_handle() -> None:
     assert listing.json()["branches"] == 2
     child_card = next(card for card in cards if card["instance_id"] == child)
     assert child_card["current"] is True
-    assert child_card["forked_from_revision"] is not None
+    assert child_card["forked"] is True
+    assert "branch_id" not in json.dumps(cards, ensure_ascii=False)
+    assert "revision" not in json.dumps(cards, ensure_ascii=False)
     shared = client.get(
         f"/experience/player/instances/{instance_id}/compare",
         headers=HEADERS,
@@ -428,7 +430,8 @@ def test_player_worldline_fork_returns_a_detached_branch_handle() -> None:
     assert shared.status_code == 200
     shared_body = cast(dict[str, Any], shared.json())
     assert shared_body["identical"] is True
-    assert shared_body["common"]["revision"] == child_card["forked_from_revision"]
+    assert shared_body["common"]["shared"] is True
+    assert "revision" not in json.dumps(shared_body, ensure_ascii=False)
     assert shared_body["diverged_events"] == {"left": 0, "right": 0}
     assert shared_body["differences"] == {"total": 0, "truncated": False, "items": []}
     assert shared_body["recent"]["left"] == shared_body["recent"]["right"]

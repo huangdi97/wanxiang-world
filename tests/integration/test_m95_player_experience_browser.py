@@ -641,7 +641,8 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 page.wait_for_selector("#worldline-compare:not([hidden])")
                 compare_copy = page.locator("#worldline-compare").inner_text()
                 assert "共同历史" in compare_copy
-                assert "revision" in compare_copy
+                assert "分叉点" in compare_copy
+                assert "revision" not in compare_copy
                 assert "当前状态相同" in compare_copy
                 assert "没有结构差异" in compare_copy
                 assert "最近纪事" in compare_copy

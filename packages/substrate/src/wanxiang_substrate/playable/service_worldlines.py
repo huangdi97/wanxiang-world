@@ -182,7 +182,7 @@ def _compare_worldlines(
         return sum(1 for event in events if event.revision.value > common_revision)
 
     return {
-        "common": {"revision": common_revision},
+        "common": {"shared": True},
         "identical": left_state.semantic_hash() == right_state.semantic_hash(),
         "diverged_events": {
             "left": diverged_events(left),
@@ -241,17 +241,14 @@ def _worldlines(
     for item in records:
         branch = BranchId(item.branch_id)
         events = tuple(service.runtime.worldline_events(world_instance, branch))
-        state = service.runtime.current_state(world_instance, branch)
         cards.append(
             {
                 "instance_id": item.instance_id,
-                "branch_id": item.branch_id,
                 "current": item.instance_id == instance_id,
                 "active_session": bool(item.session_id),
                 "mode": item.mode,
-                "revision": state.revision.value,
                 "world_time": events[-1].world_time.ticks if events else 0,
-                "forked_from_revision": fork_revisions.get(item.branch_id),
+                "forked": fork_revisions.get(item.branch_id) is not None,
             }
         )
     return {

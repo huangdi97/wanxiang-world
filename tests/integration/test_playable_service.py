@@ -419,7 +419,9 @@ def test_worldline_fork_preserves_parent_and_diverges_independently() -> None:
     parent_card = next(card for card in cards if card["instance_id"] == parent)
     assert child_card["current"] is True
     assert parent_card["current"] is False
-    assert child_card["forked_from_revision"] is not None
+    assert child_card["forked"] is True
+    assert "branch_id" not in child_card
+    assert "revision" not in child_card
     parent_record = playable.store.get_instance(parent)
     parent_events = playable.runtime.events(
         WorldInstanceId(record.runtime_instance_id), BranchId(parent_record.branch_id)
@@ -432,10 +434,7 @@ def test_worldline_fork_preserves_parent_and_diverges_independently() -> None:
         viewer_id="alice",
     )
     assert shared["identical"] is True
-    assert (
-        cast(dict[str, object], shared["common"])["revision"]
-        == (child_card["forked_from_revision"])
-    )
+    assert cast(dict[str, object], shared["common"])["shared"] is True
     assert shared["diverged_events"] == {"left": 0, "right": 0}
     assert shared["differences"] == {"total": 0, "truncated": False, "items": []}
     shared_recent = cast(dict[str, object], shared["recent"])
@@ -564,10 +563,7 @@ def test_worldline_fork_preserves_parent_and_diverges_independently() -> None:
         other_instance_id=grandchild,
         viewer_id="alice",
     )
-    assert (
-        cast(dict[str, object], three_way["common"])["revision"]
-        == (child_card["forked_from_revision"])
-    )
+    assert cast(dict[str, object], three_way["common"])["shared"] is True
 
 
 def test_continue_and_worldlines_stay_isolated_across_worlds() -> None:
@@ -677,7 +673,7 @@ def test_compare_after_parent_advances_past_the_fork_point() -> None:
     listing = playable.worldlines(parent, viewer_id="alice")
     cards = cast(list[dict[str, object]], listing["worldlines"])
     child_card = next(card for card in cards if card["instance_id"] == child)
-    fork_revision = cast(int, child_card["forked_from_revision"])
+    assert child_card["forked"] is True
 
     # The parent moves on while the child stays at the fork point.
     playable.action(parent, viewer_id="alice", text="让自己保持警觉")
@@ -686,7 +682,7 @@ def test_compare_after_parent_advances_past_the_fork_point() -> None:
     assert parent_revision > child_revision
 
     comparison = playable.compare_worldlines(parent, other_instance_id=child, viewer_id="alice")
-    assert cast(dict[str, object], comparison["common"])["revision"] == fork_revision
+    assert cast(dict[str, object], comparison["common"])["shared"] is True
     assert comparison["identical"] is False
     assert comparison["diverged_events"] == {"left": 1, "right": 0}
     left = cast(dict[str, object], comparison["left"])
@@ -696,5 +692,5 @@ def test_compare_after_parent_advances_past_the_fork_point() -> None:
     assert cast(int, left["world_time"]) > cast(int, right["world_time"])
 
     reverse = playable.compare_worldlines(child, other_instance_id=parent, viewer_id="alice")
-    assert cast(dict[str, object], reverse["common"])["revision"] == fork_revision
+    assert cast(dict[str, object], reverse["common"])["shared"] is True
     assert reverse["diverged_events"] == {"left": 0, "right": 1}
