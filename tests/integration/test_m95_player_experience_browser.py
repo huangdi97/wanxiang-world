@@ -205,6 +205,7 @@ def test_conflicting_source_relations_are_marked_in_browser(
                     assert chips.count() >= 2
                     first = chips.first
                     assert expected in first.inner_text()
+                    assert "route" in first.inner_text()
                     assert first.get_attribute("title") == expected
                     visual_src = page.locator("#detail-visual-image").get_attribute("src")
                     assert visual_src is not None
