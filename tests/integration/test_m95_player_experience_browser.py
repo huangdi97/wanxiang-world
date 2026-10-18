@@ -906,6 +906,12 @@ def test_player_history_loads_earlier_pages_in_browser(persist_db_path: pathlib.
                         "POST",
                         {"text": ("让自己保持清醒" if index % 2 == 0 else "让自己保持平静")},
                     )
+                _api(
+                    page,
+                    f"/experience/player/instances/{instance}/leave",
+                    "POST",
+                    {},
+                )
 
                 page.reload(wait_until="networkidle")
                 page.locator("#continue-slot [data-continue]").click()
