@@ -228,7 +228,11 @@ def _worldlines(
     service.plaza.require_access(record.profile_id, viewer_id)
     runtime_id = _runtime_instance_id(record)
     branch_count, fork_revisions = _branch_metadata(service, runtime_id)
-    records = [item for item in service.store.list_instances() if _belongs(item, runtime_id)]
+    records = [
+        item
+        for item in service.store.list_instances()
+        if _belongs(item, runtime_id) and item.owner_id == viewer_id
+    ]
     records.sort(
         key=lambda item: (
             fork_revisions.get(item.branch_id) is not None,

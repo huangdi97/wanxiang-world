@@ -76,9 +76,14 @@ class CharacterRecord:
         return not self.compatible_profile_ids or profile_id in self.compatible_profile_ids
 
 
+def _instance_key(instance: ExperienceInstanceRecord) -> str:
+    """One canonical world instance may have a session record per player."""
+
+    return f"{instance.owner_id}:{instance.instance_id}"
+
+
 class PlayableStore(Protocol):
     """Persistence port for experience metadata only."""
-
     def save_profile(self, profile: PlayableWorldProfile) -> None: ...
 
     def get_profile(self, profile_id: str) -> PlayableWorldProfile: ...
@@ -88,6 +93,12 @@ class PlayableStore(Protocol):
     def save_instance(self, instance: ExperienceInstanceRecord) -> None: ...
 
     def get_instance(self, instance_id: str) -> ExperienceInstanceRecord: ...
+
+    def get_instance_for(
+        self,
+        instance_id: str,
+        owner_id: str,
+    ) -> ExperienceInstanceRecord | None: ...
 
     def list_instances(self) -> tuple[ExperienceInstanceRecord, ...]: ...
 
@@ -146,13 +157,25 @@ class InMemoryPlayableStore:
     def save_instance(self, instance: ExperienceInstanceRecord) -> None:
         if instance.profile_id not in self._profiles:
             raise NotFound(f"playable profile {instance.profile_id!r} not found")
-        self._instances[instance.instance_id] = instance
+        self._instances[_instance_key(instance)] = instance
 
     def get_instance(self, instance_id: str) -> ExperienceInstanceRecord:
-        try:
-            return self._instances[instance_id]
-        except KeyError as exc:
-            raise NotFound(f"playable instance {instance_id!r} not found") from exc
+        for key in sorted(self._instances):
+            record = self._instances[key]
+            if record.instance_id == instance_id:
+                return record
+        raise NotFound(f"playable instance {instance_id!r} not found")
+
+    def get_instance_for(
+        self,
+        instance_id: str,
+        owner_id: str,
+    ) -> ExperienceInstanceRecord | None:
+        for key in sorted(self._instances):
+            record = self._instances[key]
+            if record.instance_id == instance_id and record.owner_id == owner_id:
+                return record
+        return None
 
     def list_instances(self) -> tuple[ExperienceInstanceRecord, ...]:
         return tuple(self._instances[key] for key in sorted(self._instances))

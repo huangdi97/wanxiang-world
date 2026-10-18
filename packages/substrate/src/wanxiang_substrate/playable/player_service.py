@@ -73,8 +73,8 @@ def player_observe(
 ) -> dict[str, object]:
     """Return a player-safe view derived from the shared runtime read path."""
 
-    record = service.store.get_instance(instance_id)
-    if record.owner_id != viewer_id:
+    record = service.store.get_instance_for(instance_id, viewer_id)
+    if record is None:
         raise NotFound(f"playable instance {instance_id!r} not found")
     profile = service.plaza.require_access(record.profile_id, viewer_id)
     world_instance_id = WorldInstanceId(_runtime_instance_id(record))

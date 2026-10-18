@@ -54,7 +54,7 @@ def _owned_instance(
     instance_id: str,
     viewer_id: str,
 ) -> ExperienceInstanceRecord:
-    record = service.store.get_instance(instance_id)
-    if record.owner_id != viewer_id:
+    record = service.store.get_instance_for(instance_id, viewer_id)
+    if record is None:
         raise NotFound(f"playable instance {instance_id!r} not found")
     return record

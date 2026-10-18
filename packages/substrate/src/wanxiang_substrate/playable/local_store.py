@@ -56,7 +56,7 @@ class LocalJsonPlayableStore(InMemoryPlayableStore):
                 self._profiles[profile.profile_id] = profile
             for raw in self._list(data.get("instances")):
                 record = self._instance(cast(dict[str, object], raw))
-                self._instances[record.instance_id] = record
+                self._instances[f"{record.owner_id}:{record.instance_id}"] = record
             for raw in self._list(data.get("characters")):
                 character = self._character(cast(dict[str, object], raw))
                 self._characters[character.character_id] = character
