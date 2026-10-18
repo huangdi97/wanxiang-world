@@ -250,6 +250,42 @@ def test_topology_requires_source_locator_and_bounded_confidence() -> None:
     assert plan.topology_relations[0].confidence == 0.91
 
 
+def test_opposing_or_multi_type_relations_are_marked_conflicting() -> None:
+    forward = {
+        "source_place": "海港",
+        "target_place": "城门",
+        "relation_type": "path",
+        "source_refs": ["book#chapter-2"],
+        "confidence": 0.8,
+    }
+    reverse = {
+        **forward,
+        "source_place": "城门",
+        "target_place": "海港",
+        "source_refs": ["book#chapter-3"],
+    }
+    alternate = {
+        **forward,
+        "relation_type": "route",
+        "source_refs": ["book#chapter-4"],
+    }
+    package = package_from_book(
+        "topology-conflict",
+        ("海港", "城门"),
+        compiler_metadata={
+            "scene_topology_evidence_v1": json.dumps(
+                [forward, reverse, alternate],
+                ensure_ascii=False,
+            )
+        },
+    )
+    plan = _plan_book_scene_assets(package)
+
+    assert len(plan.topology_relations) == 3
+    assert all(relation.conflicting for relation in plan.topology_relations)
+    assert {relation.relation_type for relation in plan.topology_relations} == {"path", "route"}
+
+
 def test_reviewed_scene_evidence_invalidates_pixels_without_changing_world_identity() -> None:
     def compile_with(label: str, locator: str) -> tuple[str, str, str]:
         book = package_from_book(

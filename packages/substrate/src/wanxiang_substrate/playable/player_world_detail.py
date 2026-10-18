@@ -169,6 +169,7 @@ def player_world_detail(
                     "to": relation.target_place,
                     "relation_type": relation.relation_type,
                     "confidence": relation.confidence,
+                    "conflicting": relation.conflicting,
                 }
                 for relation in plan.topology_relations
             ],

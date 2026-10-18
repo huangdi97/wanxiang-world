@@ -28,6 +28,7 @@ class _SourceTopologyRelation:
     relation_type: str
     source_refs: tuple[str, ...] = ()
     confidence: float = 0.0
+    conflicting: bool = False
 
 
 def _topology_relations(
@@ -70,4 +71,16 @@ def _topology_relations(
             source_refs=tuple(sorted({*existing.source_refs, *source_refs})),
             confidence=max(existing.confidence, confidence),
         )
+    groups: dict[tuple[str, str], list[tuple[str, str, str]]] = {}
+    for key in merged:
+        pair = (key[0], key[1]) if key[0] <= key[1] else (key[1], key[0])
+        groups.setdefault(pair, []).append(key)
+    for keys in groups.values():
+        if len(keys) <= 1:
+            continue
+        directions = {key[:2] for key in keys}
+        types = {key[2] for key in keys}
+        if len(directions) > 1 or len(types) > 1:
+            for key in keys:
+                merged[key] = replace(merged[key], conflicting=True)
     return tuple(merged.values())
