@@ -118,6 +118,13 @@ def test_created_characters_bind_to_free_source_actors() -> None:
             "Carol",
             compatible_profile_ids=(profile.experience_package_ref,),
         )
+    with pytest.raises(ContractError, match="character id must match"):
+        playable.entry.create_character(
+            "alice",
+            "Invalid",
+            compatible_profile_ids=(profile.experience_package_ref,),
+            character_id="bad:id",
+        )
 
     entered = playable.enter(
         profile.profile_id,

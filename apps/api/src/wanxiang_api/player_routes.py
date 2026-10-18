@@ -14,6 +14,7 @@ from wanxiang_substrate.playable import (
     SessionCard,
     WorldCard,
 )
+from wanxiang_substrate.playable.actor_grounding import ground_missing_actor
 from wanxiang_substrate.playable.player_service import player_observe, player_world
 
 from wanxiang_api.playable_routes import (
@@ -180,6 +181,13 @@ def player_enter_world(
     locale = _locale(x_wanxiang_locale)
     service = _service(request)
     rehydrate_spatial_attachments(request, service, profile_id, viewer_id=viewer)
+    if payload.mode == "embodiment" and payload.character_id:
+        ground_missing_actor(
+            service,
+            profile_id,
+            payload.character_id,
+            viewer_id=viewer,
+        )
     entered = service.enter(
         profile_id,
         viewer_id=viewer,

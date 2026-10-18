@@ -380,6 +380,45 @@ def test_two_players_share_one_worldline_without_overwriting_sessions() -> None:
     assert len(cast(list[dict[str, Any]], alice_worldlines.json()["worldlines"])) == 1
 
 
+def test_explicit_new_character_is_grounded_through_commit() -> None:
+    client = _client(with_character=False)
+    plaza = client.get("/experience/player/plaza", headers=HEADERS).json()
+    profile_id = str(plaza["worlds"][0]["profile_id"])
+    created = client.post(
+        "/experience/player/characters",
+        headers=HEADERS,
+        json={
+            "display_name": "Newcomer",
+            "character_id": "newcomer",
+            "compatible_profile_ids": [profile_id],
+        },
+    )
+    assert created.status_code == 201, created.text
+    entered = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=HEADERS,
+        json={
+            "mode": "embodiment",
+            "session_id": "grounded_newcomer",
+            "character_id": "newcomer",
+        },
+    )
+    assert entered.status_code == 200, entered.text
+    instance_id = str(entered.json()["instance_id"])
+    action = client.post(
+        f"/experience/player/instances/{instance_id}/action",
+        headers=HEADERS,
+        json={"text": "set status to alert"},
+    )
+    assert action.status_code == 200, action.text
+    history = client.get(
+        f"/experience/player/instances/{instance_id}/history",
+        headers=HEADERS,
+    )
+    assert history.status_code == 200
+    assert history.json()["total"] >= 2
+
+
 def test_public_visual_world_hides_cost_details_from_visitors() -> None:
     client: Any = TestClient(create_app(build_reference_runtime()))
     source = {
