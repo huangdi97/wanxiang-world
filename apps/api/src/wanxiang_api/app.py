@@ -36,7 +36,7 @@ from wanxiang_substrate.assets.storage import InMemoryObjectStore, LocalObjectSt
 from wanxiang_substrate.authoring import AuthoringService, LocalSemanticProvider
 from wanxiang_substrate.authoring.providers import ProviderRouter
 from wanxiang_substrate.lineage import LineageGraph
-from wanxiang_substrate.playable import PlayableService
+from wanxiang_substrate.playable.store import PlayableStore
 from wanxiang_substrate.preview import register_preview_resolvers
 from wanxiang_substrate.spatial import (
     DerivedSpatialAttachments,
@@ -54,6 +54,7 @@ from wanxiang_api.lineage_routes import router as lineage_router
 from wanxiang_api.living_world_routes import router as living_world_router
 from wanxiang_api.one_click_routes import router as one_click_router
 from wanxiang_api.panorama_tokenhub_runtime import panorama_tokenhub_runtime_from_env
+from wanxiang_api.playable_factory import build_playable_service
 from wanxiang_api.playable_routes import router as playable_router
 from wanxiang_api.player_history_routes import router as player_history_router
 from wanxiang_api.player_routes import router as player_router
@@ -115,6 +116,7 @@ def create_app(
     spatial_provider: SpatialGenerationProvider | None = None,
     spatial_allow_network: bool = False,
     spatial_max_cost_units: int = 0,
+    playable_store: PlayableStore | None = None,
 ) -> FastAPI:
     if visual_max_cost_units < 0:
         raise ValueError("visual_max_cost_units must be non-negative")
@@ -253,13 +255,16 @@ def create_app(
     app.state.spatial_asset_max_cost_units = spatial_max_cost_units
     app.state.workshop = WorkshopService(app.state.authoring, providers=providers)
     app.state.playable = (
-        PlayableService(runtime, visual_cache=app.state.visual_asset_cache)
+        build_playable_service(
+            runtime,
+            visual_cache=app.state.visual_asset_cache,
+            playable_store=playable_store,
+            visual_budget=app.state.visual_budget,
+            deferred_limit=app.state.visual_asset_max_deferred_generations,
+        )
         if runtime is not None
         else None
     )
-    if app.state.playable is not None:
-        app.state.playable._visual_budget = app.state.visual_budget
-        app.state.playable._visual_deferred_limit = app.state.visual_asset_max_deferred_generations
     install_error_handler(app)
 
     @app.exception_handler(PayloadTooLarge)

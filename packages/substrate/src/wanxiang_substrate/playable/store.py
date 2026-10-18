@@ -4,11 +4,14 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Protocol
+from typing import TYPE_CHECKING, Protocol
 
 from wanxiang_domain.errors import ContractError, NotFound
 
 from wanxiang_substrate.playable.models import PlayableWorldProfile
+
+if TYPE_CHECKING:
+    from wanxiang_substrate.compile.assembler import WorldPackageDraft
 
 
 @dataclass(frozen=True, slots=True)
@@ -93,6 +96,10 @@ class PlayableStore(Protocol):
 
     def list_characters(self, owner_id: str) -> tuple[CharacterRecord, ...]: ...
 
+    def save_package(self, profile_id: str, package: WorldPackageDraft) -> None: ...
+
+    def load_packages(self) -> dict[str, WorldPackageDraft]: ...
+
 
 class InMemoryPlayableStore:
     """Deterministic store used by the reference product and unit tests."""
@@ -101,6 +108,7 @@ class InMemoryPlayableStore:
         self._profiles: dict[str, PlayableWorldProfile] = {}
         self._instances: dict[str, ExperienceInstanceRecord] = {}
         self._characters: dict[str, CharacterRecord] = {}
+        self._packages: dict[str, dict[str, object]] = {}
 
     def save_profile(self, profile: PlayableWorldProfile) -> None:
         profile.validate()
@@ -160,3 +168,14 @@ class InMemoryPlayableStore:
             for key in sorted(self._characters)
             if self._characters[key].owner_id == owner_id
         )
+
+    def save_package(self, profile_id: str, package: WorldPackageDraft) -> None:
+        self._packages[profile_id] = package.to_dict()
+
+    def load_packages(self) -> dict[str, WorldPackageDraft]:
+        from wanxiang_substrate.compile.assembler import WorldPackageDraft
+
+        return {
+            profile_id: WorldPackageDraft.from_dict(payload)
+            for profile_id, payload in self._packages.items()
+        }
