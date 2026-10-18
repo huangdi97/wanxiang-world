@@ -5,6 +5,7 @@ from __future__ import annotations
 import base64
 import os
 import pathlib
+import re
 import time
 from threading import Thread
 from typing import Any, cast
@@ -258,6 +259,15 @@ def test_english_suggestion_commits_through_player_browser(
                     "document.querySelector('#change-list')?.innerText.includes('Awake')"
                 )
                 assert page.locator("#chronicle-list li").count() >= 1
+                page.locator("#action-input").fill("")
+                page.locator("#send-action").click()
+                page.wait_for_function(
+                    "document.querySelector('#status')?.textContent"
+                    " === 'Write what you want to do first.'"
+                )
+                error_copy = page.locator("#status").inner_text()
+                assert error_copy == "Write what you want to do first."
+                assert re.search(r"[\u4e00-\u9fff]", error_copy) is None
                 assert not page_errors, page_errors
             finally:
                 browser.close()
