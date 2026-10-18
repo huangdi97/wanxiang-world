@@ -61,7 +61,5 @@ def _fork_worldline(
     )
     return {
         "instance_id": handle,
-        "branch_id": handle,
-        "revision": head.revision.value,
         "parent_instance_id": instance_id,
     }

@@ -385,6 +385,8 @@ def test_player_worldline_fork_returns_a_detached_branch_handle() -> None:
     )
     assert fork.status_code == 200
     worldline = cast(dict[str, Any], fork.json()["worldline"])
+    assert "branch_id" not in json.dumps(worldline, ensure_ascii=False)
+    assert "revision" not in json.dumps(worldline, ensure_ascii=False)
     child = str(worldline["instance_id"])
     assert child != instance_id
     assert worldline["parent_instance_id"] == instance_id
