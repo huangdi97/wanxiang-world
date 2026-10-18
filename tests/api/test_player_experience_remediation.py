@@ -644,6 +644,45 @@ def test_private_world_does_not_ground_foreign_actor() -> None:
     )
 
 
+def test_private_world_owner_can_ground_new_actor() -> None:
+    client = _client(with_character=False, visibility="private")
+    profiles = client.app.state.playable.store.list_profiles()
+    profile_id = profiles[0].profile_id
+    created = client.post(
+        "/experience/player/characters",
+        headers=HEADERS,
+        json={
+            "display_name": "Owner Actor",
+            "character_id": "owner_actor",
+            "compatible_profile_ids": [profile_id],
+        },
+    )
+    assert created.status_code == 201, created.text
+    entered = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=HEADERS,
+        json={
+            "mode": "embodiment",
+            "session_id": "private_owner_session",
+            "character_id": "owner_actor",
+        },
+    )
+    assert entered.status_code == 200, entered.text
+    instance_id = str(entered.json()["instance_id"])
+    action = client.post(
+        f"/experience/player/instances/{instance_id}/action",
+        headers=HEADERS,
+        json={"text": "set status to alert"},
+    )
+    assert action.status_code == 200, action.text
+    history = client.get(
+        f"/experience/player/instances/{instance_id}/history",
+        headers=HEADERS,
+    )
+    assert history.status_code == 200
+    assert history.json()["total"] >= 2
+
+
 def test_public_visual_world_hides_cost_details_from_visitors() -> None:
     client: Any = TestClient(create_app(build_reference_runtime()))
     source = {
