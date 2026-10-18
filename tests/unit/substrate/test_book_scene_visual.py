@@ -499,6 +499,28 @@ def test_world_atlas_localizes_english_labels() -> None:
     assert "橙色虚线".encode() not in atlas.content
 
 
+def test_world_atlas_counts_relations_to_undrawn_places() -> None:
+    place_names = ("园林", "书房") + tuple(f"P{index}" for index in range(23))
+    plan = _SourceVisualPlan(
+        package_id="world:atlas-omitted-relations",
+        source_digest="9" * 64,
+        status="READY_FOR_ASSET_PROVIDER",
+        scene_requests=(_request("园林", "garden"), _request("书房", "study")),
+        deferred_scene_count=0,
+        topology_relations=(
+            _SourceTopologyRelation("园林", "书房", "route", ("book#1",), 0.8),
+            _SourceTopologyRelation("园林", "P22", "route", ("book#2",), 0.8),
+        ),
+        place_names=place_names,
+    )
+    atlas = _render_world_atlas(plan)
+
+    assert atlas is not None
+    assert "园林 → 书房 [route]".encode() in atlas.content
+    assert "1 条关系涉及未绘制地点。".encode() in atlas.content
+    assert "园林 → P22".encode() not in atlas.content
+
+
 def test_world_atlas_marks_places_merged_from_multiple_sources() -> None:
     plan = _SourceVisualPlan(
         package_id="world:atlas-merged",

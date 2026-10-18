@@ -138,10 +138,12 @@ def _render_world_atlas(
 
     edges: list[str] = []
     relation_descriptions: list[str] = []
+    omitted_relation_count = 0
     for relation in plan.topology_relations:
         source = positions.get(relation.source_place)
         target = positions.get(relation.target_place)
         if source is None or target is None:
+            omitted_relation_count += 1
             continue
         conflict_suffix = " (sources disagree)" if english else "（来源存在不同说法）"
         relation_descriptions.append(
@@ -215,11 +217,22 @@ def _render_world_atlas(
         if any(relation.conflicting for relation in plan.topology_relations)
         else ""
     )
-    relation_description = (
-        "; ".join(relation_descriptions)
-        if relation_descriptions
-        else ("No source-grounded place relations." if english else "没有来源支持的地点关系。")
-    )
+    relation_description = "; ".join(relation_descriptions)
+    if omitted_relation_count:
+        omitted_relations = (
+            f"{omitted_relation_count} relation(s) involve places not drawn."
+            if english
+            else f"{omitted_relation_count} 条关系涉及未绘制地点。"
+        )
+        relation_description = (
+            f"{relation_description}; {omitted_relations}"
+            if relation_description
+            else omitted_relations
+        )
+    elif not relation_description:
+        relation_description = (
+            "No source-grounded place relations." if english else "没有来源支持的地点关系。"
+        )
     svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img">
 <title>{escape(title)}</title>
 <desc>{escape(relation_description)}</desc>
