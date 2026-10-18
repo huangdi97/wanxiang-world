@@ -11,6 +11,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from wanxiang_domain.errors import ContractError
 from wanxiang_domain.ids import BranchId, WorldInstanceId
 
 from wanxiang_substrate.playable.service_session import _owned_instance
@@ -31,6 +32,8 @@ def _fork_worldline(
 
     record = _owned_instance(service, instance_id, viewer_id)
     service.plaza.require_access(record.profile_id, viewer_id)
+    if record.mode != "embodiment" or not record.actor_id:
+        raise ContractError("only an embodied character can fork a worldline")
     runtime_id = _runtime_instance_id(record)
     parent_branch = BranchId(record.branch_id)
     head = service.runtime.current_state(WorldInstanceId(runtime_id), parent_branch)

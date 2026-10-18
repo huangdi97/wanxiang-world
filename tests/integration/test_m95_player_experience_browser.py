@@ -464,6 +464,7 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 page.locator("#enter-observer").click()
                 page.wait_for_selector("#play-view.is-active")
                 assert page.locator("#play-mode").inner_text() == "观察模式"
+                assert page.locator("#fork-worldline").is_hidden()
                 assert page.locator("#send-action").is_disabled()
                 assert page.locator("#scene-visual-image").is_visible()
                 assert page.locator("#relation-list").inner_text().count("Alice") == 0

@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 from wanxiang_api.player_ui_asset import player_html
+from wanxiang_api.player_ui_script import SCRIPT
 from wanxiang_api.player_ui_worldline_script import WORLDLINE_SCRIPT
 from wanxiang_substrate.playable.player_i18n import _copy_for
 
@@ -44,6 +45,7 @@ def test_worldline_script_lists_switches_and_compares_worldlines() -> None:
     assert "worldlineRecent(" in WORLDLINE_SCRIPT
     assert 'event.key!=="Escape"' in WORLDLINE_SCRIPT
     assert '$("worldline-toggle").focus()' in WORLDLINE_SCRIPT
+    assert '$("fork-worldline").hidden=readOnly' in SCRIPT
 
 
 def test_fork_copy_is_available_in_both_locales() -> None:

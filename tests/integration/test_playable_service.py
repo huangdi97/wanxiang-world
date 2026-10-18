@@ -12,7 +12,7 @@ from typing import cast
 import pytest
 from scripts.reference_runtime import build_reference_runtime
 from tests.conftest import make_world_runtime
-from wanxiang_domain.errors import NotFound
+from wanxiang_domain.errors import ContractError, NotFound
 from wanxiang_domain.ids import BranchId, WorldInstanceId
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
 from wanxiang_substrate.assets.book_scene_render import _ProceduralSvgSceneProvider
@@ -234,6 +234,8 @@ def test_deferred_book_place_generates_once_then_reuses_visual_cache() -> None:
     # Observer scene browsing is a visual preview: it must not move the
     # canonical location, advance world time, or append history.
     assert playable.observe(instance_id, "alice") == observation_before
+    with pytest.raises(ContractError, match="embodied character"):
+        playable.fork_worldline(instance_id, viewer_id="alice")
     assert target in {
         asset.place_name for asset in playable.visual_assets(profile.profile_id, viewer_id="alice")
     }

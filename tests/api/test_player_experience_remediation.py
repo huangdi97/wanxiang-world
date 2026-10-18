@@ -157,6 +157,28 @@ def test_player_projection_is_chinese_and_uses_committed_state_diff() -> None:
     assert resumed.json()["view"]["player"]["name"] == "沈砚"
 
 
+def test_observer_cannot_fork_a_canonical_branch() -> None:
+    client = _client()
+    plaza = client.get("/experience/player/plaza", headers=HEADERS).json()
+    profile_id = str(plaza["worlds"][0]["profile_id"])
+    entered = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=HEADERS,
+        json={"mode": "observer", "session_id": "m95_observer_fork_session"},
+    )
+    assert entered.status_code == 200
+    instance_id = str(entered.json()["instance_id"])
+
+    fork = client.post(
+        f"/experience/player/instances/{instance_id}/fork",
+        headers=HEADERS,
+    )
+
+    assert fork.status_code == 422
+    assert fork.json()["code"] == "contract_error"
+    assert "embodied character" in fork.json()["message"]
+
+
 def test_player_lease_conflict_is_structured_and_not_reported_as_network_failure() -> None:
     client = _client()
     plaza = client.get("/experience/player/plaza", headers=HEADERS)
