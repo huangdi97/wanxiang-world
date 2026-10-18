@@ -468,6 +468,13 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 assert page.locator("#send-action").is_disabled()
                 assert page.locator("#scene-visual-image").is_visible()
                 assert page.locator("#relation-list").inner_text().count("Alice") == 0
+                page.locator("#worldline-toggle").click()
+                page.wait_for_selector("#worldline-panel:not([hidden])")
+                assert page.locator("#worldline-list li").count() == 1
+                assert page.locator("#worldline-list [data-switch-worldline]").count() == 0
+                assert page.locator("#worldline-list [data-compare-worldline]").count() == 0
+                page.keyboard.press("Escape")
+                assert page.locator("#worldline-panel").is_hidden()
                 focus = page.locator("#stage-focus-toggle")
                 focus.click()
                 assert focus.get_attribute("aria-pressed") == "true"
@@ -658,6 +665,21 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 page.wait_for_function(
                     "document.querySelector('#status')?.textContent.includes('已切换')"
                 )
+                fourth = _api(
+                    page,
+                    f"/experience/player/instances/{third_instance}/fork",
+                    "POST",
+                    {},
+                )
+                fourth_instance = str(cast(dict[str, object], fourth["worldline"])["instance_id"])
+                page.locator("#worldline-toggle").click()
+                page.wait_for_selector("#worldline-panel:not([hidden])")
+                assert page.locator("#worldline-list li").count() == 4
+                page.locator(f'[data-switch-worldline="{fourth_instance}"]').click()
+                page.wait_for_function(f'model.instanceId === "{fourth_instance}"')
+                page.wait_for_function(
+                    "document.querySelector('#status')?.textContent.includes('已切换')"
+                )
                 page.set_viewport_size({"width": 390, "height": 844})
                 page.evaluate("window.scrollTo(0, 0)")
                 page.wait_for_timeout(50)
@@ -672,7 +694,7 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 ) not in {"0px", ""}
                 page.locator("#worldline-toggle").click()
                 page.wait_for_selector("#worldline-panel:not([hidden])")
-                assert page.locator("#worldline-list li").count() == 3
+                assert page.locator("#worldline-list li").count() == 4
                 mobile_panel_box = page.locator("#worldline-panel").bounding_box()
                 assert mobile_panel_box is not None
                 assert mobile_panel_box["width"] <= 390
