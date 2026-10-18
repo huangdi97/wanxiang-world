@@ -226,6 +226,48 @@ def test_conflicting_source_relations_are_marked_in_browser(
 
 
 @pytest.mark.e2e
+def test_english_suggestion_commits_through_player_browser(
+    persist_db_path: pathlib.Path,
+) -> None:
+    server, thread, base = _start(persist_db_path)
+    try:
+        with sync_playwright() as playwright:
+            browser = _launch(playwright.chromium)
+            try:
+                page = browser.new_page(viewport={"width": 1440, "height": 1000})
+                page_errors: list[str] = []
+                page.on("pageerror", lambda error: page_errors.append(str(error)))
+                page.goto(f"{base}/", wait_until="domcontentloaded")
+                profile_id = _seed(page)
+                page.goto(f"{base}/?locale=en-US", wait_until="networkidle")
+                page.locator(f'#world-list [data-profile="{profile_id}"]').click()
+                page.locator('input[name="character"]').check()
+                page.locator("#enter-world").click()
+                page.wait_for_selector("#play-view.is-active")
+                assert page.locator("#play-mode").inner_text() == "Character experience"
+
+                suggestion = page.locator('.suggestion[data-action="set status to awake"]')
+                assert suggestion.inner_text() == "Stay awake"
+                suggestion.click()
+                assert page.locator("#action-input").input_value() == "set status to awake"
+                page.locator("#send-action").click()
+                page.wait_for_function(
+                    "document.querySelector('#player-status')?.textContent === 'Awake'"
+                )
+                page.wait_for_function(
+                    "document.querySelector('#change-list')?.innerText.includes('Awake')"
+                )
+                assert page.locator("#chronicle-list li").count() >= 1
+                assert not page_errors, page_errors
+            finally:
+                browser.close()
+    finally:
+        server.should_exit = True
+        thread.join(timeout=10)
+        assert not thread.is_alive()
+
+
+@pytest.mark.e2e
 def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Path) -> None:
     server, thread, base = _start(persist_db_path)
     review = pathlib.Path(".impeccable/review")
