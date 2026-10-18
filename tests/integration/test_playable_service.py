@@ -551,3 +551,50 @@ def test_worldline_fork_preserves_parent_and_diverges_independently() -> None:
         cast(dict[str, object], three_way["common"])["revision"]
         == (child_card["forked_from_revision"])
     )
+
+
+def test_compare_after_parent_advances_past_the_fork_point() -> None:
+    authored = OneClickAuthoring().run("job_compare_advance", (_source(),), profile="book")
+    playable = PlayableService(build_reference_runtime())
+    profile = playable.register_package(authored.package, owner_id="alice", visibility="public")
+    character = playable.entry.create_character(
+        "alice",
+        "Alice",
+        compatible_profile_ids=(profile.experience_package_ref,),
+        character_id="ent_alice",
+    )
+    entered = playable.enter(
+        profile.profile_id,
+        viewer_id="alice",
+        mode="embodiment",
+        session_id="compare_advance_session",
+        character_id=character.character_id,
+    )
+    parent = str(cast(dict[str, object], entered["instance"])["instance_id"])
+    playable.action(parent, viewer_id="alice", text="让自己保持清醒")
+
+    child = str(playable.fork_worldline(parent, viewer_id="alice")["instance_id"])
+    listing = playable.worldlines(parent, viewer_id="alice")
+    cards = cast(list[dict[str, object]], listing["worldlines"])
+    child_card = next(card for card in cards if card["instance_id"] == child)
+    fork_revision = cast(int, child_card["forked_from_revision"])
+
+    # The parent moves on while the child stays at the fork point.
+    playable.action(parent, viewer_id="alice", text="让自己保持警觉")
+    parent_revision = cast(int, playable.observe(parent, "alice")["revision"])
+    child_revision = cast(int, playable.observe(child, "alice")["revision"])
+    assert parent_revision > child_revision
+
+    comparison = playable.compare_worldlines(parent, other_instance_id=child, viewer_id="alice")
+    assert cast(dict[str, object], comparison["common"])["revision"] == fork_revision
+    assert comparison["identical"] is False
+    assert comparison["diverged_events"] == {"left": 1, "right": 0}
+    left = cast(dict[str, object], comparison["left"])
+    right = cast(dict[str, object], comparison["right"])
+    assert left["status"] == "警觉"
+    assert right["status"] == "清醒"
+    assert cast(int, left["world_time"]) > cast(int, right["world_time"])
+
+    reverse = playable.compare_worldlines(child, other_instance_id=parent, viewer_id="alice")
+    assert cast(dict[str, object], reverse["common"])["revision"] == fork_revision
+    assert reverse["diverged_events"] == {"left": 0, "right": 1}
