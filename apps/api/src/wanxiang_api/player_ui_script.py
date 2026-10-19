@@ -96,7 +96,7 @@ function renderWorlds(){
 }
 function renderPlaza(){
   renderContinue();renderWorlds();renderHomeShelves();
-  document.querySelectorAll(".filter-button").forEach(node=>node.classList.toggle("is-active",node.dataset.filter===model.filter));
+  document.querySelectorAll(".filter-button").forEach(node=>{const selected=node.dataset.filter===model.filter;node.classList.toggle("is-active",selected);node.setAttribute("aria-pressed",String(selected))});
 }
 function characterLine(item,choice=false){
   const selected=model.selectedCharacter===item.character_id?" checked":"";

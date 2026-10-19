@@ -836,7 +836,14 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 page.wait_for_selector("[data-continue]")
                 page.locator('[data-filter="recent"]').click()
                 assert page.locator("#world-list [data-profile]").count() == 1
+                assert (
+                    page.locator('[data-filter="recent"]').get_attribute("aria-pressed") == "true"
+                )
                 page.locator('[data-filter="all"]').click()
+                assert page.locator('[data-filter="all"]').get_attribute("aria-pressed") == "true"
+                assert (
+                    page.locator('[data-filter="recent"]').get_attribute("aria-pressed") == "false"
+                )
                 page.locator("#continue-slot [data-continue]").click()
                 page.wait_for_selector("#play-view.is-active")
                 page.locator("#worldline-toggle").click()
