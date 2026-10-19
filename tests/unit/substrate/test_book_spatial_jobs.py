@@ -657,6 +657,63 @@ def test_idempotent_t3_gateway_can_recover_ambiguous_submit_with_same_key() -> N
     assert sum(row.reserved_cost_units for row in jobs.list_scope("")) == 7
 
 
+@pytest.mark.parametrize(
+    ("field", "value", "message"),
+    [
+        ("state", "teleported", "state is invalid"),
+        ("reserved_cost_units", -1, "reserved cost"),
+        ("reserved_cost_units", True, "reserved cost"),
+        ("provider_id", 42, "provider_id"),
+        ("asset_refs", "not-a-list", "asset_refs"),
+    ],
+)
+def test_t3_persisted_ticket_rejects_corrupt_runtime_fields(
+    field: str, value: object, message: str
+) -> None:
+    row: dict[str, object] = {
+        "submission_id": "submission",
+        "scene_key": "scene",
+        "provider_id": "provider",
+        "provider_version": "1",
+        "provider_task_ref": "task",
+        "state": "running",
+        "reserved_cost_units": 7,
+        "delivery_rights": "source-gated",
+        "provider_request_ref": "",
+        "scope_key": "world",
+        "asset_refs": [],
+        "reason": "",
+        "provider_usage_units": 6,
+        "projection_frame": None,
+    }
+    row[field] = value
+
+    with pytest.raises(ValueError, match=message):
+        _LocalJsonSpatialJobStore._ticket(row)
+
+
+def test_t3_persisted_ticket_rejects_unfailed_usage_overrun() -> None:
+    row: dict[str, object] = {
+        "submission_id": "submission",
+        "scene_key": "scene",
+        "provider_id": "provider",
+        "provider_version": "1",
+        "provider_task_ref": "task",
+        "state": "running",
+        "reserved_cost_units": 7,
+        "delivery_rights": "source-gated",
+        "provider_request_ref": "",
+        "scope_key": "world",
+        "asset_refs": [],
+        "reason": "",
+        "provider_usage_units": 8,
+        "projection_frame": None,
+    }
+
+    with pytest.raises(ValueError, match="exceeds reserved cost"):
+        _LocalJsonSpatialJobStore._ticket(row)
+
+
 def test_t3_provider_usage_is_persisted_across_restart(tmp_path: pathlib.Path) -> None:
     provider = _FakeSpatialProvider(polls=[_SpatialPollResult("running", provider_usage_units=6)])
     path = tmp_path / "spatial-usage-jobs.json"

@@ -19,6 +19,27 @@ from wanxiang_substrate.assets.book_spatial_types import (
 )
 from wanxiang_substrate.assets.storage import AssetRef
 
+_VALID_JOB_STATES = frozenset(
+    {
+        "submission_ambiguous",
+        "submitted",
+        "queued",
+        "running",
+        "verified",
+        "attached",
+        "failed",
+        "cancelled",
+        "expired",
+    }
+)
+
+
+def _required_string(data: dict[str, object], key: str, *, allow_empty: bool = False) -> str:
+    value = data.get(key)
+    if not isinstance(value, str) or (not allow_empty and not value):
+        raise ValueError(f"spatial ticket {key} must be a string")
+    return value
+
 
 class _InMemorySpatialJobStore(_SpatialJobStore):
     def __init__(self) -> None:
@@ -43,28 +64,52 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
 
     @staticmethod
     def _asset(data: dict[str, object]) -> AssetRef:
+        asset_id = _required_string(data, "asset_id")
+        content_hash = _required_string(data, "content_hash")
+        content_type = _required_string(data, "content_type")
+        rights = _required_string(data, "rights")
+        size = data.get("size")
+        if isinstance(size, bool) or not isinstance(size, int) or size < 0:
+            raise ValueError("spatial asset size must be a non-negative integer")
+        if len(content_hash) != 64 or any(
+            char not in "0123456789abcdefABCDEF" for char in content_hash
+        ):
+            raise ValueError("spatial asset content hash must be sha256")
         return AssetRef(
-            asset_id=cast(str, data["asset_id"]),
-            content_hash=cast(str, data["content_hash"]),
-            size=cast(int, data["size"]),
-            content_type=cast(str, data["content_type"]),
-            rights=cast(str, data["rights"]),
+            asset_id=asset_id,
+            content_hash=content_hash.casefold(),
+            size=size,
+            content_type=content_type,
+            rights=rights,
         )
 
     @classmethod
     def _ticket(cls, data: dict[str, object]) -> _SpatialGenerationTicket:
         raw_assets = data.get("asset_refs", [])
+        if not isinstance(raw_assets, list):
+            raise ValueError("spatial ticket asset_refs must be a list")
         assets = tuple(
             cls._asset(cast(dict[str, object], item))
             for item in cast(list[object], raw_assets)
             if isinstance(item, dict)
         )
+        if len(assets) != len(raw_assets):
+            raise ValueError("spatial ticket asset_refs contains an invalid row")
+
+        state = data.get("state")
+        if not isinstance(state, str) or state not in _VALID_JOB_STATES:
+            raise ValueError("spatial ticket state is invalid")
+        reserved = data.get("reserved_cost_units")
+        if isinstance(reserved, bool) or not isinstance(reserved, int) or reserved < 0:
+            raise ValueError("spatial ticket reserved cost must be a non-negative integer")
         raw_usage = data.get("provider_usage_units")
         if raw_usage is not None and (
             isinstance(raw_usage, bool) or not isinstance(raw_usage, int) or raw_usage < 0
         ):
             raise ValueError("spatial ticket provider usage must be a non-negative integer")
-        provider_usage_units = raw_usage if raw_usage is not None else None
+        if raw_usage is not None and raw_usage > reserved and state != "failed":
+            raise ValueError("spatial ticket provider usage exceeds reserved cost")
+
         request_ref = data.get("provider_request_ref", "")
         if (
             not isinstance(request_ref, str)
@@ -73,25 +118,34 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
             or "\n" in request_ref
         ):
             raise ValueError("spatial ticket provider request reference is invalid")
+        task_ref = _required_string(data, "provider_task_ref", allow_empty=True)
+        if (
+            len(task_ref) > 2048
+            or "\r" in task_ref
+            or "\n" in task_ref
+            or (state != "submission_ambiguous" and not task_ref)
+        ):
+            raise ValueError("spatial ticket provider task reference is invalid")
+
         return _SpatialGenerationTicket(
-            submission_id=cast(str, data["submission_id"]),
-            scene_key=cast(str, data["scene_key"]),
-            provider_id=cast(str, data["provider_id"]),
-            provider_version=cast(str, data["provider_version"]),
-            provider_task_ref=cast(str, data["provider_task_ref"]),
-            state=cast(object, data["state"]),  # type: ignore[arg-type]
-            reserved_cost_units=cast(int, data["reserved_cost_units"]),
-            delivery_rights=cast(str, data["delivery_rights"]),
+            submission_id=_required_string(data, "submission_id"),
+            scene_key=_required_string(data, "scene_key"),
+            provider_id=_required_string(data, "provider_id"),
+            provider_version=_required_string(data, "provider_version"),
+            provider_task_ref=task_ref,
+            state=cast(object, state),  # type: ignore[arg-type]
+            reserved_cost_units=reserved,
+            delivery_rights=_required_string(data, "delivery_rights"),
             provider_request_ref=request_ref,
-            scope_key=cast(str, data.get("scope_key", "")),
+            scope_key=_required_string(data, "scope_key", allow_empty=True),
             asset_refs=assets,
-            reason=cast(str, data.get("reason", "")),
+            reason=_required_string(data, "reason", allow_empty=True),
             projection_frame=(
                 _projection_frame_from_mapping(data["projection_frame"])
                 if data.get("projection_frame") is not None
                 else None
             ),
-            provider_usage_units=provider_usage_units,
+            provider_usage_units=raw_usage,
         )
 
     def _rows(self) -> dict[str, dict[str, object]]:
