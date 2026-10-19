@@ -21,7 +21,7 @@ def _compact(value: object) -> str:
 
 
 def _ownership(candidate: CandidateEnvelope) -> str:
-    """Return the first concrete owner, ignoring placeholder 'unknown'."""
+    """Return the first concrete owner, skipping the sentinel 'unknown'."""
     for key in ("actor", "owner", "custodian"):
         value = candidate.fields.get(key, "").strip()
         if value and value.casefold() != "unknown":
