@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 from wanxiang_substrate.assets.book_spatial_types import _SpatialSubmissionResult
 
 
@@ -36,3 +37,19 @@ def _provider_usage_units(body: dict[str, object]) -> int | None:
     if isinstance(raw, bool) or not isinstance(raw, int) or raw < 0:
         raise ValueError("spatial HTTP gateway returned invalid usage_units")
     return raw
+
+def _verified_artifact_sha256(item: dict[str, object], content: bytes) -> str:
+    actual = hashlib.sha256(content).hexdigest()
+    declared = item.get("content_sha256")
+    if declared is None:
+        return actual
+    if (
+        not isinstance(declared, str)
+        or len(declared) != 64
+        or any(char not in "0123456789abcdefABCDEF" for char in declared)
+    ):
+        raise ValueError("spatial HTTP gateway returned invalid content_sha256")
+    if declared.casefold() != actual:
+        raise ValueError("spatial HTTP artifact digest does not match downloaded bytes")
+    return actual
+
