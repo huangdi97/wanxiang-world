@@ -116,7 +116,19 @@ def _plan_book_scene_assets(
         return _SourceVisualPlan(package.package_id, source_digest, "SOURCE_PINS_MISSING", (), 0)
 
     # No invented map nodes: a sparse or unrecognized book stays honestly sparse.
-    distinct_places = tuple(dict.fromkeys(p.strip() for p in package.draft.places if p.strip()))
+    # Case/whitespace variants of the same source place are one place; the first
+    # spelling remains the display name and every source ref is retained.
+    place_aliases: dict[str, str] = {}
+    distinct_places_list: list[str] = []
+    for raw_place in package.draft.places:
+        name = raw_place.strip()
+        if not name:
+            continue
+        identity = " ".join(name.casefold().split())
+        if identity not in place_aliases:
+            place_aliases[identity] = name
+            distinct_places_list.append(name)
+    distinct_places = tuple(distinct_places_list)
     if not distinct_places:
         return _SourceVisualPlan(package.package_id, source_digest, "PLACES_NOT_EXTRACTED", (), 0)
 
@@ -124,6 +136,7 @@ def _plan_book_scene_assets(
     topology_relations = _topology_relations(
         package.draft.compiler_metadata.get("scene_topology_evidence_v1", "[]"),
         known_places,
+        place_aliases,
     )
     delivery_rights = package.draft.compiler_metadata.get("visual_asset_rights_v1", "source-gated")
     if delivery_rights not in {"public", "source-gated"}:
@@ -143,17 +156,18 @@ def _plan_book_scene_assets(
         if row is None:
             continue
         name = row.get("name")
-        if isinstance(name, str) and name in known_places:
-            evidence_by_place.setdefault(name, []).append(row)
+        if isinstance(name, str):
+            canonical = place_aliases.get(" ".join(name.casefold().split()))
+            if canonical is not None and canonical in known_places:
+                evidence_by_place.setdefault(canonical, []).append(row)
 
     ranked_places, stats_by_place = _rank_places(distinct_places, evidence_by_place)
-    preferred = tuple(
-        dict.fromkeys(
-            place.strip()
-            for place in preferred_places
-            if place.strip() and place.strip() in stats_by_place
-        )
-    )
+    preferred_list: list[str] = []
+    for requested_place in preferred_places:
+        canonical = place_aliases.get(" ".join(requested_place.strip().casefold().split()))
+        if canonical is not None and canonical in stats_by_place:
+            preferred_list.append(canonical)
+    preferred = tuple(dict.fromkeys(preferred_list))
     selected = tuple(dict.fromkeys((*preferred, *ranked_places)))[:max_preview_scenes]
 
     requests: list[_SourceSceneRequest] = []

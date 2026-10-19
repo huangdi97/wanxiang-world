@@ -36,9 +36,15 @@ def _normalize_relation_type(value: str) -> str:
     return "_".join(value.strip().lower().replace("-", " ").split())
 
 
+def _place_identity(value: str) -> str:
+    """Case-insensitive, whitespace-normalized key for source place names."""
+    return " ".join(value.casefold().split())
+
+
 def _topology_relations(
     raw_topology: str,
     known_places: set[str],
+    place_aliases: dict[str, str] | None = None,
 ) -> tuple[_SourceTopologyRelation, ...]:
     merged: dict[tuple[str, str, str], _SourceTopologyRelation] = {}
     for raw_row in _json_list(raw_topology):
@@ -52,6 +58,11 @@ def _topology_relations(
             source_place = source_place.strip()
         if isinstance(target_place, str):
             target_place = target_place.strip()
+        if place_aliases:
+            if isinstance(source_place, str):
+                source_place = place_aliases.get(_place_identity(source_place), source_place)
+            if isinstance(target_place, str):
+                target_place = place_aliases.get(_place_identity(target_place), target_place)
         if (
             not isinstance(source_place, str)
             or not isinstance(target_place, str)

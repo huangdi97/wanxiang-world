@@ -284,6 +284,51 @@ def test_topology_rejects_self_relations_and_normalizes_place_whitespace() -> No
     assert relation.source_refs == ("book#chapter-3",)
 
 
+def test_case_variant_places_merge_with_all_evidence_and_topology_alias() -> None:
+    package = package_from_book(
+        "case-variant-places",
+        ("Garden", "garden", "Harbor"),
+        compiler_metadata={
+            "scene_evidence_v1": json.dumps(
+                [
+                    {
+                        "name": "Garden",
+                        "source_refs": ["source://a#chapter-1"],
+                        "confidence": 0.6,
+                    },
+                    {
+                        "name": "garden",
+                        "source_refs": ["source://b#chapter-1"],
+                        "confidence": 0.7,
+                    },
+                ]
+            ),
+            "scene_topology_evidence_v1": json.dumps(
+                [
+                    {
+                        "source_place": "garden",
+                        "target_place": "Harbor",
+                        "relation_type": "route",
+                        "source_refs": ["source://b#chapter-2"],
+                        "confidence": 0.7,
+                    }
+                ]
+            ),
+        },
+    )
+    plan = _plan_book_scene_assets(package)
+
+    assert plan.place_names == ("Garden", "Harbor")
+    scene = plan.scene_requests[0]
+    assert scene.place_name == "Garden"
+    assert scene.source_refs == ("source://a#chapter-1", "source://b#chapter-1")
+    assert plan.place_evidence[0].source_ref_count == 2
+    assert plan.place_evidence[0].source_count == 2
+    assert len(plan.topology_relations) == 1
+    assert plan.topology_relations[0].source_place == "Garden"
+    assert plan.topology_relations[0].target_place == "Harbor"
+
+
 def test_relation_type_identity_ignores_case_and_separators() -> None:
     first = {
         "source_place": "海港",
