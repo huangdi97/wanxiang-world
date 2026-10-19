@@ -150,8 +150,12 @@ class _SpatialGenerationCoordinator:
         result = self.provider.submit(request, idempotency_key=intent.submission_id)
         if isinstance(result, str):
             task_ref, request_ref = result, ""
-        else:
+        elif isinstance(result, _SpatialSubmissionResult):
             task_ref, request_ref = result.task_ref, result.request_ref
+        else:
+            raise ValueError("spatial provider returned an invalid submission receipt")
+        if not isinstance(task_ref, str) or not isinstance(request_ref, str):
+            raise ValueError("spatial provider returned an invalid submission receipt")
         task_ref, request_ref = task_ref.strip(), request_ref.strip()
         if not task_ref:
             raise ValueError("spatial provider returned an empty task reference")
