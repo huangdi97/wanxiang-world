@@ -3,12 +3,15 @@
 # pyright: reportPrivateUsage=false
 
 import json
+from typing import cast
 
 import pytest
 from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.draft.model import WorldDraft
 from wanxiang_substrate.packages.model import PackageManifest, SemanticVersion
+from wanxiang_substrate.playable.models import PlayableWorldProfile
+from wanxiang_substrate.playable.player_projection import player_world_detail
 
 
 def package_from_book(
@@ -514,6 +517,47 @@ def test_actor_owned_objects_do_not_enter_generic_scene_context() -> None:
         "object:Lamp",
         "event:Festival",
     )
+
+
+def test_player_scene_clues_omit_actor_owned_objects() -> None:
+    package = package_from_book(
+        "actor-owned-clues",
+        ("Garden",),
+        compiler_metadata={
+            "scene_evidence_v1": json.dumps(
+                [
+                    {
+                        "name": "Garden",
+                        "source_refs": ["source://a#chapter-1"],
+                        "confidence": 0.8,
+                        "cooccurring_candidates": [
+                            {"kind": "object", "label": "Key", "actor": "Alice"},
+                            {"kind": "object", "label": "Lamp"},
+                            {"kind": "event", "label": "Festival"},
+                        ],
+                    }
+                ]
+            )
+        },
+    )
+    profile = PlayableWorldProfile(
+        profile_id="profile:actor-owned-clues",
+        world_package_ref=package.package_id,
+        scenario_ref="scenario:default",
+        runtime_profile_ref="runtime:reference",
+        experience_package_ref="experience:default",
+        projection_profile_ref="projection:player",
+        visibility="public",
+        display_name="Actor-owned clues",
+    )
+    view = player_world_detail(profile, package, locale="en-US", include_visual=True)
+    visual = cast(dict[str, object], view["visual"])
+    scenes = cast(list[dict[str, object]], visual["scenes"])
+    clues = cast(list[str], scenes[0]["clues"])
+
+    assert "object:Lamp" in clues
+    assert "event:Festival" in clues
+    assert all("Key" not in clue for clue in clues)
 
 
 def test_relation_type_identity_ignores_case_and_separators() -> None:
