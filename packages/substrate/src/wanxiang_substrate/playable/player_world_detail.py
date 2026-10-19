@@ -44,6 +44,8 @@ def _player_clue(value: str, copy: _PlayerCopy) -> tuple[str, str]:
     if not separator or not cleaned:
         raw = value.strip()
         return raw.casefold(), raw
+    if kind == "event":
+        cleaned = cleaned.replace("_", " ").strip() or cleaned
     category = copy.text(_KIND_CATEGORIES.get(kind, ""))
     display = f"{category} · {cleaned}" if category else cleaned
     return cleaned.casefold(), display

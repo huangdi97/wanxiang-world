@@ -543,6 +543,7 @@ def test_player_scene_clues_omit_actor_owned_objects() -> None:
                             {"kind": "object", "label": "Sign", "actor": "none"},
                             {"kind": "object", "label": "Clock", "actor": "N/A"},
                             {"kind": "event", "label": "Festival"},
+                            {"kind": "event", "label": "narrative_observation"},
                         ],
                     }
                 ]
@@ -566,6 +567,7 @@ def test_player_scene_clues_omit_actor_owned_objects() -> None:
 
     assert "Item · Lamp" in clues
     assert "Event · Festival" in clues
+    assert "Event · narrative observation" in clues
     assert clues.count("Item · Lamp") == 1
     assert all("Key" not in clue for clue in clues)
     assert all(":" not in clue for clue in clues)

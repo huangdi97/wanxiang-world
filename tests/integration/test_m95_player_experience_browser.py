@@ -1333,7 +1333,7 @@ def test_player_stage_remains_usable_on_mobile_viewport(
                 assert long_clues.first.inner_text().startswith("Item · ")
                 assert (
                     page.locator(".scene-clue")
-                    .filter(has_text="narrative_observation")
+                    .filter(has_text="narrative observation")
                     .first.inner_text()
                     .startswith("Event · ")
                 )
@@ -1388,7 +1388,7 @@ def test_player_stage_remains_usable_on_mobile_viewport(
                 assert zh_clues.first.inner_text().startswith("物品 · ")
                 assert (
                     page.locator(".scene-clue")
-                    .filter(has_text="narrative_observation")
+                    .filter(has_text="narrative observation")
                     .first.inner_text()
                     .startswith("事件 · ")
                 )
