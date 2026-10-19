@@ -6,11 +6,12 @@ const USER="studio";
 const i18n=window.__PLAYER_I18N__||{locale:"zh-CN",strings:{}};
 const LOCALE=i18n.locale||"zh-CN";
 const tr=(key,values={})=>String(i18n.strings?.[key]??key).replace(/\{(\w+)\}/g,(_,name)=>String(values[name]??""));
-const model={plaza:null,characters:[],world:null,view:null,instanceId:"",filter:"all",query:"",selectedCharacter:"",placeQuery:"",placeLimit:36,observerScene:"",stageFocus:false,spatialStatus:null,replay:null,history:null,historyExpanded:false};
+const model={plaza:null,characters:[],world:null,view:null,instanceId:"",filter:"all",query:"",selectedCharacter:"",placeQuery:"",placeLimit:36,observerScene:"",stageFocus:false,spatialStatus:null,spatialPollTimer:0,spatialPollDelay:5000,spatialPollBusy:false,replay:null,history:null,historyExpanded:false};
 const $=id=>document.getElementById(id);
 const safe=value=>String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[char]));
 const shown=(value,emptyKey="not_recorded")=>value===null||value===undefined||value===""?tr(emptyKey):String(value);
 const headers={"content-type":"application/json","x-wanxiang-user":USER,"x-wanxiang-locale":LOCALE};
+const SPATIAL_POLL_MIN_MS=5000,SPATIAL_POLL_MAX_MS=30000;
 const errorCopy={
   "embodiment_lease_conflict":"error_lease_conflict",
   "playable runtime is not configured":"error_runtime",
@@ -40,6 +41,7 @@ function status(message,isError=false){
 }
 function busy(value){document.body.setAttribute("aria-busy",value?"true":"false")}
 function view(name){
+  if(name!=="detail-view")stopSpatialAutoPoll();
   document.querySelectorAll(".view").forEach(node=>node.classList.toggle("is-active",node.id===name));
   if(name!=="home-view")document.querySelectorAll(".nav-button").forEach(node=>node.classList.remove("is-active"));
   window.scrollTo({top:0,behavior:"smooth"});
@@ -149,6 +151,15 @@ function renderVisualPlaceList(scenes,galleryItems,visual){
   placeList.querySelectorAll("[data-focus-place]").forEach(node=>node.addEventListener("click",()=>{const item=scenes.find(scene=>scene.place_name===node.dataset.focusPlace);if(item)focusDetailVisual(item,galleryItems)}));
 }
 async function loadSpatialStatus(profile){try{const result=await api(`/experience/player/worlds/${encodeURIComponent(profile)}/spatial`);if(Number(result.rehydrated_attachments||0)>0&&model.world?.world?.profile_id===profile)model.world=await api(`/experience/player/worlds/${encodeURIComponent(profile)}`);return result}catch{return null}}
+function stopSpatialAutoPoll(resetDelay=true){if(model.spatialPollTimer){window.clearTimeout(model.spatialPollTimer);model.spatialPollTimer=0}if(resetDelay)model.spatialPollDelay=SPATIAL_POLL_MIN_MS}
+function pendingSpatialJobs(){return (model.spatialStatus?.spatial_jobs||[]).some(item=>["submitted","queued","running","verified"].includes(item.state))}
+function scheduleSpatialAutoPoll(){
+  stopSpatialAutoPoll(false);
+  if(!document.querySelector("#detail-view.is-active")||!pendingSpatialJobs()){model.spatialPollDelay=SPATIAL_POLL_MIN_MS;return}
+  const delay=Math.max(SPATIAL_POLL_MIN_MS,Math.min(SPATIAL_POLL_MAX_MS,Number(model.spatialPollDelay)||SPATIAL_POLL_MIN_MS));
+  model.spatialPollTimer=window.setTimeout(()=>{model.spatialPollTimer=0;void refreshSpatialJobs(true)},delay);
+  model.spatialPollDelay=Math.min(SPATIAL_POLL_MAX_MS,Math.round(delay*1.6));
+}
 function spatialStateLabel(value){return tr(`spatial_upgrade_state_${value||"submitted"}`)}
 function renderSpatialPanel(scene){
   const panel=$("spatial-upgrade-panel"),submit=$("spatial-submit"),refresh=$("spatial-refresh"),copy=$("spatial-upgrade-copy"),jobsNode=$("spatial-job-list"),spatial=model.spatialStatus;const place=scene?.place_name||"";panel.hidden=!place||!spatial;if(panel.hidden){jobsNode.innerHTML="";return}
@@ -158,8 +169,14 @@ function renderSpatialPanel(scene){
   jobsNode.innerHTML=jobs.map(item=>`<span class="spatial-job-chip">${safe(item.place_name)} · ${safe(spatialStateLabel(item.state))}</span>`).join("");submit.hidden=ready||Boolean(job)||!generation.available;submit.dataset.place=place;refresh.hidden=!pending;
 }
 async function submitPanoramaPlace(place){const profile=model.world?.world?.profile_id;if(!profile||!place)return;busy(true);try{const result=await api(`/experience/player/worlds/${encodeURIComponent(profile)}/panoramas`,{method:"POST",body:JSON.stringify({place_name:place})});if(result.world)model.world.world=result.world;await window.__WANXIANG_PANORAMA_UPGRADE__?.load(profile,api);renderDetail(place);status(tr("status_panorama_generated",{place}))}catch(error){status(error.message,true)}finally{busy(false)}}
-async function submitSpatialPlace(place){const profile=model.world?.world?.profile_id;if(!profile||!place)return;busy(true);try{await api(`/experience/player/worlds/${encodeURIComponent(profile)}/spatial`,{method:"POST",body:JSON.stringify({place_name:place})});model.spatialStatus=await loadSpatialStatus(profile);renderDetail(place);status(tr("status_spatial_submitted",{place}))}catch(error){status(error.message,true)}finally{busy(false)}}
-async function refreshSpatialJobs(){const profile=model.world?.world?.profile_id;if(!profile)return;busy(true);try{const jobs=model.spatialStatus?.spatial_jobs||[];for(const job of jobs.filter(item=>["submitted","queued","running","verified"].includes(item.state))){const result=await api(`/experience/player/worlds/${encodeURIComponent(profile)}/spatial/${encodeURIComponent(job.submission_id)}`);if(result.world)model.world.world=result.world}model.spatialStatus=await loadSpatialStatus(profile);const selected=$("detail-visual-image").dataset.selectedPlace||"";renderDetail(selected);status(tr("status_spatial_refreshed"))}catch(error){status(error.message,true)}finally{busy(false)}}
+async function submitSpatialPlace(place){const profile=model.world?.world?.profile_id;if(!profile||!place)return;stopSpatialAutoPoll();busy(true);try{await api(`/experience/player/worlds/${encodeURIComponent(profile)}/spatial`,{method:"POST",body:JSON.stringify({place_name:place})});model.spatialStatus=await loadSpatialStatus(profile);renderDetail(place);status(tr("status_spatial_submitted",{place}));scheduleSpatialAutoPoll()}catch(error){status(error.message,true)}finally{busy(false)}}
+async function refreshSpatialJobs(automatic=false){
+  const profile=model.world?.world?.profile_id;if(!profile||model.spatialPollBusy)return;
+  model.spatialPollBusy=true;if(!automatic)busy(true);
+  try{const jobs=model.spatialStatus?.spatial_jobs||[];for(const job of jobs.filter(item=>["submitted","queued","running","verified"].includes(item.state))){const result=await api(`/experience/player/worlds/${encodeURIComponent(profile)}/spatial/${encodeURIComponent(job.submission_id)}`);if(result.world)model.world.world=result.world}model.spatialStatus=await loadSpatialStatus(profile);const selected=$("detail-visual-image").dataset.selectedPlace||"";renderDetail(selected);if(!automatic)status(tr("status_spatial_refreshed"))}
+  catch(error){if(!automatic)status(error.message,true)}
+  finally{model.spatialPollBusy=false;if(!automatic)busy(false);scheduleSpatialAutoPoll()}
+}
 function renderDetail(preferredPlace=""){
   const world=model.world.world;
   const setting=world.setting||{};
@@ -174,8 +191,8 @@ function renderDetail(preferredPlace=""){
   list.querySelectorAll('input[name="character"]').forEach(node=>node.addEventListener("change",()=>{model.selectedCharacter=node.value}));
 }
 async function openWorld(profileId){
-  busy(true);status(tr("status_open_world"));view("detail-view");
-  try{model.world=await api(`/experience/player/worlds/${encodeURIComponent(profileId)}`);await window.__WANXIANG_PANORAMA_UPGRADE__?.load(profileId,api);model.spatialStatus=await loadSpatialStatus(profileId);model.selectedCharacter="";model.placeQuery="";model.placeLimit=36;renderDetail();status("")}
+  stopSpatialAutoPoll();busy(true);status(tr("status_open_world"));view("detail-view");
+  try{model.world=await api(`/experience/player/worlds/${encodeURIComponent(profileId)}`);await window.__WANXIANG_PANORAMA_UPGRADE__?.load(profileId,api);model.spatialStatus=await loadSpatialStatus(profileId);model.selectedCharacter="";model.placeQuery="";model.placeLimit=36;renderDetail();scheduleSpatialAutoPoll();status("")}
   catch(error){status(error.message,true)}finally{busy(false)}
 }
 let visualGenerationInFlight=false;
@@ -282,7 +299,7 @@ $("panorama-stage-toggle").addEventListener("click",async()=>{try{const active=a
 $("spatial-stage-toggle").addEventListener("click",async()=>{try{const active=await window.__WANXIANG_SPATIAL_STAGE__?.toggle();$("spatial-stage-toggle").textContent=tr(active?"spatial_stage_exit":"spatial_stage_enter")}catch{status(tr("spatial_stage_error"),true)}});
 $("panorama-upgrade-submit").addEventListener("click",()=>submitPanoramaPlace($("panorama-upgrade-submit").dataset.place||""));
 $("spatial-submit").addEventListener("click",()=>submitSpatialPlace($("spatial-submit").dataset.place||""));
-$("spatial-refresh").addEventListener("click",refreshSpatialJobs);
+$("spatial-refresh").addEventListener("click",()=>{stopSpatialAutoPoll();void refreshSpatialJobs(false)});
 $("enter-world").addEventListener("click",enterWorld);$("enter-observer").addEventListener("click",enterObserver);$("send-action").addEventListener("click",sendAction);$("leave-world").addEventListener("click",leaveWorld);$("character-form").addEventListener("submit",createCharacter);
 $("create-character-inline").addEventListener("click",()=>{view("characters-view");document.querySelector('[data-nav="characters-view"]').classList.add("is-active");$("character-form-panel").open=true;$("character-name").focus()});
 $("action-input").addEventListener("keydown",event=>{if(event.key==="Enter"&&!event.shiftKey){event.preventDefault();sendAction()}});

@@ -5,6 +5,7 @@ from wanxiang_api.player_ui_panorama_builtin import BUILTIN_PANORAMA_RENDERER_SC
 from wanxiang_api.player_ui_panorama_renderer import PANORAMA_RENDERER_SCRIPT
 from wanxiang_api.player_ui_spatial_builtin import BUILTIN_SPATIAL_RENDERER_SCRIPT
 from wanxiang_api.player_ui_spatial_renderer import SPATIAL_RENDERER_SCRIPT
+from wanxiang_api.player_ui_script import SCRIPT
 
 
 def test_player_html_exposes_optional_spatial_stage_without_vendor_dependency() -> None:
@@ -45,6 +46,16 @@ def test_player_bundles_dependency_free_interactive_panorama_renderer() -> None:
     assert "TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE" in BUILTIN_PANORAMA_RENDERER_SCRIPT
     assert "window.__WANXIANG_PANORAMA_RENDERER__={supports:" in BUILTIN_PANORAMA_RENDERER_SCRIPT
     assert html.index(BUILTIN_PANORAMA_RENDERER_SCRIPT) < html.index(PANORAMA_RENDERER_SCRIPT)
+
+
+def test_player_spatial_generation_auto_polls_only_while_detail_is_active() -> None:
+    assert "SPATIAL_POLL_MIN_MS=5000" in SCRIPT
+    assert "SPATIAL_POLL_MAX_MS=30000" in SCRIPT
+    assert "scheduleSpatialAutoPoll" in SCRIPT
+    assert "refreshSpatialJobs(true)" in SCRIPT
+    assert 'document.querySelector("#detail-view.is-active")' in SCRIPT
+    assert 'if(name!=="detail-view")stopSpatialAutoPoll()' in SCRIPT
+    assert "Math.round(delay*1.6)" in SCRIPT
 
 
 def test_player_bundles_dependency_free_ply_spatial_renderer() -> None:
