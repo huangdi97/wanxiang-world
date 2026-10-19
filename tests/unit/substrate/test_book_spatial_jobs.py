@@ -653,6 +653,7 @@ def test_idempotent_t3_gateway_can_recover_ambiguous_submit_with_same_key() -> N
     assert provider.submissions[0] == provider.submissions[1] == recovered.submission_id
     assert sum(row.reserved_cost_units for row in jobs.list_scope("")) == 7
 
+
 def test_t3_provider_usage_is_persisted_across_restart(tmp_path: pathlib.Path) -> None:
     provider = _FakeSpatialProvider(polls=[_SpatialPollResult("running", provider_usage_units=6)])
     path = tmp_path / "spatial-usage-jobs.json"
