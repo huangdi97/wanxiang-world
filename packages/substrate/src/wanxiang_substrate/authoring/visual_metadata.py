@@ -20,6 +20,15 @@ def _compact(value: object) -> str:
     )
 
 
+def _ownership(candidate: CandidateEnvelope) -> str:
+    """Return the first concrete owner, ignoring placeholder 'unknown'."""
+    for key in ("actor", "owner", "custodian"):
+        value = candidate.fields.get(key, "").strip()
+        if value and value.casefold() != "unknown":
+            return value
+    return ""
+
+
 def _visual_compiler_metadata(
     records: tuple[SourceRecord, ...],
     candidates: tuple[CandidateEnvelope, ...],
@@ -47,7 +56,7 @@ def _visual_compiler_metadata(
                         "statement",
                     ),
                     "confidence": other.confidence,
-                    "actor": field(other, "actor", "owner", "custodian"),
+                    "actor": _ownership(other),
                 }
                 for other in candidates
                 if other.candidate_id != candidate.candidate_id
