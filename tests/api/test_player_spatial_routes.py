@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from dataclasses import replace
 from typing import Any
 
 import pytest
@@ -543,3 +544,36 @@ def test_t3_restart_does_not_rehydrate_missing_spatial_blob() -> None:
     recovered = client.get(f"{endpoint}/{submission_id}", headers=owner)
     assert recovered.status_code == 409
     assert recovered.json()["detail"] == "verified spatial asset storage is unavailable"
+
+def test_t3_poll_route_revalidates_persisted_asset_rights_before_player_attach() -> None:
+    provider = _FakeSpatialProvider()
+    app, client, profile_id = _world(
+        spatial_provider=provider,
+        spatial_allow_network=True,
+        spatial_max_cost_units=7,
+    )
+    owner = {"X-Wanxiang-User": "studio"}
+    endpoint = f"/experience/player/worlds/{profile_id}/spatial"
+    submitted = client.post(endpoint, headers=owner, json={"place_name": "Garden"})
+    assert submitted.status_code == 202
+    submission_id = str(submitted.json()["spatial"]["submission_id"])
+    ticket = app.state.spatial_asset_jobs.get(submission_id)
+    assert ticket is not None
+
+    payload = _glb(b"tampered-rights")
+    valid_ref = app.state.spatial_asset_objects.put(
+        payload,
+        content_type="model/gltf-binary",
+        rights="source-gated",
+    )
+    tampered_ref = replace(valid_ref, rights="public")
+    app.state.spatial_asset_jobs.put(
+        replace(ticket, state="verified", asset_refs=(tampered_ref,))
+    )
+
+    response = client.get(f"{endpoint}/{submission_id}", headers=owner)
+
+    assert response.status_code == 409
+    assert "rights do not match" in response.json()["detail"]
+    assert app.state.playable.spatial_assets(profile_id, viewer_id="studio") == {}
+

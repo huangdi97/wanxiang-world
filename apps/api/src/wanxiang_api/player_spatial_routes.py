@@ -4,7 +4,6 @@
 
 from __future__ import annotations
 
-from dataclasses import replace
 from typing import cast
 
 from fastapi import APIRouter, Header, HTTPException, Request, Response
@@ -83,14 +82,6 @@ def _coordinator(request: Request) -> SpatialGenerationCoordinator:
         jobs=_jobs(request),
         objects=cast(ObjectStore, request.app.state.spatial_asset_objects),
     )
-
-
-def _stored_spatial_refs_available(request: Request, refs: tuple[AssetRef, ...]) -> bool:
-    store = cast(ObjectStore, request.app.state.spatial_asset_objects)
-    try:
-        return all(len(store.get(ref)) == ref.size for ref in refs)
-    except (AssetNotFound, AssetCorrupt):
-        return False
 
 
 def _profile_package(service: PlayableService, profile_id: str):
@@ -245,22 +236,17 @@ def player_poll_spatial_place(
     if ticket.state in {"verified", "attached"}:
         if not ticket.asset_refs:
             raise HTTPException(status_code=409, detail="verified spatial ticket has no assets")
-        if not _stored_spatial_refs_available(request, ticket.asset_refs):
-            raise HTTPException(
-                status_code=409,
-                detail="verified spatial asset storage is unavailable",
-            )
+        catalog = cast(DerivedSpatialAttachments, request.app.state.spatial_asset_catalog)
+        try:
+            ticket = _coordinator(request).attach(submission_id, catalog)
+        except ValueError as exc:
+            raise HTTPException(status_code=409, detail=str(exc)) from exc
         service.attach_spatial_assets(
             profile_id,
             ticket.scene_key,
             ticket.asset_refs,
             projection_frame=ticket.projection_frame,
         )
-        catalog = cast(DerivedSpatialAttachments, request.app.state.spatial_asset_catalog)
-        catalog.attach(ticket.scene_key, ticket.asset_refs)
-        if ticket.state == "verified":
-            ticket = replace(ticket, state="attached")
-            jobs.put(ticket)
 
     locale = _locale(x_wanxiang_locale)
     return {
