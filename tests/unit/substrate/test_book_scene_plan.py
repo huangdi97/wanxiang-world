@@ -373,6 +373,32 @@ def test_unicode_equivalent_places_merge_across_sources() -> None:
     assert plan.topology_relations[0].source_place == "Café"
 
 
+def test_scene_context_candidates_dedupe_by_case_insensitive_identity() -> None:
+    package = package_from_book(
+        "context-dedupe",
+        ("Garden",),
+        compiler_metadata={
+            "scene_evidence_v1": json.dumps(
+                [
+                    {
+                        "name": "Garden",
+                        "source_refs": ["source://a#chapter-1"],
+                        "confidence": 0.8,
+                        "cooccurring_candidates": [
+                            {"kind": "character", "label": "Alice"},
+                            {"kind": "character", "label": "alice"},
+                            {"kind": "object", "label": "Key"},
+                        ],
+                    }
+                ]
+            )
+        },
+    )
+    plan = _plan_book_scene_assets(package)
+
+    assert plan.scene_requests[0].context_candidates == ("character:Alice", "object:Key")
+
+
 def test_relation_type_identity_ignores_case_and_separators() -> None:
     first = {
         "source_place": "海港",

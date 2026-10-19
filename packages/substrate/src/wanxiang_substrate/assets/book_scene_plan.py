@@ -76,6 +76,11 @@ def _place_identity(value: str) -> str:
     return " ".join(unicodedata.normalize("NFC", value).casefold().split())
 
 
+def _context_identity(value: str) -> str:
+    kind, _, label = value.partition(":")
+    return f"{kind}:{_place_identity(label)}"
+
+
 def _plan_book_scene_assets(
     package: WorldPackageDraft,
     *,
@@ -193,7 +198,10 @@ def _plan_book_scene_assets(
                 kind, label = item.get("kind"), item.get("label")
                 if isinstance(kind, str) and isinstance(label, str) and label:
                     context_candidates.append(f"{kind}:{label}")
-        context_candidates = list(dict.fromkeys(context_candidates))[:8]
+        context_by_identity: dict[str, str] = {}
+        for item in context_candidates:
+            context_by_identity.setdefault(_context_identity(item), item)
+        context_candidates = list(context_by_identity.values())[:8]
         # Cache identity may use content fingerprints, while audit/projection
         # keeps the original source locators unchanged.
         cache_evidence_refs = tuple(
