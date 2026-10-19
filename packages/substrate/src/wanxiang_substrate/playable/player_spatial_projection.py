@@ -32,9 +32,9 @@ def _spatial_capability(
         revision_payload = "|".join(
             f"{ref.content_hash}:{ref.content_type}:{ref.size}" for ref in refs
         )
-        capability["asset_revision"] = hashlib.sha256(
-            revision_payload.encode("utf-8")
-        ).hexdigest()[:20]
+        capability["asset_revision"] = hashlib.sha256(revision_payload.encode("utf-8")).hexdigest()[
+            :20
+        ]
     frame = (spatial_frames or {}).get(scene_key)
     if refs and frame is not None:
         capability["projection_frame"] = {
