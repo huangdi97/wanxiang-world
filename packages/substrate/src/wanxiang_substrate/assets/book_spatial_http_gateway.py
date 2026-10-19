@@ -24,6 +24,10 @@ from wanxiang_substrate.assets.book_scene_prompt import (
     _story_visual_profile_from_style_key,
 )
 from wanxiang_substrate.assets.book_spatial_frame import _projection_frame_from_mapping
+from wanxiang_substrate.assets.book_spatial_http_receipts import (
+    _provider_usage_units,
+    _submission_receipt,
+)
 from wanxiang_substrate.assets.book_spatial_http_transport import (
     _bounded_read,
     _validate_endpoint,
@@ -32,7 +36,6 @@ from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialArtifactCandidate,
     _SpatialGenerationProvider,
     _SpatialPollResult,
-    _SpatialSubmissionResult,
 )
 
 _MAX_JSON_RESPONSE_BYTES = 48 * 1024 * 1024
@@ -166,26 +169,7 @@ class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
             },
             idempotency_key=idempotency_key,
         )
-        task_ref = body.get("task_ref")
-        if (
-            not isinstance(task_ref, str)
-            or not task_ref.strip()
-            or len(task_ref) > 1024
-            or "\r" in task_ref
-            or "\n" in task_ref
-        ):
-            raise ValueError("spatial HTTP gateway returned invalid task_ref")
-        task_ref = task_ref.strip()
-        request_ref = body.get("request_ref", "")
-        if (
-            not isinstance(request_ref, str)
-            or len(request_ref) > 2048
-            or "\r" in request_ref
-            or "\n" in request_ref
-        ):
-            raise ValueError("spatial HTTP gateway returned invalid request_ref")
-        request_ref = request_ref.strip()
-        return _SpatialSubmissionResult(task_ref, request_ref) if request_ref else task_ref
+        return _submission_receipt(body)
 
     def _download_artifact(self, url: str) -> bytes:
         endpoint = _validate_endpoint(url)
@@ -236,15 +220,6 @@ class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
             content_sha256=hashlib.sha256(content).hexdigest(),
         )
 
-    @staticmethod
-    def _usage_units(body: dict[str, object]) -> int | None:
-        raw = body.get("usage_units")
-        if raw is None:
-            return None
-        if isinstance(raw, bool) or not isinstance(raw, int) or raw < 0:
-            raise ValueError("spatial HTTP gateway returned invalid usage_units")
-        return raw
-
     def poll(self, task_ref: str) -> _SpatialPollResult:
         if not task_ref.strip() or len(task_ref) > 1024 or "\r" in task_ref or "\n" in task_ref:
             raise ValueError("spatial HTTP poll requires a safe task_ref")
@@ -255,7 +230,7 @@ class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
         reason = body.get("reason", "")
         if not isinstance(reason, str):
             raise ValueError("spatial HTTP gateway returned invalid reason")
-        usage_units = self._usage_units(body)
+        usage_units = _provider_usage_units(body)
         if state != "succeeded":
             return _SpatialPollResult(
                 state,
