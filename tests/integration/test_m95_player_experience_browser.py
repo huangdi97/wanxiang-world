@@ -1356,8 +1356,12 @@ def test_player_stage_remains_usable_on_mobile_viewport(
                 assert page.evaluate(
                     "document.documentElement.scrollWidth <= window.innerWidth + 1"
                 ), "worldline overflow at 320px"
+                page.keyboard.press("Escape")
+                page.locator("#leave-world").click()
+                page.wait_for_selector("#home-view.is-active")
                 page.goto(f"{base}/?locale=zh-CN", wait_until="networkidle")
                 page.locator(f'#world-list [data-profile="{profile_id}"]').click()
+                page.wait_for_selector("#detail-view.is-active")
                 page.locator('input[name="character"]').check()
                 page.locator("#enter-world").click()
                 page.wait_for_selector("#play-view.is-active")
