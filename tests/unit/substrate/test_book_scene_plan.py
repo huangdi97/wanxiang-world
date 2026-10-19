@@ -841,6 +841,34 @@ def test_multi_source_bundle_merges_place_evidence_and_reacts_to_content_change(
     assert original[1] != changed[1]
 
 
+def test_single_source_fingerprint_change_changes_scene_and_cache_identity() -> None:
+    def plan_for(fingerprint: str) -> tuple[str, str, str]:
+        metadata = {
+            "source_fingerprints_v1": json.dumps([fingerprint]),
+            "scene_evidence_v1": json.dumps(
+                [
+                    {
+                        "name": "Harbor",
+                        "source_refs": ["text://s1#p1"],
+                        "confidence": 0.7,
+                    }
+                ]
+            ),
+        }
+        plan = _plan_book_scene_assets(
+            package_from_book("single-source", ("Harbor",), compiler_metadata=metadata)
+        )
+        scene = plan.scene_requests[0]
+        return plan.source_digest, scene.stable_key, scene.cache_key
+
+    original = plan_for("a" * 64)
+    changed = plan_for("b" * 64)
+
+    assert original[1] != changed[1]
+    assert original[0] != changed[0]
+    assert original[2] != changed[2]
+
+
 def test_same_source_fingerprint_reuses_cache_across_distinct_source_ids() -> None:
     fingerprint = "a" * 64
 
