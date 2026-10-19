@@ -12,6 +12,9 @@ from wanxiang_substrate.assets.book_spatial_frame import (
     _projection_frame_from_mapping,
     _projection_frame_to_dict,
 )
+from wanxiang_substrate.assets.book_spatial_poll_validation import (
+    _validated_spatial_poll_result,
+)
 from wanxiang_substrate.assets.book_spatial_safety import (
     _require_spatial_asset_refs,
     _spatial_submission_guard,
@@ -180,15 +183,6 @@ class _SpatialGenerationCoordinator:
         self.jobs.put(submitted)
         return submitted
 
-    @staticmethod
-    def _validated_provider_usage(result: _SpatialPollResult) -> int | None:
-        usage = result.provider_usage_units
-        if usage is None:
-            return None
-        if isinstance(usage, bool) or usage < 0:
-            raise ValueError("spatial provider returned invalid usage units")
-        return usage
-
     def poll(self, submission_id: str) -> _SpatialGenerationTicket:
         ticket = self.jobs.get(submission_id)
         if ticket is None:
@@ -207,10 +201,11 @@ class _SpatialGenerationCoordinator:
             or ticket.provider_version != self.provider.provider_version
         ):
             raise ValueError("configured spatial provider does not match persisted ticket")
-        result = self.provider.poll(ticket.provider_task_ref)
-        provider_usage = self._validated_provider_usage(result)
-        if provider_usage is not None:
-            ticket = replace(ticket, provider_usage_units=provider_usage)
+        result = _validated_spatial_poll_result(
+            self.provider.poll(ticket.provider_task_ref)
+        )
+        if result.provider_usage_units is not None:
+            ticket = replace(ticket, provider_usage_units=result.provider_usage_units)
         if result.state in {"queued", "running"}:
             updated = replace(ticket, state=result.state, reason=result.reason[:240])
             self.jobs.put(updated)
