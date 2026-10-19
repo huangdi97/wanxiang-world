@@ -11,8 +11,8 @@ from contextlib import contextmanager
 from threading import Lock
 
 from wanxiang_substrate.assets.book_scene_interprocess import _exclusive_index_lock
-from wanxiang_substrate.assets.errors import AssetCorrupt, AssetNotFound
 from wanxiang_substrate.assets.book_spatial_validation import _known_spatial_signature_matches
+from wanxiang_substrate.assets.errors import AssetCorrupt, AssetNotFound
 from wanxiang_substrate.assets.storage import AssetRef, ObjectStore
 
 _IN_PROCESS_SUBMISSION_LOCK = Lock()
