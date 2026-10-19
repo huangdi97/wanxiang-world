@@ -1330,6 +1330,7 @@ def test_player_stage_remains_usable_on_mobile_viewport(
                 assert narrow_send["x"] + narrow_send["width"] <= 321
                 long_clues = page.locator(".scene-clue").filter(has_text="x" * 20)
                 assert long_clues.count() >= 1
+                assert long_clues.first.inner_text().startswith("Item · ")
                 long_clue = long_clues.first.bounding_box()
                 assert long_clue is not None
                 assert long_clue["x"] >= narrow_stage["x"] - 1
