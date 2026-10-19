@@ -560,6 +560,42 @@ def test_player_scene_clues_omit_actor_owned_objects() -> None:
     assert all("Key" not in clue for clue in clues)
 
 
+def test_actor_ownership_change_changes_scene_cache_identity() -> None:
+    def package_with_owner(owner: str | None) -> WorldPackageDraft:
+        key: dict[str, object] = {"kind": "object", "label": "Key"}
+        if owner is not None:
+            key["actor"] = owner
+        return package_from_book(
+            "actor-cache-identity",
+            ("Garden",),
+            compiler_metadata={
+                "scene_evidence_v1": json.dumps(
+                    [
+                        {
+                            "name": "Garden",
+                            "source_refs": ["source://a#chapter-1"],
+                            "confidence": 0.8,
+                            "cooccurring_candidates": [
+                                key,
+                                {"kind": "event", "label": "Festival"},
+                            ],
+                        }
+                    ]
+                )
+            },
+        )
+
+    owned_plan = _plan_book_scene_assets(package_with_owner("Alice"))
+    unowned_plan = _plan_book_scene_assets(package_with_owner(None))
+    owned = owned_plan.scene_requests[0]
+    unowned = unowned_plan.scene_requests[0]
+
+    assert owned_plan.source_digest == unowned_plan.source_digest
+    assert owned.context_candidates == ("event:Festival",)
+    assert unowned.context_candidates == ("object:Key", "event:Festival")
+    assert owned.cache_key != unowned.cache_key
+
+
 def test_relation_type_identity_ignores_case_and_separators() -> None:
     first = {
         "source_place": "海港",
