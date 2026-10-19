@@ -57,7 +57,9 @@ class _FakeSpatialProvider(_SpatialGenerationProvider):
     submissions: list[str] = field(default_factory=lambda: list[str]())
     polls: list[_SpatialPollResult] = field(default_factory=lambda: list[_SpatialPollResult]())
 
-    def submit(self, request: _SourceSceneRequest, *, idempotency_key: str) -> str:
+    def submit(
+        self, request: _SourceSceneRequest, *, idempotency_key: str
+    ) -> str | _SpatialSubmissionResult:
         _ = request
         self.submissions.append(idempotency_key)
         return f"task:{len(self.submissions)}"
