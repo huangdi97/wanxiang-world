@@ -5,7 +5,7 @@ boundaries are kept before optional source-context hints, so truncation can
 never silently remove the non-canonical contract.
 """
 
-# pyright: reportUnusedFunction=false
+# pyright: reportPrivateUsage=false, reportUnusedFunction=false
 
 from __future__ import annotations
 
