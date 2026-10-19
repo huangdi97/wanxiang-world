@@ -96,12 +96,13 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
         raw_assets = data.get("asset_refs", [])
         if not isinstance(raw_assets, list):
             raise ValueError("spatial ticket asset_refs must be a list")
+        asset_rows = cast(list[object], raw_assets)
         assets = tuple(
             cls._asset(cast(dict[str, object], item))
-            for item in cast(list[object], raw_assets)
+            for item in asset_rows
             if isinstance(item, dict)
         )
-        if len(assets) != len(raw_assets):
+        if len(assets) != len(asset_rows):
             raise ValueError("spatial ticket asset_refs contains an invalid row")
 
         state = data.get("state")
