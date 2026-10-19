@@ -312,11 +312,7 @@ def test_t3_http_submit_preserves_optional_provider_request_reference(
 ) -> None:
     _install_opener(
         monkeypatch,
-        [
-            json.dumps(
-                {"task_ref": "operation-123", "request_ref": "request-audit-456"}
-            ).encode()
-        ],
+        [json.dumps({"task_ref": "operation-123", "request_ref": "request-audit-456"}).encode()],
     )
 
     result = _provider().submit(_request(), idempotency_key="stable-key-123")

@@ -39,6 +39,7 @@ def _provider_usage_units(body: dict[str, object]) -> int | None:
         raise ValueError("spatial HTTP gateway returned invalid usage_units")
     return raw
 
+
 def _verified_artifact_sha256(item: dict[str, object], content: bytes) -> str:
     actual = hashlib.sha256(content).hexdigest()
     declared = item.get("content_sha256")
@@ -53,4 +54,3 @@ def _verified_artifact_sha256(item: dict[str, object], content: bytes) -> str:
     if declared.casefold() != actual:
         raise ValueError("spatial HTTP artifact digest does not match downloaded bytes")
     return actual
-

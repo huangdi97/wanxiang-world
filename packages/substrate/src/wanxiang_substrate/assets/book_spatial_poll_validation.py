@@ -8,9 +8,7 @@ from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialProjectionFrame,
 )
 
-_VALID_POLL_STATES = frozenset(
-    {"queued", "running", "succeeded", "failed", "cancelled", "expired"}
-)
+_VALID_POLL_STATES = frozenset({"queued", "running", "succeeded", "failed", "cancelled", "expired"})
 
 
 def _validated_spatial_poll_result(value: object) -> _SpatialPollResult:
@@ -21,9 +19,7 @@ def _validated_spatial_poll_result(value: object) -> _SpatialPollResult:
     if not isinstance(value.reason, str):
         raise ValueError("spatial provider returned an invalid poll reason")
     usage = value.provider_usage_units
-    if usage is not None and (
-        isinstance(usage, bool) or not isinstance(usage, int) or usage < 0
-    ):
+    if usage is not None and (isinstance(usage, bool) or not isinstance(usage, int) or usage < 0):
         raise ValueError("spatial provider returned invalid usage units")
     if not isinstance(value.artifacts, tuple) or any(
         not isinstance(item, _SpatialArtifactCandidate) for item in value.artifacts

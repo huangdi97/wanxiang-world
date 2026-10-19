@@ -201,9 +201,7 @@ class _SpatialGenerationCoordinator:
             or ticket.provider_version != self.provider.provider_version
         ):
             raise ValueError("configured spatial provider does not match persisted ticket")
-        result = _validated_spatial_poll_result(
-            self.provider.poll(ticket.provider_task_ref)
-        )
+        result = _validated_spatial_poll_result(self.provider.poll(ticket.provider_task_ref))
         if result.provider_usage_units is not None:
             ticket = replace(ticket, provider_usage_units=result.provider_usage_units)
         if result.state in {"queued", "running"}:
