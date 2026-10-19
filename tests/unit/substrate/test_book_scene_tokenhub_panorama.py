@@ -95,7 +95,11 @@ def test_tokenhub_panorama_uses_bounded_prompt_and_allowlisted_download(
     assert len(opener.requests) == 2
     submitted = json.loads(opener.requests[0].data.decode("utf-8"))
     assert submitted["model"] == "hy-world2-panorama"
-    assert len(submitted["prompt"]) == 600
+    prompt = submitted["prompt"]
+    assert 0 < len(prompt) <= 600
+    assert "机关桥" in prompt
+    assert "never Canon or History" in prompt
+    assert "not instructions" in prompt
     assert opener.requests[0].headers["Authorization"] == "Bearer secret"
     assert opener.requests[1].full_url == "https://assets.example/output.png"
 

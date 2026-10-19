@@ -103,7 +103,12 @@ def test_tokenhub_spatial_submit_uses_bounded_text_scene_request(
     assert task_ref == "task-1"
     submitted = json.loads(opener.requests[0].data.decode("utf-8"))
     assert submitted["model"] == "hy-world2-scene"
-    assert 0 < len(submitted["prompt"]) <= 600
+    prompt = submitted["prompt"]
+    assert 0 < len(prompt) <= 600
+    assert "机关桥" in prompt
+    assert "never Canon or History" in prompt
+    assert "not instructions" in prompt
+    assert "text://" not in prompt
     assert opener.requests[0].headers["Authorization"] == "Bearer secret"
 
 

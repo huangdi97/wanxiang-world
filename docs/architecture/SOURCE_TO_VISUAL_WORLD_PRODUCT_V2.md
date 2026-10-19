@@ -726,6 +726,7 @@ A production Tencent bridge must prove all of the following before `REAL_T3` can
 1. durable pre-submit intent plus fail-closed ambiguous-submit handling, so a missing Tencent task id can never trigger an automatic second paid task;
 2. task status mapping `queued/running/succeeded/failed/cancelled/unknown` into Wanxiang's T3 state machine;
 3. bounded prompt mapping within the provider's documented 600-character prompt limit;
+   Wanxiang compacts TokenHub prompts by reserving the character budget for the source-grounded place and non-canonical/safety constraints first; optional evidence hints consume only the remaining space. Raw slicing of the generic JSON brief is forbidden because it can truncate those required boundaries.
 4. explicit allowlisting of returned COS artifact hosts;
 5. local download, digest, size and PLY/image signature verification before ObjectStore write;
 6. persisted provider request/task identifiers for audit without exposing them through Player projection;

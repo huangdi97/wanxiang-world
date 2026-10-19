@@ -33,6 +33,7 @@ from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialGenerationProvider,
     _SpatialPollResult,
 )
+from wanxiang_substrate.assets.book_tokenhub_prompt import _tokenhub_scene_prompt
 
 _MAX_JSON_BYTES = 2 * 1024 * 1024
 _MAX_ARTIFACT_BYTES = 128 * 1024 * 1024
@@ -141,9 +142,7 @@ class _TokenHubSpatialProvider(_SpatialGenerationProvider):
         style_key = request.style_key or request.cache_key[:24]
         profile = _story_visual_profile_from_style_key(style_key)
         brief = _compile_scene_generation_brief(request, profile)
-        prompt = brief.semantic_prompt.strip()[:600]
-        if not prompt:
-            raise ValueError("TokenHub spatial requires a non-empty bounded prompt")
+        prompt = _tokenhub_scene_prompt(brief)
         payload = json.dumps(
             {"model": "hy-world2-scene", "prompt": prompt},
             ensure_ascii=False,

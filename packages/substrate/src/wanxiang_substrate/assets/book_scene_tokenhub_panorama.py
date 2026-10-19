@@ -26,6 +26,7 @@ from wanxiang_substrate.assets.book_scene_external import (
 from wanxiang_substrate.assets.book_scene_panorama import _PromptedPanoramaSceneProvider
 from wanxiang_substrate.assets.book_scene_prompt import _SceneGenerationBrief
 from wanxiang_substrate.assets.book_scene_types import SceneImageProvider
+from wanxiang_substrate.assets.book_tokenhub_prompt import _tokenhub_scene_prompt
 
 _MAX_JSON_BYTES = 1024 * 1024
 _MAX_IMAGE_BYTES = 20 * 1024 * 1024
@@ -115,9 +116,7 @@ class _TokenHubPanoramaClient(_ExternalImageClient):
         )
 
     def generate(self, brief: _SceneGenerationBrief) -> _ExternalImageResult:
-        prompt = brief.semantic_prompt.strip()[:600]
-        if not prompt:
-            raise ValueError("TokenHub panorama requires a non-empty bounded prompt")
+        prompt = _tokenhub_scene_prompt(brief)
         payload = json.dumps(
             {"model": "hy-world2-panorama", "prompt": prompt},
             ensure_ascii=False,
