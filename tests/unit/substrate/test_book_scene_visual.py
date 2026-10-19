@@ -403,6 +403,30 @@ def test_cache_hit_reissues_current_delivery_rights() -> None:
     assert second.assets[0].content == first.assets[0].content
 
 
+def test_durable_cache_restart_reissues_current_rights(tmp_path: pathlib.Path) -> None:
+    request = _request("旧城", "old-city")
+    public = _plan(request, delivery_rights="public")
+    gated = _plan(request, delivery_rights="source-gated")
+
+    first_cache = _VisualAssetCache(
+        LocalObjectStore(tmp_path / "blobs"),
+        _LocalJsonVisualCacheIndex(tmp_path / "index.json"),
+    )
+    first = _materialize_visual_plan(public, cache=first_cache)
+    restarted_cache = _VisualAssetCache(
+        LocalObjectStore(tmp_path / "blobs"),
+        _LocalJsonVisualCacheIndex(tmp_path / "index.json"),
+    )
+    second = _materialize_visual_plan(gated, cache=restarted_cache)
+
+    assert first.provider_calls == 1
+    assert second.provider_calls == 0
+    assert second.cache_hits == 1
+    assert first.asset_refs[0].rights == "public"
+    assert second.asset_refs[0].rights == "source-gated"
+    assert second.assets[0].content == first.assets[0].content
+
+
 class _BadDigestProvider(_RemoteLikeProvider):
     requires_network = False
     cost_units_per_asset = 0
