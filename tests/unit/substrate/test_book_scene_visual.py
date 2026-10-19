@@ -386,6 +386,23 @@ def test_visual_cache_reuses_content_addressed_asset_identity_and_avoids_provide
     assert cache.store.get(first.asset_refs[0]) == first.assets[0].content
 
 
+def test_cache_hit_reissues_current_delivery_rights() -> None:
+    cache = _VisualAssetCache()
+    request = _request("旧城", "old-city")
+    public = _plan(request, delivery_rights="public")
+    gated = _plan(request, delivery_rights="source-gated")
+
+    first = _materialize_visual_plan(public, cache=cache)
+    second = _materialize_visual_plan(gated, cache=cache)
+
+    assert first.provider_calls == 1
+    assert second.provider_calls == 0
+    assert second.cache_hits == 1
+    assert first.asset_refs[0].rights == "public"
+    assert second.asset_refs[0].rights == "source-gated"
+    assert second.assets[0].content == first.assets[0].content
+
+
 class _BadDigestProvider(_RemoteLikeProvider):
     requires_network = False
     cost_units_per_asset = 0
