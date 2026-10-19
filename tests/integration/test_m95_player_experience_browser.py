@@ -1366,6 +1366,10 @@ def test_player_stage_remains_usable_on_mobile_viewport(
                 assert page.evaluate(
                     "document.documentElement.scrollWidth <= window.innerWidth + 1"
                 ), "detail overflow at 320px"
+                en_tier = page.locator(
+                    '#visual-places .visual-place[data-generated="true"]'
+                ).first.inner_text()
+                assert "T0" in en_tier
                 page.locator('input[name="character"]').check()
                 page.locator("#enter-world").click()
                 page.wait_for_selector("#play-view.is-active")
@@ -1380,6 +1384,10 @@ def test_player_stage_remains_usable_on_mobile_viewport(
                 page.goto(f"{base}/?locale=zh-CN", wait_until="networkidle")
                 page.locator(f'#world-list [data-profile="{profile_id}"]').click()
                 page.wait_for_selector("#detail-view.is-active")
+                zh_tier = page.locator(
+                    '#visual-places .visual-place[data-generated="true"]'
+                ).first.inner_text()
+                assert "T0" in zh_tier
                 page.locator('input[name="character"]').check()
                 page.locator("#enter-world").click()
                 page.wait_for_selector("#play-view.is-active")
