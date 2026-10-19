@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import base64
+import hashlib
 import json
 from email.message import Message
 from typing import Any
@@ -378,3 +379,62 @@ def test_t3_http_submit_rejects_invalid_provider_request_reference(
 
     with pytest.raises(ValueError, match="invalid request_ref"):
         _provider().submit(_request(), idempotency_key="stable-key-123")
+
+
+def test_t3_http_artifact_validates_optional_provider_digest(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    world = _glb(b"digest-bound")
+    digest = hashlib.sha256(world).hexdigest()
+    _install_opener(
+        monkeypatch,
+        [
+            json.dumps(
+                {
+                    "state": "succeeded",
+                    "artifacts": [
+                        {
+                            "media_type": "model/gltf-binary",
+                            "content_base64": base64.b64encode(world).decode("ascii"),
+                            "content_sha256": digest.upper(),
+                        }
+                    ],
+                }
+            ).encode()
+        ],
+    )
+
+    result = _provider().poll("operation-123")
+
+    assert result.artifacts[0].content_sha256 == digest
+
+
+@pytest.mark.parametrize(
+    "declared",
+    ["0" * 64, "not-a-sha", 42],
+)
+def test_t3_http_artifact_rejects_invalid_or_mismatched_provider_digest(
+    monkeypatch: pytest.MonkeyPatch,
+    declared: object,
+) -> None:
+    world = _glb(b"digest-bound")
+    _install_opener(
+        monkeypatch,
+        [
+            json.dumps(
+                {
+                    "state": "succeeded",
+                    "artifacts": [
+                        {
+                            "media_type": "model/gltf-binary",
+                            "content_base64": base64.b64encode(world).decode("ascii"),
+                            "content_sha256": declared,
+                        }
+                    ],
+                }
+            ).encode()
+        ],
+    )
+
+    with pytest.raises(ValueError, match="content_sha256|digest does not match"):
+        _provider().poll("operation-123")
