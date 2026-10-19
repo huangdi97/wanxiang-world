@@ -34,17 +34,19 @@ def _validated_spatial_poll_result(value: object) -> _SpatialPollResult:
         isinstance(raw_usage, bool) or not isinstance(raw_usage, int) or raw_usage < 0
     ):
         raise ValueError("spatial provider returned invalid usage units")
-    if not isinstance(raw_artifacts, tuple) or any(
-        not isinstance(item, _SpatialArtifactCandidate) for item in raw_artifacts
-    ):
+    if not isinstance(raw_artifacts, tuple):
         raise ValueError("spatial provider returned an invalid artifact receipt")
+    artifact_rows = cast(tuple[object, ...], raw_artifacts)
+    if any(not isinstance(item, _SpatialArtifactCandidate) for item in artifact_rows):
+        raise ValueError("spatial provider returned an invalid artifact receipt")
+    artifacts = cast(tuple[_SpatialArtifactCandidate, ...], artifact_rows)
     if raw_frame is not None and not isinstance(raw_frame, _SpatialProjectionFrame):
         raise ValueError("spatial provider returned an invalid projection frame")
 
     return _SpatialPollResult(
         state=cast(_SpatialProviderState, raw_state),
-        artifacts=cast(tuple[_SpatialArtifactCandidate, ...], raw_artifacts),
+        artifacts=artifacts,
         reason=raw_reason,
-        projection_frame=cast(_SpatialProjectionFrame | None, raw_frame),
-        provider_usage_units=cast(int | None, raw_usage),
+        projection_frame=raw_frame,
+        provider_usage_units=raw_usage,
     )

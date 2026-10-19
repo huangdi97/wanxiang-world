@@ -6,7 +6,6 @@ from __future__ import annotations
 
 import hashlib
 from dataclasses import replace
-from typing import cast
 
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
 from wanxiang_substrate.assets.book_spatial_frame import (
@@ -20,6 +19,9 @@ from wanxiang_substrate.assets.book_spatial_safety import (
     _require_spatial_asset_refs,
     _spatial_submission_guard,
 )
+from wanxiang_substrate.assets.book_spatial_submission_validation import (
+    _validated_spatial_submission_receipt,
+)
 from wanxiang_substrate.assets.book_spatial_store import (
     _InMemorySpatialJobStore,
     _LocalJsonSpatialJobStore,  # noqa: F401 - compatibility re-export
@@ -30,7 +32,6 @@ from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialGenerationTicket,
     _SpatialJobStore,
     _SpatialPollResult,
-    _SpatialSubmissionResult,
 )
 from wanxiang_substrate.assets.book_spatial_validation import _known_spatial_signature_matches
 from wanxiang_substrate.assets.storage import AssetRef, InMemoryObjectStore, ObjectStore
@@ -153,29 +154,9 @@ class _SpatialGenerationCoordinator:
     ) -> _SpatialGenerationTicket:
         # Treat the provider boundary as untrusted at runtime even though the
         # protocol is statically typed; third-party adapters can still violate it.
-        result: object = self.provider.submit(request, idempotency_key=intent.submission_id)
-        if isinstance(result, str):
-            raw_task_ref: object = result
-            raw_request_ref: object = ""
-        elif isinstance(result, _SpatialSubmissionResult):
-            raw_task_ref = cast(object, result.task_ref)
-            raw_request_ref = cast(object, result.request_ref)
-        else:
-            raise ValueError("spatial provider returned an invalid submission receipt")
-        if not isinstance(raw_task_ref, str) or not isinstance(raw_request_ref, str):
-            raise ValueError("spatial provider returned an invalid submission receipt")
-        task_ref, request_ref = raw_task_ref.strip(), raw_request_ref.strip()
-        if not task_ref:
-            raise ValueError("spatial provider returned an empty task reference")
-        if (
-            len(task_ref) > 2048
-            or "\r" in task_ref
-            or "\n" in task_ref
-            or len(request_ref) > 2048
-            or "\r" in request_ref
-            or "\n" in request_ref
-        ):
-            raise ValueError("spatial provider returned an unsafe audit reference")
+        task_ref, request_ref = _validated_spatial_submission_receipt(
+            self.provider.submit(request, idempotency_key=intent.submission_id)
+        )
         submitted = replace(
             intent,
             provider_task_ref=task_ref,
