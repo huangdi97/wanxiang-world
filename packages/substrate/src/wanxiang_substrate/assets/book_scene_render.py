@@ -139,6 +139,7 @@ def _render_world_atlas(
     edges: list[str] = []
     relation_descriptions: list[str] = []
     omitted_relation_count = 0
+    has_drawn_conflict = False
     for relation in plan.topology_relations:
         source = positions.get(relation.source_place)
         target = positions.get(relation.target_place)
@@ -152,6 +153,7 @@ def _render_world_atlas(
             f"{conflict_suffix if relation.conflicting else ''}"
         )
         if relation.conflicting:
+            has_drawn_conflict = True
             stroke = "hsl(28 78% 45%)"
             marker = "arrow-conflict"
             width = 5
@@ -214,7 +216,7 @@ def _render_world_atlas(
     conflict_legend = (
         f'<text x="600" y="858" text-anchor="middle" font-size="18" fill="#9a3412">'
         f"{conflict_copy}</text>"
-        if any(relation.conflicting for relation in plan.topology_relations)
+        if has_drawn_conflict
         else ""
     )
     relation_description = "; ".join(relation_descriptions)
