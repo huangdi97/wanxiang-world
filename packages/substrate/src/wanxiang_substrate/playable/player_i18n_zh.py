@@ -52,7 +52,7 @@ STRINGS: dict[str, str] = {
     "no_recent_title": "还没有最近经历。",
     "no_recent_body": "进入一处世界并走出第一步，这里会留下回到现场的入口。",
     "search_worlds": "搜索世界",
-    "search_worlds_aria": "搜索世界名称或标签",
+    "search_worlds_aria": "世界搜索与筛选",
     "filter_all": "全部世界",
     "world_count": "显示 {count} 个世界",
     "filter_public": "公开世界",

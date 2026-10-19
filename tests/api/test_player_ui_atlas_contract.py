@@ -27,6 +27,13 @@ def test_visual_images_describe_their_captions() -> None:
     assert 'aria-describedby="scene-visual-caption"' in html
 
 
+def test_world_toolbar_group_has_a_label() -> None:
+    english = player_html("en-US")
+
+    assert 'role="group"' in english
+    assert 'aria-label="World search and filters"' in english
+
+
 def test_gallery_thumbnails_are_decorative() -> None:
     assert '<img alt="" src="${safe(item.data_uri)}">' in SCRIPT
 

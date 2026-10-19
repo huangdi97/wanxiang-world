@@ -60,7 +60,7 @@ STRINGS: dict[str, str] = {
         "Enter a world and take your first step; this is where you return to the scene."
     ),
     "search_worlds": "Search worlds",
-    "search_worlds_aria": "Search world names or tags",
+    "search_worlds_aria": "World search and filters",
     "filter_all": "All worlds",
     "world_count": "Worlds shown: {count}",
     "filter_public": "Public worlds",
