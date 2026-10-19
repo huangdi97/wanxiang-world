@@ -3,9 +3,9 @@
 from wanxiang_api.player_ui_asset import player_html
 from wanxiang_api.player_ui_panorama_builtin import BUILTIN_PANORAMA_RENDERER_SCRIPT
 from wanxiang_api.player_ui_panorama_renderer import PANORAMA_RENDERER_SCRIPT
+from wanxiang_api.player_ui_script import SCRIPT
 from wanxiang_api.player_ui_spatial_builtin import BUILTIN_SPATIAL_RENDERER_SCRIPT
 from wanxiang_api.player_ui_spatial_renderer import SPATIAL_RENDERER_SCRIPT
-from wanxiang_api.player_ui_script import SCRIPT
 
 
 def test_player_html_exposes_optional_spatial_stage_without_vendor_dependency() -> None:
