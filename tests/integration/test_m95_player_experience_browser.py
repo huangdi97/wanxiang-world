@@ -83,7 +83,10 @@ def _seed(page: Page) -> str:
         "kind": "text",
         "content": (
             "# Chapter\nCharacter: Alice\nCharacter: Bob\n"
-            "Alice arrived in Beijing in 1985.\nBob visited Beijing.\n"
+            "Alice arrived in Beijing in 1985 carrying 物品："
+            + "x"
+            * 48
+            + ".\nBob visited Beijing.\n"
             "Alice 来到江南城。\nAlice 来到机关桥。\n"
             "Alice 来到潮汐港。\nAlice 来到望月亭。\nAlice 来到青石巷。\n"
             "relationship: Alice -> Bob\nrule: visitors register\n"
@@ -1325,6 +1328,15 @@ def test_player_stage_remains_usable_on_mobile_viewport(
                 assert narrow_send is not None
                 assert narrow_send["x"] >= 0
                 assert narrow_send["x"] + narrow_send["width"] <= 321
+                long_clues = page.locator(".scene-clue").filter(has_text="x" * 20)
+                assert long_clues.count() >= 1
+                long_clue = long_clues.first.bounding_box()
+                assert long_clue is not None
+                assert long_clue["x"] >= narrow_stage["x"] - 1
+                assert (
+                    long_clue["x"] + long_clue["width"]
+                    <= narrow_stage["x"] + narrow_stage["width"] + 1
+                )
                 page.locator("#leave-world").click()
                 page.wait_for_selector("#home-view.is-active")
                 assert page.evaluate(
