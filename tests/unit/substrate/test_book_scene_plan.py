@@ -399,6 +399,38 @@ def test_scene_context_candidates_dedupe_by_case_insensitive_identity() -> None:
     assert plan.scene_requests[0].context_candidates == ("character:Alice", "object:Key")
 
 
+def test_relation_type_identity_normalizes_unicode() -> None:
+    base = {
+        "source_place": "海港",
+        "target_place": "城门",
+        "source_refs": ["book#chapter-2"],
+        "confidence": 0.7,
+    }
+    package = package_from_book(
+        "topology-unicode-type",
+        ("海港", "城门"),
+        compiler_metadata={
+            "scene_topology_evidence_v1": json.dumps(
+                [
+                    {**base, "relation_type": "connecté"},
+                    {
+                        **base,
+                        "relation_type": "connecte\u0301",
+                        "source_refs": ["book#chapter-3"],
+                    },
+                ],
+                ensure_ascii=False,
+            )
+        },
+    )
+    plan = _plan_book_scene_assets(package)
+
+    assert len(plan.topology_relations) == 1
+    relation = plan.topology_relations[0]
+    assert relation.relation_type == "connecté"
+    assert relation.source_refs == ("book#chapter-2", "book#chapter-3")
+
+
 def test_relation_type_identity_ignores_case_and_separators() -> None:
     first = {
         "source_place": "海港",

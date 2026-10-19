@@ -34,7 +34,8 @@ class _SourceTopologyRelation:
 
 def _normalize_relation_type(value: str) -> str:
     """Collapse lexical formatting without merging genuinely different types."""
-    return "_".join(value.strip().lower().replace("-", " ").split())
+    normalized = unicodedata.normalize("NFC", value)
+    return "_".join(normalized.strip().lower().replace("-", " ").split())
 
 
 def _place_identity(value: str) -> str:
