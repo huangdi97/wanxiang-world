@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import json
 from types import SimpleNamespace
 from typing import cast
 
@@ -11,6 +12,7 @@ from tests.unit.substrate.test_book_scene_plan import package_from_book
 from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
 from wanxiang_substrate.assets.book_spatial_types import _SpatialProjectionFrame
 from wanxiang_substrate.assets.storage import AssetRef
+from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.playable import PlayableService
 from wanxiang_substrate.playable.models import PlayableWorldProfile
 from wanxiang_substrate.playable.player_projection import player_world_detail
@@ -176,3 +178,54 @@ def test_player_world_detail_projects_verified_t3_frame_without_storage_identity
     }
     assert "private-object" not in str(spatial)
     assert "d" * 64 not in str(spatial)
+
+
+def test_source_revision_does_not_reuse_old_spatial_asset() -> None:
+    def revised_package(fingerprint: str) -> WorldPackageDraft:
+        return package_from_book(
+            "spatial-revision",
+            ("机关桥",),
+            compiler_metadata={
+                "source_fingerprints_v1": json.dumps([fingerprint]),
+                "scene_evidence_v1": json.dumps(
+                    [{"name": "机关桥", "source_refs": ["book#one"], "confidence": 0.8}],
+                    ensure_ascii=False,
+                ),
+            },
+        )
+
+    first = revised_package("a" * 64)
+    second = revised_package("b" * 64)
+    first_request = _plan_book_scene_assets(first).scene_requests[0]
+    second_request = _plan_book_scene_assets(second).scene_requests[0]
+    ref = AssetRef(
+        asset_id="stale-object",
+        content_hash="c" * 64,
+        size=64,
+        content_type="model/gltf-binary",
+        rights="source-gated",
+    )
+
+    first_detail = player_world_detail(
+        _profile(),
+        first,
+        include_visual=True,
+        spatial_assets={first_request.stable_key: (ref,)},
+    )
+    second_detail = player_world_detail(
+        _profile(),
+        second,
+        include_visual=True,
+        spatial_assets={first_request.stable_key: (ref,)},
+    )
+    first_visual = cast(dict[str, object], first_detail["visual"])
+    second_visual = cast(dict[str, object], second_detail["visual"])
+    first_place = cast(list[dict[str, object]], first_visual["places"])[0]
+    second_place = cast(list[dict[str, object]], second_visual["places"])[0]
+    second_scene = cast(list[dict[str, object]], second_visual["scenes"])[0]
+
+    assert first_request.stable_key != second_request.stable_key
+    assert first_place["tier"] == "T3"
+    assert second_place["tier"] == "T0"
+    assert cast(dict[str, object], second_scene["spatial"])["ready"] is False
+    assert "stale-object" not in str(second_detail)
