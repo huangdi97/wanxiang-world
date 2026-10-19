@@ -1,11 +1,16 @@
 """Fail-closed runtime validation for third-party T3 poll receipts."""
 
+# pyright: reportPrivateUsage=false, reportUnusedFunction=false
+
 from __future__ import annotations
+
+from typing import cast
 
 from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialArtifactCandidate,
     _SpatialPollResult,
     _SpatialProjectionFrame,
+    _SpatialProviderState,
 )
 
 _VALID_POLL_STATES = frozenset({"queued", "running", "succeeded", "failed", "cancelled", "expired"})
@@ -14,19 +19,32 @@ _VALID_POLL_STATES = frozenset({"queued", "running", "succeeded", "failed", "can
 def _validated_spatial_poll_result(value: object) -> _SpatialPollResult:
     if not isinstance(value, _SpatialPollResult):
         raise ValueError("spatial provider returned an invalid poll receipt")
-    if value.state not in _VALID_POLL_STATES:
+
+    raw_state = cast(object, value.state)
+    raw_reason = cast(object, value.reason)
+    raw_usage = cast(object, value.provider_usage_units)
+    raw_artifacts = cast(object, value.artifacts)
+    raw_frame = cast(object, value.projection_frame)
+
+    if not isinstance(raw_state, str) or raw_state not in _VALID_POLL_STATES:
         raise ValueError("spatial provider returned an invalid poll state")
-    if not isinstance(value.reason, str):
+    if not isinstance(raw_reason, str):
         raise ValueError("spatial provider returned an invalid poll reason")
-    usage = value.provider_usage_units
-    if usage is not None and (isinstance(usage, bool) or not isinstance(usage, int) or usage < 0):
+    if raw_usage is not None and (
+        isinstance(raw_usage, bool) or not isinstance(raw_usage, int) or raw_usage < 0
+    ):
         raise ValueError("spatial provider returned invalid usage units")
-    if not isinstance(value.artifacts, tuple) or any(
-        not isinstance(item, _SpatialArtifactCandidate) for item in value.artifacts
+    if not isinstance(raw_artifacts, tuple) or any(
+        not isinstance(item, _SpatialArtifactCandidate) for item in raw_artifacts
     ):
         raise ValueError("spatial provider returned an invalid artifact receipt")
-    if value.projection_frame is not None and not isinstance(
-        value.projection_frame, _SpatialProjectionFrame
-    ):
+    if raw_frame is not None and not isinstance(raw_frame, _SpatialProjectionFrame):
         raise ValueError("spatial provider returned an invalid projection frame")
-    return value
+
+    return _SpatialPollResult(
+        state=cast(_SpatialProviderState, raw_state),
+        artifacts=cast(tuple[_SpatialArtifactCandidate, ...], raw_artifacts),
+        reason=raw_reason,
+        projection_frame=cast(_SpatialProjectionFrame | None, raw_frame),
+        provider_usage_units=cast(int | None, raw_usage),
+    )

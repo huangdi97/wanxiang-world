@@ -37,6 +37,7 @@ from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialArtifactCandidate,
     _SpatialGenerationProvider,
     _SpatialPollResult,
+    _SpatialProviderState,
     _SpatialSubmissionResult,
 )
 
@@ -233,12 +234,13 @@ class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
         if not isinstance(reason, str):
             raise ValueError("spatial HTTP gateway returned invalid reason")
         usage_units = _provider_usage_units(body)
-        if state != "succeeded":
+        provider_state = cast(_SpatialProviderState, state)
+        if provider_state != "succeeded":
             return _SpatialPollResult(
-                state,
+                provider_state,
                 reason=reason[:2000],
                 provider_usage_units=usage_units,
-            )  # type: ignore[arg-type]
+            )
         raw_artifacts = body.get("artifacts", [])
         if not isinstance(raw_artifacts, list):
             raise ValueError("spatial HTTP gateway returned invalid artifact list")

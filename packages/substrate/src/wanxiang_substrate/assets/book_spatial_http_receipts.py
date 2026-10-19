@@ -1,5 +1,7 @@
 """Validation for T3 HTTP provider submission and usage receipts."""
 
+# pyright: reportPrivateUsage=false, reportUnusedFunction=false
+
 from __future__ import annotations
 
 import hashlib
