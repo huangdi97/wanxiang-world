@@ -555,9 +555,10 @@ def test_player_scene_clues_omit_actor_owned_objects() -> None:
     scenes = cast(list[dict[str, object]], visual["scenes"])
     clues = cast(list[str], scenes[0]["clues"])
 
-    assert "object:Lamp" in clues
-    assert "event:Festival" in clues
+    assert "Lamp" in clues
+    assert "Festival" in clues
     assert all("Key" not in clue for clue in clues)
+    assert all(":" not in clue for clue in clues)
 
 
 def test_actor_ownership_change_changes_scene_cache_identity() -> None:

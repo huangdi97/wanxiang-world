@@ -26,6 +26,13 @@ from wanxiang_substrate.playable.player_spatial_projection import (
 )
 
 
+def _player_clue_label(value: str) -> str:
+    """Strip the internal candidate-kind prefix from Player-facing clues."""
+    _, separator, label = value.partition(":")
+    cleaned = label.strip()
+    return cleaned if separator and cleaned else value.strip()
+
+
 def _scene_support_for_assets(
     package: WorldPackageDraft,
     assets: tuple[_SceneVisualAsset, ...],
@@ -48,7 +55,8 @@ def _scene_support_for_assets(
             None,
         )
         if request is not None:
-            support[asset.scene_key] = (request.context_candidates, len(request.source_refs))
+            clues = tuple(_player_clue_label(item) for item in request.context_candidates)
+            support[asset.scene_key] = (clues, len(request.source_refs))
     return support
 
 
