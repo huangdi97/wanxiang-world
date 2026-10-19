@@ -1263,3 +1263,45 @@ def test_player_atlas_reports_place_limit_in_caption(persist_db_path: pathlib.Pa
         server.should_exit = True
         thread.join(timeout=10)
         assert not thread.is_alive()
+
+
+@pytest.mark.e2e
+def test_player_stage_remains_usable_on_mobile_viewport(
+    persist_db_path: pathlib.Path,
+) -> None:
+    server, thread, base = _start(persist_db_path)
+    try:
+        with sync_playwright() as playwright:
+            browser = _launch(playwright.chromium)
+            try:
+                page = browser.new_page(viewport={"width": 390, "height": 844})
+                page_errors: list[str] = []
+                page.on("pageerror", lambda error: page_errors.append(str(error)))
+                page.goto(f"{base}/", wait_until="domcontentloaded")
+                profile_id = _seed(page)
+                page.goto(f"{base}/?locale=en-US", wait_until="networkidle")
+                page.locator(f'#world-list [data-profile="{profile_id}"]').click()
+                page.locator('input[name="character"]').check()
+                page.locator("#enter-world").click()
+                page.wait_for_selector("#play-view.is-active")
+                assert page.evaluate(
+                    "document.documentElement.scrollWidth <= window.innerWidth + 1"
+                )
+                stage_box = page.locator("#world-stage").bounding_box()
+                assert stage_box is not None
+                assert stage_box["width"] <= 391
+                visual_box = page.locator("#scene-visual-image").bounding_box()
+                assert visual_box is not None
+                assert visual_box["width"] >= 300
+                send_box = page.locator("#send-action").bounding_box()
+                assert send_box is not None
+                assert send_box["x"] >= 0
+                assert send_box["x"] + send_box["width"] <= 391
+                assert page.locator("#action-input").is_visible()
+                assert not page_errors, page_errors
+            finally:
+                browser.close()
+    finally:
+        server.should_exit = True
+        thread.join(timeout=10)
+        assert not thread.is_alive()
