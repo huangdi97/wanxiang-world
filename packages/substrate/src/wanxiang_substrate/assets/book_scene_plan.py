@@ -28,7 +28,6 @@ from wanxiang_substrate.assets.book_scene_topology import (
 )
 from wanxiang_substrate.assets.foundry import SemanticSceneSpec
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
-from wanxiang_substrate.ownership import UNKNOWN_OWNERS
 
 
 @dataclass(frozen=True, slots=True)
@@ -204,7 +203,7 @@ def _plan_book_scene_assets(
                 if (
                     kind == "object"
                     and isinstance(actor, str)
-                    and actor.strip().casefold() not in {"", *UNKNOWN_OWNERS}
+                    and actor.strip().casefold() not in {"", "unknown"}
                 ):
                     continue
                 if isinstance(kind, str) and isinstance(label, str):
