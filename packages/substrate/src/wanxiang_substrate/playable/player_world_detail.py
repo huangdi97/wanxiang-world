@@ -55,7 +55,9 @@ def _scene_support_for_assets(
             None,
         )
         if request is not None:
-            clues = tuple(_player_clue_label(item) for item in request.context_candidates)
+            clues = tuple(
+                dict.fromkeys(_player_clue_label(item) for item in request.context_candidates)
+            )
             support[asset.scene_key] = (clues, len(request.source_refs))
     return support
 

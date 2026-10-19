@@ -504,6 +504,7 @@ def test_actor_owned_objects_do_not_enter_generic_scene_context() -> None:
                         "cooccurring_candidates": [
                             {"kind": "object", "label": "Key", "actor": "Alice"},
                             {"kind": "object", "label": "Lamp"},
+                            {"kind": "character", "label": "Lamp"},
                             {"kind": "event", "label": "Festival"},
                         ],
                     }
@@ -515,6 +516,7 @@ def test_actor_owned_objects_do_not_enter_generic_scene_context() -> None:
 
     assert plan.scene_requests[0].context_candidates == (
         "object:Lamp",
+        "character:Lamp",
         "event:Festival",
     )
 
@@ -533,6 +535,7 @@ def test_player_scene_clues_omit_actor_owned_objects() -> None:
                         "cooccurring_candidates": [
                             {"kind": "object", "label": "Key", "actor": "Alice"},
                             {"kind": "object", "label": "Lamp"},
+                            {"kind": "character", "label": "Lamp"},
                             {"kind": "event", "label": "Festival"},
                         ],
                     }
@@ -557,6 +560,7 @@ def test_player_scene_clues_omit_actor_owned_objects() -> None:
 
     assert "Lamp" in clues
     assert "Festival" in clues
+    assert clues.count("Lamp") == 1
     assert all("Key" not in clue for clue in clues)
     assert all(":" not in clue for clue in clues)
 
