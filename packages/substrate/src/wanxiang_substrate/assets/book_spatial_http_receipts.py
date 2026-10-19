@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+
 from wanxiang_substrate.assets.book_spatial_types import _SpatialSubmissionResult
 
 
