@@ -199,6 +199,13 @@ def _plan_book_scene_assets(
                 if item is None:
                     continue
                 kind, label = item.get("kind"), item.get("label")
+                actor = item.get("actor")
+                if (
+                    kind == "object"
+                    and isinstance(actor, str)
+                    and actor.strip().casefold() not in {"", "unknown"}
+                ):
+                    continue
                 if isinstance(kind, str) and isinstance(label, str):
                     bounded_label = label.strip()[:_MAX_CONTEXT_LABEL_CHARS]
                     if bounded_label:

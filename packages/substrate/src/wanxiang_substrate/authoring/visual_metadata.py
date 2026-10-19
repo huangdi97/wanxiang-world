@@ -47,6 +47,7 @@ def _visual_compiler_metadata(
                         "statement",
                     ),
                     "confidence": other.confidence,
+                    "actor": field(other, "actor", "owner", "custodian"),
                 }
                 for other in candidates
                 if other.candidate_id != candidate.candidate_id

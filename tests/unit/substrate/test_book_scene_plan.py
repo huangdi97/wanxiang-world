@@ -487,6 +487,35 @@ def test_scene_context_labels_are_bounded_in_provider_spec() -> None:
     assert "source_context_candidate:" + context in scene.spec.requirements
 
 
+def test_actor_owned_objects_do_not_enter_generic_scene_context() -> None:
+    package = package_from_book(
+        "actor-owned-context",
+        ("Garden",),
+        compiler_metadata={
+            "scene_evidence_v1": json.dumps(
+                [
+                    {
+                        "name": "Garden",
+                        "source_refs": ["source://a#chapter-1"],
+                        "confidence": 0.8,
+                        "cooccurring_candidates": [
+                            {"kind": "object", "label": "Key", "actor": "Alice"},
+                            {"kind": "object", "label": "Lamp"},
+                            {"kind": "event", "label": "Festival"},
+                        ],
+                    }
+                ]
+            )
+        },
+    )
+    plan = _plan_book_scene_assets(package)
+
+    assert plan.scene_requests[0].context_candidates == (
+        "object:Lamp",
+        "event:Festival",
+    )
+
+
 def test_relation_type_identity_ignores_case_and_separators() -> None:
     first = {
         "source_place": "海港",
