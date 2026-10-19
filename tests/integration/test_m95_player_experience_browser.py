@@ -1331,6 +1331,18 @@ def test_player_stage_remains_usable_on_mobile_viewport(
                 long_clues = page.locator(".scene-clue").filter(has_text="x" * 20)
                 assert long_clues.count() >= 1
                 assert long_clues.first.inner_text().startswith("Item · ")
+                assert (
+                    page.locator(".scene-clue")
+                    .filter(has_text="narrative_observation")
+                    .first.inner_text()
+                    .startswith("Event · ")
+                )
+                assert (
+                    page.locator(".scene-clue")
+                    .filter(has_text="Alice")
+                    .first.inner_text()
+                    .startswith("Person · ")
+                )
                 long_clue = long_clues.first.bounding_box()
                 assert long_clue is not None
                 assert long_clue["x"] >= narrow_stage["x"] - 1
@@ -1368,6 +1380,18 @@ def test_player_stage_remains_usable_on_mobile_viewport(
                 zh_clues = page.locator(".scene-clue").filter(has_text="x" * 20)
                 assert zh_clues.count() >= 1
                 assert zh_clues.first.inner_text().startswith("物品 · ")
+                assert (
+                    page.locator(".scene-clue")
+                    .filter(has_text="narrative_observation")
+                    .first.inner_text()
+                    .startswith("事件 · ")
+                )
+                assert (
+                    page.locator(".scene-clue")
+                    .filter(has_text="Alice")
+                    .first.inner_text()
+                    .startswith("人物 · ")
+                )
                 assert not page_errors, page_errors
             finally:
                 browser.close()
