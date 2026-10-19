@@ -204,6 +204,10 @@ class _SpatialGenerationCoordinator:
         result = _validated_spatial_poll_result(self.provider.poll(ticket.provider_task_ref))
         if result.provider_usage_units is not None:
             ticket = replace(ticket, provider_usage_units=result.provider_usage_units)
+            if result.provider_usage_units > ticket.reserved_cost_units:
+                failed = replace(ticket, state="failed", reason="provider_cost_overrun")
+                self.jobs.put(failed)
+                return failed
         if result.state in {"queued", "running"}:
             updated = replace(ticket, state=result.state, reason=result.reason[:240])
             self.jobs.put(updated)

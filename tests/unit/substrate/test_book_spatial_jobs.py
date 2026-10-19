@@ -676,6 +676,23 @@ def test_t3_provider_usage_is_persisted_across_restart(tmp_path: pathlib.Path) -
     assert restored.reserved_cost_units == 7
 
 
+def test_t3_provider_usage_over_reserved_budget_fails_closed_and_persists_audit() -> None:
+    provider = _FakeSpatialProvider(
+        polls=[_SpatialPollResult("succeeded", provider_usage_units=8)]
+    )
+    coordinator = _coordinator(provider)
+    submitted = _submit(coordinator)
+
+    failed = coordinator.poll(submitted.submission_id)
+    persisted = coordinator.jobs.get(submitted.submission_id)
+
+    assert failed.state == "failed"
+    assert failed.reason == "provider_cost_overrun"
+    assert failed.provider_usage_units == 8
+    assert failed.asset_refs == ()
+    assert persisted == failed
+
+
 def test_t3_invalid_provider_usage_does_not_mutate_persisted_ticket() -> None:
     provider = _FakeSpatialProvider(polls=[_SpatialPollResult("running", provider_usage_units=-1)])
     coordinator = _coordinator(provider)
