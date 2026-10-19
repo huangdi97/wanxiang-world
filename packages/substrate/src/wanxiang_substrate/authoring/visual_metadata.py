@@ -20,11 +20,14 @@ def _compact(value: object) -> str:
     )
 
 
+_UNKNOWN_OWNERS = frozenset({"unknown", "none", "n/a", "na", "null", "nil", "anonymous", "-", "?"})
+
+
 def _ownership(candidate: CandidateEnvelope) -> str:
-    """Return the first concrete owner, skipping the sentinel 'unknown'."""
+    """Return the first concrete owner, skipping sentinel values."""
     for key in ("actor", "owner", "custodian"):
         value = candidate.fields.get(key, "").strip()
-        if value and value.casefold() != "unknown":
+        if value and value.casefold() not in _UNKNOWN_OWNERS:
             return value
     return ""
 
