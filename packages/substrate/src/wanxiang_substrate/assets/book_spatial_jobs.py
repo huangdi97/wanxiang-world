@@ -26,6 +26,7 @@ from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialGenerationTicket,
     _SpatialJobStore,
     _SpatialPollResult,
+    _SpatialSubmissionResult,
 )
 from wanxiang_substrate.assets.book_spatial_validation import _known_spatial_signature_matches
 from wanxiang_substrate.assets.storage import AssetRef, InMemoryObjectStore, ObjectStore
@@ -146,12 +147,27 @@ class _SpatialGenerationCoordinator:
         request: _SourceSceneRequest,
         intent: _SpatialGenerationTicket,
     ) -> _SpatialGenerationTicket:
-        task_ref = self.provider.submit(request, idempotency_key=intent.submission_id)
-        if not task_ref.strip():
+        result = self.provider.submit(request, idempotency_key=intent.submission_id)
+        if isinstance(result, str):
+            task_ref, request_ref = result, ""
+        else:
+            task_ref, request_ref = result.task_ref, result.request_ref
+        task_ref, request_ref = task_ref.strip(), request_ref.strip()
+        if not task_ref:
             raise ValueError("spatial provider returned an empty task reference")
+        if (
+            len(task_ref) > 2048
+            or "\r" in task_ref
+            or "\n" in task_ref
+            or len(request_ref) > 2048
+            or "\r" in request_ref
+            or "\n" in request_ref
+        ):
+            raise ValueError("spatial provider returned an unsafe audit reference")
         submitted = replace(
             intent,
-            provider_task_ref=task_ref.strip(),
+            provider_task_ref=task_ref,
+            provider_request_ref=request_ref,
             state="submitted",
             reason="",
         )

@@ -234,6 +234,7 @@ def test_t3_player_api_is_owner_only_idempotent_and_rehydrates_attachment() -> N
     }
     serialized_jobs = json.dumps(jobs, sort_keys=True)
     assert "provider_task_ref" not in serialized_jobs
+    assert "provider_request_ref" not in serialized_jobs
     assert "provider-secret-task-ref" not in serialized_jobs
     assert "asset_id" not in serialized_jobs
     assert "content_hash" not in serialized_jobs
@@ -259,6 +260,7 @@ def test_t3_player_api_is_owner_only_idempotent_and_rehydrates_attachment() -> N
     assert body["spatial"]["media_types"] == ["model/gltf-binary"]
     serialized_spatial = json.dumps(body["spatial"], sort_keys=True)
     assert "provider_task_ref" not in serialized_spatial
+    assert "provider_request_ref" not in serialized_spatial
     assert "provider-secret-task-ref" not in serialized_spatial
     assert "asset_id" not in serialized_spatial
     assert "content_hash" not in serialized_spatial

@@ -32,6 +32,7 @@ from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialArtifactCandidate,
     _SpatialGenerationProvider,
     _SpatialPollResult,
+    _SpatialSubmissionResult,
 )
 from wanxiang_substrate.assets.book_tokenhub_prompt import _tokenhub_scene_prompt
 
@@ -136,7 +137,9 @@ class _TokenHubSpatialProvider(_SpatialGenerationProvider):
             raise ValueError(f"{label} response must be an object")
         return cast(dict[str, object], decoded)
 
-    def submit(self, request: _SourceSceneRequest, *, idempotency_key: str) -> str:
+    def submit(
+        self, request: _SourceSceneRequest, *, idempotency_key: str
+    ) -> _SpatialSubmissionResult:
         if not idempotency_key.strip():
             raise ValueError("TokenHub spatial submission requires an idempotency key")
         style_key = request.style_key or request.cache_key[:24]
@@ -160,6 +163,7 @@ class _TokenHubSpatialProvider(_SpatialGenerationProvider):
             label="TokenHub spatial submit",
         )
         task_ref = body.get("id")
+        request_ref = body.get("request_id", "")
         if (
             not isinstance(task_ref, str)
             or not task_ref.strip()
@@ -168,7 +172,14 @@ class _TokenHubSpatialProvider(_SpatialGenerationProvider):
             or "\n" in task_ref
         ):
             raise ValueError("TokenHub spatial submit returned invalid task id")
-        return task_ref.strip()
+        if (
+            not isinstance(request_ref, str)
+            or len(request_ref) > 1024
+            or "\r" in request_ref
+            or "\n" in request_ref
+        ):
+            raise ValueError("TokenHub spatial submit returned invalid request id")
+        return _SpatialSubmissionResult(task_ref.strip(), request_ref.strip())
 
     def _download(self, url: str, *, media_type: str | None) -> _SpatialArtifactCandidate:
         endpoint = _validate_provider_endpoint(url, label="TokenHub spatial artifact")

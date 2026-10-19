@@ -43,6 +43,12 @@ class _SpatialProjectionFrame:
 
 
 @dataclass(frozen=True, slots=True)
+class _SpatialSubmissionResult:
+    task_ref: str
+    request_ref: str = ""
+
+
+@dataclass(frozen=True, slots=True)
 class _SpatialPollResult:
     state: _SpatialProviderState
     artifacts: tuple[_SpatialArtifactCandidate, ...] = ()
@@ -61,6 +67,7 @@ class _SpatialGenerationTicket:
     state: _SpatialJobState
     reserved_cost_units: int
     delivery_rights: str
+    provider_request_ref: str = ""
     scope_key: str = ""
     asset_refs: tuple[AssetRef, ...] = ()
     reason: str = ""
@@ -80,7 +87,9 @@ class _SpatialGenerationProvider:
     artifact_hosts: frozenset[str] = frozenset()
     submit_is_idempotent: bool = False
 
-    def submit(self, request: _SourceSceneRequest, *, idempotency_key: str) -> str:
+    def submit(
+        self, request: _SourceSceneRequest, *, idempotency_key: str
+    ) -> str | _SpatialSubmissionResult:
         raise TypeError("concrete spatial provider required")
 
     def poll(self, task_ref: str) -> _SpatialPollResult:

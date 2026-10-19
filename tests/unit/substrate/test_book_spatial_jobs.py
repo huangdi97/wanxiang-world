@@ -21,6 +21,7 @@ from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialGenerationProvider,
     _SpatialPollResult,
     _SpatialProjectionFrame,
+    _SpatialSubmissionResult,
 )
 from wanxiang_substrate.assets.foundry import SemanticSceneSpec
 from wanxiang_substrate.assets.storage import InMemoryObjectStore, LocalObjectStore
@@ -685,3 +686,33 @@ def test_t3_invalid_provider_usage_does_not_mutate_persisted_ticket() -> None:
     assert persisted is not None
     assert persisted.state == "submitted"
     assert persisted.provider_usage_units is None
+
+
+@dataclass
+class _ReceiptSpatialProvider(_FakeSpatialProvider):
+    def submit(
+        self, request: _SourceSceneRequest, *, idempotency_key: str
+    ) -> _SpatialSubmissionResult:
+        _ = request
+        self.submissions.append(idempotency_key)
+        return _SpatialSubmissionResult("task:receipt", "request:audit-42")
+
+
+def test_t3_provider_request_reference_is_internal_and_restart_safe(
+    tmp_path: pathlib.Path,
+) -> None:
+    provider = _ReceiptSpatialProvider()
+    path = tmp_path / "spatial-request-audit.json"
+    coordinator = _SpatialGenerationCoordinator(
+        provider,
+        jobs=_LocalJsonSpatialJobStore(path),
+    )
+
+    submitted = _submit(coordinator)
+    restored = _LocalJsonSpatialJobStore(path).get(submitted.submission_id)
+
+    assert submitted.provider_task_ref == "task:receipt"
+    assert submitted.provider_request_ref == "request:audit-42"
+    assert restored is not None
+    assert restored.provider_task_ref == "task:receipt"
+    assert restored.provider_request_ref == "request:audit-42"

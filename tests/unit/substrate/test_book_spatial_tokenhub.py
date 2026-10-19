@@ -98,9 +98,10 @@ def test_tokenhub_spatial_submit_uses_bounded_text_scene_request(
         context_candidates=("object:" + "景" * 900,),
     )
 
-    task_ref = provider.submit(request, idempotency_key="submission-1")
+    receipt = provider.submit(request, idempotency_key="submission-1")
 
-    assert task_ref == "task-1"
+    assert receipt.task_ref == "task-1"
+    assert receipt.request_ref == "r1"
     submitted = json.loads(opener.requests[0].data.decode("utf-8"))
     assert submitted["model"] == "hy-world2-scene"
     prompt = submitted["prompt"]
@@ -249,3 +250,16 @@ def test_tokenhub_spatial_rejects_invalid_usage_evidence(
 
     with pytest.raises(ValueError, match="invalid total token usage"):
         _provider().poll("task")
+
+
+@pytest.mark.parametrize("request_id", [True, 42, "x\nheader"])
+def test_tokenhub_spatial_rejects_invalid_request_audit_id(
+    monkeypatch: pytest.MonkeyPatch,
+    request_id: object,
+) -> None:
+    _install(
+        monkeypatch,
+        [json.dumps({"id": "task-1", "request_id": request_id}).encode()],
+    )
+    with pytest.raises(ValueError, match="invalid request id"):
+        _provider().submit(_request(), idempotency_key="submission-1")

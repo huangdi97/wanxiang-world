@@ -730,6 +730,7 @@ A production Tencent bridge must prove all of the following before `REAL_T3` can
 4. explicit allowlisting of returned COS artifact hosts;
 5. local download, digest, size and PLY/image signature verification before ObjectStore write;
 6. persisted provider request/task identifiers for audit without exposing them through Player projection;
+   The direct TokenHub adapter persists both the task `id` and optional `request_id` in the private restart-safe ticket record. Player views intentionally expose neither raw identifier.
 7. real token/billing reconciliation against Wanxiang's generic reserved cost units;
 8. failure/restart evidence proving no duplicate paid submission.
 

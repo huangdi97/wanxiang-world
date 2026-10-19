@@ -65,6 +65,14 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
         ):
             raise ValueError("spatial ticket provider usage must be a non-negative integer")
         provider_usage_units = raw_usage if raw_usage is not None else None
+        request_ref = data.get("provider_request_ref", "")
+        if (
+            not isinstance(request_ref, str)
+            or len(request_ref) > 2048
+            or "\r" in request_ref
+            or "\n" in request_ref
+        ):
+            raise ValueError("spatial ticket provider request reference is invalid")
         return _SpatialGenerationTicket(
             submission_id=cast(str, data["submission_id"]),
             scene_key=cast(str, data["scene_key"]),
@@ -74,6 +82,7 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
             state=cast(object, data["state"]),  # type: ignore[arg-type]
             reserved_cost_units=cast(int, data["reserved_cost_units"]),
             delivery_rights=cast(str, data["delivery_rights"]),
+            provider_request_ref=request_ref,
             scope_key=cast(str, data.get("scope_key", "")),
             asset_refs=assets,
             reason=cast(str, data.get("reason", "")),
@@ -115,6 +124,7 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
                 "state": ticket.state,
                 "reserved_cost_units": ticket.reserved_cost_units,
                 "delivery_rights": ticket.delivery_rights,
+                "provider_request_ref": ticket.provider_request_ref,
                 "scope_key": ticket.scope_key,
                 "reason": ticket.reason,
                 "provider_usage_units": ticket.provider_usage_units,
