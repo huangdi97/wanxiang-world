@@ -652,3 +652,39 @@ def test_idempotent_t3_gateway_can_recover_ambiguous_submit_with_same_key() -> N
     assert len(provider.submissions) == 2
     assert provider.submissions[0] == provider.submissions[1] == recovered.submission_id
     assert sum(row.reserved_cost_units for row in jobs.list_scope("")) == 7
+
+def test_t3_provider_usage_is_persisted_across_restart(tmp_path: pathlib.Path) -> None:
+    provider = _FakeSpatialProvider(
+        polls=[_SpatialPollResult("running", provider_usage_units=6)]
+    )
+    path = tmp_path / "spatial-usage-jobs.json"
+    coordinator = _SpatialGenerationCoordinator(
+        provider,
+        jobs=_LocalJsonSpatialJobStore(path),
+    )
+    submitted = _submit(coordinator)
+
+    running = coordinator.poll(submitted.submission_id)
+    restored = _LocalJsonSpatialJobStore(path).get(submitted.submission_id)
+
+    assert running.state == "running"
+    assert running.provider_usage_units == 6
+    assert restored is not None
+    assert restored.provider_usage_units == 6
+    assert restored.reserved_cost_units == 7
+
+
+def test_t3_invalid_provider_usage_does_not_mutate_persisted_ticket() -> None:
+    provider = _FakeSpatialProvider(
+        polls=[_SpatialPollResult("running", provider_usage_units=-1)]
+    )
+    coordinator = _coordinator(provider)
+    submitted = _submit(coordinator)
+
+    with pytest.raises(ValueError, match="invalid usage units"):
+        coordinator.poll(submitted.submission_id)
+
+    persisted = coordinator.jobs.get(submitted.submission_id)
+    assert persisted is not None
+    assert persisted.state == "submitted"
+    assert persisted.provider_usage_units is None

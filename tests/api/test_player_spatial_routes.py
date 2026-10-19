@@ -62,6 +62,7 @@ class _FakeSpatialProvider(_SpatialGenerationProvider):
                 scale=0.5,
                 convention="api-test-frame",
             ),
+            provider_usage_units=6,
         )
 
 
@@ -253,6 +254,7 @@ def test_t3_player_api_is_owner_only_idempotent_and_rehydrates_attachment() -> N
     assert polled.status_code == 200
     body = polled.json()
     assert body["spatial"]["state"] == "attached"
+    assert body["spatial"]["provider_usage_units"] == 6
     assert body["spatial"]["asset_count"] == 1
     assert body["spatial"]["media_types"] == ["model/gltf-binary"]
     serialized_spatial = json.dumps(body["spatial"], sort_keys=True)

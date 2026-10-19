@@ -741,3 +741,15 @@ World Labs' World API is also documented as asynchronous world generation from t
 Genie 3 remains a T4 live/sensory projection. Its current official capability is real-time 20–24 FPS / 720p interactive generation with interaction horizons measured in minutes and a still-limited action space. Those properties make it valuable for optional live projection, not for replacing Wanxiang Commit Authority or durable History.
 
 The provider changes the renderer and cost envelope; it never changes ownership of world truth.
+
+### Provider-reported usage evidence
+
+T3 tickets preserve optional provider-reported usage separately from Wanxiang's
+conservative reserved budget. The direct TokenHub adapter records the documented
+`tokenhub_usage.total_tokens` value as `provider_usage_units`, persists it
+across restart, and exposes it only on the owner-governed T3 ticket surface.
+
+Provider usage is billing/audit evidence only. It does not release reserved
+budget, does not change scene eligibility, and never becomes Canon or History.
+Generic reservations remain conservative until a provider-specific billing
+reconciliation policy is explicitly qualified with real provider evidence.

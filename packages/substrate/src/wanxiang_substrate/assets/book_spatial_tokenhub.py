@@ -39,6 +39,18 @@ _MAX_ARTIFACT_BYTES = 128 * 1024 * 1024
 _SUPPORTED_MEDIA_TYPES = frozenset({"model/ply", "image/png", "image/jpeg", "image/webp"})
 
 
+def _provider_usage_units(body: dict[str, object]) -> int | None:
+    raw_usage = body.get("tokenhub_usage")
+    if raw_usage is None:
+        return None
+    if not isinstance(raw_usage, dict):
+        raise ValueError("TokenHub spatial returned invalid tokenhub_usage")
+    total = cast(dict[str, object], raw_usage).get("total_tokens")
+    if isinstance(total, bool) or not isinstance(total, int) or total < 0:
+        raise ValueError("TokenHub spatial returned invalid total token usage")
+    return total
+
+
 def _image_media_type(content: bytes) -> str:
     if content.startswith(bytes.fromhex("89504e470d0a1a0a")):
         return "image/png"
@@ -251,6 +263,7 @@ class _TokenHubSpatialProvider(_SpatialGenerationProvider):
             "succeeded",
             tuple(artifacts),
             projection_frame=projection_frame,
+            provider_usage_units=_provider_usage_units(body),
         )
 
 

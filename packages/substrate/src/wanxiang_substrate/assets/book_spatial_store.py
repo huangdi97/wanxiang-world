@@ -59,6 +59,14 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
             for item in cast(list[object], raw_assets)
             if isinstance(item, dict)
         )
+        raw_usage = data.get("provider_usage_units")
+        if raw_usage is not None and (
+            isinstance(raw_usage, bool)
+            or not isinstance(raw_usage, int)
+            or raw_usage < 0
+        ):
+            raise ValueError("spatial ticket provider usage must be a non-negative integer")
+        provider_usage_units = cast(int, raw_usage) if raw_usage is not None else None
         return _SpatialGenerationTicket(
             submission_id=cast(str, data["submission_id"]),
             scene_key=cast(str, data["scene_key"]),
@@ -76,6 +84,7 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
                 if data.get("projection_frame") is not None
                 else None
             ),
+            provider_usage_units=provider_usage_units,
         )
 
     def _rows(self) -> dict[str, dict[str, object]]:
@@ -110,6 +119,7 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
                 "delivery_rights": ticket.delivery_rights,
                 "scope_key": ticket.scope_key,
                 "reason": ticket.reason,
+                "provider_usage_units": ticket.provider_usage_units,
                 "projection_frame": (
                     _projection_frame_to_dict(ticket.projection_frame)
                     if ticket.projection_frame is not None

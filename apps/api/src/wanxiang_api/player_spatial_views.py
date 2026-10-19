@@ -18,7 +18,7 @@ from wanxiang_substrate.spatial import (
 
 
 def spatial_ticket_view(ticket: SpatialGenerationTicket) -> dict[str, object]:
-    return {
+    view: dict[str, object] = {
         "submission_id": ticket.submission_id,
         "state": ticket.state,
         "provider": {"id": ticket.provider_id, "version": ticket.provider_version},
@@ -26,6 +26,9 @@ def spatial_ticket_view(ticket: SpatialGenerationTicket) -> dict[str, object]:
         "asset_count": len(ticket.asset_refs),
         "media_types": sorted({ref.content_type for ref in ticket.asset_refs}),
     }
+    if ticket.provider_usage_units is not None:
+        view["provider_usage_units"] = ticket.provider_usage_units
+    return view
 
 
 def spatial_generation_view(

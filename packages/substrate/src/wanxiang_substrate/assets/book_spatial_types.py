@@ -48,6 +48,7 @@ class _SpatialPollResult:
     artifacts: tuple[_SpatialArtifactCandidate, ...] = ()
     reason: str = ""
     projection_frame: _SpatialProjectionFrame | None = None
+    provider_usage_units: int | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -64,6 +65,7 @@ class _SpatialGenerationTicket:
     asset_refs: tuple[AssetRef, ...] = ()
     reason: str = ""
     projection_frame: _SpatialProjectionFrame | None = None
+    provider_usage_units: int | None = None
 
 
 class _SpatialGenerationProvider:

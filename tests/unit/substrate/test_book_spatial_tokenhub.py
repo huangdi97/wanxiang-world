@@ -144,6 +144,7 @@ def test_tokenhub_spatial_poll_downloads_only_supported_allowlisted_artifacts(
     result = provider.poll("task-1")
 
     assert result.state == "succeeded"
+    assert result.provider_usage_units == 8_000_000
     assert [item.media_type for item in result.artifacts] == [
         "model/ply",
         "model/ply",
@@ -224,3 +225,21 @@ def test_tokenhub_spatial_requires_key_and_artifact_allowlist() -> None:
 
 def test_raw_tokenhub_spatial_submit_is_not_claimed_idempotent() -> None:
     assert _provider().submit_is_idempotent is False
+
+@pytest.mark.parametrize("total_tokens", [-1, True, "8000000"])
+def test_tokenhub_spatial_rejects_invalid_usage_evidence(
+    monkeypatch: pytest.MonkeyPatch,
+    total_tokens: object,
+) -> None:
+    payload = json.dumps(
+        {
+            "status": "succeeded",
+            "data": [{"point_url": "https://assets.example/world-point.ply"}],
+            "tokenhub_usage": {"total_tokens": total_tokens},
+        }
+    ).encode()
+    point = b"ply\nformat ascii 1.0\nend_header\n"
+    _install(monkeypatch, [payload, point])
+
+    with pytest.raises(ValueError, match="invalid total token usage"):
+        _provider().poll("task")
