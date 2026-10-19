@@ -1335,6 +1335,14 @@ def test_player_stage_remains_usable_on_mobile_viewport(
                 assert page.evaluate(
                     "document.documentElement.scrollWidth <= window.innerWidth + 1"
                 ), "detail overflow at 320px"
+                page.locator('input[name="character"]').check()
+                page.locator("#enter-world").click()
+                page.wait_for_selector("#play-view.is-active")
+                page.locator("#worldline-toggle").click()
+                page.wait_for_selector("#worldline-panel:not([hidden])")
+                assert page.evaluate(
+                    "document.documentElement.scrollWidth <= window.innerWidth + 1"
+                ), "worldline overflow at 320px"
                 assert not page_errors, page_errors
             finally:
                 browser.close()
