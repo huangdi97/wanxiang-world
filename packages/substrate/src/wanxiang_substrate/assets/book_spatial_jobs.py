@@ -19,12 +19,12 @@ from wanxiang_substrate.assets.book_spatial_safety import (
     _require_spatial_asset_refs,
     _spatial_submission_guard,
 )
-from wanxiang_substrate.assets.book_spatial_submission_validation import (
-    _validated_spatial_submission_receipt,
-)
 from wanxiang_substrate.assets.book_spatial_store import (
     _InMemorySpatialJobStore,
     _LocalJsonSpatialJobStore,  # noqa: F401 - compatibility re-export
+)
+from wanxiang_substrate.assets.book_spatial_submission_validation import (
+    _validated_spatial_submission_receipt,
 )
 from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialArtifactCandidate,
