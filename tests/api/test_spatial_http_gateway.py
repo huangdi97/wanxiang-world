@@ -12,6 +12,7 @@ from typing import Any
 import pytest
 import wanxiang_substrate.assets.book_spatial_http_gateway as gateway
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
+from wanxiang_substrate.assets.book_spatial_types import _SpatialSubmissionResult
 from wanxiang_substrate.assets.foundry import SemanticSceneSpec
 from wanxiang_substrate.spatial import build_http_spatial_provider
 
@@ -303,3 +304,77 @@ def test_t3_http_gateway_rejects_malformed_artifact_host_allowlist() -> None:
 
 def test_t3_http_gateway_declares_retry_safe_idempotency_contract() -> None:
     assert _provider().submit_is_idempotent is True
+
+
+def test_t3_http_submit_preserves_optional_provider_request_reference(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _install_opener(
+        monkeypatch,
+        [
+            json.dumps(
+                {"task_ref": "operation-123", "request_ref": "request-audit-456"}
+            ).encode()
+        ],
+    )
+
+    result = _provider().submit(_request(), idempotency_key="stable-key-123")
+
+    assert isinstance(result, _SpatialSubmissionResult)
+    assert result.task_ref == "operation-123"
+    assert result.request_ref == "request-audit-456"
+
+
+@pytest.mark.parametrize("usage_units", [0, 17])
+def test_t3_http_poll_preserves_provider_usage_for_billing_audit(
+    monkeypatch: pytest.MonkeyPatch,
+    usage_units: int,
+) -> None:
+    _install_opener(
+        monkeypatch,
+        [
+            json.dumps(
+                {
+                    "state": "running",
+                    "reason": "provider-working",
+                    "usage_units": usage_units,
+                }
+            ).encode()
+        ],
+    )
+
+    result = _provider().poll("operation-123")
+
+    assert result.state == "running"
+    assert result.provider_usage_units == usage_units
+
+
+@pytest.mark.parametrize("usage_units", [-1, True, "7", 1.5, {}])
+def test_t3_http_poll_rejects_invalid_provider_usage(
+    monkeypatch: pytest.MonkeyPatch,
+    usage_units: object,
+) -> None:
+    _install_opener(
+        monkeypatch,
+        [json.dumps({"state": "running", "usage_units": usage_units}).encode()],
+    )
+
+    with pytest.raises(ValueError, match="invalid usage_units"):
+        _provider().poll("operation-123")
+
+
+@pytest.mark.parametrize(
+    "request_ref",
+    ["bad\nref", "bad\rref", "x" * 2049, 42],
+)
+def test_t3_http_submit_rejects_invalid_provider_request_reference(
+    monkeypatch: pytest.MonkeyPatch,
+    request_ref: object,
+) -> None:
+    _install_opener(
+        monkeypatch,
+        [json.dumps({"task_ref": "operation-123", "request_ref": request_ref}).encode()],
+    )
+
+    with pytest.raises(ValueError, match="invalid request_ref"):
+        _provider().submit(_request(), idempotency_key="stable-key-123")
