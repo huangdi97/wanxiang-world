@@ -118,6 +118,13 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
             raise ValueError("spatial ticket provider usage must be a non-negative integer")
         if raw_usage is not None and raw_usage > reserved and state != "failed":
             raise ValueError("spatial ticket provider usage exceeds reserved cost")
+        delivery_rights = _required_string(data, "delivery_rights")
+        if any(ref.rights != delivery_rights for ref in assets):
+            raise ValueError("spatial asset rights do not match ticket delivery rights")
+        if state in {"verified", "attached"} and not assets:
+            raise ValueError("verified spatial ticket requires asset refs")
+        if state not in {"verified", "attached"} and assets:
+            raise ValueError("unverified spatial ticket cannot carry asset refs")
 
         request_ref = data.get("provider_request_ref", "")
         if (
@@ -144,7 +151,7 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
             provider_task_ref=task_ref,
             state=cast(_SpatialJobState, state),
             reserved_cost_units=reserved,
-            delivery_rights=_required_string(data, "delivery_rights"),
+            delivery_rights=delivery_rights,
             provider_request_ref=request_ref,
             scope_key=_optional_string(data, "scope_key"),
             asset_refs=assets,

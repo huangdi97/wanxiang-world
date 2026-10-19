@@ -268,7 +268,12 @@ class _SpatialGenerationCoordinator:
             raise KeyError(submission_id)
         if ticket.state not in {"verified", "attached"} or not ticket.asset_refs:
             raise ValueError("only verified spatial assets may be attached")
-        _require_spatial_asset_refs(self.objects, ticket.asset_refs)
+        _require_spatial_asset_refs(
+            self.objects,
+            ticket.asset_refs,
+            delivery_rights=ticket.delivery_rights,
+            allowed_media_types=self.provider.allowed_media_types,
+        )
         catalog.attach(ticket.scene_key, ticket.asset_refs)
         if ticket.state == "attached":
             return ticket

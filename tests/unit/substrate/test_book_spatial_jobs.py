@@ -831,3 +831,79 @@ def test_t3_provider_request_reference_is_internal_and_restart_safe(
     assert restored is not None
     assert restored.provider_task_ref == "task:receipt"
     assert restored.provider_request_ref == "request:audit-42"
+
+def test_t3_persisted_ticket_rejects_asset_rights_or_state_tampering() -> None:
+    asset = {
+        "asset_id": "asset:deadbeef",
+        "content_hash": "a" * 64,
+        "size": 12,
+        "content_type": "model/gltf-binary",
+        "rights": "source-gated",
+    }
+    base: dict[str, object] = {
+        "submission_id": "submission",
+        "scene_key": "scene",
+        "provider_id": "provider",
+        "provider_version": "1",
+        "provider_task_ref": "task",
+        "state": "verified",
+        "reserved_cost_units": 7,
+        "delivery_rights": "source-gated",
+        "provider_request_ref": "",
+        "scope_key": "world",
+        "asset_refs": [asset],
+        "reason": "",
+        "provider_usage_units": 6,
+        "projection_frame": None,
+    }
+
+    wrong_rights = {**base, "asset_refs": [{**asset, "rights": "public"}]}
+    with pytest.raises(ValueError, match="rights do not match"):
+        _LocalJsonSpatialJobStore._ticket(wrong_rights)
+
+    unverified = {**base, "state": "running"}
+    with pytest.raises(ValueError, match="unverified spatial ticket"):
+        _LocalJsonSpatialJobStore._ticket(unverified)
+
+    missing_verified_assets = {**base, "asset_refs": []}
+    with pytest.raises(ValueError, match="requires asset refs"):
+        _LocalJsonSpatialJobStore._ticket(missing_verified_assets)
+
+
+def test_t3_restart_attach_revalidates_persisted_media_type_and_rights() -> None:
+    payload = _glb(b"persisted-attach")
+    provider = _FakeSpatialProvider(
+        polls=[
+            _SpatialPollResult(
+                "succeeded",
+                (
+                    _SpatialArtifactCandidate(
+                        payload,
+                        "model/gltf-binary",
+                        hashlib.sha256(payload).hexdigest(),
+                    ),
+                ),
+            )
+        ]
+    )
+    objects = InMemoryObjectStore()
+    coordinator = _SpatialGenerationCoordinator(provider, objects=objects)
+    submitted = _submit(coordinator)
+    verified = coordinator.poll(submitted.submission_id)
+
+    bad_rights = replace(
+        verified,
+        asset_refs=(replace(verified.asset_refs[0], rights="public"),),
+    )
+    coordinator.jobs.put(bad_rights)
+    with pytest.raises(ValueError, match="rights do not match"):
+        coordinator.attach(bad_rights.submission_id, _DerivedSpatialAttachments())
+
+    bad_media = replace(
+        verified,
+        asset_refs=(replace(verified.asset_refs[0], content_type="image/png"),),
+    )
+    coordinator.jobs.put(bad_media)
+    with pytest.raises(ValueError, match="media type|bytes do not match"):
+        coordinator.attach(bad_media.submission_id, _DerivedSpatialAttachments())
+

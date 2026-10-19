@@ -12,18 +12,31 @@ from threading import Lock
 
 from wanxiang_substrate.assets.book_scene_interprocess import _exclusive_index_lock
 from wanxiang_substrate.assets.errors import AssetCorrupt, AssetNotFound
+from wanxiang_substrate.assets.book_spatial_validation import _known_spatial_signature_matches
 from wanxiang_substrate.assets.storage import AssetRef, ObjectStore
 
 _IN_PROCESS_SUBMISSION_LOCK = Lock()
 
 
-def _require_spatial_asset_refs(objects: ObjectStore, refs: tuple[AssetRef, ...]) -> None:
-    """Fail closed when a persisted T3 reference no longer resolves intact."""
+def _require_spatial_asset_refs(
+    objects: ObjectStore,
+    refs: tuple[AssetRef, ...],
+    *,
+    delivery_rights: str,
+    allowed_media_types: frozenset[str],
+) -> None:
+    """Re-verify persisted T3 refs before mounting them into the Player stage."""
     try:
         for ref in refs:
+            if ref.rights != delivery_rights:
+                raise ValueError("spatial asset rights do not match persisted ticket")
+            if ref.content_type not in allowed_media_types:
+                raise ValueError("spatial asset media type is no longer allowed by provider")
             content = objects.get(ref)
             if len(content) != ref.size:
                 raise ValueError("spatial asset size does not match persisted reference")
+            if not _known_spatial_signature_matches(ref.content_type, content):
+                raise ValueError("spatial asset bytes do not match persisted media type")
     except (AssetNotFound, AssetCorrupt) as exc:
         raise ValueError("verified spatial asset storage is unavailable") from exc
 
