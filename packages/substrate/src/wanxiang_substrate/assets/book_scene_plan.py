@@ -233,7 +233,6 @@ def _plan_book_scene_assets(
             requirements=(
                 f"source_place_name:{place}",
                 f"source_identity_digest:{source_digest}",
-                *(f"source_locator:{ref}" for ref in source_refs),
                 *(f"source_context_candidate:{item}" for item in context_candidates),
                 f"source_confidence:{confidence:.3f}",
                 "noncanonical_asset_candidate",

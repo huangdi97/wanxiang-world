@@ -431,6 +431,32 @@ def test_relation_type_identity_normalizes_unicode() -> None:
     assert relation.source_refs == ("book#chapter-2", "book#chapter-3")
 
 
+def test_scene_brief_keeps_source_locators_out_of_provider_spec() -> None:
+    package = package_from_book(
+        "provider-spec-privacy",
+        ("Garden",),
+        compiler_metadata={
+            "scene_evidence_v1": json.dumps(
+                [
+                    {
+                        "name": "Garden",
+                        "source_refs": ["source://private#chapter-1"],
+                        "confidence": 0.8,
+                    }
+                ]
+            )
+        },
+    )
+    plan = _plan_book_scene_assets(package)
+    scene = plan.scene_requests[0]
+
+    assert scene.source_refs == ("source://private#chapter-1",)
+    assert not any(
+        requirement.startswith("source_locator:") for requirement in scene.spec.requirements
+    )
+    assert "source_place_name:Garden" in scene.spec.requirements
+
+
 def test_relation_type_identity_ignores_case_and_separators() -> None:
     first = {
         "source_place": "海港",
