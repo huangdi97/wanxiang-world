@@ -188,4 +188,5 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 .atlas-more{display:block;margin-top:.35rem;font-size:.7rem}
 @media(max-width:720px){.worldline-compare-grid,.worldline-recent-grid{grid-template-columns:1fr}}
 @media(max-width:720px){.visual-place,#observer-scene-list button,.suggestion,.secondary-button,.stage-focus-toggle,.atlas-entrance{min-height:44px}.worldline-actions .secondary-button{min-height:44px}.world-action-dock{padding-bottom:calc(.65rem + env(safe-area-inset-bottom))}}
+@media(max-width:720px){.hero,.home-shelves,.detail-layout,.play-grid,.world-record-grid{grid-template-columns:minmax(0,1fr)}.scene-panel{grid-row:auto;min-height:0}.action-bar{flex-wrap:wrap}.action-bar label{width:100%}}
 """
