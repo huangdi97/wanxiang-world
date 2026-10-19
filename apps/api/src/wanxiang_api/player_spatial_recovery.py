@@ -58,7 +58,9 @@ def rehydrate_spatial_attachments(
             continue
         try:
             if ticket.delivery_rights != current_rights:
-                raise ValueError("persisted spatial ticket rights do not match current source rights")
+                raise ValueError(
+                    "persisted spatial ticket rights do not match current source rights"
+                )
             _require_spatial_asset_refs(
                 objects,
                 ticket.asset_refs,
