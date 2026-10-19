@@ -48,10 +48,17 @@ def _topology_relations(
         source_place = row.get("source_place")
         target_place = row.get("target_place")
         relation_type = row.get("relation_type")
+        if isinstance(source_place, str):
+            source_place = source_place.strip()
+        if isinstance(target_place, str):
+            target_place = target_place.strip()
         if (
             not isinstance(source_place, str)
             or not isinstance(target_place, str)
             or not isinstance(relation_type, str)
+            or not source_place
+            or not target_place
+            or source_place == target_place
             or source_place not in known_places
             or target_place not in known_places
         ):

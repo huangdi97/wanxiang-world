@@ -250,6 +250,40 @@ def test_topology_requires_source_locator_and_bounded_confidence() -> None:
     assert plan.topology_relations[0].confidence == 0.91
 
 
+def test_topology_rejects_self_relations_and_normalizes_place_whitespace() -> None:
+    self_loop = {
+        "source_place": "海港",
+        "target_place": "海港",
+        "relation_type": "route",
+        "source_refs": ["book#chapter-2"],
+        "confidence": 0.8,
+    }
+    spaced = {
+        "source_place": " 海港 ",
+        "target_place": "城门 ",
+        "relation_type": "route",
+        "source_refs": ["book#chapter-3"],
+        "confidence": 0.7,
+    }
+    package = package_from_book(
+        "topology-self-loop",
+        ("海港", "城门"),
+        compiler_metadata={
+            "scene_topology_evidence_v1": json.dumps(
+                [self_loop, spaced],
+                ensure_ascii=False,
+            )
+        },
+    )
+    plan = _plan_book_scene_assets(package)
+
+    assert len(plan.topology_relations) == 1
+    relation = plan.topology_relations[0]
+    assert relation.source_place == "海港"
+    assert relation.target_place == "城门"
+    assert relation.source_refs == ("book#chapter-3",)
+
+
 def test_relation_type_identity_ignores_case_and_separators() -> None:
     first = {
         "source_place": "海港",
