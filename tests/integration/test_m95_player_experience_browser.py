@@ -1307,9 +1307,17 @@ def test_player_stage_remains_usable_on_mobile_viewport(
                 assert page.locator("#action-input").is_visible()
                 page.set_viewport_size({"width": 320, "height": 700})
                 page.wait_for_timeout(100)
+                overflowing = page.evaluate(
+                    """() => [...document.querySelectorAll('*')].map((el) => {
+                      const rect = el.getBoundingClientRect();
+                      return {tag: el.tagName, cls: String(el.className).slice(0, 80),
+                              left: Math.round(rect.left), right: Math.round(rect.right)};
+                    }).filter((item) => item.right > window.innerWidth + 1 || item.left < -1)
+                      .slice(0, 12)"""
+                )
                 assert page.evaluate(
                     "document.documentElement.scrollWidth <= window.innerWidth + 1"
-                )
+                ), overflowing
                 narrow_stage = page.locator("#world-stage").bounding_box()
                 assert narrow_stage is not None
                 assert narrow_stage["width"] <= 321
