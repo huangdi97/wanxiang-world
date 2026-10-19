@@ -9,7 +9,7 @@ from typing import cast
 from fastapi import APIRouter, Header, HTTPException, Request, Response
 from pydantic import BaseModel, Field
 from wanxiang_substrate.assets.errors import AssetCorrupt, AssetNotFound
-from wanxiang_substrate.assets.storage import AssetRef, ObjectStore
+from wanxiang_substrate.assets.storage import ObjectStore
 from wanxiang_substrate.playable import PlayableService
 from wanxiang_substrate.playable.player_service import player_world
 from wanxiang_substrate.spatial import (
