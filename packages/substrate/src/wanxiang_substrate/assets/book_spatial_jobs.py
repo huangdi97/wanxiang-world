@@ -262,16 +262,21 @@ class _SpatialGenerationCoordinator:
         self,
         submission_id: str,
         catalog: _DerivedSpatialAttachments,
+        *,
+        expected_delivery_rights: str | None = None,
     ) -> _SpatialGenerationTicket:
         ticket = self.jobs.get(submission_id)
         if ticket is None:
             raise KeyError(submission_id)
         if ticket.state not in {"verified", "attached"} or not ticket.asset_refs:
             raise ValueError("only verified spatial assets may be attached")
+        current_rights = expected_delivery_rights or ticket.delivery_rights
+        if ticket.delivery_rights != current_rights:
+            raise ValueError("persisted spatial ticket rights do not match current source rights")
         _require_spatial_asset_refs(
             self.objects,
             ticket.asset_refs,
-            delivery_rights=ticket.delivery_rights,
+            delivery_rights=current_rights,
             allowed_media_types=self.provider.allowed_media_types,
         )
         catalog.attach(ticket.scene_key, ticket.asset_refs)

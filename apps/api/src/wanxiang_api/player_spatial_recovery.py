@@ -4,15 +4,21 @@ The durable ticket/object stores remain derived infrastructure. Rehydration only
 repopulates Player projection state and never writes Canon or History.
 """
 
+# pyright: reportPrivateUsage=false
+
 from __future__ import annotations
 
 from typing import cast
 
 from fastapi import Request
-from wanxiang_substrate.assets.errors import AssetCorrupt, AssetNotFound
+from wanxiang_substrate.assets.book_spatial_safety import _require_spatial_asset_refs
 from wanxiang_substrate.assets.storage import ObjectStore
 from wanxiang_substrate.playable import PlayableService
-from wanxiang_substrate.spatial import SpatialJobStore, source_scene_key_allowed
+from wanxiang_substrate.spatial import (
+    SpatialJobStore,
+    plan_book_scene_assets,
+    source_scene_key_allowed,
+)
 
 
 def rehydrate_spatial_attachments(
@@ -30,6 +36,10 @@ def rehydrate_spatial_attachments(
 
     jobs = cast(SpatialJobStore, request.app.state.spatial_asset_jobs)
     objects = cast(ObjectStore, request.app.state.spatial_asset_objects)
+    current_rights = plan_book_scene_assets(
+        package,
+        max_preview_scenes=0,
+    ).delivery_rights
     existing = service.spatial_assets(profile_id, viewer_id=viewer_id)
     existing_frames = service.spatial_projection_frames(profile_id, viewer_id=viewer_id)
     restored = 0
@@ -47,10 +57,14 @@ def rehydrate_spatial_attachments(
         ):
             continue
         try:
-            if not all(len(objects.get(ref)) == ref.size for ref in ticket.asset_refs):
-                unavailable += 1
-                continue
-        except (AssetNotFound, AssetCorrupt):
+            if ticket.delivery_rights != current_rights:
+                raise ValueError("persisted spatial ticket rights do not match current source rights")
+            _require_spatial_asset_refs(
+                objects,
+                ticket.asset_refs,
+                delivery_rights=current_rights,
+            )
+        except ValueError:
             unavailable += 1
             continue
         service.attach_spatial_assets(

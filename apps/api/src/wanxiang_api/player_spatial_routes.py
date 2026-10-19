@@ -237,8 +237,16 @@ def player_poll_spatial_place(
         if not ticket.asset_refs:
             raise HTTPException(status_code=409, detail="verified spatial ticket has no assets")
         catalog = cast(DerivedSpatialAttachments, request.app.state.spatial_asset_catalog)
+        current_rights = plan_book_scene_assets(
+            package,
+            max_preview_scenes=0,
+        ).delivery_rights
         try:
-            ticket = _coordinator(request).attach(submission_id, catalog)
+            ticket = _coordinator(request).attach(
+                submission_id,
+                catalog,
+                expected_delivery_rights=current_rights,
+            )
         except ValueError as exc:
             raise HTTPException(status_code=409, detail=str(exc)) from exc
         service.attach_spatial_assets(

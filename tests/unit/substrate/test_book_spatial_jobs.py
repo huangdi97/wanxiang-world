@@ -907,3 +907,36 @@ def test_t3_restart_attach_revalidates_persisted_media_type_and_rights() -> None
     with pytest.raises(ValueError, match="media type|bytes do not match"):
         coordinator.attach(bad_media.submission_id, _DerivedSpatialAttachments())
 
+def test_t3_attach_rejects_ticket_and_asset_that_both_upgrade_current_rights() -> None:
+    payload = _glb(b"rights-upgrade")
+    provider = _FakeSpatialProvider(
+        polls=[
+            _SpatialPollResult(
+                "succeeded",
+                (
+                    _SpatialArtifactCandidate(
+                        payload,
+                        "model/gltf-binary",
+                        hashlib.sha256(payload).hexdigest(),
+                    ),
+                ),
+            )
+        ]
+    )
+    coordinator = _coordinator(provider)
+    submitted = _submit(coordinator)
+    verified = coordinator.poll(submitted.submission_id)
+    tampered = replace(
+        verified,
+        delivery_rights="public",
+        asset_refs=(replace(verified.asset_refs[0], rights="public"),),
+    )
+    coordinator.jobs.put(tampered)
+
+    with pytest.raises(ValueError, match="current source rights"):
+        coordinator.attach(
+            tampered.submission_id,
+            _DerivedSpatialAttachments(),
+            expected_delivery_rights="source-gated",
+        )
+

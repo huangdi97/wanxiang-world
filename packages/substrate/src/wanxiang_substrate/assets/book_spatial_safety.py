@@ -23,14 +23,14 @@ def _require_spatial_asset_refs(
     refs: tuple[AssetRef, ...],
     *,
     delivery_rights: str,
-    allowed_media_types: frozenset[str],
+    allowed_media_types: frozenset[str] | None = None,
 ) -> None:
     """Re-verify persisted T3 refs before mounting them into the Player stage."""
     try:
         for ref in refs:
             if ref.rights != delivery_rights:
                 raise ValueError("spatial asset rights do not match persisted ticket")
-            if ref.content_type not in allowed_media_types:
+            if allowed_media_types is not None and ref.content_type not in allowed_media_types:
                 raise ValueError("spatial asset media type is no longer allowed by provider")
             content = objects.get(ref)
             if len(content) != ref.size:

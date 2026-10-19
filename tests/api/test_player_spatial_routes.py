@@ -568,12 +568,56 @@ def test_t3_poll_route_revalidates_persisted_asset_rights_before_player_attach()
     )
     tampered_ref = replace(valid_ref, rights="public")
     app.state.spatial_asset_jobs.put(
-        replace(ticket, state="verified", asset_refs=(tampered_ref,))
+        replace(
+            ticket,
+            state="verified",
+            delivery_rights="public",
+            asset_refs=(tampered_ref,),
+        )
     )
 
     response = client.get(f"{endpoint}/{submission_id}", headers=owner)
 
     assert response.status_code == 409
-    assert "rights do not match" in response.json()["detail"]
+    assert "current source rights" in response.json()["detail"]
     assert app.state.playable.spatial_assets(profile_id, viewer_id="studio") == {}
+
+def test_t3_read_rehydrate_rejects_ticket_and_asset_rights_upgrade() -> None:
+    app, client, profile_id = _world()
+    owner = {"X-Wanxiang-User": "studio"}
+    endpoint = f"/experience/player/worlds/{profile_id}/spatial"
+    payload = _glb(b"rehydrate-rights")
+    ref = app.state.spatial_asset_objects.put(
+        payload,
+        content_type="model/gltf-binary",
+        rights="public",
+    )
+    package = app.state.playable.packages[profile_id]
+    plan = app.state.playable._visual_plans[profile_id]
+    scene_key = plan.scene_requests[0].stable_key
+    from wanxiang_substrate.spatial import SpatialGenerationTicket
+
+    app.state.spatial_asset_jobs.put(
+        SpatialGenerationTicket(
+            submission_id="tampered-rehydrate",
+            scene_key=scene_key,
+            provider_id="spatial:tampered",
+            provider_version="1",
+            provider_task_ref="task",
+            state="attached",
+            reserved_cost_units=0,
+            delivery_rights="public",
+            scope_key=profile_id,
+            asset_refs=(ref,),
+        )
+    )
+    app.state.playable._spatial_asset_refs.clear()
+
+    listed = client.get(endpoint, headers=owner)
+
+    assert listed.status_code == 200
+    assert listed.json()["rehydrated_attachments"] == 0
+    assert listed.json()["unavailable_attachments"] == 1
+    assert app.state.playable.spatial_assets(profile_id, viewer_id="studio") == {}
+    assert package.draft.compiler_metadata["visual_asset_rights_v1"] == "source-gated"
 
