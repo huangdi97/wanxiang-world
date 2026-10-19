@@ -86,7 +86,7 @@ def _seed(page: Page) -> str:
             "Alice arrived in Beijing in 1985 carrying 物品："
             + "x"
             * 48
-            + ".\nBob visited Beijing.\n"
+            + ". Alice met 江南委员会 there.\nBob visited Beijing.\n"
             "Alice 来到江南城。\nAlice 来到机关桥。\n"
             "Alice 来到潮汐港。\nAlice 来到望月亭。\nAlice 来到青石巷。\n"
             "relationship: Alice -> Bob\nrule: visitors register\n"
@@ -1343,6 +1343,12 @@ def test_player_stage_remains_usable_on_mobile_viewport(
                     .first.inner_text()
                     .startswith("Person · ")
                 )
+                assert (
+                    page.locator(".scene-clue")
+                    .filter(has_text="江南委员会")
+                    .first.inner_text()
+                    .startswith("Organization · ")
+                )
                 long_clue = long_clues.first.bounding_box()
                 assert long_clue is not None
                 assert long_clue["x"] >= narrow_stage["x"] - 1
@@ -1391,6 +1397,12 @@ def test_player_stage_remains_usable_on_mobile_viewport(
                     .filter(has_text="Alice")
                     .first.inner_text()
                     .startswith("人物 · ")
+                )
+                assert (
+                    page.locator(".scene-clue")
+                    .filter(has_text="江南委员会")
+                    .first.inner_text()
+                    .startswith("组织 · ")
                 )
                 assert not page_errors, page_errors
             finally:
