@@ -35,7 +35,7 @@ async function activate(){
   }catch(error){await deactivate();throw error}
 }
 function sync(scene,profile,headers){
-  const frameKey=JSON.stringify(scene?.spatial?.projection_frame||null),key=`${profile||""}:${scene?.place_name||""}:${scene?.spatial?.asset_count||0}:${(scene?.spatial?.media_types||[]).join(",")}:${frameKey}`,changed=key!==state.key,wasActive=state.active;
+  const frameKey=JSON.stringify(scene?.spatial?.projection_frame||null),assetRevision=scene?.spatial?.asset_revision||"",key=`${profile||""}:${scene?.place_name||""}:${assetRevision}:${scene?.spatial?.asset_count||0}:${(scene?.spatial?.media_types||[]).join(",")}:${frameKey}`,changed=key!==state.key,wasActive=state.active;
   state.key=key;state.scene=scene||null;state.profile=profile||"";state.headers=headers||{};
   const available=canRender(state.scene);setButton(available,state.active);
   if(!available&&state.active){void deactivate();return}

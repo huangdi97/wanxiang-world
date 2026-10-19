@@ -57,7 +57,10 @@ def test_player_world_detail_surfaces_t3_readiness_without_storage_identity() ->
     scenes = cast(list[dict[str, object]], visual["scenes"])
     scene = scenes[0]
     assert scene["projection_only"] is True
-    assert scene["spatial"] == {
+    spatial = cast(dict[str, object], scene["spatial"])
+    revision = spatial.pop("asset_revision")
+    assert isinstance(revision, str) and len(revision) == 20
+    assert spatial == {
         "ready": True,
         "projection_only": True,
         "asset_count": 1,
@@ -65,6 +68,7 @@ def test_player_world_detail_surfaces_t3_readiness_without_storage_identity() ->
     }
     assert "secret-object-id" not in str(detail)
     assert "a" * 64 not in str(detail)
+    assert revision != ("a" * 20)
     places = cast(list[dict[str, object]], visual["places"])
     assert places[0]["tier"] == "T3"
 
@@ -229,3 +233,51 @@ def test_source_revision_does_not_reuse_old_spatial_asset() -> None:
     assert second_place["tier"] == "T0"
     assert cast(dict[str, object], second_scene["spatial"])["ready"] is False
     assert "stale-object" not in str(second_detail)
+
+
+def test_spatial_asset_revision_changes_without_exposing_storage_identity() -> None:
+    package = package_from_book("spatial-hot-swap", ("塔楼",))
+    request = _plan_book_scene_assets(package).scene_requests[0]
+    first = AssetRef(
+        asset_id="object-v1",
+        content_hash="1" * 64,
+        size=256,
+        content_type="model/ply",
+        rights="source-gated",
+    )
+    second = AssetRef(
+        asset_id="object-v2",
+        content_hash="2" * 64,
+        size=256,
+        content_type="model/ply",
+        rights="source-gated",
+    )
+
+    first_detail = player_world_detail(
+        _profile(),
+        package,
+        include_visual=True,
+        spatial_assets={request.stable_key: (first,)},
+    )
+    second_detail = player_world_detail(
+        _profile(),
+        package,
+        include_visual=True,
+        spatial_assets={request.stable_key: (second,)},
+    )
+    first_scene = cast(
+        list[dict[str, object]],
+        cast(dict[str, object], first_detail["visual"])["scenes"],
+    )[0]
+    second_scene = cast(
+        list[dict[str, object]],
+        cast(dict[str, object], second_detail["visual"])["scenes"],
+    )[0]
+    first_spatial = cast(dict[str, object], first_scene["spatial"])
+    second_spatial = cast(dict[str, object], second_scene["spatial"])
+
+    assert first_spatial["asset_revision"] != second_spatial["asset_revision"]
+    assert "object-v1" not in str(first_spatial)
+    assert "object-v2" not in str(second_spatial)
+    assert "1" * 64 not in str(first_spatial)
+    assert "2" * 64 not in str(second_spatial)

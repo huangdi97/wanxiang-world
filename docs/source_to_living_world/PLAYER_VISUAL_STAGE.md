@@ -232,3 +232,13 @@ Player visual proof exposes only safe generation provenance:
 `provider_id@provider_version`, source-evidence count and the
 projection-only warning. It does **not** expose source locators, prompts,
 credentials, branch IDs, event IDs or canonical state hashes.
+
+### T3 hot-swap identity
+
+Verified spatial attachments expose an opaque, derived `asset_revision` token to
+the Player projection. It is computed from the ordered verified AssetRefs but
+does not expose object ids or raw content hashes. The browser spatial bridge
+includes this token in its renderer sync identity, so replacing a T3 asset with
+another asset of the same place, media type, count and projection frame still
+forces an active renderer to unmount and reload. This is presentation cache
+invalidation only; it is not Canon, source provenance, or a worldline revision.

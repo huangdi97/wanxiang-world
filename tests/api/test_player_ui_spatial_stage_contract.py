@@ -17,6 +17,7 @@ def test_player_html_exposes_optional_spatial_stage_without_vendor_dependency() 
     assert "/spatial-assets/" in html
     assert "loadAsset" in SPATIAL_RENDERER_SCRIPT
     assert "projectionFrame" in SPATIAL_RENDERER_SCRIPT
+    assert "asset_revision" in SPATIAL_RENDERER_SCRIPT
     assert "three.js" not in SPATIAL_RENDERER_SCRIPT.casefold()
     assert "worldlabs" not in SPATIAL_RENDERER_SCRIPT.casefold()
     assert "hunyuan" not in SPATIAL_RENDERER_SCRIPT.casefold()
