@@ -10,12 +10,13 @@ from __future__ import annotations
 
 import hashlib
 import json
-import unicodedata
 from dataclasses import dataclass
-from typing import cast
 
+from wanxiang_substrate.assets.book_scene_context import (
+    _context_candidates,
+    _place_identity,
+)
 from wanxiang_substrate.assets.book_scene_evidence import (
-    _UNKNOWN_OWNERS,  # pyright: ignore[reportPrivateUsage]
     _cache_evidence_ref,
     _json_list,
     _json_string_map,
@@ -70,19 +71,6 @@ class _SourceVisualPlan:
     topology_relations: tuple[_SourceTopologyRelation, ...] = ()
     place_names: tuple[str, ...] = ()
     place_evidence: tuple[_PlaceEvidence, ...] = ()
-
-
-def _place_identity(value: str) -> str:
-    """Unicode-normalized, case-insensitive key for source place names."""
-    return " ".join(unicodedata.normalize("NFC", value).casefold().split())
-
-
-def _context_identity(value: str) -> str:
-    kind, _, label = value.partition(":")
-    return f"{kind}:{_place_identity(label)}"
-
-
-_MAX_CONTEXT_LABEL_CHARS = 160
 
 
 def _plan_book_scene_assets(
@@ -190,31 +178,7 @@ def _plan_book_scene_assets(
         matching = evidence_by_place.get(place, [])
         stats_refs, confidence, _ = stats_by_place[place]
         source_refs = tuple(sorted(stats_refs))
-        context_candidates: list[str] = []
-        for row in matching:
-            raw_context = row.get("cooccurring_candidates", [])
-            if not isinstance(raw_context, list):
-                continue
-            for raw_item in cast(list[object], raw_context):
-                item = _object_dict(raw_item)
-                if item is None:
-                    continue
-                kind, label = item.get("kind"), item.get("label")
-                actor = item.get("actor")
-                if (
-                    kind == "object"
-                    and isinstance(actor, str)
-                    and actor.strip().casefold() not in _UNKNOWN_OWNERS
-                ):
-                    continue
-                if isinstance(kind, str) and isinstance(label, str):
-                    bounded_label = label.strip()[:_MAX_CONTEXT_LABEL_CHARS]
-                    if bounded_label:
-                        context_candidates.append(f"{kind}:{bounded_label}")
-        context_by_identity: dict[str, str] = {}
-        for item in context_candidates:
-            context_by_identity.setdefault(_context_identity(item), item)
-        context_candidates = list(context_by_identity.values())[:8]
+        context_candidates = _context_candidates(matching)
         # Cache identity may use content fingerprints, while audit/projection
         # keeps the original source locators unchanged.
         cache_evidence_refs = tuple(

@@ -12,10 +12,6 @@ import json
 import math
 from typing import cast
 
-_UNKNOWN_OWNERS = frozenset(
-    {"", "unknown", "none", "n/a", "na", "null", "nil", "anonymous", "-", "?"}
-)
-
 
 def _json_list(raw: str) -> list[object]:
     """Decode an untrusted metadata JSON array without leaking Unknown into strict typing."""
