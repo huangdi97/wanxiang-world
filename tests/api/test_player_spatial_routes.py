@@ -559,6 +559,8 @@ def test_t3_poll_route_revalidates_persisted_asset_rights_before_player_attach()
     submission_id = str(submitted.json()["spatial"]["submission_id"])
     ticket = app.state.spatial_asset_jobs.get(submission_id)
     assert ticket is not None
+    package = app.state.playable.packages[profile_id]
+    package.draft.compiler_metadata["visual_asset_rights_v1"] = "source-gated"
 
     payload = _glb(b"tampered-rights")
     valid_ref = app.state.spatial_asset_objects.put(
@@ -593,6 +595,7 @@ def test_t3_read_rehydrate_rejects_ticket_and_asset_rights_upgrade() -> None:
         rights="public",
     )
     package = app.state.playable.packages[profile_id]
+    package.draft.compiler_metadata["visual_asset_rights_v1"] = "source-gated"
     plan = app.state.playable._visual_plans[profile_id]
     scene_key = plan.scene_requests[0].stable_key
     from wanxiang_substrate.spatial import SpatialGenerationTicket
