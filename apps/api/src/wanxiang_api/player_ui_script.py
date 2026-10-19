@@ -224,7 +224,7 @@ function renderPlay(){
   const replayBanner=$("stage-replay-banner");replayBanner.hidden=!replay;if(replay){$("stage-replay-copy").textContent=tr("replay_banner",{time:replay.replay?.world_ticks??0,count:replay.replay?.event_count??0})}
   const panoramaStage=window.__WANXIANG_PANORAMA_STAGE__;panoramaStage?.sync(visual);$("panorama-stage-toggle").textContent=tr(panoramaStage?.isActive()?"panorama_stage_exit":"panorama_stage_enter");
   const spatialStage=window.__WANXIANG_SPATIAL_STAGE__;spatialStage?.sync(visual,w.profile_id,headers);$("spatial-stage-toggle").textContent=tr(spatialStage?.isActive()?"spatial_stage_exit":"spatial_stage_enter");
-  const clues=visual?.clues||[],clueWrap=$("scene-visual-clues-wrap"),clueNode=$("scene-visual-clues");clueWrap.hidden=!clues.length;clueNode.innerHTML=clues.map(item=>`<span class="scene-clue">${safe(item)}</span>`).join("");
+  const clues=visual?.clues||[],clueWrap=$("scene-visual-clues-wrap"),clueNode=$("scene-visual-clues");clueWrap.hidden=!clues.length;clueNode.innerHTML=clues.map(item=>`<span class="scene-clue" role="listitem">${safe(item)}</span>`).join("");
   const explorer=$("observer-scene-explorer"),list=$("observer-scene-list");
   explorer.hidden=!observer||!placeCatalog.length;
   if(!explorer.hidden){

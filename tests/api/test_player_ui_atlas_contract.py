@@ -20,6 +20,14 @@ def test_atlas_relation_chips_mark_source_conflicts() -> None:
     assert "is-conflicting" in html
 
 
+def test_scene_clues_are_a_labelled_list() -> None:
+    html = player_html("en-US")
+
+    assert 'id="scene-visual-clues-heading"' in html
+    assert 'role="list" aria-labelledby="scene-visual-clues-heading"' in html
+    assert 'class="scene-clue" role="listitem"' in SCRIPT
+
+
 def test_visual_images_describe_their_captions() -> None:
     html = player_html("en-US")
 
