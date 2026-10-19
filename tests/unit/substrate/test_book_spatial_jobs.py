@@ -692,6 +692,47 @@ def test_t3_persisted_ticket_rejects_corrupt_runtime_fields(
         _LocalJsonSpatialJobStore._ticket(row)
 
 
+def test_t3_persisted_ticket_keeps_legacy_optional_empty_fields() -> None:
+    row: dict[str, object] = {
+        "submission_id": "submission",
+        "scene_key": "scene",
+        "provider_id": "provider",
+        "provider_version": "1",
+        "provider_task_ref": "task",
+        "state": "running",
+        "reserved_cost_units": 7,
+        "delivery_rights": "source-gated",
+        "asset_refs": [],
+        "provider_usage_units": 6,
+        "projection_frame": None,
+    }
+
+    ticket = _LocalJsonSpatialJobStore._ticket(row)
+
+    assert ticket.scope_key == ""
+    assert ticket.reason == ""
+    assert ticket.provider_request_ref == ""
+
+
+def test_t3_persisted_ticket_rejects_outer_key_identity_mismatch() -> None:
+    row: dict[str, object] = {
+        "submission_id": "inside",
+        "scene_key": "scene",
+        "provider_id": "provider",
+        "provider_version": "1",
+        "provider_task_ref": "task",
+        "state": "running",
+        "reserved_cost_units": 7,
+        "delivery_rights": "source-gated",
+        "asset_refs": [],
+        "provider_usage_units": 6,
+        "projection_frame": None,
+    }
+
+    with pytest.raises(ValueError, match="key does not match"):
+        _LocalJsonSpatialJobStore._ticket_for_key("outside", row)
+
+
 def test_t3_persisted_ticket_rejects_unfailed_usage_overrun() -> None:
     row: dict[str, object] = {
         "submission_id": "submission",

@@ -15,6 +15,7 @@ from wanxiang_substrate.assets.book_spatial_frame import (
 )
 from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialGenerationTicket,
+    _SpatialJobState,
     _SpatialJobStore,
 )
 from wanxiang_substrate.assets.storage import AssetRef
@@ -37,6 +38,13 @@ _VALID_JOB_STATES = frozenset(
 def _required_string(data: dict[str, object], key: str, *, allow_empty: bool = False) -> str:
     value = data.get(key)
     if not isinstance(value, str) or (not allow_empty and not value):
+        raise ValueError(f"spatial ticket {key} must be a string")
+    return value
+
+
+def _optional_string(data: dict[str, object], key: str) -> str:
+    value = data.get(key, "")
+    if not isinstance(value, str):
         raise ValueError(f"spatial ticket {key} must be a string")
     return value
 
@@ -133,13 +141,13 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
             provider_id=_required_string(data, "provider_id"),
             provider_version=_required_string(data, "provider_version"),
             provider_task_ref=task_ref,
-            state=cast(object, state),  # type: ignore[arg-type]
+            state=cast(_SpatialJobState, state),
             reserved_cost_units=reserved,
             delivery_rights=_required_string(data, "delivery_rights"),
             provider_request_ref=request_ref,
-            scope_key=_required_string(data, "scope_key", allow_empty=True),
+            scope_key=_optional_string(data, "scope_key"),
             asset_refs=assets,
-            reason=_required_string(data, "reason", allow_empty=True),
+            reason=_optional_string(data, "reason"),
             projection_frame=(
                 _projection_frame_from_mapping(data["projection_frame"])
                 if data.get("projection_frame") is not None
@@ -160,10 +168,19 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
             if isinstance(key, str) and isinstance(value, dict)
         }
 
+    @classmethod
+    def _ticket_for_key(
+        cls, submission_id: str, row: dict[str, object]
+    ) -> _SpatialGenerationTicket:
+        ticket = cls._ticket(row)
+        if ticket.submission_id != submission_id:
+            raise ValueError("spatial ticket key does not match submission_id")
+        return ticket
+
     def get(self, submission_id: str) -> _SpatialGenerationTicket | None:
         with _exclusive_index_lock(self._path.with_suffix(".lock")):
             row = self._rows().get(submission_id)
-            return self._ticket(row) if row is not None else None
+            return self._ticket_for_key(submission_id, row) if row is not None else None
 
     def put(self, ticket: _SpatialGenerationTicket) -> None:
         lock_path = self._path.with_suffix(".lock")
@@ -207,5 +224,8 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
 
     def list_scope(self, scope_key: str) -> tuple[_SpatialGenerationTicket, ...]:
         with _exclusive_index_lock(self._path.with_suffix(".lock")):
-            rows = tuple(self._ticket(row) for row in self._rows().values())
+            rows = tuple(
+                self._ticket_for_key(submission_id, row)
+                for submission_id, row in self._rows().items()
+            )
         return tuple(row for row in rows if row.scope_key == scope_key)
