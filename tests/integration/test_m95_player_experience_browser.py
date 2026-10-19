@@ -1356,6 +1356,14 @@ def test_player_stage_remains_usable_on_mobile_viewport(
                 assert page.evaluate(
                     "document.documentElement.scrollWidth <= window.innerWidth + 1"
                 ), "worldline overflow at 320px"
+                page.goto(f"{base}/?locale=zh-CN", wait_until="networkidle")
+                page.locator(f'#world-list [data-profile="{profile_id}"]').click()
+                page.locator('input[name="character"]').check()
+                page.locator("#enter-world").click()
+                page.wait_for_selector("#play-view.is-active")
+                zh_clues = page.locator(".scene-clue").filter(has_text="x" * 20)
+                assert zh_clues.count() >= 1
+                assert zh_clues.first.inner_text().startswith("物品 · ")
                 assert not page_errors, page_errors
             finally:
                 browser.close()
