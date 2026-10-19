@@ -36,6 +36,7 @@ from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialArtifactCandidate,
     _SpatialGenerationProvider,
     _SpatialPollResult,
+    _SpatialSubmissionResult,
 )
 
 _MAX_JSON_RESPONSE_BYTES = 48 * 1024 * 1024
