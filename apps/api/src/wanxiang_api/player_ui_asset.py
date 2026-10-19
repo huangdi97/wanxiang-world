@@ -64,7 +64,7 @@ def player_html(locale: str | None = None) -> str:
         '<div id="continue-slot" hidden></div>'
         f'<section id="plaza-panel" aria-labelledby="plaza-heading"><div class="section-head"><div><h2 id="plaza-heading">{text("plaza_heading")}</h2>'
         f'<p>{text("plaza_intro")}</p></div></div><div class="shelf-head"><h3>{text("recommended_heading")}</h3><p>{text("recommended_intro")}</p></div>'
-        f'<div class="toolbar"><label class="sr-only" for="world-search">{text("search_worlds")}</label><input class="search" id="world-search" aria-label="{text("search_worlds_aria")}">'
+        f'<div class="toolbar"><label class="sr-only" for="world-search">{text("search_worlds")}</label><input class="search" id="world-search" aria-label="{text("search_worlds_aria")}" aria-controls="world-list">'
         f'<button class="filter-button is-active" data-filter="all">{text("filter_all")}</button><button class="filter-button" data-filter="public">{text("filter_public")}</button><button class="filter-button" data-filter="recent">{text("filter_recent")}</button><button class="filter-button" data-filter="mine">{text("filter_mine")}</button></div>'
         f'<p class="sr-only" id="world-list-status" aria-live="polite" aria-atomic="true"></p><div class="world-list" id="world-list"><div class="empty-state">{text("loading_worlds")}</div></div></section>'
         f'<div class="home-shelves"><section class="home-shelf" aria-labelledby="my-worlds-heading"><div class="shelf-head"><div><h3 id="my-worlds-heading">{text("my_worlds_heading")}</h3><p>{text("my_worlds_intro")}</p></div></div><div class="world-list compact-list" id="my-world-list"></div></section>'

@@ -36,4 +36,5 @@ def test_world_list_announces_count_without_reading_every_card() -> None:
 
     assert 'id="world-list-status"' in html
     assert 'id="world-list" aria-live' not in html
+    assert 'aria-controls="world-list"' in html
     assert "world_count" in SCRIPT

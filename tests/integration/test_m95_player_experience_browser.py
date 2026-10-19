@@ -253,6 +253,17 @@ def test_english_suggestion_commits_through_player_browser(
                 profile_id = _seed(page)
                 page.goto(f"{base}/?locale=en-US", wait_until="networkidle")
                 assert page.locator("#world-list-status").inner_text() == "Worlds shown: 1"
+                search = page.locator("#world-search")
+                search.fill("missing-world")
+                page.wait_for_function(
+                    "document.querySelector('#world-list-status')?.textContent"
+                    " === 'Worlds shown: 0'"
+                )
+                search.fill("")
+                page.wait_for_function(
+                    "document.querySelector('#world-list-status')?.textContent"
+                    " === 'Worlds shown: 1'"
+                )
                 page.locator(f'#world-list [data-profile="{profile_id}"]').click()
                 page.locator('input[name="character"]').check()
                 page.locator("#enter-world").click()
