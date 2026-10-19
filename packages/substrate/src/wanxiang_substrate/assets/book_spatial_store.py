@@ -61,9 +61,7 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
         )
         raw_usage = data.get("provider_usage_units")
         if raw_usage is not None and (
-            isinstance(raw_usage, bool)
-            or not isinstance(raw_usage, int)
-            or raw_usage < 0
+            isinstance(raw_usage, bool) or not isinstance(raw_usage, int) or raw_usage < 0
         ):
             raise ValueError("spatial ticket provider usage must be a non-negative integer")
         provider_usage_units = cast(int, raw_usage) if raw_usage is not None else None

@@ -226,6 +226,7 @@ def test_tokenhub_spatial_requires_key_and_artifact_allowlist() -> None:
 def test_raw_tokenhub_spatial_submit_is_not_claimed_idempotent() -> None:
     assert _provider().submit_is_idempotent is False
 
+
 @pytest.mark.parametrize("total_tokens", [-1, True, "8000000"])
 def test_tokenhub_spatial_rejects_invalid_usage_evidence(
     monkeypatch: pytest.MonkeyPatch,

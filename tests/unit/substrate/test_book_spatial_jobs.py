@@ -654,9 +654,7 @@ def test_idempotent_t3_gateway_can_recover_ambiguous_submit_with_same_key() -> N
     assert sum(row.reserved_cost_units for row in jobs.list_scope("")) == 7
 
 def test_t3_provider_usage_is_persisted_across_restart(tmp_path: pathlib.Path) -> None:
-    provider = _FakeSpatialProvider(
-        polls=[_SpatialPollResult("running", provider_usage_units=6)]
-    )
+    provider = _FakeSpatialProvider(polls=[_SpatialPollResult("running", provider_usage_units=6)])
     path = tmp_path / "spatial-usage-jobs.json"
     coordinator = _SpatialGenerationCoordinator(
         provider,
@@ -675,9 +673,7 @@ def test_t3_provider_usage_is_persisted_across_restart(tmp_path: pathlib.Path) -
 
 
 def test_t3_invalid_provider_usage_does_not_mutate_persisted_ticket() -> None:
-    provider = _FakeSpatialProvider(
-        polls=[_SpatialPollResult("running", provider_usage_units=-1)]
-    )
+    provider = _FakeSpatialProvider(polls=[_SpatialPollResult("running", provider_usage_units=-1)])
     coordinator = _coordinator(provider)
     submitted = _submit(coordinator)
 
