@@ -1305,6 +1305,18 @@ def test_player_stage_remains_usable_on_mobile_viewport(
                 assert suggestion_box is not None
                 assert suggestion_box["height"] >= 44
                 assert page.locator("#action-input").is_visible()
+                page.set_viewport_size({"width": 320, "height": 700})
+                page.wait_for_timeout(100)
+                assert page.evaluate(
+                    "document.documentElement.scrollWidth <= window.innerWidth + 1"
+                )
+                narrow_stage = page.locator("#world-stage").bounding_box()
+                assert narrow_stage is not None
+                assert narrow_stage["width"] <= 321
+                narrow_send = page.locator("#send-action").bounding_box()
+                assert narrow_send is not None
+                assert narrow_send["x"] >= 0
+                assert narrow_send["x"] + narrow_send["width"] <= 321
                 assert not page_errors, page_errors
             finally:
                 browser.close()
