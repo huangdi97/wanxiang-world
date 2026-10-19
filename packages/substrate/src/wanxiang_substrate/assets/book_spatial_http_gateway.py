@@ -27,6 +27,7 @@ from wanxiang_substrate.assets.book_spatial_frame import _projection_frame_from_
 from wanxiang_substrate.assets.book_spatial_http_receipts import (
     _provider_usage_units,
     _submission_receipt,
+    _verified_artifact_sha256,
 )
 from wanxiang_substrate.assets.book_spatial_http_transport import (
     _bounded_read,
@@ -218,7 +219,7 @@ class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
         return _SpatialArtifactCandidate(
             content=content,
             media_type=media_type,
-            content_sha256=hashlib.sha256(content).hexdigest(),
+            content_sha256=_verified_artifact_sha256(item, content),
         )
 
     def poll(self, task_ref: str) -> _SpatialPollResult:
