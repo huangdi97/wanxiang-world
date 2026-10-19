@@ -147,7 +147,9 @@ class _SpatialGenerationCoordinator:
         request: _SourceSceneRequest,
         intent: _SpatialGenerationTicket,
     ) -> _SpatialGenerationTicket:
-        result = self.provider.submit(request, idempotency_key=intent.submission_id)
+        # Treat the provider boundary as untrusted at runtime even though the
+        # protocol is statically typed; third-party adapters can still violate it.
+        result: object = self.provider.submit(request, idempotency_key=intent.submission_id)
         if isinstance(result, str):
             task_ref, request_ref = result, ""
         elif isinstance(result, _SpatialSubmissionResult):
