@@ -23,7 +23,9 @@ experience is acceptable. Those judgments require a human reviewer.
 - Chromium E2E 覆盖英文建议 → Commit Authority → 可见状态变化；
 - Atlas 超过 24 个地点时，Player 图注显示 `Showing 24 of N places`；
 - Player 场景线索去掉内部 kind token、去重，并过滤显式 actor-owned 物件；
-- 320px 下 Home / World Detail / World Stage 无横向溢出；
+- context 过滤同时识别 `actor` / `owner` / `custodian`，任一具体归属即排除；
+- 320px 下 Home / World Detail / World Stage / Worldline panel 无横向溢出；
+- 48 字符长场景线索在 320px 下仍留在舞台内，不撑破布局；
 - 移动端发送按钮、输入框、建议 chip 高度至少 44px；
 - T1 缓存命中时重新签发当前 rights，持久缓存重启后同样生效。
 
@@ -52,6 +54,7 @@ Reviewer: ____________________  Date: ____________  Build SHA: ____________
 19. [ ] Atlas 超过 24 个地点时，`Showing 24 of N places` 是否让你理解图谱不完整？是否能自然找到地点列表查看其余地点？
 20. [ ] 场景线索是否像“来源线索”，而不是“人物已在该地点”的事实？是否出现 `object:` / `event:` 等内部 token？
 21. [ ] 软键盘弹起、横屏、下拉刷新时，行动输入与发送按钮是否仍可用？自动化未覆盖这些真实交互。
+22. [ ] 场景线索很长（例如 48 字符以上）时，是否仍在舞台内换行，而不是被裁切或撑破页面？阅读是否仍然舒适？
 
 ## Verdict (human only)
 
