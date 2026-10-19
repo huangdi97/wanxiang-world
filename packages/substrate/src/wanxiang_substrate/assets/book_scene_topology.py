@@ -9,6 +9,7 @@ relations while provenance and confidence are preserved.
 
 from __future__ import annotations
 
+import unicodedata
 from dataclasses import dataclass, replace
 
 from wanxiang_substrate.assets.book_scene_evidence import (
@@ -37,8 +38,8 @@ def _normalize_relation_type(value: str) -> str:
 
 
 def _place_identity(value: str) -> str:
-    """Case-insensitive, whitespace-normalized key for source place names."""
-    return " ".join(value.casefold().split())
+    """Unicode-normalized, case-insensitive, whitespace-normalized place key."""
+    return " ".join(unicodedata.normalize("NFC", value).casefold().split())
 
 
 def _topology_relations(

@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import unicodedata
 from dataclasses import dataclass
 from typing import cast
 
@@ -70,6 +71,11 @@ class _SourceVisualPlan:
     place_evidence: tuple[_PlaceEvidence, ...] = ()
 
 
+def _place_identity(value: str) -> str:
+    """Unicode-normalized, case-insensitive key for source place names."""
+    return " ".join(unicodedata.normalize("NFC", value).casefold().split())
+
+
 def _plan_book_scene_assets(
     package: WorldPackageDraft,
     *,
@@ -124,7 +130,7 @@ def _plan_book_scene_assets(
         name = raw_place.strip()
         if not name:
             continue
-        identity = " ".join(name.casefold().split())
+        identity = _place_identity(name)
         if identity not in place_aliases:
             place_aliases[identity] = name
             distinct_places_list.append(name)
@@ -157,14 +163,14 @@ def _plan_book_scene_assets(
             continue
         name = row.get("name")
         if isinstance(name, str):
-            canonical = place_aliases.get(" ".join(name.casefold().split()))
+            canonical = place_aliases.get(_place_identity(name))
             if canonical is not None and canonical in known_places:
                 evidence_by_place.setdefault(canonical, []).append(row)
 
     ranked_places, stats_by_place = _rank_places(distinct_places, evidence_by_place)
     preferred_list: list[str] = []
     for requested_place in preferred_places:
-        canonical = place_aliases.get(" ".join(requested_place.strip().casefold().split()))
+        canonical = place_aliases.get(_place_identity(requested_place))
         if canonical is not None and canonical in stats_by_place:
             preferred_list.append(canonical)
     preferred = tuple(dict.fromkeys(preferred_list))

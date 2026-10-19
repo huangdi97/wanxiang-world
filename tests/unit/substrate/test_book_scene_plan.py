@@ -329,6 +329,50 @@ def test_case_variant_places_merge_with_all_evidence_and_topology_alias() -> Non
     assert plan.topology_relations[0].target_place == "Harbor"
 
 
+def test_unicode_equivalent_places_merge_across_sources() -> None:
+    package = package_from_book(
+        "unicode-places",
+        ("Café", "Cafe\u0301", "Harbor"),
+        compiler_metadata={
+            "scene_evidence_v1": json.dumps(
+                [
+                    {
+                        "name": "Café",
+                        "source_refs": ["source://a#chapter-1"],
+                        "confidence": 0.6,
+                    },
+                    {
+                        "name": "Cafe\u0301",
+                        "source_refs": ["source://b#chapter-1"],
+                        "confidence": 0.7,
+                    },
+                ],
+                ensure_ascii=False,
+            ),
+            "scene_topology_evidence_v1": json.dumps(
+                [
+                    {
+                        "source_place": "Cafe\u0301",
+                        "target_place": "Harbor",
+                        "relation_type": "route",
+                        "source_refs": ["source://b#chapter-2"],
+                        "confidence": 0.7,
+                    }
+                ],
+                ensure_ascii=False,
+            ),
+        },
+    )
+    plan = _plan_book_scene_assets(package)
+
+    assert plan.place_names == ("Café", "Harbor")
+    assert plan.scene_requests[0].source_refs == (
+        "source://a#chapter-1",
+        "source://b#chapter-1",
+    )
+    assert plan.topology_relations[0].source_place == "Café"
+
+
 def test_relation_type_identity_ignores_case_and_separators() -> None:
     first = {
         "source_place": "海港",
