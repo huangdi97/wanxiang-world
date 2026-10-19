@@ -27,6 +27,9 @@ experience is acceptable. Those judgments require a human reviewer.
 - 320px 下 Home / World Detail / World Stage / Worldline panel 无横向溢出；
 - 48 字符长场景线索在 320px 下仍留在舞台内，不撑破布局；
 - 移动端发送按钮、输入框、建议 chip 高度至少 44px；
+- Player 场景线索带本地化类别（Item / Event / Person / Organization）；
+- 世界详情地点列表显示 `T0` tier，而不只有 Atlas 入口；
+- 来源 fingerprint 变化 → source digest、scene key、cache key 均变化，旧 T3 AssetRef 不自动挂到新场景；
 - T1 缓存命中时重新签发当前 rights，持久缓存重启后同样生效。
 
 ## Human checklist
@@ -55,6 +58,8 @@ Reviewer: ____________________  Date: ____________  Build SHA: ____________
 20. [ ] 场景线索是否像“来源线索”，而不是“人物已在该地点”的事实？是否出现 `object:` / `event:` 等内部 token？
 21. [ ] 软键盘弹起、横屏、下拉刷新时，行动输入与发送按钮是否仍可用？自动化未覆盖这些真实交互。
 22. [ ] 场景线索很长（例如 48 字符以上）时，是否仍在舞台内换行，而不是被裁切或撑破页面？阅读是否仍然舒适？
+23. [ ] 地点列表的 `T0 · offline scene` / `T0 · 离线场景` 是否让你理解当前只有离线视觉？看到 T0 时是否会被误认为最终质量？
+24. [ ] 场景线索的类别前缀（Item / Event / Person / Organization）是否帮助理解，还是占屏噪音？
 
 ## Verdict (human only)
 
