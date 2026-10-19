@@ -81,6 +81,9 @@ def _context_identity(value: str) -> str:
     return f"{kind}:{_place_identity(label)}"
 
 
+_MAX_CONTEXT_LABEL_CHARS = 160
+
+
 def _plan_book_scene_assets(
     package: WorldPackageDraft,
     *,
@@ -196,8 +199,10 @@ def _plan_book_scene_assets(
                 if item is None:
                     continue
                 kind, label = item.get("kind"), item.get("label")
-                if isinstance(kind, str) and isinstance(label, str) and label:
-                    context_candidates.append(f"{kind}:{label}")
+                if isinstance(kind, str) and isinstance(label, str):
+                    bounded_label = label.strip()[:_MAX_CONTEXT_LABEL_CHARS]
+                    if bounded_label:
+                        context_candidates.append(f"{kind}:{bounded_label}")
         context_by_identity: dict[str, str] = {}
         for item in context_candidates:
             context_by_identity.setdefault(_context_identity(item), item)

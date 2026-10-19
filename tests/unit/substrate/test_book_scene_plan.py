@@ -457,6 +457,36 @@ def test_scene_brief_keeps_source_locators_out_of_provider_spec() -> None:
     assert "source_place_name:Garden" in scene.spec.requirements
 
 
+def test_scene_context_labels_are_bounded_in_provider_spec() -> None:
+    long_label = "A very long event statement " + "x" * 400
+    package = package_from_book(
+        "context-bounded",
+        ("Garden",),
+        compiler_metadata={
+            "scene_evidence_v1": json.dumps(
+                [
+                    {
+                        "name": "Garden",
+                        "source_refs": ["source://a#chapter-1"],
+                        "confidence": 0.8,
+                        "cooccurring_candidates": [
+                            {"kind": "event", "label": long_label},
+                        ],
+                    }
+                ]
+            )
+        },
+    )
+    plan = _plan_book_scene_assets(package)
+    scene = plan.scene_requests[0]
+
+    assert len(scene.context_candidates) == 1
+    context = scene.context_candidates[0]
+    assert context.startswith("event:")
+    assert len(context) <= len("event:") + 160
+    assert "source_context_candidate:" + context in scene.spec.requirements
+
+
 def test_relation_type_identity_ignores_case_and_separators() -> None:
     first = {
         "source_place": "海港",
