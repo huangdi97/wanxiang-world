@@ -8,6 +8,7 @@ import json
 
 from wanxiang_substrate.authoring.pipeline_support import field
 from wanxiang_substrate.candidates.envelope import CandidateEnvelope
+from wanxiang_substrate.ownership import UNKNOWN_OWNERS
 from wanxiang_substrate.sources.model import SourceRecord
 
 
@@ -20,14 +21,11 @@ def _compact(value: object) -> str:
     )
 
 
-_UNKNOWN_OWNERS = frozenset({"unknown", "none", "n/a", "na", "null", "nil", "anonymous", "-", "?"})
-
-
 def _ownership(candidate: CandidateEnvelope) -> str:
     """Return the first concrete owner, skipping sentinel values."""
     for key in ("actor", "owner", "custodian"):
         value = candidate.fields.get(key, "").strip()
-        if value and value.casefold() not in _UNKNOWN_OWNERS:
+        if value and value.casefold() not in UNKNOWN_OWNERS:
             return value
     return ""
 

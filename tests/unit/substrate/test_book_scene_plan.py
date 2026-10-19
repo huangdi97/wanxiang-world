@@ -505,6 +505,8 @@ def test_actor_owned_objects_do_not_enter_generic_scene_context() -> None:
                             {"kind": "object", "label": "Key", "actor": "Alice"},
                             {"kind": "object", "label": "Lamp"},
                             {"kind": "character", "label": "Lamp"},
+                            {"kind": "object", "label": "Sign", "actor": "none"},
+                            {"kind": "object", "label": "Clock", "actor": "N/A"},
                             {"kind": "event", "label": "Festival"},
                         ],
                     }
@@ -517,6 +519,8 @@ def test_actor_owned_objects_do_not_enter_generic_scene_context() -> None:
     assert plan.scene_requests[0].context_candidates == (
         "object:Lamp",
         "character:Lamp",
+        "object:Sign",
+        "object:Clock",
         "event:Festival",
     )
 
