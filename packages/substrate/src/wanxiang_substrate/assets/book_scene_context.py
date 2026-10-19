@@ -38,11 +38,10 @@ def _context_candidates(rows: list[dict[str, object]]) -> list[str]:
             if item is None:
                 continue
             kind, label = item.get("kind"), item.get("label")
-            actor = item.get("actor")
-            if (
-                kind == "object"
-                and isinstance(actor, str)
-                and actor.strip().casefold() not in _UNKNOWN_OWNERS
+            ownership = (item.get("actor"), item.get("owner"), item.get("custodian"))
+            if kind == "object" and any(
+                isinstance(value, str) and value.strip().casefold() not in _UNKNOWN_OWNERS
+                for value in ownership
             ):
                 continue
             if isinstance(kind, str) and isinstance(label, str):
