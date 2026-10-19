@@ -20,7 +20,12 @@ experience is acceptable. Those judgments require a human reviewer.
 - Atlas 标题与图例随 zh-CN / en-US 本地化；
 - T0 场景图内的预览与免责声明为中英双语；
 - en-US 页面静态文案无中文，行动建议发送英文命令；
-- Chromium E2E 覆盖英文建议 → Commit Authority → 可见状态变化。
+- Chromium E2E 覆盖英文建议 → Commit Authority → 可见状态变化；
+- Atlas 超过 24 个地点时，Player 图注显示 `Showing 24 of N places`；
+- Player 场景线索去掉内部 kind token、去重，并过滤显式 actor-owned 物件；
+- 320px 下 Home / World Detail / World Stage 无横向溢出；
+- 移动端发送按钮、输入框、建议 chip 高度至少 44px；
+- T1 缓存命中时重新签发当前 rights，持久缓存重启后同样生效。
 
 ## Human checklist
 
@@ -43,6 +48,10 @@ Reviewer: ____________________  Date: ____________  Build SHA: ____________
 15. [ ] 若世界出现 ⚠“来源存在不同说法” / “Sources disagree”：是否理解为不确定，而不是被当成既定事实？
 16. [ ] 英文页面点击 `Stay awake` 等建议后，输入框、状态变化与历史记录是否一致？是否出现中文残留？
 17. [ ] 冲突提示是否不仅靠颜色区分？文字/工具提示是否可读（色盲、低对比度环境）？
+18. [ ] 在约 320px 宽的真实手机上：Home、世界详情、World Stage 是否仍可读？按钮是否容易点中？记录设备与浏览器。
+19. [ ] Atlas 超过 24 个地点时，`Showing 24 of N places` 是否让你理解图谱不完整？是否能自然找到地点列表查看其余地点？
+20. [ ] 场景线索是否像“来源线索”，而不是“人物已在该地点”的事实？是否出现 `object:` / `event:` 等内部 token？
+21. [ ] 软键盘弹起、横屏、下拉刷新时，行动输入与发送按钮是否仍可用？自动化未覆盖这些真实交互。
 
 ## Verdict (human only)
 
