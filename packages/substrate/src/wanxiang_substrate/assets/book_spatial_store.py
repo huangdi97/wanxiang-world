@@ -64,7 +64,7 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
             isinstance(raw_usage, bool) or not isinstance(raw_usage, int) or raw_usage < 0
         ):
             raise ValueError("spatial ticket provider usage must be a non-negative integer")
-        provider_usage_units = cast(int, raw_usage) if raw_usage is not None else None
+        provider_usage_units = raw_usage if raw_usage is not None else None
         return _SpatialGenerationTicket(
             submission_id=cast(str, data["submission_id"]),
             scene_key=cast(str, data["scene_key"]),

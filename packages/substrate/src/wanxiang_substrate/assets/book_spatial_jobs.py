@@ -163,7 +163,7 @@ class _SpatialGenerationCoordinator:
         usage = result.provider_usage_units
         if usage is None:
             return None
-        if isinstance(usage, bool) or not isinstance(usage, int) or usage < 0:
+        if isinstance(usage, bool) or usage < 0:
             raise ValueError("spatial provider returned invalid usage units")
         return usage
 
