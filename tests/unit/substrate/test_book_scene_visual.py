@@ -517,6 +517,7 @@ def test_world_atlas_counts_relations_to_undrawn_places() -> None:
 
     assert atlas is not None
     assert "园林 → 书房 [route]".encode() in atlas.content
+    assert "还有 1 个来源地点未绘制；请在地点列表查看。".encode() in atlas.content
     assert "1 条关系涉及未绘制地点。".encode() in atlas.content
     assert "园林 → P22".encode() not in atlas.content
 
