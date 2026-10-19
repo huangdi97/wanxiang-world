@@ -15,6 +15,7 @@ from dataclasses import dataclass
 from typing import cast
 
 from wanxiang_substrate.assets.book_scene_evidence import (
+    _UNKNOWN_OWNERS,  # pyright: ignore[reportPrivateUsage]
     _cache_evidence_ref,
     _json_list,
     _json_string_map,
@@ -203,7 +204,7 @@ def _plan_book_scene_assets(
                 if (
                     kind == "object"
                     and isinstance(actor, str)
-                    and actor.strip().casefold() not in {"", "unknown"}
+                    and actor.strip().casefold() not in _UNKNOWN_OWNERS
                 ):
                     continue
                 if isinstance(kind, str) and isinstance(label, str):
