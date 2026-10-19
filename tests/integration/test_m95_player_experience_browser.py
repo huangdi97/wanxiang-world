@@ -1297,6 +1297,13 @@ def test_player_stage_remains_usable_on_mobile_viewport(
                 assert send_box is not None
                 assert send_box["x"] >= 0
                 assert send_box["x"] + send_box["width"] <= 391
+                assert send_box["height"] >= 44
+                input_box = page.locator("#action-input").bounding_box()
+                assert input_box is not None
+                assert input_box["height"] >= 44
+                suggestion_box = page.locator(".suggestion").first.bounding_box()
+                assert suggestion_box is not None
+                assert suggestion_box["height"] >= 44
                 assert page.locator("#action-input").is_visible()
                 assert not page_errors, page_errors
             finally:
