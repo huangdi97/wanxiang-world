@@ -122,7 +122,7 @@ def player_observation(
         assets = visual_assets
         if assets is None:
             assets = _render_visual_plan(plan)
-        support_by_key = _scene_support_for_assets(package, assets)
+        support_by_key = _scene_support_for_assets(package, assets, copy)
         chosen = next((asset for asset in assets if asset.place_name == location), None)
         grounding = "current_location" if canonical_location else "entry_location"
         if chosen is None and assets:

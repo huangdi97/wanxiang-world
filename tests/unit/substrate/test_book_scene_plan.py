@@ -564,9 +564,9 @@ def test_player_scene_clues_omit_actor_owned_objects() -> None:
     scenes = cast(list[dict[str, object]], visual["scenes"])
     clues = cast(list[str], scenes[0]["clues"])
 
-    assert "Lamp" in clues
-    assert "Festival" in clues
-    assert clues.count("Lamp") == 1
+    assert "Item · Lamp" in clues
+    assert "Event · Festival" in clues
+    assert clues.count("Item · Lamp") == 1
     assert all("Key" not in clue for clue in clues)
     assert all(":" not in clue for clue in clues)
 

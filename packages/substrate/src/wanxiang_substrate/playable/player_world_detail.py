@@ -18,24 +18,41 @@ from wanxiang_substrate.assets.book_scene_visual import (
 )
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.playable.models import PlayableWorldProfile
-from wanxiang_substrate.playable.player_i18n import _copy_for
+from wanxiang_substrate.playable.player_i18n import _copy_for, _PlayerCopy
 from wanxiang_substrate.playable.player_spatial_projection import (
     _spatial_capability,
     _SpatialAssetMap,
     _SpatialProjectionFrameMap,
 )
 
+_KIND_CATEGORIES = {
+    "object": "category_item",
+    "character": "category_actor",
+    "event": "category_task",
+    "organization": "category_organization",
+    "identity": "category_actor",
+    "location": "category_location",
+    "relation": "category_relation",
+    "family": "category_organization",
+}
 
-def _player_clue_label(value: str) -> str:
-    """Strip the internal candidate-kind prefix from Player-facing clues."""
-    _, separator, label = value.partition(":")
+
+def _player_clue(value: str, copy: _PlayerCopy) -> tuple[str, str]:
+    """Return a dedupe key and a localized display label for one clue."""
+    kind, separator, label = value.partition(":")
     cleaned = label.strip()
-    return cleaned if separator and cleaned else value.strip()
+    if not separator or not cleaned:
+        raw = value.strip()
+        return raw.casefold(), raw
+    category = copy.text(_KIND_CATEGORIES.get(kind, ""))
+    display = f"{category} · {cleaned}" if category else cleaned
+    return cleaned.casefold(), display
 
 
 def _scene_support_for_assets(
     package: WorldPackageDraft,
     assets: tuple[_SceneVisualAsset, ...],
+    copy: _PlayerCopy,
 ) -> dict[str, tuple[tuple[str, ...], int]]:
     """Recover safe source support without exposing raw locators to Player."""
 
@@ -55,10 +72,11 @@ def _scene_support_for_assets(
             None,
         )
         if request is not None:
-            clues = tuple(
-                dict.fromkeys(_player_clue_label(item) for item in request.context_candidates)
-            )
-            support[asset.scene_key] = (clues, len(request.source_refs))
+            seen: dict[str, str] = {}
+            for item in request.context_candidates:
+                key, display = _player_clue(item, copy)
+                seen.setdefault(key, display)
+            support[asset.scene_key] = (tuple(seen.values()), len(request.source_refs))
     return support
 
 
@@ -115,7 +133,7 @@ def player_world_detail(
         assets = visual_assets
         if assets is None:
             assets = _render_visual_plan(plan)
-        support_by_key = _scene_support_for_assets(package, assets)
+        support_by_key = _scene_support_for_assets(package, assets, copy)
         generated_places = {asset.place_name for asset in assets}
         asset_by_place = {asset.place_name: asset for asset in assets}
         evidence_by_place = {item.place_name: item for item in plan.place_evidence}
