@@ -1259,6 +1259,14 @@ def test_player_atlas_reports_place_limit_in_caption(persist_db_path: pathlib.Pa
                 assert (
                     "Showing 24 of 25 places" in page.locator("#detail-visual-caption").inner_text()
                 )
+                page.set_viewport_size({"width": 320, "height": 700})
+                page.wait_for_timeout(100)
+                assert (
+                    "Showing 24 of 25 places" in page.locator("#detail-visual-caption").inner_text()
+                )
+                assert page.evaluate(
+                    "document.documentElement.scrollWidth <= window.innerWidth + 1"
+                )
                 assert not page_errors, page_errors
             finally:
                 browser.close()
