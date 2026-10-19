@@ -1325,6 +1325,16 @@ def test_player_stage_remains_usable_on_mobile_viewport(
                 assert narrow_send is not None
                 assert narrow_send["x"] >= 0
                 assert narrow_send["x"] + narrow_send["width"] <= 321
+                page.locator("#leave-world").click()
+                page.wait_for_selector("#home-view.is-active")
+                assert page.evaluate(
+                    "document.documentElement.scrollWidth <= window.innerWidth + 1"
+                ), "home overflow at 320px"
+                page.locator(f'#world-list [data-profile="{profile_id}"]').click()
+                page.wait_for_selector("#detail-view.is-active")
+                assert page.evaluate(
+                    "document.documentElement.scrollWidth <= window.innerWidth + 1"
+                ), "detail overflow at 320px"
                 assert not page_errors, page_errors
             finally:
                 browser.close()
