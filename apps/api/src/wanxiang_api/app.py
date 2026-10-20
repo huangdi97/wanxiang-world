@@ -65,8 +65,7 @@ from wanxiang_api.player_worldline_routes import router as player_worldline_rout
 from wanxiang_api.promotion_routes import router as promotion_router
 from wanxiang_api.review_routes import router as review_router
 from wanxiang_api.routes import router
-from wanxiang_api.spatial_http_gateway import spatial_http_runtime_from_env
-from wanxiang_api.spatial_tokenhub_runtime import spatial_tokenhub_runtime_from_env
+from wanxiang_api.spatial_runtime_selection import select_spatial_runtime
 from wanxiang_api.studio_ui_routes import router as studio_ui_router
 from wanxiang_api.visual_http_gateway import visual_http_runtime_from_env
 from wanxiang_api.workshop_routes import router as workshop_router
@@ -141,29 +140,10 @@ def create_app(
     if panorama_allow_network and panorama_provider is None:
         raise ValueError("panorama_allow_network requires a configured panorama provider")
     if spatial_provider is None:
-        tokenhub_spatial = spatial_tokenhub_runtime_from_env()
-        http_spatial_configured = any(
-            os.environ.get(name, "").strip()
-            for name in (
-                "WANXIANG_SPATIAL_HTTP_SUBMIT_ENDPOINT",
-                "WANXIANG_SPATIAL_HTTP_POLL_ENDPOINT",
-            )
+        spatial_provider, spatial_allow_network, spatial_max_cost_units = select_spatial_runtime(
+            allow_network=spatial_allow_network,
+            max_cost_units=spatial_max_cost_units,
         )
-        if tokenhub_spatial.provider is not None and http_spatial_configured:
-            raise ValueError(
-                "configure either direct TokenHub spatial runtime or spatial HTTP gateway, not both"
-            )
-        if tokenhub_spatial.provider is not None:
-            spatial_provider = tokenhub_spatial.provider
-            spatial_allow_network = spatial_allow_network or tokenhub_spatial.allow_network
-            if spatial_max_cost_units == 0:
-                spatial_max_cost_units = tokenhub_spatial.max_cost_units
-        else:
-            http_spatial = spatial_http_runtime_from_env()
-            spatial_provider = http_spatial.provider
-            spatial_allow_network = spatial_allow_network or http_spatial.allow_network
-            if spatial_max_cost_units == 0:
-                spatial_max_cost_units = http_spatial.max_cost_units
     if spatial_allow_network and spatial_provider is None:
         raise ValueError("spatial_allow_network requires an injected spatial_provider")
     app = FastAPI(title=API_TITLE, version=API_VERSION)
