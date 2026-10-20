@@ -68,9 +68,7 @@ class _SpatialGenerationCoordinator:
 
     require_asset_refs = staticmethod(_require_spatial_asset_refs)
 
-    def _submission_id(
-        self, request: _SourceSceneRequest, scope_key: str, attempt: int = 0
-    ) -> str:
+    def _submission_id(self, request: _SourceSceneRequest, scope_key: str, attempt: int = 0) -> str:
         retry = f":retry:{attempt}" if attempt else ""
         identity = (
             f"{scope_key}:{request.cache_key}:t3-job-v2:"
