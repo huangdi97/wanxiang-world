@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import Protocol
+from collections.abc import Callable
 
 _MAX_JSON_RESPONSE_BYTES = 48 * 1024 * 1024
 _MAX_ARTIFACT_BYTES = 128 * 1024 * 1024
@@ -12,14 +12,7 @@ _MAX_ARTIFACTS = 8
 _VALID_STATES = frozenset({"queued", "running", "succeeded", "failed", "cancelled", "expired"})
 
 
-class _PostJson(Protocol):
-    def __call__(
-        self,
-        endpoint: str,
-        payload: dict[str, object],
-        *,
-        idempotency_key: str = "",
-    ) -> dict[str, object]: ...
+_PostJson = Callable[..., dict[str, object]]
 
 
 def _spatial_http_headers(bearer_token: str, idempotency_key: str = "") -> dict[str, str]:
