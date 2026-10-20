@@ -1,5 +1,7 @@
 """Small HTTP control helpers for the vendor-neutral T3 gateway."""
 
+# pyright: reportUnusedFunction=false
+
 from __future__ import annotations
 
 from typing import Protocol
