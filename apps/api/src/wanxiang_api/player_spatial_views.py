@@ -25,6 +25,7 @@ def spatial_ticket_view(ticket: SpatialGenerationTicket) -> dict[str, object]:
         "reserved_cost_units": ticket.reserved_cost_units,
         "asset_count": len(ticket.asset_refs),
         "attempt": ticket.attempt,
+        "cancellation_requested": ticket.cancellation_requested,
         "media_types": sorted({ref.content_type for ref in ticket.asset_refs}),
     }
     if ticket.provider_usage_units is not None:
