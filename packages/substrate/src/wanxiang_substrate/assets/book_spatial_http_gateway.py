@@ -24,6 +24,11 @@ from wanxiang_substrate.assets.book_scene_prompt import (
     _story_visual_profile_from_style_key,
 )
 from wanxiang_substrate.assets.book_spatial_frame import _projection_frame_from_mapping
+from wanxiang_substrate.assets.book_spatial_http_control import (
+    _require_cancellation_accepted,
+    _spatial_cancellation_payload,
+    _spatial_http_headers,
+)
 from wanxiang_substrate.assets.book_spatial_http_receipts import (
     _provider_usage_units,
     _submission_receipt,
@@ -105,18 +110,6 @@ class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
         self.max_artifact_bytes = max_artifact_bytes
         self.requires_network = True
 
-    def _headers(self, *, idempotency_key: str = "") -> dict[str, str]:
-        headers = {
-            "accept": "application/json",
-            "content-type": "application/json",
-            "user-agent": "Wanxiang-T3-Gateway/1",
-        }
-        if self.bearer_token:
-            headers["authorization"] = f"Bearer {self.bearer_token}"
-        if idempotency_key:
-            headers["idempotency-key"] = idempotency_key
-        return headers
-
     def _post_json(
         self,
         endpoint: str,
@@ -127,7 +120,7 @@ class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
         request = Request(
             endpoint,
             data=json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode("utf-8"),
-            headers=self._headers(idempotency_key=idempotency_key),
+            headers=_spatial_http_headers(self.bearer_token, idempotency_key),
             method="POST",
         )
         try:
@@ -180,25 +173,9 @@ class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
     def cancel(self, task_ref: str, *, request_id: str) -> None:
         if not self.cancel_endpoint:
             raise ValueError("spatial HTTP provider does not support cancellation")
-        if (
-            not task_ref.strip()
-            or len(task_ref) > 1024
-            or "\r" in task_ref
-            or "\n" in task_ref
-            or not request_id.strip()
-            or len(request_id) > 1024
-            or "\r" in request_id
-            or "\n" in request_id
-        ):
-            raise ValueError("spatial HTTP cancellation requires safe task and request ids")
-        body = self._post_json(
-            self.cancel_endpoint,
-            {"task_ref": task_ref, "request_id": request_id},
-            idempotency_key=request_id,
-        )
-        if body.get("accepted") is not True:
-            raise ValueError("spatial HTTP cancellation was not accepted")
-
+        payload = _spatial_cancellation_payload(task_ref, request_id)
+        body = self._post_json(self.cancel_endpoint, payload, idempotency_key=request_id)
+        _require_cancellation_accepted(body)
     def _download_artifact(self, url: str) -> bytes:
         endpoint = _validate_endpoint(url)
         host = (urlsplit(endpoint).hostname or "").casefold()
