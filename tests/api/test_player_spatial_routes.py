@@ -545,6 +545,7 @@ def test_t3_restart_does_not_rehydrate_missing_spatial_blob() -> None:
     assert recovered.status_code == 409
     assert recovered.json()["detail"] == "verified spatial asset storage is unavailable"
 
+
 def test_t3_poll_route_revalidates_persisted_asset_rights_before_player_attach() -> None:
     provider = _FakeSpatialProvider()
     app, client, profile_id = _world(
@@ -583,6 +584,7 @@ def test_t3_poll_route_revalidates_persisted_asset_rights_before_player_attach()
     assert response.status_code == 409
     assert "current source rights" in response.json()["detail"]
     assert app.state.playable.spatial_assets(profile_id, viewer_id="studio") == {}
+
 
 def test_t3_read_rehydrate_rejects_ticket_and_asset_rights_upgrade() -> None:
     app, client, profile_id = _world()
@@ -623,4 +625,3 @@ def test_t3_read_rehydrate_rejects_ticket_and_asset_rights_upgrade() -> None:
     assert listed.json()["unavailable_attachments"] == 1
     assert app.state.playable.spatial_assets(profile_id, viewer_id="studio") == {}
     assert package.draft.compiler_metadata["visual_asset_rights_v1"] == "source-gated"
-
