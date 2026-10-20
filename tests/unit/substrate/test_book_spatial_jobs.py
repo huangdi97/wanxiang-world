@@ -25,6 +25,7 @@ from wanxiang_substrate.assets.book_spatial_types import (
 )
 from wanxiang_substrate.assets.foundry import SemanticSceneSpec
 from wanxiang_substrate.assets.storage import InMemoryObjectStore, LocalObjectStore
+from wanxiang_substrate.spatial import LocalJsonSpatialJobStore
 
 
 def _glb(payload: bytes = b"scene") -> bytes:
@@ -702,6 +703,21 @@ def test_t3_job_store_fails_closed_on_malformed_persisted_row(
     with pytest.raises(ValueError, match="invalid ticket row"):
         jobs.list_scope("world")
 
+
+def test_public_recoverable_t3_store_preserves_outer_key_identity_validation(
+    tmp_path: pathlib.Path,
+) -> None:
+    path = tmp_path / "recoverable-spatial-jobs.json"
+    path.write_text(
+        '{"outside":{"submission_id":"inside","scene_key":"scene",'
+        '"provider_id":"provider","provider_version":"1","provider_task_ref":"task",'
+        '"state":"running","reserved_cost_units":7,"delivery_rights":"source-gated",'
+        '"asset_refs":[],"provider_usage_units":6,"projection_frame":null}}',
+        encoding="utf-8",
+    )
+
+    with pytest.raises(ValueError, match="key does not match submission_id"):
+        LocalJsonSpatialJobStore(path).list_scope("")
 
 def test_t3_persisted_ticket_keeps_legacy_optional_empty_fields() -> None:
     row: dict[str, object] = {
