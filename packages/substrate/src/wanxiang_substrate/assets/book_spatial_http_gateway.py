@@ -24,11 +24,7 @@ from wanxiang_substrate.assets.book_scene_prompt import (
     _story_visual_profile_from_style_key,
 )
 from wanxiang_substrate.assets.book_spatial_frame import _projection_frame_from_mapping
-from wanxiang_substrate.assets.book_spatial_http_control import (
-    _require_cancellation_accepted,
-    _spatial_cancellation_payload,
-    _spatial_http_headers,
-)
+import wanxiang_substrate.assets.book_spatial_http_control as _http_control
 from wanxiang_substrate.assets.book_spatial_http_receipts import (
     _provider_usage_units,
     _submission_receipt,
@@ -120,7 +116,7 @@ class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
         request = Request(
             endpoint,
             data=json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode("utf-8"),
-            headers=_spatial_http_headers(self.bearer_token, idempotency_key),
+            headers=_http_control._spatial_http_headers(self.bearer_token, idempotency_key),
             method="POST",
         )
         try:
@@ -173,9 +169,9 @@ class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
     def cancel(self, task_ref: str, *, request_id: str) -> None:
         if not self.cancel_endpoint:
             raise ValueError("spatial HTTP provider does not support cancellation")
-        payload = _spatial_cancellation_payload(task_ref, request_id)
+        payload = _http_control._spatial_cancellation_payload(task_ref, request_id)
         body = self._post_json(self.cancel_endpoint, payload, idempotency_key=request_id)
-        _require_cancellation_accepted(body)
+        _http_control._require_cancellation_accepted(body)
     def _download_artifact(self, url: str) -> bytes:
         endpoint = _validate_endpoint(url)
         host = (urlsplit(endpoint).hostname or "").casefold()
