@@ -719,6 +719,7 @@ def test_public_recoverable_t3_store_preserves_outer_key_identity_validation(
     with pytest.raises(ValueError, match="key does not match submission_id"):
         LocalJsonSpatialJobStore(path).list_scope("")
 
+
 def test_t3_persisted_ticket_keeps_legacy_optional_empty_fields() -> None:
     row: dict[str, object] = {
         "submission_id": "submission",
