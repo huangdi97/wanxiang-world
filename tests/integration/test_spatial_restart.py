@@ -16,10 +16,10 @@ from wanxiang_substrate.spatial import plan_book_scene_assets
 
 HEADERS = {"X-Wanxiang-User": "studio"}
 
+
 def _glb(payload: bytes = b"restart-spatial") -> bytes:
     total = 12 + len(payload)
     return b"glTF" + (2).to_bytes(4, "little") + total.to_bytes(4, "little") + payload
-
 
 
 def _source() -> dict[str, object]:
