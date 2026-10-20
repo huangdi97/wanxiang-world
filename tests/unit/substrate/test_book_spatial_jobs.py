@@ -866,7 +866,7 @@ def test_t3_persisted_ticket_rejects_asset_rights_or_state_tampering() -> None:
     with pytest.raises(ValueError, match="unverified spatial ticket"):
         _LocalJsonSpatialJobStore._ticket(unverified)
 
-    missing_verified_assets = {**base, "asset_refs": []}
+    missing_verified_assets: dict[str, object] = {**base, "asset_refs": list[object]()}
     with pytest.raises(ValueError, match="requires asset refs"):
         _LocalJsonSpatialJobStore._ticket(missing_verified_assets)
 
