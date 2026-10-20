@@ -137,6 +137,11 @@
         "operationId": "player_poll_spatial_place_experience_player_worlds__profile_id__spatial__submission_id__get"
       }
     },
+    "/experience/player/worlds/{profile_id}/spatial/{submission_id}/cancel": {
+      "post": {
+        "operationId": "player_cancel_spatial_place_experience_player_worlds__profile_id__spatial__submission_id__cancel_post"
+      }
+    },
     "/experience/player/worlds/{profile_id}/visuals": {
       "post": {
         "operationId": "player_materialize_visual_place_experience_player_worlds__profile_id__visuals_post"
