@@ -755,3 +755,81 @@ Provider usage is billing/audit evidence only. It does not release reserved
 budget, does not change scene eligibility, and never becomes Canon or History.
 Generic reservations remain conservative until a provider-specific billing
 reconciliation policy is explicitly qualified with real provider evidence.
+
+
+## 30. Provider operation semantics re-verified — 2026-10-20
+
+The T3 abstraction remains asynchronous, but current official provider APIs prove that
+**retry and cancellation semantics are provider capabilities, not universal T3 behavior**.
+
+### Tencent TokenHub Hy-World-2.1-scene
+
+Tencent's current guide still documents \`hy-world2-scene\` as a long-running asynchronous
+task, normally taking about 10–20 minutes. After a successful creation call returns a task
+\`id\`, clients are explicitly instructed not to submit the task repeatedly and instead poll
+the task endpoint every few seconds until a terminal status is returned. The documented
+scene-generation request contains the model plus text or image input; it does not expose a
+Wanxiang-style idempotency-key field.
+
+That means the direct TokenHub adapter must remain conservative:
+
+- \`submit_is_idempotent = False\`;
+- persist \`submission_ambiguous\` before the billable remote POST;
+- never auto-resubmit an ambiguous request merely because the HTTP response was lost;
+- keep the reserved world budget until provider-specific billing reconciliation exists;
+- surface the ambiguous state clearly in Player rather than pretending generation is
+  available or silently retrying.
+
+Official reference:
+https://cloud.tencent.com/document/product/1823/136578
+
+### World Labs Marble 2 Developer API
+
+The currently published Marble 2 Developer API has stronger operation primitives.
+Task endpoints accept an \`Idempotency-Key\`; the retry guidance explicitly requires
+transport retries to reuse the same key so they resolve to the original operation.
+Long-running operations are read separately and may also record a best-effort cancellation
+intent. Cancellation itself has a stable \`requestId\`, and clients must continue polling
+until the operation reaches a terminal state.
+
+Those semantics map cleanly onto Wanxiang's durable T3 job model, but they do **not** make
+cancellation or safe automatic resubmission universal. A future Marble adapter may declare
+idempotent submission only after its exact enabled task endpoint and response schema are
+qualified. Cancellation should likewise be an optional provider capability rather than a
+method assumed to exist on every \`SpatialGenerationProvider\`.
+
+Official references:
+https://atlas-beta.worldlabs.ai/docs/operations
+https://atlas-beta.worldlabs.ai/docs/errors
+https://atlas-beta.worldlabs.ai/docs/api-reference/cancel-operation
+
+### Product consequence
+
+Wanxiang therefore distinguishes three recovery classes:
+
+~~~text
+provider supports idempotent submit
+    -> retry the same durable submission identity
+
+provider does not support idempotent submit + outcome is ambiguous
+    -> block automatic resubmit
+    -> preserve reservation
+    -> require operator/provider reconciliation
+
+provider exposes a qualified cancellation API
+    -> cancellation may be offered as an optional capability
+    -> cancellation intent is not terminal truth
+    -> continue polling until the provider reports a terminal result
+~~~
+
+The Player now has explicit copy for \`submission_ambiguous\`: the existing T0/T1/T2 scene
+remains usable, automatic resubmission is blocked to avoid duplicate billing, and the user
+is told that provider task/billing reconciliation is required.
+
+This does not change Canon ownership. Provider operation state, cancellation state, billing
+evidence and spatial assets remain derived infrastructure; only Player intent routed through
+Commit Authority may change canonical History.
+
+Real provider execution remains externally blocked until authorized credentials and billing,
+latency, restart and artifact evidence are captured. The repository must not upgrade
+\`REAL_T3\` or Stable status from API documentation alone.
