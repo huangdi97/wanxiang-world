@@ -41,7 +41,6 @@ def _require_spatial_asset_refs(
         raise ValueError("verified spatial asset storage is unavailable") from exc
 
 
-
 @contextmanager
 def _spatial_submission_guard(
     jobs: object,
