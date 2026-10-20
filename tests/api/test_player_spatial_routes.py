@@ -21,6 +21,7 @@ from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialProjectionFrame,
 )
 from wanxiang_substrate.playable.factory import profile_from_world_package
+from wanxiang_substrate.spatial import plan_book_scene_assets
 
 
 def _glb(payload: bytes = b"api-spatial") -> bytes:
@@ -598,7 +599,7 @@ def test_t3_read_rehydrate_rejects_ticket_and_asset_rights_upgrade() -> None:
     )
     package = app.state.playable.packages[profile_id]
     package.draft.compiler_metadata["visual_asset_rights_v1"] = "source-gated"
-    plan = app.state.playable._visual_plans[profile_id]
+    plan = plan_book_scene_assets(package)
     scene_key = plan.scene_requests[0].stable_key
     from wanxiang_substrate.spatial import SpatialGenerationTicket
 

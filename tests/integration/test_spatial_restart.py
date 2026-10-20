@@ -10,11 +10,16 @@ from typing import Any, cast
 from fastapi.testclient import TestClient
 from scripts.reference_runtime import build_reference_runtime
 from wanxiang_api.app import create_app
-from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
+from wanxiang_substrate.spatial import plan_book_scene_assets
 from wanxiang_substrate.assets.book_spatial_types import _SpatialGenerationTicket
 from wanxiang_substrate.playable.local_store import LocalJsonPlayableStore
 
 HEADERS = {"X-Wanxiang-User": "studio"}
+
+def _glb(payload: bytes = b"restart-spatial") -> bytes:
+    total = 12 + len(payload)
+    return b"glTF" + (2).to_bytes(4, "little") + total.to_bytes(4, "little") + payload
+
 
 
 def _source() -> dict[str, object]:
@@ -64,10 +69,10 @@ def test_restored_spatial_ticket_reattaches_on_world_open(
     profile_id = _seed(first)
     playable = first.app.state.playable
     package = playable.packages[profile_id]
-    plan = _plan_book_scene_assets(package)
+    plan = plan_book_scene_assets(package)
     scene_key = plan.scene_requests[0].stable_key
     ref = first.app.state.spatial_asset_objects.put(
-        b"spatial-bytes",
+        _glb(b"spatial-bytes"),
         content_type="model/gltf-binary",
         rights="public",
     )
