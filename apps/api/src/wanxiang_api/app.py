@@ -142,6 +142,17 @@ def create_app(
         raise ValueError("panorama_allow_network requires a configured panorama provider")
     if spatial_provider is None:
         tokenhub_spatial = spatial_tokenhub_runtime_from_env()
+        http_spatial_configured = any(
+            os.environ.get(name, "").strip()
+            for name in (
+                "WANXIANG_SPATIAL_HTTP_SUBMIT_ENDPOINT",
+                "WANXIANG_SPATIAL_HTTP_POLL_ENDPOINT",
+            )
+        )
+        if tokenhub_spatial.provider is not None and http_spatial_configured:
+            raise ValueError(
+                "configure either direct TokenHub spatial runtime or spatial HTTP gateway, not both"
+            )
         if tokenhub_spatial.provider is not None:
             spatial_provider = tokenhub_spatial.provider
             spatial_allow_network = spatial_allow_network or tokenhub_spatial.allow_network

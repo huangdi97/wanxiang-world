@@ -87,3 +87,34 @@ def test_spatial_tokenhub_runtime_fails_closed_for_partial_config(
     monkeypatch.delenv("WANXIANG_SPATIAL_TOKENHUB_API_KEY", raising=False)
     with pytest.raises(ValueError, match="API key"):
         spatial_tokenhub_runtime_from_env()
+
+
+def test_create_app_rejects_ambiguous_spatial_backend_configuration(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _set_runtime(monkeypatch)
+    monkeypatch.setenv(
+        "WANXIANG_SPATIAL_HTTP_SUBMIT_ENDPOINT",
+        "https://gateway.example/spatial/submit",
+    )
+    monkeypatch.setenv(
+        "WANXIANG_SPATIAL_HTTP_POLL_ENDPOINT",
+        "https://gateway.example/spatial/poll",
+    )
+
+    with pytest.raises(ValueError, match="not both"):
+        create_app(build_reference_runtime())
+
+
+def test_direct_tokenhub_does_not_mask_partial_http_gateway_configuration(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    _set_runtime(monkeypatch)
+    monkeypatch.setenv(
+        "WANXIANG_SPATIAL_HTTP_SUBMIT_ENDPOINT",
+        "https://gateway.example/spatial/submit",
+    )
+    monkeypatch.delenv("WANXIANG_SPATIAL_HTTP_POLL_ENDPOINT", raising=False)
+
+    with pytest.raises(ValueError, match="not both"):
+        create_app(build_reference_runtime())
