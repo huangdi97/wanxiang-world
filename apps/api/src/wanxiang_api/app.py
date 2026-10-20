@@ -58,6 +58,7 @@ from wanxiang_api.playable_factory import build_playable_service
 from wanxiang_api.playable_routes import router as playable_router
 from wanxiang_api.player_history_routes import router as player_history_router
 from wanxiang_api.player_routes import router as player_router
+from wanxiang_api.player_spatial_cancel_routes import router as player_spatial_cancel_router
 from wanxiang_api.player_spatial_routes import router as player_spatial_router
 from wanxiang_api.player_ui_routes import router as player_ui_router
 from wanxiang_api.player_visual_routes import router as player_visual_router
@@ -285,6 +286,7 @@ def create_app(
     app.include_router(player_history_router)
     app.include_router(player_worldline_router)
     app.include_router(player_spatial_router)
+    app.include_router(player_spatial_cancel_router)
     app.include_router(player_visual_router)
     app.include_router(player_ui_router)
     return app
