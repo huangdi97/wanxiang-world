@@ -8,6 +8,7 @@ current nonterminal state until normal polling reports cancelled/failed/succeede
 
 from __future__ import annotations
 
+import hashlib
 from dataclasses import replace
 
 from wanxiang_substrate.assets.book_spatial_types import (
@@ -36,7 +37,7 @@ def _request_spatial_cancellation(
     if ticket.cancellation_requested:
         return ticket
 
-    request_id = f"{submission_id}:cancel-v1"
+    request_id = hashlib.sha256(f"{submission_id}:cancel-v1".encode()).hexdigest()[:32]
     provider.cancel(ticket.provider_task_ref, request_id=request_id)
     updated = replace(ticket, cancellation_requested=True, reason="cancellation_requested")
     jobs.put(updated)
