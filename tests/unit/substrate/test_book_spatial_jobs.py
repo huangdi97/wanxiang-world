@@ -948,18 +948,33 @@ def test_terminal_t3_retry_uses_new_submission_identity_and_reserves_new_budget(
         polls=[_SpatialPollResult("failed", reason="provider_task_terminal")]
     )
     coordinator = _coordinator(provider)
-    options = {
-        "allow_network": True,
-        "external_processing_allowed": True,
-        "private_source": False,
-        "max_cost_units": 14,
-        "delivery_rights": "source-gated",
-    }
-
-    first = coordinator.submit(_request(), **options)
+    first = coordinator.submit(
+        _request(),
+        allow_network=True,
+        external_processing_allowed=True,
+        private_source=False,
+        max_cost_units=14,
+        delivery_rights="source-gated",
+    )
     failed = coordinator.poll(first.submission_id)
-    retry = coordinator.submit(_request(), attempt=1, **options)
-    replay = coordinator.submit(_request(), attempt=1, **options)
+    retry = coordinator.submit(
+        _request(),
+        allow_network=True,
+        external_processing_allowed=True,
+        private_source=False,
+        max_cost_units=14,
+        delivery_rights="source-gated",
+        attempt=1,
+    )
+    replay = coordinator.submit(
+        _request(),
+        allow_network=True,
+        external_processing_allowed=True,
+        private_source=False,
+        max_cost_units=14,
+        delivery_rights="source-gated",
+        attempt=1,
+    )
 
     assert failed.state == "failed"
     assert first.attempt == 0
