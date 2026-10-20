@@ -692,6 +692,17 @@ def test_t3_persisted_ticket_rejects_corrupt_runtime_fields(
         _LocalJsonSpatialJobStore._ticket(row)
 
 
+def test_t3_job_store_fails_closed_on_malformed_persisted_row(
+    tmp_path: pathlib.Path,
+) -> None:
+    path = tmp_path / "corrupt-spatial-jobs.json"
+    path.write_text('{"lost-reservation":"corrupt"}', encoding="utf-8")
+    jobs = _LocalJsonSpatialJobStore(path)
+
+    with pytest.raises(ValueError, match="invalid ticket row"):
+        jobs.list_scope("world")
+
+
 def test_t3_persisted_ticket_keeps_legacy_optional_empty_fields() -> None:
     row: dict[str, object] = {
         "submission_id": "submission",

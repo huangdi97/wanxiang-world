@@ -174,11 +174,15 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
         decoded: object = json.loads(self._path.read_text(encoding="utf-8"))
         if not isinstance(decoded, dict):
             raise ValueError("spatial job store must contain an object")
-        return {
-            key: cast(dict[str, object], value)
-            for key, value in cast(dict[object, object], decoded).items()
-            if isinstance(key, str) and isinstance(value, dict)
-        }
+        decoded_rows = cast(dict[object, object], decoded)
+        rows: dict[str, dict[str, object]] = {}
+        for key, value in decoded_rows.items():
+            # T3 rows carry durable world-budget reservations. A corrupt row
+            # must never disappear from accounting by being silently skipped.
+            if not isinstance(key, str) or not isinstance(value, dict):
+                raise ValueError("spatial job store contains an invalid ticket row")
+            rows[key] = cast(dict[str, object], value)
+        return rows
 
     @classmethod
     def _ticket_for_key(
