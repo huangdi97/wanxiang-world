@@ -43,7 +43,6 @@ from wanxiang_substrate.assets.book_spatial_types import (
 )
 
 
-
 class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
     # This adapter protocol requires the gateway to honor idempotency-key.
     submit_is_idempotent = True
