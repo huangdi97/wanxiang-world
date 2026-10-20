@@ -115,7 +115,9 @@ def player_list_spatial_places(
     return {
         "spatial_jobs": spatial_ticket_views_for_world(package, tickets),
         "generation": spatial_generation_view(request, package, profile_id),
-        "cancellation_supported": bool(getattr(request.app.state.spatial_asset_provider, "supports_cancel", False)),
+        "cancellation_supported": bool(
+            getattr(request.app.state.spatial_asset_provider, "supports_cancel", False)
+        ),
         "rehydrated_attachments": rehydrated,
         "unavailable_attachments": unavailable,
     }
