@@ -42,10 +42,6 @@ from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialSubmissionResult,
 )
 
-_MAX_JSON_RESPONSE_BYTES = 48 * 1024 * 1024
-_MAX_ARTIFACT_BYTES = 128 * 1024 * 1024
-_MAX_ARTIFACTS = 8
-_VALID_STATES = frozenset({"queued", "running", "succeeded", "failed", "cancelled", "expired"})
 
 
 class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
@@ -167,11 +163,9 @@ class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
         return _submission_receipt(body)
 
     def cancel(self, task_ref: str, *, request_id: str) -> None:
-        if not self.cancel_endpoint:
-            raise ValueError("spatial HTTP provider does not support cancellation")
-        payload = _http_control._spatial_cancellation_payload(task_ref, request_id)
-        body = self._post_json(self.cancel_endpoint, payload, idempotency_key=request_id)
-        _http_control._require_cancellation_accepted(body)
+        _http_control._cancel_spatial_http(
+            self.cancel_endpoint, task_ref, request_id, self._post_json
+        )
     def _download_artifact(self, url: str) -> bytes:
         endpoint = _validate_endpoint(url)
         host = (urlsplit(endpoint).hostname or "").casefold()
@@ -226,7 +220,7 @@ class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
             raise ValueError("spatial HTTP poll requires a safe task_ref")
         body = self._post_json(self.poll_endpoint, {"task_ref": task_ref})
         state = body.get("state")
-        if not isinstance(state, str) or state not in _VALID_STATES:
+        if not isinstance(state, str) or state not in _http_control._VALID_STATES:
             raise ValueError("spatial HTTP gateway returned invalid state")
         reason = body.get("reason", "")
         if not isinstance(reason, str):
@@ -243,7 +237,7 @@ class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
         if not isinstance(raw_artifacts, list):
             raise ValueError("spatial HTTP gateway returned invalid artifact list")
         artifact_rows = cast(list[object], raw_artifacts)
-        if len(artifact_rows) > _MAX_ARTIFACTS:
+        if len(artifact_rows) > _http_control._MAX_ARTIFACTS:
             raise ValueError("spatial HTTP gateway returned invalid artifact list")
         artifacts = tuple(self._artifact(item) for item in artifact_rows)
         raw_frame = body.get("projection_frame")
@@ -278,8 +272,8 @@ def _build_http_spatial_provider(
         }
     ),
     timeout_seconds: float = 60.0,
-    max_json_response_bytes: int = _MAX_JSON_RESPONSE_BYTES,
-    max_artifact_bytes: int = _MAX_ARTIFACT_BYTES,
+    max_json_response_bytes: int = _http_control._MAX_JSON_RESPONSE_BYTES,
+    max_artifact_bytes: int = _http_control._MAX_ARTIFACT_BYTES,
     artifact_hosts: frozenset[str] = frozenset(),
 ) -> _SpatialGenerationProvider:
     return _HttpJsonSpatialProvider(
