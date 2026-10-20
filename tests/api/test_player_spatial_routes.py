@@ -68,6 +68,17 @@ class _FakeSpatialProvider(_SpatialGenerationProvider):
         )
 
 
+class _CancelableSpatialProvider(_FakeSpatialProvider):
+    supports_cancel = True
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.cancellations: list[tuple[str, str]] = []
+
+    def cancel(self, task_ref: str, *, request_id: str) -> None:
+        self.cancellations.append((task_ref, request_id))
+
+
 class _SubmitUnavailableSpatialProvider(_FakeSpatialProvider):
     def submit(self, request: _SourceSceneRequest, *, idempotency_key: str) -> str:
         _ = request, idempotency_key
@@ -682,3 +693,39 @@ def test_t3_ambiguous_submission_cannot_be_explicitly_retried() -> None:
 
     assert retried.status_code == 409
     assert "cannot be retried safely" in retried.json()["detail"]
+
+
+def test_t3_cancel_is_owner_only_and_waits_for_provider_terminal_truth() -> None:
+    provider = _CancelableSpatialProvider()
+    app, client, profile_id = _world(
+        spatial_provider=provider,
+        spatial_allow_network=True,
+        spatial_max_cost_units=7,
+    )
+    owner = {"X-Wanxiang-User": "studio"}
+    visitor = {"X-Wanxiang-User": "visitor"}
+    endpoint = f"/experience/player/worlds/{profile_id}/spatial"
+
+    submitted = client.post(endpoint, headers=owner, json={"place_name": "Garden"})
+    assert submitted.status_code == 202
+    submission_id = str(submitted.json()["spatial"]["submission_id"])
+    cancel_url = f"{endpoint}/{submission_id}/cancel"
+
+    denied = client.post(cancel_url, headers=visitor)
+    assert denied.status_code == 403
+
+    cancelled = client.post(cancel_url, headers=owner)
+    assert cancelled.status_code == 202
+    projected = cancelled.json()["spatial"]
+    assert projected["state"] == "submitted"
+    assert projected["cancellation_requested"] is True
+    assert provider.cancellations == [
+        ("provider-secret-task-ref", f"{submission_id}:cancel-v1")
+    ]
+
+    listed = client.get(endpoint, headers=owner).json()
+    assert listed["cancellation_supported"] is True
+    assert listed["spatial_jobs"][0]["cancellation_requested"] is True
+    ticket = app.state.spatial_asset_jobs.get(submission_id)
+    assert ticket is not None
+    assert ticket.state == "submitted"
