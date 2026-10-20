@@ -56,6 +56,10 @@ def test_player_spatial_generation_auto_polls_only_while_detail_is_active() -> N
     assert 'document.querySelector("#detail-view.is-active")' in SCRIPT
     assert 'if(name!=="detail-view")stopSpatialAutoPoll()' in SCRIPT
     assert "Math.round(delay*1.6)" in SCRIPT
+    assert '"submission_ambiguous"' in SCRIPT
+    assert 'tr("spatial_upgrade_ambiguous",{place})' in SCRIPT
+    assert "重复付费" in player_html("zh-CN")
+    assert "duplicate billing" in player_html("en-US")
 
 
 def test_player_bundles_dependency_free_ply_spatial_renderer() -> None:

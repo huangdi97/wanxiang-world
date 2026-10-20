@@ -19,6 +19,11 @@ _SPATIAL_STRINGS: dict[str, str] = {
         "{place} can be upgraded · estimated {cost}; {remaining} world budget unit(s) remain"
     ),
     "spatial_upgrade_pending": "Spatial scene for {place} is in progress · {state}",
+    "spatial_upgrade_ambiguous": (
+        "The remote submission outcome for {place} is unknown. Wanxiang will not resubmit "
+        "automatically because that could cause duplicate billing; the current visual scene "
+        "remains usable while the provider task or billing record is reconciled."
+    ),
     "spatial_upgrade_ready": ("Spatial scene for {place} is ready · {count} spatial asset(s)"),
     "spatial_upgrade_terminal": (
         "Spatial task for {place}: {state}. The current scene remains usable."
@@ -40,6 +45,7 @@ _SPATIAL_STRINGS: dict[str, str] = {
     "spatial_upgrade_unavailable_budget": (
         "The current spatial generation budget is insufficient."
     ),
+    "spatial_upgrade_state_submission_ambiguous": "submission outcome unknown",
     "spatial_upgrade_state_submitted": "submitted",
     "spatial_upgrade_state_queued": "queued",
     "spatial_upgrade_state_running": "generating",
