@@ -245,11 +245,27 @@ A local fake/injected provider, deterministic fixture or CI pass proves the cont
 
 This section records external capability research; these providers are optional adapters, not dependencies of Wanxiang truth.
 
-### World Labs Marble / World API — T3 persistent spatial asset candidate
+### World Labs Marble 2 — composable T2.5/T3 pipeline candidate
 
-Official World Labs material describes the World API as a public API for generating explorable 3D worlds from text, images, panoramas, multi-view inputs and video. Resulting worlds can render on the web and export into downstream tools. For Wanxiang this maps cleanly to a high-value-location **persistent spatial asset provider**: generate once under rights/budget policy, store/export the result, bind its manifest to source/world revision, then reuse it. It must not become Commit Authority.
+The current Marble 2 Developer API should **not** be modeled as one opaque
+"text -> persistent 3D world" call. Its public surface is a set of composable,
+long-running operations: `atlasTextToImage` creates a world-oriented starting
+image, `images2PosedRGBD` estimates cameras/depth, `atlasChisel` generates
+coherent target views from a prompt with optional depth/layout context, and
+`splats2Mesh` converts an existing Gaussian-splat scene into a mesh. Task
+availability can depend on the enabled Marble account.
 
-Reference: https://www.worldlabs.ai/blog/announcing-the-world-api
+For Wanxiang this is a **pipeline provider** shape. One source-grounded place
+may move through several auditable derived-asset stages while retaining one
+Wanxiang scene identity, rights policy, budget envelope and provenance chain.
+Each Marble operation remains projection infrastructure and never becomes
+Reality Root or Commit Authority.
+
+References:
+- https://marble5.worldlabs.ai/docs/text-to-image
+- https://marble5.worldlabs.ai/docs/images-to-posed-images
+- https://marble5.worldlabs.ai/docs/depth-guided-generation
+- https://marble5.worldlabs.ai/docs/api-reference/splats2-mesh
 
 ### Tencent HunyuanWorld 2.0 — T3 persistent 3D / reconstruction candidate
 
@@ -429,7 +445,7 @@ world creation: 3 key scenes
 
 Current official capability evidence still supports the tier split:
 
-- World Labs announced the public World API on 2026-01-21 for generating explorable 3D worlds from text, images, panoramas, multi-view input and video, with web rendering/export. This remains a T3 persistent spatial-asset candidate rather than Reality Root.
+- World Labs Marble 2 currently exposes a composable Developer API rather than one universal text-to-3D-world endpoint. `atlasTextToImage`, `images2PosedRGBD`, `atlasChisel/atlasGenerate` and `splats2Mesh` form an inspectable world-building pipeline. Wanxiang therefore treats Marble as a staged T2.5/T3 derived-asset pipeline candidate rather than Reality Root.
 - Tencent TokenHub now exposes **Hy-World-2.1-panorama** as synchronous 360° panorama generation and **Hy-World-2.1-scene** as asynchronous 3D scene generation. The 3D route returns a task id, is documented as commonly taking 10–20 minutes, and is polled until completion. Wanxiang therefore treats Panorama as a practical T2 spatial-view upgrade and Scene as a T3 persistent spatial-asset candidate; neither becomes Reality Root.
 - Google DeepMind Genie 3 remains a real-time 20-24 FPS, 720p world model. Its official limitations still include limited direct action space, multi-agent interaction limitations and only a few minutes of continuous interaction. It therefore remains T4 sensory/live projection rather than Wanxiang persistence/History.
 
@@ -537,7 +553,7 @@ T2 remains `projection_only=true`. Estimated depth is not canonical geometry.
 
 Use only for selected high-value locations, not every paragraph or every place.
 
-Candidate provider class includes World Labs World API and Hy-World-2.1-scene style systems that return navigable/exportable 3D assets. Both current provider families use asynchronous generation semantics, so T3 must not implement the synchronous `SceneImageProvider.produce()` contract.
+Candidate provider shapes now split in two: Hy-World-2.1-scene is a direct asynchronous text/image-to-3D-scene task, while Marble 2 is naturally a multi-operation pipeline whose intermediate images, cameras, depth and geometry remain explicit derived artifacts. Both shapes use asynchronous operation semantics, so T3 must not implement the synchronous `SceneImageProvider.produce()` contract or assume that one provider call equals one complete spatial world.
 
 The T3 provider boundary is task-oriented:
 
@@ -625,7 +641,7 @@ Hy-World-2.1-panorama is a synchronous 360° panorama capability. It fits a rich
 
 ### T3 spatial generation job
 
-Hy-World-2.1-scene is an asynchronous 3D generation task and World Labs World API also describes world generation as asynchronous. Therefore Wanxiang's production T3 ABI must be a durable job state machine, not a blocking HTTP call.
+Hy-World-2.1-scene is an asynchronous 3D generation task. Marble 2 also returns long-running operations, but a complete Wanxiang spatial upgrade may consist of several such operations rather than one task. Therefore Wanxiang's production T3 ABI must be a durable job/pipeline state machine, not a blocking HTTP call and not a vendor-shaped Reality Root.
 
 Required T3 states:
 
@@ -742,9 +758,9 @@ A production Tencent bridge must prove all of the following before `REAL_T3` can
 
 Until those are demonstrated with authorized credentials, the repository may prove the adapter seam and local state machine but must continue to report real Tencent T3 execution as `EXTERNAL_BLOCKED`.
 
-### World Labs and Genie placement remains unchanged
+### World Labs and Genie placement after Marble 2 API re-verification
 
-World Labs' World API is also documented as asynchronous world generation from text/image/video and remains a natural T3 candidate, but direct production activation still requires verified idempotency, artifact and billing behavior.
+World Labs remains a strong T3 candidate, but the current Marble 2 Developer API is better represented as a **composable provider pipeline** than as a single raw world-generation endpoint. A future production adapter must persist the operation identity of every paid stage, bind intermediate assets to the same source scene/provenance chain, and prevent a partially completed pipeline from silently creating duplicate downstream work. Direct production activation still requires real account access plus idempotency, artifact, latency and billing evidence.
 
 Genie 3 remains a T4 live/sensory projection. Its current official capability is real-time 20–24 FPS / 720p interactive generation with interaction horizons measured in minutes and a still-limited action space. Those properties make it valuable for optional live projection, not for replacing Wanxiang Commit Authority or durable History.
 
@@ -792,22 +808,35 @@ https://cloud.tencent.com/document/product/1823/136578
 ### World Labs Marble 2 Developer API
 
 The currently published Marble 2 Developer API has stronger operation primitives.
-Task endpoints accept an \`Idempotency-Key\`; the retry guidance explicitly requires
-transport retries to reuse the same key so they resolve to the original operation.
-Long-running operations are read separately and may also record a best-effort cancellation
-intent. Cancellation itself has a stable \`requestId\`, and clients must continue polling
-until the operation reaches a terminal state.
+Task endpoints accept an `Idempotency-Key`; transport retries are expected to
+reuse that key so the logical task resolves to the original operation. Long-running
+operations are read separately. The API also offers a best-effort cancel operation
+with a stable `requestId`; requesting cancellation is not terminal truth, so the
+client continues polling until the operation itself becomes terminal.
 
-Those semantics map cleanly onto Wanxiang's durable T3 job model, but they do **not** make
-cancellation or safe automatic resubmission universal. A future Marble adapter may declare
-idempotent submission only after its exact enabled task endpoint and response schema are
-qualified. Cancellation should likewise be an optional provider capability rather than a
-method assumed to exist on every \`SpatialGenerationProvider\`.
+The provider shape is also now clearer. A Wanxiang spatial upgrade may chain
+`atlasTextToImage -> images2PosedRGBD -> atlasChisel/atlasGenerate`, with an
+optional later geometry/export stage such as `splats2Mesh`. Intermediate
+operations and assets must remain individually auditable and restart-safe;
+completing one step is not equivalent to completing the T3 upgrade.
+
+Cancellation and safe automatic resubmission are still provider capabilities,
+not universal T3 behavior. A Marble adapter may declare idempotent submission
+for a qualified enabled task because those task endpoints accept an
+`Idempotency-Key`. Cancellation is a separate best-effort capability and
+must not be silently assumed for every `SpatialGenerationProvider`.
+
+Marble pricing is also intentionally not hard-coded into Wanxiang. The current
+beta is credit based and World Labs explicitly directs API users to the live
+platform rate card because task rates can change. Wanxiang should continue to
+use deployment-configured budget units plus provider/billing evidence rather
+than embedding a stale dollar price in source code.
 
 Official references:
-https://atlas-beta.worldlabs.ai/docs/operations
-https://atlas-beta.worldlabs.ai/docs/errors
-https://atlas-beta.worldlabs.ai/docs/api-reference/cancel-operation
+https://marble5.worldlabs.ai/docs/operations
+https://marble5.worldlabs.ai/docs/api-reference/cancel-operation
+https://marble5.worldlabs.ai/docs/billing
+https://marble5.worldlabs.ai/docs/how-to-use-atlas
 
 ### Product consequence
 
