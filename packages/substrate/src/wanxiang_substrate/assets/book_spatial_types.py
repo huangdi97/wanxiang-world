@@ -75,6 +75,11 @@ class _SpatialGenerationTicket:
     provider_usage_units: int | None = None
     attempt: int = 0
 
+    @property
+    def accounted_cost_units(self) -> int:
+        """Conservatively charge at least provider-reported usage when available."""
+        return max(self.reserved_cost_units, self.provider_usage_units or 0)
+
 
 class _SpatialGenerationProvider:
     """Replaceable T3 generation contract; it is not a Kernel/runtime port."""

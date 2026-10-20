@@ -130,7 +130,9 @@ class _SpatialGenerationCoordinator:
                     return self._submit_reserved_intent(request, existing)
                 return existing
 
-            reserved_total = sum(row.reserved_cost_units for row in self.jobs.list_scope(scope_key))
+            reserved_total = sum(
+                row.accounted_cost_units for row in self.jobs.list_scope(scope_key)
+            )
             if reserved_total + self.provider.cost_units_per_job > max_cost_units:
                 raise ValueError("spatial world budget is exhausted")
 

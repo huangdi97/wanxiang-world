@@ -785,8 +785,20 @@ def test_t3_provider_usage_over_reserved_budget_fails_closed_and_persists_audit(
     assert failed.state == "failed"
     assert failed.reason == "provider_cost_overrun"
     assert failed.provider_usage_units == 8
+    assert failed.accounted_cost_units == 8
     assert failed.asset_refs == ()
     assert persisted == failed
+
+    with pytest.raises(ValueError, match="world budget is exhausted"):
+        coordinator.submit(
+            _request(),
+            allow_network=True,
+            external_processing_allowed=True,
+            private_source=False,
+            max_cost_units=14,
+            delivery_rights="source-gated",
+            attempt=1,
+        )
 
 
 def test_t3_invalid_provider_usage_does_not_mutate_persisted_ticket() -> None:

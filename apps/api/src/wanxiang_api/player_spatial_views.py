@@ -41,7 +41,7 @@ def spatial_generation_view(
     allow_network = bool(request.app.state.spatial_asset_allow_network)
     budget = int(request.app.state.spatial_asset_max_cost_units)
     jobs = cast(SpatialJobStore, request.app.state.spatial_asset_jobs)
-    reserved = sum(ticket.reserved_cost_units for ticket in jobs.list_scope(scope_key))
+    reserved = sum(ticket.accounted_cost_units for ticket in jobs.list_scope(scope_key))
     remaining = max(0, budget - reserved)
     if provider is None:
         return {
