@@ -17,6 +17,7 @@ from typing import cast
 from urllib.parse import urlsplit
 from urllib.request import Request, build_opener
 
+import wanxiang_substrate.assets.book_spatial_http_control as _http_control
 from wanxiang_substrate.assets.book_http_transport import _NoRedirects
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
 from wanxiang_substrate.assets.book_scene_prompt import (
@@ -24,7 +25,6 @@ from wanxiang_substrate.assets.book_scene_prompt import (
     _story_visual_profile_from_style_key,
 )
 from wanxiang_substrate.assets.book_spatial_frame import _projection_frame_from_mapping
-import wanxiang_substrate.assets.book_spatial_http_control as _http_control
 from wanxiang_substrate.assets.book_spatial_http_receipts import (
     _provider_usage_units,
     _submission_receipt,
