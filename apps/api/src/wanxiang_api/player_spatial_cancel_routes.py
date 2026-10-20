@@ -5,7 +5,10 @@
 from __future__ import annotations
 
 from fastapi import APIRouter, Header, HTTPException, Request
-from wanxiang_substrate.spatial import request_spatial_cancellation, source_scene_key_allowed
+from wanxiang_substrate.spatial import (
+    request_spatial_cancellation,
+    source_scene_key_allowed,
+)
 
 from wanxiang_api.player_spatial_routes import (
     _jobs,
