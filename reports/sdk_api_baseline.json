@@ -55,6 +55,7 @@
     "POST /experience/player/worlds/{profile_id}/enter",
     "POST /experience/player/worlds/{profile_id}/panoramas",
     "POST /experience/player/worlds/{profile_id}/spatial",
+    "POST /experience/player/worlds/{profile_id}/spatial/{submission_id}/cancel",
     "POST /experience/player/worlds/{profile_id}/visuals",
     "POST /experience/worlds/{profile_id}/enter",
     "POST /forge/completions/plan",
