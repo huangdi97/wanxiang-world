@@ -55,6 +55,12 @@ _SPATIAL_STRINGS: dict[str, str] = {
     "spatial_upgrade_state_failed": "failed",
     "spatial_upgrade_state_cancelled": "cancelled",
     "spatial_upgrade_state_expired": "expired",
+    "spatial_budget_summary": (
+        "World spatial budget · accounted {reserved}/{total} · {remaining} remaining"
+    ),
+    "spatial_job_attempt": "Attempt {attempt}",
+    "spatial_job_reserved": "reserved {units}",
+    "spatial_job_usage": "provider reported {units}",
     "status_spatial_submitted": (
         "Spatial generation for {place} was submitted; " + "you can keep using the current world."
     ),

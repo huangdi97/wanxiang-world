@@ -38,6 +38,10 @@ _SPATIAL_STRINGS: dict[str, str] = {
     "spatial_upgrade_state_failed": "生成失败",
     "spatial_upgrade_state_cancelled": "已取消",
     "spatial_upgrade_state_expired": "已过期",
+    "spatial_budget_summary": "世界空间预算 · 已计入 {reserved}/{total} · 剩余 {remaining}",
+    "spatial_job_attempt": "第 {attempt} 次尝试",
+    "spatial_job_reserved": "预留 {units}",
+    "spatial_job_usage": "Provider 实报 {units}",
     "status_spatial_submitted": "{place} 的空间场景任务已提交；你可以继续使用当前世界。",
     "status_spatial_refreshed": "空间场景状态已刷新。",
 }

@@ -58,8 +58,16 @@ def test_player_spatial_generation_auto_polls_only_while_detail_is_active() -> N
     assert "Math.round(delay*1.6)" in SCRIPT
     assert '"submission_ambiguous"' in SCRIPT
     assert 'tr("spatial_upgrade_ambiguous",{place})' in SCRIPT
-    assert "重复付费" in player_html("zh-CN")
-    assert "duplicate billing" in player_html("en-US")
+    assert 'tr("spatial_budget_summary"' in SCRIPT
+    assert "provider_usage_units" in SCRIPT
+    zh = player_html("zh-CN")
+    en = player_html("en-US")
+    assert "重复付费" in zh
+    assert "世界空间预算" in zh
+    assert "Provider 实报" in zh
+    assert "duplicate billing" in en
+    assert "World spatial budget" in en
+    assert "provider reported" in en
 
 
 def test_player_bundles_dependency_free_ply_spatial_renderer() -> None:
