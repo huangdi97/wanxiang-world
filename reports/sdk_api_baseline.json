@@ -2185,6 +2185,7 @@
     "wanxiang_substrate.relationship_behavior_feedback",
     "wanxiang_substrate.render_narrative",
     "wanxiang_substrate.reputation_field",
+    "wanxiang_substrate.request_spatial_cancellation",
     "wanxiang_substrate.require_delivery_rights",
     "wanxiang_substrate.require_text",
     "wanxiang_substrate.requires_review_for_canon",
