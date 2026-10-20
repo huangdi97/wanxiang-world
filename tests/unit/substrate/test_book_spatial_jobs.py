@@ -832,6 +832,7 @@ def test_t3_provider_request_reference_is_internal_and_restart_safe(
     assert restored.provider_task_ref == "task:receipt"
     assert restored.provider_request_ref == "request:audit-42"
 
+
 def test_t3_persisted_ticket_rejects_asset_rights_or_state_tampering() -> None:
     asset = {
         "asset_id": "asset:deadbeef",
@@ -907,6 +908,7 @@ def test_t3_restart_attach_revalidates_persisted_media_type_and_rights() -> None
     with pytest.raises(ValueError, match="media type|bytes do not match"):
         coordinator.attach(bad_media.submission_id, _DerivedSpatialAttachments())
 
+
 def test_t3_attach_rejects_ticket_and_asset_that_both_upgrade_current_rights() -> None:
     payload = _glb(b"rights-upgrade")
     provider = _FakeSpatialProvider(
@@ -939,4 +941,3 @@ def test_t3_attach_rejects_ticket_and_asset_that_both_upgrade_current_rights() -
             _DerivedSpatialAttachments(),
             expected_delivery_rights="source-gated",
         )
-
