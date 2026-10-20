@@ -719,9 +719,8 @@ def test_t3_cancel_is_owner_only_and_waits_for_provider_terminal_truth() -> None
     projected = cancelled.json()["spatial"]
     assert projected["state"] == "submitted"
     assert projected["cancellation_requested"] is True
-    assert provider.cancellations == [
-        ("provider-secret-task-ref", f"{submission_id}:cancel-v1")
-    ]
+    request_id = hashlib.sha256(f"{submission_id}:cancel-v1".encode()).hexdigest()[:32]
+    assert provider.cancellations == [("provider-secret-task-ref", request_id)]
 
     listed = client.get(endpoint, headers=owner).json()
     assert listed["cancellation_supported"] is True
