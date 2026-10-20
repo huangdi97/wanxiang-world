@@ -16,6 +16,11 @@ _SPATIAL_STRINGS: dict[str, str] = {
     "spatial_upgrade_submit": "Generate spatial scene",
     "spatial_upgrade_retry": "Retry spatial generation",
     "spatial_upgrade_refresh": "Refresh generation status",
+    "spatial_upgrade_cancel": "Request cancellation",
+    "spatial_upgrade_cancel_requested": (
+        "Cancellation requested; waiting for the provider to report a terminal state. "
+        "The current visual scene remains usable."
+    ),
     "spatial_upgrade_available": (
         "{place} can be upgraded · estimated {cost}; {remaining} world budget unit(s) remain"
     ),
@@ -65,4 +70,8 @@ _SPATIAL_STRINGS: dict[str, str] = {
         "Spatial generation for {place} was submitted; " + "you can keep using the current world."
     ),
     "status_spatial_refreshed": "Spatial generation status refreshed.",
+    "status_spatial_cancel_requested": (
+        "Cancellation was requested; Wanxiang will keep polling until the provider "
+        "reports a terminal state."
+    ),
 }
