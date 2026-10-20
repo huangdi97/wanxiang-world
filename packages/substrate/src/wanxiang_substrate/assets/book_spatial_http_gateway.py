@@ -165,6 +165,7 @@ class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
         _http_control._cancel_spatial_http(
             self.cancel_endpoint, task_ref, request_id, self._post_json
         )
+
     def _download_artifact(self, url: str) -> bytes:
         endpoint = _validate_endpoint(url)
         host = (urlsplit(endpoint).hostname or "").casefold()
