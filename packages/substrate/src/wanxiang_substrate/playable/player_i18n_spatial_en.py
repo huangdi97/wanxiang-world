@@ -31,6 +31,10 @@ _SPATIAL_STRINGS: dict[str, str] = {
         "remains usable while the provider task or billing record is reconciled."
     ),
     "spatial_upgrade_ready": ("Spatial scene for {place} is ready · {count} spatial asset(s)"),
+    "spatial_upgrade_ready_unrenderable": (
+        "Verified spatial assets for {place} are stored, but the built-in browser renderer "
+        "does not support their formats; existing T0/T1/T2 visuals remain usable."
+    ),
     "spatial_upgrade_terminal": (
         "Spatial task for {place}: {state}. The current scene remains usable."
     ),

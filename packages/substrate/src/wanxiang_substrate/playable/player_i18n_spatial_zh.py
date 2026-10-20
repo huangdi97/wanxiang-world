@@ -27,6 +27,10 @@ _SPATIAL_STRINGS: dict[str, str] = {
         "当前视觉场景仍可使用，请先核对 Provider 任务或账单后再恢复。"
     ),
     "spatial_upgrade_ready": "{place} 的空间场景已就绪 · {count} 个空间资产",
+    "spatial_upgrade_ready_unrenderable": (
+        "{place} 的空间资产已验证并保存，但当前浏览器内置渲染器不支持这些格式；"
+        "现有 T0/T1/T2 视觉仍可正常使用。"
+    ),
     "spatial_upgrade_terminal": "{place} 的空间任务状态：{state}。现有场景仍可继续使用。",
     "spatial_upgrade_unavailable_provider": "当前未配置空间生成器；现有插画场景仍可正常使用。",
     "spatial_upgrade_unavailable_network": "空间生成器当前未获准联网；现有场景不受影响。",

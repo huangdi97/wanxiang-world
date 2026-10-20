@@ -19,6 +19,7 @@ def test_player_html_exposes_optional_spatial_stage_without_vendor_dependency() 
     assert "loadAsset" in SPATIAL_RENDERER_SCRIPT
     assert "projectionFrame" in SPATIAL_RENDERER_SCRIPT
     assert "asset_revision" in SPATIAL_RENDERER_SCRIPT
+    assert "supportsScene" in SPATIAL_RENDERER_SCRIPT
     assert "three.js" not in SPATIAL_RENDERER_SCRIPT.casefold()
     assert "worldlabs" not in SPATIAL_RENDERER_SCRIPT.casefold()
     assert "hunyuan" not in SPATIAL_RENDERER_SCRIPT.casefold()
@@ -68,6 +69,8 @@ def test_player_spatial_generation_auto_polls_only_while_detail_is_active() -> N
     assert "duplicate billing" in en
     assert "World spatial budget" in en
     assert "provider reported" in en
+    assert "内置渲染器不支持" in zh
+    assert "does not support their formats" in en
 
 
 def test_player_bundles_dependency_free_ply_spatial_renderer() -> None:
@@ -85,6 +88,8 @@ def test_player_bundles_dependency_free_ply_spatial_renderer() -> None:
     assert "spatial_stage_controls_hint" in BUILTIN_SPATIAL_RENDERER_SCRIPT
     assert "projectionFrame" in BUILTIN_SPATIAL_RENDERER_SCRIPT
     assert "frameTransform" in BUILTIN_SPATIAL_RENDERER_SCRIPT
+    assert "lastError" in BUILTIN_SPATIAL_RENDERER_SCRIPT
+    assert "catch(error){lastError=error}" in BUILTIN_SPATIAL_RENDERER_SCRIPT
     assert "three.js" not in BUILTIN_SPATIAL_RENDERER_SCRIPT.casefold()
     assert "tokenhub" not in BUILTIN_SPATIAL_RENDERER_SCRIPT.casefold()
     assert html.index(BUILTIN_SPATIAL_RENDERER_SCRIPT) < html.index(SPATIAL_RENDERER_SCRIPT)

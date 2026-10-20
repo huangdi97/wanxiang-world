@@ -41,6 +41,6 @@ function sync(scene,profile,headers){
   if(!available&&state.active){void deactivate();return}
   if(changed&&wasActive){void deactivate().then(()=>activate()).catch(()=>{})}
 }
-window.__WANXIANG_SPATIAL_STAGE__={sync,toggle:async()=>state.active?deactivate():activate(),deactivate,isActive:()=>state.active};
+window.__WANXIANG_SPATIAL_STAGE__={sync,toggle:async()=>state.active?deactivate():activate(),deactivate,isActive:()=>state.active,supportsScene:scene=>canRender(scene)};
 })();
 """
