@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+import hashlib
+
 import pytest
 from wanxiang_substrate.assets.book_spatial_cancel import _request_spatial_cancellation
 from wanxiang_substrate.assets.book_spatial_store import _InMemorySpatialJobStore
@@ -49,7 +51,8 @@ def test_cancel_request_is_persisted_but_state_stays_nonterminal() -> None:
     assert updated.state == "running"
     assert updated.cancellation_requested is True
     assert updated.reason == "cancellation_requested"
-    assert provider.cancels == [("task-1", "submission-1:cancel-v1")]
+    request_id = hashlib.sha256(b"submission-1:cancel-v1").hexdigest()[:32]
+    assert provider.cancels == [("task-1", request_id)]
     assert jobs.get("submission-1") == updated
 
     replay = _request_spatial_cancellation(provider, jobs, "submission-1")
