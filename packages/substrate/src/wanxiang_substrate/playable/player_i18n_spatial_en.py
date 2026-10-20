@@ -14,6 +14,7 @@ _SPATIAL_STRINGS: dict[str, str] = {
     "spatial_upgrade_eyebrow": "Spatial upgrade",
     "spatial_upgrade_heading": "Upgrade this place into a spatial scene",
     "spatial_upgrade_submit": "Generate spatial scene",
+    "spatial_upgrade_retry": "Retry spatial generation",
     "spatial_upgrade_refresh": "Refresh generation status",
     "spatial_upgrade_available": (
         "{place} can be upgraded · estimated {cost}; {remaining} world budget unit(s) remain"

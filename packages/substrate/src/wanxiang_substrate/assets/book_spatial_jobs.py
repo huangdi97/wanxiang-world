@@ -68,10 +68,13 @@ class _SpatialGenerationCoordinator:
 
     require_asset_refs = staticmethod(_require_spatial_asset_refs)
 
-    def _submission_id(self, request: _SourceSceneRequest, scope_key: str) -> str:
+    def _submission_id(
+        self, request: _SourceSceneRequest, scope_key: str, attempt: int = 0
+    ) -> str:
+        retry = f":retry:{attempt}" if attempt else ""
         identity = (
             f"{scope_key}:{request.cache_key}:t3-job-v2:"
-            f"{self.provider.provider_id}@{self.provider.provider_version}"
+            f"{self.provider.provider_id}@{self.provider.provider_version}{retry}"
         )
         return hashlib.sha256(identity.encode()).hexdigest()
 
@@ -85,8 +88,11 @@ class _SpatialGenerationCoordinator:
         max_cost_units: int,
         delivery_rights: str,
         scope_key: str = "",
+        attempt: int = 0,
     ) -> _SpatialGenerationTicket:
-        submission_id = self._submission_id(request, scope_key)
+        if attempt < 0:
+            raise ValueError("spatial attempt must be non-negative")
+        submission_id = self._submission_id(request, scope_key, attempt)
         if not self.provider.provider_id or not self.provider.provider_version:
             raise ValueError("spatial provider requires id and version")
         if self.provider.cost_units_per_job < 0 or max_cost_units < 0:
@@ -145,6 +151,7 @@ class _SpatialGenerationCoordinator:
                 delivery_rights=delivery_rights,
                 scope_key=scope_key,
                 reason="provider_submit_outcome_unknown",
+                attempt=attempt,
             )
             self.jobs.put(intent)
             return self._submit_reserved_intent(request, intent)

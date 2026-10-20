@@ -941,3 +941,48 @@ def test_t3_attach_rejects_ticket_and_asset_that_both_upgrade_current_rights() -
             _DerivedSpatialAttachments(),
             expected_delivery_rights="source-gated",
         )
+
+
+def test_terminal_t3_retry_uses_new_submission_identity_and_reserves_new_budget() -> None:
+    provider = _FakeSpatialProvider(
+        polls=[_SpatialPollResult("failed", reason="provider_task_terminal")]
+    )
+    coordinator = _coordinator(provider)
+    options = {
+        "allow_network": True,
+        "external_processing_allowed": True,
+        "private_source": False,
+        "max_cost_units": 14,
+        "delivery_rights": "source-gated",
+    }
+
+    first = coordinator.submit(_request(), **options)
+    failed = coordinator.poll(first.submission_id)
+    retry = coordinator.submit(_request(), attempt=1, **options)
+    replay = coordinator.submit(_request(), attempt=1, **options)
+
+    assert failed.state == "failed"
+    assert first.attempt == 0
+    assert retry.attempt == 1
+    assert retry.submission_id != first.submission_id
+    assert replay == retry
+    assert len(provider.submissions) == 2
+    assert sum(row.reserved_cost_units for row in coordinator.jobs.list_scope("")) == 14
+
+
+def test_negative_t3_retry_attempt_is_rejected_before_provider_call() -> None:
+    provider = _FakeSpatialProvider()
+    coordinator = _coordinator(provider)
+
+    with pytest.raises(ValueError, match="attempt must be non-negative"):
+        coordinator.submit(
+            _request(),
+            allow_network=True,
+            external_processing_allowed=True,
+            private_source=False,
+            max_cost_units=14,
+            delivery_rights="source-gated",
+            attempt=-1,
+        )
+
+    assert provider.submissions == []

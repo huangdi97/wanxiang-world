@@ -33,6 +33,7 @@ router = APIRouter(prefix="/experience/player")
 
 class SpatialPlaceRequest(BaseModel):
     place_name: str = Field(min_length=1, max_length=200)
+    retry_terminal: bool = False
 
 
 def _viewer(value: str | None) -> str:
@@ -139,6 +140,24 @@ def player_submit_spatial_place(
     )
     if not plan.scene_requests or plan.scene_requests[0].place_name != place:
         raise HTTPException(status_code=409, detail="spatial scene is not eligible for generation")
+    attempt = 0
+    if payload.retry_terminal:
+        related = [
+            row
+            for row in _jobs(request).list_scope(profile_id)
+            if row.scene_key == plan.scene_requests[0].stable_key
+        ]
+        latest = max(related, key=lambda row: row.attempt, default=None)
+        if latest is None:
+            raise HTTPException(status_code=409, detail="spatial retry requires a prior task")
+        if latest.state == "submission_ambiguous":
+            raise HTTPException(
+                status_code=409,
+                detail="ambiguous spatial submission cannot be retried safely",
+            )
+        if latest.state not in {"failed", "cancelled", "expired"}:
+            raise HTTPException(status_code=409, detail="only terminal spatial tasks may be retried")
+        attempt = latest.attempt + 1
     try:
         ticket = _coordinator(request).submit(
             plan.scene_requests[0],
@@ -150,6 +169,7 @@ def player_submit_spatial_place(
             max_cost_units=int(request.app.state.spatial_asset_max_cost_units),
             delivery_rights=plan.delivery_rights,
             scope_key=profile_id,
+            attempt=attempt,
         )
     except RuntimeError as exc:
         raise HTTPException(

@@ -626,3 +626,59 @@ def test_t3_read_rehydrate_rejects_ticket_and_asset_rights_upgrade() -> None:
     assert listed.json()["unavailable_attachments"] == 1
     assert app.state.playable.spatial_assets(profile_id, viewer_id="studio") == {}
     assert package.draft.compiler_metadata["visual_asset_rights_v1"] == "source-gated"
+
+
+def test_t3_terminal_task_can_be_explicitly_retried_with_new_budget_reservation() -> None:
+    provider = _FakeSpatialProvider()
+    app, client, profile_id = _world(
+        spatial_provider=provider,
+        spatial_allow_network=True,
+        spatial_max_cost_units=14,
+    )
+    owner = {"X-Wanxiang-User": "studio"}
+    endpoint = f"/experience/player/worlds/{profile_id}/spatial"
+
+    first_response = client.post(endpoint, headers=owner, json={"place_name": "Garden"})
+    first_id = str(first_response.json()["spatial"]["submission_id"])
+    first = app.state.spatial_asset_jobs.get(first_id)
+    assert first is not None
+    app.state.spatial_asset_jobs.put(
+        replace(first, state="failed", reason="provider_task_terminal")
+    )
+
+    retried = client.post(
+        endpoint,
+        headers=owner,
+        json={"place_name": "Garden", "retry_terminal": True},
+    )
+
+    assert retried.status_code == 202
+    retry_view = retried.json()["spatial"]
+    assert retry_view["attempt"] == 1
+    assert retry_view["submission_id"] != first_id
+    assert len(provider.submissions) == 2
+    listed = client.get(endpoint, headers=owner).json()
+    assert [item["attempt"] for item in listed["spatial_jobs"]] == [0, 1]
+    assert listed["generation"]["budget_reserved"] == 14
+    assert listed["generation"]["budget_remaining"] == 0
+
+
+def test_t3_ambiguous_submission_cannot_be_explicitly_retried() -> None:
+    provider = _SubmitUnavailableSpatialProvider()
+    _, client, profile_id = _world(
+        spatial_provider=provider,
+        spatial_allow_network=True,
+        spatial_max_cost_units=14,
+    )
+    owner = {"X-Wanxiang-User": "studio"}
+    endpoint = f"/experience/player/worlds/{profile_id}/spatial"
+    assert client.post(endpoint, headers=owner, json={"place_name": "Garden"}).status_code == 503
+
+    retried = client.post(
+        endpoint,
+        headers=owner,
+        json={"place_name": "Garden", "retry_terminal": True},
+    )
+
+    assert retried.status_code == 409
+    assert "cannot be retried safely" in retried.json()["detail"]

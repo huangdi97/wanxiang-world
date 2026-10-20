@@ -278,7 +278,7 @@ $("stage-focus-toggle").addEventListener("click",()=>{model.stageFocus=!model.st
 $("panorama-stage-toggle").addEventListener("click",async()=>{try{const active=await window.__WANXIANG_PANORAMA_STAGE__?.toggle();$("panorama-stage-toggle").textContent=tr(active?"panorama_stage_exit":"panorama_stage_enter")}catch{status(tr("panorama_stage_error"),true)}});
 $("spatial-stage-toggle").addEventListener("click",async()=>{try{const active=await window.__WANXIANG_SPATIAL_STAGE__?.toggle();$("spatial-stage-toggle").textContent=tr(active?"spatial_stage_exit":"spatial_stage_enter")}catch{status(tr("spatial_stage_error"),true)}});
 $("panorama-upgrade-submit").addEventListener("click",()=>submitPanoramaPlace($("panorama-upgrade-submit").dataset.place||""));
-$("spatial-submit").addEventListener("click",()=>submitSpatialPlace($("spatial-submit").dataset.place||""));
+$("spatial-submit").addEventListener("click",()=>submitSpatialPlace($("spatial-submit").dataset.place||"",$("spatial-submit").dataset.retry==="true"));
 $("spatial-refresh").addEventListener("click",()=>{stopSpatialAutoPoll();void refreshSpatialJobs(false)});
 $("enter-world").addEventListener("click",enterWorld);$("enter-observer").addEventListener("click",enterObserver);$("send-action").addEventListener("click",sendAction);$("leave-world").addEventListener("click",leaveWorld);$("character-form").addEventListener("submit",createCharacter);
 $("create-character-inline").addEventListener("click",()=>{view("characters-view");document.querySelector('[data-nav="characters-view"]').classList.add("is-active");$("character-form-panel").open=true;$("character-name").focus()});

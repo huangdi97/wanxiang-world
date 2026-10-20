@@ -118,6 +118,9 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
             raise ValueError("spatial ticket provider usage must be a non-negative integer")
         if raw_usage is not None and raw_usage > reserved and state != "failed":
             raise ValueError("spatial ticket provider usage exceeds reserved cost")
+        attempt = data.get("attempt", 0)
+        if isinstance(attempt, bool) or not isinstance(attempt, int) or attempt < 0:
+            raise ValueError("spatial ticket attempt must be a non-negative integer")
         delivery_rights = _required_string(data, "delivery_rights")
         if any(ref.rights != delivery_rights for ref in assets):
             raise ValueError("spatial asset rights do not match ticket delivery rights")
@@ -162,6 +165,7 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
                 else None
             ),
             provider_usage_units=raw_usage,
+            attempt=attempt,
         )
 
     def _rows(self) -> dict[str, dict[str, object]]:
@@ -207,6 +211,7 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
                 "scope_key": ticket.scope_key,
                 "reason": ticket.reason,
                 "provider_usage_units": ticket.provider_usage_units,
+                "attempt": ticket.attempt,
                 "projection_frame": (
                     _projection_frame_to_dict(ticket.projection_frame)
                     if ticket.projection_frame is not None

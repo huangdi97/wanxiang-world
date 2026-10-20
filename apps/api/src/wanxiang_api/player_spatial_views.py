@@ -24,6 +24,7 @@ def spatial_ticket_view(ticket: SpatialGenerationTicket) -> dict[str, object]:
         "provider": {"id": ticket.provider_id, "version": ticket.provider_version},
         "reserved_cost_units": ticket.reserved_cost_units,
         "asset_count": len(ticket.asset_refs),
+        "attempt": ticket.attempt,
         "media_types": sorted({ref.content_type for ref in ticket.asset_refs}),
     }
     if ticket.provider_usage_units is not None:
@@ -120,7 +121,7 @@ def spatial_ticket_views_for_world(
         source_scene_key(plan.source_digest, place): place for place in package.draft.places
     }
     rows: list[dict[str, object]] = []
-    for ticket in tickets:
+    for ticket in sorted(tickets, key=lambda row: (row.scene_key, row.attempt, row.submission_id)):
         place = place_by_scene.get(ticket.scene_key)
         if place is None:
             continue

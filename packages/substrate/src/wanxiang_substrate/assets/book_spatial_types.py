@@ -73,6 +73,7 @@ class _SpatialGenerationTicket:
     reason: str = ""
     projection_frame: _SpatialProjectionFrame | None = None
     provider_usage_units: int | None = None
+    attempt: int = 0
 
 
 class _SpatialGenerationProvider:

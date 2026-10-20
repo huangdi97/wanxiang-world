@@ -12,6 +12,7 @@ _SPATIAL_STRINGS: dict[str, str] = {
     "spatial_upgrade_eyebrow": "空间升级",
     "spatial_upgrade_heading": "把这个地点升级为空间场景",
     "spatial_upgrade_submit": "生成空间场景",
+    "spatial_upgrade_retry": "重新生成空间场景",
     "spatial_upgrade_refresh": "刷新生成状态",
     "spatial_upgrade_available": (
         "{place} 可生成空间场景 · 本次预计 {cost}；世界剩余 {remaining} 个预算单位"
