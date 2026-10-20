@@ -14,6 +14,8 @@ _SPATIAL_STRINGS: dict[str, str] = {
     "spatial_upgrade_submit": "生成空间场景",
     "spatial_upgrade_retry": "重新生成空间场景",
     "spatial_upgrade_refresh": "刷新生成状态",
+    "spatial_upgrade_cancel": "请求取消",
+    "spatial_upgrade_cancel_requested": "已请求取消；正在等待 Provider 返回最终状态。现有视觉场景仍可继续使用。",
     "spatial_upgrade_available": (
         "{place} 可生成空间场景 · 本次预计 {cost}；世界剩余 {remaining} 个预算单位"
     ),
@@ -44,4 +46,5 @@ _SPATIAL_STRINGS: dict[str, str] = {
     "spatial_job_usage": "Provider 实报 {units}",
     "status_spatial_submitted": "{place} 的空间场景任务已提交；你可以继续使用当前世界。",
     "status_spatial_refreshed": "空间场景状态已刷新。",
+    "status_spatial_cancel_requested": "已请求取消空间生成；万相会继续轮询，直到 Provider 返回最终状态。",
 }
