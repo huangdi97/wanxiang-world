@@ -156,7 +156,10 @@ def player_submit_spatial_place(
                 detail="ambiguous spatial submission cannot be retried safely",
             )
         if latest.state not in {"failed", "cancelled", "expired"}:
-            raise HTTPException(status_code=409, detail="only terminal spatial tasks may be retried")
+            raise HTTPException(
+                status_code=409,
+                detail="only terminal spatial tasks may be retried",
+            )
         attempt = latest.attempt + 1
     try:
         ticket = _coordinator(request).submit(
