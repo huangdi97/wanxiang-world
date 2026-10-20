@@ -1,7 +1,7 @@
 # Wanxiang · Source-to-Visual-World Product V2
 
-Date: 2026-10-08
-Status: DESIGN + GENERIC VISUAL V0 IMPLEMENTATION. This document extends, not replaces, R5-R7: source/evidence, WorldDraft/WorldPackage, Commit Authority, Worldline/History, Experience/Projection separation remain authoritative.
+Date: 2026-10-20
+Status: REPOSITORY-SIDE GENERIC T0-T3 IMPLEMENTATION; REAL T1/T3 PROVIDER EVIDENCE + HUMAN ACCEPTANCE STILL EXTERNAL. This document extends, not replaces, R5-R7: source/evidence, WorldDraft/WorldPackage, Commit Authority, Worldline/History, Experience/Projection separation remain authoritative.
 
 ## 1. Product invariant
 
@@ -210,29 +210,35 @@ A human can tell where they are, recognize that different books feel like differ
 
 ## 12. Implementation status on feature/source-to-visual-world
 
-Implemented in this branch:
-- source-pinned visual plan
-- scene budget/dedupe/cache identity
-- rights fail-closed
-- place source locator/confidence preservation
-- zero-cost actual SVG visual asset provider
-- explicit network/cost policy
-- OneClick visual assets
-- visual data in Player projection
-- browser DOM surfaces for world detail and live scene
-- cross-book automated tests
-- M95 browser test upgraded to require visual image presence
+Repository-side implementation currently includes:
 
-Not yet externally proven:
-- remote image provider
-- durable production object-store wiring for generated visuals
-- StoryVisualProfile generation
-- full scene-level character/object/time grounding
-- actual paid/provider cost evidence
-- persistent 3D provider
-- human cross-book visual acceptance
+- source/evidence-preserving WorldDraft/WorldPackage compilation;
+- source-pinned visual planning with evidence-aware cache identity and bounded initial scene budget;
+- StoryVisualProfile generation and bounded provider briefs that never send the full book;
+- deterministic T0 SVG scenes and source-grounded narrative Atlas;
+- governed T1 image-provider ABI, raster signature validation, privacy/network/rights/cost gates and content-addressed caching;
+- restart-safe local object/index cache, cross-process duplicate-generation coalescing and current-rights re-issuance;
+- T2 panorama / shared World Stage projection without creating a second Player application;
+- durable asynchronous T3 submit/poll/verify/attach jobs;
+- pre-submit `submission_ambiguous` intent for non-idempotent provider safety;
+- world-scoped conservative T3 budget reservation, provider-usage audit and overrun fail-closed behavior;
+- T3 artifact digest/media-signature validation, restart recovery and current-rights revalidation;
+- direct Tencent TokenHub HY-World adaptation behind the generic T3 contract;
+- dependency-free PLY rendering and renderer-neutral T3 mounting in the same Player World Stage;
+- Player auto-poll/backoff, scene-focus navigation, observer/embodiment separation, actor-scoped possessions/relations and verified scene-presence semantics;
+- cross-book, long-book, deferred-place, restart/cache, provider-governance, desktop/mobile browser and kernel-boundary automated coverage.
 
-These gaps are not a reason to return to bespoke per-world coding.
+The repository-side implementation is therefore no longer a V0 scene-only prototype. T0/T1/T2/T3 share one source-to-world pipeline and one Player/Commit Authority boundary.
+
+Still **not externally proven and therefore not self-awarded**:
+
+1. a real authorized T1 provider execution with provider latency/billing evidence;
+2. a real authorized T3 provider execution with task lifecycle, artifact, restart and billing evidence;
+3. rights-safe qualitative evaluation on multiple real long books;
+4. genuine SVW-J / M95 human visual and immersion acceptance;
+5. Stable merge/tag/release authorization and its existing release gates.
+
+A local fake/injected provider, deterministic fixture or CI pass proves the contract and product plumbing only. It does not count as REAL_T1, REAL_T3 or human acceptance.
 
 
 ## 13. October 2026 provider research and product placement
