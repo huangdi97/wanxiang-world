@@ -36,8 +36,7 @@ def _spatial_http_headers(bearer_token: str, idempotency_key: str = "") -> dict[
 def _spatial_cancellation_payload(task_ref: str, request_id: str) -> dict[str, object]:
     values = (task_ref, request_id)
     if any(
-        not value.strip() or len(value) > 1024 or "\r" in value or "\n" in value
-        for value in values
+        not value.strip() or len(value) > 1024 or "\r" in value or "\n" in value for value in values
     ):
         raise ValueError("spatial HTTP cancellation requires safe task and request ids")
     return {"task_ref": task_ref, "request_id": request_id}
