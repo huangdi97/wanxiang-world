@@ -2,6 +2,8 @@
 
 | Date | Goal | Failure | Root cause | Fix / status |
 |---|---|---|---|---|
+| 2026-10-20 | Source→Visual T3 CI | Latest T3 rights-restoration tests failed Ruff format, then strict Pyright inferred an empty asset list as `list[Unknown]` | New regression coverage landed without final formatter/type annotation cleanup | Fixed: normalized both test files and typed the empty persisted asset fixture; quality gates remain strict |
+| 2026-10-20 | Source→Visual T3 Player | `submission_ambiguous` was neither treated as an active polling state nor rendered as an explicit blocked state, so the UI could describe generation as available while hiding the submit button | Backend ambiguity state had no dedicated Player copy/classification | Fixed: explicit ambiguous-state copy explains duplicate-billing risk, keeps lower visual tiers usable, and does not auto-poll/resubmit |
 | 2026-08-14 | G29A | `ruff format --check` crashed (panic) on tests/architecture/test_v51_forensics.py | File stored with UTF-8 BOM; ruff annotation-range bug | Stripped BOM; fixed (pre-existing defect D1) |
 | 2026-08-14 | G29A | `scripts/v51_metrics.py` failed pyright strict (18 errors) | v5.1 script lacked strict type annotations; v5.1 "pyright PASS" did not cover it | Added TypedDict + strict annotations (D2) |
 | 2026-08-14 | G29A | Uncommitted v5.2 prep edit corrupted scripts/architecture_check.py + architecture_forensics.py (syntax error, lost observability/substrate guard entries, em-dash mojibake) | Over-wide deletion during stub-package removal | Rebuilt FORBIDDEN dicts = HEAD minus stub entries; em-dash restored (D3/D4) |
