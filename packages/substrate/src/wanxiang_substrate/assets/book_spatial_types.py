@@ -74,6 +74,7 @@ class _SpatialGenerationTicket:
     projection_frame: _SpatialProjectionFrame | None = None
     provider_usage_units: int | None = None
     attempt: int = 0
+    cancellation_requested: bool = False
 
     @property
     def accounted_cost_units(self) -> int:
@@ -92,6 +93,7 @@ class _SpatialGenerationProvider:
     allowed_media_types: frozenset[str] = frozenset()
     artifact_hosts: frozenset[str] = frozenset()
     submit_is_idempotent: bool = False
+    supports_cancel: bool = False
 
     def submit(
         self, request: _SourceSceneRequest, *, idempotency_key: str
@@ -100,6 +102,9 @@ class _SpatialGenerationProvider:
 
     def poll(self, task_ref: str) -> _SpatialPollResult:
         raise TypeError("concrete spatial provider required")
+
+    def cancel(self, task_ref: str, *, request_id: str) -> None:
+        raise TypeError("spatial provider does not support cancellation")
 
 
 class _SpatialJobStore:

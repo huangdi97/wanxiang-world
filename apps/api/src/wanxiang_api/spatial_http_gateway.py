@@ -52,9 +52,12 @@ def _media_types_env() -> frozenset[str]:
 def spatial_http_runtime_from_env() -> SpatialHttpRuntime:
     submit_endpoint = os.environ.get("WANXIANG_SPATIAL_HTTP_SUBMIT_ENDPOINT", "").strip()
     poll_endpoint = os.environ.get("WANXIANG_SPATIAL_HTTP_POLL_ENDPOINT", "").strip()
+    cancel_endpoint = os.environ.get("WANXIANG_SPATIAL_HTTP_CANCEL_ENDPOINT", "").strip()
     allow_network = _bool_env("WANXIANG_SPATIAL_ALLOW_NETWORK")
     max_cost_units = _int_env("WANXIANG_SPATIAL_MAX_COST_UNITS", default=0)
     if not submit_endpoint and not poll_endpoint:
+        if cancel_endpoint:
+            raise ValueError("spatial HTTP cancel endpoint requires submit and poll endpoints")
         if allow_network:
             raise ValueError("WANXIANG_SPATIAL_ALLOW_NETWORK requires spatial HTTP endpoints")
         return SpatialHttpRuntime(None, False, max_cost_units)
@@ -63,6 +66,7 @@ def spatial_http_runtime_from_env() -> SpatialHttpRuntime:
     provider = build_http_spatial_provider(
         submit_endpoint=submit_endpoint,
         poll_endpoint=poll_endpoint,
+        cancel_endpoint=cancel_endpoint,
         bearer_token=os.environ.get("WANXIANG_SPATIAL_HTTP_BEARER_TOKEN", ""),
         provider_id=(
             os.environ.get("WANXIANG_SPATIAL_PROVIDER_ID", "http-json-spatial").strip()

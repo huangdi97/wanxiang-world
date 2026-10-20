@@ -56,6 +56,7 @@ class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
         submit_endpoint: str,
         poll_endpoint: str,
         *,
+        cancel_endpoint: str,
         bearer_token: str,
         provider_id: str,
         provider_version: str,
@@ -69,6 +70,8 @@ class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
     ) -> None:
         self.submit_endpoint = _validate_endpoint(submit_endpoint)
         self.poll_endpoint = _validate_endpoint(poll_endpoint)
+        self.cancel_endpoint = _validate_endpoint(cancel_endpoint) if cancel_endpoint else ""
+        self.supports_cancel = bool(self.cancel_endpoint)
         endpoint_hosts = {
             host.casefold()
             for host in (
@@ -174,6 +177,28 @@ class _HttpJsonSpatialProvider(_SpatialGenerationProvider):
         )
         return _submission_receipt(body)
 
+    def cancel(self, task_ref: str, *, request_id: str) -> None:
+        if not self.cancel_endpoint:
+            raise ValueError("spatial HTTP provider does not support cancellation")
+        if (
+            not task_ref.strip()
+            or len(task_ref) > 1024
+            or "\r" in task_ref
+            or "\n" in task_ref
+            or not request_id.strip()
+            or len(request_id) > 1024
+            or "\r" in request_id
+            or "\n" in request_id
+        ):
+            raise ValueError("spatial HTTP cancellation requires safe task and request ids")
+        body = self._post_json(
+            self.cancel_endpoint,
+            {"task_ref": task_ref, "request_id": request_id},
+            idempotency_key=request_id,
+        )
+        if body.get("accepted") is not True:
+            raise ValueError("spatial HTTP cancellation was not accepted")
+
     def _download_artifact(self, url: str) -> bytes:
         endpoint = _validate_endpoint(url)
         host = (urlsplit(endpoint).hostname or "").casefold()
@@ -263,6 +288,7 @@ def _build_http_spatial_provider(
     *,
     submit_endpoint: str,
     poll_endpoint: str,
+    cancel_endpoint: str = "",
     bearer_token: str = "",
     provider_id: str = "http-json-spatial",
     provider_version: str = "1",
@@ -286,6 +312,7 @@ def _build_http_spatial_provider(
     return _HttpJsonSpatialProvider(
         submit_endpoint,
         poll_endpoint,
+        cancel_endpoint=cancel_endpoint,
         bearer_token=bearer_token,
         provider_id=provider_id,
         provider_version=provider_version,

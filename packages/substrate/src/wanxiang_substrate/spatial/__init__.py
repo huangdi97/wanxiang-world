@@ -9,6 +9,7 @@ from wanxiang_substrate.assets.book_scene_plan import (
     _plan_book_scene_assets,
     _SourceVisualPlan,
 )
+from wanxiang_substrate.assets.book_spatial_cancel import _request_spatial_cancellation
 from wanxiang_substrate.assets.book_spatial_http_gateway import _build_http_spatial_provider
 from wanxiang_substrate.assets.book_spatial_jobs import (
     _DerivedSpatialAttachments,
@@ -58,6 +59,7 @@ SpatialGenerationProvider = _SpatialGenerationProvider
 SpatialGenerationTicket = _SpatialGenerationTicket
 SpatialJobStore = _SpatialJobStore
 build_http_spatial_provider = _build_http_spatial_provider
+request_spatial_cancellation = _request_spatial_cancellation
 
 
 def plan_book_scene_assets(
@@ -112,6 +114,7 @@ __all__ = [
     "build_http_spatial_provider",
     "plan_book_scene_assets",
     "register_spatial_resolvers",
+    "request_spatial_cancellation",
     "source_scene_key",
     "source_scene_key_allowed",
     "travel_time",

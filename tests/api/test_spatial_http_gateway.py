@@ -434,3 +434,34 @@ def test_t3_http_artifact_rejects_invalid_or_mismatched_provider_digest(
 
     with pytest.raises(ValueError, match="content_sha256|digest does not match"):
         _provider().poll("operation-123")
+
+
+def test_t3_http_optional_cancel_is_idempotency_bound_and_nonterminal(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    opener = _install_opener(monkeypatch, [json.dumps({"accepted": True}).encode()])
+    provider = build_http_spatial_provider(
+        submit_endpoint="https://gateway.example/spatial/submit",
+        poll_endpoint="https://gateway.example/spatial/poll",
+        cancel_endpoint="https://gateway.example/spatial/cancel",
+        provider_id="provider:cancel-spatial",
+        provider_version="2026-10",
+    )
+
+    assert provider.supports_cancel is True
+    provider.cancel("operation-123", request_id="cancel-request-1")
+
+    sent = opener.requests[0]
+    payload = json.loads(sent.data.decode("utf-8"))
+    assert payload == {"task_ref": "operation-123", "request_id": "cancel-request-1"}
+    assert sent.headers["Idempotency-key"] == "cancel-request-1"
+
+
+def test_t3_http_cancel_is_unavailable_without_cancel_endpoint() -> None:
+    provider = build_http_spatial_provider(
+        submit_endpoint="https://gateway.example/spatial/submit",
+        poll_endpoint="https://gateway.example/spatial/poll",
+    )
+    assert provider.supports_cancel is False
+    with pytest.raises(ValueError, match="does not support cancellation"):
+        provider.cancel("operation-123", request_id="cancel-request-1")
