@@ -66,6 +66,22 @@ class _SpatialGenerationCoordinator:
         self.objects = objects or InMemoryObjectStore()
         self.max_asset_bytes = max_asset_bytes
 
+    @staticmethod
+    def require_asset_refs(
+        objects: ObjectStore,
+        refs: tuple[AssetRef, ...],
+        *,
+        delivery_rights: str,
+        allowed_media_types: frozenset[str] | None = None,
+    ) -> None:
+        """Revalidate persisted T3 assets through the existing public coordinator seam."""
+        _require_spatial_asset_refs(
+            objects,
+            refs,
+            delivery_rights=delivery_rights,
+            allowed_media_types=allowed_media_types,
+        )
+
     def _submission_id(self, request: _SourceSceneRequest, scope_key: str) -> str:
         identity = (
             f"{scope_key}:{request.cache_key}:t3-job-v2:"

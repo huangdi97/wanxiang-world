@@ -10,9 +10,9 @@ from typing import Any, cast
 from fastapi.testclient import TestClient
 from scripts.reference_runtime import build_reference_runtime
 from wanxiang_api.app import create_app
-from wanxiang_substrate.spatial import plan_book_scene_assets
 from wanxiang_substrate.assets.book_spatial_types import _SpatialGenerationTicket
 from wanxiang_substrate.playable.local_store import LocalJsonPlayableStore
+from wanxiang_substrate.spatial import plan_book_scene_assets
 
 HEADERS = {"X-Wanxiang-User": "studio"}
 

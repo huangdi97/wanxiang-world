@@ -11,10 +11,10 @@ from __future__ import annotations
 from typing import cast
 
 from fastapi import Request
-from wanxiang_substrate.assets.book_spatial_safety import require_spatial_asset_refs
 from wanxiang_substrate.assets.storage import ObjectStore
 from wanxiang_substrate.playable import PlayableService
 from wanxiang_substrate.spatial import (
+    SpatialGenerationCoordinator,
     SpatialJobStore,
     plan_book_scene_assets,
     source_scene_key_allowed,
@@ -61,7 +61,7 @@ def rehydrate_spatial_attachments(
                 raise ValueError(
                     "persisted spatial ticket rights do not match current source rights"
                 )
-            require_spatial_asset_refs(
+            SpatialGenerationCoordinator.require_asset_refs(
                 objects,
                 ticket.asset_refs,
                 delivery_rights=current_rights,

@@ -41,21 +41,6 @@ def _require_spatial_asset_refs(
         raise ValueError("verified spatial asset storage is unavailable") from exc
 
 
-def require_spatial_asset_refs(
-    objects: ObjectStore,
-    refs: tuple[AssetRef, ...],
-    *,
-    delivery_rights: str,
-    allowed_media_types: frozenset[str] | None = None,
-) -> None:
-    """Public projection-safety seam for revalidating persisted T3 assets."""
-    _require_spatial_asset_refs(
-        objects,
-        refs,
-        delivery_rights=delivery_rights,
-        allowed_media_types=allowed_media_types,
-    )
-
 
 @contextmanager
 def _spatial_submission_guard(
