@@ -26,7 +26,10 @@ def _request_spatial_cancellation(
     ticket = jobs.get(submission_id)
     if ticket is None:
         raise KeyError(submission_id)
-    if ticket.provider_id != provider.provider_id or ticket.provider_version != provider.provider_version:
+    if (
+        ticket.provider_id != provider.provider_id
+        or ticket.provider_version != provider.provider_version
+    ):
         raise ValueError("configured spatial provider does not match persisted ticket")
     if ticket.state not in {"submitted", "queued", "running"}:
         raise ValueError("only active spatial tasks may request cancellation")
@@ -39,6 +42,10 @@ def _request_spatial_cancellation(
 
     request_id = hashlib.sha256(f"{submission_id}:cancel-v1".encode()).hexdigest()[:32]
     provider.cancel(ticket.provider_task_ref, request_id=request_id)
-    updated = replace(ticket, cancellation_requested=True, reason="cancellation_requested")
+    updated = replace(
+        ticket,
+        cancellation_requested=True,
+        reason="cancellation_requested",
+    )
     jobs.put(updated)
     return updated
