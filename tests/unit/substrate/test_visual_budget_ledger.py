@@ -11,6 +11,7 @@ import sys
 import time
 from typing import cast
 
+import pytest
 from wanxiang_substrate.assets.book_scene_budget import VisualBudgetLedger
 
 _WORKER = """
@@ -45,17 +46,14 @@ def test_budget_ledger_persists_counts_per_world(tmp_path: pathlib.Path) -> None
     assert restarted.used("world-c") == 0
 
 
-def test_budget_ledger_rejects_corrupt_files_without_losing_future_writes(
+def test_budget_ledger_corruption_fails_closed_instead_of_resetting_spend(
     tmp_path: pathlib.Path,
 ) -> None:
     path = tmp_path / "budget.json"
     path.write_text("{not-json", encoding="utf-8")
 
-    ledger = VisualBudgetLedger(path)
-
-    assert ledger.used("world-a") == 0
-    ledger.record("world-a", 1)
-    assert VisualBudgetLedger(path).used("world-a") == 1
+    with pytest.raises(ValueError, match="unreadable"):
+        VisualBudgetLedger(path)
 
 
 def test_concurrent_processes_do_not_lose_budget_counts(tmp_path: pathlib.Path) -> None:
@@ -89,3 +87,29 @@ def test_concurrent_processes_do_not_lose_budget_counts(tmp_path: pathlib.Path) 
             if process.poll() is None:
                 process.kill()
                 process.wait(timeout=10)
+
+def test_budget_reservation_is_idempotent_and_enforces_world_limit(
+    tmp_path: pathlib.Path,
+) -> None:
+    ledger = VisualBudgetLedger(tmp_path / "budget.json")
+
+    assert ledger.reserve("world-a", "scene-a@provider-v1", 2) is True
+    assert ledger.reserve("world-a", "scene-a@provider-v1", 2) is False
+    assert ledger.used("world-a") == 1
+    assert ledger.reserve("world-a", "scene-b@provider-v1", 2) is True
+    assert ledger.used("world-a") == 2
+    with pytest.raises(ValueError, match=r"budget exhausted \(2/2\)"):
+        ledger.reserve("world-a", "scene-c@provider-v1", 2)
+
+
+def test_budget_ledger_migrates_legacy_flat_counts_without_resetting_usage(
+    tmp_path: pathlib.Path,
+) -> None:
+    path = tmp_path / "budget.json"
+    path.write_text('{"world-a":2}', encoding="utf-8")
+
+    ledger = VisualBudgetLedger(path)
+
+    assert ledger.used("world-a") == 2
+    assert ledger.reserve("world-a", "scene-c@provider-v1", 3) is True
+    assert VisualBudgetLedger(path).used("world-a") == 3
