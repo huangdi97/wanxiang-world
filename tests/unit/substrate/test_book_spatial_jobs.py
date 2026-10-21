@@ -383,6 +383,11 @@ def test_t3_known_spatial_formats_require_matching_file_signatures() -> None:
             hashlib.sha256(b"not-ply").hexdigest(),
         ),
         _SpatialArtifactCandidate(
+            b"ply\ncomment masquerading payload\n",
+            "application/x-ply",
+            hashlib.sha256(b"ply\ncomment masquerading payload\n").hexdigest(),
+        ),
+        _SpatialArtifactCandidate(
             b"<html>not-png</html>",
             "image/png",
             hashlib.sha256(b"<html>not-png</html>").hexdigest(),
