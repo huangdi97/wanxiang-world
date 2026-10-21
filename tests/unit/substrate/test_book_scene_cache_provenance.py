@@ -130,7 +130,7 @@ def test_invalid_durable_visual_cache_schema_never_degrades_to_a_cache_miss(
     ],
 )
 def test_semantically_invalid_durable_cache_record_fails_closed(
-    tmp_path: pathlib.Path, field: str, value: str
+    tmp_path: pathlib.Path, field: str, value: object
 ) -> None:
     cache = VisualAssetCache(
         LocalObjectStore(tmp_path / "blobs"),
