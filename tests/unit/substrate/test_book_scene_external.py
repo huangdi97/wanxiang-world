@@ -260,6 +260,7 @@ def test_external_image_bytes_must_match_declared_raster_type(
         with pytest.raises(ValueError, match="do not match declared media type"):
             provider.produce(_request())
 
+
 @pytest.mark.parametrize(
     ("usage", "request_id", "message"),
     [
