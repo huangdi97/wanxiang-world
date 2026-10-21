@@ -349,7 +349,7 @@ def test_failed_paid_t1_attempt_is_reserved_and_not_automatically_retried() -> N
     )
 
     assert first.fallback_reason == "provider_failure"
-    assert first.provider_calls == 1
+    assert first.provider_calls == 2  # paid T1 attempt + local T0 fallback
     assert provider.calls == 1
     assert service._visual_budget is not None
     assert service._visual_budget.used("profile") == 1
