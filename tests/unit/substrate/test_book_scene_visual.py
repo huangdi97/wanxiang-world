@@ -782,9 +782,12 @@ def test_visual_index_wrong_cache_key_fails_closed_without_regeneration(
     with pytest.raises(ValueError, match="visual cache index record is invalid"):
         _materialize_visual_plan(_plan(revised), cache=cache)
 
-    # Durable identity corruption must not be repaired by a second provider
-    # generation. An operator must reconcile/remove the bad row explicitly.
-    assert len(cache.index.list()) >= 1
+    # Durable identity corruption must remain untouched for explicit operator
+    # reconciliation; the materializer must not silently overwrite the row.
+    persisted: object = json.loads(cache_path.read_text(encoding="utf-8"))
+    assert isinstance(persisted, dict)
+    persisted_rows = cast(dict[str, dict[str, object]], persisted)
+    assert persisted_rows[target_key]["cache_key"] == old_key
 
 def test_corrupt_durable_scene_recovers_then_reuses_verified_bytes(
     tmp_path: pathlib.Path,
