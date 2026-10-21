@@ -170,9 +170,7 @@ def test_tokenhub_panorama_rejects_invalid_usage_evidence(
     payload = json.dumps(
         {
             "status": "succeeded",
-            "data": [
-                {"super_resolution_image_url": "https://assets.example/output.png"}
-            ],
+            "data": [{"super_resolution_image_url": "https://assets.example/output.png"}],
             "tokenhub_usage": {"total_tokens": total_tokens},
         }
     ).encode()
