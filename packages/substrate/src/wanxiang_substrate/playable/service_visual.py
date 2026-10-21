@@ -189,17 +189,42 @@ def _materialize_visual_place(
 
     request = plan.scene_requests[0]
     owner = bool(profile.owner_id) and viewer_id == profile.owner_id
-    used = _ledger_for(service, profile_id).used(profile_id)
-    if (
-        owner
-        and provider is not None
-        and max_deferred_generations > 0
-        and used >= max_deferred_generations
-        and service._visual_cache.get_for(request, provider, rights=plan.delivery_rights) is None
-    ):
-        raise ContractError(
-            f"world on-demand visual budget exhausted ({used}/{max_deferred_generations})"
+    private_source = (
+        package.draft.compiler_metadata.get("visual_private_source_v1", "true") == "true"
+    )
+    reserved_attempt = False
+    if owner and provider is not None and max_deferred_generations > 0:
+        cached = service._visual_cache.get_for(request, provider, rights=plan.delivery_rights)
+        provider_eligible = (
+            provider.cost_units_per_asset >= 0
+            and provider.cost_units_per_asset <= max_cost_units
+            and (not provider.requires_network or allow_network)
+            and (not provider.requires_network or plan.external_processing_allowed)
+            and (not private_source or provider.private_safe)
         )
+        if cached is None and provider_eligible:
+            reservation_key = (
+                f"{request.cache_key}:{provider.provider_id}@{provider.provider_version}"
+            )
+            ledger = _ledger_for(service, profile_id)
+            try:
+                reserved_attempt = ledger.reserve(
+                    profile_id,
+                    reservation_key,
+                    max_deferred_generations,
+                )
+            except ValueError as exc:
+                raise ContractError(str(exc)) from exc
+            if (
+                not reserved_attempt
+                and service._visual_cache.get_for(
+                    request, provider, rights=plan.delivery_rights
+                )
+                is None
+            ):
+                raise ContractError(
+                    "world on-demand visual attempt is already reserved; automatic retry blocked"
+                )
 
     materializer = _materialize_product_visual_plan if fallback_to_t0 else _materialize_visual_plan
     materialized = materializer(
@@ -208,13 +233,17 @@ def _materialize_visual_place(
         cache=service._visual_cache,
         allow_network=allow_network,
         max_cost_units=max_cost_units,
-        private_source=(
-            package.draft.compiler_metadata.get("visual_private_source_v1", "true") == "true"
-        ),
+        private_source=private_source,
         rights=plan.delivery_rights,
-        allow_provider_generation=bool(profile.owner_id) and viewer_id == profile.owner_id,
+        allow_provider_generation=owner,
     )
-    if owner and provider is not None and materialized.provider_calls > 0:
+    if (
+        owner
+        and provider is not None
+        and max_deferred_generations > 0
+        and materialized.provider_calls > 0
+        and not reserved_attempt
+    ):
         _ledger_for(service, profile_id).record(profile_id, materialized.provider_calls)
     combined: dict[str, tuple[_SceneVisualAsset, AssetRef]] = {
         asset.scene_key: (asset, ref)
