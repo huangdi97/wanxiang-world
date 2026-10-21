@@ -690,7 +690,6 @@ def test_visual_cache_survives_restart_with_local_blob_store_and_json_index(
     assert index_path.exists()
 
 
-
 def test_provider_usage_evidence_survives_visual_cache_restart(
     tmp_path: pathlib.Path,
 ) -> None:
@@ -717,6 +716,7 @@ def test_provider_usage_evidence_survives_visual_cache_restart(
 
     assert cached is not None
     assert cached[0].provider_usage_units == 19000
+
 
 def test_cached_bytes_can_be_reused_under_current_delivery_rights_without_regeneration() -> None:
     plan = _plan(_request("旧城", "rights-reissue"))
