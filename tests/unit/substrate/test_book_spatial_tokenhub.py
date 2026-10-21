@@ -353,6 +353,7 @@ def test_tokenhub_spatial_rejects_big_endian_ply_not_supported_by_player(
     with pytest.raises(ValueError, match="unsupported PLY format"):
         _provider().poll("task-1")
 
+
 @pytest.mark.parametrize(
     ("payload", "message"),
     [
