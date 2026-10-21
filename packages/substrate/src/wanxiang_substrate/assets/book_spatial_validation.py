@@ -45,7 +45,6 @@ def _require_ply_artifact(content: bytes) -> None:
     if format_lines[0] not in {
         b"format ascii 1.0",
         b"format binary_little_endian 1.0",
-        b"format binary_big_endian 1.0",
     }:
         raise ValueError("TokenHub spatial geometry uses an unsupported PLY format")
     if b"end_header" not in lines:

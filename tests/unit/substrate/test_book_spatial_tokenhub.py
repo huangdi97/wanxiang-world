@@ -309,6 +309,7 @@ def test_tokenhub_spatial_rejects_invalid_request_audit_id(
     with pytest.raises(ValueError, match="invalid request id"):
         _provider().submit(_request(), idempotency_key="submission-1")
 
+
 def test_tokenhub_spatial_rejects_masquerading_ply_geometry(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -323,3 +324,18 @@ def test_tokenhub_spatial_rejects_masquerading_ply_geometry(
     with pytest.raises(ValueError, match="not a PLY artifact"):
         _provider().poll("task-1")
 
+
+def test_tokenhub_spatial_rejects_big_endian_ply_not_supported_by_player(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    poll = json.dumps(
+        {
+            "status": "succeeded",
+            "data": [{"point_url": "https://assets.example/world-point.ply"}],
+        }
+    ).encode()
+    point = b"ply\nformat binary_big_endian 1.0\nend_header\n"
+    _install(monkeypatch, [poll, point])
+
+    with pytest.raises(ValueError, match="unsupported PLY format"):
+        _provider().poll("task-1")
