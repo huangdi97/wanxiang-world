@@ -28,6 +28,10 @@ from wanxiang_substrate.assets.book_scene_prompt import (
 )
 from wanxiang_substrate.assets.book_spatial_frame import _projection_frame_from_mapping
 from wanxiang_substrate.assets.book_spatial_http_transport import _bounded_read
+from wanxiang_substrate.assets.book_spatial_validation import (
+    _image_media_type,
+    _require_ply_artifact,
+)
 from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialArtifactCandidate,
     _SpatialGenerationProvider,
@@ -51,16 +55,6 @@ def _provider_usage_units(body: dict[str, object]) -> int | None:
     if isinstance(total, bool) or not isinstance(total, int) or total < 0:
         raise ValueError("TokenHub spatial returned invalid total token usage")
     return total
-
-
-def _image_media_type(content: bytes) -> str:
-    if content.startswith(bytes.fromhex("89504e470d0a1a0a")):
-        return "image/png"
-    if content.startswith(bytes.fromhex("ffd8ff")):
-        return "image/jpeg"
-    if content.startswith(b"RIFF") and content[8:12] == b"WEBP":
-        return "image/webp"
-    raise ValueError("TokenHub spatial preview is not PNG, JPEG or WebP")
 
 
 class _TokenHubSpatialProvider(_SpatialGenerationProvider):
@@ -201,6 +195,8 @@ class _TokenHubSpatialProvider(_SpatialGenerationProvider):
             label="TokenHub spatial artifact",
             limit=self.max_artifact_bytes,
         )
+        if media_type == "model/ply":
+            _require_ply_artifact(content)
         resolved_media_type = media_type or _image_media_type(content)
         return _SpatialArtifactCandidate(
             content=content,

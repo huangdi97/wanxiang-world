@@ -308,3 +308,18 @@ def test_tokenhub_spatial_rejects_invalid_request_audit_id(
     )
     with pytest.raises(ValueError, match="invalid request id"):
         _provider().submit(_request(), idempotency_key="submission-1")
+
+def test_tokenhub_spatial_rejects_masquerading_ply_geometry(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    poll = json.dumps(
+        {
+            "status": "succeeded",
+            "data": [{"point_url": "https://assets.example/world-point.ply"}],
+        }
+    ).encode()
+    _install(monkeypatch, [poll, b"<html>provider error page</html>"])
+
+    with pytest.raises(ValueError, match="not a PLY artifact"):
+        _provider().poll("task-1")
+
