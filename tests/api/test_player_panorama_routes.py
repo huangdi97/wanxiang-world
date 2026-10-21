@@ -162,6 +162,7 @@ def test_t2_panorama_is_explicit_owner_upgrade_and_cached_for_player() -> None:
     assert public_scene["presentation_kind"] == "panorama"
     assert public_scene["projection_only"] is True
 
+
 @dataclass
 class _UncertainPanoramaClient(_ExternalImageClient):
     calls: int = 0
