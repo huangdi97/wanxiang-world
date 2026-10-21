@@ -76,6 +76,7 @@ def player_materialize_visual_place(
                 "provider_calls": result.provider_calls,
                 "cache_hits": result.cache_hits,
                 "cost_units": result.cost_units,
+                "provider_usage_units": result.provider_usage_units,
                 "deferred_used": visual_budget_usage(service, profile_id),
                 "deferred_limit": deferred_limit,
                 "fallback_from_provider": result.fallback_from_provider,

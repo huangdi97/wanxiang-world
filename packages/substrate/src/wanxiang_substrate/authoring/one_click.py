@@ -44,6 +44,7 @@ class OneClickResult:
     visual_provider_calls: int = 0
     visual_cache_hits: int = 0
     visual_cost_units: int = 0
+    visual_provider_usage_units: int | None = None
     visual_fallback_from_provider: str = ""
     visual_fallback_reason: str = ""
 
@@ -133,6 +134,9 @@ class OneClickAuthoring:
             visual_provider_calls=materialized.provider_calls if materialized is not None else 0,
             visual_cache_hits=materialized.cache_hits if materialized is not None else 0,
             visual_cost_units=materialized.cost_units if materialized is not None else 0,
+            visual_provider_usage_units=(
+                materialized.provider_usage_units if materialized is not None else None
+            ),
             visual_fallback_from_provider=(
                 materialized.fallback_from_provider if materialized is not None else ""
             ),

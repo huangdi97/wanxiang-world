@@ -29,6 +29,7 @@ class _SceneVisualAsset:
     style_key: str = ""
     provider_version: str = "1.0.0"
     presentation_kind: str = "still"
+    provider_usage_units: int | None = None
 
     def data_uri(self) -> str:
         payload = base64.b64encode(self.content).decode("ascii")
@@ -58,3 +59,4 @@ class _VisualMaterialization:
     cost_units: int
     fallback_from_provider: str = ""
     fallback_reason: str = ""
+    provider_usage_units: int | None = None

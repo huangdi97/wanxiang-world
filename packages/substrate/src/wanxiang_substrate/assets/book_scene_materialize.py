@@ -183,12 +183,21 @@ def _materialize_visual_plan(
             resolved_assets.append(asset)
             resolved_refs.append(ref)
 
+        generated_usage = [asset.provider_usage_units for asset, _ in generated.values()]
+        provider_usage_units = (
+            0
+            if not misses
+            else sum(value for value in generated_usage if value is not None)
+            if all(value is not None for value in generated_usage)
+            else None
+        )
         return _VisualMaterialization(
             assets=tuple(resolved_assets),
             asset_refs=tuple(resolved_refs),
             provider_calls=len(misses),
             cache_hits=len(plan.scene_requests) - len(misses),
             cost_units=expected_cost,
+            provider_usage_units=provider_usage_units,
         )
 
 

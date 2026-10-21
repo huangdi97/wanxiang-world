@@ -28,6 +28,7 @@ from wanxiang_substrate.assets.book_scene_visual import (
 class _ExternalImageResult:
     content: bytes
     media_type: str
+    provider_usage_units: int | None = None
 
 
 class _ExternalImageClient:
@@ -93,4 +94,5 @@ class _PromptedExternalSceneProvider(_SceneImageProvider):
             illustrative=True,
             style_key=style_key,
             provider_version=self.provider_version,
+            provider_usage_units=result.provider_usage_units,
         )

@@ -63,15 +63,16 @@ def _image_media_type(content: bytes) -> str:
     raise ValueError("TokenHub image artifact is not PNG, JPEG or WebP")
 
 
-def _validate_usage(body: dict[str, object]) -> None:
+def _validate_usage(body: dict[str, object]) -> int | None:
     raw = body.get("tokenhub_usage")
     if raw is None:
-        return
+        return None
     if not isinstance(raw, dict):
         raise ValueError("TokenHub image returned invalid tokenhub_usage")
     total = cast(dict[str, object], raw).get("total_tokens")
     if isinstance(total, bool) or not isinstance(total, int) or total < 0:
         raise ValueError("TokenHub image returned invalid total token usage")
+    return total
 
 
 class _TokenHubImageClient(_ExternalImageClient):
@@ -166,7 +167,7 @@ class _TokenHubImageClient(_ExternalImageClient):
         if not isinstance(decoded, dict):
             raise ValueError("TokenHub image response must be an object")
         body = cast(dict[str, object], decoded)
-        _validate_usage(body)
+        provider_usage_units = _validate_usage(body)
         data = body.get("data")
         if not isinstance(data, list) or not data or not isinstance(data[0], dict):
             raise ValueError("TokenHub image response has no generated image")
@@ -174,7 +175,11 @@ class _TokenHubImageClient(_ExternalImageClient):
         if not isinstance(url, str) or not url.strip():
             raise ValueError("TokenHub image response is missing the generated image URL")
         content = self._download(url)
-        return _ExternalImageResult(content, _image_media_type(content))
+        return _ExternalImageResult(
+            content,
+            _image_media_type(content),
+            provider_usage_units=provider_usage_units,
+        )
 
 
 def build_tokenhub_image_provider(
