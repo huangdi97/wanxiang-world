@@ -209,6 +209,28 @@ class VisualAssetCache:
         return cached
 
     def put(self, asset: _SceneVisualAsset, *, rights: str = "public") -> AssetRef:
+        usage = cast(object, asset.provider_usage_units)
+        request_id = cast(object, asset.provider_request_id)
+        operation_id = cast(object, asset.provider_operation_id)
+        if not asset.content or hashlib.sha256(asset.content).hexdigest() != asset.content_sha256:
+            raise ValueError("visual cache asset digest is invalid")
+        if not asset.media_type.startswith("image/") or asset.presentation_kind not in {
+            "still",
+            "panorama",
+        }:
+            raise ValueError("visual cache asset presentation is invalid")
+        if usage is not None and (
+            isinstance(usage, bool) or not isinstance(usage, int) or usage < 0
+        ):
+            raise ValueError("visual cache provider usage is invalid")
+        for label, value in (("request", request_id), ("operation", operation_id)):
+            if (
+                not isinstance(value, str)
+                or len(value) > 1024
+                or "\r" in value
+                or "\n" in value
+            ):
+                raise ValueError(f"visual cache provider {label} id is invalid")
         ref = self.store.put(asset.content, content_type=asset.media_type, rights=rights)
         self.index.put(
             _VisualCacheRecord(
