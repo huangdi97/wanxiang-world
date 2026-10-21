@@ -910,8 +910,10 @@ point PLY
 ~~~
 
 Only the first available geometry representation is downloaded and persisted by the default
-Player path. This avoids downloading point cloud + simplified mesh + full mesh for the same
-scene when the built-in renderer needs only one verified geometry source. A future export or
+Player path. A preview image is supplemental and can never make an image-only result count as
+T3-ready; at least one verified local geometry artifact is required. This avoids downloading
+point cloud + simplified mesh + full mesh for the same scene when the built-in renderer needs
+only one verified geometry source. A future export or
 specialized renderer may request richer artifacts through a separate explicit capability, but
 that must not silently increase the default T3 network, memory or storage footprint.
 

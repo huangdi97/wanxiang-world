@@ -170,6 +170,29 @@ def test_tokenhub_spatial_poll_downloads_only_supported_allowlisted_artifacts(
     assert all(request.headers.get("Authorization") is None for request in opener.requests[1:])
 
 
+def test_tokenhub_spatial_rejects_preview_without_geometry(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    poll = json.dumps(
+        {
+            "status": "succeeded",
+            "data": [
+                {
+                    "super_resolution_image_url": "https://assets.example/preview.png",
+                }
+            ],
+        }
+    ).encode()
+    opener = _install(monkeypatch, [poll])
+
+    with pytest.raises(ValueError, match="no locally supported geometry artifact"):
+        _provider().poll("task-1")
+
+    assert [request.full_url for request in opener.requests] == [
+        "https://tokenhub.tencentmaas.com/v1/wand/hunyuan-video/tasks/task-1"
+    ]
+
+
 def test_tokenhub_spatial_falls_back_to_one_mesh_when_point_cloud_is_absent(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:

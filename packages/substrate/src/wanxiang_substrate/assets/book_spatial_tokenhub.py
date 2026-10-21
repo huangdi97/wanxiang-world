@@ -252,11 +252,11 @@ class _TokenHubSpatialProvider(_SpatialGenerationProvider):
             if isinstance(url, str) and url.strip():
                 artifacts.append(self._download(url, media_type="model/ply"))
                 break
+        if not artifacts:
+            raise ValueError("TokenHub spatial returned no locally supported geometry artifact")
         preview_url = first.get("super_resolution_image_url")
         if isinstance(preview_url, str) and preview_url.strip():
             artifacts.append(self._download(preview_url, media_type=None))
-        if not artifacts:
-            raise ValueError("TokenHub spatial returned no locally supported artifacts")
         projection_frame = None
         raw_position = first.get("position_info")
         if raw_position is not None:
