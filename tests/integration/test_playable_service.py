@@ -24,6 +24,7 @@ from wanxiang_substrate.authoring.providers import ProviderRouter
 from wanxiang_substrate.authoring.service import AuthoringService
 from wanxiang_substrate.playable import PlayableService
 from wanxiang_substrate.playable.player_world_detail import player_world_detail
+from wanxiang_substrate.playable.service_support import _runtime_instance_id
 from wanxiang_substrate.playable.service_visual import visual_budget_usage
 from wanxiang_substrate.playable.store import ExperienceInstanceRecord
 from wanxiang_substrate.preview.runtime import register_preview_resolvers
@@ -591,7 +592,7 @@ def test_historical_replay_does_not_inherit_current_t3_projection() -> None:
     playable.action(instance_id, viewer_id="alice", text="让自己保持清醒")
     record = playable.store.get_instance(instance_id)
     events = playable.runtime.worldline_events(
-        WorldInstanceId(record.runtime_instance_id),
+        WorldInstanceId(_runtime_instance_id(record)),
         BranchId(record.branch_id),
     )
     assert events
