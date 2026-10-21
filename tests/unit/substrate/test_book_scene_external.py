@@ -259,3 +259,35 @@ def test_external_image_bytes_must_match_declared_raster_type(
     else:
         with pytest.raises(ValueError, match="do not match declared media type"):
             provider.produce(_request())
+
+@pytest.mark.parametrize(
+    ("usage", "request_id", "message"),
+    [
+        (-1, "", "invalid usage evidence"),
+        (True, "", "invalid usage evidence"),
+        (None, "line\nbreak", "invalid request id"),
+        (None, "x" * 1025, "invalid request id"),
+    ],
+)
+def test_generic_external_provider_rejects_invalid_audit_provenance(
+    usage: int | None, request_id: str, message: str
+) -> None:
+    class _AuditClient(_ExternalImageClient):
+        def generate(self, brief: _SceneGenerationBrief) -> _ExternalImageResult:
+            _ = brief
+            return _ExternalImageResult(
+                b"\x89PNG\r\n\x1a\nscene",
+                "image/png",
+                provider_usage_units=usage,
+                provider_request_id=request_id,
+            )
+
+    provider = _PromptedExternalSceneProvider(
+        provider_id="provider:audit-validation",
+        provider_version="1",
+        client=_AuditClient(),
+        cost_units_per_asset=0,
+        private_safe=True,
+    )
+    with pytest.raises(ValueError, match=message):
+        provider.produce(_request())

@@ -68,6 +68,19 @@ class _PromptedExternalSceneProvider(_SceneImageProvider):
         # untrusted external client does not need stable source identifiers.
         brief = replace(internal_brief, source_refs=())
         result = self.client.generate(brief)
+        if result.provider_usage_units is not None and (
+            isinstance(result.provider_usage_units, bool)
+            or not isinstance(result.provider_usage_units, int)
+            or result.provider_usage_units < 0
+        ):
+            raise ValueError("external visual provider returned invalid usage evidence")
+        if (
+            not isinstance(result.provider_request_id, str)
+            or len(result.provider_request_id) > 1024
+            or "\r" in result.provider_request_id
+            or "\n" in result.provider_request_id
+        ):
+            raise ValueError("external visual provider returned invalid request id")
         if not result.content:
             raise ValueError("external visual provider returned empty image bytes")
         if len(result.content) > self.max_output_bytes:
