@@ -92,6 +92,7 @@ def test_tokenhub_panorama_uses_bounded_prompt_and_allowlisted_download(
 
     assert result.content == image
     assert result.media_type == "image/png"
+    assert result.provider_usage_units == 500000
     assert len(opener.requests) == 2
     submitted = json.loads(opener.requests[0].data.decode("utf-8"))
     assert submitted["model"] == "hy-world2-panorama"
@@ -160,3 +161,27 @@ def test_tokenhub_panorama_requires_key_and_explicit_artifact_hosts() -> None:
             bearer_token="secret",
             artifact_hosts=frozenset(),
         )
+
+@pytest.mark.parametrize("total_tokens", [-1, True, "500000"])
+def test_tokenhub_panorama_rejects_invalid_usage_evidence(
+    monkeypatch: pytest.MonkeyPatch,
+    total_tokens: object,
+) -> None:
+    payload = json.dumps(
+        {
+            "status": "succeeded",
+            "data": [
+                {"super_resolution_image_url": "https://assets.example/output.png"}
+            ],
+            "tokenhub_usage": {"total_tokens": total_tokens},
+        }
+    ).encode()
+    _install_opener(monkeypatch, [payload])
+    client = _TokenHubPanoramaClient(
+        "https://tokenhub.tencentmaas.com/v1/wand/hunyuan-image/world2-panorama",
+        bearer_token="secret",
+        artifact_hosts=frozenset({"assets.example"}),
+    )
+
+    with pytest.raises(ValueError, match="invalid total token usage"):
+        client.generate(_brief())

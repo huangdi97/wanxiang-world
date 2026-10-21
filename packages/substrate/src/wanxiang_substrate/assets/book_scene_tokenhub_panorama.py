@@ -42,6 +42,18 @@ def _image_media_type(content: bytes) -> str:
     raise ValueError("TokenHub panorama artifact is not PNG, JPEG or WebP")
 
 
+def _provider_usage_units(body: dict[str, object]) -> int | None:
+    raw = body.get("tokenhub_usage")
+    if raw is None:
+        return None
+    if not isinstance(raw, dict):
+        raise ValueError("TokenHub panorama returned invalid tokenhub_usage")
+    total = cast(dict[str, object], raw).get("total_tokens")
+    if isinstance(total, bool) or not isinstance(total, int) or total < 0:
+        raise ValueError("TokenHub panorama returned invalid total token usage")
+    return total
+
+
 def _bounded_read(response: object, limit: int, *, label: str) -> bytes:
     headers = getattr(response, "headers", None)
     content_length = headers.get("content-length") if headers is not None else None
@@ -144,6 +156,7 @@ class _TokenHubPanoramaClient(_ExternalImageClient):
         if not isinstance(decoded, dict):
             raise ValueError("TokenHub panorama response must be an object")
         body = cast(dict[str, object], decoded)
+        provider_usage_units = _provider_usage_units(body)
         if body.get("status") != "succeeded":
             raise RuntimeError("TokenHub panorama generation did not succeed")
         data = body.get("data")
@@ -154,7 +167,11 @@ class _TokenHubPanoramaClient(_ExternalImageClient):
         if not isinstance(url, str) or not url.strip():
             raise ValueError("TokenHub panorama response is missing the main panorama URL")
         content = self._download(url)
-        return _ExternalImageResult(content, _image_media_type(content))
+        return _ExternalImageResult(
+            content,
+            _image_media_type(content),
+            provider_usage_units=provider_usage_units,
+        )
 
 
 def build_tokenhub_panorama_provider(

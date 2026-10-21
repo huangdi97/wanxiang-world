@@ -193,6 +193,7 @@ def player_upgrade_visual_place_to_panorama(
         "provider_calls": result.provider_calls,
         "cache_hits": result.cache_hits,
         "cost_units": result.cost_units,
+        "provider_usage_units": result.provider_usage_units,
         "budget": ledger.usage(profile_id, budget).to_dict(),
         "world": player_world(
             service,
