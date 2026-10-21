@@ -30,3 +30,7 @@ def test_visual_tier_copy_is_available_in_both_locales() -> None:
         assert "{limit}" in copy.text("visual_budget_status")
         assert "{count}" in copy.text("visual_sources_merged")
         assert "{count}" in copy.text("visual_place_more_count")
+        panorama = copy.text("panorama_upgrade_available")
+        assert "{cost}" in panorama
+        assert "{remaining}" in panorama
+        assert "{budget}" in panorama
