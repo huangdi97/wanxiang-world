@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import pathlib
 from dataclasses import replace
 from typing import Any, cast
@@ -183,6 +184,27 @@ class _RestartProvider(SceneImageProvider):
         )
 
 
+class _RestartPanoramaProvider(_RestartProvider):
+    provider_id = "provider:restart-panorama"
+    presentation_kind = "panorama"
+
+    def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
+        content = b"\x89PNG\r\n\x1a\nrestart-panorama"
+        return _SceneVisualAsset(
+            scene_key=request.stable_key,
+            place_name=request.place_name,
+            provider_id=self.provider_id,
+            media_type="image/png",
+            content=content,
+            content_sha256=hashlib.sha256(content).hexdigest(),
+            cache_key=f"{request.cache_key}:{self.provider_id}@{self.provider_version}",
+            illustrative=True,
+            style_key=request.style_key,
+            provider_version=self.provider_version,
+            presentation_kind=self.presentation_kind,
+        )
+
+
 def test_t1_cache_hit_is_free_after_service_restart(tmp_path: pathlib.Path) -> None:
     authored = OneClickAuthoring().run("job_restart_cache", (_source(),), profile="book")
     assert authored.visual_plan is not None
@@ -338,3 +360,57 @@ def test_app_restart_resumes_world_from_saved_catalog(
     assert history.status_code == 200
     assert int(cast(int, history.json()["total"])) == before_total
     assert before_total >= 2
+
+
+def test_restart_restores_panorama_instead_of_lexicographic_t1_cache_hit(
+    tmp_path: pathlib.Path,
+) -> None:
+    authored = OneClickAuthoring().run("job_restart_panorama", (_source(),), profile="book")
+    assert authored.visual_plan is not None
+    place = authored.visual_plan.place_names[0]
+    store_path = tmp_path / "panorama-store.json"
+    cache_root = tmp_path / "panorama-cache"
+
+    first = PlayableService(
+        build_reference_runtime(),
+        store=LocalJsonPlayableStore(store_path),
+        visual_cache=VisualAssetCache(
+            LocalObjectStore(cache_root / "blobs"),
+            LocalJsonVisualCacheIndex(cache_root / "index.json"),
+        ),
+    )
+    profile = first.register_package(authored.package, owner_id="alice", visibility="public")
+    t1 = _RestartProvider()
+    panorama = _RestartPanoramaProvider()
+    first.materialize_visual_place(
+        profile.profile_id,
+        place,
+        viewer_id="alice",
+        provider=t1,
+        max_cost_units=5,
+        max_deferred_generations=5,
+    )
+    first.materialize_visual_place(
+        profile.profile_id,
+        place,
+        viewer_id="alice",
+        provider=panorama,
+        max_cost_units=5,
+        max_deferred_generations=5,
+    )
+    assert first.visual_assets(profile.profile_id, viewer_id="alice")[0].presentation_kind == (
+        "panorama"
+    )
+
+    second = PlayableService(
+        build_reference_runtime(),
+        store=LocalJsonPlayableStore(store_path),
+        visual_cache=VisualAssetCache(
+            LocalObjectStore(cache_root / "blobs"),
+            LocalJsonVisualCacheIndex(cache_root / "index.json"),
+        ),
+    )
+    assert restore_playable_service(second) == 1
+    restored = second.visual_assets(profile.profile_id, viewer_id="alice")
+    assert restored[0].presentation_kind == "panorama"
+    assert restored[0].provider_id == panorama.provider_id

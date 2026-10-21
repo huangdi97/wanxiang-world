@@ -31,7 +31,14 @@ def cached_visual_for(
         and record.place_name == request.place_name
         and record.provider_id != "procedural-svg"
     ]
-    for record in sorted(candidates, key=lambda item: item.cache_key):
+    # Restore the richest durable projection for a scene. Cache-key order
+    # is not a fidelity signal and must never downgrade a previously generated
+    # panorama to a still image after process restart.
+    ordered = sorted(
+        candidates,
+        key=lambda item: (item.presentation_kind != "panorama", item.cache_key),
+    )
+    for record in ordered:
         found = cache.get(record.cache_key, rights=rights)
         if found is not None:
             return found
