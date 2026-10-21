@@ -69,6 +69,7 @@ def test_visual_cache_accepts_valid_private_provider_provenance() -> None:
     assert cached[0].provider_request_id == "request-1"
     assert cached[0].provider_operation_id == "operation-1"
 
+
 def test_durable_visual_cache_corruption_fails_closed_before_regeneration(
     tmp_path: pathlib.Path,
 ) -> None:
