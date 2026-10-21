@@ -262,16 +262,18 @@ def test_external_image_bytes_must_match_declared_raster_type(
 
 
 @pytest.mark.parametrize(
-    ("usage", "request_id", "message"),
+    ("usage", "request_id", "operation_id", "message"),
     [
-        (-1, "", "invalid usage evidence"),
-        (True, "", "invalid usage evidence"),
-        (None, "line\nbreak", "invalid request id"),
-        (None, "x" * 1025, "invalid request id"),
+        (-1, "", "", "invalid usage evidence"),
+        (True, "", "", "invalid usage evidence"),
+        (None, "line\nbreak", "", "invalid request id"),
+        (None, "x" * 1025, "", "invalid request id"),
+        (None, "", "line\nbreak", "invalid operation id"),
+        (None, "", "x" * 1025, "invalid operation id"),
     ],
 )
 def test_generic_external_provider_rejects_invalid_audit_provenance(
-    usage: int | None, request_id: str, message: str
+    usage: int | None, request_id: str, operation_id: str, message: str
 ) -> None:
     class _AuditClient(_ExternalImageClient):
         def generate(self, brief: _SceneGenerationBrief) -> _ExternalImageResult:
@@ -281,6 +283,7 @@ def test_generic_external_provider_rejects_invalid_audit_provenance(
                 "image/png",
                 provider_usage_units=usage,
                 provider_request_id=request_id,
+                provider_operation_id=operation_id,
             )
 
     provider = _PromptedExternalSceneProvider(
