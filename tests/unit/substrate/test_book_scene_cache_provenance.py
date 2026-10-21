@@ -3,10 +3,15 @@
 # pyright: reportPrivateUsage=false
 
 import hashlib
+import pathlib
 
 import pytest
-from wanxiang_substrate.assets.book_scene_cache import VisualAssetCache
+from wanxiang_substrate.assets.book_scene_cache import (
+    LocalJsonVisualCacheIndex,
+    VisualAssetCache,
+)
 from wanxiang_substrate.assets.book_scene_types import _SceneVisualAsset
+from wanxiang_substrate.assets.storage import LocalObjectStore
 
 
 def _asset(**changes: object) -> _SceneVisualAsset:
@@ -63,3 +68,41 @@ def test_visual_cache_accepts_valid_private_provider_provenance() -> None:
     assert cached[0].provider_usage_units == 500_000
     assert cached[0].provider_request_id == "request-1"
     assert cached[0].provider_operation_id == "operation-1"
+
+def test_durable_visual_cache_corruption_fails_closed_before_regeneration(
+    tmp_path: pathlib.Path,
+) -> None:
+    index_path = tmp_path / "index.json"
+    index_path.write_text("{not-json", encoding="utf-8")
+    cache = VisualAssetCache(
+        LocalObjectStore(tmp_path / "blobs"),
+        LocalJsonVisualCacheIndex(index_path),
+    )
+
+    with pytest.raises(ValueError, match="index is unreadable"):
+        cache.get("paid-scene:tencent-tokenhub-image@hy-image-v3")
+    with pytest.raises(ValueError, match="index is unreadable"):
+        cache.index.list()
+
+
+@pytest.mark.parametrize(
+    "payload",
+    [
+        "[]",
+        '{"bad-row":"not-an-object"}',
+        '{"paid-scene":{"cache_key":7}}',
+    ],
+)
+def test_invalid_durable_visual_cache_schema_never_degrades_to_a_cache_miss(
+    tmp_path: pathlib.Path, payload: str
+) -> None:
+    index_path = tmp_path / "index.json"
+    index_path.write_text(payload, encoding="utf-8")
+    cache = VisualAssetCache(
+        LocalObjectStore(tmp_path / "blobs"),
+        LocalJsonVisualCacheIndex(index_path),
+    )
+
+    with pytest.raises(ValueError, match="visual cache index"):
+        cache.index.list()
+

@@ -65,26 +65,38 @@ class LocalJsonVisualCacheIndex(_VisualCacheIndex):
             return {}
         try:
             decoded: object = json.loads(self._path.read_text(encoding="utf-8"))
-        except (OSError, ValueError):
-            return {}
+        except (OSError, ValueError) as exc:
+            # An existing but unreadable index may represent prior paid
+            # generation. Treating it as an empty cache could silently submit
+            # the same T1/T2 scene again and duplicate billing.
+            raise ValueError("visual cache index is unreadable") from exc
         if not isinstance(decoded, dict):
-            return {}
+            raise ValueError("visual cache index is invalid")
         decoded_rows = cast(dict[object, object], decoded)
         rows: dict[str, dict[str, object]] = {}
         for raw_key, raw_value in decoded_rows.items():
             if not isinstance(raw_key, str) or not isinstance(raw_value, dict):
-                continue
+                raise ValueError("visual cache index is invalid")
             value_map = cast(dict[object, object], raw_value)
-            rows[raw_key] = {key: value for key, value in value_map.items() if isinstance(key, str)}
+            if any(not isinstance(key, str) for key in value_map):
+                raise ValueError("visual cache index is invalid")
+            rows[raw_key] = cast(dict[str, object], value_map)
         return rows
 
     def get(self, cache_key: str) -> _VisualCacheRecord | None:
         raw = self._rows().get(cache_key)
-        return _decode_visual_cache_record(raw) if raw is not None else None
+        if raw is None:
+            return None
+        record = _decode_visual_cache_record(raw)
+        if record is None:
+            raise ValueError("visual cache index record is invalid")
+        return record
 
     def list(self) -> tuple[_VisualCacheRecord, ...]:
-        records = (_decode_visual_cache_record(raw) for raw in self._rows().values())
-        return tuple(record for record in records if record is not None)
+        records = tuple(_decode_visual_cache_record(raw) for raw in self._rows().values())
+        if any(record is None for record in records):
+            raise ValueError("visual cache index record is invalid")
+        return tuple(cast(_VisualCacheRecord, record) for record in records)
 
     @contextmanager
     def generation_guard(self) -> Generator[None, None, None]:
