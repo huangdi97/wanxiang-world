@@ -69,6 +69,7 @@ from wanxiang_api.routes import router
 from wanxiang_api.spatial_runtime_selection import select_spatial_runtime
 from wanxiang_api.studio_ui_routes import router as studio_ui_router
 from wanxiang_api.visual_http_gateway import visual_http_runtime_from_env
+from wanxiang_api.visual_tokenhub_runtime import visual_tokenhub_runtime_from_env
 from wanxiang_api.workshop_routes import router as workshop_router
 
 API_TITLE = "Wanxiang World API"
@@ -125,11 +126,23 @@ def create_app(
     if spatial_max_cost_units < 0:
         raise ValueError("spatial_max_cost_units must be non-negative")
     if visual_provider is None:
-        http_visual = visual_http_runtime_from_env()
-        visual_provider = http_visual.provider
-        visual_allow_network = visual_allow_network or http_visual.allow_network
+        tokenhub_visual_endpoint = os.environ.get(
+            "WANXIANG_VISUAL_TOKENHUB_ENDPOINT", ""
+        ).strip()
+        http_visual_endpoint = os.environ.get("WANXIANG_VISUAL_HTTP_ENDPOINT", "").strip()
+        if tokenhub_visual_endpoint and http_visual_endpoint:
+            raise ValueError(
+                "configure direct TokenHub visual or HTTP visual gateway, not both"
+            )
+        visual_runtime = (
+            visual_tokenhub_runtime_from_env()
+            if tokenhub_visual_endpoint
+            else visual_http_runtime_from_env()
+        )
+        visual_provider = visual_runtime.provider
+        visual_allow_network = visual_allow_network or visual_runtime.allow_network
         if visual_max_cost_units == 0:
-            visual_max_cost_units = http_visual.max_cost_units
+            visual_max_cost_units = visual_runtime.max_cost_units
     if visual_allow_network and visual_provider is None:
         raise ValueError("visual_allow_network requires an injected visual_provider")
     if panorama_provider is None:
