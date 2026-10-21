@@ -73,9 +73,7 @@ class _PromptedExternalSceneProvider(_SceneImageProvider):
         raw_request_id: object = result.provider_request_id
         raw_operation_id: object = result.provider_operation_id
         if raw_usage is not None and (
-            isinstance(raw_usage, bool)
-            or not isinstance(raw_usage, int)
-            or raw_usage < 0
+            isinstance(raw_usage, bool) or not isinstance(raw_usage, int) or raw_usage < 0
         ):
             raise ValueError("external visual provider returned invalid usage evidence")
         if (
