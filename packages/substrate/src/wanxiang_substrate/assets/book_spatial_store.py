@@ -77,8 +77,8 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
         content_type = _required_string(data, "content_type")
         rights = _required_string(data, "rights")
         size = data.get("size")
-        if isinstance(size, bool) or not isinstance(size, int) or size < 0:
-            raise ValueError("spatial asset size must be a non-negative integer")
+        if isinstance(size, bool) or not isinstance(size, int) or size <= 0:
+            raise ValueError("spatial asset size must be a positive integer")
         if len(content_hash) != 64 or any(
             char not in "0123456789abcdefABCDEF" for char in content_hash
         ):
@@ -145,6 +145,7 @@ class _LocalJsonSpatialJobStore(_SpatialJobStore):
             len(task_ref) > 2048
             or "\r" in task_ref
             or "\n" in task_ref
+            or (state == "submission_ambiguous" and bool(task_ref))
             or (state != "submission_ambiguous" and not task_ref)
         ):
             raise ValueError("spatial ticket provider task reference is invalid")
