@@ -117,8 +117,6 @@ def test_tokenhub_spatial_poll_downloads_only_supported_allowlisted_artifacts(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     point = b"ply\nformat ascii 1.0\ncomment point\nend_header\n"
-    simplified = b"ply\nformat ascii 1.0\ncomment simplified\nend_header\n"
-    mesh = b"ply\nformat ascii 1.0\ncomment mesh\nend_header\n"
     preview = bytes.fromhex("89504e470d0a1a0a") + b"preview"
     poll = json.dumps(
         {
