@@ -33,7 +33,8 @@ _SPATIAL_STRINGS: dict[str, str] = {
     "spatial_upgrade_ready": ("Spatial scene for {place} is ready · {count} spatial asset(s)"),
     "spatial_upgrade_ready_unrenderable": (
         "Verified spatial assets for {place} are stored, but this browser/device cannot render "
-        "them directly (format or graphics capability mismatch); existing T0/T1/T2 visuals remain usable."
+        "them directly because of a format or graphics capability mismatch. "
+        "Existing T0/T1/T2 visuals remain usable."
     ),
     "spatial_upgrade_terminal": (
         "Spatial task for {place}: {state}. The current scene remains usable."
