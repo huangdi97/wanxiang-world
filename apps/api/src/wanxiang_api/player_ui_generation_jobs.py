@@ -7,11 +7,11 @@ keeping the Python host module under the repository maintainability limit.
 # ruff: noqa: E501
 
 GENERATION_JOB_FUNCTIONS = r"""
-function currentSpatialProfile(){return model.view?.world?.profile_id||model.world?.world?.profile_id||""}
+function currentSpatialProfile(){const playing=Boolean(document.querySelector("#play-view.is-active"));return playing?(model.view?.world?.profile_id||model.world?.world?.profile_id||""):(model.world?.world?.profile_id||model.view?.world?.profile_id||"")}
 function syncLiveSpatialProjection(world){if(!world||model.view?.world?.profile_id!==world.profile_id)return;model.view.world=world;const live=model.view.visual_scene;if(!live?.place_name)return;const refreshed=(world.visual?.scenes||[]).find(item=>item.place_name===live.place_name);if(refreshed)model.view.visual_scene={...live,spatial:refreshed.spatial||null}}
 function applySpatialWorldProjection(world){if(!world)return;if(model.world?.world?.profile_id===world.profile_id)model.world.world=world;syncLiveSpatialProjection(world)}
 function rememberSpatialTicket(ticket){if(!ticket)return;const current=model.spatialStatus||{spatial_jobs:[]},jobs=(current.spatial_jobs||[]).filter(item=>item.submission_id!==ticket.submission_id);model.spatialStatus={...current,spatial_jobs:[...jobs,ticket]}}
-async function loadSpatialStatus(profile){try{const result=await api(`/experience/player/worlds/${encodeURIComponent(profile)}/spatial`);if(Number(result.rehydrated_attachments||0)>0){const refreshed=await api(`/experience/player/worlds/${encodeURIComponent(profile)}`);if(currentSpatialProfile()===profile&&refreshed?.world){model.world=refreshed;syncLiveSpatialProjection(refreshed.world)}}return result}catch{return null}}
+async function loadSpatialStatus(profile){try{const result=await api(`/experience/player/worlds/${encodeURIComponent(profile)}/spatial`);if(Number(result.rehydrated_attachments||0)>0){const refreshed=await api(`/experience/player/worlds/${encodeURIComponent(profile)}`);const relevant=model.view?.world?.profile_id===profile||model.world?.world?.profile_id===profile;if(relevant&&refreshed?.world){model.world=refreshed;syncLiveSpatialProjection(refreshed.world)}}return result}catch{return null}}
 function stopSpatialAutoPoll(resetDelay=true){if(model.spatialPollTimer){window.clearTimeout(model.spatialPollTimer);model.spatialPollTimer=0}if(resetDelay)model.spatialPollDelay=SPATIAL_POLL_MIN_MS}
 function pendingSpatialJobs(){return (model.spatialStatus?.spatial_jobs||[]).some(item=>["submitted","queued","running","verified"].includes(item.state))}
 function scheduleSpatialAutoPoll(){
