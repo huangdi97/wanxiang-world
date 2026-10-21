@@ -35,6 +35,7 @@ def test_visual_tier_copy_is_available_in_both_locales() -> None:
         assert "{remaining}" in panorama
         assert "{budget}" in panorama
 
+
 def test_visual_generation_budget_errors_are_localized_and_not_generic() -> None:
     assert "error_visual_attempt_reserved" in SCRIPT
     assert "error_visual_budget_exhausted" in SCRIPT
