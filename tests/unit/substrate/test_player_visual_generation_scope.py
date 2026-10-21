@@ -351,6 +351,7 @@ def test_failed_paid_t1_attempt_is_reserved_and_not_automatically_retried() -> N
     assert first.fallback_reason == "provider_failure"
     assert first.provider_calls == 1
     assert provider.calls == 1
+    assert service._visual_budget is not None
     assert service._visual_budget.used("profile") == 1
 
     with pytest.raises(ContractError, match="already reserved"):
@@ -384,4 +385,5 @@ def test_panorama_generation_does_not_consume_t1_deferred_budget() -> None:
     )
 
     assert result.provider_calls == 1
+    assert service._visual_budget is not None
     assert service._visual_budget.used("profile") == 0
