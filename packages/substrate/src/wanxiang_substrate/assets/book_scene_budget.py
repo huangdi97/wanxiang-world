@@ -167,7 +167,7 @@ class VisualBudgetLedger:
 
         if self._path is None:
             with self._lock:
-                return mutate(dict(self._counts), {k: set(v) for k, v in self._reservations.items()})
+                reservations = {key: set(value) for key, value in self._reservations.items()}\n                return mutate(dict(self._counts), reservations)
         with _exclusive_index_lock(self._lock_path()):
             counts, reservations = self._load()
             return mutate(counts, reservations)
