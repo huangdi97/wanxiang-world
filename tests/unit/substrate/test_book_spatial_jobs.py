@@ -725,7 +725,6 @@ def test_public_recoverable_t3_store_preserves_outer_key_identity_validation(
         LocalJsonSpatialJobStore(path).list_scope("")
 
 
-
 def test_t3_ambiguous_persisted_intent_cannot_claim_a_provider_task_ref() -> None:
     row: dict[str, object] = {
         "submission_id": "submission",
@@ -743,6 +742,7 @@ def test_t3_ambiguous_persisted_intent_cannot_claim_a_provider_task_ref() -> Non
 
     with pytest.raises(ValueError, match="provider task reference"):
         _LocalJsonSpatialJobStore._ticket(row)
+
 
 def test_t3_persisted_ticket_keeps_legacy_optional_empty_fields() -> None:
     row: dict[str, object] = {
