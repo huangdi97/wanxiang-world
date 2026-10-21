@@ -78,7 +78,6 @@ class LocalJsonVisualCacheIndex(_VisualCacheIndex):
             rows[raw_key] = {key: value for key, value in value_map.items() if isinstance(key, str)}
         return rows
 
-
     def get(self, cache_key: str) -> _VisualCacheRecord | None:
         raw = self._rows().get(cache_key)
         return _decode_visual_cache_record(raw) if raw is not None else None

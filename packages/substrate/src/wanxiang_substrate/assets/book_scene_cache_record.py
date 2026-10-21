@@ -32,12 +32,7 @@ class _VisualCacheRecord:
 
 
 def _safe_provider_id(value: object) -> str | None:
-    if (
-        not isinstance(value, str)
-        or len(value) > 1024
-        or "\r" in value
-        or "\n" in value
-    ):
+    if not isinstance(value, str) or len(value) > 1024 or "\r" in value or "\n" in value:
         return None
     return value
 
@@ -65,9 +60,7 @@ def _decode_visual_cache_record(raw: dict[str, object]) -> _VisualCacheRecord | 
         return None
     if not isinstance(illustrative, bool):
         return None
-    if usage is not None and (
-        isinstance(usage, bool) or not isinstance(usage, int) or usage < 0
-    ):
+    if usage is not None and (isinstance(usage, bool) or not isinstance(usage, int) or usage < 0):
         return None
     if request_id is None or operation_id is None:
         return None
