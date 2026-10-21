@@ -564,6 +564,8 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 assert page.locator(".skip-link").count() == 1
                 assert page.locator("#world-search").get_attribute("aria-label")
                 detail = _api(page, f"/experience/player/worlds/{profile_id}")
+                assert "provider_request_id" not in repr(detail)
+                assert "provider_operation_id" not in repr(detail)
                 assert len(cast(list[object], detail["characters"])) == 1, detail
                 page.screenshot(path=str(review / "desktop.png"), full_page=True)
                 with page.expect_response(
