@@ -789,6 +789,7 @@ def test_visual_index_wrong_cache_key_fails_closed_without_regeneration(
     persisted_rows = cast(dict[str, dict[str, object]], persisted)
     assert persisted_rows[target_key]["cache_key"] == old_key
 
+
 def test_corrupt_durable_scene_recovers_then_reuses_verified_bytes(
     tmp_path: pathlib.Path,
 ) -> None:
