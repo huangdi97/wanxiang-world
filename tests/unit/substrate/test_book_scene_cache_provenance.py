@@ -3,6 +3,7 @@
 # pyright: reportPrivateUsage=false
 
 import hashlib
+import json
 import pathlib
 
 import pytest
@@ -106,3 +107,32 @@ def test_invalid_durable_visual_cache_schema_never_degrades_to_a_cache_miss(
 
     with pytest.raises(ValueError, match="visual cache index"):
         cache.index.list()
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [
+        ("presentation_kind", "spatial"),
+        ("media_type", "text/html"),
+        ("content_sha256", "not-a-sha256"),
+    ],
+)
+def test_semantically_invalid_durable_cache_record_fails_closed(
+    tmp_path: pathlib.Path, field: str, value: str
+) -> None:
+    cache = VisualAssetCache(
+        LocalObjectStore(tmp_path / "blobs"),
+        LocalJsonVisualCacheIndex(tmp_path / "index.json"),
+    )
+    asset = _asset(cache_key="paid-scene")
+    cache.put(asset, rights="source-gated")
+
+    index_path = tmp_path / "index.json"
+    decoded = json.loads(index_path.read_text(encoding="utf-8"))
+    decoded["paid-scene"][field] = value
+    index_path.write_text(json.dumps(decoded), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="index record is invalid"):
+        cache.get("paid-scene", rights="source-gated")
+    with pytest.raises(ValueError, match="index record is invalid"):
+        cache.index.list()
+

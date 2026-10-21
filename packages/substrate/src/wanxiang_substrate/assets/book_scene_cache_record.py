@@ -51,6 +51,17 @@ def _decode_visual_cache_record(raw: dict[str, object]) -> _VisualCacheRecord | 
     )
     if not all(isinstance(raw.get(name), str) for name in required_strings):
         return None
+    media_type = cast(str, raw["media_type"])
+    content_sha256 = cast(str, raw["content_sha256"])
+    presentation = raw.get("presentation_kind", "still")
+    if not media_type.startswith("image/"):
+        return None
+    if len(content_sha256) != 64 or any(
+        character not in "0123456789abcdefABCDEF" for character in content_sha256
+    ):
+        return None
+    if presentation not in {"still", "panorama"}:
+        return None
     size = raw.get("size")
     illustrative = raw.get("illustrative")
     usage = raw.get("provider_usage_units")
@@ -64,20 +75,19 @@ def _decode_visual_cache_record(raw: dict[str, object]) -> _VisualCacheRecord | 
         return None
     if request_id is None or operation_id is None:
         return None
-    presentation = raw.get("presentation_kind")
     return _VisualCacheRecord(
         cache_key=cast(str, raw["cache_key"]),
         scene_key=cast(str, raw["scene_key"]),
         place_name=cast(str, raw["place_name"]),
         provider_id=cast(str, raw["provider_id"]),
         provider_version=cast(str, raw["provider_version"]),
-        media_type=cast(str, raw["media_type"]),
-        content_sha256=cast(str, raw["content_sha256"]),
+        media_type=media_type,
+        content_sha256=content_sha256,
         asset_id=cast(str, raw["asset_id"]),
         size=size,
         illustrative=illustrative,
         style_key=cast(str, raw["style_key"]),
-        presentation_kind=presentation if isinstance(presentation, str) else "still",
+        presentation_kind=cast(str, presentation),
         provider_usage_units=usage,
         provider_request_id=request_id,
         provider_operation_id=operation_id,
