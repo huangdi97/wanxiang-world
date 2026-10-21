@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import hashlib
 from dataclasses import dataclass, field, replace
+from typing import cast
 
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
 from wanxiang_substrate.assets.book_scene_prompt import (
@@ -69,9 +70,9 @@ class _PromptedExternalSceneProvider(_SceneImageProvider):
         # untrusted external client does not need stable source identifiers.
         brief = replace(internal_brief, source_refs=())
         result = self.client.generate(brief)
-        raw_usage: object = result.provider_usage_units
-        raw_request_id: object = result.provider_request_id
-        raw_operation_id: object = result.provider_operation_id
+        raw_usage = cast(object, result.provider_usage_units)
+        raw_request_id = cast(object, result.provider_request_id)
+        raw_operation_id = cast(object, result.provider_operation_id)
         if raw_usage is not None and (
             isinstance(raw_usage, bool) or not isinstance(raw_usage, int) or raw_usage < 0
         ):
