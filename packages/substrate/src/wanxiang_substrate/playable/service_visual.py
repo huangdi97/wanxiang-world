@@ -217,9 +217,7 @@ def _materialize_visual_place(
                 raise ContractError(str(exc)) from exc
             if (
                 not reserved_attempt
-                and service._visual_cache.get_for(
-                    request, provider, rights=plan.delivery_rights
-                )
+                and service._visual_cache.get_for(request, provider, rights=plan.delivery_rights)
                 is None
             ):
                 raise ContractError(

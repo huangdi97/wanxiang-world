@@ -111,6 +111,7 @@ def test_concurrent_processes_do_not_lose_budget_counts(tmp_path: pathlib.Path) 
                 process.kill()
                 process.wait(timeout=10)
 
+
 def test_budget_reservation_is_idempotent_and_enforces_world_limit(
     tmp_path: pathlib.Path,
 ) -> None:
@@ -136,6 +137,7 @@ def test_budget_ledger_migrates_legacy_flat_counts_without_resetting_usage(
     assert ledger.used("world-a") == 2
     assert ledger.reserve("world-a", "scene-c@provider-v1", 3) is True
     assert VisualBudgetLedger(path).used("world-a") == 3
+
 
 def test_concurrent_processes_cannot_race_through_visual_limit(
     tmp_path: pathlib.Path,

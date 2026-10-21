@@ -100,9 +100,7 @@ class VisualBudgetLedger:
             _FORMAT_KEY: _FORMAT_VERSION,
             "counts": counts,
             "reservations": {
-                profile: sorted(keys)
-                for profile, keys in reservations.items()
-                if keys
+                profile: sorted(keys) for profile, keys in reservations.items() if keys
             },
         }
         temporary = self._path.with_suffix(self._path.suffix + ".tmp")
@@ -167,9 +165,7 @@ class VisualBudgetLedger:
 
         if self._path is None:
             with self._lock:
-                reservations = {
-                    key: set(value) for key, value in self._reservations.items()
-                }
+                reservations = {key: set(value) for key, value in self._reservations.items()}
                 return mutate(dict(self._counts), reservations)
         with _exclusive_index_lock(self._lock_path()):
             counts, reservations = self._load()

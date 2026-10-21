@@ -332,6 +332,7 @@ def test_lower_fidelity_request_never_downgrades_existing_panorama_catalog() -> 
     assert service._visual_assets["profile"][0].presentation_kind == "panorama"
     assert service._visual_assets["profile"][0].provider_id == panorama.provider_id
 
+
 def test_failed_paid_t1_attempt_is_reserved_and_not_automatically_retried() -> None:
     service = _service()
     provider = _FailingProvider()
