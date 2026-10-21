@@ -224,12 +224,7 @@ class VisualAssetCache:
         ):
             raise ValueError("visual cache provider usage is invalid")
         for label, value in (("request", request_id), ("operation", operation_id)):
-            if (
-                not isinstance(value, str)
-                or len(value) > 1024
-                or "\r" in value
-                or "\n" in value
-            ):
+            if not isinstance(value, str) or len(value) > 1024 or "\r" in value or "\n" in value:
                 raise ValueError(f"visual cache provider {label} id is invalid")
         ref = self.store.put(asset.content, content_type=asset.media_type, rights=rights)
         self.index.put(
