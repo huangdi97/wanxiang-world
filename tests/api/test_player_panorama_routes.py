@@ -161,3 +161,70 @@ def test_t2_panorama_is_explicit_owner_upgrade_and_cached_for_player() -> None:
     )
     assert public_scene["presentation_kind"] == "panorama"
     assert public_scene["projection_only"] is True
+
+@dataclass
+class _UncertainPanoramaClient(_ExternalImageClient):
+    calls: int = 0
+
+    def generate(self, brief: _SceneGenerationBrief) -> _ExternalImageResult:
+        _ = brief
+        self.calls += 1
+        raise RuntimeError("provider response lost after submission")
+
+
+def test_t2_panorama_blocks_automatic_retry_after_unresolved_paid_attempt() -> None:
+    provider_client = _UncertainPanoramaClient()
+    provider = _PromptedPanoramaSceneProvider(
+        provider_id="provider:uncertain-panorama",
+        provider_version="2026-10",
+        client=provider_client,
+        cost_units_per_asset=3,
+        private_safe=False,
+    )
+    app = create_app(
+        build_reference_runtime(),
+        panorama_provider=provider,
+        panorama_allow_network=True,
+        panorama_max_cost_units=6,
+    )
+    client: Any = TestClient(app)
+    created = client.post(
+        "/studio/one-click",
+        json={"job_id": "panorama_uncertain", "profile": "book", "sources": [_source()]},
+    )
+    assert created.status_code == 201
+    profile = client.post(
+        "/studio/jobs/panorama_uncertain/playable-profile",
+        json={
+            "owner_id": "studio",
+            "visibility": "public",
+            "display_name": "Uncertain Panorama World",
+        },
+    )
+    assert profile.status_code == 200
+    profile_id = str(profile.json()["profile"]["profile_id"])
+    endpoint = f"/experience/player/worlds/{profile_id}/panoramas"
+
+    first = client.post(
+        endpoint,
+        headers={"X-Wanxiang-User": "studio"},
+        json={"place_name": "Garden"},
+    )
+    assert first.status_code == 409
+    assert provider_client.calls == 1
+
+    retry = client.post(
+        endpoint,
+        headers={"X-Wanxiang-User": "studio"},
+        json={"place_name": "Garden"},
+    )
+    assert retry.status_code == 409
+    assert retry.json()["detail"] == (
+        "panorama generation outcome is unresolved; automatic retry is blocked"
+    )
+    assert provider_client.calls == 1
+
+    capability = client.get(endpoint, headers={"X-Wanxiang-User": "studio"})
+    assert capability.status_code == 200
+    assert capability.json()["generation"]["budget_reserved"] == 3
+    assert capability.json()["generation"]["budget_remaining"] == 3

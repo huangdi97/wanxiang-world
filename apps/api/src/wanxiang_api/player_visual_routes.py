@@ -158,6 +158,11 @@ def player_upgrade_visual_place_to_panorama(
         f"{scene_request.cache_key}:t2-panorama-v1:"
         f"{provider.provider_id}@{provider.provider_version}"
     )
+    if place not in ready_places and ledger.has_reservation(profile_id, reservation_key):
+        raise HTTPException(
+            status_code=409,
+            detail="panorama generation outcome is unresolved; automatic retry is blocked",
+        )
     if place not in ready_places:
         try:
             ledger.reserve(
