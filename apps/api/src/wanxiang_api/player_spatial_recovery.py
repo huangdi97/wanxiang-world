@@ -8,12 +8,14 @@ repopulates Player projection state and never writes Canon or History.
 
 from __future__ import annotations
 
+from dataclasses import replace
 from typing import cast
 
 from fastapi import Request
 from wanxiang_substrate.assets.storage import ObjectStore
 from wanxiang_substrate.playable import PlayableService
 from wanxiang_substrate.spatial import (
+    DerivedSpatialAttachments,
     SpatialGenerationCoordinator,
     SpatialJobStore,
     plan_book_scene_assets,
@@ -46,7 +48,7 @@ def rehydrate_spatial_attachments(
     unavailable = 0
     for ticket in jobs.list_scope(profile_id):
         if (
-            ticket.state != "attached"
+            ticket.state not in {"verified", "attached"}
             or not ticket.asset_refs
             or not source_scene_key_allowed(package, ticket.scene_key)
         ):
@@ -69,11 +71,17 @@ def rehydrate_spatial_attachments(
         except ValueError:
             unavailable += 1
             continue
+        cast(
+            DerivedSpatialAttachments,
+            request.app.state.spatial_asset_catalog,
+        ).attach(ticket.scene_key, ticket.asset_refs)
         service.attach_spatial_assets(
             profile_id,
             ticket.scene_key,
             ticket.asset_refs,
             projection_frame=ticket.projection_frame,
         )
+        if ticket.state == "verified":
+            jobs.put(replace(ticket, state="attached"))
         restored += 1
     return (restored, unavailable)

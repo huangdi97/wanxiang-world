@@ -525,6 +525,57 @@ def test_t3_application_factory_fails_closed_for_invalid_network_or_budget_confi
         create_app(build_reference_runtime(), spatial_max_cost_units=-1)
 
 
+def test_t3_restart_rehydrates_verified_asset_without_provider_recall() -> None:
+    provider = _FakeSpatialProvider()
+    app, client, profile_id = _world(
+        spatial_provider=provider,
+        spatial_allow_network=True,
+        spatial_max_cost_units=7,
+    )
+    owner = {"X-Wanxiang-User": "studio"}
+    endpoint = f"/experience/player/worlds/{profile_id}/spatial"
+
+    submitted = client.post(endpoint, headers=owner, json={"place_name": "Garden"})
+    assert submitted.status_code == 202
+    submission_id = str(submitted.json()["spatial"]["submission_id"])
+    ticket = app.state.spatial_asset_jobs.get(submission_id)
+    assert ticket is not None
+
+    coordinator = app.state.spatial_asset_jobs
+    payload = _glb(b"verified-before-crash")
+    ref = app.state.spatial_asset_objects.put(
+        payload,
+        content_type="model/gltf-binary",
+        rights=ticket.delivery_rights,
+    )
+    coordinator.put(
+        replace(
+            ticket,
+            state="verified",
+            asset_refs=(ref,),
+            provider_usage_units=6,
+        )
+    )
+    app.state.playable._spatial_asset_refs.clear()
+    app.state.playable._spatial_projection_frames.clear()
+    provider.polls.clear()
+
+    listed = client.get(endpoint, headers=owner)
+
+    assert listed.status_code == 200
+    assert listed.json()["rehydrated_attachments"] == 1
+    assert listed.json()["unavailable_attachments"] == 0
+    restored = app.state.spatial_asset_jobs.get(submission_id)
+    assert restored is not None
+    assert restored.state == "attached"
+    assert provider.polls == []
+    scenes = client.get(
+        f"/experience/player/worlds/{profile_id}",
+        headers=owner,
+    ).json()["world"]["visual"]["scenes"]
+    assert any(scene.get("spatial", {}).get("ready") is True for scene in scenes)
+
+
 def test_t3_restart_does_not_rehydrate_missing_spatial_blob() -> None:
     app, client, profile_id = _world()
     provider = _FakeSpatialProvider()
