@@ -226,9 +226,8 @@ def _materialize_visual_place(
     }
     for asset, ref in zip(materialized.assets, materialized.asset_refs, strict=True):
         existing = combined.get(asset.scene_key)
-        if (
-            existing is not None
-            and _visual_fidelity_rank(existing[0]) > _visual_fidelity_rank(asset)
+        if existing is not None and _visual_fidelity_rank(existing[0]) > _visual_fidelity_rank(
+            asset
         ):
             continue
         combined[asset.scene_key] = (asset, ref)
