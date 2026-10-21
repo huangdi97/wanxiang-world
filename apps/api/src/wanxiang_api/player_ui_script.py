@@ -24,7 +24,9 @@ const errorCopy={
   "only an embodied actor may submit a world action":"error_need_embodiment",
   "no_allowed_affordance":"error_no_affordance",
   "unsafe_intent_text":"error_unsafe",
-  "multiple_affordances":"error_multiple"
+  "multiple_affordances":"error_multiple",
+  "world on-demand visual attempt is already reserved":"error_visual_attempt_reserved",
+  "world on-demand visual budget exhausted":"error_visual_budget_exhausted"
 };
 function humanError(payload){
   const code=typeof payload?.code==="string"?payload.code:"";

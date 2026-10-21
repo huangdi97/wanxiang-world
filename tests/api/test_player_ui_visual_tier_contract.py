@@ -34,3 +34,14 @@ def test_visual_tier_copy_is_available_in_both_locales() -> None:
         assert "{cost}" in panorama
         assert "{remaining}" in panorama
         assert "{budget}" in panorama
+
+def test_visual_generation_budget_errors_are_localized_and_not_generic() -> None:
+    assert "error_visual_attempt_reserved" in SCRIPT
+    assert "error_visual_budget_exhausted" in SCRIPT
+    chinese = _copy_for("zh-CN")
+    english = _copy_for("en-US")
+
+    assert "重复计费" in chinese.text("error_visual_attempt_reserved")
+    assert "额度已用完" in chinese.text("error_visual_budget_exhausted")
+    assert "duplicate billing" in english.text("error_visual_attempt_reserved")
+    assert "budget is exhausted" in english.text("error_visual_budget_exhausted")
