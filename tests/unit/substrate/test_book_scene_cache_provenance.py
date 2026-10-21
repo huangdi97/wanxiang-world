@@ -149,6 +149,7 @@ def test_semantically_invalid_durable_cache_record_fails_closed(
     with pytest.raises(ValueError, match="index record is invalid"):
         cache.index.list()
 
+
 def test_durable_cache_key_identity_corruption_never_becomes_a_paid_miss(
     tmp_path: pathlib.Path,
 ) -> None:
