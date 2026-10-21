@@ -105,4 +105,3 @@ def test_invalid_durable_visual_cache_schema_never_degrades_to_a_cache_miss(
 
     with pytest.raises(ValueError, match="visual cache index"):
         cache.index.list()
-
