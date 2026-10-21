@@ -31,6 +31,7 @@ class _SceneVisualAsset:
     presentation_kind: str = "still"
     provider_usage_units: int | None = None
     provider_request_id: str = ""
+    provider_operation_id: str = ""
 
     def data_uri(self) -> str:
         payload = base64.b64encode(self.content).decode("ascii")

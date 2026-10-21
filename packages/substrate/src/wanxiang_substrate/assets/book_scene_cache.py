@@ -37,6 +37,7 @@ class _VisualCacheRecord:
     presentation_kind: str = "still"
     provider_usage_units: int | None = None
     provider_request_id: str = ""
+    provider_operation_id: str = ""
 
 
 class _VisualCacheIndex:
@@ -111,6 +112,7 @@ class LocalJsonVisualCacheIndex(_VisualCacheIndex):
         illustrative = raw.get("illustrative")
         usage = raw.get("provider_usage_units")
         request_id = raw.get("provider_request_id", "")
+        operation_id = raw.get("provider_operation_id", "")
         if not isinstance(size, int) or not isinstance(illustrative, bool):
             return None
         if usage is not None and (
@@ -122,6 +124,10 @@ class LocalJsonVisualCacheIndex(_VisualCacheIndex):
             or len(request_id) > 1024
             or "\r" in request_id
             or "\n" in request_id
+            or not isinstance(operation_id, str)
+            or len(operation_id) > 1024
+            or "\r" in operation_id
+            or "\n" in operation_id
         ):
             return None
         return _VisualCacheRecord(
@@ -143,6 +149,7 @@ class LocalJsonVisualCacheIndex(_VisualCacheIndex):
             ),
             provider_usage_units=usage,
             provider_request_id=request_id,
+            provider_operation_id=operation_id,
         )
 
     def get(self, cache_key: str) -> _VisualCacheRecord | None:
@@ -178,6 +185,7 @@ class LocalJsonVisualCacheIndex(_VisualCacheIndex):
                 "presentation_kind": record.presentation_kind,
                 "provider_usage_units": record.provider_usage_units,
                 "provider_request_id": record.provider_request_id,
+                "provider_operation_id": record.provider_operation_id,
             }
             temporary = self._path.with_suffix(self._path.suffix + ".tmp")
             temporary.write_text(
@@ -261,6 +269,7 @@ class VisualAssetCache:
                 presentation_kind=metadata.presentation_kind,
                 provider_usage_units=metadata.provider_usage_units,
                 provider_request_id=metadata.provider_request_id,
+                provider_operation_id=metadata.provider_operation_id,
             ),
             ref,
         )
@@ -307,6 +316,7 @@ class VisualAssetCache:
                 presentation_kind=asset.presentation_kind,
                 provider_usage_units=asset.provider_usage_units,
                 provider_request_id=asset.provider_request_id,
+                provider_operation_id=asset.provider_operation_id,
             )
         )
         return ref

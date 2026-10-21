@@ -30,6 +30,7 @@ class _ExternalImageResult:
     media_type: str
     provider_usage_units: int | None = None
     provider_request_id: str = ""
+    provider_operation_id: str = ""
 
 
 class _ExternalImageClient:
@@ -70,6 +71,7 @@ class _PromptedExternalSceneProvider(_SceneImageProvider):
         result = self.client.generate(brief)
         raw_usage: object = result.provider_usage_units
         raw_request_id: object = result.provider_request_id
+        raw_operation_id: object = result.provider_operation_id
         if raw_usage is not None and (
             isinstance(raw_usage, bool)
             or not isinstance(raw_usage, int)
@@ -83,6 +85,13 @@ class _PromptedExternalSceneProvider(_SceneImageProvider):
             or "\n" in raw_request_id
         ):
             raise ValueError("external visual provider returned invalid request id")
+        if (
+            not isinstance(raw_operation_id, str)
+            or len(raw_operation_id) > 1024
+            or "\r" in raw_operation_id
+            or "\n" in raw_operation_id
+        ):
+            raise ValueError("external visual provider returned invalid operation id")
         if not result.content:
             raise ValueError("external visual provider returned empty image bytes")
         if len(result.content) > self.max_output_bytes:
@@ -112,4 +121,5 @@ class _PromptedExternalSceneProvider(_SceneImageProvider):
             provider_version=self.provider_version,
             provider_usage_units=result.provider_usage_units,
             provider_request_id=result.provider_request_id,
+            provider_operation_id=result.provider_operation_id,
         )

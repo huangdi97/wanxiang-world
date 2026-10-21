@@ -54,6 +54,16 @@ def _provider_usage_units(body: dict[str, object]) -> int | None:
     return total
 
 
+def _provider_operation_id(body: dict[str, object]) -> str:
+    raw = body.get("id", "")
+    if not isinstance(raw, str):
+        raise ValueError("TokenHub panorama returned invalid id")
+    value = raw.strip()
+    if len(value) > 1024 or "\r" in value or "\n" in value:
+        raise ValueError("TokenHub panorama returned invalid id")
+    return value
+
+
 def _provider_request_id(body: dict[str, object]) -> str:
     raw = body.get("request_id", "")
     if not isinstance(raw, str):
@@ -167,6 +177,7 @@ class _TokenHubPanoramaClient(_ExternalImageClient):
             raise ValueError("TokenHub panorama response must be an object")
         body = cast(dict[str, object], decoded)
         provider_usage_units = _provider_usage_units(body)
+        provider_operation_id = _provider_operation_id(body)
         provider_request_id = _provider_request_id(body)
         if body.get("status") != "succeeded":
             raise RuntimeError("TokenHub panorama generation did not succeed")
@@ -183,6 +194,7 @@ class _TokenHubPanoramaClient(_ExternalImageClient):
             _image_media_type(content),
             provider_usage_units=provider_usage_units,
             provider_request_id=provider_request_id,
+            provider_operation_id=provider_operation_id,
         )
 
 

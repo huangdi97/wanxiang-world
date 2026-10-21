@@ -702,6 +702,7 @@ def test_provider_usage_evidence_survives_visual_cache_restart(
         cache_key=f"{request.cache_key}:provider:metered-audit@2026-10",
         provider_usage_units=19000,
         provider_request_id="request-metered-1",
+        provider_operation_id="operation-metered-1",
     )
     first_cache = _VisualAssetCache(
         LocalObjectStore(tmp_path / "usage-blobs"),
@@ -718,6 +719,7 @@ def test_provider_usage_evidence_survives_visual_cache_restart(
     assert cached is not None
     assert cached[0].provider_usage_units == 19000
     assert cached[0].provider_request_id == "request-metered-1"
+    assert cached[0].provider_operation_id == "operation-metered-1"
 
 
 def test_cached_bytes_can_be_reused_under_current_delivery_rights_without_regeneration() -> None:
