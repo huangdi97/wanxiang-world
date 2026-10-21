@@ -241,19 +241,20 @@ class _TokenHubSpatialProvider(_SpatialGenerationProvider):
         if not isinstance(data, list) or not data or not isinstance(data[0], dict):
             raise ValueError("TokenHub spatial succeeded without artifact data")
         first = cast(dict[str, object], data[0])
-        # Prefer the provider's point-cloud PLY for the lightweight browser
-        # renderer, then simplified/full collision meshes for richer adapters.
-        specs = (
-            ("point_url", "model/ply"),
-            ("mesh_simplified_url", "model/ply"),
-            ("mesh_url", "model/ply"),
-            ("super_resolution_image_url", None),
-        )
+        # The current Player needs one renderable geometry representation,
+        # not every provider variant of the same scene. Prefer the point-cloud
+        # PLY, then fall back to simplified/full PLY. Downloading all three
+        # would multiply network, memory and object-store cost without adding a
+        # second scene capability.
         artifacts: list[_SpatialArtifactCandidate] = []
-        for field, media_type in specs:
+        for field in ("point_url", "mesh_simplified_url", "mesh_url"):
             url = first.get(field)
             if isinstance(url, str) and url.strip():
-                artifacts.append(self._download(url, media_type=media_type))
+                artifacts.append(self._download(url, media_type="model/ply"))
+                break
+        preview_url = first.get("super_resolution_image_url")
+        if isinstance(preview_url, str) and preview_url.strip():
+            artifacts.append(self._download(preview_url, media_type=None))
         if not artifacts:
             raise ValueError("TokenHub spatial returned no locally supported artifacts")
         projection_frame = None

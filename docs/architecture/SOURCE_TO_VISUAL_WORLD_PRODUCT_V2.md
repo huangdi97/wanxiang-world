@@ -895,3 +895,26 @@ mutate History. The live observation keeps its canonical scene/location/time dat
 only receives the newly verified derived spatial attachment. Replay views are not
 rewritten by a current asynchronous completion.
 
+## 32. T3 artifact selection is capability-first, not download-everything
+
+A provider may expose several geometry variants for one generated place. Wanxiang does not
+treat every variant as a separate world capability.
+
+For the direct TokenHub Hy-World scene adapter the default selection is:
+
+~~~text
+point PLY
+  else simplified mesh PLY
+  else full mesh PLY
++ optional super-resolution preview
+~~~
+
+Only the first available geometry representation is downloaded and persisted by the default
+Player path. This avoids downloading point cloud + simplified mesh + full mesh for the same
+scene when the built-in renderer needs only one verified geometry source. A future export or
+specialized renderer may request richer artifacts through a separate explicit capability, but
+that must not silently increase the default T3 network, memory or storage footprint.
+
+This optimization changes derived asset transport only. It does not alter the source scene,
+canonical topology, provider task state, worldline, or History.
+

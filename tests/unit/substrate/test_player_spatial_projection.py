@@ -10,7 +10,6 @@ from typing import cast
 
 from tests.unit.substrate.test_book_scene_plan import package_from_book
 from wanxiang_runtime.state import InMemoryCanonicalState
-
 from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
 from wanxiang_substrate.assets.book_scene_visual import _render_visual_plan
 from wanxiang_substrate.assets.book_spatial_types import _SpatialProjectionFrame

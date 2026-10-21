@@ -144,7 +144,7 @@ def test_tokenhub_spatial_poll_downloads_only_supported_allowlisted_artifacts(
             "tokenhub_usage": {"total_tokens": 8000000},
         }
     ).encode()
-    opener = _install(monkeypatch, [poll, point, simplified, mesh, preview])
+    opener = _install(monkeypatch, [poll, point, preview])
     provider = _provider()
 
     result = provider.poll("task-1")
@@ -153,15 +153,11 @@ def test_tokenhub_spatial_poll_downloads_only_supported_allowlisted_artifacts(
     assert result.provider_usage_units == 8_000_000
     assert [item.media_type for item in result.artifacts] == [
         "model/ply",
-        "model/ply",
-        "model/ply",
         "image/png",
     ]
     assert [request.full_url for request in opener.requests] == [
         "https://tokenhub.tencentmaas.com/v1/wand/hunyuan-video/tasks/task-1",
         "https://assets.example/world-point.ply",
-        "https://assets.example/world-simple.ply",
-        "https://assets.example/world.ply",
         "https://assets.example/preview.png",
     ]
     assert result.artifacts[0].content == point
@@ -174,6 +170,34 @@ def test_tokenhub_spatial_poll_downloads_only_supported_allowlisted_artifacts(
     assert all("world.spz" not in request.full_url for request in opener.requests)
     assert opener.requests[0].headers["Authorization"] == "Bearer secret"
     assert all(request.headers.get("Authorization") is None for request in opener.requests[1:])
+
+
+def test_tokenhub_spatial_falls_back_to_one_mesh_when_point_cloud_is_absent(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    simplified = b"ply\nformat ascii 1.0\ncomment simplified\nend_header\n"
+    poll = json.dumps(
+        {
+            "status": "succeeded",
+            "data": [
+                {
+                    "mesh_simplified_url": "https://assets.example/world-simple.ply",
+                    "mesh_url": "https://assets.example/world.ply",
+                }
+            ],
+        }
+    ).encode()
+    opener = _install(monkeypatch, [poll, simplified])
+
+    result = _provider().poll("task-1")
+
+    assert len(result.artifacts) == 1
+    assert result.artifacts[0].media_type == "model/ply"
+    assert result.artifacts[0].content == simplified
+    assert [request.full_url for request in opener.requests] == [
+        "https://tokenhub.tencentmaas.com/v1/wand/hunyuan-video/tasks/task-1",
+        "https://assets.example/world-simple.ply",
+    ]
 
 
 @pytest.mark.parametrize(
