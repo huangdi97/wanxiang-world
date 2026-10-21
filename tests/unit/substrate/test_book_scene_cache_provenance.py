@@ -108,6 +108,7 @@ def test_invalid_durable_visual_cache_schema_never_degrades_to_a_cache_miss(
     with pytest.raises(ValueError, match="visual cache index"):
         cache.index.list()
 
+
 @pytest.mark.parametrize(
     ("field", "value"),
     [
@@ -135,4 +136,3 @@ def test_semantically_invalid_durable_cache_record_fails_closed(
         cache.get("paid-scene", rights="source-gated")
     with pytest.raises(ValueError, match="index record is invalid"):
         cache.index.list()
-
