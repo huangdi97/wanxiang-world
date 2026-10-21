@@ -756,7 +756,7 @@ def test_missing_durable_visual_blob_is_regenerated_under_existing_governance(
     assert cache.store.get(recovered.asset_refs[0]) == first.assets[0].content
 
 
-def test_visual_index_wrong_cache_key_is_never_treated_as_a_scene_hit(
+def test_visual_index_wrong_cache_key_fails_closed_without_regeneration(
     tmp_path: pathlib.Path,
 ) -> None:
     original = _request("园林", "revisioned-cache")
@@ -777,13 +777,14 @@ def test_visual_index_wrong_cache_key_is_never_treated_as_a_scene_hit(
     rows[target_key] = dict(rows[old_key])
     cache_path.write_text(json.dumps(rows), encoding="utf-8")
 
-    assert cache.get(target_key, rights="source-gated") is None
-    repaired = _materialize_visual_plan(_plan(revised), cache=cache)
-    assert repaired.provider_calls == 1
-    assert repaired.cache_hits == 0
-    assert repaired.assets[0].cache_key == target_key
-    assert cache.get(target_key, rights="source-gated") is not None
+    with pytest.raises(ValueError, match="visual cache index record is invalid"):
+        cache.get(target_key, rights="source-gated")
+    with pytest.raises(ValueError, match="visual cache index record is invalid"):
+        _materialize_visual_plan(_plan(revised), cache=cache)
 
+    # Durable identity corruption must not be repaired by a second provider
+    # generation. An operator must reconcile/remove the bad row explicitly.
+    assert len(cache.index.list()) >= 1
 
 def test_corrupt_durable_scene_recovers_then_reuses_verified_bytes(
     tmp_path: pathlib.Path,

@@ -89,11 +89,7 @@ class LocalJsonVisualCacheIndex(_VisualCacheIndex):
             return None
         record = _decode_visual_cache_record(raw)
         if record is None or record.cache_key != cache_key:
-            # A single malformed/mis-keyed row must never be promoted into a
-            # cache hit. Keep unreadable whole-index failures strict, but let
-            # callers treat this isolated row as a miss and re-enter the
-            # governed generation/ticket path.
-            return None
+            raise ValueError("visual cache index record is invalid")
         return record
 
     def list(self) -> tuple[_VisualCacheRecord, ...]:
