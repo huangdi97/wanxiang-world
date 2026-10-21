@@ -14,6 +14,7 @@ from collections.abc import Iterable
 from wanxiang_domain.event import CommittedEvent
 from wanxiang_runtime.state import InMemoryCanonicalState
 
+from wanxiang_substrate.assets.book_scene_context import _place_identity
 from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
 from wanxiang_substrate.assets.book_scene_visual import (
     _render_visual_plan,
@@ -51,6 +52,20 @@ from wanxiang_substrate.playable.player_world_detail import (
     player_world_detail,
 )
 from wanxiang_substrate.playable.state_diff import CommittedStateDiff
+
+
+def _visual_asset_at_location(
+    assets: tuple[_SceneVisualAsset, ...],
+    location: str | None,
+) -> _SceneVisualAsset | None:
+    """Reuse the best existing asset for source-equivalent place labels."""
+    if not location:
+        return None
+    identity = _place_identity(location)
+    return next(
+        (asset for asset in assets if _place_identity(asset.place_name) == identity),
+        None,
+    )
 
 
 def player_observation(
@@ -123,7 +138,7 @@ def player_observation(
         if assets is None:
             assets = _render_visual_plan(plan)
         support_by_key = _scene_support_for_assets(package, assets, copy)
-        chosen = next((asset for asset in assets if asset.place_name == location), None)
+        chosen = _visual_asset_at_location(assets, location)
         grounding = "current_location" if canonical_location else "entry_location"
         if chosen is None and location:
             # Remote generation is deferred for long books, but the current
