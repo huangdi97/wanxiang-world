@@ -80,6 +80,19 @@ def _provider() -> _TokenHubSpatialProvider:
     )
 
 
+def _ascii_ply() -> bytes:
+    return (
+        b"ply\n"
+        b"format ascii 1.0\n"
+        b"element vertex 1\n"
+        b"property float x\n"
+        b"property float y\n"
+        b"property float z\n"
+        b"end_header\n"
+        b"0 0 0\n"
+    )
+
+
 def test_tokenhub_spatial_submit_uses_bounded_text_scene_request(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -116,7 +129,7 @@ def test_tokenhub_spatial_submit_uses_bounded_text_scene_request(
 def test_tokenhub_spatial_poll_downloads_only_supported_allowlisted_artifacts(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    point = b"ply\nformat ascii 1.0\ncomment point\nend_header\n"
+    point = _ascii_ply()
     preview = bytes.fromhex("89504e470d0a1a0a") + b"preview"
     poll = json.dumps(
         {
@@ -196,7 +209,7 @@ def test_tokenhub_spatial_rejects_preview_without_geometry(
 def test_tokenhub_spatial_falls_back_to_one_mesh_when_point_cloud_is_absent(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    simplified = b"ply\nformat ascii 1.0\ncomment simplified\nend_header\n"
+    simplified = _ascii_ply()
     poll = json.dumps(
         {
             "status": "succeeded",
@@ -290,7 +303,7 @@ def test_tokenhub_spatial_rejects_invalid_usage_evidence(
             "tokenhub_usage": {"total_tokens": total_tokens},
         }
     ).encode()
-    point = b"ply\nformat ascii 1.0\nend_header\n"
+    point = _ascii_ply()
     _install(monkeypatch, [payload, point])
 
     with pytest.raises(ValueError, match="invalid total token usage"):
@@ -338,4 +351,58 @@ def test_tokenhub_spatial_rejects_big_endian_ply_not_supported_by_player(
     _install(monkeypatch, [poll, point])
 
     with pytest.raises(ValueError, match="unsupported PLY format"):
+        _provider().poll("task-1")
+
+@pytest.mark.parametrize(
+    ("payload", "message"),
+    [
+        (
+            b"ply\nformat ascii 1.0\nend_header\n0 0 0\n",
+            "vertex count",
+        ),
+        (
+            b"ply\nformat ascii 1.0\nelement face 1\n"
+            b"element vertex 1\nproperty float x\nproperty float y\n"
+            b"property float z\nend_header\n0 0 0\n",
+            "must be first",
+        ),
+        (
+            b"ply\nformat ascii 1.0\nelement vertex 1\n"
+            b"property float x\nproperty float y\nend_header\n0 0\n",
+            "x/y/z",
+        ),
+        (
+            b"ply\nformat ascii 1.0\nelement vertex 1\n"
+            b"property list uchar int neighbors\nproperty float x\n"
+            b"property float y\nproperty float z\nend_header\n0 0 0\n",
+            "list properties",
+        ),
+        (
+            b"ply\nformat binary_little_endian 1.0\nelement vertex 2\n"
+            b"property float x\nproperty float y\nproperty float z\n"
+            b"end_header\n" + bytes(12),
+            "truncated",
+        ),
+        (
+            b"ply\nformat ascii 1.0\nelement vertex 5000001\n"
+            b"property float x\nproperty float y\nproperty float z\n"
+            b"end_header\n0 0 0\n",
+            "outside Player limits",
+        ),
+    ],
+)
+def test_tokenhub_spatial_rejects_ply_the_builtin_player_cannot_render(
+    monkeypatch: pytest.MonkeyPatch,
+    payload: bytes,
+    message: str,
+) -> None:
+    poll = json.dumps(
+        {
+            "status": "succeeded",
+            "data": [{"point_url": "https://assets.example/world-point.ply"}],
+        }
+    ).encode()
+    _install(monkeypatch, [poll, payload])
+
+    with pytest.raises(ValueError, match=message):
         _provider().poll("task-1")
