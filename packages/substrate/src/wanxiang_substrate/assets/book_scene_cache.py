@@ -132,7 +132,7 @@ class LocalJsonVisualCacheIndex(_VisualCacheIndex):
                 if isinstance(raw.get("presentation_kind"), str)
                 else "still"
             ),
-            provider_usage_units=cast(int | None, usage),
+            provider_usage_units=usage,
         )
 
     def get(self, cache_key: str) -> _VisualCacheRecord | None:
