@@ -162,6 +162,7 @@ def test_tokenhub_panorama_requires_key_and_explicit_artifact_hosts() -> None:
             artifact_hosts=frozenset(),
         )
 
+
 @pytest.mark.parametrize("total_tokens", [-1, True, "500000"])
 def test_tokenhub_panorama_rejects_invalid_usage_evidence(
     monkeypatch: pytest.MonkeyPatch,
