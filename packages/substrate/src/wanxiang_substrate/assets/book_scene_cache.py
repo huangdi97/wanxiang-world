@@ -10,34 +10,19 @@ import json
 import pathlib
 from collections.abc import Generator, Iterable
 from contextlib import contextmanager
-from dataclasses import dataclass
 from threading import Lock
 from typing import cast
 
+from wanxiang_substrate.assets.book_scene_cache_record import (
+    _decode_visual_cache_record,
+    _encode_visual_cache_record,
+    _VisualCacheRecord,
+)
 from wanxiang_substrate.assets.book_scene_interprocess import _exclusive_index_lock
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
 from wanxiang_substrate.assets.book_scene_types import SceneImageProvider, _SceneVisualAsset
 from wanxiang_substrate.assets.errors import AssetCorrupt, AssetNotFound
 from wanxiang_substrate.assets.storage import AssetRef, InMemoryObjectStore, ObjectStore
-
-
-@dataclass(frozen=True, slots=True)
-class _VisualCacheRecord:
-    cache_key: str
-    scene_key: str
-    place_name: str
-    provider_id: str
-    provider_version: str
-    media_type: str
-    content_sha256: str
-    asset_id: str
-    size: int
-    illustrative: bool
-    style_key: str
-    presentation_kind: str = "still"
-    provider_usage_units: int | None = None
-    provider_request_id: str = ""
-    provider_operation_id: str = ""
 
 
 class _VisualCacheIndex:
@@ -93,71 +78,13 @@ class LocalJsonVisualCacheIndex(_VisualCacheIndex):
             rows[raw_key] = {key: value for key, value in value_map.items() if isinstance(key, str)}
         return rows
 
-    @staticmethod
-    def _record(raw: dict[str, object]) -> _VisualCacheRecord | None:
-        required_strings = (
-            "cache_key",
-            "scene_key",
-            "place_name",
-            "provider_id",
-            "provider_version",
-            "media_type",
-            "content_sha256",
-            "asset_id",
-            "style_key",
-        )
-        if not all(isinstance(raw.get(name), str) for name in required_strings):
-            return None
-        size = raw.get("size")
-        illustrative = raw.get("illustrative")
-        usage = raw.get("provider_usage_units")
-        request_id = raw.get("provider_request_id", "")
-        operation_id = raw.get("provider_operation_id", "")
-        if not isinstance(size, int) or not isinstance(illustrative, bool):
-            return None
-        if usage is not None and (
-            isinstance(usage, bool) or not isinstance(usage, int) or usage < 0
-        ):
-            return None
-        if (
-            not isinstance(request_id, str)
-            or len(request_id) > 1024
-            or "\r" in request_id
-            or "\n" in request_id
-            or not isinstance(operation_id, str)
-            or len(operation_id) > 1024
-            or "\r" in operation_id
-            or "\n" in operation_id
-        ):
-            return None
-        return _VisualCacheRecord(
-            cache_key=cast(str, raw["cache_key"]),
-            scene_key=cast(str, raw["scene_key"]),
-            place_name=cast(str, raw["place_name"]),
-            provider_id=cast(str, raw["provider_id"]),
-            provider_version=cast(str, raw["provider_version"]),
-            media_type=cast(str, raw["media_type"]),
-            content_sha256=cast(str, raw["content_sha256"]),
-            asset_id=cast(str, raw["asset_id"]),
-            size=size,
-            illustrative=illustrative,
-            style_key=cast(str, raw["style_key"]),
-            presentation_kind=(
-                cast(str, raw["presentation_kind"])
-                if isinstance(raw.get("presentation_kind"), str)
-                else "still"
-            ),
-            provider_usage_units=usage,
-            provider_request_id=request_id,
-            provider_operation_id=operation_id,
-        )
 
     def get(self, cache_key: str) -> _VisualCacheRecord | None:
         raw = self._rows().get(cache_key)
-        return self._record(raw) if raw is not None else None
+        return _decode_visual_cache_record(raw) if raw is not None else None
 
     def list(self) -> tuple[_VisualCacheRecord, ...]:
-        records = (self._record(raw) for raw in self._rows().values())
+        records = (_decode_visual_cache_record(raw) for raw in self._rows().values())
         return tuple(record for record in records if record is not None)
 
     @contextmanager
@@ -170,23 +97,7 @@ class LocalJsonVisualCacheIndex(_VisualCacheIndex):
     def put(self, record: _VisualCacheRecord) -> None:
         with self._write_lock:
             rows = self._rows()
-            rows[record.cache_key] = {
-                "cache_key": record.cache_key,
-                "scene_key": record.scene_key,
-                "place_name": record.place_name,
-                "provider_id": record.provider_id,
-                "provider_version": record.provider_version,
-                "media_type": record.media_type,
-                "content_sha256": record.content_sha256,
-                "asset_id": record.asset_id,
-                "size": record.size,
-                "illustrative": record.illustrative,
-                "style_key": record.style_key,
-                "presentation_kind": record.presentation_kind,
-                "provider_usage_units": record.provider_usage_units,
-                "provider_request_id": record.provider_request_id,
-                "provider_operation_id": record.provider_operation_id,
-            }
+            rows[record.cache_key] = _encode_visual_cache_record(record)
             temporary = self._path.with_suffix(self._path.suffix + ".tmp")
             temporary.write_text(
                 json.dumps(rows, ensure_ascii=False, sort_keys=True, separators=(",", ":")),
