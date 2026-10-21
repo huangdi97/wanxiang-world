@@ -1,5 +1,7 @@
 """Fail-closed deployment selection for the single active T1 image backend."""
 
+# pyright: reportUnusedFunction=false
+
 from __future__ import annotations
 
 import os
