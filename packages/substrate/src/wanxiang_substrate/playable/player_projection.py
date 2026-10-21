@@ -125,6 +125,22 @@ def player_observation(
         support_by_key = _scene_support_for_assets(package, assets, copy)
         chosen = next((asset for asset in assets if asset.place_name == location), None)
         grounding = "current_location" if canonical_location else "entry_location"
+        if chosen is None and location:
+            # Remote generation is deferred for long books, but the current
+            # source-attested place must never display another place merely
+            # because its T1/T2 asset has not been generated. A deterministic
+            # T0 projection is safe to derive on read and costs no provider call.
+            current_plan = _plan_book_scene_assets(
+                package,
+                max_preview_scenes=1,
+                preferred_places=(location,),
+            )
+            if (
+                current_plan.scene_requests
+                and current_plan.scene_requests[0].place_name.casefold() == location.casefold()
+            ):
+                current_assets = _render_visual_plan(current_plan)
+                chosen = current_assets[0] if current_assets else None
         if chosen is None and assets:
             chosen = assets[0]
             grounding = "world_preview"

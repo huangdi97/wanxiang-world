@@ -9,13 +9,16 @@ from types import SimpleNamespace
 from typing import cast
 
 from tests.unit.substrate.test_book_scene_plan import package_from_book
+from wanxiang_runtime.state import InMemoryCanonicalState
+
 from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
+from wanxiang_substrate.assets.book_scene_visual import _render_visual_plan
 from wanxiang_substrate.assets.book_spatial_types import _SpatialProjectionFrame
 from wanxiang_substrate.assets.storage import AssetRef
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.playable import PlayableService
 from wanxiang_substrate.playable.models import PlayableWorldProfile
-from wanxiang_substrate.playable.player_projection import player_world_detail
+from wanxiang_substrate.playable.player_projection import player_observation, player_world_detail
 from wanxiang_substrate.playable.service_visual import (
     _attach_spatial_assets,
     _source_scene_key_allowed,
@@ -107,6 +110,51 @@ def test_t3_anchor_may_target_a_deferred_source_place() -> None:
     assert deferred_place not in {item.place_name for item in initial.scene_requests}
     assert _source_scene_key_allowed(package, deferred_scene_key)
     assert not _source_scene_key_allowed(package, "not-a-source-scene")
+
+
+def test_deferred_current_place_gets_t0_backdrop_and_matching_t3_capability() -> None:
+    places = tuple(f"地点-{index}" for index in range(1, 7))
+    package = package_from_book("spatial-current-deferred", places)
+    initial_plan = _plan_book_scene_assets(package)
+    initial_assets = _render_visual_plan(initial_plan)
+    deferred_place = places[-1]
+    assert deferred_place not in {asset.place_name for asset in initial_assets}
+
+    targeted = _plan_book_scene_assets(
+        package,
+        max_preview_scenes=1,
+        preferred_places=(deferred_place,),
+    )
+    scene_key = targeted.scene_requests[0].stable_key
+    ref = AssetRef(
+        asset_id="deferred-t3",
+        content_hash="f" * 64,
+        size=96,
+        content_type="model/ply",
+        rights="source-gated",
+    )
+    empty_state = cast(
+        InMemoryCanonicalState,
+        SimpleNamespace(entities=lambda: (), relations=lambda: ()),
+    )
+
+    observation = player_observation(
+        _profile(),
+        package,
+        empty_state,
+        (),
+        actor_starting_location=deferred_place,
+        visual_assets=initial_assets,
+        spatial_assets={scene_key: (ref,)},
+    )
+    visual = cast(dict[str, object], observation["visual_scene"])
+    spatial = cast(dict[str, object], visual["spatial"])
+
+    assert visual["place_name"] == deferred_place
+    assert visual["grounding"] == "entry_location"
+    assert str(visual["data_uri"]).startswith("data:image/svg+xml;base64,")
+    assert spatial["ready"] is True
+    assert spatial["asset_count"] == 1
 
 
 def test_spatial_attachment_cannot_upgrade_source_gated_rights_to_public() -> None:
