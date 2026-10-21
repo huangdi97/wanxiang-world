@@ -193,6 +193,7 @@ def _materialize_visual_place(
         package.draft.compiler_metadata.get("visual_private_source_v1", "true") == "true"
     )
     reserved_attempt = False
+    reusing_idempotent_reservation = False
     if owner and provider is not None and max_deferred_generations > 0:
         cached = service._visual_cache.get_for(request, provider, rights=plan.delivery_rights)
         provider_eligible = (
@@ -220,9 +221,15 @@ def _materialize_visual_place(
                 and service._visual_cache.get_for(request, provider, rights=plan.delivery_rights)
                 is None
             ):
-                raise ContractError(
-                    "world on-demand visual attempt is already reserved; automatic retry blocked"
-                )
+                if provider.generation_is_idempotent:
+                    # The durable reservation already accounts for this logical
+                    # generation. A provider that explicitly guarantees same-
+                    # identity replay may retry without consuming another slot.
+                    reusing_idempotent_reservation = True
+                else:
+                    raise ContractError(
+                        "world on-demand visual attempt is already reserved; automatic retry blocked"
+                    )
 
     materializer = _materialize_product_visual_plan if fallback_to_t0 else _materialize_visual_plan
     materialized = materializer(
@@ -241,6 +248,7 @@ def _materialize_visual_place(
         and max_deferred_generations > 0
         and materialized.provider_calls > 0
         and not reserved_attempt
+        and not reusing_idempotent_reservation
     ):
         _ledger_for(service, profile_id).record(profile_id, materialized.provider_calls)
     combined: dict[str, tuple[_SceneVisualAsset, AssetRef]] = {

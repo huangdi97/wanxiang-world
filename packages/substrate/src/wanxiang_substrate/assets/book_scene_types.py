@@ -47,6 +47,7 @@ class SceneImageProvider:
     cost_units_per_asset: int = 0
     private_safe: bool = False
     presentation_kind: str = "still"
+    generation_is_idempotent: bool = False
 
     def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
         raise TypeError("concrete visual implementation required")

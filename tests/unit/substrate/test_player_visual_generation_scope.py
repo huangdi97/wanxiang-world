@@ -61,6 +61,29 @@ class _FailingProvider(_CountingProvider):
         raise RuntimeError("provider outcome unknown")
 
 
+class _RetryableFailOnceProvider(_CountingProvider):
+    provider_id = "provider:idempotent-metered"
+    generation_is_idempotent = True
+
+    def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
+        self.calls += 1
+        if self.calls == 1:
+            raise RuntimeError("retryable provider transport outcome unknown")
+        fallback = _ProceduralSvgSceneProvider().produce(request)
+        return _SceneVisualAsset(
+            scene_key=request.stable_key,
+            place_name=request.place_name,
+            provider_id=self.provider_id,
+            media_type=fallback.media_type,
+            content=fallback.content,
+            content_sha256=fallback.content_sha256,
+            cache_key=f"{request.cache_key}:{self.provider_id}@{self.provider_version}",
+            illustrative=True,
+            style_key=request.style_key,
+            provider_version=self.provider_version,
+        )
+
+
 def _service() -> PlayableService:
     package = package_from_book(
         "public-paid-world",
@@ -366,6 +389,112 @@ def test_failed_paid_t1_attempt_is_reserved_and_not_automatically_retried() -> N
             max_deferred_generations=2,
         )
     assert provider.calls == 1
+
+
+def test_idempotent_paid_t1_retry_reuses_existing_reservation_without_double_count() -> None:
+    service = _service()
+    provider = _RetryableFailOnceProvider()
+
+    first = _materialize_visual_place(
+        service,
+        "profile",
+        "Garden",
+        viewer_id="owner",
+        provider=provider,
+        allow_network=True,
+        max_cost_units=5,
+        max_deferred_generations=2,
+    )
+    assert first.fallback_reason == "provider_failure"
+    assert provider.calls == 1
+    assert service._visual_budget is not None
+    assert service._visual_budget.used("profile") == 1
+
+    recovered = _materialize_visual_place(
+        service,
+        "profile",
+        "Garden",
+        viewer_id="owner",
+        provider=provider,
+        allow_network=True,
+        max_cost_units=5,
+        max_deferred_generations=2,
+    )
+    assert recovered.fallback_reason == ""
+    assert recovered.assets[0].provider_id == provider.provider_id
+    assert provider.calls == 2
+    assert service._visual_budget.used("profile") == 1
+
+    cached = _materialize_visual_place(
+        service,
+        "profile",
+        "Garden",
+        viewer_id="owner",
+        provider=provider,
+        allow_network=True,
+        max_cost_units=5,
+        max_deferred_generations=2,
+    )
+    assert cached.cache_hits == 1
+    assert provider.calls == 2
+    assert service._visual_budget.used("profile") == 1
+
+
+def test_idempotent_t1_retry_survives_budget_ledger_restart(tmp_path: object) -> None:
+    from pathlib import Path
+
+    ledger_path = cast(Path, tmp_path) / "idempotent-retry-budget.json"
+    package = package_from_book(
+        "idempotent-retry-world",
+        ("Garden",),
+        compiler_metadata={
+            "visual_asset_rights_v1": "public",
+            "external_visual_processing_allowed_v1": "true",
+            "visual_private_source_v1": "false",
+        },
+    )
+    cache = VisualAssetCache()
+
+    def service() -> PlayableService:
+        return cast(
+            PlayableService,
+            SimpleNamespace(
+                plaza=_Plaza(),
+                _packages={"profile": package},
+                _visual_cache=cache,
+                _visual_assets={},
+                _visual_asset_refs={},
+                _visual_budget=VisualBudgetLedger(ledger_path),
+            ),
+        )
+
+    provider = _RetryableFailOnceProvider()
+    first = _materialize_visual_place(
+        service(),
+        "profile",
+        "Garden",
+        viewer_id="owner",
+        provider=provider,
+        allow_network=True,
+        max_cost_units=5,
+        max_deferred_generations=2,
+    )
+    assert first.fallback_reason == "provider_failure"
+    assert VisualBudgetLedger(ledger_path).used("profile") == 1
+
+    recovered = _materialize_visual_place(
+        service(),
+        "profile",
+        "Garden",
+        viewer_id="owner",
+        provider=provider,
+        allow_network=True,
+        max_cost_units=5,
+        max_deferred_generations=2,
+    )
+    assert recovered.assets[0].provider_id == provider.provider_id
+    assert provider.calls == 2
+    assert VisualBudgetLedger(ledger_path).used("profile") == 1
 
 
 def test_failed_paid_t1_reservation_survives_restart_and_blocks_duplicate_spend(
