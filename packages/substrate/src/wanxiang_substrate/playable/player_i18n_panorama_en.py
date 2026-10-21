@@ -13,7 +13,8 @@ _PANORAMA_STRINGS: dict[str, str] = {
     "panorama_upgrade_submit": "Generate panorama",
     "panorama_upgrade_ready": ("{place} has an interactive panorama ready for world entry."),
     "panorama_upgrade_available": (
-        "{place} can be upgraded · estimated reservation {cost}; world budget remaining {remaining}/{budget}"
+        "{place} can be upgraded · estimated reservation {cost}; "
+        "world budget remaining {remaining}/{budget}"
     ),
     "panorama_upgrade_unavailable_provider": (
         "No usable panorama provider is configured; the current visual scene remains available."
@@ -27,6 +28,8 @@ _PANORAMA_STRINGS: dict[str, str] = {
     "panorama_upgrade_unavailable_privacy": (
         "The configured panorama provider does not meet this source's privacy requirements."
     ),
-    "panorama_upgrade_unavailable_budget": ("The remaining world panorama budget is insufficient for another generation."),
+    "panorama_upgrade_unavailable_budget": (
+        "The remaining world panorama budget is insufficient for another generation."
+    ),
     "status_panorama_generated": "The panorama for {place} was generated and cached.",
 }
