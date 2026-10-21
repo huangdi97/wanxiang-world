@@ -368,6 +368,66 @@ def test_failed_paid_t1_attempt_is_reserved_and_not_automatically_retried() -> N
     assert provider.calls == 1
 
 
+def test_failed_paid_t1_reservation_survives_restart_and_blocks_duplicate_spend(
+    tmp_path: object,
+) -> None:
+    from pathlib import Path
+
+    ledger_path = cast(Path, tmp_path) / "failed-budget.json"
+    package = package_from_book(
+        "failed-durable-world",
+        ("Garden",),
+        compiler_metadata={
+            "visual_asset_rights_v1": "public",
+            "external_visual_processing_allowed_v1": "true",
+            "visual_private_source_v1": "false",
+        },
+    )
+    cache = VisualAssetCache()
+
+    def service() -> PlayableService:
+        return cast(
+            PlayableService,
+            SimpleNamespace(
+                plaza=_Plaza(),
+                _packages={"profile": package},
+                _visual_cache=cache,
+                _visual_assets={},
+                _visual_asset_refs={},
+                _visual_budget=VisualBudgetLedger(ledger_path),
+            ),
+        )
+
+    provider = _FailingProvider()
+    first = _materialize_visual_place(
+        service(),
+        "profile",
+        "Garden",
+        viewer_id="owner",
+        provider=provider,
+        allow_network=True,
+        max_cost_units=5,
+        max_deferred_generations=2,
+    )
+    assert first.fallback_reason == "provider_failure"
+    assert provider.calls == 1
+    assert VisualBudgetLedger(ledger_path).used("profile") == 1
+
+    with pytest.raises(ContractError, match="already reserved"):
+        _materialize_visual_place(
+            service(),
+            "profile",
+            "Garden",
+            viewer_id="owner",
+            provider=provider,
+            allow_network=True,
+            max_cost_units=5,
+            max_deferred_generations=2,
+        )
+    assert provider.calls == 1
+    assert VisualBudgetLedger(ledger_path).used("profile") == 1
+
+
 def test_panorama_generation_does_not_consume_t1_deferred_budget() -> None:
     service = _service()
     panorama = _PanoramaProvider()
