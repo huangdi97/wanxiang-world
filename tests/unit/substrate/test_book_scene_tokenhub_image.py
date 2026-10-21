@@ -52,7 +52,9 @@ def _install_opener(monkeypatch: pytest.MonkeyPatch, payloads: list[bytes]) -> _
     return opener
 
 
-def _brief(prompt: str = '{"place":"机关桥","task":"immersive environment"}') -> _SceneGenerationBrief:
+def _brief(
+    prompt: str = '{"place":"机关桥","task":"immersive environment"}',
+) -> _SceneGenerationBrief:
     return _SceneGenerationBrief(
         brief_id="brief:t1-tokenhub",
         scene_key="scene-bridge",

@@ -1927,6 +1927,7 @@
     "wanxiang_substrate.build_source_graph",
     "wanxiang_substrate.build_studio_workspace",
     "wanxiang_substrate.build_timeline",
+    "wanxiang_substrate.build_tokenhub_image_provider",
     "wanxiang_substrate.build_tokenhub_panorama_provider",
     "wanxiang_substrate.build_tokenhub_spatial_provider",
     "wanxiang_substrate.build_town_fixture_commands",
