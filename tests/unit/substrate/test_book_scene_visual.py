@@ -690,6 +690,34 @@ def test_visual_cache_survives_restart_with_local_blob_store_and_json_index(
     assert index_path.exists()
 
 
+
+def test_provider_usage_evidence_survives_visual_cache_restart(
+    tmp_path: pathlib.Path,
+) -> None:
+    request = _request("账单现场", "usage-restart")
+    base = _ProceduralSvgSceneProvider().produce(request)
+    asset = replace(
+        base,
+        provider_id="provider:metered-audit",
+        provider_version="2026-10",
+        cache_key=f"{request.cache_key}:provider:metered-audit@2026-10",
+        provider_usage_units=19000,
+    )
+    first_cache = _VisualAssetCache(
+        LocalObjectStore(tmp_path / "usage-blobs"),
+        _LocalJsonVisualCacheIndex(tmp_path / "usage-index.json"),
+    )
+    first_cache.put(asset, rights="source-gated")
+
+    restarted = _VisualAssetCache(
+        LocalObjectStore(tmp_path / "usage-blobs"),
+        _LocalJsonVisualCacheIndex(tmp_path / "usage-index.json"),
+    )
+    cached = restarted.get(asset.cache_key, rights="source-gated")
+
+    assert cached is not None
+    assert cached[0].provider_usage_units == 19000
+
 def test_cached_bytes_can_be_reused_under_current_delivery_rights_without_regeneration() -> None:
     plan = _plan(_request("旧城", "rights-reissue"))
     cache = _VisualAssetCache()

@@ -35,6 +35,7 @@ class _VisualCacheRecord:
     illustrative: bool
     style_key: str
     presentation_kind: str = "still"
+    provider_usage_units: int | None = None
 
 
 class _VisualCacheIndex:
@@ -107,7 +108,12 @@ class LocalJsonVisualCacheIndex(_VisualCacheIndex):
             return None
         size = raw.get("size")
         illustrative = raw.get("illustrative")
+        usage = raw.get("provider_usage_units")
         if not isinstance(size, int) or not isinstance(illustrative, bool):
+            return None
+        if usage is not None and (
+            isinstance(usage, bool) or not isinstance(usage, int) or usage < 0
+        ):
             return None
         return _VisualCacheRecord(
             cache_key=cast(str, raw["cache_key"]),
@@ -126,6 +132,7 @@ class LocalJsonVisualCacheIndex(_VisualCacheIndex):
                 if isinstance(raw.get("presentation_kind"), str)
                 else "still"
             ),
+            provider_usage_units=cast(int | None, usage),
         )
 
     def get(self, cache_key: str) -> _VisualCacheRecord | None:
@@ -159,6 +166,7 @@ class LocalJsonVisualCacheIndex(_VisualCacheIndex):
                 "illustrative": record.illustrative,
                 "style_key": record.style_key,
                 "presentation_kind": record.presentation_kind,
+                "provider_usage_units": record.provider_usage_units,
             }
             temporary = self._path.with_suffix(self._path.suffix + ".tmp")
             temporary.write_text(
@@ -240,6 +248,7 @@ class VisualAssetCache:
                 style_key=metadata.style_key,
                 provider_version=metadata.provider_version,
                 presentation_kind=metadata.presentation_kind,
+                provider_usage_units=metadata.provider_usage_units,
             ),
             ref,
         )
@@ -284,6 +293,7 @@ class VisualAssetCache:
                 illustrative=asset.illustrative,
                 style_key=asset.style_key,
                 presentation_kind=asset.presentation_kind,
+                provider_usage_units=asset.provider_usage_units,
             )
         )
         return ref
