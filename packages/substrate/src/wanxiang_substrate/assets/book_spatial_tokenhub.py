@@ -28,15 +28,15 @@ from wanxiang_substrate.assets.book_scene_prompt import (
 )
 from wanxiang_substrate.assets.book_spatial_frame import _projection_frame_from_mapping
 from wanxiang_substrate.assets.book_spatial_http_transport import _bounded_read
-from wanxiang_substrate.assets.book_spatial_validation import (
-    _image_media_type,
-    _require_ply_artifact,
-)
 from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialArtifactCandidate,
     _SpatialGenerationProvider,
     _SpatialPollResult,
     _SpatialSubmissionResult,
+)
+from wanxiang_substrate.assets.book_spatial_validation import (
+    _image_media_type,
+    _require_ply_artifact,
 )
 from wanxiang_substrate.assets.book_tokenhub_prompt import _tokenhub_scene_prompt
 
