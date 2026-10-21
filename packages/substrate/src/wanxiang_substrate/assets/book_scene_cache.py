@@ -36,6 +36,7 @@ class _VisualCacheRecord:
     style_key: str
     presentation_kind: str = "still"
     provider_usage_units: int | None = None
+    provider_request_id: str = ""
 
 
 class _VisualCacheIndex:
@@ -109,10 +110,18 @@ class LocalJsonVisualCacheIndex(_VisualCacheIndex):
         size = raw.get("size")
         illustrative = raw.get("illustrative")
         usage = raw.get("provider_usage_units")
+        request_id = raw.get("provider_request_id", "")
         if not isinstance(size, int) or not isinstance(illustrative, bool):
             return None
         if usage is not None and (
             isinstance(usage, bool) or not isinstance(usage, int) or usage < 0
+        ):
+            return None
+        if (
+            not isinstance(request_id, str)
+            or len(request_id) > 1024
+            or "\r" in request_id
+            or "\n" in request_id
         ):
             return None
         return _VisualCacheRecord(
@@ -133,6 +142,7 @@ class LocalJsonVisualCacheIndex(_VisualCacheIndex):
                 else "still"
             ),
             provider_usage_units=usage,
+            provider_request_id=request_id,
         )
 
     def get(self, cache_key: str) -> _VisualCacheRecord | None:
@@ -167,6 +177,7 @@ class LocalJsonVisualCacheIndex(_VisualCacheIndex):
                 "style_key": record.style_key,
                 "presentation_kind": record.presentation_kind,
                 "provider_usage_units": record.provider_usage_units,
+                "provider_request_id": record.provider_request_id,
             }
             temporary = self._path.with_suffix(self._path.suffix + ".tmp")
             temporary.write_text(
@@ -249,6 +260,7 @@ class VisualAssetCache:
                 provider_version=metadata.provider_version,
                 presentation_kind=metadata.presentation_kind,
                 provider_usage_units=metadata.provider_usage_units,
+                provider_request_id=metadata.provider_request_id,
             ),
             ref,
         )
@@ -294,6 +306,7 @@ class VisualAssetCache:
                 style_key=asset.style_key,
                 presentation_kind=asset.presentation_kind,
                 provider_usage_units=asset.provider_usage_units,
+                provider_request_id=asset.provider_request_id,
             )
         )
         return ref

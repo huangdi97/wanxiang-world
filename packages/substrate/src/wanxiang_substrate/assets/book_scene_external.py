@@ -29,6 +29,7 @@ class _ExternalImageResult:
     content: bytes
     media_type: str
     provider_usage_units: int | None = None
+    provider_request_id: str = ""
 
 
 class _ExternalImageClient:
@@ -95,4 +96,5 @@ class _PromptedExternalSceneProvider(_SceneImageProvider):
             style_key=style_key,
             provider_version=self.provider_version,
             provider_usage_units=result.provider_usage_units,
+            provider_request_id=result.provider_request_id,
         )

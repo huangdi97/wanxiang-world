@@ -74,6 +74,7 @@ def _success(url: str = "https://assets.example/output.webp") -> bytes:
             "id": "wand-image-1",
             "data": [{"url": url}],
             "tokenhub_usage": {"total_tokens": 20000},
+            "request_id": "request-image-1",
         }
     ).encode()
 
@@ -94,6 +95,7 @@ def test_tokenhub_t1_posts_bounded_deterministic_request_and_downloads_allowlist
     assert result.content == image
     assert result.media_type == "image/webp"
     assert result.provider_usage_units == 20000
+    assert result.provider_request_id == "request-image-1"
     assert len(opener.requests) == 2
     submitted = json.loads(opener.requests[0].data.decode("utf-8"))
     assert submitted["model"] == "hy-image-v3"
@@ -129,6 +131,12 @@ def test_tokenhub_t1_rejects_unallowlisted_artifact_host(
             {
                 "data": [{"url": "https://assets.example/output.png"}],
                 "tokenhub_usage": {"total_tokens": -1},
+            }
+        ).encode(),
+        json.dumps(
+            {
+                "data": [{"url": "https://assets.example/output.png"}],
+                "request_id": 7,
             }
         ).encode(),
     ],

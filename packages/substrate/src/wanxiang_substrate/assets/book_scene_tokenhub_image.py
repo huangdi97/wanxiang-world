@@ -75,6 +75,16 @@ def _validate_usage(body: dict[str, object]) -> int | None:
     return total
 
 
+def _provider_request_id(body: dict[str, object]) -> str:
+    raw = body.get("request_id", "")
+    if not isinstance(raw, str):
+        raise ValueError("TokenHub image returned invalid request_id")
+    value = raw.strip()
+    if len(value) > 1024 or "\r" in value or "\n" in value:
+        raise ValueError("TokenHub image returned invalid request_id")
+    return value
+
+
 class _TokenHubImageClient(_ExternalImageClient):
     """Call Hy-Image-3.0 and copy its temporary raster into Wanxiang storage."""
 
@@ -168,6 +178,7 @@ class _TokenHubImageClient(_ExternalImageClient):
             raise ValueError("TokenHub image response must be an object")
         body = cast(dict[str, object], decoded)
         provider_usage_units = _validate_usage(body)
+        provider_request_id = _provider_request_id(body)
         data = body.get("data")
         if not isinstance(data, list) or not data or not isinstance(data[0], dict):
             raise ValueError("TokenHub image response has no generated image")
@@ -179,6 +190,7 @@ class _TokenHubImageClient(_ExternalImageClient):
             content,
             _image_media_type(content),
             provider_usage_units=provider_usage_units,
+            provider_request_id=provider_request_id,
         )
 
 
