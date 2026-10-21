@@ -10,7 +10,7 @@ _PANORAMA_STRINGS: dict[str, str] = {
     "panorama_upgrade_heading": "把这个地点升级为可环视全景",
     "panorama_upgrade_submit": "生成全景场景",
     "panorama_upgrade_ready": "{place} 已有可交互全景；进入世界后可以环视。",
-    "panorama_upgrade_available": ("{place} 可升级全景 · 预计 {cost}；世界预算余 {remaining}/{budget}"),
+    "panorama_upgrade_available": "{place} · 预计 {cost}；预算余 {remaining}/{budget}",
     "panorama_upgrade_unavailable_provider": (
         "当前未配置可用的全景生成器；现有视觉场景仍可正常使用。"
     ),
