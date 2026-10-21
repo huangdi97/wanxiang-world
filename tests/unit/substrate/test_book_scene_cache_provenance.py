@@ -115,6 +115,7 @@ def test_invalid_durable_visual_cache_schema_never_degrades_to_a_cache_miss(
         ("presentation_kind", "spatial"),
         ("media_type", "text/html"),
         ("content_sha256", "not-a-sha256"),
+        ("cache_key", "different-paid-scene"),
     ],
 )
 def test_semantically_invalid_durable_cache_record_fails_closed(
@@ -136,3 +137,21 @@ def test_semantically_invalid_durable_cache_record_fails_closed(
         cache.get("paid-scene", rights="source-gated")
     with pytest.raises(ValueError, match="index record is invalid"):
         cache.index.list()
+
+def test_durable_cache_key_identity_corruption_never_becomes_a_paid_miss(
+    tmp_path: pathlib.Path,
+) -> None:
+    cache = VisualAssetCache(
+        LocalObjectStore(tmp_path / "blobs"),
+        LocalJsonVisualCacheIndex(tmp_path / "index.json"),
+    )
+    asset = _asset(cache_key="paid-scene")
+    cache.put(asset, rights="source-gated")
+
+    index_path = tmp_path / "index.json"
+    decoded = json.loads(index_path.read_text(encoding="utf-8"))
+    decoded["paid-scene"]["cache_key"] = "other-scene"
+    index_path.write_text(json.dumps(decoded), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="index record is invalid"):
+        cache.get("paid-scene", rights="source-gated")

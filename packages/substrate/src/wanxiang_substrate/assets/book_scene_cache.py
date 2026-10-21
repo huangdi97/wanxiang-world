@@ -88,15 +88,18 @@ class LocalJsonVisualCacheIndex(_VisualCacheIndex):
         if raw is None:
             return None
         record = _decode_visual_cache_record(raw)
-        if record is None:
+        if record is None or record.cache_key != cache_key:
             raise ValueError("visual cache index record is invalid")
         return record
 
     def list(self) -> tuple[_VisualCacheRecord, ...]:
-        records = tuple(_decode_visual_cache_record(raw) for raw in self._rows().values())
-        if any(record is None for record in records):
-            raise ValueError("visual cache index record is invalid")
-        return tuple(cast(_VisualCacheRecord, record) for record in records)
+        records: list[_VisualCacheRecord] = []
+        for cache_key, raw in self._rows().items():
+            record = _decode_visual_cache_record(raw)
+            if record is None or record.cache_key != cache_key:
+                raise ValueError("visual cache index record is invalid")
+            records.append(record)
+        return tuple(records)
 
     @contextmanager
     def generation_guard(self) -> Generator[None, None, None]:
