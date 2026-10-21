@@ -1,10 +1,12 @@
-"""File-signature and structural validation for known T3 spatial artifacts."""
+"""File-signature and Player-compatible structural validation for T3 artifacts."""
 
 # pyright: reportUnusedFunction=false
 
 from __future__ import annotations
 
-
+_PLAYER_MAX_PLY_BYTES = 64 * 1024 * 1024
+_PLAYER_MAX_VERTICES = 5_000_000
+_PLAYER_MAX_HEADER_BYTES = 64 * 1024
 _PLY_FORMATS = frozenset(
     {
         b"format ascii 1.0",
@@ -12,21 +14,51 @@ _PLY_FORMATS = frozenset(
         b"format binary_big_endian 1.0",
     }
 )
+_PLY_SCALAR_BYTES = {
+    "char": 1,
+    "int8": 1,
+    "uchar": 1,
+    "uint8": 1,
+    "short": 2,
+    "int16": 2,
+    "ushort": 2,
+    "uint16": 2,
+    "int": 4,
+    "int32": 4,
+    "uint": 4,
+    "uint32": 4,
+    "float": 4,
+    "float32": 4,
+    "double": 8,
+    "float64": 8,
+}
+
+
+def _ply_header(content: bytes) -> tuple[list[bytes], int] | None:
+    """Return normalized PLY header lines plus exact payload offset."""
+    if not content.startswith((b"ply\n", b"ply\r\n")):
+        return None
+    prefix = content[:_PLAYER_MAX_HEADER_BYTES]
+    for marker in (b"end_header\r\n", b"end_header\n"):
+        marker_at = prefix.find(marker)
+        if marker_at < 0:
+            continue
+        end = marker_at + len(marker)
+        header = content[:end].replace(b"\r\n", b"\n")
+        lines = header.split(b"\n")
+        if len(lines) < 3 or lines[0] != b"ply":
+            return None
+        return lines, end
+    return None
 
 
 def _ply_format(content: bytes) -> bytes | None:
-    """Return a bounded PLY 1.0 format declaration for a structurally valid header."""
-    if not content.startswith((b"ply\n", b"ply\r\n")):
+    """Return the unique bounded PLY 1.0 format declaration."""
+    parsed = _ply_header(content)
+    if parsed is None:
         return None
-    lines = content[:65536].replace(b"\r\n", b"\n").split(b"\n")
-    try:
-        end_index = lines.index(b"end_header")
-    except ValueError:
-        return None
-    header_lines = lines[: end_index + 1]
-    if len(header_lines) < 3 or header_lines[0] != b"ply":
-        return None
-    format_lines = [line for line in header_lines[1:] if line.startswith(b"format ")]
+    lines, _ = parsed
+    format_lines = [line for line in lines[1:] if line.startswith(b"format ")]
     if len(format_lines) != 1 or format_lines[0] not in _PLY_FORMATS:
         return None
     return format_lines[0]
@@ -59,14 +91,67 @@ def _image_media_type(content: bytes) -> str:
 
 
 def _require_ply_artifact(content: bytes) -> None:
-    """Require a bounded, structurally recognizable PLY header before storage."""
+    """Accept only the PLY subset the dependency-free Player can actually render."""
     if not _known_spatial_signature_matches("model/ply", content):
         raise ValueError("TokenHub spatial geometry is not a PLY artifact")
-    ply_format = _ply_format(content)
-    if ply_format is None:
+    if len(content) > _PLAYER_MAX_PLY_BYTES:
+        raise ValueError("TokenHub spatial geometry exceeds built-in Player PLY size limit")
+
+    parsed = _ply_header(content)
+    if parsed is None:
         raise ValueError("TokenHub spatial geometry has an invalid bounded PLY header")
-    if ply_format not in {
-        b"format ascii 1.0",
-        b"format binary_little_endian 1.0",
-    }:
+    lines, payload_offset = parsed
+    ply_format = _ply_format(content)
+    if ply_format not in {b"format ascii 1.0", b"format binary_little_endian 1.0"}:
         raise ValueError("TokenHub spatial geometry uses an unsupported PLY format")
+
+    vertex_count = -1
+    in_vertex = False
+    data_element_seen = False
+    vertex_properties: list[tuple[str, str]] = []
+    for raw_line in lines[1:]:
+        parts = raw_line.strip().split()
+        if not parts:
+            continue
+        if parts[0] == b"element":
+            if len(parts) != 3:
+                raise ValueError("TokenHub spatial geometry has an invalid PLY element")
+            try:
+                count = int(parts[2])
+            except ValueError as exc:
+                raise ValueError(
+                    "TokenHub spatial geometry has an invalid PLY element count"
+                ) from exc
+            if count < 0:
+                raise ValueError("TokenHub spatial geometry has an invalid PLY element count")
+            if parts[1] == b"vertex":
+                if data_element_seen:
+                    raise ValueError("TokenHub spatial PLY vertex data must be first")
+                vertex_count = count
+                in_vertex = True
+            else:
+                if count > 0 and vertex_count < 0:
+                    data_element_seen = True
+                in_vertex = False
+        elif parts[0] == b"property" and in_vertex:
+            if len(parts) >= 2 and parts[1] == b"list":
+                raise ValueError("TokenHub spatial PLY vertex list properties are unsupported")
+            if len(parts) != 3:
+                raise ValueError("TokenHub spatial geometry has an invalid PLY vertex property")
+            scalar_type = parts[1].decode("ascii", errors="ignore")
+            if scalar_type not in _PLY_SCALAR_BYTES:
+                raise ValueError("TokenHub spatial PLY vertex property type is unsupported")
+            name = parts[2].decode("ascii", errors="ignore")
+            vertex_properties.append((name, scalar_type))
+
+    if not 0 < vertex_count <= _PLAYER_MAX_VERTICES:
+        raise ValueError("TokenHub spatial PLY vertex count is outside Player limits")
+    if not {"x", "y", "z"}.issubset({name for name, _ in vertex_properties}):
+        raise ValueError("TokenHub spatial PLY requires x/y/z vertex properties")
+
+    if ply_format == b"format binary_little_endian 1.0":
+        stride = sum(_PLY_SCALAR_BYTES[scalar_type] for _, scalar_type in vertex_properties)
+        if payload_offset + stride * vertex_count > len(content):
+            raise ValueError("TokenHub spatial binary PLY vertex payload is truncated")
+    elif not content[payload_offset:].strip():
+        raise ValueError("TokenHub spatial ASCII PLY has no vertex payload")
