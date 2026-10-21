@@ -228,7 +228,8 @@ def _materialize_visual_place(
                     reusing_idempotent_reservation = True
                 else:
                     raise ContractError(
-                        "world on-demand visual attempt is already reserved; automatic retry blocked"
+                        "world on-demand visual attempt is already reserved; "
+                        "automatic retry blocked"
                     )
 
     materializer = _materialize_product_visual_plan if fallback_to_t0 else _materialize_visual_plan
