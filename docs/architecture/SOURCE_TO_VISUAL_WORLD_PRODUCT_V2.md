@@ -922,3 +922,61 @@ that must not silently increase the default T3 network, memory or storage footpr
 This optimization changes derived asset transport only. It does not alter the source scene,
 canonical topology, provider task state, worldline, or History.
 
+
+## 33. Provider trace identity is private provenance, not Player truth
+
+Current provider APIs expose more than one identifier and Wanxiang must preserve
+their different meanings instead of collapsing them into a single opaque id.
+
+For direct Tencent TokenHub T1/T2 visual generation the response can contain:
+
+- `id`: the provider-side generation / operation identity for that result;
+- `request_id`: the support / request trace used for provider diagnosis;
+- `tokenhub_usage.total_tokens`: provider-reported usage evidence.
+
+Wanxiang stores these separately as private derived visual provenance. The
+content-addressed scene cache persists them across restart together with the
+provider/model version, source-scene cache identity and verified asset digest.
+Malformed, oversized or line-break-bearing provider identifiers fail closed at
+the generic visual-provider boundary, not only inside the Tencent adapter.
+
+These values have intentionally different exposure rules:
+
+~~~text
+provider operation id
+provider request trace
+provider usage evidence
+        |
+        +--> private visual provenance / owner-operated audit
+        |
+        X--> ordinary Player world projection
+        X--> source evidence
+        X--> canonical History
+~~~
+
+A cache hit may reuse the verified asset and its private provenance, but it
+does not replay a provider call and therefore does not claim new provider
+usage for that request.
+
+For asynchronous T3 the same principle applies more strongly: the durable task
+identity is required to resume polling and avoid duplicate paid submission.
+A provider request trace may be retained beside it for support, but neither
+identifier can move the actor, create an event, alter topology, or become a
+world fact.
+
+Official provider references used for this boundary:
+
+- Tencent TokenHub Hy world model guide:
+  https://cloud.tencent.com/document/product/1823/136578
+- World Labs Marble operations and idempotent retry semantics:
+  https://marble5.worldlabs.ai/docs/operations
+- World Labs cancellation semantics:
+  https://marble5.worldlabs.ai/docs/api-reference/cancel-operation
+
+The current automated Player browser acceptance also asserts that
+`provider_request_id` and `provider_operation_id` do not leak into the
+consumer world-detail projection.
+
+This still does not upgrade `REAL_T1`, `REAL_T2` or `REAL_T3` from
+external evidence status. Real provider credentials, billing, latency and
+artifact evidence remain separate qualification requirements.
