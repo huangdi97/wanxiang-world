@@ -60,7 +60,7 @@ def test_player_spatial_generation_auto_polls_across_detail_and_live_world() -> 
     assert "syncLiveSpatialProjection" in SCRIPT
     assert "applySpatialWorldProjection" in SCRIPT
     assert 'else if(document.querySelector("#play-view.is-active"))renderPlay()' in SCRIPT
-    assert 'model.view.visual_scene={...live,spatial:refreshed.spatial||null}' in SCRIPT
+    assert "model.view.visual_scene={...live,spatial:refreshed.spatial||null}" in SCRIPT
     assert "Math.round(delay*1.6)" in SCRIPT
     assert '"submission_ambiguous"' in SCRIPT
     assert 'tr("spatial_upgrade_ambiguous",{place})' in SCRIPT

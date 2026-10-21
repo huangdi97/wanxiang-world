@@ -17,6 +17,7 @@ from wanxiang_domain.ids import BranchId, WorldInstanceId
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
 from wanxiang_substrate.assets.book_scene_render import _ProceduralSvgSceneProvider
 from wanxiang_substrate.assets.book_scene_types import SceneImageProvider, _SceneVisualAsset
+from wanxiang_substrate.assets.storage import AssetRef
 from wanxiang_substrate.authoring.local_semantic_provider import LocalSemanticProvider
 from wanxiang_substrate.authoring.one_click import OneClickAuthoring
 from wanxiang_substrate.authoring.providers import ProviderRouter
@@ -564,6 +565,64 @@ def test_worldline_fork_preserves_parent_and_diverges_independently() -> None:
         viewer_id="alice",
     )
     assert cast(dict[str, object], three_way["common"])["shared"] is True
+
+
+def test_historical_replay_does_not_inherit_current_t3_projection() -> None:
+    authored = OneClickAuthoring().run("job_replay_t3_boundary", (_source(),), profile="book")
+    assert authored.visual_plan is not None
+    scene = authored.visual_plan.scene_requests[0]
+
+    playable = PlayableService(build_reference_runtime())
+    profile = playable.register_package(authored.package, owner_id="alice")
+    character = playable.entry.create_character(
+        "alice",
+        "Alice",
+        compatible_profile_ids=(profile.experience_package_ref,),
+        character_id="ent_alice",
+    )
+    entered = playable.enter(
+        profile.profile_id,
+        viewer_id="alice",
+        mode="embodiment",
+        session_id="replay_t3_boundary",
+        character_id=character.character_id,
+    )
+    instance_id = str(cast(dict[str, object], entered["instance"])["instance_id"])
+    playable.action(instance_id, viewer_id="alice", text="让自己保持清醒")
+    record = playable.store.get_instance(instance_id)
+    events = playable.runtime.worldline_events(
+        WorldInstanceId(record.runtime_instance_id),
+        BranchId(record.branch_id),
+    )
+    assert events
+
+    playable.attach_spatial_assets(
+        profile.profile_id,
+        scene.stable_key,
+        (
+            AssetRef(
+                asset_id="current-t3-only",
+                content_hash="e" * 64,
+                size=64,
+                content_type="model/ply",
+                rights=authored.visual_plan.delivery_rights,
+            ),
+        ),
+    )
+    live = playable.observe(instance_id, "alice")
+    live_visual = cast(dict[str, object], live["visual_scene"])
+    assert cast(dict[str, object], live_visual["spatial"])["ready"] is True
+
+    historical = playable.replay_at(
+        instance_id,
+        viewer_id="alice",
+        at_ticks=events[-1].world_time.ticks,
+    )
+    replay_visual = cast(dict[str, object], historical["visual_scene"])
+    replay_spatial = cast(dict[str, object], replay_visual["spatial"])
+    assert replay_spatial["ready"] is False
+    assert replay_spatial["asset_count"] == 0
+    assert "current-t3-only" not in str(historical)
 
 
 def test_continue_and_worldlines_stay_isolated_across_worlds() -> None:

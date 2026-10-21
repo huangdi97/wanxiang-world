@@ -18,10 +18,6 @@ from wanxiang_domain.ids import BranchId, WorldInstanceId
 from wanxiang_substrate.playable.player_projection import player_observation
 from wanxiang_substrate.playable.service_session import _owned_instance
 from wanxiang_substrate.playable.service_support import _runtime_instance_id
-from wanxiang_substrate.playable.service_visual import (
-    _visible_spatial_assets,
-    _visible_spatial_projection_frames,
-)
 
 if TYPE_CHECKING:
     from wanxiang_substrate.playable.service import PlayableService
@@ -75,12 +71,12 @@ def _replay_at(
         actor_starting_location=actor_starting_location,
         locale=locale,
         visual_assets=service.visual_assets(record.profile_id, viewer_id=viewer_id),
-        spatial_assets=_visible_spatial_assets(service, record.profile_id, viewer_id=viewer_id),
-        spatial_frames=_visible_spatial_projection_frames(
-            service,
-            record.profile_id,
-            viewer_id=viewer_id,
-        ),
+        # T3 attachments are current derived projection assets, not revision-bound
+        # history. Until a spatial manifest is explicitly tied to a historical
+        # revision, replay must not make a later generated 3D asset appear to
+        # have existed at this moment.
+        spatial_assets=None,
+        spatial_frames=None,
         visual_access_allowed=service.visual_access_allowed(
             record.profile_id,
             viewer_id=viewer_id,
