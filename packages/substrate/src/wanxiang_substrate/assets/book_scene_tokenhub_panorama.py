@@ -54,6 +54,16 @@ def _provider_usage_units(body: dict[str, object]) -> int | None:
     return total
 
 
+def _provider_request_id(body: dict[str, object]) -> str:
+    raw = body.get("request_id", "")
+    if not isinstance(raw, str):
+        raise ValueError("TokenHub panorama returned invalid request_id")
+    value = raw.strip()
+    if len(value) > 1024 or "\r" in value or "\n" in value:
+        raise ValueError("TokenHub panorama returned invalid request_id")
+    return value
+
+
 def _bounded_read(response: object, limit: int, *, label: str) -> bytes:
     headers = getattr(response, "headers", None)
     content_length = headers.get("content-length") if headers is not None else None
@@ -157,6 +167,7 @@ class _TokenHubPanoramaClient(_ExternalImageClient):
             raise ValueError("TokenHub panorama response must be an object")
         body = cast(dict[str, object], decoded)
         provider_usage_units = _provider_usage_units(body)
+        provider_request_id = _provider_request_id(body)
         if body.get("status") != "succeeded":
             raise RuntimeError("TokenHub panorama generation did not succeed")
         data = body.get("data")
@@ -171,6 +182,7 @@ class _TokenHubPanoramaClient(_ExternalImageClient):
             content,
             _image_media_type(content),
             provider_usage_units=provider_usage_units,
+            provider_request_id=provider_request_id,
         )
 
 

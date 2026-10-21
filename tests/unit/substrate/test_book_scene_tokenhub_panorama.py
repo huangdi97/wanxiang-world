@@ -73,6 +73,7 @@ def _success(url: str = "https://assets.example/output.png") -> bytes:
             "status": "succeeded",
             "data": [{"super_resolution_image_url": url}],
             "tokenhub_usage": {"total_tokens": 500000},
+            "request_id": "request-panorama-1",
         }
     ).encode()
 
@@ -93,6 +94,7 @@ def test_tokenhub_panorama_uses_bounded_prompt_and_allowlisted_download(
     assert result.content == image
     assert result.media_type == "image/png"
     assert result.provider_usage_units == 500000
+    assert result.provider_request_id == "request-panorama-1"
     assert len(opener.requests) == 2
     submitted = json.loads(opener.requests[0].data.decode("utf-8"))
     assert submitted["model"] == "hy-world2-panorama"
@@ -128,6 +130,13 @@ def test_tokenhub_panorama_rejects_unallowlisted_artifact_host(
             {
                 "status": "succeeded",
                 "data": [{"super_resolution_image_url": ""}],
+            }
+        ).encode(),
+        json.dumps(
+            {
+                "status": "succeeded",
+                "data": [{"super_resolution_image_url": "https://assets.example/output.png"}],
+                "request_id": 7,
             }
         ).encode(),
     ],
