@@ -146,6 +146,15 @@ def _attach_spatial_assets(
         )
 
 
+def _visual_fidelity_rank(asset: _SceneVisualAsset) -> int:
+    """Keep the shared scene catalog monotonic under ordinary visual requests."""
+    if asset.presentation_kind == "panorama":
+        return 2
+    if asset.media_type == "image/svg+xml":
+        return 0
+    return 1
+
+
 def _materialize_visual_place(
     service: PlayableService,
     profile_id: str,
@@ -216,6 +225,9 @@ def _materialize_visual_place(
         )
     }
     for asset, ref in zip(materialized.assets, materialized.asset_refs, strict=True):
+        existing = combined.get(asset.scene_key)
+        if existing is not None and _visual_fidelity_rank(existing[0]) > _visual_fidelity_rank(asset):
+            continue
         combined[asset.scene_key] = (asset, ref)
     service._visual_assets[profile_id] = tuple(asset for asset, _ in combined.values())
     service._visual_asset_refs[profile_id] = tuple(ref for _, ref in combined.values())

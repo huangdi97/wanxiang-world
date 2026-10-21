@@ -270,3 +270,55 @@ def test_public_viewer_can_reuse_owner_generated_t1_without_new_provider_call() 
     assert visitor.cache_hits == 1
     assert visitor.assets[0].provider_id == provider.provider_id
     assert visitor.fallback_reason == ""
+
+
+class _PanoramaProvider(_CountingProvider):
+    provider_id = "provider:panorama"
+    presentation_kind = "panorama"
+
+    def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
+        asset = super().produce(request)
+        return _SceneVisualAsset(
+            scene_key=asset.scene_key,
+            place_name=asset.place_name,
+            provider_id=self.provider_id,
+            media_type="image/webp",
+            content=asset.content,
+            content_sha256=asset.content_sha256,
+            cache_key=f"{request.cache_key}:{self.provider_id}@{self.provider_version}",
+            illustrative=asset.illustrative,
+            style_key=asset.style_key,
+            provider_version=self.provider_version,
+            presentation_kind=self.presentation_kind,
+        )
+
+
+def test_lower_fidelity_request_never_downgrades_existing_panorama_catalog() -> None:
+    service = _service()
+    panorama = _PanoramaProvider()
+
+    upgraded = _materialize_visual_place(
+        service,
+        "profile",
+        "Garden",
+        viewer_id="owner",
+        provider=panorama,
+        allow_network=True,
+        max_cost_units=5,
+    )
+    assert upgraded.assets[0].presentation_kind == "panorama"
+    assert service._visual_assets["profile"][0].presentation_kind == "panorama"
+
+    fallback = _materialize_visual_place(
+        service,
+        "profile",
+        "Garden",
+        viewer_id="visitor",
+        provider=None,
+        allow_network=False,
+        max_cost_units=0,
+    )
+
+    assert fallback.assets[0].media_type == "image/svg+xml"
+    assert service._visual_assets["profile"][0].presentation_kind == "panorama"
+    assert service._visual_assets["profile"][0].provider_id == panorama.provider_id
