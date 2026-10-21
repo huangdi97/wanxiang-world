@@ -41,9 +41,7 @@ def visual_tokenhub_runtime_from_env() -> VisualTokenHubRuntime:
         endpoint=endpoint,
         bearer_token=os.environ.get("WANXIANG_VISUAL_TOKENHUB_API_KEY", ""),
         artifact_hosts=_artifact_hosts(),
-        timeout_seconds=float(
-            _int_env("WANXIANG_VISUAL_TOKENHUB_TIMEOUT_SECONDS", default=120)
-        ),
+        timeout_seconds=float(_int_env("WANXIANG_VISUAL_TOKENHUB_TIMEOUT_SECONDS", default=120)),
         cost_units_per_asset=_int_env(
             "WANXIANG_VISUAL_TOKENHUB_COST_UNITS",
             default=20_000,
