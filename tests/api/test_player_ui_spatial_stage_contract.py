@@ -59,6 +59,10 @@ def test_player_spatial_generation_auto_polls_across_detail_and_live_world() -> 
     assert 'if(name!=="detail-view"&&name!=="play-view")stopSpatialAutoPoll()' in SCRIPT
     assert "syncLiveSpatialProjection" in SCRIPT
     assert "applySpatialWorldProjection" in SCRIPT
+    assert "rememberSpatialTicket" in SCRIPT
+    assert "rememberSpatialTicket(submitted.spatial)" in SCRIPT
+    assert "rememberSpatialTicket(cancelled.spatial)" in SCRIPT
+    assert "if(refreshed)model.spatialStatus=refreshed" in SCRIPT
     assert 'else if(document.querySelector("#play-view.is-active"))renderPlay()' in SCRIPT
     assert "model.view.visual_scene={...live,spatial:refreshed.spatial||null}" in SCRIPT
     assert "Math.round(delay*1.6)" in SCRIPT
