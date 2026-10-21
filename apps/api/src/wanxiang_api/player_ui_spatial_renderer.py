@@ -7,7 +7,7 @@ SPATIAL_RENDERER_SCRIPT = r"""
 const state={active:false,key:"",scene:null,profile:"",headers:{},cleanup:null};
 const byId=id=>document.getElementById(id);
 const renderer=()=>window.__WANXIANG_SPATIAL_RENDERER__||null;
-const canRender=scene=>{try{const r=renderer(),types=scene?.spatial?.media_types||[];return Boolean(scene?.spatial?.ready&&Number(scene.spatial.asset_count||0)>0&&r&&typeof r.mount==="function"&&(!r.supports||r.supports(types)))}catch{return false}};
+const canRender=scene=>{try{const r=renderer(),types=scene?.spatial?.media_types||[];return Boolean(scene?.spatial?.ready&&Number(scene.spatial.asset_count||0)>0&&r&&typeof r.mount==="function"&&(!r.available||r.available())&&(!r.supports||r.supports(types)))}catch{return false}};
 const setButton=(available,active)=>{const button=byId("spatial-stage-toggle");if(!button)return;button.hidden=!available;button.setAttribute("aria-pressed",String(Boolean(active)))};
 async function deactivate(){
   const host=byId("world-stage-spatial"),r=renderer();

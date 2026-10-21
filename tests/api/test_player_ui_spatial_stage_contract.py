@@ -69,14 +69,17 @@ def test_player_spatial_generation_auto_polls_only_while_detail_is_active() -> N
     assert "duplicate billing" in en
     assert "World spatial budget" in en
     assert "provider reported" in en
-    assert "内置渲染器不支持" in zh
-    assert "does not support their formats" in en
+    assert "格式或图形能力不兼容" in zh
+    assert "graphics capability mismatch" in en
 
 
 def test_player_bundles_dependency_free_ply_spatial_renderer() -> None:
     html = player_html("zh-CN")
 
     assert '"model/ply"' in BUILTIN_SPATIAL_RENDERER_SCRIPT
+    assert "const available=()" in BUILTIN_SPATIAL_RENDERER_SCRIPT
+    assert '"WEBGL_lose_context"' in BUILTIN_SPATIAL_RENDERER_SCRIPT
+    assert "r.available()" in SPATIAL_RENDERER_SCRIPT
     assert '"application/x-ply"' in BUILTIN_SPATIAL_RENDERER_SCRIPT
     assert 'getContext("webgl"' in BUILTIN_SPATIAL_RENDERER_SCRIPT
     assert "binary_little_endian" in BUILTIN_SPATIAL_RENDERER_SCRIPT
