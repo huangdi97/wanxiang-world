@@ -283,7 +283,11 @@ class _OneClickExternalClient(_ExternalImageClient):
 
     def generate(self, brief: _SceneGenerationBrief) -> _ExternalImageResult:
         self.calls.append(brief)
-        return _ExternalImageResult(b"\x89PNG\r\n\x1a\none-click-external", "image/png")
+        return _ExternalImageResult(
+            b"\x89PNG\r\n\x1a\none-click-external",
+            "image/png",
+            provider_usage_units=19000,
+        )
 
 
 def test_one_click_accepts_injected_t1_provider_without_changing_book_pipeline() -> None:
@@ -325,6 +329,7 @@ def test_one_click_accepts_injected_t1_provider_without_changing_book_pipeline()
 
     assert result.visual_provider_calls == 1
     assert result.visual_cost_units == 5
+    assert result.visual_provider_usage_units == 19000
     assert result.visual_assets[0].provider_id == "provider:integration-image"
     assert result.visual_assets[0].provider_version == "2026-10"
     assert result.visual_assets[0].media_type == "image/png"

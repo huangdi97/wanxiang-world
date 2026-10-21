@@ -23,7 +23,11 @@ class _PanoramaClient(_ExternalImageClient):
     def generate(self, brief: _SceneGenerationBrief) -> _ExternalImageResult:
         self.calls += 1
         assert brief.source_refs == ()
-        return _ExternalImageResult(b"\x89PNG\r\n\x1a\nplayer-panorama", "image/png")
+        return _ExternalImageResult(
+            b"\x89PNG\r\n\x1a\nplayer-panorama",
+            "image/png",
+            provider_usage_units=470000,
+        )
 
 
 def _source() -> dict[str, object]:
@@ -107,6 +111,7 @@ def test_t2_panorama_is_explicit_owner_upgrade_and_cached_for_player() -> None:
     assert first.json()["tier"] == "T2"
     assert first.json()["provider_calls"] == 1
     assert first.json()["cost_units"] == 3
+    assert first.json()["provider_usage_units"] == 470000
     after_capability = client.get(endpoint, headers={"X-Wanxiang-User": "studio"})
     assert after_capability.status_code == 200
     assert after_capability.json()["ready_places"] == ["Garden"]
@@ -141,6 +146,7 @@ def test_t2_panorama_is_explicit_owner_upgrade_and_cached_for_player() -> None:
     assert second.json()["provider_calls"] == 0
     assert second.json()["cache_hits"] == 1
     assert second.json()["cost_units"] == 0
+    assert second.json()["provider_usage_units"] == 0
     assert provider_client.calls == 1
 
     visitor_world = client.get(
