@@ -27,6 +27,12 @@ def _spatial_capability(
         "projection_only": True,
         "asset_count": len(refs),
         "media_types": list(media_types),
+        # Safe delivery descriptors let a browser skip unsupported/oversized
+        # assets before download. Storage ids and content hashes remain private.
+        "assets": [
+            {"index": index, "media_type": ref.content_type, "size_bytes": ref.size}
+            for index, ref in enumerate(refs)
+        ],
     }
     if refs:
         revision_payload = "|".join(

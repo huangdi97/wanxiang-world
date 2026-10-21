@@ -20,6 +20,7 @@ def test_player_html_exposes_optional_spatial_stage_without_vendor_dependency() 
     assert "projectionFrame" in SPATIAL_RENDERER_SCRIPT
     assert "asset_revision" in SPATIAL_RENDERER_SCRIPT
     assert "supportsScene" in SPATIAL_RENDERER_SCRIPT
+    assert "assetDescriptors" in SPATIAL_RENDERER_SCRIPT
     assert "three.js" not in SPATIAL_RENDERER_SCRIPT.casefold()
     assert "worldlabs" not in SPATIAL_RENDERER_SCRIPT.casefold()
     assert "hunyuan" not in SPATIAL_RENDERER_SCRIPT.casefold()
@@ -80,6 +81,9 @@ def test_player_bundles_dependency_free_ply_spatial_renderer() -> None:
     assert "const available=()" in BUILTIN_SPATIAL_RENDERER_SCRIPT
     assert '"WEBGL_lose_context"' in BUILTIN_SPATIAL_RENDERER_SCRIPT
     assert "r.available()" in SPATIAL_RENDERER_SCRIPT
+    assert "supportsAssets" in BUILTIN_SPATIAL_RENDERER_SCRIPT
+    assert "size_bytes" in BUILTIN_SPATIAL_RENDERER_SCRIPT
+    assert "for(const i of indices)" in BUILTIN_SPATIAL_RENDERER_SCRIPT
     assert '"application/x-ply"' in BUILTIN_SPATIAL_RENDERER_SCRIPT
     assert 'getContext("webgl"' in BUILTIN_SPATIAL_RENDERER_SCRIPT
     assert "binary_little_endian" in BUILTIN_SPATIAL_RENDERER_SCRIPT

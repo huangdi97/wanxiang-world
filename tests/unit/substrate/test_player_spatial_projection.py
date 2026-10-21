@@ -65,9 +65,15 @@ def test_player_world_detail_surfaces_t3_readiness_without_storage_identity() ->
         "projection_only": True,
         "asset_count": 1,
         "media_types": ["model/gltf-binary"],
+        "assets": [
+            {"index": 0, "media_type": "model/gltf-binary", "size_bytes": 128}
+        ],
     }
     assert "secret-object-id" not in str(detail)
     assert "a" * 64 not in str(detail)
+    assert spatial["assets"] == [
+        {"index": 0, "media_type": "model/gltf-binary", "size_bytes": 128}
+    ]
     assert revision != ("a" * 20)
     places = cast(list[dict[str, object]], visual["places"])
     assert places[0]["tier"] == "T3"
@@ -84,6 +90,7 @@ def test_player_world_detail_marks_t3_not_ready_without_attachment() -> None:
         "projection_only": True,
         "asset_count": 0,
         "media_types": [],
+        "assets": [],
     }
 
 
