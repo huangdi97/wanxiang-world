@@ -23,6 +23,7 @@ from wanxiang_substrate.authoring.one_click import OneClickAuthoring
 from wanxiang_substrate.authoring.providers import ProviderRouter
 from wanxiang_substrate.authoring.service import AuthoringService
 from wanxiang_substrate.playable import PlayableService
+from wanxiang_substrate.playable.player_service import player_observe
 from wanxiang_substrate.playable.player_world_detail import player_world_detail
 from wanxiang_substrate.playable.service_support import _runtime_instance_id
 from wanxiang_substrate.playable.service_visual import visual_budget_usage
@@ -610,7 +611,7 @@ def test_historical_replay_does_not_inherit_current_t3_projection() -> None:
             ),
         ),
     )
-    live = playable.observe(instance_id, "alice")
+    live = player_observe(playable, instance_id, "alice")
     live_visual = cast(dict[str, object], live["visual_scene"])
     assert cast(dict[str, object], live_visual["spatial"])["ready"] is True
 
