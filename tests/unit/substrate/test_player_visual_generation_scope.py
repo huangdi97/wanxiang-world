@@ -52,6 +52,15 @@ class _CountingProvider(SceneImageProvider):
         )
 
 
+class _FailingProvider(_CountingProvider):
+    provider_id = "provider:metered-failure"
+
+    def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
+        _ = request
+        self.calls += 1
+        raise RuntimeError("provider outcome unknown")
+
+
 def _service() -> PlayableService:
     package = package_from_book(
         "public-paid-world",
@@ -322,3 +331,56 @@ def test_lower_fidelity_request_never_downgrades_existing_panorama_catalog() -> 
     assert fallback.assets[0].media_type == "image/svg+xml"
     assert service._visual_assets["profile"][0].presentation_kind == "panorama"
     assert service._visual_assets["profile"][0].provider_id == panorama.provider_id
+
+def test_failed_paid_t1_attempt_is_reserved_and_not_automatically_retried() -> None:
+    service = _service()
+    provider = _FailingProvider()
+
+    first = _materialize_visual_place(
+        service,
+        "profile",
+        "Garden",
+        viewer_id="owner",
+        provider=provider,
+        allow_network=True,
+        max_cost_units=5,
+        max_deferred_generations=2,
+    )
+
+    assert first.fallback_reason == "provider_failure"
+    assert first.provider_calls == 1
+    assert provider.calls == 1
+    assert service._visual_budget.used("profile") == 1
+
+    with pytest.raises(ContractError, match="already reserved"):
+        _materialize_visual_place(
+            service,
+            "profile",
+            "Garden",
+            viewer_id="owner",
+            provider=provider,
+            allow_network=True,
+            max_cost_units=5,
+            max_deferred_generations=2,
+        )
+    assert provider.calls == 1
+
+
+def test_panorama_generation_does_not_consume_t1_deferred_budget() -> None:
+    service = _service()
+    panorama = _PanoramaProvider()
+
+    result = _materialize_visual_place(
+        service,
+        "profile",
+        "Garden",
+        viewer_id="owner",
+        provider=panorama,
+        allow_network=True,
+        max_cost_units=5,
+        max_deferred_generations=0,
+        fallback_to_t0=False,
+    )
+
+    assert result.provider_calls == 1
+    assert service._visual_budget.used("profile") == 0
