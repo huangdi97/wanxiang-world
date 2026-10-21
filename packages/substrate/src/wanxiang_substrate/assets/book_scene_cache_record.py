@@ -51,6 +51,16 @@ def _decode_visual_cache_record(raw: dict[str, object]) -> _VisualCacheRecord | 
     )
     if not all(isinstance(raw.get(name), str) for name in required_strings):
         return None
+    identity_strings = (
+        "cache_key",
+        "scene_key",
+        "place_name",
+        "provider_id",
+        "provider_version",
+        "asset_id",
+    )
+    if any(not cast(str, raw[name]).strip() for name in identity_strings):
+        return None
     media_type = cast(str, raw["media_type"])
     content_sha256 = cast(str, raw["content_sha256"])
     presentation = raw.get("presentation_kind", "still")
@@ -67,7 +77,7 @@ def _decode_visual_cache_record(raw: dict[str, object]) -> _VisualCacheRecord | 
     usage = raw.get("provider_usage_units")
     request_id = _safe_provider_id(raw.get("provider_request_id", ""))
     operation_id = _safe_provider_id(raw.get("provider_operation_id", ""))
-    if isinstance(size, bool) or not isinstance(size, int) or size < 0:
+    if isinstance(size, bool) or not isinstance(size, int) or size <= 0:
         return None
     if not isinstance(illustrative, bool):
         return None

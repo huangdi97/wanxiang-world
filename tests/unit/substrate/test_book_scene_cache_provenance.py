@@ -40,6 +40,11 @@ def _asset(**changes: object) -> _SceneVisualAsset:
         ({"provider_request_id": "bad\ntrace"}, "request id"),
         ({"provider_operation_id": "bad\rtrace"}, "operation id"),
         ({"presentation_kind": "spatial"}, "presentation"),
+        ({"provider_id": ""}, "identity"),
+        ({"provider_version": "   "}, "identity"),
+        ({"scene_key": ""}, "identity"),
+        ({"place_name": " "}, "identity"),
+        ({"cache_key": ""}, "identity"),
     ],
 )
 def test_visual_cache_rejects_invalid_asset_before_blob_write(
@@ -116,6 +121,12 @@ def test_invalid_durable_visual_cache_schema_never_degrades_to_a_cache_miss(
         ("media_type", "text/html"),
         ("content_sha256", "not-a-sha256"),
         ("cache_key", "different-paid-scene"),
+        ("provider_id", ""),
+        ("provider_version", ""),
+        ("scene_key", ""),
+        ("place_name", ""),
+        ("asset_id", ""),
+        ("size", 0),
     ],
 )
 def test_semantically_invalid_durable_cache_record_fails_closed(

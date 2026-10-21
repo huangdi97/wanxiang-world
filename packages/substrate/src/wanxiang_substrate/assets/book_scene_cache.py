@@ -227,6 +227,17 @@ class VisualAssetCache:
         usage = cast(object, asset.provider_usage_units)
         request_id = cast(object, asset.provider_request_id)
         operation_id = cast(object, asset.provider_operation_id)
+        if any(
+            not value.strip()
+            for value in (
+                asset.cache_key,
+                asset.scene_key,
+                asset.place_name,
+                asset.provider_id,
+                asset.provider_version,
+            )
+        ):
+            raise ValueError("visual cache asset identity is invalid")
         if not asset.content or hashlib.sha256(asset.content).hexdigest() != asset.content_sha256:
             raise ValueError("visual cache asset digest is invalid")
         if not asset.media_type.startswith("image/") or asset.presentation_kind not in {
