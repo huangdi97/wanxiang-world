@@ -50,13 +50,17 @@ def test_player_bundles_dependency_free_interactive_panorama_renderer() -> None:
     assert html.index(BUILTIN_PANORAMA_RENDERER_SCRIPT) < html.index(PANORAMA_RENDERER_SCRIPT)
 
 
-def test_player_spatial_generation_auto_polls_only_while_detail_is_active() -> None:
+def test_player_spatial_generation_auto_polls_across_detail_and_live_world() -> None:
     assert "SPATIAL_POLL_MIN_MS=5000" in SCRIPT
     assert "SPATIAL_POLL_MAX_MS=30000" in SCRIPT
     assert "scheduleSpatialAutoPoll" in SCRIPT
     assert "refreshSpatialJobs(true)" in SCRIPT
-    assert 'document.querySelector("#detail-view.is-active")' in SCRIPT
-    assert 'if(name!=="detail-view")stopSpatialAutoPoll()' in SCRIPT
+    assert 'document.querySelector("#detail-view.is-active,#play-view.is-active")' in SCRIPT
+    assert 'if(name!=="detail-view"&&name!=="play-view")stopSpatialAutoPoll()' in SCRIPT
+    assert "syncLiveSpatialProjection" in SCRIPT
+    assert "applySpatialWorldProjection" in SCRIPT
+    assert 'else if(document.querySelector("#play-view.is-active"))renderPlay()' in SCRIPT
+    assert 'model.view.visual_scene={...live,spatial:refreshed.spatial||null}' in SCRIPT
     assert "Math.round(delay*1.6)" in SCRIPT
     assert '"submission_ambiguous"' in SCRIPT
     assert 'tr("spatial_upgrade_ambiguous",{place})' in SCRIPT

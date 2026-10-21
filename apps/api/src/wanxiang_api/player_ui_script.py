@@ -45,7 +45,7 @@ function status(message,isError=false){
 }
 function busy(value){document.body.setAttribute("aria-busy",value?"true":"false")}
 function view(name){
-  if(name!=="detail-view")stopSpatialAutoPoll();
+  if(name!=="detail-view"&&name!=="play-view")stopSpatialAutoPoll();
   document.querySelectorAll(".view").forEach(node=>node.classList.toggle("is-active",node.id===name));
   if(name!=="home-view")document.querySelectorAll(".nav-button").forEach(node=>node.classList.remove("is-active"));
   window.scrollTo({top:0,behavior:"smooth"});
@@ -206,12 +206,12 @@ async function enterWorld(){
   const character=document.querySelector('input[name="character"]:checked')?.value;
   if(!character){status(tr("error_need_character"),true);return}
   const profile=model.world.world.profile_id;busy(true);status(tr("status_open_world"));
-  try{const result=await api(`/experience/player/worlds/${encodeURIComponent(profile)}/enter`,{method:"POST",body:JSON.stringify({mode:"embodiment",session_id:`m95_player_${Date.now()}`,character_id:character})});model.instanceId=result.instance_id;model.view=result.view;model.observerScene="";model.stageFocus=false;model.replay=null;model.history=null;model.historyExpanded=false;renderPlay();view("play-view");status("")}
+  try{const result=await api(`/experience/player/worlds/${encodeURIComponent(profile)}/enter`,{method:"POST",body:JSON.stringify({mode:"embodiment",session_id:`m95_player_${Date.now()}`,character_id:character})});model.instanceId=result.instance_id;model.view=result.view;model.observerScene="";model.stageFocus=false;model.replay=null;model.history=null;model.historyExpanded=false;renderPlay();view("play-view");scheduleSpatialAutoPoll();status("")}
   catch(error){status(error.message,true)}finally{busy(false)}
 }
 async function enterObserver(){
   const profile=model.world.world.profile_id;busy(true);status(tr("status_open_world"));
-  try{const result=await api(`/experience/player/worlds/${encodeURIComponent(profile)}/enter`,{method:"POST",body:JSON.stringify({mode:"observer",session_id:`observer_${Date.now()}`})});model.instanceId=result.instance_id;model.view=result.view;model.observerScene="";model.stageFocus=false;model.replay=null;model.history=null;model.historyExpanded=false;renderPlay();view("play-view");status("")}
+  try{const result=await api(`/experience/player/worlds/${encodeURIComponent(profile)}/enter`,{method:"POST",body:JSON.stringify({mode:"observer",session_id:`observer_${Date.now()}`})});model.instanceId=result.instance_id;model.view=result.view;model.observerScene="";model.stageFocus=false;model.replay=null;model.history=null;model.historyExpanded=false;renderPlay();view("play-view");scheduleSpatialAutoPoll();status("")}
   catch(error){status(error.message,true)}finally{busy(false)}
 }
 function rowList(items,emptyKey,renderer){return items?.length?items.map(renderer).join(""):`<li class="muted">${safe(tr(emptyKey))}</li>`}
@@ -244,7 +244,7 @@ function renderPlay(){
 }
 async function continueWorld(instanceId){
   busy(true);status(tr("status_returning"));
-  try{const result=await api(`/experience/player/instances/${encodeURIComponent(instanceId)}/continue`,{method:"POST"});model.instanceId=result.instance_id;model.view=result.view;model.observerScene="";model.stageFocus=false;model.replay=null;model.history=null;model.historyExpanded=false;renderPlay();view("play-view");status("")}
+  try{const result=await api(`/experience/player/instances/${encodeURIComponent(instanceId)}/continue`,{method:"POST"});model.instanceId=result.instance_id;model.view=result.view;model.observerScene="";model.stageFocus=false;model.replay=null;model.history=null;model.historyExpanded=false;const profile=result.view?.world?.profile_id||"";if(profile)model.spatialStatus=await loadSpatialStatus(profile);renderPlay();view("play-view");scheduleSpatialAutoPoll();status("")}
   catch(error){status(error.message,true)}finally{busy(false)}
 }
 async function sendAction(){

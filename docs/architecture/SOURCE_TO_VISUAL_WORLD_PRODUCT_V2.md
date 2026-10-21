@@ -868,3 +868,30 @@ Commit Authority may change canonical History.
 Real provider execution remains externally blocked until authorized credentials and billing,
 latency, restart and artifact evidence are captured. The repository must not upgrade
 \`REAL_T3\` or Stable status from API documentation alone.
+
+## 31. Asynchronous spatial upgrades stay alive inside the World Stage
+
+A T3 upgrade is intentionally long-running. The Player must not require a user to remain
+on the world-detail screen while a spatial provider works.
+
+The browser polling lifecycle therefore follows the product experience rather than a
+single page:
+
+~~~text
+world detail -> submit T3 upgrade
+             -> enter observer / embodiment while task is queued or running
+             -> continue bounded polling in the live Player
+             -> verified + attached derived assets
+             -> refresh only the matching scene's spatial capability
+             -> user may opt into the richer renderer
+~~~
+
+Leaving the world or navigating away from both world detail and live Player stops the
+browser poll. Resuming an existing world reloads spatial job state and restarts polling
+when a task is still pending.
+
+A completed T3 job does **not** move the actor, advance world time, create an event, or
+mutate History. The live observation keeps its canonical scene/location/time data and
+only receives the newly verified derived spatial attachment. Replay views are not
+rewritten by a current asynchronous completion.
+
