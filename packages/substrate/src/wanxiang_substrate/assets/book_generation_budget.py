@@ -1,5 +1,7 @@
 """Strict integer validation for provider-controlled visual generation budgets."""
 
+# pyright: reportUnusedFunction=false
+
 from __future__ import annotations
 
 
