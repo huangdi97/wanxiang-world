@@ -890,7 +890,9 @@ Leaving the world or navigating away from both world detail and live Player stop
 browser poll. Resuming an existing world reloads spatial job state and restarts polling
 when a task is still pending. A transient list/status refresh failure preserves the
 last-known pending ticket, so polling backs off and continues rather than silently dying
-or submitting a second paid task.
+or submitting a second paid task. The browser uses bounded exponential backoff with jitter
+for pending T3 reads, reducing synchronized polling spikes across tabs/clients while keeping
+provider task state strictly read-only.
 
 A completed T3 job does **not** move the actor, advance world time, create an event, or
 mutate History. The live observation keeps its canonical scene/location/time data and
