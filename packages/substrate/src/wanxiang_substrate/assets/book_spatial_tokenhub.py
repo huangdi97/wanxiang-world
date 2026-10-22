@@ -17,6 +17,7 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import quote, urlsplit
 from urllib.request import Request, build_opener
 
+from wanxiang_substrate.assets.book_generation_budget import _require_nonnegative_int
 from wanxiang_substrate.assets.book_http_transport import (
     _NoRedirects,
     _validate_provider_endpoint,
@@ -91,8 +92,7 @@ class _TokenHubSpatialProvider(_SpatialGenerationProvider):
             raise ValueError("TokenHub spatial requires bare artifact host allowlist entries")
         if timeout_seconds <= 0 or max_json_bytes <= 0 or max_artifact_bytes <= 0:
             raise ValueError("TokenHub spatial transport limits must be positive")
-        if cost_units_per_job < 0:
-            raise ValueError("TokenHub spatial cost must be non-negative")
+        _require_nonnegative_int(cost_units_per_job, label="TokenHub spatial cost")
         self.bearer_token = bearer_token
         self.artifact_hosts = hosts
         self.timeout_seconds = timeout_seconds
