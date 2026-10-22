@@ -78,7 +78,10 @@ def panorama_generation_view(
             max_preview_scenes=1,
             preferred_places=(requested_place,),
         )
-        if requested_plan.scene_requests and requested_plan.scene_requests[0].place_name == requested_place:
+        if (
+            requested_plan.scene_requests
+            and requested_plan.scene_requests[0].place_name == requested_place
+        ):
             scene_request = requested_plan.scene_requests[0]
             reservation_key = (
                 f"{scene_request.cache_key}:t2-panorama-v1:"
@@ -98,9 +101,9 @@ def panorama_generation_view(
         generation["reason"] = "source_external_processing_not_allowed"
     elif private_source and not provider.private_safe:
         generation["reason"] = "private_source_provider_not_safe"
-    elif provider.cost_units_per_asset < 0:
-        generation["reason"] = "budget_insufficient"
-    elif usage.remaining < provider.cost_units_per_asset and not resume_reserved:
+    elif provider.cost_units_per_asset < 0 or (
+        usage.remaining < provider.cost_units_per_asset and not resume_reserved
+    ):
         generation["reason"] = "budget_insufficient"
     else:
         generation.update(
