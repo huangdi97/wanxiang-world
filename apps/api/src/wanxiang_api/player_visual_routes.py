@@ -145,12 +145,6 @@ def player_upgrade_visual_place_to_panorama(
     )
     ready_places = cast(list[str], capability.get("ready_places", []))
     generation = cast(dict[str, object], capability["generation"])
-    if place not in ready_places and generation.get("available") is not True:
-        raise HTTPException(
-            status_code=409,
-            detail=str(generation.get("reason") or "panorama generation unavailable"),
-        )
-
     ledger = cast(PanoramaBudgetLedger, request.app.state.panorama_budget_ledger)
     budget = int(request.app.state.panorama_asset_max_cost_units)
     scene_request = plan.scene_requests[0]
@@ -158,13 +152,27 @@ def player_upgrade_visual_place_to_panorama(
         f"{scene_request.cache_key}:t2-panorama-v1:"
         f"{provider.provider_id}@{provider.provider_version}"
     )
-    if place not in ready_places and ledger.has_reservation(profile_id, reservation_key):
-        raise HTTPException(
-            status_code=409,
-            detail="panorama generation outcome is unresolved; automatic retry is blocked",
-        )
     if place not in ready_places:
+        reserved = ledger.has_reservation(profile_id, reservation_key)
+        if reserved and not provider.generation_is_idempotent:
+            raise HTTPException(
+                status_code=409,
+                detail="panorama generation outcome is unresolved; automatic retry is blocked",
+            )
+        reason = str(generation.get("reason") or "")
+        resumable_budget_hold = (
+            reserved
+            and provider.generation_is_idempotent
+            and reason == "budget_insufficient"
+        )
+        if generation.get("available") is not True and not resumable_budget_hold:
+            raise HTTPException(
+                status_code=409,
+                detail=reason or "panorama generation unavailable",
+            )
         try:
+            # Re-reserving the same identity is idempotent and verifies that
+            # provider pricing did not drift after an uncertain submission.
             ledger.reserve(
                 profile_id,
                 reservation_key,

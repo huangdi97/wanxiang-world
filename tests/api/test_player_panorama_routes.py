@@ -229,3 +229,93 @@ def test_t2_panorama_blocks_automatic_retry_after_unresolved_paid_attempt() -> N
     assert capability.status_code == 200
     assert capability.json()["generation"]["budget_reserved"] == 3
     assert capability.json()["generation"]["budget_remaining"] == 3
+
+
+class _IdempotentPanoramaProvider(_PromptedPanoramaSceneProvider):
+    generation_is_idempotent = True
+
+
+@dataclass
+class _RetryablePanoramaClient(_ExternalImageClient):
+    calls: int = 0
+
+    def generate(self, brief: _SceneGenerationBrief) -> _ExternalImageResult:
+        _ = brief
+        self.calls += 1
+        if self.calls == 1:
+            raise RuntimeError("response lost after idempotent submission")
+        return _ExternalImageResult(
+            b"\x89PNG\r\n\x1a\nresumed-panorama",
+            "image/png",
+            provider_usage_units=470000,
+        )
+
+
+def test_t2_idempotent_provider_can_resume_existing_reservation_without_rebilling() -> None:
+    provider_client = _RetryablePanoramaClient()
+    provider = _IdempotentPanoramaProvider(
+        provider_id="provider:idempotent-panorama",
+        provider_version="2026-10",
+        client=provider_client,
+        cost_units_per_asset=3,
+        private_safe=False,
+    )
+    app = create_app(
+        build_reference_runtime(),
+        panorama_provider=provider,
+        panorama_allow_network=True,
+        panorama_max_cost_units=3,
+    )
+    client: Any = TestClient(app)
+    created = client.post(
+        "/studio/one-click",
+        json={"job_id": "panorama_resume", "profile": "book", "sources": [_source()]},
+    )
+    assert created.status_code == 201
+    profile = client.post(
+        "/studio/jobs/panorama_resume/playable-profile",
+        json={
+            "owner_id": "studio",
+            "visibility": "public",
+            "display_name": "Resume Panorama World",
+        },
+    )
+    assert profile.status_code == 200
+    profile_id = str(profile.json()["profile"]["profile_id"])
+    endpoint = f"/experience/player/worlds/{profile_id}/panoramas"
+
+    first = client.post(
+        endpoint,
+        headers={"X-Wanxiang-User": "studio"},
+        json={"place_name": "Garden"},
+    )
+    assert first.status_code == 409
+    assert provider_client.calls == 1
+
+    held = client.get(endpoint, headers={"X-Wanxiang-User": "studio"})
+    assert held.status_code == 200
+    assert held.json()["generation"]["reason"] == "budget_insufficient"
+    assert held.json()["generation"]["budget_reserved"] == 3
+    assert held.json()["generation"]["budget_remaining"] == 0
+
+    resumed = client.post(
+        endpoint,
+        headers={"X-Wanxiang-User": "studio"},
+        json={"place_name": "Garden"},
+    )
+    assert resumed.status_code == 200
+    assert resumed.json()["provider_calls"] == 1
+    assert resumed.json()["cost_units"] == 3
+    assert resumed.json()["budget"]["reserved"] == 3
+    assert resumed.json()["budget"]["remaining"] == 0
+    assert provider_client.calls == 2
+
+    cached = client.post(
+        endpoint,
+        headers={"X-Wanxiang-User": "studio"},
+        json={"place_name": "Garden"},
+    )
+    assert cached.status_code == 200
+    assert cached.json()["provider_calls"] == 0
+    assert cached.json()["cache_hits"] == 1
+    assert provider_client.calls == 2
