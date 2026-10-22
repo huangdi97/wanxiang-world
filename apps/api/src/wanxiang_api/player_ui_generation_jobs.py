@@ -18,7 +18,8 @@ function scheduleSpatialAutoPoll(){
   stopSpatialAutoPoll(false);
   if(!document.querySelector("#detail-view.is-active,#play-view.is-active")||!pendingSpatialJobs()){model.spatialPollDelay=SPATIAL_POLL_MIN_MS;return}
   const delay=Math.max(SPATIAL_POLL_MIN_MS,Math.min(SPATIAL_POLL_MAX_MS,Number(model.spatialPollDelay)||SPATIAL_POLL_MIN_MS));
-  model.spatialPollTimer=window.setTimeout(()=>{model.spatialPollTimer=0;void refreshSpatialJobs(true)},delay);
+  const jittered=Math.max(SPATIAL_POLL_MIN_MS,Math.min(SPATIAL_POLL_MAX_MS,Math.round(delay*(.85+Math.random()*.3))));
+  model.spatialPollTimer=window.setTimeout(()=>{model.spatialPollTimer=0;void refreshSpatialJobs(true)},jittered);
   model.spatialPollDelay=Math.min(SPATIAL_POLL_MAX_MS,Math.round(delay*1.6));
 }
 function spatialStateLabel(value){return tr(`spatial_upgrade_state_${value||"submitted"}`)}
