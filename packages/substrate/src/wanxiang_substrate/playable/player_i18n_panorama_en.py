@@ -16,6 +16,11 @@ _PANORAMA_STRINGS: dict[str, str] = {
         "{place} can be upgraded · estimated reservation {cost}; "
         "world budget remaining {remaining}/{budget}"
     ),
+    "panorama_upgrade_resume": (
+        "{place} has an unresolved generation that can safely resume with the same "
+        "idempotent request without reserving more world budget."
+    ),
+    "panorama_upgrade_resume_submit": "Resume panorama",
     "panorama_upgrade_unavailable_provider": (
         "No usable panorama provider is configured; the current visual scene remains available."
     ),
