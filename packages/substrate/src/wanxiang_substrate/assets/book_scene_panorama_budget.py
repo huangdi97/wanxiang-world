@@ -10,6 +10,7 @@ from dataclasses import dataclass
 from threading import Lock
 from typing import cast
 
+from wanxiang_substrate.assets.book_generation_budget import _require_nonnegative_int
 from wanxiang_substrate.assets.book_scene_interprocess import _exclusive_index_lock
 
 
@@ -28,8 +29,7 @@ class _PanoramaBudgetSnapshot:
 
 
 def _snapshot(rows: dict[str, int], budget: int) -> _PanoramaBudgetSnapshot:
-    if budget < 0:
-        raise ValueError("panorama budget must be non-negative")
+    _require_nonnegative_int(budget, label="panorama budget")
     reserved = sum(rows.values())
     return _PanoramaBudgetSnapshot(
         reserved=reserved,
@@ -67,8 +67,8 @@ class _PanoramaBudgetLedger:
     ) -> _PanoramaBudgetSnapshot:
         if not scope_key or not reservation_key:
             raise ValueError("panorama reservation requires scope and identity")
-        if cost_units < 0 or budget < 0:
-            raise ValueError("panorama cost values must be non-negative")
+        _require_nonnegative_int(cost_units, label="panorama cost")
+        _require_nonnegative_int(budget, label="panorama budget")
         with self._lock:
             rows = self._rows.setdefault(scope_key, {})
             existing = rows.get(reservation_key)
@@ -149,8 +149,8 @@ class _LocalJson_PanoramaBudgetLedger(_PanoramaBudgetLedger):
     ) -> _PanoramaBudgetSnapshot:
         if not scope_key or not reservation_key:
             raise ValueError("panorama reservation requires scope and identity")
-        if cost_units < 0 or budget < 0:
-            raise ValueError("panorama cost values must be non-negative")
+        _require_nonnegative_int(cost_units, label="panorama cost")
+        _require_nonnegative_int(budget, label="panorama budget")
         lock_path = self._path.with_suffix(self._path.suffix + ".lock")
         with _exclusive_index_lock(lock_path):
             rows = self._read()
