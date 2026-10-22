@@ -7,6 +7,7 @@ from __future__ import annotations
 import hashlib
 from dataclasses import replace
 
+from wanxiang_substrate.assets.book_generation_budget import _require_nonnegative_int
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
 from wanxiang_substrate.assets.book_spatial_frame import (
     _projection_frame_from_mapping,
@@ -89,13 +90,12 @@ class _SpatialGenerationCoordinator:
         scope_key: str = "",
         attempt: int = 0,
     ) -> _SpatialGenerationTicket:
-        if attempt < 0:
-            raise ValueError("spatial attempt must be non-negative")
+        _require_nonnegative_int(attempt, label="spatial attempt")
         submission_id = self._submission_id(request, scope_key, attempt)
         if not self.provider.provider_id or not self.provider.provider_version:
             raise ValueError("spatial provider requires id and version")
-        if self.provider.cost_units_per_job < 0 or max_cost_units < 0:
-            raise ValueError("spatial cost values must be non-negative")
+        _require_nonnegative_int(self.provider.cost_units_per_job, label="spatial provider cost")
+        _require_nonnegative_int(max_cost_units, label="spatial budget")
         if self.provider.requires_network and not allow_network:
             raise ValueError("spatial provider requires explicit network permission")
         if self.provider.requires_network and not external_processing_allowed:
