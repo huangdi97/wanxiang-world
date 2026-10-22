@@ -13,6 +13,7 @@ import hashlib
 from dataclasses import dataclass, field, replace
 from typing import cast
 
+from wanxiang_substrate.assets.book_generation_budget import _require_nonnegative_int
 from wanxiang_substrate.assets.book_scene_plan import _SourceSceneRequest
 from wanxiang_substrate.assets.book_scene_prompt import (
     _compile_scene_generation_brief,
@@ -54,8 +55,9 @@ class _PromptedExternalSceneProvider(_SceneImageProvider):
     def __post_init__(self) -> None:
         if not self.provider_id or not self.provider_version:
             raise ValueError("external visual provider requires id and version")
-        if self.cost_units_per_asset < 0:
-            raise ValueError("external visual provider cost must be non-negative")
+        _require_nonnegative_int(
+            self.cost_units_per_asset, label="external visual provider cost"
+        )
         if self.max_output_bytes <= 0:
             raise ValueError("external visual provider output limit must be positive")
 
