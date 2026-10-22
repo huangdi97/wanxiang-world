@@ -161,9 +161,7 @@ def player_upgrade_visual_place_to_panorama(
             )
         reason = str(generation.get("reason") or "")
         resumable_budget_hold = (
-            reserved
-            and provider.generation_is_idempotent
-            and reason == "budget_insufficient"
+            reserved and provider.generation_is_idempotent and reason == "budget_insufficient"
         )
         if generation.get("available") is not True and not resumable_budget_hold:
             raise HTTPException(
