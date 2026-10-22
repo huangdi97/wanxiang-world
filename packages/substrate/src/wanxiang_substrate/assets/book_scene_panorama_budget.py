@@ -50,10 +50,13 @@ class _PanoramaBudgetLedger:
             return _snapshot(dict(self._rows.get(scope_key, {})), budget)
 
     def has_reservation(self, scope_key: str, reservation_key: str) -> bool:
+        return self.reservation_cost(scope_key, reservation_key) is not None
+
+    def reservation_cost(self, scope_key: str, reservation_key: str) -> int | None:
         if not scope_key or not reservation_key:
-            return False
+            return None
         with self._lock:
-            return reservation_key in self._rows.get(scope_key, {})
+            return self._rows.get(scope_key, {}).get(reservation_key)
 
     def reserve(
         self,
@@ -127,12 +130,15 @@ class _LocalJson_PanoramaBudgetLedger(_PanoramaBudgetLedger):
             return _snapshot(dict(rows.get(scope_key, {})), budget)
 
     def has_reservation(self, scope_key: str, reservation_key: str) -> bool:
+        return self.reservation_cost(scope_key, reservation_key) is not None
+
+    def reservation_cost(self, scope_key: str, reservation_key: str) -> int | None:
         if not scope_key or not reservation_key:
-            return False
+            return None
         lock_path = self._path.with_suffix(self._path.suffix + ".lock")
         with _exclusive_index_lock(lock_path):
             rows = self._read()
-            return reservation_key in rows.get(scope_key, {})
+            return rows.get(scope_key, {}).get(reservation_key)
 
     def reserve(
         self,

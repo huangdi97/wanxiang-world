@@ -90,6 +90,7 @@ def player_materialize_visual_place(
 def player_panorama_generation_status(
     profile_id: str,
     request: Request,
+    place_name: str | None = None,
     x_wanxiang_user: str | None = Header(default=None),
 ) -> dict[str, object]:
     viewer = x_wanxiang_user or "anonymous"
@@ -97,7 +98,13 @@ def player_panorama_generation_status(
     profile = service.plaza.require_access(profile_id, viewer)
     if not profile.owner_id or profile.owner_id != viewer:
         raise HTTPException(status_code=403, detail="only the world owner may generate panoramas")
-    return panorama_generation_view(request, service, profile_id, viewer_id=viewer)
+    return panorama_generation_view(
+        request,
+        service,
+        profile_id,
+        viewer_id=viewer,
+        place_name=place_name or "",
+    )
 
 
 @router.post("/worlds/{profile_id}/panoramas")
@@ -142,6 +149,7 @@ def player_upgrade_visual_place_to_panorama(
         service,
         profile_id,
         viewer_id=viewer,
+        place_name=place,
     )
     ready_places = cast(list[str], capability.get("ready_places", []))
     generation = cast(dict[str, object], capability["generation"])
@@ -160,10 +168,7 @@ def player_upgrade_visual_place_to_panorama(
                 detail="panorama generation outcome is unresolved; automatic retry is blocked",
             )
         reason = str(generation.get("reason") or "")
-        resumable_budget_hold = (
-            reserved and provider.generation_is_idempotent and reason == "budget_insufficient"
-        )
-        if generation.get("available") is not True and not resumable_budget_hold:
+        if generation.get("available") is not True:
             raise HTTPException(
                 status_code=409,
                 detail=reason or "panorama generation unavailable",

@@ -19,6 +19,7 @@ def panorama_generation_view(
     profile_id: str,
     *,
     viewer_id: str,
+    place_name: str = "",
 ) -> dict[str, object]:
     """Describe T2 generation without calling a provider or changing world state."""
     package = service.packages.get(profile_id)
@@ -69,6 +70,25 @@ def panorama_generation_view(
         return {"generation": generation, "ready_places": ready_places}
 
     plan = plan_book_scene_assets(package, max_preview_scenes=0)
+    resume_reserved = False
+    requested_place = place_name.strip()
+    if provider.generation_is_idempotent and requested_place in package.draft.places:
+        requested_plan = plan_book_scene_assets(
+            package,
+            max_preview_scenes=1,
+            preferred_places=(requested_place,),
+        )
+        if requested_plan.scene_requests and requested_plan.scene_requests[0].place_name == requested_place:
+            scene_request = requested_plan.scene_requests[0]
+            reservation_key = (
+                f"{scene_request.cache_key}:t2-panorama-v1:"
+                f"{provider.provider_id}@{provider.provider_version}"
+            )
+            resume_reserved = (
+                ledger.reservation_cost(profile_id, reservation_key)
+                == provider.cost_units_per_asset
+            )
+    generation["resume_reserved"] = resume_reserved
     private_source = (
         package.draft.compiler_metadata.get("visual_private_source_v1", "true") == "true"
     )
@@ -78,7 +98,9 @@ def panorama_generation_view(
         generation["reason"] = "source_external_processing_not_allowed"
     elif private_source and not provider.private_safe:
         generation["reason"] = "private_source_provider_not_safe"
-    elif provider.cost_units_per_asset < 0 or usage.remaining < provider.cost_units_per_asset:
+    elif provider.cost_units_per_asset < 0:
+        generation["reason"] = "budget_insufficient"
+    elif usage.remaining < provider.cost_units_per_asset and not resume_reserved:
         generation["reason"] = "budget_insufficient"
     else:
         generation.update(
