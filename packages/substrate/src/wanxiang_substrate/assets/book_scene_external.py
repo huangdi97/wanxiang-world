@@ -55,9 +55,7 @@ class _PromptedExternalSceneProvider(_SceneImageProvider):
     def __post_init__(self) -> None:
         if not self.provider_id or not self.provider_version:
             raise ValueError("external visual provider requires id and version")
-        _require_nonnegative_int(
-            self.cost_units_per_asset, label="external visual provider cost"
-        )
+        _require_nonnegative_int(self.cost_units_per_asset, label="external visual provider cost")
         if self.max_output_bytes <= 0:
             raise ValueError("external visual provider output limit must be positive")
 
