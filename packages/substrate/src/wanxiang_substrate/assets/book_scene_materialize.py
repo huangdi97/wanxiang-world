@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import hashlib
 
+from wanxiang_substrate.assets.book_generation_budget import _require_nonnegative_int
 from wanxiang_substrate.assets.book_scene_cache import VisualAssetCache
 from wanxiang_substrate.assets.book_scene_fallback import (
     _provider_failure,
@@ -37,10 +38,8 @@ def _materialize_visual_plan(
         return _VisualMaterialization((), (), 0, 0, 0)
 
     selected_provider = provider or _ProceduralSvgSceneProvider()
-    if selected_provider.cost_units_per_asset < 0:
-        raise ValueError("visual provider cost must be non-negative")
-    if max_cost_units < 0:
-        raise ValueError("visual budget must be non-negative")
+    _require_nonnegative_int(selected_provider.cost_units_per_asset, label="visual provider cost")
+    _require_nonnegative_int(max_cost_units, label="visual budget")
 
     asset_cache = cache or VisualAssetCache()
     # The cache is checked again inside this keyed guard: two concurrent
