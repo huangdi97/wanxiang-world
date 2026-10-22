@@ -2,6 +2,7 @@
 
 # pyright: reportPrivateUsage=false
 
+import pytest
 from wanxiang_substrate.assets.book_spatial_poll_validation import (
     _require_monotonic_spatial_poll,
 )
@@ -9,8 +10,6 @@ from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialGenerationTicket,
     _SpatialPollResult,
 )
-
-import pytest
 
 
 def _ticket(*, state: str, usage: int | None) -> _SpatialGenerationTicket:
