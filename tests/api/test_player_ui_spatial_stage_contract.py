@@ -53,6 +53,8 @@ def test_player_bundles_dependency_free_interactive_panorama_renderer() -> None:
 def test_player_spatial_generation_auto_polls_across_detail_and_live_world() -> None:
     assert "SPATIAL_POLL_MIN_MS=5000" in SCRIPT
     assert "SPATIAL_POLL_MAX_MS=30000" in SCRIPT
+    assert "Math.random()*.3" in SCRIPT
+    assert "jittered" in SCRIPT
     assert "scheduleSpatialAutoPoll" in SCRIPT
     assert "refreshSpatialJobs(true)" in SCRIPT
     assert 'document.querySelector("#detail-view.is-active,#play-view.is-active")' in SCRIPT
