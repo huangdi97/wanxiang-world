@@ -24,7 +24,9 @@ def test_in_memory_panorama_budget_reserves_once_and_exhausts() -> None:
     assert first.remaining == 2
     assert first.reservations == 1
     assert ledger.has_reservation("world-a", "scene-a") is True
+    assert ledger.reservation_cost("world-a", "scene-a") == 3
     assert ledger.has_reservation("world-a", "missing") is False
+    assert ledger.reservation_cost("world-a", "missing") is None
     with pytest.raises(ValueError, match="budget is exhausted"):
         ledger.reserve("world-a", "scene-b", 3, 5)
 
@@ -39,7 +41,9 @@ def test_local_panorama_budget_survives_restart(tmp_path: pathlib.Path) -> None:
     assert usage.reserved == 4
     assert usage.remaining == 6
     assert restarted.has_reservation("world-a", "scene-a") is True
+    assert restarted.reservation_cost("world-a", "scene-a") == 4
     assert restarted.has_reservation("world-a", "missing") is False
+    assert restarted.reservation_cost("world-a", "missing") is None
     assert restarted.reserve("world-a", "scene-a", 4, 10).reservations == 1
 
     second = restarted.reserve("world-a", "scene-b", 4, 10)

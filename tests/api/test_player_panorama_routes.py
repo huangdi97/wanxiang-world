@@ -298,6 +298,27 @@ def test_t2_idempotent_provider_can_resume_existing_reservation_without_rebillin
     assert held.json()["generation"]["budget_reserved"] == 3
     assert held.json()["generation"]["budget_remaining"] == 0
 
+    resumable = client.get(
+        endpoint,
+        headers={"X-Wanxiang-User": "studio"},
+        params={"place_name": "Garden"},
+    )
+    assert resumable.status_code == 200
+    assert resumable.json()["generation"]["available"] is True
+    assert resumable.json()["generation"]["resume_reserved"] is True
+    assert resumable.json()["generation"]["budget_reserved"] == 3
+    assert resumable.json()["generation"]["budget_remaining"] == 0
+
+    other_place = client.get(
+        endpoint,
+        headers={"X-Wanxiang-User": "studio"},
+        params={"place_name": "Harbor"},
+    )
+    assert other_place.status_code == 200
+    assert other_place.json()["generation"]["available"] is False
+    assert other_place.json()["generation"]["resume_reserved"] is False
+    assert other_place.json()["generation"]["reason"] == "budget_insufficient"
+
     resumed = client.post(
         endpoint,
         headers={"X-Wanxiang-User": "studio"},
