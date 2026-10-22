@@ -8,6 +8,7 @@ from typing import cast
 
 from wanxiang_substrate.assets.book_spatial_types import (
     _SpatialArtifactCandidate,
+    _SpatialGenerationTicket,
     _SpatialPollResult,
     _SpatialProjectionFrame,
     _SpatialProviderState,
@@ -50,3 +51,14 @@ def _validated_spatial_poll_result(value: object) -> _SpatialPollResult:
         projection_frame=raw_frame,
         provider_usage_units=raw_usage,
     )
+
+def _require_monotonic_spatial_poll(
+    ticket: _SpatialGenerationTicket, result: _SpatialPollResult
+) -> None:
+    """Reject provider receipts that would make durable task/accounting state move backward."""
+    previous_usage = ticket.provider_usage_units
+    current_usage = result.provider_usage_units
+    if previous_usage is not None and current_usage is not None and current_usage < previous_usage:
+        raise ValueError("spatial provider usage units regressed")
+    if ticket.state == "running" and result.state == "queued":
+        raise ValueError("spatial provider task state regressed")

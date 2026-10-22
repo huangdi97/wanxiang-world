@@ -13,6 +13,7 @@ from wanxiang_substrate.assets.book_spatial_frame import (
     _projection_frame_to_dict,
 )
 from wanxiang_substrate.assets.book_spatial_poll_validation import (
+    _require_monotonic_spatial_poll,
     _validated_spatial_poll_result,
 )
 from wanxiang_substrate.assets.book_spatial_safety import (
@@ -195,6 +196,7 @@ class _SpatialGenerationCoordinator:
         ):
             raise ValueError("configured spatial provider does not match persisted ticket")
         result = _validated_spatial_poll_result(self.provider.poll(ticket.provider_task_ref))
+        _require_monotonic_spatial_poll(ticket, result)
         if result.provider_usage_units is not None:
             ticket = replace(ticket, provider_usage_units=result.provider_usage_units)
             if result.provider_usage_units > ticket.reserved_cost_units:
