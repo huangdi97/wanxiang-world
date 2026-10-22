@@ -52,6 +52,7 @@ def _validated_spatial_poll_result(value: object) -> _SpatialPollResult:
         provider_usage_units=raw_usage,
     )
 
+
 def _require_monotonic_spatial_poll(
     ticket: _SpatialGenerationTicket, result: _SpatialPollResult
 ) -> None:
