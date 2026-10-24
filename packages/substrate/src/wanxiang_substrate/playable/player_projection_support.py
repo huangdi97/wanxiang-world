@@ -17,7 +17,6 @@ from wanxiang_domain.entity import EntityState, FieldValue
 from wanxiang_domain.event import CommittedEvent
 
 from wanxiang_substrate.assets.book_scene_context import _place_identity
-
 from wanxiang_substrate.playable.player_i18n import _PlayerCopy
 from wanxiang_substrate.playable.state_diff import DiffChange
 
