@@ -64,6 +64,52 @@ curl -X POST http://127.0.0.1:8000/studio/jobs/api-demo/publish
 Both routes call the shared `AuthoringService`; transport code owns no job,
 candidate, package, preview, or Canonical World State.
 
+
+## Visual world ladder
+
+The current product path is one Player world with progressively richer derived
+renderers, not four separate applications:
+
+`Source -> Evidence -> WorldPackage -> T0/T1/T2/T3 assets -> Player Stage -> Intent -> Commit Authority -> History`
+
+- **T0** is deterministic/offline and is the safe default. It produces the
+  source-grounded narrative atlas and procedural scene pixels.
+- **T1** is an optional governed still-image provider. Remote processing is
+  disabled unless source rights, network policy and the configured budget all
+  allow it.
+- **T2** upgrades selected scenes to panorama projection. It remains derived
+  presentation and never becomes canonical geometry.
+- **T3** is an asynchronous spatial-asset job for selected anchor places. The
+  repository includes durable submit/poll/verify/attach, restart recovery,
+  cost reservation, a direct TokenHub adapter, a vendor-neutral HTTP gateway,
+  and a dependency-free PLY Player renderer.
+
+Use `WANXIANG_VISUAL_CACHE_DIR` for restart-safe local blobs, visual metadata,
+budgets and spatial jobs. Leaving all remote-provider settings unset keeps the
+reference product entirely offline.
+
+### T3 backend selection
+
+Choose exactly one T3 deployment backend:
+
+1. direct Tencent TokenHub Hy-World using
+   `WANXIANG_SPATIAL_TOKENHUB_SUBMIT_ENDPOINT`,
+   `WANXIANG_SPATIAL_TOKENHUB_TASKS_ENDPOINT`,
+   `WANXIANG_SPATIAL_TOKENHUB_API_KEY` and an explicit
+   `WANXIANG_SPATIAL_TOKENHUB_ARTIFACT_HOSTS` allowlist; or
+2. the normalized Wanxiang HTTP gateway using
+   `WANXIANG_SPATIAL_HTTP_SUBMIT_ENDPOINT` and
+   `WANXIANG_SPATIAL_HTTP_POLL_ENDPOINT`.
+
+Set `WANXIANG_SPATIAL_ALLOW_NETWORK=true` only with a configured backend and
+set `WANXIANG_SPATIAL_MAX_COST_UNITS` explicitly. Configuring TokenHub and the
+generic HTTP gateway together is rejected at application startup; paid-provider
+selection is never implicit.
+
+Real T1/T3 execution still requires authorized credentials and rights-safe
+source material. Local tests prove the contracts and safety boundaries, not
+provider billing, latency or visual quality.
+
 ## Boundaries to keep visible
 
 - Sources and evidence retain stable locators and provenance.

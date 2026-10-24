@@ -16,6 +16,7 @@ from wanxiang_domain.delta import (
 from wanxiang_domain.entity import EntityState, FieldValue
 from wanxiang_domain.event import CommittedEvent
 
+from wanxiang_substrate.assets.book_scene_context import _place_identity
 from wanxiang_substrate.playable.player_i18n import _PlayerCopy
 from wanxiang_substrate.playable.state_diff import DiffChange
 
@@ -34,6 +35,7 @@ _CATEGORY_KEYS = {
     "task": "category_task",
     "knowledge": "category_knowledge",
     "organization": "category_organization",
+    "family": "category_organization",
     "state": "category_state",
 }
 
@@ -85,6 +87,18 @@ def _first_text_from_entities(
     return None
 
 
+_LOCATION_LEAVES = {"location", "current_location", "place", "current_place"}
+
+
+def _location_text(fields: dict[str, FieldValue]) -> str | None:
+    """Exact leaf names only: place_of_birth must never claim current presence."""
+    for key, value in fields.items():
+        leaf = key.rsplit(".", 1)[-1]
+        if leaf in _LOCATION_LEAVES and isinstance(value, str) and value.strip():
+            return value.strip()
+    return None
+
+
 def _status_label(fields: dict[str, FieldValue], copy: _PlayerCopy) -> str | None:
     value = _first_text(fields, ("status.value", "status"))
     return copy.text(_STATUS_KEYS[value]) if value in _STATUS_KEYS else value
@@ -96,8 +110,64 @@ def _person_card(entity: EntityState, copy: _PlayerCopy) -> dict[str, object]:
         "name": _entity_name(entity, copy),
         "role": _first_text(fields, ("role", "occupation")),
         "status": _status_label(fields, copy),
-        "location": _first_text(fields, ("location", "place")),
+        "location": _location_text(fields),
     }
+
+
+def _same_location(left: object, right: object) -> bool:
+    """Source-equivalent location labels represent one place, never a fuzzy match."""
+    return (
+        isinstance(left, str)
+        and isinstance(right, str)
+        and bool(left.strip())
+        and bool(right.strip())
+        and _place_identity(left) == _place_identity(right)
+    )
+
+
+def _known_people_cards(
+    people: tuple[EntityState, ...],
+    relations: tuple[Any, ...],
+    actor_id: str,
+    location: str | None,
+    copy: _PlayerCopy,
+) -> list[dict[str, object]]:
+    """Expose only co-located or actor-related people; remote state stays hidden."""
+    present_ids = {
+        person.entity_id.value
+        for person in people
+        if _same_location(_person_card(person, copy)["location"], location)
+    }
+    related_ids: set[str] = set()
+    if actor_id:
+        for relation in relations:
+            source_id = relation.source_id.value
+            target_id = relation.target_id.value
+            if source_id == actor_id:
+                related_ids.add(target_id)
+            elif target_id == actor_id:
+                related_ids.add(source_id)
+    allowed_ids = present_ids | related_ids
+    allowed_ids.discard(actor_id)
+    cards: list[dict[str, object]] = []
+    for person in people:
+        person_id = person.entity_id.value
+        if person_id not in allowed_ids:
+            continue
+        card = _person_card(person, copy)
+        if person_id not in present_ids:
+            card["location"] = None
+            card["status"] = None
+        cards.append(card)
+    return cards
+
+
+def _actor_relation_cards(relations: list[dict[str, object]]) -> list[dict[str, object]]:
+    return [
+        {key: value for key, value in item.items() if key != "involves_actor"}
+        for item in relations
+        if item.get("involves_actor") is True
+    ]
 
 
 def _relation_card(
@@ -111,11 +181,36 @@ def _relation_card(
     }
 
 
+_OWNER_TOKENS = ("actor_id", "owner_id", "holder_id", "assignee_id")
+
+
+def _private_owners(entity: EntityState) -> set[str]:
+    """All explicit owner fields; conflicting owners must never widen access."""
+
+    fields = _entity_fields(entity)
+    return {
+        value.strip()
+        for key, value in fields.items()
+        if any(token in key for token in _OWNER_TOKENS) and isinstance(value, str) and value.strip()
+    }
+
+
+def _visible_to_actor(entity: EntityState, actor_id: str) -> bool:
+    """World-level records are public; owner-scoped records belong only to their owner."""
+
+    owners = _private_owners(entity)
+    return not owners or (bool(actor_id) and owners == {actor_id})
+
+
 def _event_card(
-    entities: tuple[EntityState, ...], names: dict[str, str], copy: _PlayerCopy
+    entities: tuple[EntityState, ...],
+    names: dict[str, str],
+    copy: _PlayerCopy,
+    actor_id: str,
 ) -> dict[str, object] | None:
+    """Only a canonical event is a current event; tasks are not happenings."""
     for entity in entities:
-        if entity.entity_type.casefold() in {"event", "task", "opportunity", "challenge"}:
+        if entity.entity_type.casefold() == "event" and _visible_to_actor(entity, actor_id):
             fields = _entity_fields(entity)
             return {
                 "name": _entity_name(entity, copy),
@@ -127,11 +222,17 @@ def _event_card(
 
 
 def _opportunity_cards(
-    entities: tuple[EntityState, ...], copy: _PlayerCopy
+    entities: tuple[EntityState, ...],
+    copy: _PlayerCopy,
+    actor_id: str,
 ) -> list[dict[str, object]]:
     result: list[dict[str, object]] = []
     for entity in entities:
-        if entity.entity_type.casefold() in {"task", "opportunity", "challenge"}:
+        if entity.entity_type.casefold() in {
+            "task",
+            "opportunity",
+            "challenge",
+        } and _visible_to_actor(entity, actor_id):
             fields = _entity_fields(entity)
             result.append(
                 {
@@ -143,35 +244,23 @@ def _opportunity_cards(
     return result
 
 
-def _memory_cards(entities: tuple[EntityState, ...], actor_id: str) -> list[str]:
-    result: list[str] = []
-    for entity in entities:
-        kinds = {entity.entity_type.casefold()}
-        kinds.update(
-            component.component_type.casefold() for component in entity.components.values()
-        )
-        if not any("memory" in kind or "knowledge" in kind or "belief" in kind for kind in kinds):
-            continue
-        fields = _entity_fields(entity)
-        owner = _first_text(fields, ("actor_id", "owner_id"))
-        if owner and owner != actor_id:
-            continue
-        text = _first_text(fields, ("content", "text", "summary", "description"))
-        if text:
-            result.append(text)
-    return result
-
-
-def _named_entities(
-    entities: tuple[EntityState, ...], types: set[str], copy: _PlayerCopy
+def _actor_owned_entities(
+    entities: tuple[EntityState, ...], types: set[str], copy: _PlayerCopy, actor_id: str
 ) -> list[str]:
+    """A world object is not the player's inventory without explicit ownership."""
+    if not actor_id:
+        return []
     return [
-        _entity_name(entity, copy) for entity in entities if entity.entity_type.casefold() in types
+        _entity_name(entity, copy)
+        for entity in entities
+        if entity.entity_type.casefold() in types and _private_owners(entity) == {actor_id}
     ]
 
 
 def _chronicle_card(
-    event: CommittedEvent, names: dict[str, str], actor_id: str, copy: _PlayerCopy
+    event: CommittedEvent,
+    actor_id: str,
+    copy: _PlayerCopy,
 ) -> dict[str, object]:
     operations = event.delta.operations
     summary = copy.text("chronicle_progress")
@@ -185,7 +274,6 @@ def _chronicle_card(
         summary = copy.text("chronicle_new_relation")
     elif any(isinstance(item, (EntityDelete, RelationDelete)) for item in operations):
         summary = copy.text("chronicle_ended_fact")
-    _ = names
     return {"time": event.world_time.ticks, "summary": summary}
 
 

@@ -7,6 +7,7 @@ restorable, and recompilable.
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import dataclass, field
 from typing import Literal
 
@@ -64,6 +65,7 @@ class WorldDraft:
     selected_domains: tuple[str, ...] = ()
     dependency_lock: tuple[str, ...] = ()
     entities: tuple[tuple[str, str], ...] = ()  # (key, display_name)
+    entity_types: tuple[tuple[str, str], ...] = ()  # (key, source-declared kind)
     aliases: tuple[tuple[str, str], ...] = ()  # (identity_key, alias)
     character_profiles: tuple[str, ...] = ()
     organizations: tuple[str, ...] = ()
@@ -116,6 +118,7 @@ class WorldDraft:
             selected_domains=self.selected_domains,
             dependency_lock=self.dependency_lock,
             entities=self.entities,
+            entity_types=self.entity_types,
             aliases=self.aliases,
             character_profiles=self.character_profiles,
             organizations=self.organizations,
@@ -136,3 +139,14 @@ class WorldDraft:
             quality=self.quality,
             compiler_metadata=dict(self.compiler_metadata),
         )
+
+    def to_dict(self) -> dict[str, object]:
+        from wanxiang_substrate.draft.serialization import draft_to_dict
+
+        return draft_to_dict(self)
+
+    @classmethod
+    def from_dict(cls, data: Mapping[str, object]) -> WorldDraft:
+        from wanxiang_substrate.draft.serialization import draft_from_dict
+
+        return draft_from_dict(data)

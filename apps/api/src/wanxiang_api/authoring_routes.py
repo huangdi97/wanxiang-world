@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
+from typing import cast
+
 from fastapi import APIRouter, Request
 from pydantic import BaseModel, Field
+from wanxiang_substrate.assets.book_scene_types import SceneImageProvider
 from wanxiang_substrate.authoring.scenario_engine import ScenarioEngine
 from wanxiang_substrate.authoring.service import AuthoringService
 from wanxiang_substrate.playable import PlayableService
@@ -73,6 +76,12 @@ def register_playable_profile(
         scenario_name=payload.scenario_name,
         opening_hint=payload.opening_hint,
         allowed_actions=tuple(payload.allowed_actions),
+        visual_provider=cast(
+            SceneImageProvider | None,
+            request.app.state.visual_asset_provider,
+        ),
+        visual_allow_network=bool(request.app.state.visual_asset_allow_network),
+        visual_max_cost_units=int(request.app.state.visual_asset_max_cost_units),
     )
     return {"profile": profile.to_dict()}
 

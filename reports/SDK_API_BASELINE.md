@@ -1,8 +1,8 @@
 # SDK API Baseline (G17A)
 
-- API routes: 74
+- API routes: 87
 - TypeScript surface symbols: 5
-- Python public names (stable packages): 2149
+- Python public names (stable packages): 2189
 
 ## API routes
 
@@ -12,8 +12,16 @@
 - `GET /experience/instances/{instance_id}`
 - `GET /experience/player/characters`
 - `GET /experience/player/instances/{instance_id}`
+- `GET /experience/player/instances/{instance_id}/compare`
+- `GET /experience/player/instances/{instance_id}/history`
+- `GET /experience/player/instances/{instance_id}/replay`
+- `GET /experience/player/instances/{instance_id}/worldlines`
 - `GET /experience/player/plaza`
 - `GET /experience/player/worlds/{profile_id}`
+- `GET /experience/player/worlds/{profile_id}/panoramas`
+- `GET /experience/player/worlds/{profile_id}/spatial`
+- `GET /experience/player/worlds/{profile_id}/spatial-assets/{asset_index}`
+- `GET /experience/player/worlds/{profile_id}/spatial/{submission_id}`
 - `GET /experience/plaza`
 - `GET /experience/ui`
 - `GET /experience/worlds`
@@ -48,8 +56,13 @@
 - `POST /experience/player/characters`
 - `POST /experience/player/instances/{instance_id}/action`
 - `POST /experience/player/instances/{instance_id}/continue`
+- `POST /experience/player/instances/{instance_id}/fork`
 - `POST /experience/player/instances/{instance_id}/leave`
 - `POST /experience/player/worlds/{profile_id}/enter`
+- `POST /experience/player/worlds/{profile_id}/panoramas`
+- `POST /experience/player/worlds/{profile_id}/spatial`
+- `POST /experience/player/worlds/{profile_id}/spatial/{submission_id}/cancel`
+- `POST /experience/player/worlds/{profile_id}/visuals`
 - `POST /experience/worlds/{profile_id}/enter`
 - `POST /forge/completions/plan`
 - `POST /forge/conflicts`
@@ -99,6 +112,7 @@
 - `wanxiang_application.GovernedOperationRequest`
 - `wanxiang_application.HarnessStepResult`
 - `wanxiang_application.HarnessWorldLoop`
+- `wanxiang_application.LeaseFactory`
 - `wanxiang_application.Now`
 - `wanxiang_application.ObserverExperience`
 - `wanxiang_application.ObserverExperienceView`
@@ -114,9 +128,12 @@
 - `wanxiang_application.WorldRuntime`
 - `wanxiang_application.WorldSkill`
 - `wanxiang_application.find_root_branch`
+- `wanxiang_application.fork_branch_at`
 - `wanxiang_application.register_synthetic_resolvers`
 - `wanxiang_application.replay_branch`
 - `wanxiang_application.snapshot_is_valid`
+- `wanxiang_application.worldline_compare_point`
+- `wanxiang_application.worldline_events`
 - `wanxiang_domain.ActorId`
 - `wanxiang_domain.BranchAncestry`
 - `wanxiang_domain.BranchId`
@@ -379,9 +396,5 @@
 - `wanxiang_substrate.ACTION_RECORD_PRACTICE`
 - `wanxiang_substrate.ACTION_RECORD_RUN`
 - `wanxiang_substrate.ACTION_REJECT_ORDER`
-- `wanxiang_substrate.ACTION_RELAY_MESSAGE`
-- `wanxiang_substrate.ACTION_REPORT_ORDER`
-- `wanxiang_substrate.ACTION_REST`
-- `wanxiang_substrate.ACTION_SCHEDULE_APPOINTMENT`
 
 Machine-readable: reports/sdk_api_baseline.json.

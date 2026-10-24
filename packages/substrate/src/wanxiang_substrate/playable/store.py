@@ -4,11 +4,15 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Protocol
+from typing import TYPE_CHECKING, Protocol
 
 from wanxiang_domain.errors import ContractError, NotFound
 
 from wanxiang_substrate.playable.models import PlayableWorldProfile
+
+if TYPE_CHECKING:
+    from wanxiang_substrate.compile.assembler import WorldPackageDraft
+    from wanxiang_substrate.playable.experience import ExperiencePackage
 
 
 @dataclass(frozen=True, slots=True)
@@ -25,6 +29,9 @@ class ExperienceInstanceRecord:
     lease_id: str = ""
     last_revision: int = 0
     updated_seq: int = 0
+    # Forked worldlines use the branch id as the product handle, while canonical
+    # reads still target the runtime instance that owns the branch.
+    runtime_instance_id: str = ""
 
     def __post_init__(self) -> None:
         if not self.instance_id or not self.profile_id or not self.owner_id or not self.branch_id:
@@ -69,6 +76,12 @@ class CharacterRecord:
         return not self.compatible_profile_ids or profile_id in self.compatible_profile_ids
 
 
+def _instance_key(instance: ExperienceInstanceRecord) -> str:
+    """One canonical world instance may have a session record per player."""
+
+    return f"{instance.owner_id}:{instance.instance_id}"
+
+
 class PlayableStore(Protocol):
     """Persistence port for experience metadata only."""
 
@@ -82,6 +95,12 @@ class PlayableStore(Protocol):
 
     def get_instance(self, instance_id: str) -> ExperienceInstanceRecord: ...
 
+    def get_instance_for(
+        self,
+        instance_id: str,
+        owner_id: str,
+    ) -> ExperienceInstanceRecord | None: ...
+
     def list_instances(self) -> tuple[ExperienceInstanceRecord, ...]: ...
 
     def save_character(self, character: CharacterRecord) -> None: ...
@@ -89,6 +108,17 @@ class PlayableStore(Protocol):
     def get_character(self, character_id: str) -> CharacterRecord: ...
 
     def list_characters(self, owner_id: str) -> tuple[CharacterRecord, ...]: ...
+
+    def save_package(
+        self,
+        profile_id: str,
+        package: WorldPackageDraft,
+        experience: ExperiencePackage | None = None,
+    ) -> None: ...
+
+    def load_packages(self) -> dict[str, WorldPackageDraft]: ...
+
+    def load_experiences(self) -> dict[str, ExperiencePackage]: ...
 
 
 class InMemoryPlayableStore:
@@ -98,6 +128,8 @@ class InMemoryPlayableStore:
         self._profiles: dict[str, PlayableWorldProfile] = {}
         self._instances: dict[str, ExperienceInstanceRecord] = {}
         self._characters: dict[str, CharacterRecord] = {}
+        self._packages: dict[str, dict[str, object]] = {}
+        self._experiences: dict[str, dict[str, object]] = {}
 
     def save_profile(self, profile: PlayableWorldProfile) -> None:
         profile.validate()
@@ -126,13 +158,25 @@ class InMemoryPlayableStore:
     def save_instance(self, instance: ExperienceInstanceRecord) -> None:
         if instance.profile_id not in self._profiles:
             raise NotFound(f"playable profile {instance.profile_id!r} not found")
-        self._instances[instance.instance_id] = instance
+        self._instances[_instance_key(instance)] = instance
 
     def get_instance(self, instance_id: str) -> ExperienceInstanceRecord:
-        try:
-            return self._instances[instance_id]
-        except KeyError as exc:
-            raise NotFound(f"playable instance {instance_id!r} not found") from exc
+        for key in sorted(self._instances):
+            record = self._instances[key]
+            if record.instance_id == instance_id:
+                return record
+        raise NotFound(f"playable instance {instance_id!r} not found")
+
+    def get_instance_for(
+        self,
+        instance_id: str,
+        owner_id: str,
+    ) -> ExperienceInstanceRecord | None:
+        for key in sorted(self._instances):
+            record = self._instances[key]
+            if record.instance_id == instance_id and record.owner_id == owner_id:
+                return record
+        return None
 
     def list_instances(self) -> tuple[ExperienceInstanceRecord, ...]:
         return tuple(self._instances[key] for key in sorted(self._instances))
@@ -157,3 +201,29 @@ class InMemoryPlayableStore:
             for key in sorted(self._characters)
             if self._characters[key].owner_id == owner_id
         )
+
+    def save_package(
+        self,
+        profile_id: str,
+        package: WorldPackageDraft,
+        experience: ExperiencePackage | None = None,
+    ) -> None:
+        self._packages[profile_id] = package.to_dict()
+        if experience is not None:
+            self._experiences[profile_id] = experience.to_dict()
+
+    def load_packages(self) -> dict[str, WorldPackageDraft]:
+        from wanxiang_substrate.compile.assembler import WorldPackageDraft
+
+        return {
+            profile_id: WorldPackageDraft.from_dict(payload)
+            for profile_id, payload in self._packages.items()
+        }
+
+    def load_experiences(self) -> dict[str, ExperiencePackage]:
+        from wanxiang_substrate.playable.experience import ExperiencePackage
+
+        return {
+            profile_id: ExperiencePackage.from_dict(payload)
+            for profile_id, payload in self._experiences.items()
+        }

@@ -8,7 +8,7 @@ are the qualified surface contract.
 | Surface | Server use-cases (routes) | Notes |
 |---|---|---|
 | Studio / World IDE | create world, branches, state, events, actions | author + debug |
-| Experience Player | projection, actions, session | player continuity |
+| Experience Player | projection, actions, session | visual-first Living World Stage; one server truth; low-cost T0/T1 asset projection |
 | Strategy / Experiment | branches, diff, experiment run | workbench |
 | Heritage / Museum | projection, rights-gated assets | heritage |
 | Family Portal | projection, privacy modes | family |
@@ -27,3 +27,16 @@ maintain a second truth. Branch/session context switches re-fetch from server tr
 - Shared frontend domain types are frozen from the OpenAPI contract / SDK baseline
   (`reports/sdk_api_baseline.json`); the drift test regenerates + compares.
 - No surface writes world state except through the command API (Commit Authority remains the only writer).
+
+
+## Experience Player visual boundary
+
+The Player's Living World Stage is a projection surface. Source-grounded scene
+assets, narrative atlas, HUD, live narrative and action dock may change visual
+presentation without creating a second world state. T0 deterministic SVG is the
+zero-cost baseline; optional T1 image providers remain rights/network/cost
+governed and share the authoring/player cache. See
+`docs/source_to_living_world/PLAYER_VISUAL_STAGE.md`.
+
+A graphical projection is not Canonical World Truth. Real 3D/GPU engines remain
+external capabilities until separately evidenced.

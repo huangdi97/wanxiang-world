@@ -73,14 +73,13 @@ class SessionCard:
         )
 
     def to_dict(self) -> dict[str, object]:
+        # Player-facing plaza cards keep only product handles; branch ids,
+        # revisions and touch counters are storage internals.
         return {
             "instance_id": self.instance_id,
             "profile_id": self.profile_id,
-            "branch_id": self.branch_id,
             "mode": self.mode,
             "actor_id": self.actor_id,
-            "last_revision": self.last_revision,
-            "updated_seq": self.updated_seq,
         }
 
 
@@ -96,7 +95,12 @@ class WorldPlaza:
     def my_worlds(self, viewer_id: str) -> tuple[WorldCard, ...]:
         return self._cards(viewer_id, owned_only=True)
 
-    def recent_sessions(self, viewer_id: str) -> tuple[SessionCard, ...]:
+    def recent_sessions(
+        self,
+        viewer_id: str,
+        *,
+        limit: int | None = 20,
+    ) -> tuple[SessionCard, ...]:
         sessions = [
             instance
             for instance in self._store.list_instances()
@@ -104,6 +108,8 @@ class WorldPlaza:
             and self._profile_visible(instance.profile_id, viewer_id)
         ]
         sessions.sort(key=lambda item: (-item.updated_seq, item.instance_id))
+        if limit is not None:
+            sessions = sessions[: max(0, limit)]
         return tuple(SessionCard.from_record(item) for item in sessions)
 
     def continue_last(self, viewer_id: str) -> SessionCard | None:

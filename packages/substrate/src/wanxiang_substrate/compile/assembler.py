@@ -8,6 +8,7 @@ coverage, rights, and unresolved-gap status. Validation separates preview
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import dataclass
 
 from wanxiang_domain.errors import ContractError
@@ -36,6 +37,17 @@ class WorldPackageDraft:
     rights_ok: bool
     for_preview: bool
     draft: WorldDraft
+
+    def to_dict(self) -> dict[str, object]:
+        from wanxiang_substrate.compile.package_serialization import package_to_dict
+
+        return package_to_dict(self)
+
+    @classmethod
+    def from_dict(cls, data: Mapping[str, object]) -> WorldPackageDraft:
+        from wanxiang_substrate.compile.package_serialization import package_from_dict
+
+        return package_from_dict(data)
 
     def __post_init__(self) -> None:
         if not self.package_id or not self.draft_id:
