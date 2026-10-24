@@ -41,9 +41,7 @@ class _Opener:
 
 
 def _install(monkeypatch: pytest.MonkeyPatch, payloads: list[dict[str, object]]) -> _Opener:
-    opener = _Opener(
-        [json.dumps(payload, separators=(",", ":")).encode() for payload in payloads]
-    )
+    opener = _Opener([json.dumps(payload, separators=(",", ":")).encode() for payload in payloads])
 
     def factory(*handlers: object) -> _Opener:
         _ = handlers
@@ -88,9 +86,7 @@ def test_marble_submit_uses_project_key_and_stable_idempotency_key(
     assert request.full_url.endswith("/api/v2/tasks:atlasTextToImage")
     assert request.get_header("Wlt-api-key") == "wl-test-secret"
     assert request.get_header("Idempotency-key") == "scene-logical-1"
-    assert json.loads(request.data.decode()) == {
-        "prompt": "quiet source-grounded courtyard"
-    }
+    assert json.loads(request.data.decode()) == {"prompt": "quiet source-grounded courtyard"}
 
 
 def test_marble_poll_uses_done_as_only_terminal_signal(
@@ -112,9 +108,7 @@ def test_marble_poll_uses_done_as_only_terminal_signal(
     operation = _client().poll("op-1")
 
     assert operation.state == "succeeded"
-    assert operation.response == {
-        "frames": [{"imageAsset": {"assetId": "asset-1"}}]
-    }
+    assert operation.response == {"frames": [{"imageAsset": {"assetId": "asset-1"}}]}
     assert operation.task == "atlasTextToImage"
     assert opener.requests[0].get_method() == "GET"
 
