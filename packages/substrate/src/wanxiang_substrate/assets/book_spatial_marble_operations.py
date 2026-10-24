@@ -56,7 +56,7 @@ class _MarbleOperationClient:
         *,
         api_key: str,
         timeout_seconds: float = 120.0,
-        max_json_bytes: int = _MAX_JSON_BYTES,
+        max_json_bytes: object = _MAX_JSON_BYTES,
     ) -> None:
         self.api_base = _validate_provider_endpoint(api_base, label="Marble API").rstrip("/")
         if not api_key.strip():
@@ -221,7 +221,7 @@ class _MarbleOperationClient:
         operation_id: str,
         *,
         request_id: str,
-        reason: str = "",
+        reason: object = "",
     ) -> _MarbleOperation:
         clean = self._safe_id(
             operation_id,
