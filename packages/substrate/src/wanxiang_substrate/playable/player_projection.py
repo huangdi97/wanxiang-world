@@ -151,11 +151,9 @@ def player_observation(
                 max_preview_scenes=1,
                 preferred_places=(location,),
             )
-            if (
-                current_plan.scene_requests
-                and _place_identity(current_plan.scene_requests[0].place_name)
-                == _place_identity(location)
-            ):
+            if current_plan.scene_requests and _place_identity(
+                current_plan.scene_requests[0].place_name
+            ) == _place_identity(location):
                 current_assets = _render_visual_plan(current_plan)
                 chosen = current_assets[0] if current_assets else None
         if chosen is None and assets:
