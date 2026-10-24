@@ -67,7 +67,10 @@ def test_player_spatial_generation_auto_polls_across_detail_and_live_world() -> 
     assert 'model.world?.world?.profile_id||model.view?.world?.profile_id||""' in SCRIPT
     assert "rememberSpatialTicket(submitted.spatial)" in SCRIPT
     assert "rememberSpatialTicket(cancelled.spatial)" in SCRIPT
-    assert "submitSpatialPlace(place,retryTerminal=false){const profile=currentSpatialProfile()" in SCRIPT
+    assert (
+        "submitSpatialPlace(place,retryTerminal=false){const profile=currentSpatialProfile()"
+        in SCRIPT
+    )
     assert "cancelSpatialJob(submissionId){const profile=currentSpatialProfile()" in SCRIPT
     assert "if(refreshed)model.spatialStatus=refreshed" in SCRIPT
     assert 'else if(document.querySelector("#play-view.is-active"))renderPlay()' in SCRIPT
