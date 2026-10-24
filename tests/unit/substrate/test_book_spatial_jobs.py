@@ -1057,7 +1057,7 @@ def test_negative_t3_retry_attempt_is_rejected_before_provider_call() -> None:
     provider = _FakeSpatialProvider()
     coordinator = _coordinator(provider)
 
-    with pytest.raises(ValueError, match="attempt must be non-negative"):
+    with pytest.raises(ValueError, match="attempt must be a non-negative integer"):
         coordinator.submit(
             _request(),
             allow_network=True,
