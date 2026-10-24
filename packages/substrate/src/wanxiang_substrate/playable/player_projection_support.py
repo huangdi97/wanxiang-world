@@ -16,6 +16,8 @@ from wanxiang_domain.delta import (
 from wanxiang_domain.entity import EntityState, FieldValue
 from wanxiang_domain.event import CommittedEvent
 
+from wanxiang_substrate.assets.book_scene_context import _place_identity
+
 from wanxiang_substrate.playable.player_i18n import _PlayerCopy
 from wanxiang_substrate.playable.state_diff import DiffChange
 
@@ -113,6 +115,17 @@ def _person_card(entity: EntityState, copy: _PlayerCopy) -> dict[str, object]:
     }
 
 
+def _same_location(left: object, right: object) -> bool:
+    """Source-equivalent location labels represent one place, never a fuzzy match."""
+    return (
+        isinstance(left, str)
+        and isinstance(right, str)
+        and bool(left.strip())
+        and bool(right.strip())
+        and _place_identity(left) == _place_identity(right)
+    )
+
+
 def _known_people_cards(
     people: tuple[EntityState, ...],
     relations: tuple[Any, ...],
@@ -124,7 +137,7 @@ def _known_people_cards(
     present_ids = {
         person.entity_id.value
         for person in people
-        if location and _person_card(person, copy)["location"] == location
+        if _same_location(_person_card(person, copy)["location"], location)
     }
     related_ids: set[str] = set()
     if actor_id:

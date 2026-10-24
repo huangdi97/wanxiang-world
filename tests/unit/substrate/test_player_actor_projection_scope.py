@@ -17,6 +17,7 @@ from wanxiang_substrate.playable.player_projection_support import (
     _known_people_cards,
     _opportunity_cards,
     _person_card,
+    _same_location,
 )
 
 
@@ -198,3 +199,23 @@ def test_owner_scoped_opportunities_and_current_event_stay_private() -> None:
         _event_card((_entity("bob-event", "event", "actor-bob"),), {}, copy, "actor-alice") is None
     )
     assert _event_card((_entity("bob-event", "event", "actor-bob"),), {}, copy, "") is None
+
+
+def test_present_people_use_source_equivalent_location_identity() -> None:
+    copy = _copy_for("zh-CN")
+    decomposed = "Cafe\u0301"
+    composed = "Café"
+    spaced = "  café  "
+
+    assert _same_location(decomposed, composed)
+    assert _same_location(spaced, composed)
+
+    bob = _entity("bob", "person", location=decomposed)
+    cards = _known_people_cards((bob,), (), "", spaced, copy)
+    assert [str(card["name"]) for card in cards] == ["bob"]
+    assert cards[0]["location"] == decomposed
+
+
+def test_location_identity_does_not_fuzzy_merge_distinct_places() -> None:
+    assert not _same_location("Garden", "Garden Annex")
+    assert not _same_location(None, "Garden")

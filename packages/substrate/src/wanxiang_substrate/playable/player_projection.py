@@ -40,6 +40,7 @@ from wanxiang_substrate.playable.player_projection_support import (
     _opportunity_cards,
     _person_card,
     _relation_card,
+    _same_location,
     _status_label,
 )
 from wanxiang_substrate.playable.player_spatial_projection import (
@@ -104,7 +105,7 @@ def player_observation(
     location = canonical_location or actor_starting_location or None
     person_entities = tuple(entity for entity in entities if _is_person(entity))
     person_cards = [_person_card(entity, copy) for entity in person_entities]
-    people = [person for person in person_cards if location and person["location"] == location]
+    people = [person for person in person_cards if _same_location(person["location"], location)]
     known_people = _known_people_cards(person_entities, state_relations, actor_id, location, copy)
     environment = _first_text_from_entities(entities, ("environment", "setting"))
     weather = _first_text_from_entities(entities, ("weather", "climate"))
@@ -152,7 +153,8 @@ def player_observation(
             )
             if (
                 current_plan.scene_requests
-                and current_plan.scene_requests[0].place_name.casefold() == location.casefold()
+                and _place_identity(current_plan.scene_requests[0].place_name)
+                == _place_identity(location)
             ):
                 current_assets = _render_visual_plan(current_plan)
                 chosen = current_assets[0] if current_assets else None
