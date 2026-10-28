@@ -8,7 +8,7 @@ canonical world state or History.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from wanxiang_domain.errors import ContractError, NotFound
 
@@ -196,7 +196,7 @@ def _materialize_visual_place(
     reusing_idempotent_reservation = False
     if owner and provider is not None and max_deferred_generations > 0:
         cached = service._visual_cache.get_for(request, provider, rights=plan.delivery_rights)
-        provider_cost = provider.cost_units_per_asset
+        provider_cost = cast(object, provider.cost_units_per_asset)
         provider_cost_valid = (
             not isinstance(provider_cost, bool)
             and isinstance(provider_cost, int)
