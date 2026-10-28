@@ -317,11 +317,14 @@ def test_product_visual_overrun_falls_back_without_caching_overbudget_asset() ->
     assert result.fallback_reason == "provider_failure"
     assert result.cost_units == 3
     assert result.provider_usage_units == 3
-    assert cache.get_for(
-        plan.scene_requests[0],
-        _OverrunRemoteProvider(),
-        rights=plan.delivery_rights,
-    ) is None
+    assert (
+        cache.get_for(
+            plan.scene_requests[0],
+            _OverrunRemoteProvider(),
+            rights=plan.delivery_rights,
+        )
+        is None
+    )
 
 
 class _FailingRemoteProvider(_RemoteLikeProvider):

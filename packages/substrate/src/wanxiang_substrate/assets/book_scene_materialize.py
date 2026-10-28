@@ -190,8 +190,7 @@ def _materialize_visual_plan(
                 and asset.provider_usage_units > selected_provider.cost_units_per_asset
             ):
                 observed_usage = asset.provider_usage_units + sum(
-                    existing.provider_usage_units or 0
-                    for existing, _ref in generated.values()
+                    existing.provider_usage_units or 0 for existing, _ref in generated.values()
                 )
                 raise _provider_failure(
                     "visual provider usage exceeds reserved cost",

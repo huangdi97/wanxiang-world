@@ -82,4 +82,3 @@ def test_panorama_budget_reconciles_provider_overrun_conservatively(
     # A later lower report cannot erase already observed spend.
     again = ledger.reconcile("world-a", "scene-a", 5, 10)
     assert again.reserved == 13
-
