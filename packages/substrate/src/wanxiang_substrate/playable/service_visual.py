@@ -29,7 +29,7 @@ from wanxiang_substrate.assets.book_spatial_frame import (
 from wanxiang_substrate.assets.book_spatial_types import _SpatialProjectionFrame
 from wanxiang_substrate.assets.storage import AssetRef
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
-from wanxiang_substrate.playable.service_visual_provider import _provider_cost_units
+from wanxiang_substrate.playable.service_visual_provider import provider_cost_units
 
 if TYPE_CHECKING:
     from wanxiang_substrate.playable.service import PlayableService
@@ -197,7 +197,7 @@ def _materialize_visual_place(
     reusing_idempotent_reservation = False
     if owner and provider is not None and max_deferred_generations > 0:
         cached = service._visual_cache.get_for(request, provider, rights=plan.delivery_rights)
-        provider_cost = _provider_cost_units(provider)
+        provider_cost = provider_cost_units(provider)
         provider_eligible = (
             provider_cost is not None
             and provider_cost <= max_cost_units
