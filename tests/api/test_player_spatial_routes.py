@@ -163,7 +163,7 @@ def test_t3_capability_fails_closed_for_non_integer_provider_cost(
     invalid_cost: object,
 ) -> None:
     provider = _FakeSpatialProvider()
-    setattr(provider, "cost_units_per_job", invalid_cost)
+    provider.cost_units_per_job = invalid_cost  # type: ignore[assignment]
     _, client, profile_id = _world(
         spatial_provider=provider,
         spatial_allow_network=True,
