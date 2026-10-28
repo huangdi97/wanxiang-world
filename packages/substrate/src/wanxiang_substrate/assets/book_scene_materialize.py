@@ -185,6 +185,21 @@ def _materialize_visual_plan(
                     cache_hits=len(cached_rows),
                     provider=selected_provider,
                 )
+            if (
+                asset.provider_usage_units is not None
+                and asset.provider_usage_units > selected_provider.cost_units_per_asset
+            ):
+                observed_usage = asset.provider_usage_units + sum(
+                    existing.provider_usage_units or 0
+                    for existing, _ref in generated.values()
+                )
+                raise _provider_failure(
+                    "visual provider usage exceeds reserved cost",
+                    attempted_calls=attempted_calls,
+                    cache_hits=len(cached_rows),
+                    provider=selected_provider,
+                    observed_usage_units=observed_usage,
+                )
             ref = asset_cache.put(asset, rights=delivery_rights)
             generated[request.stable_key] = (asset, ref)
 

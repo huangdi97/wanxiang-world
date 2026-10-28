@@ -62,6 +62,7 @@ def _materialize_product_visual_plan(
         reason: str,
         provider_calls: int,
         cost_units: int,
+        provider_usage_units: int | None = None,
     ) -> _VisualMaterialization:
         hits, missing = provider_hits(active)
         rendered = _materialize_visual_plan(
@@ -86,6 +87,7 @@ def _materialize_product_visual_plan(
             cost_units=cost_units,
             fallback_from_provider=_provider_identity(active),
             fallback_reason=reason,
+            provider_usage_units=provider_usage_units,
         )
 
     try:
@@ -111,4 +113,5 @@ def _materialize_product_visual_plan(
             reason="provider_failure",
             provider_calls=failure.provider_calls,
             cost_units=failure.cost_units,
+            provider_usage_units=failure.provider_usage_units,
         )

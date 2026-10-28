@@ -294,6 +294,36 @@ def test_product_visual_ladder_falls_back_when_provider_cost_is_invalid() -> Non
     assert result.fallback_reason == "provider_cost_invalid"
 
 
+class _OverrunRemoteProvider(_RemoteLikeProvider):
+    def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
+        return replace(super().produce(request), provider_usage_units=3)
+
+
+def test_product_visual_overrun_falls_back_without_caching_overbudget_asset() -> None:
+    plan = _plan(
+        _request("超支现场", "provider-overrun"),
+        external_processing_allowed=True,
+    )
+    cache = _VisualAssetCache()
+    result = _materialize_product_visual_plan(
+        plan,
+        provider=_OverrunRemoteProvider(),
+        cache=cache,
+        allow_network=True,
+        max_cost_units=2,
+    )
+
+    assert result.assets[0].provider_id == "procedural-svg"
+    assert result.fallback_reason == "provider_failure"
+    assert result.cost_units == 3
+    assert result.provider_usage_units == 3
+    assert cache.get_for(
+        plan.scene_requests[0],
+        _OverrunRemoteProvider(),
+        rights=plan.delivery_rights,
+    ) is None
+
+
 class _FailingRemoteProvider(_RemoteLikeProvider):
     def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
         _ = request

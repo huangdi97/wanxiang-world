@@ -60,3 +60,26 @@ def test_local_panorama_budget_corruption_fails_closed(tmp_path: pathlib.Path) -
         ledger.usage("world-a", 10)
     with pytest.raises(ValueError, match="unreadable"):
         ledger.reserve("world-a", "scene-a", 3, 10)
+
+@pytest.mark.parametrize("ledger_kind", ["memory", "local"])
+def test_panorama_budget_reconciles_provider_overrun_conservatively(
+    tmp_path: pathlib.Path,
+    ledger_kind: str,
+) -> None:
+    ledger = (
+        _PanoramaBudgetLedger()
+        if ledger_kind == "memory"
+        else _LocalJson_PanoramaBudgetLedger(tmp_path / "panorama-overrun.json")
+    )
+    ledger.reserve("world-a", "scene-a", 4, 10)
+
+    usage = ledger.reconcile("world-a", "scene-a", 13, 10)
+
+    assert usage.reserved == 13
+    assert usage.remaining == 0
+    assert usage.reservations == 1
+    assert ledger.reservation_cost("world-a", "scene-a") == 13
+    # A later lower report cannot erase already observed spend.
+    again = ledger.reconcile("world-a", "scene-a", 5, 10)
+    assert again.reserved == 13
+

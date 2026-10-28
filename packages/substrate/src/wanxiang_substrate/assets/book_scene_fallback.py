@@ -31,11 +31,13 @@ class _VisualProviderFailure(ValueError):
         provider_calls: int,
         cache_hits: int,
         cost_units: int,
+        provider_usage_units: int | None = None,
     ) -> None:
         super().__init__(message)
         self.provider_calls = provider_calls
         self.cache_hits = cache_hits
         self.cost_units = cost_units
+        self.provider_usage_units = provider_usage_units
 
 
 def _provider_failure(
@@ -44,12 +46,15 @@ def _provider_failure(
     attempted_calls: int,
     cache_hits: int,
     provider: SceneImageProvider,
+    observed_usage_units: int | None = None,
 ) -> _VisualProviderFailure:
+    reserved = provider.cost_units_per_asset * attempted_calls
     return _VisualProviderFailure(
         message,
         provider_calls=attempted_calls,
         cache_hits=cache_hits,
-        cost_units=provider.cost_units_per_asset * attempted_calls,
+        cost_units=max(reserved, observed_usage_units or 0),
+        provider_usage_units=observed_usage_units,
     )
 
 
