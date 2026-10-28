@@ -64,7 +64,15 @@ def panorama_generation_view(
         generation["reason"] = "provider_not_configured"
         return {"generation": generation, "ready_places": ready_places}
 
-    generation["cost_units"] = provider.cost_units_per_asset
+    provider_cost = cast(object, provider.cost_units_per_asset)
+    if (
+        isinstance(provider_cost, bool)
+        or not isinstance(provider_cost, int)
+        or provider_cost < 0
+    ):
+        generation["reason"] = "budget_insufficient"
+        return {"generation": generation, "ready_places": ready_places}
+    generation["cost_units"] = provider_cost
     if provider.presentation_kind != "panorama":
         generation["reason"] = "provider_not_panorama"
         return {"generation": generation, "ready_places": ready_places}
@@ -89,7 +97,7 @@ def panorama_generation_view(
             )
             resume_reserved = (
                 ledger.reservation_cost(profile_id, reservation_key)
-                == provider.cost_units_per_asset
+                == provider_cost
             )
     generation["resume_reserved"] = resume_reserved
     private_source = (
@@ -101,9 +109,7 @@ def panorama_generation_view(
         generation["reason"] = "source_external_processing_not_allowed"
     elif private_source and not provider.private_safe:
         generation["reason"] = "private_source_provider_not_safe"
-    elif provider.cost_units_per_asset < 0 or (
-        usage.remaining < provider.cost_units_per_asset and not resume_reserved
-    ):
+    elif usage.remaining < provider_cost and not resume_reserved:
         generation["reason"] = "budget_insufficient"
     else:
         generation.update(
