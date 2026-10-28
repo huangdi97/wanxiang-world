@@ -10,6 +10,7 @@ from __future__ import annotations
 
 from typing import cast
 
+from wanxiang_substrate.assets.book_scene_identity import _source_scene_key
 from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets
 from wanxiang_substrate.assets.book_scene_visual import (
     _render_visual_plan,
@@ -137,11 +138,36 @@ def player_world_detail(
         assets = visual_assets
         if assets is None:
             assets = _render_visual_plan(plan)
+        spatial_keys = set((spatial_assets or {}).keys())
+        # A T3 attachment may be generated directly for a deferred source place.
+        # Give that spatial anchor a deterministic T0 backdrop in the read model
+        # so it is immediately reachable in World Detail without calling a paid
+        # provider or creating Canon/History.
+        if spatial_keys:
+            asset_keys = {asset.scene_key for asset in assets}
+            supplemental: list[_SceneVisualAsset] = []
+            for place in plan.place_names:
+                scene_key = _source_scene_key(plan.source_digest, place)
+                if scene_key not in spatial_keys or scene_key in asset_keys:
+                    continue
+                targeted = _plan_book_scene_assets(
+                    package,
+                    max_preview_scenes=1,
+                    preferred_places=(place,),
+                )
+                if (
+                    targeted.scene_requests
+                    and targeted.scene_requests[0].stable_key == scene_key
+                ):
+                    rendered = _render_visual_plan(targeted)
+                    if rendered:
+                        supplemental.append(rendered[0])
+            if supplemental:
+                assets = (*assets, *supplemental)
         support_by_key = _scene_support_for_assets(package, assets, copy)
         generated_places = {asset.place_name for asset in assets}
         asset_by_place = {asset.place_name: asset for asset in assets}
         evidence_by_place = {item.place_name: item for item in plan.place_evidence}
-        spatial_keys = set((spatial_assets or {}).keys())
 
         def place_row(place: str) -> dict[str, object]:
             asset = asset_by_place.get(place)
