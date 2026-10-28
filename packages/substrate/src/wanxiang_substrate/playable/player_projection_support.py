@@ -6,29 +6,20 @@ from __future__ import annotations
 
 from typing import Any
 
-from wanxiang_domain.delta import EntityCreate, EntityDelete, EntityUpdate, RelationCreate, RelationDelete
+from wanxiang_domain.delta import (
+    EntityCreate,
+    EntityDelete,
+    EntityUpdate,
+    RelationCreate,
+    RelationDelete,
+)
 from wanxiang_domain.entity import EntityState, FieldValue
 from wanxiang_domain.event import CommittedEvent
 
 from wanxiang_substrate.assets.book_scene_context import _place_identity
 from wanxiang_substrate.playable.player_i18n import _PlayerCopy
+from wanxiang_substrate.playable.player_projection_labels import _CATEGORY_KEYS, _STATUS_KEYS
 from wanxiang_substrate.playable.state_diff import DiffChange
-
-_STATUS_KEYS = {
-    "awake": "status_awake", "alert": "status_alert", "resting": "status_resting",
-    "calm": "status_calm", "tense": "status_tense",
-}
-_CATEGORY_KEYS = {
-    "actor": "category_actor",
-    "location": "category_location",
-    "relation": "category_relation",
-    "item": "category_item",
-    "task": "category_task",
-    "knowledge": "category_knowledge",
-    "organization": "category_organization",
-    "family": "category_organization",
-    "state": "category_state",
-}
 
 
 def _entity_fields(entity: EntityState | None) -> dict[str, FieldValue]:
