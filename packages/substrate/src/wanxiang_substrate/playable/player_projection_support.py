@@ -6,13 +6,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from wanxiang_domain.delta import (
-    EntityCreate,
-    EntityDelete,
-    EntityUpdate,
-    RelationCreate,
-    RelationDelete,
-)
+from wanxiang_domain.delta import EntityCreate, EntityDelete, EntityUpdate, RelationCreate, RelationDelete
 from wanxiang_domain.entity import EntityState, FieldValue
 from wanxiang_domain.event import CommittedEvent
 
@@ -21,11 +15,8 @@ from wanxiang_substrate.playable.player_i18n import _PlayerCopy
 from wanxiang_substrate.playable.state_diff import DiffChange
 
 _STATUS_KEYS = {
-    "awake": "status_awake",
-    "alert": "status_alert",
-    "resting": "status_resting",
-    "calm": "status_calm",
-    "tense": "status_tense",
+    "awake": "status_awake", "alert": "status_alert", "resting": "status_resting",
+    "calm": "status_calm", "tense": "status_tense",
 }
 _CATEGORY_KEYS = {
     "actor": "category_actor",
