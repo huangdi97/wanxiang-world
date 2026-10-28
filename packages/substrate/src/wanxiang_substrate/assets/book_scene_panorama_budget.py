@@ -81,26 +81,6 @@ class _PanoramaBudgetLedger:
             rows[reservation_key] = cost_units
             return _snapshot(dict(rows), budget)
 
-    def reconcile(
-        self,
-        scope_key: str,
-        reservation_key: str,
-        actual_cost_units: int,
-        budget: int,
-    ) -> _PanoramaBudgetSnapshot:
-        """Record provider-reported spend after a call, never reducing a reservation."""
-        if not scope_key or not reservation_key:
-            raise ValueError("panorama reconciliation requires scope and identity")
-        _require_nonnegative_int(actual_cost_units, label="panorama actual cost")
-        _require_nonnegative_int(budget, label="panorama budget")
-        with self._lock:
-            rows = self._rows.setdefault(scope_key, {})
-            existing = rows.get(reservation_key)
-            if existing is None:
-                raise ValueError("panorama reconciliation requires an existing reservation")
-            rows[reservation_key] = max(existing, actual_cost_units)
-            return _snapshot(dict(rows), budget)
-
 
 class _LocalJson_PanoramaBudgetLedger(_PanoramaBudgetLedger):
     """Cross-process local reservation ledger; malformed state fails closed."""
@@ -183,28 +163,6 @@ class _LocalJson_PanoramaBudgetLedger(_PanoramaBudgetLedger):
             if sum(scoped.values()) + cost_units > budget:
                 raise ValueError("panorama world budget is exhausted")
             scoped[reservation_key] = cost_units
-            self._write(rows)
-            return _snapshot(dict(scoped), budget)
-
-    def reconcile(
-        self,
-        scope_key: str,
-        reservation_key: str,
-        actual_cost_units: int,
-        budget: int,
-    ) -> _PanoramaBudgetSnapshot:
-        if not scope_key or not reservation_key:
-            raise ValueError("panorama reconciliation requires scope and identity")
-        _require_nonnegative_int(actual_cost_units, label="panorama actual cost")
-        _require_nonnegative_int(budget, label="panorama budget")
-        lock_path = self._path.with_suffix(self._path.suffix + ".lock")
-        with _exclusive_index_lock(lock_path):
-            rows = self._read()
-            scoped = rows.setdefault(scope_key, {})
-            existing = scoped.get(reservation_key)
-            if existing is None:
-                raise ValueError("panorama reconciliation requires an existing reservation")
-            scoped[reservation_key] = max(existing, actual_cost_units)
             self._write(rows)
             return _snapshot(dict(scoped), budget)
 

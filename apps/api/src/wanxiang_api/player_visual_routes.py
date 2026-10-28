@@ -8,7 +8,6 @@ from typing import cast
 
 from fastapi import APIRouter, Header, HTTPException, Request
 from pydantic import BaseModel, Field
-from wanxiang_substrate.assets.book_scene_fallback import _VisualProviderFailure
 from wanxiang_substrate.assets.book_scene_panorama_budget import PanoramaBudgetLedger
 from wanxiang_substrate.assets.book_scene_types import SceneImageProvider
 from wanxiang_substrate.playable import PlayableService
@@ -196,20 +195,6 @@ def player_upgrade_visual_place_to_panorama(
             max_cost_units=budget,
             fallback_to_t0=False,
         )
-    except _VisualProviderFailure as exc:
-        try:
-            ledger.reconcile(
-                profile_id,
-                reservation_key,
-                exc.cost_units,
-                budget,
-            )
-        except ValueError as reconcile_exc:
-            raise HTTPException(
-                status_code=409,
-                detail="panorama provider spend reconciliation failed",
-            ) from reconcile_exc
-        raise HTTPException(status_code=409, detail=str(exc)) from exc
     except ValueError as exc:
         raise HTTPException(status_code=409, detail=str(exc)) from exc
     non_panorama = any(asset.presentation_kind != "panorama" for asset in result.assets)
