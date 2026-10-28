@@ -22,7 +22,6 @@ from wanxiang_persistence.event_store import SqlAlchemyEventStore
 from wanxiang_persistence.instance_repository import WorldInstanceRepository
 from wanxiang_persistence.snapshot_store import SqlAlchemySnapshotStore
 from wanxiang_runtime.resolver import ResolverRegistry
-from wanxiang_substrate.assets.book_generation_budget import _require_nonnegative_int
 from wanxiang_substrate.assets.book_scene_budget import VisualBudgetLedger
 from wanxiang_substrate.assets.book_scene_cache import (
     LocalJsonVisualCacheIndex,
@@ -76,6 +75,11 @@ API_TITLE = "Wanxiang World API"
 API_VERSION = "0.1.0"
 
 
+def _require_nonnegative_budget(value: object, *, label: str) -> None:
+    if isinstance(value, bool) or not isinstance(value, int) or value < 0:
+        raise ValueError(f"{label} must be non-negative integer")
+
+
 def build_runtime(
     database_url: str,
     *,
@@ -119,9 +123,9 @@ def create_app(
     spatial_max_cost_units: int = 0,
     playable_store: PlayableStore | None = None,
 ) -> FastAPI:
-    _require_nonnegative_int(visual_max_cost_units, label="visual_max_cost_units")
-    _require_nonnegative_int(panorama_max_cost_units, label="panorama_max_cost_units")
-    _require_nonnegative_int(spatial_max_cost_units, label="spatial_max_cost_units")
+    _require_nonnegative_budget(visual_max_cost_units, label="visual_max_cost_units")
+    _require_nonnegative_budget(panorama_max_cost_units, label="panorama_max_cost_units")
+    _require_nonnegative_budget(spatial_max_cost_units, label="spatial_max_cost_units")
     if visual_provider is None:
         visual_provider, visual_allow_network, visual_max_cost_units = _select_visual_runtime(
             allow_network=visual_allow_network,
