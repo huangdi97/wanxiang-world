@@ -7,7 +7,7 @@ from __future__ import annotations
 import hashlib
 import json
 from dataclasses import replace
-from typing import Any
+from typing import Any, cast
 
 import pytest
 from fastapi.testclient import TestClient
@@ -546,6 +546,20 @@ def test_t3_application_factory_fails_closed_for_invalid_network_or_budget_confi
         create_app(build_reference_runtime(), spatial_allow_network=True)
     with pytest.raises(ValueError, match="spatial_max_cost_units"):
         create_app(build_reference_runtime(), spatial_max_cost_units=-1)
+
+
+@pytest.mark.parametrize("invalid_budget", [True, 1.5, "7"])
+@pytest.mark.parametrize(
+    "field",
+    ["visual_max_cost_units", "panorama_max_cost_units", "spatial_max_cost_units"],
+)
+def test_application_factory_requires_discrete_generation_budget_units(
+    invalid_budget: object,
+    field: str,
+) -> None:
+    factory = cast(Any, create_app)
+    with pytest.raises(ValueError, match=field):
+        factory(build_reference_runtime(), **{field: invalid_budget})
 
 
 def test_t3_restart_rehydrates_verified_asset_without_provider_recall() -> None:

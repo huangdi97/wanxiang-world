@@ -22,6 +22,7 @@ from wanxiang_persistence.event_store import SqlAlchemyEventStore
 from wanxiang_persistence.instance_repository import WorldInstanceRepository
 from wanxiang_persistence.snapshot_store import SqlAlchemySnapshotStore
 from wanxiang_runtime.resolver import ResolverRegistry
+from wanxiang_substrate.assets.book_generation_budget import _require_nonnegative_int
 from wanxiang_substrate.assets.book_scene_budget import VisualBudgetLedger
 from wanxiang_substrate.assets.book_scene_cache import (
     LocalJsonVisualCacheIndex,
@@ -118,12 +119,9 @@ def create_app(
     spatial_max_cost_units: int = 0,
     playable_store: PlayableStore | None = None,
 ) -> FastAPI:
-    if visual_max_cost_units < 0:
-        raise ValueError("visual_max_cost_units must be non-negative")
-    if panorama_max_cost_units < 0:
-        raise ValueError("panorama_max_cost_units must be non-negative")
-    if spatial_max_cost_units < 0:
-        raise ValueError("spatial_max_cost_units must be non-negative")
+    _require_nonnegative_int(visual_max_cost_units, label="visual_max_cost_units")
+    _require_nonnegative_int(panorama_max_cost_units, label="panorama_max_cost_units")
+    _require_nonnegative_int(spatial_max_cost_units, label="spatial_max_cost_units")
     if visual_provider is None:
         visual_provider, visual_allow_network, visual_max_cost_units = _select_visual_runtime(
             allow_network=visual_allow_network,
