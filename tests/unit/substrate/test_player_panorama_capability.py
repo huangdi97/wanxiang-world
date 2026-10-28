@@ -8,11 +8,10 @@ from typing import cast
 import pytest
 from fastapi import Request
 from tests.unit.substrate.test_book_scene_plan import package_from_book
+from wanxiang_api.player_panorama_views import panorama_generation_view
 from wanxiang_substrate.assets.book_scene_panorama_budget import PanoramaBudgetLedger
 from wanxiang_substrate.assets.book_scene_types import SceneImageProvider
 from wanxiang_substrate.playable import PlayableService
-
-from wanxiang_api.player_panorama_views import panorama_generation_view
 
 
 class _ServiceStub:
