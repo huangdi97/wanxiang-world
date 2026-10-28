@@ -145,7 +145,6 @@ STRINGS: dict[str, str] = {
     "visual_place_generate": "Generate scene",
     "visual_tier_t0": "T0 · offline scene",
     "visual_tier_t1": "T1 · high-quality scene",
-    "visual_tier_t2": "T2 · panorama / 2.5D",
     "visual_tier_t3": "T3 · 3D space",
     "visual_evidence_count": "{count} source evidences",
     "visual_budget_status": "on-demand visuals {used}/{limit}",

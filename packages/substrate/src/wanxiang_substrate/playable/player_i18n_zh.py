@@ -135,7 +135,6 @@ STRINGS: dict[str, str] = {
     "visual_place_generate": "生成场景",
     "visual_tier_t0": "T0 · 离线场景",
     "visual_tier_t1": "T1 · 高质量场景",
-    "visual_tier_t2": "T2 · 全景 / 2.5D",
     "visual_tier_t3": "T3 · 3D 空间",
     "visual_evidence_count": "{count} 条原文证据",
     "visual_budget_status": "按需生成 {used}/{limit}",

@@ -8,7 +8,7 @@ canonical world state or History.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING
 
 from wanxiang_domain.errors import ContractError, NotFound
 
@@ -29,6 +29,7 @@ from wanxiang_substrate.assets.book_spatial_frame import (
 from wanxiang_substrate.assets.book_spatial_types import _SpatialProjectionFrame
 from wanxiang_substrate.assets.storage import AssetRef
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
+from wanxiang_substrate.playable.service_visual_provider import _provider_cost_units
 
 if TYPE_CHECKING:
     from wanxiang_substrate.playable.service import PlayableService
@@ -196,16 +197,7 @@ def _materialize_visual_place(
     reusing_idempotent_reservation = False
     if owner and provider is not None and max_deferred_generations > 0:
         cached = service._visual_cache.get_for(request, provider, rights=plan.delivery_rights)
-        raw_provider_cost = cast(object, provider.cost_units_per_asset)
-        provider_cost: int | None = (
-            raw_provider_cost
-            if (
-                not isinstance(raw_provider_cost, bool)
-                and isinstance(raw_provider_cost, int)
-                and raw_provider_cost >= 0
-            )
-            else None
-        )
+        provider_cost = _provider_cost_units(provider)
         provider_eligible = (
             provider_cost is not None
             and provider_cost <= max_cost_units

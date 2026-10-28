@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 _PANORAMA_STRINGS: dict[str, str] = {
+    "visual_tier_t2": "T2 · panorama / 2.5D",
     "panorama_stage_enter": "Enter panorama",
     "panorama_stage_exit": "Return to visual scene",
     "panorama_stage_error": (

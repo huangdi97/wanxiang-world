@@ -6,8 +6,7 @@ from wanxiang_api.player_ui_generation_jobs import GENERATION_JOB_FUNCTIONS
 
 SCRIPT = (
     r"""
-const USER="studio";
-const i18n=window.__PLAYER_I18N__||{locale:"zh-CN",strings:{}};
+const USER="studio",i18n=window.__PLAYER_I18N__||{locale:"zh-CN",strings:{}};
 const LOCALE=i18n.locale||"zh-CN";
 const tr=(key,values={})=>String(i18n.strings?.[key]??key).replace(/\{(\w+)\}/g,(_,name)=>String(values[name]??""));
 const model={plaza:null,characters:[],world:null,view:null,instanceId:"",filter:"all",query:"",selectedCharacter:"",placeQuery:"",placeLimit:36,observerScene:"",stageFocus:false,spatialStatus:null,spatialPollTimer:0,spatialPollDelay:5000,spatialPollBusy:false,replay:null,history:null,historyExpanded:false};

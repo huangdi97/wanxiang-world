@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 _PANORAMA_STRINGS: dict[str, str] = {
+    "visual_tier_t2": "T2 · 全景 / 2.5D",
     "panorama_stage_enter": "进入全景",
     "panorama_stage_exit": "返回视觉场景",
     "panorama_stage_error": "全景渲染器加载失败；已保留当前视觉场景。",
