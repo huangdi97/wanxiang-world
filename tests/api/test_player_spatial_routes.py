@@ -157,6 +157,30 @@ def test_t3_capability_fails_closed_for_negative_provider_cost() -> None:
     }
 
 
+
+@pytest.mark.parametrize("invalid_cost", [True, 1.5, float("nan"), "7"])
+def test_t3_capability_fails_closed_for_non_integer_provider_cost(
+    invalid_cost: object,
+) -> None:
+    provider = _FakeSpatialProvider()
+    setattr(provider, "cost_units_per_job", invalid_cost)
+    _, client, profile_id = _world(
+        spatial_provider=provider,
+        spatial_allow_network=True,
+        spatial_max_cost_units=7,
+    )
+    response = client.get(
+        f"/experience/player/worlds/{profile_id}/spatial",
+        headers={"X-Wanxiang-User": "studio"},
+    )
+
+    assert response.status_code == 200
+    generation = response.json()["generation"]
+    assert generation["available"] is False
+    assert generation["reason"] == "budget_insufficient"
+    assert generation["cost_units"] == 0
+
+
 def test_t3_submit_transport_failure_is_retryable_without_fabricating_terminal_state() -> None:
     provider = _SubmitUnavailableSpatialProvider()
     app, client, profile_id = _world(

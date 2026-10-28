@@ -53,7 +53,12 @@ def spatial_generation_view(
             "budget_reserved": reserved,
             "budget_remaining": remaining,
         }
-    if provider.cost_units_per_job < 0:
+    provider_cost = cast(object, provider.cost_units_per_job)
+    if (
+        isinstance(provider_cost, bool)
+        or not isinstance(provider_cost, int)
+        or provider_cost < 0
+    ):
         return {
             "available": False,
             "reason": "budget_insufficient",
@@ -93,11 +98,11 @@ def spatial_generation_view(
             "budget_reserved": reserved,
             "budget_remaining": remaining,
         }
-    if provider.cost_units_per_job > remaining:
+    if provider_cost > remaining:
         return {
             "available": False,
             "reason": "budget_insufficient",
-            "cost_units": provider.cost_units_per_job,
+            "cost_units": provider_cost,
             "budget_total": budget,
             "budget_reserved": reserved,
             "budget_remaining": remaining,
@@ -105,7 +110,7 @@ def spatial_generation_view(
     return {
         "available": True,
         "reason": "",
-        "cost_units": provider.cost_units_per_job,
+        "cost_units": provider_cost,
         "budget_total": budget,
         "budget_reserved": reserved,
         "budget_remaining": remaining,
