@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Protocol
 
 from wanxiang_domain.event import CommittedEvent
-from wanxiang_domain.hierarchy import BranchId, BranchRevision
+from wanxiang_domain.hierarchy import BranchId
 from wanxiang_domain.ids import WorldInstanceId
 from wanxiang_domain.snapshot import SnapshotMetadata
 from wanxiang_runtime.state import InMemoryCanonicalState
@@ -19,14 +19,6 @@ class LivingRuntimePort(PreviewRuntimePort, Protocol):
     def create_checkpoint(
         self, instance_id: WorldInstanceId, branch_id: BranchId
     ) -> SnapshotMetadata: ...
-
-    def create_branch(
-        self,
-        instance_id: WorldInstanceId,
-        parent_branch_id: BranchId,
-        *,
-        fork_revision: BranchRevision | None = None,
-    ) -> object: ...
 
     def events(
         self, instance_id: WorldInstanceId, branch_id: BranchId

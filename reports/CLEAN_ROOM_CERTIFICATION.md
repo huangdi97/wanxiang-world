@@ -8,7 +8,7 @@ documented scripts (`release_build`, `backup_restore`, `wxpack`,`reference_world
 
 | Step | Result | Evidence |
 |---|---|---|
-| clean_tree | PASS | tracked modifications=0; caches=[]; documented out-of-scope docs=0 |
+| clean_tree | PASS | tracked modifications=0; caches=[]; documented out-of-scope docs=1 |
 | release_manifest | PASS | version=0.1.0; sha==HEAD=True; reproducible=True; head=0004_add_world_metadata |
 | migration_upgrade | PASS | 0001->head: 0001_initial -> 0004_add_world_metadata |
 | golden_replay | PASS | 5 events; hash match=True |
@@ -18,7 +18,7 @@ documented scripts (`release_build`, `backup_restore`, `wxpack`,`reference_world
 
 ## Verdict
 
-**PASS** - clean-room build/install/upgrade/restore/replay certified for commit a9be096ba0cda3b9c05d039e61e27cd529ca6b45.
+**PASS** - clean-room build/install/upgrade/restore/replay certified for commit 8ea068acf7a6a24b6bb75af43326ef5d5d83f36a.
 
 ## Evidence commands
 

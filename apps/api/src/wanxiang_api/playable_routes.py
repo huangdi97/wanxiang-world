@@ -7,6 +7,7 @@ from typing import cast
 from fastapi import APIRouter, Header, HTTPException, Request
 from pydantic import BaseModel, Field
 from wanxiang_substrate.playable import PlayableService
+from wanxiang_substrate.playable.actor_grounding import ground_missing_actor
 
 router = APIRouter(prefix="/experience")
 
@@ -126,9 +127,18 @@ def enter_world(
     request: Request,
     x_wanxiang_user: str | None = Header(default=None),
 ) -> dict[str, object]:
-    return _service(request).enter(
+    service = _service(request)
+    viewer = _viewer(x_wanxiang_user)
+    if payload.mode == "embodiment" and payload.character_id:
+        ground_missing_actor(
+            service,
+            profile_id,
+            payload.character_id,
+            viewer_id=viewer,
+        )
+    return service.enter(
         profile_id,
-        viewer_id=_viewer(x_wanxiang_user),
+        viewer_id=viewer,
         mode=payload.mode,
         session_id=payload.session_id,
         character_id=payload.character_id,

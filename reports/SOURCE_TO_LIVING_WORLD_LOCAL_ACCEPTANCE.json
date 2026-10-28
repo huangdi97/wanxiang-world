@@ -1,0 +1,199 @@
+{
+  "schema": "wanxiang.source-to-living-world.local-acceptance.v1",
+  "status": "SOURCE_TO_LIVING_WORLD_LOCAL = PASS_WITH_EXTERNAL_BLOCKERS",
+  "generated_at_utc": "2026-10-09T00:00:00Z",
+  "repo": {
+    "remote_head": "06c872e",
+    "local_head": "06c872e",
+    "branch": "feature/source-to-visual-world",
+    "working_tree": "clean except preserved user file WANXIANG_R7_NEW_CONVERSATION_HANDOFF_2026-10-08.md",
+    "ci_status_at_pushed_head": "SUCCESS (push runs 37922955550 @ 9ebfe00 and 37924563024 @ 06c872e, all 6 jobs green)",
+    "ci_status_at_goal_start_head": "SUCCESS"
+  },
+  "quality_gates": {
+    "ruff_check": {"result": "PASS", "detail": "0 errors"},
+    "ruff_format": {"result": "PASS", "detail": "2949 files already formatted"},
+    "pyright": {"result": "PASS", "detail": "0 errors, 0 warnings, strict mode"},
+    "pytest": {"result": "PASS", "passed": 1832, "skipped": 2, "duration_s": 969.3,
+      "skips": ["PostgreSQL EXTERNAL_BLOCKED (no local instance)", "Docker daemon unavailable"]},
+    "architecture": {"result": "PASS"},
+    "kernel_guard": {"result": "PASS", "violations": 0},
+    "r7_service_contracts": {"result": "PASS", "contracts": 27},
+    "sdk_baseline": {"result": "PASS", "routes": 75, "ts_files": 5, "py_files": 2152},
+    "openapi": {"result": "PASS", "paths": 71, "operations": 75},
+    "wxpack": {"result": "PASS", "steps": ["scaffold", "validate", "build", "certify"]},
+    "generated_drift": {"result": "PASS"},
+    "typescript": {"result": "PASS", "sdk_tests": 22, "cordis_host_tests": 77},
+    "release_build": {"result": "PASS"},
+    "clean_room": {"result": "PASS", "checks": 7},
+    "secret_scan_tracked": {"result": "PASS", "matches": 0},
+    "forbidden_tracked_files": {"result": "PASS", "matches": 0},
+    "postgres_live": {"result": "EXTERNAL_BLOCKED", "detail": "no local PostgreSQL instance; CI runs it"}
+  },
+  "cross_book": {
+    "book_a_cn": {
+      "kind": "Chinese narrative (synthetic)",
+      "places_count": 7,
+      "places": ["望月亭", "机关桥", "江南城", "沉水巷", "潮汐港", "达江南城", "青石巷"],
+      "entities": ["沈砚", "沈砚说", "要穿过水", "阿岚", "阿岚说", "顾朔", "顾朔答"],
+      "events_count": 8,
+      "rules_count": 2,
+      "scene_requests": 3,
+      "deferred": 4,
+      "assets": 3,
+      "provider_calls": 3
+    },
+    "book_b_en": {
+      "kind": "English history (synthetic)",
+      "places_count": 4,
+      "places": ["Fortress", "Harbor", "Library", "Market"],
+      "entities": ["Clara", "Marcus"],
+      "scene_requests": 3,
+      "deferred": 1,
+      "assets": 3,
+      "place_person_distinction": "Fortress is a place, not a person"
+    },
+    "book_c_long": {
+      "kind": "long synthetic book",
+      "sections": 24,
+      "source_bytes": 4389,
+      "place_count": 6,
+      "scene_requests": 3,
+      "deferred": 3,
+      "assets": 3,
+      "provider_calls": 3,
+      "cost_units": 0
+    },
+    "disjoint_places_a_b": [],
+    "per_book_style_keys_differ": true,
+    "no_per_book_branch": true
+  },
+  "deferred_scene": {
+    "initial_assets": 3,
+    "deferred_before": 4,
+    "target_place": "沉水巷",
+    "first_provider_calls": 1,
+    "repeat_provider_calls": 0,
+    "repeat_cache_hits": 1,
+    "unknown_place_rejected": true,
+    "unknown_place_example": "不存在的月球宫殿",
+    "canonical_instances_created": 0,
+    "no_canonical_event": true
+  },
+  "cache_restart": {
+    "process_1_cold": {"provider_calls": 3, "cache_hits": 0, "content_sha256": "4eb4fcbe71b65d537dfa6edacb7272d4c837ac710ed58773b51a49f49afcd0de"},
+    "process_2_restart": {"provider_calls": 0, "cache_hits": 3, "content_sha256": "4eb4fcbe71b65d537dfa6edacb7272d4c837ac710ed58773b51a49f49afcd0de"},
+    "sha256_unchanged": true,
+    "disk_blob_count": 3,
+    "disk_index_exists": true,
+    "cache_dir": "artifacts/local-visual-cache"
+  },
+  "rights_privacy": {
+    "non_owner_visual_denied": true,
+    "cache_hit_rights_reissued": {"same_sha256": true, "rights_reissued": true},
+    "external_model_processing_denied": true,
+    "no_silent_remote_fallback": true
+  },
+  "observer": {
+    "entry_without_character": true,
+    "stage_visible": true,
+    "action_input_disabled": true,
+    "suggestions_disabled": true,
+    "leave_reopen_ok": true
+  },
+  "embodiment": {
+    "character": "沈砚 (entity ent_zh)",
+    "instance": "prv_playable_1",
+    "actions": [
+      {"intent": "让自己保持清醒", "status": "committed", "changed": true, "before_revision": 7, "after_revision": 8, "before_events": 7, "after_events": 8, "after_state_hash": "adc911cdbc750601203775bcbb00f724ab56b8c922099c747bdce0b148c3827c", "event_id": "evt_8766e248f1e74a3f8124e8c084ad3e76"},
+      {"intent": "让自己保持警觉", "status": "committed", "changed": true, "before_revision": 8, "after_revision": 9, "before_events": 8, "after_events": 9, "after_state_hash": "5fc1bfccfa19817bcba436e84d993afabdb2856e76209dd61aa56acd832225d2", "event_id": "evt_f875b552795d423883f2536352ccc69f"},
+      {"intent": "让自己变得平静", "status": "committed", "changed": true, "before_revision": 9, "after_revision": 10, "before_events": 9, "after_events": 10, "after_state_hash": "23a246585585043a93d0cf58828b2cffb1051398e0cddb6cd73fde7f6b8cdbdc", "event_id": "evt_edcf75d97ff0476eaecb46edaf8b8902"}
+    ],
+    "history_grew_each_action": true,
+    "commit_authority_path_proven": true
+  },
+  "g96_projection": {
+    "projection_only": true,
+    "snapshot_revision": 7,
+    "state_hash": "statehash:acceptance",
+    "asset_ref_count": 3,
+    "rights_filtered": true,
+    "canonical_writes": 0
+  },
+  "fault_tolerance": {
+    "provider_failure": "REJECTED_CANON_UNTOUCHED",
+    "empty_output": "REJECTED",
+    "text_plain_output": "REJECTED",
+    "oversized_output": "REJECTED",
+    "network_disabled": "REJECTED",
+    "budget_insufficient": "REJECTED"
+  },
+  "performance_cost": {
+    "source_bytes": 4389,
+    "sections": 24,
+    "place_count": 6,
+    "scene_requests": 3,
+    "deferred_count": 3,
+    "initial_visual_cost_units": 0,
+    "provider_calls": 3,
+    "t0_duration_s": 0.14,
+    "cache_hit_duration_s": 0.0,
+    "peak_memory_bytes": 248328,
+    "cost_scales_with_places": false
+  },
+  "visual_consistency": {
+    "one_book_one_style_key": true,
+    "cross_book_style_keys_differ": true,
+    "scene_clues_source_grounded": true,
+    "clue_not_presence": true
+  },
+  "screenshots": {
+    "desktop": [
+      "desktop/01_world_plaza.png",
+      "desktop/02_world_detail_atlas.png",
+      "desktop/03_world_detail_scene.png",
+      "desktop/04_observer_stage.png",
+      "desktop/05_embodiment_stage.png",
+      "desktop/06_deferred_before.png",
+      "desktop/07_deferred_after.png"
+    ],
+    "mobile": [
+      "mobile/01_world_detail.png",
+      "mobile/02_living_stage.png",
+      "mobile/03_action_dock.png",
+      "mobile/04_record_history.png"
+    ],
+    "index": "artifacts/runtime-evidence/2026-10-09-source-to-living-world/SCREENSHOT_INDEX.md"
+  },
+  "tiers": {
+    "t0_deterministic_svg": "PASS",
+    "real_t1": "EXTERNAL_BLOCKED",
+    "real_t3": "EXTERNAL_BLOCKED",
+    "real_t4": "EXTERNAL_BLOCKED"
+  },
+  "human_acceptance": {
+    "human_visual_acceptance": "READY_FOR_HUMAN_REVIEW",
+    "m95_human_acceptance": "WAITING_HUMAN",
+    "agent_verdict": "not claimed"
+  },
+  "release": {
+    "stable_release": "LOCKED",
+    "v5.5_tag_created": false,
+    "release_created": false,
+    "pr_merged": false
+  },
+  "remaining_external_blockers": [
+    "REAL_T1 image provider: no legitimate API key/endpoint (user decision)",
+    "REAL_T3 persistent 3D provider: EXTERNAL_BLOCKED",
+    "REAL_T4 real-time world model: EXTERNAL_BLOCKED",
+    "Live PostgreSQL profile: no local instance (CI covers it)",
+    "Human visual acceptance and M95 human player acceptance: WAITING_HUMAN",
+    "Stable release/tag/merge: not authorized"
+  ],
+  "evidence_files": [
+    "artifacts/runtime-evidence/2026-10-09-source-to-living-world/pipeline_evidence.json",
+    "artifacts/runtime-evidence/2026-10-09-source-to-living-world/cache_restart.json",
+    "artifacts/runtime-evidence/2026-10-09-source-to-living-world/browser_evidence.json",
+    "artifacts/runtime-evidence/2026-10-09-source-to-living-world/SCREENSHOT_INDEX.md"
+  ]
+}

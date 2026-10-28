@@ -26,14 +26,31 @@ def _database_url() -> str:
 
 
 def _prepare_sqlite_parent(database_url: str) -> None:
+    path = _sqlite_path(database_url)
+    if path is not None:
+        path.parent.mkdir(parents=True, exist_ok=True)
+
+
+def _sqlite_path(database_url: str) -> Path | None:
     prefix = "sqlite:///"
     if not database_url.startswith(prefix):
-        return
+        return None
     raw_path = database_url[len(prefix) :]
+    if raw_path in {":memory:", ""} or raw_path.startswith("file:"):
+        return None
     path = Path(raw_path)
-    if not path.is_absolute():
-        path = ROOT / path
-    path.parent.mkdir(parents=True, exist_ok=True)
+    return path if path.is_absolute() else ROOT / path
+
+
+def _configure_playable_store(database_url: str) -> None:
+    """Persist Player worlds next to the SQLite database by default."""
+
+    if os.environ.get("WANXIANG_PLAYABLE_STORE_PATH", "").strip():
+        return
+    path = _sqlite_path(database_url)
+    if path is None:
+        return
+    os.environ["WANXIANG_PLAYABLE_STORE_PATH"] = str(path.with_name(path.name + ".playable.json"))
 
 
 def _upgrade(database_url: str) -> None:
@@ -104,6 +121,7 @@ def main() -> None:
     database_url = _database_url()
     _prepare_sqlite_parent(database_url)
     _upgrade(database_url)
+    _configure_playable_store(database_url)
     runtime = build_runtime(database_url)
     app = create_app(runtime)
     profile_id, character_id = _seed(app)
