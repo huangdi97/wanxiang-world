@@ -157,7 +157,6 @@ def test_t3_capability_fails_closed_for_negative_provider_cost() -> None:
     }
 
 
-
 @pytest.mark.parametrize("invalid_cost", [True, 1.5, float("nan"), "7"])
 def test_t3_capability_fails_closed_for_non_integer_provider_cost(
     invalid_cost: object,

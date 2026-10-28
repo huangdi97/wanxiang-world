@@ -54,11 +54,7 @@ def spatial_generation_view(
             "budget_remaining": remaining,
         }
     provider_cost = cast(object, provider.cost_units_per_job)
-    if (
-        isinstance(provider_cost, bool)
-        or not isinstance(provider_cost, int)
-        or provider_cost < 0
-    ):
+    if isinstance(provider_cost, bool) or not isinstance(provider_cost, int) or provider_cost < 0:
         return {
             "available": False,
             "reason": "budget_insufficient",
