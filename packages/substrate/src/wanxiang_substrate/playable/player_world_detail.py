@@ -155,10 +155,7 @@ def player_world_detail(
                     max_preview_scenes=1,
                     preferred_places=(place,),
                 )
-                if (
-                    targeted.scene_requests
-                    and targeted.scene_requests[0].stable_key == scene_key
-                ):
+                if targeted.scene_requests and targeted.scene_requests[0].stable_key == scene_key:
                     rendered = _render_visual_plan(targeted)
                     if rendered:
                         supplemental.append(rendered[0])
