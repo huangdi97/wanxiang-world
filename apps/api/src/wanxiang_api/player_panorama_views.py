@@ -65,11 +65,7 @@ def panorama_generation_view(
         return {"generation": generation, "ready_places": ready_places}
 
     provider_cost = cast(object, provider.cost_units_per_asset)
-    if (
-        isinstance(provider_cost, bool)
-        or not isinstance(provider_cost, int)
-        or provider_cost < 0
-    ):
+    if isinstance(provider_cost, bool) or not isinstance(provider_cost, int) or provider_cost < 0:
         generation["reason"] = "budget_insufficient"
         return {"generation": generation, "ready_places": ready_places}
     generation["cost_units"] = provider_cost
@@ -95,10 +91,7 @@ def panorama_generation_view(
                 f"{scene_request.cache_key}:t2-panorama-v1:"
                 f"{provider.provider_id}@{provider.provider_version}"
             )
-            resume_reserved = (
-                ledger.reservation_cost(profile_id, reservation_key)
-                == provider_cost
-            )
+            resume_reserved = ledger.reservation_cost(profile_id, reservation_key) == provider_cost
     generation["resume_reserved"] = resume_reserved
     private_source = (
         package.draft.compiler_metadata.get("visual_private_source_v1", "true") == "true"
