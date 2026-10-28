@@ -61,6 +61,7 @@ def test_local_panorama_budget_corruption_fails_closed(tmp_path: pathlib.Path) -
     with pytest.raises(ValueError, match="unreadable"):
         ledger.reserve("world-a", "scene-a", 3, 10)
 
+
 @pytest.mark.parametrize("ledger_kind", ["memory", "local"])
 def test_panorama_budget_reconciles_provider_overrun_conservatively(
     tmp_path: pathlib.Path,
