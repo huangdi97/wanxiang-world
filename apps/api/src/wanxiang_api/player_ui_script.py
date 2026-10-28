@@ -53,7 +53,7 @@ function view(name){
   window.scrollTo({top:0,behavior:"smooth"});
 }
 function tags(items){return (items||[]).map(item=>`<span class="tag">${safe(item)}</span>`).join("")}
-function visualProof(item){const count=Number(item?.source_evidence_count||0),source=count>0?tr("visual_source_evidence",{count}):tr("visual_source_evidence_none"),provider=item?.provider_id?tr("visual_provider",{provider:`${item.provider_id}@${item.provider_version||"?"}`}):"",spatial=item?.spatial?.ready?tr("visual_spatial_ready",{count:Number(item.spatial.asset_count||0)}):"";return [source,provider,spatial,tr("visual_projection_only")].filter(Boolean).join(" · ")}
+function visualProof(item){const count=Number(item?.source_evidence_count||0),source=count>0?tr("visual_source_evidence",{count}):tr("visual_source_evidence_none"),tier=item?.tier?tr("visual_tier_"+String(item.tier).toLowerCase()):"",provider=item?.provider_id?tr("visual_provider",{provider:`${item.provider_id}@${item.provider_version||"?"}`}):"",spatial=item?.spatial?.ready?tr("visual_spatial_ready",{count:Number(item.spatial.asset_count||0)}):"";return [source,tier,provider,spatial,tr("visual_projection_only")].filter(Boolean).join(" · ")}
 function worldById(profileId){return (model.plaza?.worlds||[]).find(item=>item.profile_id===profileId)}
 function renderContinue(){
   const item=model.plaza?.continue;const slot=$("continue-slot");

@@ -49,6 +49,7 @@ from wanxiang_substrate.playable.player_spatial_projection import (
     _SpatialProjectionFrameMap,
 )
 from wanxiang_substrate.playable.player_world_detail import (
+    _place_tier,
     _scene_support_for_assets,
     player_world_detail,
 )
@@ -170,6 +171,7 @@ def player_observation(
                 "provider_id": chosen.provider_id,
                 "provider_version": chosen.provider_version,
                 "presentation_kind": chosen.presentation_kind,
+                "tier": _place_tier(chosen, chosen.scene_key in (spatial_assets or {})),
                 "clues": list(support_by_key.get(chosen.scene_key, ((), 0))[0]),
                 "source_evidence_count": support_by_key.get(chosen.scene_key, ((), 0))[1],
                 "spatial": _spatial_capability(

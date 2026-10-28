@@ -88,6 +88,8 @@ def _place_tier(asset: _SceneVisualAsset | None, spatial_ready: bool) -> str:
         return "deferred"
     if spatial_ready:
         return "T3"
+    if asset.presentation_kind == "panorama":
+        return "T2"
     if asset.media_type == "image/svg+xml":
         return "T0"
     return "T1"
@@ -183,6 +185,7 @@ def player_world_detail(
                     "provider_id": asset.provider_id,
                     "provider_version": asset.provider_version,
                     "presentation_kind": asset.presentation_kind,
+                    "tier": _place_tier(asset, asset.scene_key in spatial_keys),
                     "clues": list(support_by_key.get(asset.scene_key, ((), 0))[0]),
                     "source_evidence_count": support_by_key.get(asset.scene_key, ((), 0))[1],
                     "spatial": _spatial_capability(
