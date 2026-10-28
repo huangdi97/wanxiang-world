@@ -271,6 +271,29 @@ def test_cached_t1_scene_replays_offline_with_zero_generation_budget() -> None:
     assert replay.assets[0].content_sha256 == first.assets[0].content_sha256
 
 
+class _InvalidCostRemoteProvider(_RemoteLikeProvider):
+    cost_units_per_asset = True  # type: ignore[assignment]
+
+
+def test_product_visual_ladder_falls_back_when_provider_cost_is_invalid() -> None:
+    plan = _plan(
+        _request("非法价格保底", "invalid-provider-cost"),
+        external_processing_allowed=True,
+    )
+    result = _materialize_product_visual_plan(
+        plan,
+        provider=_InvalidCostRemoteProvider(),
+        allow_network=True,
+        max_cost_units=2,
+    )
+
+    assert result.assets[0].provider_id == "procedural-svg"
+    assert result.provider_calls == 1
+    assert result.cost_units == 0
+    assert result.fallback_from_provider == "remote-test@2.3.0"
+    assert result.fallback_reason == "provider_cost_invalid"
+
+
 class _FailingRemoteProvider(_RemoteLikeProvider):
     def produce(self, request: _SourceSceneRequest) -> _SceneVisualAsset:
         _ = request

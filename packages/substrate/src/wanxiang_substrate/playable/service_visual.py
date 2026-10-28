@@ -196,9 +196,15 @@ def _materialize_visual_place(
     reusing_idempotent_reservation = False
     if owner and provider is not None and max_deferred_generations > 0:
         cached = service._visual_cache.get_for(request, provider, rights=plan.delivery_rights)
+        provider_cost = provider.cost_units_per_asset
+        provider_cost_valid = (
+            not isinstance(provider_cost, bool)
+            and isinstance(provider_cost, int)
+            and provider_cost >= 0
+        )
         provider_eligible = (
-            provider.cost_units_per_asset >= 0
-            and provider.cost_units_per_asset <= max_cost_units
+            provider_cost_valid
+            and provider_cost <= max_cost_units
             and (not provider.requires_network or allow_network)
             and (not provider.requires_network or plan.external_processing_allowed)
             and (not private_source or provider.private_safe)

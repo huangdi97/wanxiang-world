@@ -38,7 +38,18 @@ def _materialize_visual_plan(
         return _VisualMaterialization((), (), 0, 0, 0)
 
     selected_provider = provider or _ProceduralSvgSceneProvider()
-    _require_nonnegative_int(selected_provider.cost_units_per_asset, label="visual provider cost")
+    try:
+        _require_nonnegative_int(
+            selected_provider.cost_units_per_asset,
+            label="visual provider cost",
+        )
+    except ValueError as exc:
+        if provider is None:
+            raise
+        raise _VisualProviderIneligible(
+            "visual provider cost must be a non-negative integer",
+            reason="provider_cost_invalid",
+        ) from exc
     _require_nonnegative_int(max_cost_units, label="visual budget")
 
     asset_cache = cache or VisualAssetCache()

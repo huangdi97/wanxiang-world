@@ -187,6 +187,7 @@ function sceneReadyStatus(result,place){
     source_external_processing_not_allowed:"visual_fallback_rights",
     private_source_provider_not_safe:"visual_fallback_privacy",
     budget_insufficient:"visual_fallback_budget",
+    provider_cost_invalid:"visual_fallback_provider",
     provider_failure:"visual_fallback_provider"
   }[reason]||"visual_fallback_provider";
   return tr("status_scene_fallback",{place,reason:tr(key)})+budget;
