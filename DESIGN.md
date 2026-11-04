@@ -57,3 +57,24 @@ technical authoring surface.
 - Human comprehension, immersion, and acceptance are not inferred from these
   checks; M95 remains `USER_INPUT_REQUIRED` until a real player completes the
   supplied Chinese packet.
+
+## Continuity and consequence pass (local agent, `feature/source-to-visual-world`)
+
+- The home now leads with the world you were already in: continue strip first, plaza
+  second, brand hero demoted, and cards carry visual identity, latest place, world time,
+  latest event and continue state instead of engineering status.
+- The World Stage is banded rather than overlapped: caption, HUD, narrative and context
+  each own a band and the action dock sits in the shell flow. Geometry is measured, not
+  eyeballed (`CURRENT_PRODUCT_VISUAL_AUDIT/audit.json`).
+- Consequence is written in world language: a committed change renders as a concrete
+  before → after line plus a secondary category chip, and the chronicle carries time, who,
+  place and a sentence derived only from the committed event, with the record description
+  available behind a disclosure.
+- Observing is an explicit state: no role moves, nothing changes, the action controls are
+  replaced by a single "choose a character to enter" step.
+- Embodiment discloses possessions, goals, memories and relations progressively.
+- Mobile is a first-class target down to 320px: 44px targets, bottom safe-area padding on
+  the dock, and no horizontal overflow.
+- Player payloads expose an opaque derived `asset_revision`, never a canonical digest.
+- Human comprehension, immersion and acceptance remain `WAITING_HUMAN`; the automated audit
+  records measurements, it does not rate the experience.

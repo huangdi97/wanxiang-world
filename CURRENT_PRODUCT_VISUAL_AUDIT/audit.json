@@ -1,0 +1,725 @@
+{
+ "captures": [
+  {
+   "viewport": {
+    "w": 1440,
+    "h": 1000
+   },
+   "docScrollWidth": 1440,
+   "bodyScrollWidth": 1440,
+   "controls": 16,
+   "controlsUnder44": 6,
+   "images": 2,
+   "imagesWithoutAlt": 2,
+   "stageHeight": 0,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/home-desktop.png",
+   "surface": "home",
+   "viewportLabel": "desktop",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 1440,
+    "h": 1000
+   },
+   "docScrollWidth": 1440,
+   "bodyScrollWidth": 1440,
+   "controls": 30,
+   "controlsUnder44": 23,
+   "images": 6,
+   "imagesWithoutAlt": 5,
+   "stageHeight": 0,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/world-detail-desktop.png",
+   "surface": "world-detail",
+   "viewportLabel": "desktop",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 1440,
+    "h": 1000
+   },
+   "docScrollWidth": 1440,
+   "bodyScrollWidth": 1440,
+   "controls": 30,
+   "controlsUnder44": 23,
+   "images": 6,
+   "imagesWithoutAlt": 5,
+   "stageHeight": 0,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/atlas-desktop.png",
+   "surface": "atlas",
+   "viewportLabel": "desktop",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 1440,
+    "h": 1000
+   },
+   "docScrollWidth": 1440,
+   "bodyScrollWidth": 1440,
+   "controls": 30,
+   "controlsUnder44": 23,
+   "images": 6,
+   "imagesWithoutAlt": 5,
+   "stageHeight": 0,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/t2-contract-desktop.png",
+   "surface": "t2-contract",
+   "viewportLabel": "desktop",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 1440,
+    "h": 1000
+   },
+   "docScrollWidth": 1440,
+   "bodyScrollWidth": 1440,
+   "controls": 30,
+   "controlsUnder44": 23,
+   "images": 6,
+   "imagesWithoutAlt": 5,
+   "stageHeight": 0,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/t3-contract-desktop.png",
+   "surface": "t3-contract",
+   "viewportLabel": "desktop",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 1440,
+    "h": 1000
+   },
+   "docScrollWidth": 1440,
+   "bodyScrollWidth": 1440,
+   "controls": 21,
+   "controlsUnder44": 18,
+   "images": 6,
+   "imagesWithoutAlt": 4,
+   "stageHeight": 760,
+   "observerGateVisible": true,
+   "actionInputDisabled": true,
+   "locale": "zh-CN",
+   "file": "screenshots/observer-desktop.png",
+   "surface": "observer",
+   "viewportLabel": "desktop",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 1440,
+    "h": 1000
+   },
+   "docScrollWidth": 1440,
+   "bodyScrollWidth": 1440,
+   "controls": 23,
+   "controlsUnder44": 19,
+   "images": 6,
+   "imagesWithoutAlt": 4,
+   "stageHeight": 760,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/embodiment-desktop.png",
+   "surface": "embodiment",
+   "viewportLabel": "desktop",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 1440,
+    "h": 1000
+   },
+   "docScrollWidth": 1440,
+   "bodyScrollWidth": 1440,
+   "controls": 23,
+   "controlsUnder44": 19,
+   "images": 6,
+   "imagesWithoutAlt": 4,
+   "stageHeight": 760,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/focus-mode-desktop.png",
+   "surface": "focus-mode",
+   "viewportLabel": "desktop",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 1440,
+    "h": 1000
+   },
+   "docScrollWidth": 1440,
+   "bodyScrollWidth": 1440,
+   "controls": 23,
+   "controlsUnder44": 19,
+   "images": 6,
+   "imagesWithoutAlt": 4,
+   "stageHeight": 760,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/history-desktop.png",
+   "surface": "history",
+   "viewportLabel": "desktop",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 1440,
+    "h": 1000
+   },
+   "docScrollWidth": 1440,
+   "bodyScrollWidth": 1440,
+   "controls": 24,
+   "controlsUnder44": 20,
+   "images": 6,
+   "imagesWithoutAlt": 4,
+   "stageHeight": 760,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/worldline-desktop.png",
+   "surface": "worldline",
+   "viewportLabel": "desktop",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 1280,
+    "h": 800
+   },
+   "docScrollWidth": 1280,
+   "bodyScrollWidth": 1280,
+   "controls": 18,
+   "controlsUnder44": 6,
+   "images": 2,
+   "imagesWithoutAlt": 2,
+   "stageHeight": 0,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/home-laptop.png",
+   "surface": "home",
+   "viewportLabel": "laptop",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 1280,
+    "h": 800
+   },
+   "docScrollWidth": 1280,
+   "bodyScrollWidth": 1280,
+   "controls": 30,
+   "controlsUnder44": 23,
+   "images": 6,
+   "imagesWithoutAlt": 5,
+   "stageHeight": 0,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/world-detail-laptop.png",
+   "surface": "world-detail",
+   "viewportLabel": "laptop",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 1280,
+    "h": 800
+   },
+   "docScrollWidth": 1280,
+   "bodyScrollWidth": 1280,
+   "controls": 30,
+   "controlsUnder44": 23,
+   "images": 6,
+   "imagesWithoutAlt": 5,
+   "stageHeight": 0,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/atlas-laptop.png",
+   "surface": "atlas",
+   "viewportLabel": "laptop",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 1280,
+    "h": 800
+   },
+   "docScrollWidth": 1280,
+   "bodyScrollWidth": 1280,
+   "controls": 30,
+   "controlsUnder44": 23,
+   "images": 6,
+   "imagesWithoutAlt": 5,
+   "stageHeight": 0,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/t2-contract-laptop.png",
+   "surface": "t2-contract",
+   "viewportLabel": "laptop",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 1280,
+    "h": 800
+   },
+   "docScrollWidth": 1280,
+   "bodyScrollWidth": 1280,
+   "controls": 30,
+   "controlsUnder44": 23,
+   "images": 6,
+   "imagesWithoutAlt": 5,
+   "stageHeight": 0,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/t3-contract-laptop.png",
+   "surface": "t3-contract",
+   "viewportLabel": "laptop",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 1280,
+    "h": 800
+   },
+   "docScrollWidth": 1280,
+   "bodyScrollWidth": 1280,
+   "controls": 22,
+   "controlsUnder44": 19,
+   "images": 6,
+   "imagesWithoutAlt": 4,
+   "stageHeight": 650,
+   "observerGateVisible": true,
+   "actionInputDisabled": true,
+   "locale": "zh-CN",
+   "file": "screenshots/observer-laptop.png",
+   "surface": "observer",
+   "viewportLabel": "laptop",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 1280,
+    "h": 800
+   },
+   "docScrollWidth": 1280,
+   "bodyScrollWidth": 1280,
+   "controls": 23,
+   "controlsUnder44": 19,
+   "images": 6,
+   "imagesWithoutAlt": 4,
+   "stageHeight": 650,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/embodiment-laptop.png",
+   "surface": "embodiment",
+   "viewportLabel": "laptop",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 1280,
+    "h": 800
+   },
+   "docScrollWidth": 1280,
+   "bodyScrollWidth": 1280,
+   "controls": 23,
+   "controlsUnder44": 19,
+   "images": 6,
+   "imagesWithoutAlt": 4,
+   "stageHeight": 650,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/focus-mode-laptop.png",
+   "surface": "focus-mode",
+   "viewportLabel": "laptop",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 1280,
+    "h": 800
+   },
+   "docScrollWidth": 1280,
+   "bodyScrollWidth": 1280,
+   "controls": 23,
+   "controlsUnder44": 19,
+   "images": 6,
+   "imagesWithoutAlt": 4,
+   "stageHeight": 650,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/history-laptop.png",
+   "surface": "history",
+   "viewportLabel": "laptop",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 1280,
+    "h": 800
+   },
+   "docScrollWidth": 1280,
+   "bodyScrollWidth": 1280,
+   "controls": 24,
+   "controlsUnder44": 20,
+   "images": 6,
+   "imagesWithoutAlt": 4,
+   "stageHeight": 650,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/worldline-laptop.png",
+   "surface": "worldline",
+   "viewportLabel": "laptop",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 390,
+    "h": 844
+   },
+   "docScrollWidth": 390,
+   "bodyScrollWidth": 390,
+   "controls": 18,
+   "controlsUnder44": 0,
+   "images": 2,
+   "imagesWithoutAlt": 2,
+   "stageHeight": 0,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/home-mobile.png",
+   "surface": "home",
+   "viewportLabel": "mobile",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 390,
+    "h": 844
+   },
+   "docScrollWidth": 390,
+   "bodyScrollWidth": 390,
+   "controls": 30,
+   "controlsUnder44": 1,
+   "images": 6,
+   "imagesWithoutAlt": 5,
+   "stageHeight": 0,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/world-detail-mobile.png",
+   "surface": "world-detail",
+   "viewportLabel": "mobile",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 390,
+    "h": 844
+   },
+   "docScrollWidth": 390,
+   "bodyScrollWidth": 390,
+   "controls": 30,
+   "controlsUnder44": 1,
+   "images": 6,
+   "imagesWithoutAlt": 5,
+   "stageHeight": 0,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/t2-contract-mobile.png",
+   "surface": "t2-contract",
+   "viewportLabel": "mobile",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 390,
+    "h": 844
+   },
+   "docScrollWidth": 390,
+   "bodyScrollWidth": 390,
+   "controls": 30,
+   "controlsUnder44": 1,
+   "images": 6,
+   "imagesWithoutAlt": 5,
+   "stageHeight": 0,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/t3-contract-mobile.png",
+   "surface": "t3-contract",
+   "viewportLabel": "mobile",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 390,
+    "h": 844
+   },
+   "docScrollWidth": 390,
+   "bodyScrollWidth": 390,
+   "controls": 22,
+   "controlsUnder44": 0,
+   "images": 6,
+   "imagesWithoutAlt": 4,
+   "stageHeight": 900,
+   "observerGateVisible": true,
+   "actionInputDisabled": true,
+   "locale": "zh-CN",
+   "file": "screenshots/observer-mobile.png",
+   "surface": "observer",
+   "viewportLabel": "mobile",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 390,
+    "h": 844
+   },
+   "docScrollWidth": 390,
+   "bodyScrollWidth": 390,
+   "controls": 23,
+   "controlsUnder44": 0,
+   "images": 6,
+   "imagesWithoutAlt": 4,
+   "stageHeight": 900,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/embodiment-mobile.png",
+   "surface": "embodiment",
+   "viewportLabel": "mobile",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 390,
+    "h": 844
+   },
+   "docScrollWidth": 390,
+   "bodyScrollWidth": 390,
+   "controls": 23,
+   "controlsUnder44": 0,
+   "images": 6,
+   "imagesWithoutAlt": 4,
+   "stageHeight": 641,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/focus-mobile.png",
+   "surface": "focus",
+   "viewportLabel": "mobile",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 390,
+    "h": 844
+   },
+   "docScrollWidth": 390,
+   "bodyScrollWidth": 390,
+   "controls": 23,
+   "controlsUnder44": 0,
+   "images": 6,
+   "imagesWithoutAlt": 4,
+   "stageHeight": 900,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/history-mobile.png",
+   "surface": "history",
+   "viewportLabel": "mobile",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 320,
+    "h": 720
+   },
+   "docScrollWidth": 320,
+   "bodyScrollWidth": 320,
+   "controls": 18,
+   "controlsUnder44": 0,
+   "images": 2,
+   "imagesWithoutAlt": 2,
+   "stageHeight": 0,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/home-small.png",
+   "surface": "home",
+   "viewportLabel": "small",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 320,
+    "h": 720
+   },
+   "docScrollWidth": 320,
+   "bodyScrollWidth": 320,
+   "controls": 30,
+   "controlsUnder44": 1,
+   "images": 6,
+   "imagesWithoutAlt": 5,
+   "stageHeight": 0,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/world-detail-small.png",
+   "surface": "world-detail",
+   "viewportLabel": "small",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 320,
+    "h": 720
+   },
+   "docScrollWidth": 320,
+   "bodyScrollWidth": 320,
+   "controls": 30,
+   "controlsUnder44": 1,
+   "images": 6,
+   "imagesWithoutAlt": 5,
+   "stageHeight": 0,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/t2-contract-small.png",
+   "surface": "t2-contract",
+   "viewportLabel": "small",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 320,
+    "h": 720
+   },
+   "docScrollWidth": 320,
+   "bodyScrollWidth": 320,
+   "controls": 30,
+   "controlsUnder44": 1,
+   "images": 6,
+   "imagesWithoutAlt": 5,
+   "stageHeight": 0,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/t3-contract-small.png",
+   "surface": "t3-contract",
+   "viewportLabel": "small",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 320,
+    "h": 720
+   },
+   "docScrollWidth": 320,
+   "bodyScrollWidth": 320,
+   "controls": 22,
+   "controlsUnder44": 0,
+   "images": 6,
+   "imagesWithoutAlt": 4,
+   "stageHeight": 900,
+   "observerGateVisible": true,
+   "actionInputDisabled": true,
+   "locale": "zh-CN",
+   "file": "screenshots/observer-small.png",
+   "surface": "observer",
+   "viewportLabel": "small",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 320,
+    "h": 720
+   },
+   "docScrollWidth": 320,
+   "bodyScrollWidth": 320,
+   "controls": 23,
+   "controlsUnder44": 0,
+   "images": 6,
+   "imagesWithoutAlt": 4,
+   "stageHeight": 900,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/embodiment-small.png",
+   "surface": "embodiment",
+   "viewportLabel": "small",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 320,
+    "h": 720
+   },
+   "docScrollWidth": 320,
+   "bodyScrollWidth": 320,
+   "controls": 23,
+   "controlsUnder44": 0,
+   "images": 6,
+   "imagesWithoutAlt": 4,
+   "stageHeight": 547,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/focus-small.png",
+   "surface": "focus",
+   "viewportLabel": "small",
+   "pageErrors": []
+  },
+  {
+   "viewport": {
+    "w": 320,
+    "h": 720
+   },
+   "docScrollWidth": 320,
+   "bodyScrollWidth": 320,
+   "controls": 23,
+   "controlsUnder44": 0,
+   "images": 6,
+   "imagesWithoutAlt": 4,
+   "stageHeight": 900,
+   "observerGateVisible": false,
+   "actionInputDisabled": false,
+   "locale": "zh-CN",
+   "file": "screenshots/history-small.png",
+   "surface": "history",
+   "viewportLabel": "small",
+   "pageErrors": []
+  }
+ ],
+ "head": "af5731e8c4b13f525468185424c51c5be588bacd"
+}

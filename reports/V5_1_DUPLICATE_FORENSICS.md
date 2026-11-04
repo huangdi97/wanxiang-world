@@ -40,7 +40,7 @@
 | packages/substrate/src/wanxiang_substrate/actor_continuity/projection.py | ActorContinuitySnapshot | 73 |
 | packages/substrate/src/wanxiang_substrate/actor_continuity/projection.py | ActorContinuityProjection | 95 |
 | packages/substrate/src/wanxiang_substrate/actor_continuity/relationship_model.py | RelationshipState | 56 |
-| packages/substrate/src/wanxiang_substrate/assets/book_scene_panorama_budget.py | _PanoramaBudgetSnapshot | 17 |
+| packages/substrate/src/wanxiang_substrate/assets/book_scene_panorama_budget.py | _PanoramaBudgetSnapshot | 18 |
 | packages/substrate/src/wanxiang_substrate/authoring/living_ports.py | ReplayState | 28 |
 | packages/substrate/src/wanxiang_substrate/authoring/model.py | AuthoringSnapshot | 49 |
 | packages/substrate/src/wanxiang_substrate/authoring/scenario_engine.py | InitialSnapshot | 25 |
@@ -73,7 +73,7 @@
 | packages/substrate/src/wanxiang_substrate/world_lab/physical_models.py | PhysicalSnapshot | 78 |
 | packages/substrate/src/wanxiang_substrate/world_lab/visual_models.py | VisualSceneState | 129 |
 
-## store_classes (44)
+## store_classes (45)
 
 | path | name | line |
 |---|---|---|
@@ -93,14 +93,14 @@
 | packages/runtime/src/wanxiang_runtime/snapshot.py | SnapshotStore | 26 |
 | packages/runtime/src/wanxiang_runtime/snapshot.py | InMemorySnapshotStore | 74 |
 | packages/substrate/src/wanxiang_substrate/actor_continuity/trajectory.py | ActorTrajectoryLedger | 139 |
-| packages/substrate/src/wanxiang_substrate/assets/book_scene_budget.py | VisualBudgetLedger | 19 |
+| packages/substrate/src/wanxiang_substrate/assets/book_scene_budget.py | VisualBudgetLedger | 23 |
 | packages/substrate/src/wanxiang_substrate/assets/book_scene_panorama_budget.py | _PanoramaBudgetLedger | 41 |
-| packages/substrate/src/wanxiang_substrate/assets/book_scene_panorama_budget.py | _LocalJson_PanoramaBudgetLedger | 76 |
+| packages/substrate/src/wanxiang_substrate/assets/book_scene_panorama_budget.py | _LocalJson_PanoramaBudgetLedger | 85 |
 | packages/substrate/src/wanxiang_substrate/assets/book_spatial_recovery.py | _RecoverableInMemorySpatialJobStore | 15 |
 | packages/substrate/src/wanxiang_substrate/assets/book_spatial_recovery.py | _RecoverableLocalJsonSpatialJobStore | 20 |
-| packages/substrate/src/wanxiang_substrate/assets/book_spatial_store.py | _InMemorySpatialJobStore | 23 |
-| packages/substrate/src/wanxiang_substrate/assets/book_spatial_store.py | _LocalJsonSpatialJobStore | 37 |
-| packages/substrate/src/wanxiang_substrate/assets/book_spatial_types.py | _SpatialJobStore | 88 |
+| packages/substrate/src/wanxiang_substrate/assets/book_spatial_store.py | _InMemorySpatialJobStore | 52 |
+| packages/substrate/src/wanxiang_substrate/assets/book_spatial_store.py | _LocalJsonSpatialJobStore | 66 |
+| packages/substrate/src/wanxiang_substrate/assets/book_spatial_types.py | _SpatialJobStore | 110 |
 | packages/substrate/src/wanxiang_substrate/assets/storage.py | ObjectStore | 36 |
 | packages/substrate/src/wanxiang_substrate/assets/storage.py | LocalObjectStore | 45 |
 | packages/substrate/src/wanxiang_substrate/assets/storage.py | InMemoryObjectStore | 104 |
@@ -114,8 +114,9 @@
 | packages/substrate/src/wanxiang_substrate/ledger/ledger.py | CompletionLedger | 30 |
 | packages/substrate/src/wanxiang_substrate/long_horizon/budget.py | CostBudgetLedger | 98 |
 | packages/substrate/src/wanxiang_substrate/long_horizon/checkpoint.py | RunCheckpointStore | 94 |
-| packages/substrate/src/wanxiang_substrate/playable/store.py | PlayableStore | 75 |
-| packages/substrate/src/wanxiang_substrate/playable/store.py | InMemoryPlayableStore | 97 |
+| packages/substrate/src/wanxiang_substrate/playable/local_store.py | LocalJsonPlayableStore | 32 |
+| packages/substrate/src/wanxiang_substrate/playable/store.py | PlayableStore | 85 |
+| packages/substrate/src/wanxiang_substrate/playable/store.py | InMemoryPlayableStore | 124 |
 | packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | CheckpointStore | 32 |
 | packages/substrate/src/wanxiang_substrate/review/decisions.py | ReviewLedger | 37 |
 | packages/substrate/src/wanxiang_substrate/sources/blob.py | SourceBlobStore | 51 |
@@ -134,7 +135,7 @@
 | packages/substrate/src/wanxiang_substrate/long_horizon/compaction.py | CompactionService | 107 |
 | packages/substrate/src/wanxiang_substrate/observation/query.py | PerspectiveService | 29 |
 | packages/substrate/src/wanxiang_substrate/parsing/checkpoint.py | ParseCheckpointService | 14 |
-| packages/substrate/src/wanxiang_substrate/playable/entry.py | CharacterEntryService | 37 |
+| packages/substrate/src/wanxiang_substrate/playable/entry.py | CharacterEntryService | 41 |
 | packages/substrate/src/wanxiang_substrate/playable/service.py | PlayableService | 51 |
 | packages/substrate/src/wanxiang_substrate/projection/service.py | ProjectionService | 32 |
 | packages/substrate/src/wanxiang_substrate/recovery/checkpoint.py | CheckpointService | 89 |
@@ -205,7 +206,7 @@
 | packages/substrate/src/wanxiang_substrate/playable/service_model.py | SubmittedResult | 15 |
 | packages/substrate/src/wanxiang_substrate/playable/service_model.py | EventLike | 20 |
 | packages/substrate/src/wanxiang_substrate/playable/state_diff.py | NarrativeRenderer | 133 |
-| packages/substrate/src/wanxiang_substrate/playable/store.py | PlayableStore | 75 |
+| packages/substrate/src/wanxiang_substrate/playable/store.py | PlayableStore | 85 |
 | packages/substrate/src/wanxiang_substrate/preview/runtime.py | CreatedWorld | 43 |
 | packages/substrate/src/wanxiang_substrate/preview/runtime.py | ReplayResult | 48 |
 | packages/substrate/src/wanxiang_substrate/preview/runtime.py | PreviewRuntimePort | 52 |

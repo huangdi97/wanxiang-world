@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 from wanxiang_api.player_ui_asset import player_html
+from wanxiang_api.player_ui_home_script import HOME_SCRIPT
 from wanxiang_api.player_ui_script import SCRIPT
 
 
@@ -54,4 +55,6 @@ def test_world_list_announces_count_without_reading_every_card() -> None:
     assert 'aria-controls="world-list"' in html
     assert 'data-filter="all" aria-pressed="true"' in html
     assert 'data-filter="recent" aria-pressed="false"' in html
-    assert "world_count" in SCRIPT
+    assert "world_count" in HOME_SCRIPT
+    assert "world_count" in html
+    assert "world_count" in HOME_SCRIPT
