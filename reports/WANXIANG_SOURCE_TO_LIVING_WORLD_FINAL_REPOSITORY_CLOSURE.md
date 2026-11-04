@@ -82,9 +82,9 @@ Evidence and review entry points:
 | `pytest tests/api -q` | PASS | 180 passed |
 | `pytest tests/integration/test_svw_product_visual_audit.py -q` | PASS | 36 captures, no page errors, no horizontal overflow |
 | stage geometry overlap / overflow | PASS | `overlap_check.py`: `problems: 0` on desktop + mobile, both modes |
-| full `pytest -q` | taken from CI at the pushed SHA | the repository's own gate; see section 4 |
-| TypeScript gates (`pnpm -r lint/typecheck/test/build`) | not run locally in this pass | no Node on the host; CI `ts` job remains the evidence |
-| PostgreSQL migration/integration | EXTERNAL_BLOCKED locally (no Docker) | CI `postgres` job remains the evidence |
+| full `pytest -q` | PASS | CI `python` job: 2330 passed, 1 skipped (one pre-existing mobile assertion failed on `1f3164c8` and passed after the fix in `cc9c61fc`) |
+| TypeScript gates (`pnpm -r lint/typecheck/test/build`) | PASS | CI `ts` job at `cc9c61fc` (not run on this host: no Node) |
+| PostgreSQL migration/integration | PASS in CI, EXTERNAL_BLOCKED locally | CI `postgres` job at `cc9c61fc`; no Docker on this host |
 
 ## 3. Status matrix (only what is actually true)
 
@@ -121,17 +121,29 @@ CACHE                        PASS (unchanged)
 RESTART                      PASS (unchanged)
 ARCHITECTURE                 PASS
 KERNEL_FREEZE                PASS
-CI                           see section 4
+CI                           PASS (run 41877978549 at cc9c61fc: six of six jobs green)
 SVW_J_HUMAN                  WAITING_HUMAN
 M95_HUMAN                    WAITING_HUMAN
 STABLE_RELEASE               LOCKED
 ```
 
-## 4. CI
+## 4. CI (authoritative full-suite evidence)
 
-The full repository suite (including the audit test, the postgres job and the TypeScript jobs)
-runs on the pushed SHA. Result recorded here after the run completes; this pass does not
-declare CI green from local evidence.
+Branch `feature/source-to-visual-world` was pushed as `1d7ebb82`, `1f3164c8` and `cc9c61fc`.
+Run `41877978549` at **`cc9c61fc`** is **success**, with every job green:
+
+| job | result |
+|---|---|
+| Repository safety / secret scan / forbidden tracked files | success |
+| python (ruff, format, pyright, `pytest -q`, architecture/quality, kernel guard) | success |
+| PostgreSQL migration + integration | success |
+| API / package / SDK generation + drift | success |
+| Release build + clean-room certification smoke | success |
+| ts (pnpm lint / typecheck / test / build) | success |
+
+The run before it (`1f3164c8`) failed exactly one assertion — a worldline compare button that
+had lost its 44px mobile height when the touch-target rule was rewritten — and passed after
+`cc9c61fc`. Local gates in section 2 were re-run after every later edit.
 
 ## 5. Known remaining gaps (not hidden, not counted as done)
 
