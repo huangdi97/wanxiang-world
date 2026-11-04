@@ -6,20 +6,11 @@ from __future__ import annotations
 
 from typing import Any
 
-from wanxiang_domain.delta import (
-    EntityCreate,
-    EntityDelete,
-    EntityUpdate,
-    RelationCreate,
-    RelationDelete,
-)
 from wanxiang_domain.entity import EntityState, FieldValue
-from wanxiang_domain.event import CommittedEvent
 
 from wanxiang_substrate.assets.book_scene_context import _place_identity
 from wanxiang_substrate.playable.player_i18n import _PlayerCopy
 from wanxiang_substrate.playable.player_projection_labels import _CATEGORY_KEYS, _STATUS_KEYS
-from wanxiang_substrate.playable.state_diff import DiffChange
 
 
 def _entity_fields(entity: EntityState | None) -> dict[str, FieldValue]:
@@ -237,45 +228,6 @@ def _actor_owned_entities(
         for entity in entities
         if entity.entity_type.casefold() in types and _private_owners(entity) == {actor_id}
     ]
-
-
-def _chronicle_card(
-    event: CommittedEvent,
-    actor_id: str,
-    copy: _PlayerCopy,
-) -> dict[str, object]:
-    operations = event.delta.operations
-    summary = copy.text("chronicle_progress")
-    if event.actor_id is not None and event.actor_id.value == actor_id:
-        summary = copy.text("chronicle_action")
-    elif any(isinstance(item, EntityCreate) for item in operations):
-        summary = copy.text("chronicle_new_fact")
-    elif any(isinstance(item, EntityUpdate) for item in operations):
-        summary = copy.text("chronicle_status_change")
-    elif any(isinstance(item, RelationCreate) for item in operations):
-        summary = copy.text("chronicle_new_relation")
-    elif any(isinstance(item, (EntityDelete, RelationDelete)) for item in operations):
-        summary = copy.text("chronicle_ended_fact")
-    return {"time": event.world_time.ticks, "summary": summary}
-
-
-def _change_card(change: DiffChange, names: dict[str, str], copy: _PlayerCopy) -> dict[str, object]:
-    fields = dict(change.after)
-    subject = names.get(change.subject_id, copy.text("entity_world"))
-    status = next(
-        (value for key, value in fields.items() if key.casefold().endswith("status.value")),
-        None,
-    )
-    category = copy.text(_CATEGORY_KEYS.get(change.category, "category_state"))
-    if isinstance(status, str):
-        status_key = _STATUS_KEYS.get(status)
-        shown_status = copy.text(status_key) if status_key else status
-        summary = copy.render("change_status", subject=subject, status=shown_status)
-    elif change.kind == "removed":
-        summary = copy.render("change_removed", subject=subject, category=category)
-    else:
-        summary = copy.render("change_updated", subject=subject, category=category)
-    return {"kind": change.kind, "category": category, "summary": summary}
 
 
 def _narrative(current_event: dict[str, object] | None, actor_name: str, copy: _PlayerCopy) -> str:

@@ -27,7 +27,7 @@ async function activate(){
   }catch(error){await deactivate();throw error}
 }
 function sync(scene){
-  const key=`${scene?.place_name||""}:${scene?.content_sha256||""}:${scene?.presentation_kind||""}`,changed=key!==state.key,wasActive=state.active;
+  const key=`${scene?.place_name||""}:${scene?.asset_revision||""}:${scene?.presentation_kind||""}`,changed=key!==state.key,wasActive=state.active;
   state.key=key;state.scene=scene||null;
   const available=canRender(state.scene);setButton(available,state.active);
   if(!available&&state.active){void deactivate();return}

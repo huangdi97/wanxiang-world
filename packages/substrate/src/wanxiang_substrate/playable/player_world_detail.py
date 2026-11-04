@@ -19,6 +19,7 @@ from wanxiang_substrate.assets.book_scene_visual import (
 )
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.playable.models import PlayableWorldProfile
+from wanxiang_substrate.playable.player_asset_revision import _asset_revision
 from wanxiang_substrate.playable.player_i18n import _copy_for, _PlayerCopy
 from wanxiang_substrate.playable.player_spatial_projection import (
     _spatial_capability,
@@ -190,7 +191,7 @@ def player_world_detail(
                     "place_name": atlas.place_name,
                     "media_type": atlas.media_type,
                     "data_uri": atlas.data_uri(),
-                    "content_sha256": atlas.content_sha256,
+                    "asset_revision": _asset_revision(atlas.content_sha256),
                     "illustrative": atlas.illustrative,
                     "projection_only": True,
                 }
@@ -202,7 +203,7 @@ def player_world_detail(
                     "place_name": asset.place_name,
                     "media_type": asset.media_type,
                     "data_uri": asset.data_uri(),
-                    "content_sha256": asset.content_sha256,
+                    "asset_revision": _asset_revision(asset.content_sha256),
                     "illustrative": asset.illustrative,
                     "projection_only": True,
                     "provider_id": asset.provider_id,

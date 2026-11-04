@@ -17,11 +17,9 @@ from wanxiang_runtime.diff import StateDiff
 from wanxiang_runtime.state import InMemoryCanonicalState
 
 from wanxiang_substrate.playable.player_i18n import _copy_for, _PlayerCopy
-from wanxiang_substrate.playable.player_projection_support import (
-    _CATEGORY_KEYS,
-    _chronicle_card,
-    _entity_name,
-)
+from wanxiang_substrate.playable.player_projection_deltas import _chronicle_card
+from wanxiang_substrate.playable.player_projection_labels import _CATEGORY_KEYS
+from wanxiang_substrate.playable.player_projection_support import _entity_name
 from wanxiang_substrate.playable.player_service import player_observe
 from wanxiang_substrate.playable.service_session import _owned_instance
 from wanxiang_substrate.playable.service_support import _runtime_instance_id

@@ -22,13 +22,16 @@ from wanxiang_substrate.assets.book_scene_visual import (
 )
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 from wanxiang_substrate.playable.models import PlayableWorldProfile
+from wanxiang_substrate.playable.player_asset_revision import _asset_revision
 from wanxiang_substrate.playable.player_i18n import _copy_for
 from wanxiang_substrate.playable.player_memory import _memory_cards
+from wanxiang_substrate.playable.player_projection_deltas import (
+    _change_card,
+    _chronicle_card,
+)
 from wanxiang_substrate.playable.player_projection_support import (
     _actor_owned_entities,
     _actor_relation_cards,
-    _change_card,
-    _chronicle_card,
     _entity_fields,
     _entity_name,
     _event_card,
@@ -113,9 +116,9 @@ def player_observation(
     current_event = _event_card(entities, names, copy, actor_id)
     opportunities = _opportunity_cards(entities, copy, actor_id)
     memories = _memory_cards(entities, actor_id)
-    chronicle = [_chronicle_card(event, actor_id, copy) for event in event_list[-6:]]
+    chronicle = [_chronicle_card(event, actor_id, copy, names) for event in event_list[-6:]]
     events_since_leave = [
-        _chronicle_card(event, actor_id, copy)
+        _chronicle_card(event, actor_id, copy, names)
         for event in event_list
         if events_since_revision is not None and event.revision.value > events_since_revision
     ]
@@ -166,7 +169,7 @@ def player_observation(
                 "place_name": chosen.place_name,
                 "media_type": chosen.media_type,
                 "data_uri": chosen.data_uri(),
-                "content_sha256": chosen.content_sha256,
+                "asset_revision": _asset_revision(chosen.content_sha256),
                 "illustrative": chosen.illustrative,
                 "provider_id": chosen.provider_id,
                 "provider_version": chosen.provider_version,

@@ -19,6 +19,12 @@ from wanxiang_substrate.playable.player_i18n_visual_generation_en import (
 from wanxiang_substrate.playable.player_i18n_visual_generation_zh import (
     STRINGS as _ZH_VISUAL_GENERATION,
 )
+from wanxiang_substrate.playable.player_i18n_world_memory_en import (
+    STRINGS as _EN_WORLD_MEMORY,
+)
+from wanxiang_substrate.playable.player_i18n_world_memory_zh import (
+    STRINGS as _ZH_WORLD_MEMORY,
+)
 from wanxiang_substrate.playable.player_i18n_zh import STRINGS as _ZH_STRINGS
 
 _Locale = Literal["zh-CN", "en-US"]
@@ -42,8 +48,8 @@ def _copy(locale: _Locale, strings: dict[str, str]) -> _PlayerCopy:
     return _PlayerCopy(locale, MappingProxyType(strings))
 
 
-_ZH_CN = _copy("zh-CN", {**_ZH_STRINGS, **_ZH_HISTORY, **_ZH_VISUAL_GENERATION})
-_EN_US = _copy("en-US", {**_EN_STRINGS, **_EN_HISTORY, **_EN_VISUAL_GENERATION})
+_ZH_CN = _copy("zh-CN", {**_ZH_STRINGS, **_ZH_HISTORY, **_ZH_VISUAL_GENERATION, **_ZH_WORLD_MEMORY})
+_EN_US = _copy("en-US", {**_EN_STRINGS, **_EN_HISTORY, **_EN_VISUAL_GENERATION, **_EN_WORLD_MEMORY})
 _CATALOG: Mapping[_Locale, _PlayerCopy] = MappingProxyType({"zh-CN": _ZH_CN, "en-US": _EN_US})
 
 
