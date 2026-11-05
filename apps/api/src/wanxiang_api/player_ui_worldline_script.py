@@ -16,7 +16,7 @@ function worldlineCard(card,index){
   return `<li data-worldline="${safe(card.instance_id)}" data-current="${current?"true":"false"}"><div class="worldline-copy"><strong>${safe(tr("worldline_label",{index:index+1}))}${current?` <span class="worldline-badge">${safe(tr("worldline_current"))}</span>`:""}</strong><span class="muted">${safe(meta.join(" · "))}</span></div>${actions}</li>`;
 }
 function worldlineSide(label,row,count){
-  const people=(row.present_people||[]).join("、");
+  const people=(row.present_people||[]).join(tr("list_separator"));
   return `<div class="worldline-side"><span class="stage-label">${safe(label)}</span><strong>${safe(tr("worldline_time",{time:row.world_time}))}</strong><span class="muted">${safe(shown(row.location))} · ${safe(shown(row.status))}</span><span class="muted">${safe(tr("worldline_compare_events",{count:count||0}))}${people?` · ${safe(people)}`:""}</span></div>`;
 }
 function worldlineRecent(label,rows){

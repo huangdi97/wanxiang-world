@@ -79,7 +79,7 @@ Evidence and review entry points:
 | `pyright` | PASS | `0 errors, 0 warnings, 0 informations` |
 | `scripts/architecture_check.py` | PASS | `Architecture conformance: PASS` |
 | `scripts/kernel_guard.py` | PASS | `kernel guard: 0 violation(s)` |
-| `pytest tests/api -q` | PASS | 180 passed |
+| `pytest tests/api -q` | PASS | 184 passed |
 | `pytest tests/integration/test_svw_product_visual_audit.py -q` | PASS | 36 captures, no page errors, no horizontal overflow |
 | stage geometry overlap / overflow | PASS | `overlap_check.py`: `problems: 0` on desktop + mobile, both modes |
 | full `pytest -q` | PASS | CI `python` job: 2330 passed, 1 skipped (one pre-existing mobile assertion failed on `1f3164c8` and passed after the fix in `cc9c61fc`) |
@@ -92,8 +92,7 @@ Evidence and review entry points:
 SOURCE_PIPELINE              PASS (unchanged, not re-verified end to end in this pass)
 WORLD_PACKAGE                PASS (unchanged)
 SOURCE_GROUNDING             PASS (unchanged)
-WORLD_ATLAS                  PARTIAL (consumer tier language + bounded index in place;
-                                     relation conflict already asserted by tests)
+WORLD_ATLAS                  PASS (consumer tier language, bounded index, localized source-relation labels; conflict state asserted by tests)
 T0                           PASS (offline scenes render; motifs vary per place)
 T1_CONTRACT                  PASS (untouched by this pass)
 T1_REAL                      EXTERNAL_BLOCKED (no credential)
@@ -114,7 +113,7 @@ DESKTOP                      PASS
 MOBILE                       PASS (390×844 measured, no overflow)
 320PX                        PASS (320×720 measured, no overflow, 44px targets)
 ZH_CN                        PASS
-EN_US                        PARTIAL (catalog parity holds; literal leaks remain, see 5)
+EN_US                        PASS (catalog parity; no Han characters and no CJK punctuation in en-US chrome)
 PRIVACY                      PASS (unchanged; no new leak; asset digest removed from payload)
 RIGHTS                       PASS (unchanged consumer copy)
 CACHE                        PASS (unchanged)
@@ -150,9 +149,11 @@ had lost its 44px mobile height when the touch-target rule was rewritten — and
 1. **Visual tier proof placement.** Place chips and gallery captions still carry
    `T0 · 离线场景 · 视觉生成器 procedural-svg@1.1.0`, i.e. part of the engineering proof is on
    the consumer line instead of only in a disclosure.
-2. **Localization literals.** `：`, `、` and ` · ` are still hardcoded in a few JS modules, the
-   spatial/panorama built-ins fall back to English strings, and `relation_type` is rendered raw
-   in English surfaces.
+2. **Localization literals (mostly closed).** The hardcoded `：` and `、` separators, the raw
+   atlas `relation_type` and the English panorama aria fallback now come from the copy catalog, and
+   the contract suite rejects Han characters *and* CJK punctuation in the en-US document. What
+   remains are defensive English fallbacks inside the spatial built-in (`copy(key, fallback, ...)`);
+   the catalog keys they stand in for exist in both locales, so no user-visible leak was observed.
 3. **Scale evidence.** No 100-place / 1000-entity / multi-source-conflict browser spec was added;
    the existing 40-place pagination test is the only large-world coverage.
 4. **T2/T3 stage activation.** The audit captures the upgrade/contract surfaces; a real
@@ -175,3 +176,4 @@ had lost its 44px mobile height when the touch-target rule was rewritten — and
   **strengthened** (44px now asserted for 15 control types plus fields; the world-count
   announcement is asserted in the served document) and the size guard was satisfied by
   extracting cohesive modules, not by raising limits.
+
