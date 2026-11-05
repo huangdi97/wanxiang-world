@@ -35,7 +35,7 @@ def _content() -> str:
 def test_hundred_place_world_stays_usable_on_a_narrow_viewport(
     persist_db_path: pathlib.Path,
 ) -> None:
-    server, thread, base = _start(persist_db_path)
+    server, _thread, base = _start(persist_db_path)
     try:
         with sync_playwright() as playwright:
             browser = _launch(playwright.chromium)
