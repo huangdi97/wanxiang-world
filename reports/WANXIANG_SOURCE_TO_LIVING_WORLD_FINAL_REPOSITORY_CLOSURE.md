@@ -82,7 +82,7 @@ Evidence and review entry points:
 | `pytest tests/api -q` | PASS | 184 passed |
 | `pytest tests/integration/test_svw_product_visual_audit.py -q` | PASS | 36 captures, no page errors, no horizontal overflow |
 | stage geometry overlap / overflow | PASS | `overlap_check.py`: `problems: 0` on desktop + mobile, both modes |
-| full `pytest -q` | PASS | CI `python` job: 2330 passed, 1 skipped (one pre-existing mobile assertion failed on `1f3164c8` and passed after the fix in `cc9c61fc`) |
+| full `pytest -q` (local) | PASS | 2334 passed, 2 skipped, 2336 collected (skips: PostgreSQL and Docker unavailable on this host) |
 | TypeScript gates (`pnpm -r lint/typecheck/test/build`) | PASS | CI `ts` job at `cc9c61fc` (not run on this host: no Node) |
 | PostgreSQL migration/integration | PASS in CI, EXTERNAL_BLOCKED locally | CI `postgres` job at `cc9c61fc`; no Docker on this host |
 
@@ -120,7 +120,7 @@ CACHE                        PASS (unchanged)
 RESTART                      PASS (unchanged)
 ARCHITECTURE                 PASS
 KERNEL_FREEZE                PASS
-CI                           PASS (run 41877978549 at cc9c61fc: six of six jobs green)
+CI                           PASS (run 41980731016 at 512bf8b4: six of six jobs green)
 SVW_J_HUMAN                  WAITING_HUMAN
 M95_HUMAN                    WAITING_HUMAN
 STABLE_RELEASE               LOCKED
@@ -128,8 +128,9 @@ STABLE_RELEASE               LOCKED
 
 ## 4. CI (authoritative full-suite evidence)
 
-Branch `feature/source-to-visual-world` was pushed as `1d7ebb82`, `1f3164c8` and `cc9c61fc`.
-Run `41877978549` at **`cc9c61fc`** is **success**, with every job green:
+Branch `feature/source-to-visual-world` was pushed as `1d7ebb82`, `1f3164c8`, `cc9c61fc`,
+`93d4b8d7`, `95ba879b` and `512bf8b4`. Runs `41877978549` (`cc9c61fc`) and `41980731016`
+(**`512bf8b4`**) are **success**, with every job green:
 
 | job | result |
 |---|---|
@@ -140,9 +141,11 @@ Run `41877978549` at **`cc9c61fc`** is **success**, with every job green:
 | Release build + clean-room certification smoke | success |
 | ts (pnpm lint / typecheck / test / build) | success |
 
-The run before it (`1f3164c8`) failed exactly one assertion — a worldline compare button that
-had lost its 44px mobile height when the touch-target rule was rewritten — and passed after
-`cc9c61fc`. Local gates in section 2 were re-run after every later edit.
+Two intermediate runs failed exactly one assertion each and both were fixed rather than
+worked around: `1f3164c8` lost the 44px mobile height on a worldline compare button when the
+touch-target rule was rewritten (fixed in `cc9c61fc`), and `95ba879b` tripped an existing
+browser assertion that expected the raw atlas relation type after that type became localized
+(fixed in `512bf8b4`). Local gates in section 2 were re-run after every later edit.
 
 ## 5. Known remaining gaps (not hidden, not counted as done)
 
