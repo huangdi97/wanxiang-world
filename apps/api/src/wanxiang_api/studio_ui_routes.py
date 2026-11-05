@@ -30,6 +30,11 @@ async function enterPlayable(){return call('/experience/worlds/'+encodeURICompon
 async function freeAction(){const x=await call('/experience/plaza',{headers:playableHeaders});const id=x.continue&&x.continue.instance_id;return id?call('/experience/instances/'+encodeURIComponent(id)+'/action',{method:'POST',headers:playableHeaders,body:JSON.stringify({text:document.getElementById('playAction').value})}):x}
 async function leavePlayable(){const x=await call('/experience/plaza',{headers:playableHeaders});const id=x.continue&&x.continue.instance_id;return id?call('/experience/instances/'+encodeURIComponent(id)+'/leave',{method:'POST',headers:playableHeaders}):x}
 async function continuePlayable(){const x=await call('/experience/plaza',{headers:playableHeaders});const id=x.continue&&x.continue.instance_id;return id?call('/experience/instances/'+encodeURIComponent(id)+'/continue',{method:'POST',headers:playableHeaders}):x}
+async function registerPlayablePreview(){
+ const r=await fetch('/studio/jobs/'+encodeURIComponent(job())+'/playable-profile',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({owner_id:'studio',visibility:'private',display_name:job()})});
+ if(!r.ok)return null;
+ const x=await r.json();const id=x.profile&&x.profile.profile_id;if(id)document.getElementById('playProfile').value=id;return x;
+}
 async function loadStatus(){return call('/studio/jobs/'+encodeURIComponent(job()))}
 async function buildDraft(){return call('/studio/jobs/'+encodeURIComponent(job())+'/build',{method:'POST'})}
 async function previewDraft(){return call('/studio/jobs/'+encodeURIComponent(job())+'/preview',{method:'POST'})}
@@ -41,7 +46,7 @@ async function runAuthoring(){
  else source={source_id:'studio_source',kind:file?sourceKind(file.name):'text',content:file?await file.text():document.getElementById('source').value};
  const body={job_id:job(),profile:'book',semantic_provider:document.getElementById('provider').value||null,sources:[{...source,stage:'E3',rights_approved:true,access:'private',package_inclusion_allowed:true,private_analysis_allowed:true}]};
  const x=await call('/studio/one-click',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});
- await call('/studio/jobs/'+encodeURIComponent(job())+'/draft'); await call('/studio/jobs/'+encodeURIComponent(job())+'/review-inbox'); return x;
+ await registerPlayablePreview(); await call('/studio/jobs/'+encodeURIComponent(job())+'/draft'); await call('/studio/jobs/'+encodeURIComponent(job())+'/review-inbox'); return x;
 }
 async function runWorldness(){await call('/studio/jobs/'+encodeURIComponent(job())+'/worldness',{method:'POST'});}
 async function enterWorld(){await call('/studio/jobs/'+encodeURIComponent(job())+'/enter',{method:'POST'});}

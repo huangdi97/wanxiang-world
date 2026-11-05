@@ -55,3 +55,5 @@ tests/_persist_tmp/
 .impeccable/
 # PI-Desktop agent session state (goal artifacts, scratch)
 .pi/
+# Local source-derived visual asset cache (runtime data, evidence JSON is committed)
+artifacts/local-visual-cache/

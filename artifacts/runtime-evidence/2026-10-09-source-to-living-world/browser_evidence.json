@@ -1,0 +1,76 @@
+{
+  "embodiment_actions": [
+    {
+      "intent": "让自己保持清醒",
+      "action_status": "committed",
+      "action_changed": true,
+      "before_revision": 7,
+      "before_events": 7,
+      "after_revision": 8,
+      "after_events": 8,
+      "after_state_hash": "adc911cdbc750601203775bcbb00f724ab56b8c922099c747bdce0b148c3827c",
+      "after_last_event_id": "evt_8766e248f1e74a3f8124e8c084ad3e76",
+      "history_grew": true
+    },
+    {
+      "intent": "让自己保持警觉",
+      "action_status": "committed",
+      "action_changed": true,
+      "before_revision": 8,
+      "before_events": 8,
+      "after_revision": 9,
+      "after_events": 9,
+      "after_state_hash": "5fc1bfccfa19817bcba436e84d993afabdb2856e76209dd61aa56acd832225d2",
+      "after_last_event_id": "evt_f875b552795d423883f2536352ccc69f",
+      "history_grew": true
+    },
+    {
+      "intent": "让自己变得平静",
+      "action_status": "committed",
+      "action_changed": true,
+      "before_revision": 9,
+      "before_events": 9,
+      "after_revision": 10,
+      "after_events": 10,
+      "after_state_hash": "23a246585585043a93d0cf58828b2cffb1051398e0cddb6cd73fde7f6b8cdbdc",
+      "after_last_event_id": "evt_edcf75d97ff0476eaecb46edaf8b8902",
+      "history_grew": true
+    }
+  ],
+  "deferred": {
+    "initial_gallery": 4,
+    "deferred_before": 4,
+    "target_place": "沉水巷",
+    "repeat_provider_calls": 0,
+    "repeat_cache_hits": 1,
+    "guarded_route_echo": true
+  },
+  "observer": {
+    "entry_possible_without_character": true,
+    "action_input_disabled": true,
+    "suggestions_disabled": true,
+    "stage_visible": true
+  },
+  "mobile": {
+    "dock_not_overlapping_stage": true,
+    "viewport": "390x844"
+  },
+  "screenshots": {
+    "desktop": [
+      "01_world_plaza.png",
+      "02_world_detail_atlas.png",
+      "03_world_detail_scene.png",
+      "04_observer_stage.png",
+      "05_embodiment_stage.png",
+      "06_deferred_before.png",
+      "07_deferred_after.png"
+    ],
+    "mobile": [
+      "01_world_detail.png",
+      "02_living_stage.png",
+      "03_action_dock.png",
+      "04_record_history.png"
+    ]
+  },
+  "page_errors": []
+}

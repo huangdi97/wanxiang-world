@@ -1,6 +1,53 @@
 # Status ? Wanxiang Engineering Program
 
-Updated: 2026-10-08 (R7 extended local design closure qualified; overall WAITING_HUMAN)
+Updated: 2026-10-20 (Source → Living Visual World repository closure advanced; overall WAITING_HUMAN / EXTERNAL_BLOCKED evidence remains)
+
+
+## Source → Living Visual World current branch — 2026-10-20
+
+Active implementation branch: `feature/source-to-visual-world`, PR #3 (draft).
+Repository truth must be re-read from the remote branch and GitHub Actions before
+any acceptance claim; older SHA/PASS records in this file are historical evidence only.
+
+The branch now implements the generic, book-agnostic product path rather than a
+hand-authored world for one title:
+
+`Source → Evidence → WorldDraft/WorldPackage → SourceVisualPlan → T0/T1/T2/T3 derived assets → one Player World Stage → Player intent → Commit Authority → canonical History`.
+
+Repository-side closure now includes:
+
+- source-grounded Atlas/place identity, evidence-only topology and bounded scene clues;
+- deterministic zero-cost T0 visuals plus governed T1 image-provider seams;
+- bounded initial visual generation and deferred-place on-demand materialization;
+- restart-safe content-addressed visual cache, cross-process generation coalescing and
+  current-rights re-issuance on cache hits;
+- T2 panorama projection and one shared Player Stage rather than a separate application;
+- durable asynchronous T3 submission/poll/verify/attach tickets, pre-submit ambiguous
+  intent, world-scoped budget reservation, provider usage audit, artifact digest/signature
+  validation, restart rehydration and current-rights revalidation;
+- direct Tencent TokenHub Hy-World adapter behind the generic T3 contract, while real
+  credentialed execution remains external evidence rather than a claimed PASS;
+- dependency-free built-in PLY spatial viewing plus renderer-neutral T3 mounting;
+- Player auto-poll with capped backoff, T3 asset-revision invalidation and explicit
+  `submission_ambiguous` copy that blocks unsafe duplicate paid resubmission;
+- observer-first exploration, embodiment-only canonical actions, worldline/history/replay
+  surfaces, actor-scoped possessions/relations and verified scene-presence semantics;
+- desktop/mobile product hardening down to 320px, touch-target, accessibility and browser
+  evidence coverage.
+
+The architecture boundary remains unchanged: visual/panorama/spatial Provider output is
+derived projection infrastructure and cannot write Canon, Worldline or History.
+
+Still **not self-awarded**:
+
+1. a real authorized T1 provider run with latency/billing evidence;
+2. a real authorized T3 provider run with task, artifact, restart and billing evidence;
+3. rights-safe real long-book qualitative evaluation;
+4. genuine M95/SVW-J human visual and immersion acceptance;
+5. Stable merge/tag/release gates.
+
+Do not create per-book renderers, silently release reserved external cost, invent human
+ratings, or mark `REAL_T1`, `REAL_T3`, Gate 80 or Stable as PASS from local tests alone.
 
 ## M95 local agent verification (2026-10-08)
 
