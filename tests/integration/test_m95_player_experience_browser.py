@@ -196,9 +196,9 @@ def test_conflicting_source_relations_are_marked_in_browser(
                     },
                 )
                 profile_id = str(cast(dict[str, object], profile["profile"])["profile_id"])
-                for locale, expected in (
-                    ("zh-CN", "来源存在不同说法"),
-                    ("en-US", "Sources disagree"),
+                for locale, expected, relation_label in (
+                    ("zh-CN", "来源存在不同说法", "路线"),
+                    ("en-US", "Sources disagree", "route"),
                 ):
                     page.goto(f"{base}/?locale={locale}", wait_until="networkidle")
                     assert page.locator("html").get_attribute("lang") == locale
@@ -208,7 +208,8 @@ def test_conflicting_source_relations_are_marked_in_browser(
                     assert chips.count() >= 2
                     first = chips.first
                     assert expected in first.inner_text()
-                    assert "route" in first.inner_text()
+                    # The chip states the source-grounded relation in the player\'s language.
+                    assert relation_label in first.inner_text()
                     assert first.get_attribute("title") == expected
                     alt_copy = page.locator("#detail-visual-image").get_attribute("alt")
                     assert alt_copy is not None
