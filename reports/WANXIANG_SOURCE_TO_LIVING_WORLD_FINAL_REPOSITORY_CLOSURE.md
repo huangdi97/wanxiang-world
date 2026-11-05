@@ -82,6 +82,7 @@ Evidence and review entry points:
 | `pytest tests/api -q` | PASS | 184 passed |
 | `pytest tests/integration/test_svw_product_visual_audit.py -q` | PASS | 36 captures, no page errors, no horizontal overflow |
 | stage geometry overlap / overflow | PASS | `overlap_check.py`: `problems: 0` on desktop + mobile, both modes |
+| `pytest tests/integration/test_svw_large_world_scale.py -q` | PASS | 100-place world: bounded place page, search returns one place inside the budget, 320px viewport does not scroll sideways |
 | full `pytest -q` (local) | PASS | 2334 passed, 2 skipped, 2336 collected (skips: PostgreSQL and Docker unavailable on this host) |
 | TypeScript gates (`pnpm -r lint/typecheck/test/build`) | PASS | CI `ts` job at `cc9c61fc` (not run on this host: no Node) |
 | PostgreSQL migration/integration | PASS in CI, EXTERNAL_BLOCKED locally | CI `postgres` job at `cc9c61fc`; no Docker on this host |
@@ -157,8 +158,10 @@ browser assertion that expected the raw atlas relation type after that type beca
    the contract suite rejects Han characters *and* CJK punctuation in the en-US document. What
    remains are defensive English fallbacks inside the spatial built-in (`copy(key, fallback, ...)`);
    the catalog keys they stand in for exist in both locales, so no user-visible leak was observed.
-3. **Scale evidence.** No 100-place / 1000-entity / multi-source-conflict browser spec was added;
-   the existing 40-place pagination test is the only large-world coverage.
+3. **Scale evidence (partially closed).** A 100-place browser spec now asserts a bounded place
+   page with progressive reveal, place search inside a time budget and no sideways scroll at
+   320px. A ~1000-entity world and a single bundle that mixes conflicting sources still have no
+   dedicated spec (conflicting relations are covered by the atlas conflict test).
 4. **T2/T3 stage activation.** The audit captures the upgrade/contract surfaces; a real
    panorama or spatial asset was never attached on this host, so `#panorama-stage-toggle` /
    `#spatial-stage-toggle` stayed hidden and their in-stage renderers were not exercised here.
