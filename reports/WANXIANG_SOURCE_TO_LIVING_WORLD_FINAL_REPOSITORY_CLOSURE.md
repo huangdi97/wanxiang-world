@@ -173,6 +173,12 @@ browser assertion that expected the raw atlas relation type after that type beca
 7. **Human judgement.** Immersion, comprehension and "is this Wanxiang" remain
    `WAITING_HUMAN`; this pass does not rate them.
 
+8. **Multi-source bundle coverage (new defect, reproduced this pass).** The same text compiles as one
+   source (`201/200`) but is rejected as a two-source bundle with `422 ZERO_COVERAGE`
+   (`draft status COMPLETION_REQUIRED is not compilable`), while the concatenated text compiles again.
+   A “book + notes” bundle therefore cannot become a world today. Recorded in `KNOWN_FAILURES.md`;
+   the browser spec for it was deliberately not committed so no failing test is left in the tree.
+
 ## 6. Boundaries that were not crossed
 
 - No Canon/History/Worldline change; visual and projection layers remain read-only byproducts.
