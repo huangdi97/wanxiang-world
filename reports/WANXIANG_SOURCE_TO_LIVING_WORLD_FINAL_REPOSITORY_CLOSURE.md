@@ -176,8 +176,12 @@ browser assertion that expected the raw atlas relation type after that type beca
 8. **Multi-source bundle coverage (new defect, reproduced this pass).** The same text compiles as one
    source (`201/200`) but is rejected as a two-source bundle with `422 ZERO_COVERAGE`
    (`draft status COMPLETION_REQUIRED is not compilable`), while the concatenated text compiles again.
-   A “book + notes” bundle therefore cannot become a world today. Recorded in `KNOWN_FAILURES.md`;
-   the browser spec for it was deliberately not committed so no failing test is left in the tree.
+   A “book + notes” bundle therefore cannot become a world today. Diagnosed root cause: readiness requires
+   `coverage > 0.0` (`authoring/draft_builder.py:190`) and `draft/coverage.py:40-59` computes coverage over the
+   *selected domains*' required capabilities, so an added source can raise what must be evidenced beyond what a
+   short bundle evidences. That makes this a policy decision rather than a crash — it is recorded in
+   `KNOWN_FAILURES.md` with the reproduction, and the compile path was deliberately left unchanged. The browser
+   spec that pinned it was not committed, so no failing test is left in the tree.
 
 ## 6. Boundaries that were not crossed
 
