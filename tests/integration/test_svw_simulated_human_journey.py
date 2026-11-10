@@ -169,7 +169,8 @@ def test_simulated_human_journey_is_walkable(persist_db_path: pathlib.Path) -> N
                     page.locator(".suggestion").nth(attempt % 3).click()
                     page.locator("#send-action").click()
                     page.wait_for_timeout(3000)
-                    committed = page.locator("#change-list li").count()
+                    # Count change rows, not the nested delta lines inside them.
+                    committed = page.locator("#change-list .change-row").count()
                 _step(observations, 8, "三次自由行动的提交结果", f"世界变化条目 {committed} 条")
                 _shot(page, "07-after-actions")
                 _step(observations, 9, "能否看懂世界变化", _text(page, "#change-list"))

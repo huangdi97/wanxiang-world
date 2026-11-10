@@ -188,10 +188,12 @@ browser assertion that expected the raw atlas relation type after that type beca
    `让自己保持<status>` shape; the shipped zh phrasing used a different verb. The catalog now ships
    `让自己保持休息`‑style wording (`让自己保持休息`), verified on the real server (`200`, `状态：警觉 → 休息中`),
    and the i18n contract asserts the shared shape plus that the refused phrasing cannot come back.
-   Corrected alongside it: the “three actions, two change rows” observation was **not** caused by that
-   refusal — with all three actions committing, `#change-list` still shows two rows, so the change list
-   is a bounded/aggregated window rather than one row per action. That is recorded as an open
-   display question, not a defect.
+   Also corrected, twice: the “three actions, two change rows” observation was first wrongly attributed to
+   that refusal, and then wrongly called a bounded window. Measured on the real server, every action
+   returns exactly **one** `recent_changes` entry (the newest commit's changes, which is what
+   “world changes” is for). The extra match came from the spec itself: `#change-list li` also matched
+   the nested `.change-deltas > li` lines. The spec now counts `.change-row`, so the observation is
+   closed as a measurement artifact rather than a product behaviour.
 
 ## 6. Boundaries that were not crossed
 
