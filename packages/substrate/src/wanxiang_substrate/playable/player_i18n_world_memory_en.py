@@ -16,6 +16,7 @@ STRINGS: dict[str, str] = {
     "chronicle_details": "record details",
     "atlas_relation_route": "route",
     "atlas_relation_default": "source relation",
+    "visual_proof_heading": "Visual details",
     "list_separator": ", ",
     "label_separator": ": ",
     "panorama_stage_aria": "360 panorama",
