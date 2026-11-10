@@ -178,7 +178,7 @@ STRINGS: dict[str, str] = {
     "suggestion_rest": "休息片刻",
     "action_awake_value": "让自己保持清醒",
     "action_alert_value": "让自己保持警觉",
-    "action_rest_value": "让自己休息",
+    "action_rest_value": "让自己保持休息",
     "status_loading_home": "正在读取你的世界……",
     "status_open_world": "正在打开世界……",
     "status_returning": "正在回到世界……",

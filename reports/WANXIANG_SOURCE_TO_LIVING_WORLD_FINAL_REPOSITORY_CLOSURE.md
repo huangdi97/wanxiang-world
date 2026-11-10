@@ -183,12 +183,15 @@ browser assertion that expected the raw atlas relation type after that type beca
    under-covering two-source bundle. What is still missing is a *sufficiently evidenced* bundle spec
    (a long book plus a small notes source) that compiles and surfaces a cross-source conflict.
 
-9. **A built-in suggestion is rejected by the server (new defect, found by the simulated journey).**
-   `休息片刻` in the action dock returns **422** and commits nothing, while the other two
-   suggestions commit normally (200 with one change each, world time advancing). A control offered in
-   the primary action surface therefore cannot succeed, and the refusal reaches the player as a backend
-   error instead of a world response (GOAL §21). Recorded in `KNOWN_FAILURES.md` with the reproduction;
-   the fix needs the suggestion payload aligned with the resolver contract plus rejection wording.
+9. **The rejected built-in suggestion is fixed (was a defect, now resolved).** `休息片刻` returned
+   `422 missing_fields:entity_id,status` because the action parser only resolves the
+   `让自己保持<status>` shape; the shipped zh phrasing used a different verb. The catalog now ships
+   `让自己保持休息`‑style wording (`让自己保持休息`), verified on the real server (`200`, `状态：警觉 → 休息中`),
+   and the i18n contract asserts the shared shape plus that the refused phrasing cannot come back.
+   Corrected alongside it: the “three actions, two change rows” observation was **not** caused by that
+   refusal — with all three actions committing, `#change-list` still shows two rows, so the change list
+   is a bounded/aggregated window rather than one row per action. That is recorded as an open
+   display question, not a defect.
 
 ## 6. Boundaries that were not crossed
 

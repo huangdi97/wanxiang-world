@@ -29,7 +29,25 @@ def test_chinese_ui_keeps_chinese_action_text() -> None:
     chinese = player_html("zh-CN")
 
     assert "让自己保持清醒" in chinese
-    assert "让自己休息" in chinese
+    # The rest suggestion must use the same parseable shape as the others. The old
+    # "让自己休息" phrasing was refused by the action contract with
+    # missing_fields:entity_id,status, so it must never come back.
+    assert "让自己保持休息" in chinese
+    assert 'data-action="让自己休息"' not in chinese
+
+
+def test_chinese_action_suggestions_share_the_parseable_shape() -> None:
+    """Guard the shape that made every suggestion commit, not just looks Chinese."""
+
+    from wanxiang_substrate.playable.player_i18n import _copy_for
+
+    zh = _copy_for("zh-CN")
+    values = [
+        zh.text(key) for key in ("action_awake_value", "action_alert_value", "action_rest_value")
+    ]
+    assert all(value.startswith("让自己保持") for value in values), values
+    en = _copy_for("en-US")
+    assert en.text("action_rest_value") == "set status to resting"
 
 
 def test_english_player_html_has_no_cjk_punctuation() -> None:
