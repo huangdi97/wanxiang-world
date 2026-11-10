@@ -254,8 +254,4 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 /* Hidden means hidden, and the desktop stage reserves a band for each layer. */
 .site-shell [hidden]{display:none!important}
 @media(min-width:721px){.world-stage-visual figcaption{top:15rem;bottom:auto;left:1.45rem;right:auto;max-width:min(52%,52ch);border-radius:12px;line-height:1.45;white-space:normal}.world-stage-hud{top:12.4rem}.world-stage-story{bottom:9.2rem}.world-stage-context{bottom:9.2rem}.world-action-dock{position:relative;left:auto;transform:none;bottom:auto;margin:-1.5rem auto 0;z-index:8}#observer-scene-explorer:not([hidden])~.world-action-dock{margin-top:.7rem}}
-/* The proof of a derived visual belongs behind a disclosure, not on the stage line. */
-.visual-proof{max-width:min(52%,54ch);margin-top:.35rem;color:#cfe0dc;font-size:.7rem;line-height:1.5}
-.visual-proof>summary{padding:.2rem 0;color:var(--jade);font-weight:800;cursor:pointer}
-.visual-proof>p{margin:.3rem 0 0;padding-left:.6rem;border-left:2px solid rgba(255,255,255,.22);overflow-wrap:anywhere}
 """

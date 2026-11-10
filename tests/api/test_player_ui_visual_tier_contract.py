@@ -46,22 +46,3 @@ def test_visual_generation_budget_errors_are_localized_and_not_generic() -> None
     assert "额度已用完" in chinese.text("error_visual_budget_exhausted")
     assert "duplicate billing" in english.text("error_visual_attempt_reserved")
     assert "budget is exhausted" in english.text("error_visual_budget_exhausted")
-
-
-def test_visual_proof_sits_behind_a_disclosure() -> None:
-    """The scene line states the grounding; tier/provider live in the disclosure."""
-
-    from wanxiang_api.player_ui_asset import player_html
-    from wanxiang_api.player_ui_script import SCRIPT
-    from wanxiang_substrate.playable.player_i18n import _copy_for
-
-    html = player_html("zh-CN")
-
-    assert '<details class="visual-proof" id="visual-proof">' in html
-    assert 'id="visual-proof-copy"' in html
-    assert "textContent=visualProof(visual)" in SCRIPT
-    # The proof must not be concatenated onto the consumer scene line any more.
-    assert " \u00b7 ${visualProof(visual)}" not in SCRIPT
-    assert _copy_for("zh-CN").text("visual_proof_heading") != _copy_for("en-US").text(
-        "visual_proof_heading"
-    )

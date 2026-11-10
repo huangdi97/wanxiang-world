@@ -16,7 +16,6 @@ STRINGS: dict[str, str] = {
     "chronicle_details": "记录说明",
     "atlas_relation_route": "\u8def\u7ebf",
     "atlas_relation_default": "\u6765\u6e90\u5173\u7cfb",
-    "visual_proof_heading": "视觉说明",
     "list_separator": "\u3001",
     "label_separator": "\uff1a",
     "panorama_stage_aria": "360 \u5ea6\u5168\u666f",
