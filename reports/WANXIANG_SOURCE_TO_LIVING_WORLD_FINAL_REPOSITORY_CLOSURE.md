@@ -173,15 +173,15 @@ browser assertion that expected the raw atlas relation type after that type beca
 7. **Human judgement.** Immersion, comprehension and "is this Wanxiang" remain
    `WAITING_HUMAN`; this pass does not rate them.
 
-8. **Multi-source bundle coverage (new defect, reproduced this pass).** The same text compiles as one
-   source (`201/200`) but is rejected as a two-source bundle with `422 ZERO_COVERAGE`
-   (`draft status COMPLETION_REQUIRED is not compilable`), while the concatenated text compiles again.
-   A “book + notes” bundle therefore cannot become a world today. Diagnosed root cause: readiness requires
-   `coverage > 0.0` (`authoring/draft_builder.py:190`) and `draft/coverage.py:40-59` computes coverage over the
-   *selected domains*' required capabilities, so an added source can raise what must be evidenced beyond what a
-   short bundle evidences. That makes this a policy decision rather than a crash — it is recorded in
-   `KNOWN_FAILURES.md` with the reproduction, and the compile path was deliberately left unchanged. The browser
-   spec that pinned it was not committed, so no failing test is left in the tree.
+8. **Multi-source bundles must meet the raised bar (decided, not a defect).** Decision recorded
+   2026-11-04: adding a source to a bundle *may* raise the required capability set, so a bundle whose
+   combined evidence does not cover it is refused at compile time with `422 ZERO_COVERAGE` instead of
+   silently producing a thinner world. Readiness requires `coverage > 0.0`
+   (`authoring/draft_builder.py:190`) and coverage is computed over the selected domains' required
+   capabilities (`draft/coverage.py:40-59`). `tests/integration/test_svw_multisource_coverage.py` pins
+   the policy: the same text compiles as one source, compiles concatenated, and is refused as an
+   under-covering two-source bundle. What is still missing is a *sufficiently evidenced* bundle spec
+   (a long book plus a small notes source) that compiles and surfaces a cross-source conflict.
 
 ## 6. Boundaries that were not crossed
 
