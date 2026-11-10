@@ -183,6 +183,13 @@ browser assertion that expected the raw atlas relation type after that type beca
    under-covering two-source bundle. What is still missing is a *sufficiently evidenced* bundle spec
    (a long book plus a small notes source) that compiles and surfaces a cross-source conflict.
 
+9. **A built-in suggestion is rejected by the server (new defect, found by the simulated journey).**
+   `休息片刻` in the action dock returns **422** and commits nothing, while the other two
+   suggestions commit normally (200 with one change each, world time advancing). A control offered in
+   the primary action surface therefore cannot succeed, and the refusal reaches the player as a backend
+   error instead of a world response (GOAL §21). Recorded in `KNOWN_FAILURES.md` with the reproduction;
+   the fix needs the suggestion payload aligned with the resolver contract plus rejection wording.
+
 ## 6. Boundaries that were not crossed
 
 - No Canon/History/Worldline change; visual and projection layers remain read-only byproducts.
