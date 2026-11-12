@@ -200,6 +200,24 @@ browser assertion that expected the raw atlas relation type after that type beca
    the nested `.change-deltas > li` lines. The spec now counts `.change-row`, so the observation is
    closed as a measurement artifact rather than a product behaviour.
 
+10. **Two-source bundles, measured (this pass).** Both follow-ups from item 8 were closed.
+    A refusal now always carries `details.product_state`: the omitting path was
+    `DuplicateSource` — a bundle whose two sources carry identical content was refused with
+    `422 duplicate_source` and an **empty** `details` object. The source taxonomy names a
+    state for every source failure and the API boundary names one even for an error that
+    declares none, pinned by `tests/api/test_studio_refusal_product_state_contract.py`.
+    The two-comparable-sources shape is pinned by
+    `tests/integration/test_svw_two_comparable_sources.py`. Measured on the real API: two
+    comparable chapters (two people, two places, a walk, a relation and a rule each) compile
+    and publish **one** world (`201`, `publishable`, `draft.status == READY_TO_COMPILE`,
+    places `Garden/Harbor/Market/Station`, `source_refs == [a, b]`); the same pair with one
+    reversed route still compiles and the Player Atlas marks **both** directions
+    `conflicting: true`; a chapter plus short notes is refused, and that refusal is a
+    **conflict** refusal, not a coverage one — the draft covers 0.833 of the required
+    capabilities and carries four unresolved conflicts (`GET /studio/jobs/{id}` →
+    `conflict_count: 4`, `product_state: REVIEW_REQUIRED`) — while the same text as a single
+    source compiles with zero conflicts.
+
 ## 6. Boundaries that were not crossed
 
 - No Canon/History/Worldline change; visual and projection layers remain read-only byproducts.
