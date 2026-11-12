@@ -6,19 +6,24 @@ Updated: 2026-10-20 (Source → Living Visual World repository closure advanced;
 ## Next actions (handover, written 2026-11-04)
 
 Branch `feature/source-to-visual-world`, PR #3 (draft, base `feature/r7-cordis-native`).
-Last CI-verified commit: `4e947023` (ci run 42868708720 — six of six jobs green). Always
+Last CI-verified commits this round: `27f941fe` and `b220e695` (ci runs 43276841675 and
+43286340209 — six of six jobs green). `3ef5c098` and `802cd5d4` failed CI on a
+cross-package private import plus generated-contract drift; both are fixed at `7034d6d5`
+(re-read its CI conclusion from GitHub). Always
 re-read `git rev-parse HEAD`, the PR state and the CI conclusion for that exact SHA from
 GitHub before trusting any line below; never merge, tag, release or mark the PR ready
 without explicit authorization, and keep `REAL_T1/T2/T3` EXTERNAL_BLOCKED,
 `M95_HUMAN`/`SVW_J_HUMAN` WAITING_HUMAN and `STABLE_RELEASE` locked.
 
-1. **Refusals must always carry `product_state`.** A two-source bundle is refused either with
-   `422 contract_error` + `details.product_state == "ZERO_COVERAGE"` (informative) or with an
-   **empty `details` payload** (no diagnosis for the client). Reproduce with the doubled-book
-   bundle, find the path that omits the state, and pin it with a negative test.
-2. **Two comparable sources bundle spec.** Measured behaviour: a rich book plus short notes is
-   refused with `ZERO_COVERAGE`, so a compilable bundle needs a second source of comparable
-   weight. Build the spec on that shape and assert the cross-source conflict is surfaced.
+1. **Refusals must always carry `product_state` — DONE (verified this pass).** The omitting
+   path was `DuplicateSource`: a bundle whose two sources carry identical content was refused
+   with `422 duplicate_source` and an empty `details` object. The source taxonomy now states
+   every source failure and the API boundary names a state even for an error that declares
+   none. Evidence: `tests/api/test_studio_refusal_product_state_contract.py`.
+2. **Two comparable sources bundle spec — DONE (verified this pass).** Measured: the refusal
+   is a *conflict* refusal (coverage 0.833, four unresolved conflicts), two comparable
+   chapters compile and publish one world, and a cross-source disagreement is marked on the
+   consumer atlas. Evidence: `tests/integration/test_svw_two_comparable_sources.py`.
 3. **Replay read-only guard on the server — DONE (verified this pass).** The session records
    the past world time it is viewing (`replay_at_ticks`), the action use case refuses while
    that hold is set (`replay_read_only`, `product_state = REPLAY_READ_ONLY`), and
@@ -29,7 +34,9 @@ without explicit authorization, and keep `REAL_T1/T2/T3` EXTERNAL_BLOCKED,
    mount / drag / reset / reduced-motion / T0 fallback in Chrome. Evidence:
    `tests/integration/test_svw_stage_renderers.py` plus
    `CURRENT_PRODUCT_VISUAL_AUDIT/stage-renderers/` (8 screenshots + `audit.json`).
-5. **Move the visual proof behind a disclosure (front-end, blocked once — read this first).**
+5. **Move the visual proof behind a disclosure — NOT STARTED in this round** (the four
+   measured obstacles below still stand, and the earlier attempt was reverted because it
+   broke CI). This is the only remaining step of this list.
    Four obstacles were measured, in order of importance:
    (a) the disclosure must **not** live inside `figure.world-stage-visual`: that layer is
    absolutely positioned with `overflow:hidden` and its `<img>` fills the height, so a static
