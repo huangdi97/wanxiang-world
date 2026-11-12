@@ -48,7 +48,7 @@ from wanxiang_substrate.workshop import LocalPromptGenesisProvider, WorkshopServ
 
 from wanxiang_api.authoring_routes import router as authoring_router
 from wanxiang_api.constitution_routes import router as constitution_router
-from wanxiang_api.errors import install_error_handler
+from wanxiang_api.errors import install_error_handler, product_state_for
 from wanxiang_api.limits import PayloadTooLarge
 from wanxiang_api.lineage_routes import router as lineage_router
 from wanxiang_api.living_world_routes import router as living_world_router
@@ -268,7 +268,7 @@ def create_app(
             content={
                 "code": "payload_too_large",
                 "message": f"payload {exc.size} bytes exceeds limit {exc.limit}",
-                "details": {},
+                "details": {"product_state": product_state_for(exc)},
             },
         )
 
