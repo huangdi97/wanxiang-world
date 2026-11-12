@@ -6,7 +6,7 @@ Updated: 2026-10-20 (Source → Living Visual World repository closure advanced;
 ## Next actions (handover, written 2026-11-04)
 
 Branch `feature/source-to-visual-world`, PR #3 (draft, base `feature/r7-cordis-native`).
-Last CI-verified commit: `4e947023` (ci run 42868720872 — six of six jobs green). Always
+Last CI-verified commit: `4e947023` (ci run 42868708720 — six of six jobs green). Always
 re-read `git rev-parse HEAD`, the PR state and the CI conclusion for that exact SHA from
 GitHub before trusting any line below; never merge, tag, release or mark the PR ready
 without explicit authorization, and keep `REAL_T1/T2/T3` EXTERNAL_BLOCKED,
