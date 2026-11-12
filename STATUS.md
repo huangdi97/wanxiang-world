@@ -6,10 +6,11 @@ Updated: 2026-10-20 (Source → Living Visual World repository closure advanced;
 ## Next actions (handover, written 2026-11-04)
 
 Branch `feature/source-to-visual-world`, PR #3 (draft, base `feature/r7-cordis-native`).
-Last CI-verified commits this round: `27f941fe` and `b220e695` (ci runs 43276841675 and
-43286340209 — six of six jobs green). `3ef5c098` and `802cd5d4` failed CI on a
-cross-package private import plus generated-contract drift; both are fixed at `7034d6d5`
-(re-read its CI conclusion from GitHub). Always
+Last CI-verified commit: `83fc7d5e` (ci run 43315174724 — six of six jobs green), on top of
+`27f941fe` and `b220e695` (ci runs 43276841675 / 43286340209, six of six green).
+`3ef5c098`, `802cd5d4` and `8af891b4` failed CI on a cross-package private import, the
+generated OpenAPI/SDK baseline and one stale browser assertion; all three are fixed at
+`83fc7d5e` (re-read the conclusion for whatever HEAD you find). Always
 re-read `git rev-parse HEAD`, the PR state and the CI conclusion for that exact SHA from
 GitHub before trusting any line below; never merge, tag, release or mark the PR ready
 without explicit authorization, and keep `REAL_T1/T2/T3` EXTERNAL_BLOCKED,
