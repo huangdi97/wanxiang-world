@@ -163,9 +163,16 @@ browser assertion that expected the raw atlas relation type after that type beca
    entities and 200 relations in a 16KB source) and this is the measured shape of a long source.
    A single bundle that mixes *conflicting* sources still has no dedicated spec; conflicting
    relations from one source are covered by the atlas conflict browser test.
-4. **T2/T3 stage activation.** The audit captures the upgrade/contract surfaces; a real
-   panorama or spatial asset was never attached on this host, so `#panorama-stage-toggle` /
-   `#spatial-stage-toggle` stayed hidden and their in-stage renderers were not exercised here.
+4. **T2/T3 stage activation (closed this pass).** The audit had only captured the upgrade
+   surfaces. `tests/integration/test_svw_stage_renderers.py` injects the repository contract
+   providers (a panorama provider whose `presentation_kind == "panorama"`, and a
+   `_SpatialGenerationProvider` subclass emitting the PLY the built-in viewer renders),
+   attaches one T2 and one T3 asset to the same place, and drives the real Player in Chrome:
+   both toggles appear, both renderers mount a canvas in `#world-stage-panorama` /
+   `#world-stage-spatial`, a pointer drag changes the rendered frame, the spatial reset is
+   deterministic, `prefers-reduced-motion: reduce` keeps the stage parallax disabled, and a
+   place without assets keeps the T0 scene image with both toggles hidden. Evidence:
+   `CURRENT_PRODUCT_VISUAL_AUDIT/stage-renderers/` (8 screenshots + `audit.json`).
 5. **Replay server-side guard (closed this pass).** Replay used to be a client-side read
    mode only, so a direct POST while the Player showed a past world time still committed an
    event. The session now records the world time it is viewing (`replay_at_ticks`, session

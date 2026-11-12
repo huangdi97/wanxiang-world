@@ -24,11 +24,11 @@ without explicit authorization, and keep `REAL_T1/T2/T3` EXTERNAL_BLOCKED,
    that hold is set (`replay_read_only`, `product_state = REPLAY_READ_ONLY`), and
    return-to-now / leave / continue release it. Evidence:
    `tests/api/test_player_replay_read_only_guard.py`.
-4. **Activate the in-stage T2/T3 renderers.** They have only ever been verified at the upgrade
-   panel (`t2-contract` / `t3-contract` captures). Inject the repository contract providers
-   (`panorama_provider` with `presentation_kind == "panorama"`, `SpatialGenerationProvider`),
-   make `#panorama-stage-toggle` / `#spatial-stage-toggle` appear, then verify mount, drag,
-   reset, reduced-motion and T0 fallback, with screenshots.
+4. **Activate the in-stage T2/T3 renderers — DONE (verified this pass).** Injected the
+   repository contract providers, attached one T2 and one T3 asset to one place, and verified
+   mount / drag / reset / reduced-motion / T0 fallback in Chrome. Evidence:
+   `tests/integration/test_svw_stage_renderers.py` plus
+   `CURRENT_PRODUCT_VISUAL_AUDIT/stage-renderers/` (8 screenshots + `audit.json`).
 5. **Move the visual proof behind a disclosure (front-end, blocked once — read this first).**
    Four obstacles were measured, in order of importance:
    (a) the disclosure must **not** live inside `figure.world-stage-visual`: that layer is
