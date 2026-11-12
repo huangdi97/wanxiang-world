@@ -3,6 +3,48 @@
 Updated: 2026-10-20 (Source → Living Visual World repository closure advanced; overall WAITING_HUMAN / EXTERNAL_BLOCKED evidence remains)
 
 
+## Next actions (handover, written 2026-11-04)
+
+Branch `feature/source-to-visual-world`, PR #3 (draft, base `feature/r7-cordis-native`).
+Last CI-verified commit: `4e947023` (ci run 42868720872 — six of six jobs green). Always
+re-read `git rev-parse HEAD`, the PR state and the CI conclusion for that exact SHA from
+GitHub before trusting any line below; never merge, tag, release or mark the PR ready
+without explicit authorization, and keep `REAL_T1/T2/T3` EXTERNAL_BLOCKED,
+`M95_HUMAN`/`SVW_J_HUMAN` WAITING_HUMAN and `STABLE_RELEASE` locked.
+
+1. **Refusals must always carry `product_state`.** A two-source bundle is refused either with
+   `422 contract_error` + `details.product_state == "ZERO_COVERAGE"` (informative) or with an
+   **empty `details` payload** (no diagnosis for the client). Reproduce with the doubled-book
+   bundle, find the path that omits the state, and pin it with a negative test.
+2. **Two comparable sources bundle spec.** Measured behaviour: a rich book plus short notes is
+   refused with `ZERO_COVERAGE`, so a compilable bundle needs a second source of comparable
+   weight. Build the spec on that shape and assert the cross-source conflict is surfaced.
+3. **Replay read-only guard on the server.** Replay is a client-side read mode today; a direct
+   action POST while replaying still commits. Add a server-side guard plus a negative test.
+4. **Activate the in-stage T2/T3 renderers.** They have only ever been verified at the upgrade
+   panel (`t2-contract` / `t3-contract` captures). Inject the repository contract providers
+   (`panorama_provider` with `presentation_kind == "panorama"`, `SpatialGenerationProvider`),
+   make `#panorama-stage-toggle` / `#spatial-stage-toggle` appear, then verify mount, drag,
+   reset, reduced-motion and T0 fallback, with screenshots.
+5. **Move the visual proof behind a disclosure (front-end, blocked once — read this first).**
+   Four obstacles were measured, in order of importance:
+   (a) the disclosure must **not** live inside `figure.world-stage-visual`: that layer is
+   absolutely positioned with `overflow:hidden` and its `<img>` fills the height, so a static
+   child is clipped out of view and any click times out;
+   (b) the proof text is concatenated at **more than one caption site** (`player_ui_script.py`
+   stage caption and the two World Detail plate assignments), so sites must be changed
+   atomically;
+   (c) collapsed `<details>` content is not rendered, so tests must open the disclosure before
+   reading text and assert collapse via the `open` attribute only;
+   (d) do **not** add an "empty proof hides the disclosure" rule — it makes the control
+   unclickable in exactly the state the journey tests.
+   Preferred fix: give the stage disclosure its own band alongside `.world-stage-clues` /
+   `.world-stage-story` instead of nesting it in the visual layer.
+
+Already recorded as open observations: the change list shows the newest commit only (one row
+per commit); the three built-in suggestions are all parseable now (the rest suggestion used to
+return `422 missing_fields`); the atlas relation chip is localized.
+
 ## Source → Living Visual World current branch — 2026-10-20
 
 Active implementation branch: `feature/source-to-visual-world`, PR #3 (draft).
