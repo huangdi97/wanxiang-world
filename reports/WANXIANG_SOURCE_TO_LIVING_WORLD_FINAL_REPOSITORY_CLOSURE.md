@@ -180,8 +180,13 @@ browser assertion that expected the raw atlas relation type after that type beca
    (`authoring/draft_builder.py:190`) and coverage is computed over the selected domains' required
    capabilities (`draft/coverage.py:40-59`). `tests/integration/test_svw_multisource_coverage.py` pins
    the policy: the same text compiles as one source, compiles concatenated, and is refused as an
-   under-covering two-source bundle. What is still missing is a *sufficiently evidenced* bundle spec
-   (a long book plus a small notes source) that compiles and surfaces a cross-source conflict.
+   under-covering two-source bundle. A “sufficiently evidenced” bundle was then attempted and measured: a
+   richer book (two places, two people, two rules, an institution) plus a short travel-notes source is
+   still refused with `ZERO_COVERAGE`, and a doubled book plus the same notes is refused too but with an
+   **empty `details` payload**, so that second refusal carries no diagnosis for a client. Conclusion:
+   under the decided policy a book + short-notes bundle is not compilable at all, and reaching a
+   compilable bundle needs a second source of comparable weight — not a small appendix. Two follow-ups
+   are queued: make the refusal always carry `product_state`, and build a two-comparable-sources spec.
 
 9. **The rejected built-in suggestion is fixed (was a defect, now resolved).** `休息片刻` returned
    `422 missing_fields:entity_id,status` because the action parser only resolves the
