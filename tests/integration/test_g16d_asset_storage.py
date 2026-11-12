@@ -56,6 +56,20 @@ def test_blob_corruption_detected(blob_dir: pathlib.Path) -> None:
         store.get(ref)
 
 
+def test_put_repairs_corrupt_blob_atomically(blob_dir: pathlib.Path) -> None:
+    store = LocalObjectStore(blob_dir)
+    first = store.put(b"source-grounded scene", content_type="image/png")
+    path = blob_dir / first.content_hash[:2] / first.content_hash
+    path.write_bytes(b"corrupted-cache-pixels")
+    with pytest.raises(AssetCorrupt):
+        store.get(first)
+
+    repaired = store.put(b"source-grounded scene", content_type="image/png")
+    assert repaired == first
+    assert store.get(repaired) == b"source-grounded scene"
+    assert sorted(p.name for p in path.parent.iterdir()) == [first.content_hash]
+
+
 def test_missing_blob_is_explicit_not_found(blob_dir: pathlib.Path) -> None:
     store = LocalObjectStore(blob_dir)
     ref = store.put(b"data", content_type="text/plain")

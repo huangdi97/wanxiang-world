@@ -12,6 +12,7 @@ from fastapi.testclient import TestClient
 from scripts.reference_runtime import build_reference_runtime
 from wanxiang_api.app import create_app
 from wanxiang_api.player_ui_asset import player_html
+from wanxiang_domain.ids import BranchId, WorldInstanceId
 
 HEADERS = {"X-Wanxiang-User": "studio"}
 
@@ -35,7 +36,7 @@ def _source() -> dict[str, object]:
     }
 
 
-def _client() -> Any:
+def _client(*, with_character: bool = True, visibility: str = "public") -> Any:
     app = create_app(build_reference_runtime())
     client: Any = TestClient(app)
     response = client.post(
@@ -47,7 +48,7 @@ def _client() -> Any:
         "/studio/jobs/m95_zh_projection_job/playable-profile",
         json={
             "owner_id": "studio",
-            "visibility": "public",
+            "visibility": visibility,
             "display_name": "江南机关城",
             "description": "一座沿水道展开的机关城，机关与人情都从清晨开始。",
             "scenario_name": "潮汐门初启",
@@ -56,6 +57,8 @@ def _client() -> Any:
     )
     assert profile.status_code == 200
     profile_id = str(profile.json()["profile"]["profile_id"])
+    if not with_character:
+        return client
     character = client.post(
         "/experience/player/characters",
         headers=HEADERS,
@@ -72,6 +75,675 @@ def _client() -> Any:
     )
     assert character.status_code == 201
     return client
+
+
+def test_session_cards_and_history_keep_worldline_state_separate() -> None:
+    client = _client()
+    plaza = client.get("/experience/player/plaza", headers=HEADERS).json()
+    profile_id = str(plaza["worlds"][0]["profile_id"])
+    entered = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=HEADERS,
+        json={
+            "mode": "embodiment",
+            "session_id": "session_card_parent",
+            "character_id": "ent_alice",
+        },
+    )
+    parent = str(entered.json()["instance_id"])
+    assert (
+        client.post(
+            f"/experience/player/instances/{parent}/action",
+            headers=HEADERS,
+            json={"text": "让自己保持清醒"},
+        ).status_code
+        == 200
+    )
+    fork = client.post(f"/experience/player/instances/{parent}/fork", headers=HEADERS)
+    child = str(cast(dict[str, Any], fork.json()["worldline"])["instance_id"])
+    assert (
+        client.post(
+            f"/experience/player/instances/{parent}/action",
+            headers=HEADERS,
+            json={"text": "让自己保持警觉"},
+        ).status_code
+        == 200
+    )
+
+    cards = cast(
+        list[dict[str, Any]],
+        client.get("/experience/player/plaza", headers=HEADERS).json()["recent_sessions"],
+    )
+    by_instance = {str(card["instance_id"]): card for card in cards}
+    child_card = by_instance[child]
+    parent_card = by_instance[parent]
+    assert child_card["world_name"] == parent_card["world_name"] == "江南机关城"
+    assert child_card["character_name"] == parent_card["character_name"]
+    assert child_card["status"] == "saved"
+    assert parent_card["status"] == "active"
+    assert int(child_card["time"]["ticks"]) < int(parent_card["time"]["ticks"])
+    assert child_card["events_since_leave"] == []
+
+    child_history = client.get(
+        f"/experience/player/instances/{child}/history",
+        headers=HEADERS,
+        params={"limit": 2},
+    )
+    assert child_history.status_code == 200
+    child_body = cast(dict[str, Any], child_history.json())
+    assert child_body["total"] >= 3
+    assert child_body["returned"] == 2
+    assert len(child_body["events"]) == 2
+    assert child_body["has_more"] is True
+    assert int(child_body["next_before"]) > 0
+    older = client.get(
+        f"/experience/player/instances/{child}/history",
+        headers=HEADERS,
+        params={"limit": 2, "before": int(child_body["next_before"])},
+    )
+    assert older.status_code == 200
+    older_body = cast(dict[str, Any], older.json())
+    assert older_body["returned"] == 2
+    assert older_body["has_more"] is False
+    assert older_body["next_before"] is None
+    page_times = [int(item["time"]) for item in child_body["events"]]
+    older_times = [int(item["time"]) for item in older_body["events"]]
+    assert all(time < int(child_body["next_before"]) for time in older_times)
+    assert len(set(page_times + older_times)) == 4
+    paged_times: list[int] = []
+    cursor: int | None = None
+    for _ in range(int(child_body["total"]) + 2):
+        params: dict[str, int] = {"limit": 1}
+        if cursor is not None:
+            params["before"] = cursor
+        page = client.get(
+            f"/experience/player/instances/{child}/history",
+            headers=HEADERS,
+            params=params,
+        )
+        assert page.status_code == 200
+        body = cast(dict[str, Any], page.json())
+        paged_times.extend(int(item["time"]) for item in body["events"])
+        if not body["has_more"]:
+            break
+        cursor = int(body["next_before"])
+    assert len(paged_times) == int(child_body["total"])
+    assert len(set(paged_times)) == len(paged_times)
+    assert paged_times == sorted(paged_times, reverse=True)
+    empty = client.get(
+        f"/experience/player/instances/{child}/history",
+        headers=HEADERS,
+        params={"before": 0},
+    )
+    empty_body = cast(dict[str, Any], empty.json())
+    assert empty_body["returned"] == 0
+    assert empty_body["events"] == []
+    assert empty_body["has_more"] is False
+    assert empty_body["total"] == child_body["total"]
+    for invalid in (0, 501):
+        rejected = client.get(
+            f"/experience/player/instances/{child}/history",
+            headers=HEADERS,
+            params={"limit": invalid},
+        )
+        assert rejected.status_code == 422
+    negative = client.get(
+        f"/experience/player/instances/{child}/history",
+        headers=HEADERS,
+        params={"before": -1},
+    )
+    assert negative.status_code == 422
+
+    assert (
+        client.post(
+            f"/experience/player/instances/{parent}/leave",
+            headers=HEADERS,
+        ).status_code
+        == 200
+    )
+    saved_cards = cast(
+        list[dict[str, Any]],
+        client.get("/experience/player/plaza", headers=HEADERS).json()["recent_sessions"],
+    )
+    saved_parent = {str(card["instance_id"]): card for card in saved_cards}[parent]
+    assert saved_parent["status"] == "saved"
+    first_leave = int(saved_parent["leave_time"]["ticks"])
+    assert first_leave > 0
+    assert saved_parent["events_since_leave"] == []
+    assert saved_parent["last_change"]["summary"]
+
+    resumed = client.post(
+        f"/experience/player/instances/{parent}/continue",
+        headers=HEADERS,
+    )
+    assert resumed.status_code == 200
+    assert (
+        client.post(
+            f"/experience/player/instances/{parent}/action",
+            headers=HEADERS,
+            json={"text": "让自己保持紧张"},
+        ).status_code
+        == 200
+    )
+    assert (
+        client.post(
+            f"/experience/player/instances/{parent}/leave",
+            headers=HEADERS,
+        ).status_code
+        == 200
+    )
+    second_cards = cast(
+        list[dict[str, Any]],
+        client.get("/experience/player/plaza", headers=HEADERS).json()["recent_sessions"],
+    )
+    second_parent = {str(card["instance_id"]): card for card in second_cards}[parent]
+    assert second_parent["status"] == "saved"
+    assert int(second_parent["leave_time"]["ticks"]) > first_leave
+    assert second_parent["last_change"]["summary"]
+    assert second_parent["events_since_leave"] == []
+
+
+def test_source_gated_visual_detail_is_withheld_from_guests() -> None:
+    client = _client()
+    plaza = client.get("/experience/player/plaza", headers=HEADERS).json()
+    profile_id = str(plaza["worlds"][0]["profile_id"])
+
+    guest_detail = client.get(
+        f"/experience/player/worlds/{profile_id}",
+        headers={"X-Wanxiang-User": "guest"},
+    )
+    assert guest_detail.status_code == 200
+    guest_world = cast(dict[str, Any], guest_detail.json()["world"])
+    assert guest_world["visual"] is None
+    assert "cast" not in guest_world
+    assert guest_world["counts"]["characters"] == 0
+
+    denied = client.post(
+        f"/experience/player/worlds/{profile_id}/visuals",
+        headers={"X-Wanxiang-User": "guest"},
+        json={"place_name": "Beijing"},
+    )
+    assert denied.status_code == 404
+
+    owner_detail = client.get(f"/experience/player/worlds/{profile_id}", headers=HEADERS)
+    assert owner_detail.status_code == 200
+    owner_world = cast(dict[str, Any], owner_detail.json()["world"])
+    assert owner_world["visual"]["places"]
+
+
+def test_two_players_share_one_worldline_without_overwriting_sessions() -> None:
+    client = _client(with_character=False)
+    plaza = client.get("/experience/player/plaza", headers=HEADERS).json()
+    profile_id = str(plaza["worlds"][0]["profile_id"])
+    initial = client.get(f"/experience/player/worlds/{profile_id}", headers=HEADERS)
+    initial_cast = cast(list[dict[str, Any]], initial.json()["world"]["cast"])
+    assert [item["available"] for item in initial_cast] == [True, True]
+    users: dict[str, str] = {}
+    for user in ("alice", "bob"):
+        created = client.post(
+            "/experience/player/characters",
+            headers={"X-Wanxiang-User": user},
+            json={
+                "display_name": user.title(),
+                "compatible_profile_ids": [profile_id],
+            },
+        )
+        assert created.status_code == 201, created.text
+        users[user] = str(created.json()["character"]["character_id"])
+    assert users == {"alice": "ent_alice", "bob": "ent_bob"}
+    cast_detail = client.get(
+        f"/experience/player/worlds/{profile_id}",
+        headers=HEADERS,
+    )
+    cast_rows = cast(list[dict[str, Any]], cast_detail.json()["world"]["cast"])
+    assert [(item["name"], item["character_id"], item["available"]) for item in cast_rows] == [
+        ("Alice", "ent_alice", False),
+        ("Bob", "ent_bob", False),
+    ]
+    exhausted = client.post(
+        "/experience/player/characters",
+        headers={"X-Wanxiang-User": "carol"},
+        json={"display_name": "Carol", "compatible_profile_ids": [profile_id]},
+    )
+    assert exhausted.status_code == 422
+    assert "unbound source actor" in exhausted.text
+
+    alice_headers = {"X-Wanxiang-User": "alice"}
+    bob_headers = {"X-Wanxiang-User": "bob"}
+    entered = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=alice_headers,
+        json={
+            "mode": "embodiment",
+            "session_id": "shared_alice",
+            "character_id": users["alice"],
+        },
+    )
+    assert entered.status_code == 200, entered.text
+    instance_id = str(entered.json()["instance_id"])
+    assert (
+        client.post(
+            f"/experience/player/instances/{instance_id}/leave",
+            headers=alice_headers,
+        ).status_code
+        == 200
+    )
+
+    bob_entered = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=bob_headers,
+        json={
+            "mode": "embodiment",
+            "session_id": "shared_bob",
+            "character_id": users["bob"],
+        },
+    )
+    assert bob_entered.status_code == 200, bob_entered.text
+    assert str(bob_entered.json()["instance_id"]) == instance_id
+    bob_action = client.post(
+        f"/experience/player/instances/{instance_id}/action",
+        headers=bob_headers,
+        json={"text": "set status to alert"},
+    )
+    assert bob_action.status_code == 200, bob_action.text
+    assert (
+        client.post(
+            f"/experience/player/instances/{instance_id}/leave",
+            headers=bob_headers,
+        ).status_code
+        == 200
+    )
+
+    alice_plaza = client.get("/experience/player/plaza", headers=alice_headers)
+    assert alice_plaza.status_code == 200
+    alice_continue = cast(dict[str, Any], alice_plaza.json()["continue"])
+    assert alice_continue["instance_id"] == instance_id
+    assert alice_continue["events_since_leave"]
+    alice_resumed = client.post(
+        f"/experience/player/instances/{instance_id}/continue",
+        headers=alice_headers,
+    )
+    assert alice_resumed.status_code == 200, alice_resumed.text
+    assert alice_resumed.json()["view"]["session"]["status"] == "active"
+    assert alice_resumed.json()["view"]["session"]["events_since_leave"] == []
+
+    bob_plaza = client.get("/experience/player/plaza", headers=bob_headers)
+    bob_continue = cast(dict[str, Any], bob_plaza.json()["continue"])
+    assert bob_continue["instance_id"] == instance_id
+    assert bob_continue["events_since_leave"] == []
+
+    alice_worldlines = client.get(
+        f"/experience/player/instances/{instance_id}/worldlines",
+        headers=alice_headers,
+    )
+    assert alice_worldlines.status_code == 200
+    assert alice_worldlines.json()["branches"] == 1
+    assert len(cast(list[dict[str, Any]], alice_worldlines.json()["worldlines"])) == 1
+
+
+def test_explicit_new_character_is_grounded_through_commit() -> None:
+    client = _client(with_character=False)
+    plaza = client.get("/experience/player/plaza", headers=HEADERS).json()
+    profile_id = str(plaza["worlds"][0]["profile_id"])
+    created = client.post(
+        "/experience/player/characters",
+        headers=HEADERS,
+        json={
+            "display_name": "Newcomer",
+            "character_id": "newcomer",
+            "compatible_profile_ids": [profile_id],
+        },
+    )
+    assert created.status_code == 201, created.text
+    entered = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=HEADERS,
+        json={
+            "mode": "embodiment",
+            "session_id": "grounded_newcomer",
+            "character_id": "newcomer",
+        },
+    )
+    assert entered.status_code == 200, entered.text
+    instance_id = str(entered.json()["instance_id"])
+    action = client.post(
+        f"/experience/player/instances/{instance_id}/action",
+        headers=HEADERS,
+        json={"text": "set status to alert"},
+    )
+    assert action.status_code == 200, action.text
+    history = client.get(
+        f"/experience/player/instances/{instance_id}/history",
+        headers=HEADERS,
+    )
+    assert history.status_code == 200
+    assert history.json()["total"] >= 2
+
+
+def test_grounded_actor_reentry_and_fork_keep_one_actor() -> None:
+    client = _client(with_character=False)
+    plaza = client.get("/experience/player/plaza", headers=HEADERS).json()
+    profile_id = str(plaza["worlds"][0]["profile_id"])
+    created = client.post(
+        "/experience/player/characters",
+        headers=HEADERS,
+        json={
+            "display_name": "Newcomer",
+            "character_id": "newcomer",
+            "compatible_profile_ids": [profile_id],
+        },
+    )
+    assert created.status_code == 201, created.text
+    entered = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=HEADERS,
+        json={
+            "mode": "embodiment",
+            "session_id": "grounded_once",
+            "character_id": "newcomer",
+        },
+    )
+    assert entered.status_code == 200, entered.text
+    instance_id = str(entered.json()["instance_id"])
+    assert (
+        client.post(
+            f"/experience/player/instances/{instance_id}/action",
+            headers=HEADERS,
+            json={"text": "set status to alert"},
+        ).status_code
+        == 200
+    )
+    first_history = client.get(
+        f"/experience/player/instances/{instance_id}/history",
+        headers=HEADERS,
+    )
+    first_total = int(cast(int, first_history.json()["total"]))
+    assert first_total >= 2
+    assert (
+        client.post(
+            f"/experience/player/instances/{instance_id}/leave",
+            headers=HEADERS,
+        ).status_code
+        == 200
+    )
+
+    resumed = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=HEADERS,
+        json={
+            "mode": "embodiment",
+            "session_id": "grounded_twice",
+            "character_id": "newcomer",
+        },
+    )
+    assert resumed.status_code == 200, resumed.text
+    reentry_history = client.get(
+        f"/experience/player/instances/{instance_id}/history",
+        headers=HEADERS,
+    )
+    assert int(cast(int, reentry_history.json()["total"])) == first_total
+    assert (
+        client.post(
+            f"/experience/player/instances/{instance_id}/action",
+            headers=HEADERS,
+            json={"text": "set status to calm"},
+        ).status_code
+        == 200
+    )
+
+    fork = client.post(
+        f"/experience/player/instances/{instance_id}/fork",
+        headers=HEADERS,
+    )
+    assert fork.status_code == 200, fork.text
+    child = str(cast(dict[str, Any], fork.json()["worldline"])["instance_id"])
+    playable = client.app.state.playable
+    parent_record = playable.store.get_instance_for(instance_id, "studio")
+    assert parent_record is not None
+    parent_world = WorldInstanceId(parent_record.runtime_instance_id or parent_record.instance_id)
+    parent_branch = BranchId(parent_record.branch_id)
+    child_record = playable.store.get_instance_for(child, "studio")
+    assert child_record is not None
+    child_world = WorldInstanceId(child_record.runtime_instance_id or child_record.instance_id)
+    child_branch = BranchId(child_record.branch_id)
+    child_before = playable.runtime.current_state(child_world, child_branch)
+    assert (
+        client.post(
+            f"/experience/player/instances/{instance_id}/action",
+            headers=HEADERS,
+            json={"text": "set status to calm"},
+        ).status_code
+        == 200
+    )
+    child_after = playable.runtime.current_state(child_world, child_branch)
+    assert child_after.semantic_hash() == child_before.semantic_hash()
+    assert (
+        client.post(
+            f"/experience/player/instances/{instance_id}/leave",
+            headers=HEADERS,
+        ).status_code
+        == 200
+    )
+    parent_before_child_action = playable.runtime.current_state(parent_world, parent_branch)
+    assert (
+        client.post(
+            f"/experience/player/instances/{child}/continue",
+            headers=HEADERS,
+        ).status_code
+        == 200
+    )
+    assert (
+        client.post(
+            f"/experience/player/instances/{child}/action",
+            headers=HEADERS,
+            json={"text": "set status to alert"},
+        ).status_code
+        == 200
+    )
+    child_after_action = playable.runtime.current_state(child_world, child_branch)
+    assert child_after_action.semantic_hash() != child_before.semantic_hash()
+    parent_after_child_action = playable.runtime.current_state(parent_world, parent_branch)
+    assert parent_after_child_action.semantic_hash() == parent_before_child_action.semantic_hash()
+    child_view = client.get(f"/experience/player/instances/{child}", headers=HEADERS)
+    assert child_view.status_code == 200
+    child_player = cast(dict[str, Any], child_view.json()["view"]["player"])
+    assert child_player["name"] == "Newcomer"
+    child_history = client.get(
+        f"/experience/player/instances/{child}/history",
+        headers=HEADERS,
+    )
+    assert child_history.status_code == 200
+    assert int(cast(int, child_history.json()["total"])) > first_total
+
+
+def test_foreign_character_cannot_ground_an_actor() -> None:
+    client = _client(with_character=False)
+    plaza = client.get("/experience/player/plaza", headers=HEADERS).json()
+    profile_id = str(plaza["worlds"][0]["profile_id"])
+    alice_headers = {"X-Wanxiang-User": "alice"}
+    bob_headers = {"X-Wanxiang-User": "bob"}
+    created = client.post(
+        "/experience/player/characters",
+        headers=alice_headers,
+        json={
+            "display_name": "Alice Actor",
+            "character_id": "alice_actor",
+            "compatible_profile_ids": [profile_id],
+        },
+    )
+    assert created.status_code == 201, created.text
+    entered = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=alice_headers,
+        json={
+            "mode": "embodiment",
+            "session_id": "alice_actor_session",
+            "character_id": "alice_actor",
+        },
+    )
+    assert entered.status_code == 200, entered.text
+    instance_id = str(entered.json()["instance_id"])
+    assert (
+        client.post(
+            f"/experience/player/instances/{instance_id}/leave",
+            headers=alice_headers,
+        ).status_code
+        == 200
+    )
+
+    playable = client.app.state.playable
+    record = playable.store.get_instance_for(instance_id, "alice")
+    assert record is not None
+    world_instance = WorldInstanceId(record.runtime_instance_id or record.instance_id)
+    branch = BranchId(record.branch_id)
+    before = playable.runtime.current_state(world_instance, branch)
+    denied = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=bob_headers,
+        json={
+            "mode": "embodiment",
+            "session_id": "bob_uses_alice_actor",
+            "character_id": "alice_actor",
+        },
+    )
+    assert denied.status_code == 404
+    after = playable.runtime.current_state(world_instance, branch)
+    assert after.semantic_hash() == before.semantic_hash()
+    assert after.revision.value == before.revision.value
+
+
+def test_private_world_does_not_ground_foreign_actor() -> None:
+    client = _client(with_character=False, visibility="private")
+    profiles = client.app.state.playable.store.list_profiles()
+    profile_id = profiles[0].profile_id
+    alice_headers = {"X-Wanxiang-User": "alice"}
+    created = client.post(
+        "/experience/player/characters",
+        headers=alice_headers,
+        json={
+            "display_name": "Outsider",
+            "character_id": "outsider",
+            "compatible_profile_ids": [profile_id],
+        },
+    )
+    assert created.status_code == 201, created.text
+    denied = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=alice_headers,
+        json={
+            "mode": "embodiment",
+            "session_id": "private_outsider",
+            "character_id": "outsider",
+        },
+    )
+    assert denied.status_code == 404
+    playable = client.app.state.playable
+    install = playable._installs[profile_id]
+    assert (
+        playable.runtime.find_existing_world(WorldInstanceId(f"prv_{install.preview_id}")) is None
+    )
+
+
+def test_private_world_owner_can_ground_new_actor() -> None:
+    client = _client(with_character=False, visibility="private")
+    profiles = client.app.state.playable.store.list_profiles()
+    profile_id = profiles[0].profile_id
+    created = client.post(
+        "/experience/player/characters",
+        headers=HEADERS,
+        json={
+            "display_name": "Owner Actor",
+            "character_id": "owner_actor",
+            "compatible_profile_ids": [profile_id],
+        },
+    )
+    assert created.status_code == 201, created.text
+    entered = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=HEADERS,
+        json={
+            "mode": "embodiment",
+            "session_id": "private_owner_session",
+            "character_id": "owner_actor",
+        },
+    )
+    assert entered.status_code == 200, entered.text
+    instance_id = str(entered.json()["instance_id"])
+    action = client.post(
+        f"/experience/player/instances/{instance_id}/action",
+        headers=HEADERS,
+        json={"text": "set status to alert"},
+    )
+    assert action.status_code == 200, action.text
+    history = client.get(
+        f"/experience/player/instances/{instance_id}/history",
+        headers=HEADERS,
+    )
+    assert history.status_code == 200
+    assert history.json()["total"] >= 2
+
+
+def test_public_visual_world_hides_cost_details_from_visitors() -> None:
+    client: Any = TestClient(create_app(build_reference_runtime()))
+    source = {
+        "source_id": "m95_public_visual_source",
+        "kind": "text",
+        "content": (
+            "# Chapter\nCharacter: Alice\nAlice arrived in Beijing in 1985.\n"
+            "rule: visitors register\n"
+        ),
+        "stage": "E3",
+        "rights_approved": True,
+        "access": "public",
+        "private_analysis_allowed": True,
+        "package_inclusion_allowed": True,
+        "public_export_allowed": True,
+        "training_allowed": False,
+    }
+    created = client.post(
+        "/studio/one-click",
+        json={
+            "job_id": "m95_public_visual_job",
+            "profile": "book",
+            "sources": [source],
+        },
+    )
+    assert created.status_code == 201, created.text
+    profile = client.post(
+        "/studio/jobs/m95_public_visual_job/playable-profile",
+        json={"owner_id": "studio", "visibility": "public", "display_name": "公共视觉世界"},
+    )
+    assert profile.status_code == 200, profile.text
+    profile_id = str(profile.json()["profile"]["profile_id"])
+
+    visitor = client.post(
+        f"/experience/player/worlds/{profile_id}/visuals",
+        headers={"X-Wanxiang-User": "guest"},
+        json={"place_name": "Beijing"},
+    )
+    assert visitor.status_code == 200, visitor.text
+    visitor_body = cast(dict[str, Any], visitor.json())
+    for internal in (
+        "deferred_used",
+        "deferred_limit",
+        "cost_units",
+        "provider_calls",
+        "cache_hits",
+        "fallback_from_provider",
+        "fallback_reason",
+    ):
+        assert internal not in visitor_body
+    assert visitor_body["world"]["visual"]["places"]
+
+    owner = client.post(
+        f"/experience/player/worlds/{profile_id}/visuals",
+        headers=HEADERS,
+        json={"place_name": "Beijing"},
+    )
+    assert owner.status_code == 200, owner.text
+    owner_body = cast(dict[str, Any], owner.json())
+    assert owner_body["deferred_limit"] == 24
+    assert "deferred_used" in owner_body
 
 
 def test_player_projection_is_chinese_and_uses_committed_state_diff() -> None:
@@ -98,6 +770,22 @@ def test_player_projection_is_chinese_and_uses_committed_state_diff() -> None:
     assert detail.json()["characters"][0]["name"] == "沈砚"
     assert detail.json()["world"]["mode"] == "角色体验"
     assert detail.json()["world"]["setting"]["location"] == "Beijing"
+    places = cast(list[dict[str, Any]], detail.json()["world"]["visual"]["places"])
+    assert places and places[0]["name"] == "Beijing"
+    assert places[0]["generated"] is True
+    assert places[0]["tier"] == "T0"
+    assert places[0]["source_count"] == 1
+    assert int(places[0]["source_evidence_count"]) >= 1
+    generation = detail.json()["world"]["visual"]["generation"]
+    assert generation == {"deferred_used": 0, "deferred_limit": 24}
+    generated = client.post(
+        f"/experience/player/worlds/{profile_id}/visuals",
+        headers=HEADERS,
+        json={"place_name": "Beijing"},
+    )
+    assert generated.status_code == 200
+    assert generated.json()["deferred_used"] == 0
+    assert generated.json()["deferred_limit"] == 24
     assert detail.json()["characters"][0]["knowledge_boundary"] == "只知道自己亲眼见过的事。"
 
     entered = client.post(
@@ -141,6 +829,28 @@ def test_player_projection_is_chinese_and_uses_committed_state_diff() -> None:
     assert resumed.json()["view"]["player"]["name"] == "沈砚"
 
 
+def test_observer_cannot_fork_a_canonical_branch() -> None:
+    client = _client()
+    plaza = client.get("/experience/player/plaza", headers=HEADERS).json()
+    profile_id = str(plaza["worlds"][0]["profile_id"])
+    entered = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=HEADERS,
+        json={"mode": "observer", "session_id": "m95_observer_fork_session"},
+    )
+    assert entered.status_code == 200
+    instance_id = str(entered.json()["instance_id"])
+
+    fork = client.post(
+        f"/experience/player/instances/{instance_id}/fork",
+        headers=HEADERS,
+    )
+
+    assert fork.status_code == 422
+    assert fork.json()["code"] == "contract_error"
+    assert "embodied character" in fork.json()["message"]
+
+
 def test_player_lease_conflict_is_structured_and_not_reported_as_network_failure() -> None:
     client = _client()
     plaza = client.get("/experience/player/plaza", headers=HEADERS)
@@ -160,6 +870,296 @@ def test_player_lease_conflict_is_structured_and_not_reported_as_network_failure
     assert conflict.status_code == 409
     assert conflict.json()["code"] == "embodiment_lease_conflict"
     assert "error_lease_conflict" in client.get("/", headers=HEADERS).text
+
+
+def test_player_replay_projects_a_past_tick_without_committing() -> None:
+    client = _client()
+    plaza = client.get("/experience/player/plaza", headers=HEADERS)
+    profile_id = str(plaza.json()["worlds"][0]["profile_id"])
+    entered = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=HEADERS,
+        json={
+            "mode": "embodiment",
+            "session_id": "m95_replay_session",
+            "character_id": "ent_alice",
+        },
+    )
+    assert entered.status_code == 200
+    instance_id = str(entered.json()["instance_id"])
+
+    first = client.post(
+        f"/experience/player/instances/{instance_id}/action",
+        headers=HEADERS,
+        json={"text": "让自己保持清醒"},
+    )
+    assert first.status_code == 200
+    first_view = cast(dict[str, Any], first.json()["view"])
+    first_ticks = int(cast(dict[str, Any], first_view["time"])["ticks"])
+
+    second = client.post(
+        f"/experience/player/instances/{instance_id}/action",
+        headers=HEADERS,
+        json={"text": "让自己保持警觉"},
+    )
+    assert second.status_code == 200
+    second_view = cast(dict[str, Any], second.json()["view"])
+    assert int(cast(dict[str, Any], second_view["time"])["ticks"]) > first_ticks
+
+    replay = client.get(
+        f"/experience/player/instances/{instance_id}/replay",
+        headers=HEADERS,
+        params={"at_ticks": first_ticks},
+    )
+    assert replay.status_code == 200
+    body = cast(dict[str, Any], replay.json())
+    replay_view = cast(dict[str, Any], body["view"])
+    assert body["replay"]["at_ticks"] == first_ticks
+    assert body["replay"]["world_ticks"] == first_ticks
+    assert int(body["replay"]["event_count"]) >= 1
+    # Replaying the first action's tick reproduces the projection observed then.
+    assert replay_view["time"] == first_view["time"]
+    assert replay_view["player"] == first_view["player"]
+    assert replay_view["location"] == first_view["location"]
+    assert replay_view["chronicle"] == first_view["chronicle"]
+    assert replay_view["present_people"] == first_view["present_people"]
+    assert "event_id" not in json.dumps(replay_view, ensure_ascii=False)
+
+    # Replay is read-only: the head projection is unchanged after the call.
+    head = client.get(f"/experience/player/instances/{instance_id}", headers=HEADERS).json()["view"]
+    assert head["time"] == second_view["time"]
+    assert head["player"]["status"] == second_view["player"]["status"]
+
+    empty = client.get(
+        f"/experience/player/instances/{instance_id}/replay",
+        headers=HEADERS,
+        params={"at_ticks": 0},
+    )
+    assert empty.status_code == 200
+    assert empty.json()["replay"]["event_count"] == 0
+    assert empty.json()["view"]["chronicle"] == []
+
+    negative = client.get(
+        f"/experience/player/instances/{instance_id}/replay",
+        headers=HEADERS,
+        params={"at_ticks": -1},
+    )
+    assert negative.status_code == 422
+
+
+def test_player_history_lists_the_full_chronicle_newest_first() -> None:
+    client = _client()
+    plaza = client.get("/experience/player/plaza", headers=HEADERS)
+    profile_id = str(plaza.json()["worlds"][0]["profile_id"])
+    entered = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=HEADERS,
+        json={
+            "mode": "embodiment",
+            "session_id": "m95_history_session",
+            "character_id": "ent_alice",
+        },
+    )
+    instance_id = str(entered.json()["instance_id"])
+    for text in ("让自己保持清醒", "让自己保持警觉"):
+        response = client.post(
+            f"/experience/player/instances/{instance_id}/action",
+            headers=HEADERS,
+            json={"text": text},
+        )
+        assert response.status_code == 200
+
+    history = client.get(
+        f"/experience/player/instances/{instance_id}/history",
+        headers=HEADERS,
+    )
+    assert history.status_code == 200
+    body = cast(dict[str, Any], history.json())
+    events = cast(list[dict[str, Any]], body["events"])
+    assert body["total"] == len(events) >= 3
+    assert body["returned"] == len(events)
+    times = [int(item["time"]) for item in events]
+    assert times == sorted(times, reverse=True)
+    assert "event_id" not in json.dumps(body, ensure_ascii=False)
+    assert "state_hash" not in json.dumps(body, ensure_ascii=False)
+    assert "branch_id" not in json.dumps(body, ensure_ascii=False)
+
+    page = client.get(
+        f"/experience/player/instances/{instance_id}/history",
+        headers=HEADERS,
+        params={"limit": 1},
+    )
+    assert page.status_code == 200
+    assert page.json()["returned"] == 1
+    assert page.json()["total"] == body["total"]
+    assert page.json()["events"][0]["time"] == times[0]
+
+    for item in events:
+        replay = client.get(
+            f"/experience/player/instances/{instance_id}/replay",
+            headers=HEADERS,
+            params={"at_ticks": item["time"]},
+        )
+        assert replay.status_code == 200
+        assert replay.json()["replay"]["world_ticks"] == item["time"]
+
+    assert (
+        client.get(
+            f"/experience/player/instances/{instance_id}/history",
+            headers=HEADERS,
+            params={"limit": 0},
+        ).status_code
+        == 422
+    )
+    assert (
+        client.get(
+            f"/experience/player/instances/{instance_id}/history",
+            headers=HEADERS,
+            params={"limit": 501},
+        ).status_code
+        == 422
+    )
+    other = client.get(
+        f"/experience/player/instances/{instance_id}/history",
+        headers={"X-Wanxiang-User": "someone-else"},
+    )
+    assert other.status_code == 404
+
+
+def test_player_worldline_fork_returns_a_detached_branch_handle() -> None:
+    client = _client()
+    plaza = client.get("/experience/player/plaza", headers=HEADERS)
+    profile_id = str(plaza.json()["worlds"][0]["profile_id"])
+    entered = client.post(
+        f"/experience/player/worlds/{profile_id}/enter",
+        headers=HEADERS,
+        json={
+            "mode": "embodiment",
+            "session_id": "m95_fork_session",
+            "character_id": "ent_alice",
+        },
+    )
+    instance_id = str(entered.json()["instance_id"])
+    action = client.post(
+        f"/experience/player/instances/{instance_id}/action",
+        headers=HEADERS,
+        json={"text": "让自己保持清醒"},
+    )
+    assert action.status_code == 200
+    parent_view = cast(
+        dict[str, Any],
+        client.get(f"/experience/player/instances/{instance_id}", headers=HEADERS).json()["view"],
+    )
+
+    fork = client.post(
+        f"/experience/player/instances/{instance_id}/fork",
+        headers=HEADERS,
+    )
+    assert fork.status_code == 200
+    worldline = cast(dict[str, Any], fork.json()["worldline"])
+    assert "branch_id" not in json.dumps(worldline, ensure_ascii=False)
+    assert "revision" not in json.dumps(worldline, ensure_ascii=False)
+    child = str(worldline["instance_id"])
+    assert child != instance_id
+    assert worldline["parent_instance_id"] == instance_id
+    child_view = cast(
+        dict[str, Any],
+        client.get(f"/experience/player/instances/{child}", headers=HEADERS).json()["view"],
+    )
+    assert child_view["time"] == parent_view["time"]
+    assert child_view["player"] == parent_view["player"]
+    assert child_view["chronicle"] == parent_view["chronicle"]
+    assert (
+        client.get(f"/experience/player/instances/{instance_id}", headers=HEADERS).json()["view"][
+            "player"
+        ]
+        == parent_view["player"]
+    )
+    assert (
+        client.post(
+            f"/experience/player/instances/{instance_id}/fork",
+            headers={"X-Wanxiang-User": "someone-else"},
+        ).status_code
+        == 404
+    )
+
+    listing = client.get(
+        f"/experience/player/instances/{child}/worldlines",
+        headers=HEADERS,
+    )
+    assert listing.status_code == 200
+    cards = cast(list[dict[str, Any]], listing.json()["worldlines"])
+    assert {str(card["instance_id"]) for card in cards} == {instance_id, child}
+    assert listing.json()["branches"] == 2
+    child_card = next(card for card in cards if card["instance_id"] == child)
+    assert child_card["current"] is True
+    assert child_card["forked"] is True
+    assert "branch_id" not in json.dumps(cards, ensure_ascii=False)
+    assert "revision" not in json.dumps(cards, ensure_ascii=False)
+    shared = client.get(
+        f"/experience/player/instances/{instance_id}/compare",
+        headers=HEADERS,
+        params={"with": child},
+    )
+    assert shared.status_code == 200
+    shared_body = cast(dict[str, Any], shared.json())
+    assert shared_body["identical"] is True
+    assert shared_body["common"]["shared"] is True
+    assert "revision" not in json.dumps(shared_body, ensure_ascii=False)
+    assert shared_body["diverged_events"] == {"left": 0, "right": 0}
+    assert shared_body["differences"] == {"total": 0, "truncated": False, "items": []}
+    assert shared_body["recent"]["left"] == shared_body["recent"]["right"]
+    assert (
+        client.get(
+            f"/experience/player/instances/{child}/worldlines",
+            headers={"X-Wanxiang-User": "someone-else"},
+        ).status_code
+        == 404
+    )
+
+    assert (
+        client.post(
+            f"/experience/player/instances/{instance_id}/leave",
+            headers=HEADERS,
+        ).status_code
+        == 200
+    )
+    continued = client.post(
+        f"/experience/player/instances/{child}/continue",
+        headers=HEADERS,
+    )
+    assert continued.status_code == 200
+    assert str(continued.json()["instance_id"]) == child
+    child_action = client.post(
+        f"/experience/player/instances/{child}/action",
+        headers=HEADERS,
+        json={"text": "让自己保持警觉"},
+    )
+    assert child_action.status_code == 200
+    child_after = cast(
+        dict[str, Any],
+        client.get(f"/experience/player/instances/{child}", headers=HEADERS).json()["view"],
+    )
+    parent_after = cast(
+        dict[str, Any],
+        client.get(f"/experience/player/instances/{instance_id}", headers=HEADERS).json()["view"],
+    )
+    assert child_after["player"] != parent_after["player"]
+    assert parent_after["player"] == parent_view["player"]
+    diverged = client.get(
+        f"/experience/player/instances/{instance_id}/compare",
+        headers=HEADERS,
+        params={"with": child},
+    )
+    assert diverged.status_code == 200
+    diverged_body = cast(dict[str, Any], diverged.json())
+    assert diverged_body["identical"] is False
+    assert diverged_body["diverged_events"] == {"left": 0, "right": 1}
+    assert diverged_body["right"]["status"] == "警觉"
+    assert diverged_body["differences"]["total"] >= 1
+    left_recent = cast(list[dict[str, Any]], diverged_body["recent"]["left"])
+    right_recent = cast(list[dict[str, Any]], diverged_body["recent"]["right"])
+    assert right_recent[-1]["time"] > left_recent[-1]["time"]
 
 
 def test_player_entry_is_separate_from_english_studio_surface() -> None:

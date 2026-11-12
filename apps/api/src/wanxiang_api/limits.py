@@ -20,6 +20,10 @@ class RateLimited(Exception):
 
 
 class PayloadTooLarge(Exception):
+    """A submitted payload exceeds the server-side size guard."""
+
+    product_state = "PAYLOAD_TOO_LARGE"
+
     def __init__(self, size: int, limit: int = MAX_PAYLOAD_BYTES) -> None:
         self.size = size
         self.limit = limit

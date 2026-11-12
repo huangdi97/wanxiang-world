@@ -1,5 +1,43 @@
 # Plan ? Wanxiang Engineering Program (M0 + M1 Batch)
 
+
+## Source → Living Visual World execution state — 2026-10-20
+
+The active product branch is `feature/source-to-visual-world` (PR #3 draft).
+The repository-side universal world path is substantially implemented; do not restart from a
+book-specific map, bespoke 3D level, or separate renderer application.
+
+Current execution rule:
+
+1. keep the exact remote branch HEAD and PR HEAD aligned;
+2. keep all six normal CI jobs green without weakening Ruff/Pyright/architecture/kernel gates;
+3. fix only evidence-backed product defects or contract gaps on the generic source-to-world path;
+4. preserve the single Player World Stage and Commit Authority boundary across T0/T1/T2/T3;
+5. stop claiming additional local closure once remaining work requires credentials, provider
+   billing evidence, rights-safe real corpora, a genuine human tester, or release authorization.
+
+The current locally executable design includes source-grounded Atlas/scenes, deferred visual
+generation, durable cache, T2 panorama, asynchronous T3 jobs, conservative budget reservation,
+restart recovery, direct TokenHub adaptation, built-in PLY viewing, mobile/accessibility
+hardening, observer/embodiment separation, worldline/history/replay and derived-asset rights
+revalidation.
+
+A T3 `submission_ambiguous` is deliberately fail-closed: keep its reservation, do not
+auto-resubmit a non-idempotent provider call, and keep the lower visual tiers usable. Provider
+cancellation and safe automatic retry are optional provider capabilities, not universal T3
+requirements.
+
+Remaining actions are evidence-gated rather than an excuse to invent another subsystem:
+
+- authorized real T1 execution and billing/latency evidence;
+- authorized real T3 execution and restart/artifact/billing evidence;
+- rights-safe real long-book qualitative evaluation;
+- genuine M95/SVW-J human acceptance;
+- then the existing Stable release procedure, only with explicit release authorization.
+
+Provider capability research and the current retry/cancellation boundary are recorded in
+`docs/architecture/SOURCE_TO_VISUAL_WORLD_PRODUCT_V2.md`.
+
 ## M95 local agent verification (2026-10-08)
 
 A local agent verification pass ran over this branch: real Chromium
