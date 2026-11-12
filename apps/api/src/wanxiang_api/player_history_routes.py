@@ -8,7 +8,7 @@ from typing import cast
 
 from fastapi import APIRouter, Header, HTTPException, Request
 from wanxiang_substrate.playable import PlayableService
-from wanxiang_substrate.playable.service_replay import _return_to_now
+from wanxiang_substrate.playable.service_replay import return_to_now
 
 router = APIRouter(prefix="/experience/player")
 
@@ -93,5 +93,5 @@ def player_replay_return(
     viewer = _viewer(x_wanxiang_user)
     return {
         "locale": _locale(x_wanxiang_locale),
-        **_return_to_now(_service(request), instance_id, viewer_id=viewer),
+        **return_to_now(_service(request), instance_id, viewer_id=viewer),
     }

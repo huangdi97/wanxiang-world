@@ -93,7 +93,7 @@ def _replay_at(
     return view
 
 
-def _return_to_now(
+def return_to_now(
     service: PlayableService,
     instance_id: str,
     *,
