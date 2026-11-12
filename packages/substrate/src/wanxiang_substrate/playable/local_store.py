@@ -97,6 +97,7 @@ class LocalJsonPlayableStore(InMemoryPlayableStore):
                 lease_id=str(data.get("lease_id", "")),
                 last_revision=int(cast(int, data.get("last_revision", 0))),
                 updated_seq=int(cast(int, data.get("updated_seq", 0))),
+                replay_at_ticks=int(cast(int, data.get("replay_at_ticks", -1))),
                 runtime_instance_id=str(data.get("runtime_instance_id", "")),
             )
         except (KeyError, TypeError, ValueError) as exc:

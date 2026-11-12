@@ -43,6 +43,7 @@ def _save_instance(
         session_id=receipt.session_id,
         lease_id=receipt.lease_id,
         last_revision=state.revision.value,
+        replay_at_ticks=-1,
         updated_seq=_next_touch(service),
     )
     service.store.save_instance(updated)

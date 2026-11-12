@@ -9,6 +9,7 @@ event ids, revisions, or storage identities to the Player.
 
 from __future__ import annotations
 
+from dataclasses import replace
 from typing import TYPE_CHECKING
 
 from wanxiang_domain.errors import NotFound
@@ -87,4 +88,20 @@ def _replay_at(
         "world_ticks": eligible[-1].world_time.ticks if eligible else 0,
         "event_count": len(eligible),
     }
+    if record.replay_at_ticks != at_ticks:
+        service.store.save_instance(replace(record, replay_at_ticks=at_ticks))
     return view
+
+
+def _return_to_now(
+    service: PlayableService,
+    instance_id: str,
+    *,
+    viewer_id: str,
+) -> dict[str, object]:
+    """Leave the past view and release the server-side read-only hold."""
+
+    record = _owned_instance(service, instance_id, viewer_id)
+    if record.replay_at_ticks >= 0:
+        service.store.save_instance(replace(record, replay_at_ticks=-1))
+    return {"instance_id": instance_id, "status": "at_now", "replay": None}

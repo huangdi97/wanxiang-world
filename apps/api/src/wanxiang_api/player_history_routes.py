@@ -8,6 +8,7 @@ from typing import cast
 
 from fastapi import APIRouter, Header, HTTPException, Request
 from wanxiang_substrate.playable import PlayableService
+from wanxiang_substrate.playable.service_replay import _return_to_now
 
 router = APIRouter(prefix="/experience/player")
 
@@ -79,3 +80,18 @@ def player_instance_history(
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
     return {"locale": locale, "instance_id": instance_id, **history}
+
+
+@router.post("/instances/{instance_id}/replay/return")
+def player_replay_return(
+    instance_id: str,
+    request: Request,
+    x_wanxiang_user: str | None = Header(default=None),
+    x_wanxiang_locale: str | None = Header(default=None),
+) -> dict[str, object]:
+    """Return to the present and release the server-side replay read-only hold."""
+    viewer = _viewer(x_wanxiang_user)
+    return {
+        "locale": _locale(x_wanxiang_locale),
+        **_return_to_now(_service(request), instance_id, viewer_id=viewer),
+    }

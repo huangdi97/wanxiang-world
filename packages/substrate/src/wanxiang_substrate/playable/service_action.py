@@ -12,6 +12,7 @@ from wanxiang_domain.ids import BranchId, WorldInstanceId
 
 from wanxiang_substrate.playable.actions import IntentCompiler
 from wanxiang_substrate.playable.entry import active_lease
+from wanxiang_substrate.playable.errors import ReplayReadOnly
 from wanxiang_substrate.playable.evidence import PlayerActionEvidence
 from wanxiang_substrate.playable.service_model import (
     EventLike,
@@ -36,6 +37,10 @@ def _perform_action(
     payload: dict[str, object] | None = None,
 ) -> PlayableActionResult:
     record = _owned_instance(service, instance_id, viewer_id)
+    if record.replay_at_ticks >= 0:
+        raise ReplayReadOnly(
+            f"session is viewing world time {record.replay_at_ticks}; return to now first"
+        )
     if record.mode != "embodiment" or not record.session_id or not record.actor_id:
         raise ContractError("only an embodied actor may submit a world action")
     if active_lease(service.entry, record.session_id) is None:

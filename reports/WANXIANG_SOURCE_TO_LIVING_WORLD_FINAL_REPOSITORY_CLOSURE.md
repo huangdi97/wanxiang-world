@@ -166,8 +166,15 @@ browser assertion that expected the raw atlas relation type after that type beca
 4. **T2/T3 stage activation.** The audit captures the upgrade/contract surfaces; a real
    panorama or spatial asset was never attached on this host, so `#panorama-stage-toggle` /
    `#spatial-stage-toggle` stayed hidden and their in-stage renderers were not exercised here.
-5. **Replay server-side guard.** Replay remains a client-side read mode; a direct POST while
-   replaying still commits (the UI cannot do it).
+5. **Replay server-side guard (closed this pass).** Replay used to be a client-side read
+   mode only, so a direct POST while the Player showed a past world time still committed an
+   event. The session now records the world time it is viewing (`replay_at_ticks`, session
+   bookkeeping, never canonical), every action use case refuses while that hold is set
+   (`replay_read_only` / `REPLAY_READ_ONLY`), and the hold is released by an explicit return
+   to now (`POST /experience/player/instances/{id}/replay/return`, wired to the Player's
+   return-to-now control) or by leaving/continuing the world. Pinned by
+   `tests/api/test_player_replay_read_only_guard.py` (the refusal leaves revision and
+   chronicle unchanged; return and leave release it and the same session commits again).
 6. **World card art.** Cards show a real world visual only once one exists; otherwise an honest
    placeholder. No world-level visual is materialised at creation time.
 7. **Human judgement.** Immersion, comprehension and "is this Wanxiang" remain

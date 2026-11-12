@@ -19,8 +19,11 @@ without explicit authorization, and keep `REAL_T1/T2/T3` EXTERNAL_BLOCKED,
 2. **Two comparable sources bundle spec.** Measured behaviour: a rich book plus short notes is
    refused with `ZERO_COVERAGE`, so a compilable bundle needs a second source of comparable
    weight. Build the spec on that shape and assert the cross-source conflict is surfaced.
-3. **Replay read-only guard on the server.** Replay is a client-side read mode today; a direct
-   action POST while replaying still commits. Add a server-side guard plus a negative test.
+3. **Replay read-only guard on the server — DONE (verified this pass).** The session records
+   the past world time it is viewing (`replay_at_ticks`), the action use case refuses while
+   that hold is set (`replay_read_only`, `product_state = REPLAY_READ_ONLY`), and
+   return-to-now / leave / continue release it. Evidence:
+   `tests/api/test_player_replay_read_only_guard.py`.
 4. **Activate the in-stage T2/T3 renderers.** They have only ever been verified at the upgrade
    panel (`t2-contract` / `t3-contract` captures). Inject the repository contract providers
    (`panorama_provider` with `presentation_kind == "panorama"`, `SpatialGenerationProvider`),

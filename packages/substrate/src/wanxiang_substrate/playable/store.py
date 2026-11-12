@@ -29,6 +29,9 @@ class ExperienceInstanceRecord:
     lease_id: str = ""
     last_revision: int = 0
     updated_seq: int = 0
+    # Session bookkeeping, never canonical: the world time a viewer is looking at
+    # while replaying (-1 means "at now"). A held session may not commit an action.
+    replay_at_ticks: int = -1
     # Forked worldlines use the branch id as the product handle, while canonical
     # reads still target the runtime instance that owns the branch.
     runtime_instance_id: str = ""
@@ -40,6 +43,8 @@ class ExperienceInstanceRecord:
             raise ContractError(f"unsupported instance mode {self.mode!r}")
         if self.last_revision < 0 or self.updated_seq < 0:
             raise ContractError("instance counters cannot be negative")
+        if self.replay_at_ticks < -1:
+            raise ContractError("replay tick cannot be below -1")
 
 
 @dataclass(frozen=True, slots=True)

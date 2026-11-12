@@ -107,6 +107,7 @@ def _leave(
             session_id="",
             lease_id="",
             last_revision=state.revision.value,
+            replay_at_ticks=-1,
             updated_seq=_next_touch(service),
         )
     )
