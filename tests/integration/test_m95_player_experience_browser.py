@@ -813,6 +813,9 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                     path=str(review / "replay-stage-desktop.png")
                 )
                 page.locator("#stage-replay-exit").click()
+                # Returning to now releases the server-side read-only hold, so the
+                # banner clears once that round trip completes.
+                page.locator("#stage-replay-banner").wait_for(state="hidden", timeout=15000)
                 assert page.locator("#stage-replay-banner").is_hidden()
                 assert not page.locator("#send-action").is_disabled()
                 assert not page.locator("#action-input").is_disabled()
