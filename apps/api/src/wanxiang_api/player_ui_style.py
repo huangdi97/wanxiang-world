@@ -152,6 +152,15 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 .stage-replay-banner[hidden]{display:none}
 .stage-replay-banner span{font-size:.85rem;font-weight:850}
 .stage-replay-exit{min-height:36px;padding:.4rem .7rem;border:1px solid #b98a55;border-radius:999px;background:#fff;color:#5d3c18;font:inherit;font-weight:850;cursor:pointer}
+.visual-proof{max-width:min(52%,54ch);font-size:.78rem;line-height:1.5;color:var(--ink-soft)}
+.visual-proof>summary{padding:.25rem 0;color:var(--cobalt);font-weight:850;cursor:pointer}
+.visual-proof>p{margin:.3rem 0 0;padding-left:.6rem;border-left:2px solid rgba(20,38,59,.18);overflow-wrap:anywhere}
+.world-stage-proof{margin:.7rem 0 0}
+.world-stage-proof[hidden]{display:none}
+.detail-plate .visual-proof{position:relative;z-index:1;color:#d6e6e3;max-width:42ch}
+.detail-plate .visual-proof>summary{color:var(--white)}
+.detail-plate .visual-proof>p{border-left-color:rgba(255,254,249,.34)}
+@media(max-width:720px){.visual-proof{max-width:none}}
 .chronicle-replay{display:inline-flex;align-items:center;min-height:24px;border:0;background:transparent;color:var(--cobalt);font:inherit;font-size:.8rem;font-weight:900;padding:.1rem .35rem;margin-left:-.35rem;text-align:left;cursor:pointer;text-decoration:underline dotted;text-underline-offset:3px}
 .chronicle-replay:focus-visible{outline:2px solid var(--cobalt);outline-offset:2px}
 .record-heading-end{display:flex;align-items:baseline;gap:.55rem}

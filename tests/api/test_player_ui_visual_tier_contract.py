@@ -46,3 +46,39 @@ def test_visual_generation_budget_errors_are_localized_and_not_generic() -> None
     assert "额度已用完" in chinese.text("error_visual_budget_exhausted")
     assert "duplicate billing" in english.text("error_visual_attempt_reserved")
     assert "budget is exhausted" in english.text("error_visual_budget_exhausted")
+
+
+def test_visual_proof_lives_in_its_own_disclosure_band() -> None:
+    """The tier/provider proof belongs behind a disclosure, not on the consumer line."""
+
+    from wanxiang_api.player_ui_asset import player_html
+    from wanxiang_api.player_ui_script import SCRIPT
+    from wanxiang_substrate.playable.player_i18n import _copy_for
+
+    html = player_html("zh-CN")
+
+    # One band of its own for the stage, one disclosure on the World Detail plate.
+    assert 'id="world-stage-proof"' in html
+    assert 'id="visual-proof-copy"' in html
+    assert 'id="detail-visual-proof"' in html
+    assert 'id="detail-visual-proof-copy"' in html
+    # The stage band is a sibling of the visual layer, never nested inside it.
+    stage_figure = html[
+        html.index('id="scene-visual-frame"') : html.index('id="world-stage-panorama"')
+    ]
+    assert "visual-proof" not in stage_figure
+    assert html.index('id="world-stage-proof"') > html.index('id="scene-visual-frame"')
+
+    # The proof is written into the disclosures, and nowhere on the consumer lines.
+    # One definition plus the three disclosure writers (stage, plate select, plate render).
+    assert SCRIPT.count("visualProof(") == 4
+    assert 'visual-proof-copy").textContent=visualProof(visual)' in SCRIPT
+    assert 'detail-visual-proof-copy").textContent=visualProof(' in SCRIPT
+    assert " · ${visualProof(visual)}" not in SCRIPT
+    assert " · ${visualProof(item)}" not in SCRIPT
+    assert '<small class="visual-proof">' not in SCRIPT
+
+    heading_zh = _copy_for("zh-CN").text("visual_proof_heading")
+    heading_en = _copy_for("en-US").text("visual_proof_heading")
+    assert heading_zh == "视觉说明"
+    assert heading_en == "Visual details"

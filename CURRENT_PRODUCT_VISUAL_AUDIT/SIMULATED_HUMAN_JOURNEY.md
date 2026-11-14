@@ -1,6 +1,6 @@
 # Simulated human journey (SIMULATED — not a human verdict)
 
-Walked at 2026-11-10 22:49 against the real server (uvicorn + Chrome) over a
+Walked at 2026-11-14 22:48 against the real server (uvicorn + Chrome) over a
 source-grounded world. Every line below is what the product actually rendered, captured by
 script. It proves the journey is walkable and unbroken; it does **not** judge comprehension,
 immersion or acceptance — those remain `WAITING_HUMAN` and must be answered by a real person
@@ -11,9 +11,9 @@ using `HUMAN_REVIEW_START_HERE.md`.
 | 1 | 导入来源并等待世界生成 | one-click 201；世界出现在世界广场 |
 | 2 | 打开世界 | 尚未生成世界视觉 世界起点 可以进入 江南机关城 一座沿水道展开的机关城，机关与人情都从清晨开始。 最近地点：望月亭 2 位人物 · 1 项事件 进入世界 ↗ |
 | 3 | World Detail 是否像世界入口 | 江南机关城 一座沿水道展开的机关城，机关与人情都从清晨开始。 世界起点 潮汐门初启 时代 尚未记录 初始地点 望月亭 环境 尚未记录 世界时刻 进入后读取 此刻 尚未记录 进入方式 角色体验 推荐开局 先听一听城门内外的水声，再决定往哪里走。 |
-| 4 | 世界图谱与地点 | 世界视觉图册 叙事世界图谱 机关桥原文证据 1 条 · T0 · 离线场景 · 视觉生成器 procedural-svg@1.1.0 · 插画投影，不是世界事实 江南城原文证据 1 条 · T0 · 离线场景 · 视觉生成器 procedural-svg@1.1.0 · 插画投影，不是世界事实 望月亭原文证据 1 条  |
+| 4 | 世界图谱与地点 | 世界视觉图册 叙事世界图谱 机关桥 江南城 望月亭 世界地点 查找地点 望月亭 已有场景 · T0 · 离线场景 机关桥 已有场景 · T0 · 离线场景 江南城 已有场景 · T0 · 离线场景 沉水巷 生成场景 潮汐港 生成场景 青石巷 生成场景 已展示 6 / 6 个地点 · 按需生成 0/24 |
 | 5 | 观察者模式是否清楚 | 世界时刻 2 || 你正在观察这个世界：角色没有移动，世界也没有因为你改变。 选择角色进入 |
-| 6 | 切换场景是否只是预览 | 观察者预览 · 望月亭（非此刻位置） · 原文证据 1 条 · T0 · 离线场景 · 视觉生成器 procedural-svg@1.1.0 · 插画投影，不是世界事实 |
+| 6 | 切换场景是否只是预览 | 观察者预览 · 望月亭（非此刻位置） |
 | 10 | 离开后是否可继续 | 继续世界 江南机关城 · 你的角色 · 世界时刻 2 上次所在：尚未记录 离开时刻：2 你离开后还没有新的世界纪事。 最后变化：新的世界事实出现在现场。 回到现场 |
 | 7 | 进入角色后的第一屏 | 世界时刻 3 初始地点 沉水巷 |
 | 8 | 三次自由行动的提交结果 | 世界变化条目 1 条 |

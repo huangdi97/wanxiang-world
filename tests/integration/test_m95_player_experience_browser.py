@@ -629,8 +629,17 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                     "未配置可用的全景生成器" in page.locator("#panorama-upgrade-copy").inner_text()
                 )
                 assert page.locator("#panorama-upgrade-submit").is_hidden()
-                assert "原文证据" in page.locator("#detail-visual-caption").inner_text()
-                assert "插画投影" in page.locator("#detail-visual-caption").inner_text()
+                # The proof is behind the plate disclosure now, not on the plate line.
+                plate_caption = page.locator("#detail-visual-caption").inner_text()
+                assert "原文证据" not in plate_caption
+                assert "插画投影" not in plate_caption
+                plate_proof = page.locator("#detail-visual-proof")
+                assert plate_proof.get_attribute("open") is None
+                plate_proof.locator("summary").click()
+                assert plate_proof.get_attribute("open") is not None
+                plate_proof_copy = page.locator("#detail-visual-proof-copy").inner_text()
+                assert "原文证据" in plate_proof_copy
+                assert "插画投影" in plate_proof_copy
                 assert page.locator("#spatial-upgrade-panel").is_visible()
                 assert "未配置空间生成器" in page.locator("#spatial-upgrade-copy").inner_text()
                 assert page.locator("#spatial-submit").is_hidden()
@@ -714,12 +723,19 @@ def test_chinese_player_journey_over_sqlite_runtime(persist_db_path: pathlib.Pat
                 generated_stage_button.wait_for(state="visible")
                 assert deferred_stage_name in page.locator("#scene-visual-caption").inner_text()
                 assert "非此刻位置" in page.locator("#scene-visual-caption").inner_text()
-                assert "原文证据" in page.locator("#scene-visual-caption").inner_text()
-                assert (
-                    "视觉生成器 procedural-svg@1.1.0"
-                    in page.locator("#scene-visual-caption").inner_text()
-                )
-                assert "插画投影" in page.locator("#scene-visual-caption").inner_text()
+                # The stage line states the grounding; the proof lives in its own band.
+                stage_caption = page.locator("#scene-visual-caption").inner_text()
+                assert "原文证据" not in stage_caption
+                assert "视觉生成器" not in stage_caption
+                assert "插画投影" not in stage_caption
+                stage_proof = page.locator("#visual-proof")
+                assert stage_proof.get_attribute("open") is None
+                stage_proof.locator("summary").click()
+                assert stage_proof.get_attribute("open") is not None
+                stage_proof_copy = page.locator("#visual-proof-copy").inner_text()
+                assert "原文证据" in stage_proof_copy
+                assert "视觉生成器 procedural-svg@1.1.0" in stage_proof_copy
+                assert "插画投影" in stage_proof_copy
                 assert page.locator("#play-location").inner_text() == before_location
                 assert page.locator("#send-action").is_disabled()
                 scene_button = page.locator(

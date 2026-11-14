@@ -35,9 +35,14 @@ without explicit authorization, and keep `REAL_T1/T2/T3` EXTERNAL_BLOCKED,
    mount / drag / reset / reduced-motion / T0 fallback in Chrome. Evidence:
    `tests/integration/test_svw_stage_renderers.py` plus
    `CURRENT_PRODUCT_VISUAL_AUDIT/stage-renderers/` (8 screenshots + `audit.json`).
-5. **Move the visual proof behind a disclosure — NOT STARTED in this round** (the four
-   measured obstacles below still stand, and the earlier attempt was reverted because it
-   broke CI). This is the only remaining step of this list.
+5. **Move the visual proof behind a disclosure — DONE (verified this pass).** The stage got
+   its own band (`#world-stage-proof`) and the World Detail plate its own disclosure
+   (`#detail-visual-proof`); the consumer lines and gallery chips no longer carry the tier
+   proof. Evidence: `tests/api/test_player_ui_visual_tier_contract.py`,
+   `tests/integration/test_m95_player_experience_browser.py`, and the refreshed
+   `CURRENT_PRODUCT_VISUAL_AUDIT/SIMULATED_HUMAN_JOURNEY.md` (its rows 4 and 6 lost the
+   proof string). The four obstacles below were the guide: (a) and (b) are why the band sits
+   outside the visual layer and both plate sites were changed in one edit.
    Four obstacles were measured, in order of importance:
    (a) the disclosure must **not** live inside `figure.world-stage-visual`: that layer is
    absolutely positioned with `overflow:hidden` and its `<img>` fills the height, so a static

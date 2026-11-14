@@ -150,9 +150,13 @@ browser assertion that expected the raw atlas relation type after that type beca
 
 ## 5. Known remaining gaps (not hidden, not counted as done)
 
-1. **Visual tier proof placement.** Place chips and gallery captions still carry
-   `T0 · 离线场景 · 视觉生成器 procedural-svg@1.1.0`, i.e. part of the engineering proof is on
-   the consumer line instead of only in a disclosure.
+1. **Visual tier proof placement (closed this pass).** The stage line and the World Detail plate
+   line used to concatenate the engineering proof (`T0 · 离线场景 · 视觉生成器 procedural-svg@1.1.0`,
+   the evidence count and the illustrative warning) and every gallery chip repeated it. The stage
+   now carries that proof in its own disclosure band (`#world-stage-proof`) and the plate in
+   `#detail-visual-proof`; the consumer lines state only the grounding, the place name, the atlas
+   caption and the place count. The refreshed simulated journey shows the change directly: its
+   rows 4 and 6 no longer contain the proof string.
 2. **Localization literals (mostly closed).** The hardcoded `：` and `、` separators, the raw
    atlas `relation_type` and the English panorama aria fallback now come from the copy catalog, and
    the contract suite rejects Han characters *and* CJK punctuation in the en-US document. What
