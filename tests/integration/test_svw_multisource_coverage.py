@@ -2,8 +2,8 @@
 
 Decision recorded 2026-11-04: adding a source to a bundle legitimately raises the
 required capability set, so a bundle whose combined evidence does not cover it is
-refused at compile time (`ZERO_COVERAGE`) instead of silently becoming a world.
-This spec pins that policy: the same text compiles as one source, is refused when
+refused at compile time (`REVIEW_REQUIRED` for this measured shape) instead of silently
+becoming a world. This spec pins that policy: the same text compiles as one source, is refused
 split into a bundle that under-covers, and compiles again when concatenated.
 """
 
@@ -108,7 +108,7 @@ def test_bundle_must_cover_what_its_extra_source_requires(
                 body = cast(dict[str, Any], bundle["body"])
                 assert body["code"] == "contract_error"
                 assert "COMPLETION_REQUIRED" in str(body["message"])
-                assert cast(dict[str, Any], body["details"])["product_state"] == "ZERO_COVERAGE"
+                assert cast(dict[str, Any], body["details"])["product_state"] == "REVIEW_REQUIRED"
             finally:
                 browser.close()
     finally:

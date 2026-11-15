@@ -234,7 +234,9 @@ browser assertion that expected the raw atlas relation type after that type beca
     **conflict** refusal, not a coverage one — the draft covers 0.833 of the required
     capabilities and carries four unresolved conflicts (`GET /studio/jobs/{id}` →
     `conflict_count: 4`, `product_state: REVIEW_REQUIRED`) — while the same text as a single
-    source compiles with zero conflicts.
+    source compiles with zero conflicts. The refusal and the job status now derive that state
+    from one shared rule (`authoring/service_state.py`) instead of inventing their own, so a
+    conflict refusal, a rights block and a ready build all agree on both surfaces.
 
 ## 6. Boundaries that were not crossed
 

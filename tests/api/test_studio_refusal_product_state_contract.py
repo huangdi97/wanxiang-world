@@ -1,9 +1,9 @@
 """A refusal must always name a product state.
 
-Measured defect (2026-11-04 handover, step 1): a two-source bundle whose sources
-carry the same content was refused with `422 duplicate_source` and an **empty**
-`details` object, so the client received no diagnosis at all, while an
-under-covering bundle was refused with `details.product_state == "ZERO_COVERAGE"`.
+Measured defects. (1) 2026-11-04: a two-source bundle whose sources carry the same content
+was refused with `422 duplicate_source` and an **empty** `details` object, so the client
+received no diagnosis at all. (2) 2026-11-13: a bundle whose sources disagree was refused
+with `details.product_state == "ZERO_COVERAGE"` while the job status said `REVIEW_REQUIRED`.
 
 The refusing path was `wanxiang_substrate.sources.errors.DuplicateSource`: it
 declared no product state, and the API boundary forwarded `details` verbatim.
@@ -106,7 +106,7 @@ def test_two_source_bundle_with_identical_content_is_refused_with_a_state() -> N
     assert state == "SOURCE_DUPLICATE"
 
 
-def test_two_source_bundle_that_under_covers_keeps_its_zero_coverage_state() -> None:
+def test_two_source_bundle_whose_sources_disagree_is_named_for_review() -> None:
     client = _client()
     response = _bundle(
         client,
@@ -115,7 +115,10 @@ def test_two_source_bundle_that_under_covers_keeps_its_zero_coverage_state() -> 
     )
     code, state = _refusal_state(response)
     assert code == "contract_error"
-    assert state == "ZERO_COVERAGE"
+    # The bundle is refused because its sources disagree, not for missing coverage:
+    # the draft covers 0.833 of the required capabilities, so the state names the
+    # review the operator owes (see test_svw_two_comparable_sources.py).
+    assert state == "REVIEW_REQUIRED"
 
 
 def test_refusal_that_declares_no_state_still_receives_one() -> None:

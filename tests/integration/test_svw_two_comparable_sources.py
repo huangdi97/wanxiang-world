@@ -56,8 +56,8 @@ CHAPTER_B_REVERSED = (
 )
 
 
-def _source(source_id: str, content: str) -> dict[str, object]:
-    return {
+def _source(source_id: str, content: str, **overrides: object) -> dict[str, object]:
+    record: dict[str, object] = {
         "source_id": source_id,
         "kind": "text",
         "content": content,
@@ -69,6 +69,8 @@ def _source(source_id: str, content: str) -> dict[str, object]:
         "public_export_allowed": False,
         "training_allowed": False,
     }
+    record.update(overrides)
+    return record
 
 
 def _client() -> Any:
@@ -159,13 +161,15 @@ def test_blocking_cross_source_conflict_is_visible_on_the_studio_surfaces() -> N
     )
     assert refused.status_code == 422, refused.text
     details = cast(dict[str, Any], cast(dict[str, Any], refused.json())["details"])
-    assert isinstance(details.get("product_state"), str) and details["product_state"]
-
     status = client.get("/studio/jobs/svw_pair_refused", headers=HEADERS)
     assert status.status_code == 200, status.text
     conflict_count = cast(int, status.json()["conflict_count"])
     assert conflict_count >= 1, status.text
+    # The refusal and the job status must name the same state. Measured defect: the
+    # refusal said ZERO_COVERAGE while the status said REVIEW_REQUIRED.
     assert status.json()["product_state"] == "REVIEW_REQUIRED"
+    assert details["product_state"] == status.json()["product_state"]
+    assert details["unresolved_conflicts"] == str(conflict_count)
 
     draft = _draft(client, "svw_pair_refused")
     assert draft["status"] == "COMPLETION_REQUIRED"
@@ -187,3 +191,20 @@ def test_the_same_text_as_one_source_has_no_cross_source_conflict() -> None:
     draft = _draft(client, "svw_pair_joined")
     assert draft["status"] == "READY_TO_COMPILE"
     assert draft["unresolved_conflicts"] == []
+
+
+def test_rights_blocked_source_is_named_as_a_rights_action_on_both_surfaces() -> None:
+    """A rights block must not be reported as a coverage or conflict problem."""
+
+    client = _client()
+    refused = _bundle(
+        client,
+        "svw_pair_rights",
+        [_source("a", CHAPTER_A, rights_approved=False)],
+    )
+    assert refused.status_code == 422, refused.text
+    details = cast(dict[str, Any], cast(dict[str, Any], refused.json())["details"])
+    status = client.get("/studio/jobs/svw_pair_rights", headers=HEADERS)
+    assert status.status_code == 200, status.text
+    assert status.json()["product_state"] == "RIGHTS_ACTION_REQUIRED"
+    assert details["product_state"] == status.json()["product_state"]

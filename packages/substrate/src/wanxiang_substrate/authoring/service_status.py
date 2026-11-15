@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 from wanxiang_substrate.authoring.model import AuthoringSnapshot, PipelineBuild
+from wanxiang_substrate.authoring.service_state import product_state_for_build
 
 
 class StatusMixin:
@@ -53,10 +54,6 @@ class StatusMixin:
 
     @staticmethod
     def _product_state_for_build(build: PipelineBuild) -> str:
-        if build.draft.unresolved_rights:
-            return "RIGHTS_ACTION_REQUIRED"
-        if build.draft.coverage <= 0.0:
-            return "ZERO_COVERAGE"
-        if build.draft.status != "READY_TO_COMPILE":
-            return "REVIEW_REQUIRED"
-        return "READY"
+        """The one shared rule, so the status cannot disagree with a refusal."""
+
+        return product_state_for_build(build)

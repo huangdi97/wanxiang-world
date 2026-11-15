@@ -6,6 +6,7 @@ from typing import Any
 
 from wanxiang_domain.errors import ContractError
 
+from wanxiang_substrate.authoring.service_state import refusal_details
 from wanxiang_substrate.compile import (
     CompilerBoundary,
     CompilerInput,
@@ -35,11 +36,7 @@ class PackageServiceMixin:
         if not outcome.ok:
             raise ContractError(
                 "; ".join(outcome.reasons),
-                details={
-                    "product_state": "RIGHTS_ACTION_REQUIRED"
-                    if any("rights" in reason for reason in outcome.reasons)
-                    else "ZERO_COVERAGE"
-                },
+                details=refusal_details(build, outcome.reasons),
             )
         package = PackageAssembler().assemble(
             draft,
