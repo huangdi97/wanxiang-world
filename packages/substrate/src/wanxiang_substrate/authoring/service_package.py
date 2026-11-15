@@ -1,12 +1,14 @@
 """Package/preview lifecycle mixin for AuthoringService."""
 
+# pyright: reportPrivateUsage=false
+
 from __future__ import annotations
 
 from typing import Any
 
 from wanxiang_domain.errors import ContractError
 
-from wanxiang_substrate.authoring.service_state import refusal_details
+from wanxiang_substrate.authoring.service_state import _refusal_details
 from wanxiang_substrate.compile import (
     CompilerBoundary,
     CompilerInput,
@@ -36,7 +38,7 @@ class PackageServiceMixin:
         if not outcome.ok:
             raise ContractError(
                 "; ".join(outcome.reasons),
-                details=refusal_details(build, outcome.reasons),
+                details=_refusal_details(build, outcome.reasons),
             )
         package = PackageAssembler().assemble(
             draft,

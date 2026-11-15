@@ -1,11 +1,13 @@
 """Status snapshot mixin for AuthoringService."""
 
+# pyright: reportPrivateUsage=false
+
 from __future__ import annotations
 
 from typing import Any
 
 from wanxiang_substrate.authoring.model import AuthoringSnapshot, PipelineBuild
-from wanxiang_substrate.authoring.service_state import product_state_for_build
+from wanxiang_substrate.authoring.service_state import _state_for_build
 
 
 class StatusMixin:
@@ -56,4 +58,4 @@ class StatusMixin:
     def _product_state_for_build(build: PipelineBuild) -> str:
         """The one shared rule, so the status cannot disagree with a refusal."""
 
-        return product_state_for_build(build)
+        return _state_for_build(build)

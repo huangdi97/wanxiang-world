@@ -489,6 +489,7 @@
     "wanxiang_substrate.AuthoringBudget",
     "wanxiang_substrate.AuthoringDAG",
     "wanxiang_substrate.AuthoringOrchestrator",
+    "wanxiang_substrate.AuthoringRequestRejected",
     "wanxiang_substrate.AuthoringService",
     "wanxiang_substrate.AuthoringSnapshot",
     "wanxiang_substrate.AutoApprovalPolicy",
