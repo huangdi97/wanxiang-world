@@ -41,6 +41,27 @@ def test_plaza_filters_private_profiles_and_orders_continue() -> None:
     assert [card.instance_id for card in plaza.recent_sessions("alice")] == ["i2", "i1"]
 
 
+def test_recent_sessions_are_capped_but_continue_still_finds_the_newest() -> None:
+    store = InMemoryPlayableStore()
+    store.save_profile(_profile("alice", "private", "alice"))
+    for index in range(1, 26):
+        store.save_instance(
+            ExperienceInstanceRecord(
+                f"i{index:02d}",
+                "alice",
+                "alice",
+                f"b{index:02d}",
+                updated_seq=index,
+            )
+        )
+    plaza = WorldPlaza(store)
+    recent = plaza.recent_sessions("alice")
+    assert len(recent) == 20
+    assert [card.instance_id for card in recent] == [f"i{index:02d}" for index in range(25, 5, -1)]
+    assert plaza.continue_last("alice").instance_id == "i25"  # type: ignore[union-attr]
+    assert len(plaza.recent_sessions("alice", limit=None)) == 25
+
+
 def test_private_profile_access_does_not_leak_existence() -> None:
     store = InMemoryPlayableStore()
     store.save_profile(_profile("alice", "private", "alice"))

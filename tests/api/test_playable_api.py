@@ -86,6 +86,8 @@ def test_api_and_studio_share_playable_backend() -> None:
     plaza = client.get("/experience/plaza", headers={"X-Wanxiang-User": "alice"})
     assert plaza.status_code == 200
     assert plaza.json()["continue"]["instance_id"] == instance_id
+    for internal in ("branch_id", "last_revision", "updated_seq", "state_hash"):
+        assert internal not in plaza.text
     ui = client.get("/studio/ui")
     assert ui.status_code == 200
     assert "World Plaza" in ui.text

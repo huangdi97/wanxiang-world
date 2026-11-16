@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 from dataclasses import dataclass
 
 from wanxiang_domain.errors import ContractError
@@ -9,6 +10,17 @@ from wanxiang_domain.errors import ContractError
 from wanxiang_substrate.compile.assembler import WorldPackageDraft
 
 PREVIEW_SCHEME = "preview://"
+
+
+def preview_install_id(package: WorldPackageDraft) -> str:
+    """Content-addressed install id so distinct packages never share a scope.
+
+    Counter-based ids collide after a restart over a persistent runtime: a new
+    book could then reuse another book's canonical preview instance.
+    """
+
+    identity = f"{package.package_id}:{package.manifest.content_hash}".encode()
+    return f"preview_{hashlib.sha256(identity).hexdigest()[:20]}"
 
 
 @dataclass(frozen=True, slots=True)
@@ -33,7 +45,7 @@ class PreviewRegistry:
     def install(self, package: WorldPackageDraft) -> PreviewInstall:
         if package.package_id in self._by_package:
             return self._installs[self._by_package[package.package_id]]
-        preview_id = f"preview_{len(self._installs) + 1}"
+        preview_id = preview_install_id(package)
         install = PreviewInstall(
             preview_id=preview_id,
             package_id=package.package_id,

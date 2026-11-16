@@ -1,5 +1,7 @@
 """Candidate fusion and WorldDraft assembly for the authoring pipeline."""
 
+# pyright: reportPrivateUsage=false
+
 from __future__ import annotations
 
 from dataclasses import replace
@@ -10,6 +12,7 @@ from wanxiang_substrate.authoring.model import PipelineBuild
 from wanxiang_substrate.authoring.pipeline_support import expand_domains, field
 from wanxiang_substrate.authoring.semantic import SemanticAnalyzer
 from wanxiang_substrate.authoring.semantic_distillation import DistillationStats
+from wanxiang_substrate.authoring.visual_metadata import _visual_compiler_metadata
 from wanxiang_substrate.candidates.envelope import CandidateEnvelope
 from wanxiang_substrate.domains.capability import DomainRegistry
 from wanxiang_substrate.domains.recommender import DomainRecommender
@@ -34,6 +37,22 @@ def _entities(fusion: FusionResult) -> tuple[tuple[str, str], ...]:
             }
         )
     )
+
+
+def _entity_types(fusion: FusionResult) -> tuple[tuple[str, str], ...]:
+    """Keep source-declared kinds (e.g. GEDCOM family) instead of flattening to actor."""
+    typed: dict[str, str] = {}
+    for candidate in fusion.candidates:
+        if candidate.kind in ("identity", "character"):
+            kind = "actor"
+        elif candidate.kind == "organization":
+            kind = field(candidate, "entity_type", default="organization") or "organization"
+        else:
+            continue
+        key = field(candidate, "key", "identity_key", "subject_key")
+        if key and field(candidate, "display_name", "name", "key", "subject_key"):
+            typed[key] = kind
+    return tuple(sorted(typed.items()))
 
 
 def _relations(fusion: FusionResult) -> tuple[tuple[str, str, str], ...]:
@@ -131,6 +150,7 @@ def build_pipeline_build(
         selected_domains=domain_order,
         dependency_lock=domain_order,
         entities=_entities(fusion),
+        entity_types=_entity_types(fusion),
         relations=_relations(fusion),
         places=_names(fusion, "place"),
         objects=_names(fusion, "object"),
@@ -150,6 +170,7 @@ def build_pipeline_build(
             "segments": str(len(segments)),
             "batches": str(distillation.batch_count),
             "provider_id": distillation.provider_id,
+            **_visual_compiler_metadata(records, fusion.candidates),
             "gedcom_version": next(
                 (
                     item.partition(":")[2]

@@ -1,11 +1,22 @@
 """One-click source family flows and living-instance handoff (M69)."""
 
+# pyright: reportPrivateUsage=false
+
 from __future__ import annotations
 
 from dataclasses import dataclass
 
 from wanxiang_domain.errors import ContractError
 
+from wanxiang_substrate.assets.book_scene_plan import _plan_book_scene_assets, _SourceVisualPlan
+from wanxiang_substrate.assets.book_scene_visual import (
+    _materialize_product_visual_plan,
+    _SceneImageProvider,
+    _SceneVisualAsset,
+    _VisualAssetCache,
+)
+from wanxiang_substrate.assets.storage import AssetRef
+from wanxiang_substrate.authoring.errors import AuthoringRequestRejected
 from wanxiang_substrate.authoring.orchestrator import (
     AuthoringOrchestrator,
     OrchestrationRun,
@@ -28,14 +39,35 @@ class OneClickResult:
     package: WorldPackageDraft
     preview: PreviewInstall
     orchestration: OrchestrationRun | None = None
+    visual_plan: _SourceVisualPlan | None = None
+    visual_assets: tuple[_SceneVisualAsset, ...] = ()
+    visual_asset_refs: tuple[AssetRef, ...] = ()
+    visual_provider_calls: int = 0
+    visual_cache_hits: int = 0
+    visual_cost_units: int = 0
+    visual_provider_usage_units: int | None = None
+    visual_fallback_from_provider: str = ""
+    visual_fallback_reason: str = ""
 
 
 class OneClickAuthoring:
     """Book/family/structured/mixed flows share the same backend pipeline."""
 
-    def __init__(self, service: AuthoringService | None = None) -> None:
+    def __init__(
+        self,
+        service: AuthoringService | None = None,
+        *,
+        visual_cache: _VisualAssetCache | None = None,
+        visual_provider: _SceneImageProvider | None = None,
+        visual_allow_network: bool = False,
+        visual_max_cost_units: int = 0,
+    ) -> None:
         self.service = service or AuthoringService()
         self.orchestrator = AuthoringOrchestrator(providers=self.service.providers)
+        self.visual_cache = visual_cache or _VisualAssetCache()
+        self.visual_provider = visual_provider
+        self.visual_allow_network = visual_allow_network
+        self.visual_max_cost_units = visual_max_cost_units
 
     def run(
         self,
@@ -46,7 +78,9 @@ class OneClickAuthoring:
         semantic_provider: str | None = None,
     ) -> OneClickResult:
         if profile not in SOURCE_PROFILES:
-            raise ValueError(f"unknown source profile {profile!r}")
+            raise AuthoringRequestRejected(
+                f"unknown source profile {profile!r}; expected one of: {', '.join(SOURCE_PROFILES)}"
+            )
         self._validate_profile(profile, sources)
         self.service.create_job(
             job_id,
@@ -77,7 +111,42 @@ class OneClickAuthoring:
         if package is None:
             raise ContractError(f"one-click job {job_id!r} did not produce a package")
         preview = self.service.preview(job_id)
-        return OneClickResult(job_id, profile, package, preview, orchestration)
+        visual_plan = _plan_book_scene_assets(package) if profile == "book" else None
+        materialized = (
+            _materialize_product_visual_plan(
+                visual_plan,
+                provider=self.visual_provider,
+                cache=self.visual_cache,
+                allow_network=self.visual_allow_network,
+                max_cost_units=self.visual_max_cost_units,
+                private_source=any(source.access != "public" for source in sources),
+                rights=visual_plan.delivery_rights,
+            )
+            if visual_plan is not None
+            else None
+        )
+        return OneClickResult(
+            job_id=job_id,
+            source_profile=profile,
+            package=package,
+            preview=preview,
+            orchestration=orchestration,
+            visual_plan=visual_plan,
+            visual_assets=materialized.assets if materialized is not None else (),
+            visual_asset_refs=materialized.asset_refs if materialized is not None else (),
+            visual_provider_calls=materialized.provider_calls if materialized is not None else 0,
+            visual_cache_hits=materialized.cache_hits if materialized is not None else 0,
+            visual_cost_units=materialized.cost_units if materialized is not None else 0,
+            visual_provider_usage_units=(
+                materialized.provider_usage_units if materialized is not None else None
+            ),
+            visual_fallback_from_provider=(
+                materialized.fallback_from_provider if materialized is not None else ""
+            ),
+            visual_fallback_reason=(
+                materialized.fallback_reason if materialized is not None else ""
+            ),
+        )
 
     def enter_living_instance(
         self, result: OneClickResult, runtime: PreviewRuntimePort
@@ -90,7 +159,7 @@ class OneClickAuthoring:
     @staticmethod
     def _validate_profile(profile: str, sources: tuple[SourceRecord, ...]) -> None:
         if not sources:
-            raise ValueError("one-click authoring requires at least one source")
+            raise AuthoringRequestRejected("one-click authoring requires at least one source")
         kinds = {source.kind for source in sources}
         requirements = {
             "book": {"text", "markdown", "epub", "docx", "pdf"},
@@ -99,6 +168,6 @@ class OneClickAuthoring:
         }
         if profile in requirements and not kinds.intersection(requirements[profile]):
             expected = ", ".join(sorted(requirements[profile]))
-            raise ValueError(f"profile {profile!r} requires one of: {expected}")
+            raise AuthoringRequestRejected(f"profile {profile!r} requires one of: {expected}")
         if profile == "mixed" and len(sources) < 2:
-            raise ValueError("mixed profile requires at least two source records")
+            raise AuthoringRequestRejected("mixed profile requires at least two source records")

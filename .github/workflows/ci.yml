@@ -58,6 +58,14 @@ jobs:
         run: uv run pyright
       - name: Unit / integration / contract / property tests (SQLite)
         run: uv run pytest -q
+      - name: Upload Player visual evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: player-visual-evidence-${{ github.sha }}
+          path: .impeccable/review/*.png
+          if-no-files-found: warn
+          retention-days: 7
       - name: Architecture / quality gate
         run: uv run python scripts/quality.py
       - name: Kernel freeze guard (Commit/Replay/Branch/Worldline/Lineage/Determinism)

@@ -1,5 +1,7 @@
 """Small pure helpers for the playable application facade."""
 
+# pyright: reportUnusedFunction=false
+
 from __future__ import annotations
 
 from wanxiang_substrate.playable.action_model import ActionAffordance
@@ -41,3 +43,8 @@ def instance_dict(record: ExperienceInstanceRecord) -> dict[str, object]:
         "last_revision": record.last_revision,
         "updated_seq": record.updated_seq,
     }
+
+
+def _runtime_instance_id(record: ExperienceInstanceRecord) -> str:
+    """Product handles diverge from runtime ids only for forked worldlines."""
+    return record.runtime_instance_id or record.instance_id

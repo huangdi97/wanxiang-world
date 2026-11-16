@@ -207,6 +207,7 @@ def instantiate_preview(
     host = WorldHost(runtime, created.instance_id, created.root_branch_id)
     identity: dict[str, str] = {}
     used_entity_ids: set[str] = set()
+    entity_types = dict(package.draft.entity_types)
     for index, (key, display_name) in enumerate(package.draft.entities, start=1):
         # Stable semantic keys remain the identity map; the readable runtime
         # id is only a presentation handle and is collision-safe for same-name
@@ -215,9 +216,14 @@ def instantiate_preview(
         entity_id = _safe_id(readable_key, index, used_entity_ids)
         used_entity_ids.add(entity_id)
         identity[key] = entity_id
+        entity_type = entity_types.get(key, "actor").strip() or "actor"
         PreviewWorld(install, runtime, host, instance_id, created.root_branch_id).step(
             PREVIEW_CREATE_ENTITY,
-            {"entity_id": entity_id, "entity_type": "actor", "display_name": display_name},
+            {
+                "entity_id": entity_id,
+                "entity_type": entity_type,
+                "display_name": display_name,
+            },
         )
     for index, (source, target, relation_type) in enumerate(package.draft.relations, start=1):
         if source in identity and target in identity:

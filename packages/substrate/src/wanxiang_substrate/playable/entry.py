@@ -2,14 +2,18 @@
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 
 from wanxiang_domain.errors import ContractError, NotFound
 from wanxiang_domain.ids import WorldInstanceId
 
+from wanxiang_substrate.playable.character_binding import source_actor_ids
 from wanxiang_substrate.playable.experience import EntryMode, ExperiencePackage
 from wanxiang_substrate.playable.store import CharacterRecord, PlayableStore
 from wanxiang_substrate.session import EmbodimentLease, LeaseService, SessionService
+
+_CHARACTER_ID = re.compile(r"[a-z0-9][a-z0-9_-]{0,127}")
 
 
 @dataclass(frozen=True, slots=True)
@@ -65,9 +69,13 @@ class CharacterEntryService:
     ) -> CharacterRecord:
         if not owner_id or not display_name.strip():
             raise ContractError("character creation requires owner and display name")
+        if character_id is not None and not _CHARACTER_ID.fullmatch(character_id):
+            raise ContractError("character id must match ^[a-z0-9][a-z0-9_-]{0,127}$")
+        bound_id = character_id or self._source_actor_character_id(compatible_profile_ids)
         number = len(self._store.list_characters(owner_id)) + 1
+        generated = re.sub(r"[^a-z0-9_-]+", "_", owner_id.lower()).strip("_-") or "player"
         character = CharacterRecord(
-            character_id=character_id or f"character:{owner_id}:{number}",
+            character_id=bound_id or f"character_{generated}_{number}",
             owner_id=owner_id,
             display_name=display_name.strip(),
             compatible_profile_ids=compatible_profile_ids,
@@ -82,6 +90,27 @@ class CharacterEntryService:
 
     def my_characters(self, owner_id: str) -> tuple[CharacterRecord, ...]:
         return self._store.list_characters(owner_id)
+
+    def _source_actor_character_id(self, profile_ids: tuple[str, ...]) -> str | None:
+        """Pick an unclaimed source actor so a created character can act."""
+
+        packages = self._store.load_packages()
+        packages_found = False
+        for profile_id in profile_ids:
+            package = packages.get(profile_id)
+            if package is None:
+                continue
+            packages_found = True
+            for candidate in source_actor_ids(package):
+                try:
+                    self._store.get_character(candidate)
+                except NotFound:
+                    return candidate
+        if packages_found:
+            raise ContractError(
+                "no unbound source actor is available for this world; choose an existing character"
+            )
+        return None
 
     def enter(
         self,

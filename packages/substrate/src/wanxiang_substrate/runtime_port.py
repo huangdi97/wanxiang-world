@@ -14,6 +14,7 @@ from typing import Protocol
 
 from wanxiang_domain.command import CommandEnvelope
 from wanxiang_domain.event import CommittedEvent
+from wanxiang_domain.hierarchy import BranchRevision, EventSeq
 from wanxiang_domain.ids import BranchId, WorldInstanceId
 from wanxiang_runtime.state import InMemoryCanonicalState
 
@@ -33,8 +34,40 @@ class WorldRuntimePort(Protocol):
         self, instance_id: WorldInstanceId, branch_id: BranchId
     ) -> InMemoryCanonicalState: ...
 
+    def state_at(
+        self, instance_id: WorldInstanceId, branch_id: BranchId, *, upto_seq: EventSeq
+    ) -> InMemoryCanonicalState: ...
+
+    def create_branch(
+        self,
+        instance_id: WorldInstanceId,
+        parent_branch_id: BranchId,
+        *,
+        fork_revision: BranchRevision | None = None,
+    ) -> object: ...
+
     def submit_command(self, command: CommandEnvelope) -> object: ...
 
     def events(
         self, instance_id: WorldInstanceId, branch_id: BranchId
     ) -> tuple[CommittedEvent, ...]: ...
+
+    def worldline_events(
+        self, instance_id: WorldInstanceId, branch_id: BranchId
+    ) -> tuple[CommittedEvent, ...]: ...
+
+    def worldline_branches(self, instance_id: WorldInstanceId) -> tuple[object, ...]: ...
+
+    def worldline_compare_point(
+        self,
+        instance_id: WorldInstanceId,
+        left_branch_id: BranchId,
+        right_branch_id: BranchId,
+    ) -> tuple[BranchId, int]: ...
+
+    def diff(
+        self,
+        instance_id: WorldInstanceId,
+        branch_a: BranchId,
+        branch_b: BranchId,
+    ) -> object: ...

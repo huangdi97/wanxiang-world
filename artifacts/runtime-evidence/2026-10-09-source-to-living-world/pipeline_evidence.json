@@ -1,0 +1,150 @@
+{
+  "cross_book": {
+    "book_a_cn": {
+      "places": [
+        "望月亭",
+        "机关桥",
+        "江南城",
+        "沉水巷",
+        "潮汐港",
+        "达江南城",
+        "青石巷"
+      ],
+      "entities": [
+        "沈砚",
+        "沈砚说",
+        "要穿过水",
+        "阿岚",
+        "阿岚说",
+        "顾朔",
+        "顾朔答"
+      ],
+      "events": [
+        "event@1921年",
+        "event@1922年",
+        "到达@1921年",
+        "召开@1921年",
+        "来到@unknown",
+        "离开@unknown",
+        "见面@1922年",
+        "调查@1922年"
+      ],
+      "rules": [
+        "规则：入城者必须登记",
+        "规则：夜间不得掌灯"
+      ],
+      "scene_requests": 3,
+      "deferred": 4,
+      "assets": 3,
+      "provider_calls": 3,
+      "style_key": "b86eafc79ca6dc8e777abfa7"
+    },
+    "book_b_en": {
+      "places": [
+        "Fortress",
+        "Harbor",
+        "Library",
+        "Market"
+      ],
+      "entities": [
+        "Academy",
+        "Armistice",
+        "Character",
+        "Clara",
+        "From Fortress",
+        "Harbor",
+        "In",
+        "Library",
+        "Marcus",
+        "The Academy"
+      ],
+      "scene_requests": 3,
+      "deferred": 1,
+      "assets": 3,
+      "style_key": "a9759300d242c1eae765e333"
+    },
+    "book_c_long": {
+      "sections": 24,
+      "source_bytes": 4389,
+      "place_names": [
+        "Fortress",
+        "Garden",
+        "Harbor",
+        "Library",
+        "Market",
+        "Station"
+      ],
+      "scene_requests": 3,
+      "deferred": 3,
+      "assets": 3,
+      "provider_calls": 3,
+      "cost_units": 0
+    },
+    "disjoint_places_a_b": [],
+    "per_book_style_keys_differ": true
+  },
+  "deferred_on_demand": {
+    "initial_assets": 3,
+    "generated_places": [
+      "望月亭",
+      "机关桥",
+      "江南城"
+    ],
+    "target_place": "沉水巷",
+    "first_provider_calls": 1,
+    "first_cache_hits": 0,
+    "repeat_provider_calls": 0,
+    "repeat_cache_hits": 1,
+    "unknown_place_rejected": true,
+    "canonical_instances_created": 0,
+    "style_key_consistent_across_scenes": true,
+    "brief_full_source_included": false,
+    "brief_prompt_bytes": 697,
+    "clue_vs_presence_policy": "context candidates are co-located source evidence candidates as written in the brief; UI never renders them as current presence"
+  },
+  "rights_privacy": {
+    "non_owner_visual_denied": true,
+    "cache_hit_rights_reissued": {
+      "source-gated": [
+        "source-gated",
+        "source-gated",
+        "source-gated"
+      ],
+      "public": [
+        "public",
+        "public",
+        "public"
+      ],
+      "same_sha256": true
+    }
+  },
+  "g96_projection": {
+    "status": "projected",
+    "projection_only": true,
+    "snapshot_revision": 7,
+    "state_hash": "statehash:acceptance",
+    "asset_ref_count": 3,
+    "canonical_writes": 0
+  },
+  "fault_tolerance": {
+    "provider_failure": "REJECTED_CANON_UNTOUCHED",
+    "empty_output": "REJECTED",
+    "text_plain_output": "REJECTED",
+    "oversized_output": "REJECTED",
+    "network_disabled": "REJECTED",
+    "budget_insufficient": "REJECTED"
+  },
+  "performance_cost": {
+    "source_bytes": 4389,
+    "sections": 24,
+    "place_count": 6,
+    "scene_requests": 3,
+    "deferred_count": 3,
+    "initial_visual_cost_units": 0,
+    "provider_calls": 3,
+    "t0_duration_s": 0.14,
+    "cache_hit_duration_s": 0.0,
+    "peak_memory_bytes": 248328,
+    "cost_scales_with_places": true
+  }
+}

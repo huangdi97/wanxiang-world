@@ -1,6 +1,112 @@
 # Status ? Wanxiang Engineering Program
 
-Updated: 2026-10-08 (R7 extended local design closure qualified; overall WAITING_HUMAN)
+Updated: 2026-10-20 (Source → Living Visual World repository closure advanced; overall WAITING_HUMAN / EXTERNAL_BLOCKED evidence remains)
+
+
+## Next actions (handover, written 2026-11-04 — all five closed 2026-11-13)
+
+Branch `feature/source-to-visual-world`, PR #3 (draft, base `feature/r7-cordis-native`).
+Last CI-verified commit: `f69ccce8` (ci run 43928834540 — six of six jobs green; it fixes the
+panorama stage mount crash and makes both stage renderers read copy from the catalogue only).
+Earlier green commits this round: `8f16ae8d` (docs), `614ea81f`, `8b78c8b7`, `83fc7d5e`,
+`27f941fe`, `b220e695`. `3ef5c098`, `802cd5d4`, `8af891b4` and `7860fc63` failed CI on a
+cross-package private import, generated OpenAPI/SDK baseline drift, one stale browser assertion and
+public-name drift; all four are repaired. Always
+re-read `git rev-parse HEAD`, the PR state and the CI conclusion for that exact SHA from
+GitHub before trusting any line below; never merge, tag, release or mark the PR ready
+without explicit authorization, and keep `REAL_T1/T2/T3` EXTERNAL_BLOCKED,
+`M95_HUMAN`/`SVW_J_HUMAN` WAITING_HUMAN and `STABLE_RELEASE` locked.
+
+1. **Refusals must always carry `product_state` — DONE (verified this pass).** The omitting
+   path was `DuplicateSource`: a bundle whose two sources carry identical content was refused
+   with `422 duplicate_source` and an empty `details` object. The source taxonomy now states
+   every source failure and the API boundary names a state even for an error that declares
+   none. Evidence: `tests/api/test_studio_refusal_product_state_contract.py`.
+2. **Two comparable sources bundle spec — DONE (verified this pass).** Measured: the refusal
+   is a *conflict* refusal (coverage 0.833, four unresolved conflicts), two comparable
+   chapters compile and publish one world, and a cross-source disagreement is marked on the
+   consumer atlas. Evidence: `tests/integration/test_svw_two_comparable_sources.py`.
+3. **Replay read-only guard on the server — DONE (verified this pass).** The session records
+   the past world time it is viewing (`replay_at_ticks`), the action use case refuses while
+   that hold is set (`replay_read_only`, `product_state = REPLAY_READ_ONLY`), and
+   return-to-now / leave / continue release it. Evidence:
+   `tests/api/test_player_replay_read_only_guard.py`.
+4. **Activate the in-stage T2/T3 renderers — DONE (verified this pass).** Injected the
+   repository contract providers, attached one T2 and one T3 asset to one place, and verified
+   mount / drag / reset / reduced-motion / T0 fallback in Chrome. Evidence:
+   `tests/integration/test_svw_stage_renderers.py` plus
+   `CURRENT_PRODUCT_VISUAL_AUDIT/stage-renderers/` (8 screenshots + `audit.json`).
+5. **Move the visual proof behind a disclosure — DONE (verified this pass).** The stage got
+   its own band (`#world-stage-proof`) and the World Detail plate its own disclosure
+   (`#detail-visual-proof`); the consumer lines and gallery chips no longer carry the tier
+   proof. Evidence: `tests/api/test_player_ui_visual_tier_contract.py`,
+   `tests/integration/test_m95_player_experience_browser.py`, and the refreshed
+   `CURRENT_PRODUCT_VISUAL_AUDIT/SIMULATED_HUMAN_JOURNEY.md` (its rows 4 and 6 lost the
+   proof string). The four obstacles below were the guide: (a) and (b) are why the band sits
+   outside the visual layer and both plate sites were changed in one edit.
+   Four obstacles were measured, in order of importance:
+   (a) the disclosure must **not** live inside `figure.world-stage-visual`: that layer is
+   absolutely positioned with `overflow:hidden` and its `<img>` fills the height, so a static
+   child is clipped out of view and any click times out;
+   (b) the proof text is concatenated at **more than one caption site** (`player_ui_script.py`
+   stage caption and the two World Detail plate assignments), so sites must be changed
+   atomically;
+   (c) collapsed `<details>` content is not rendered, so tests must open the disclosure before
+   reading text and assert collapse via the `open` attribute only;
+   (d) do **not** add an "empty proof hides the disclosure" rule — it makes the control
+   unclickable in exactly the state the journey tests.
+   Preferred fix: give the stage disclosure its own band alongside `.world-stage-clues` /
+   `.world-stage-story` instead of nesting it in the visual layer.
+
+Already recorded as open observations: the change list shows the newest commit only (one row
+per commit); the three built-in suggestions are all parseable now (the rest suggestion used to
+return `422 missing_fields`); the atlas relation chip is localized.
+
+## Source → Living Visual World current branch — 2026-10-20
+
+Active implementation branch: `feature/source-to-visual-world`, PR #3 (draft).
+Repository truth must be re-read from the remote branch and GitHub Actions before
+any acceptance claim; older SHA/PASS records in this file are historical evidence only.
+
+The branch now implements the generic, book-agnostic product path rather than a
+hand-authored world for one title:
+
+`Source → Evidence → WorldDraft/WorldPackage → SourceVisualPlan → T0/T1/T2/T3 derived assets → one Player World Stage → Player intent → Commit Authority → canonical History`.
+
+Repository-side closure now includes:
+
+- source-grounded Atlas/place identity, evidence-only topology and bounded scene clues;
+- deterministic zero-cost T0 visuals plus governed T1 image-provider seams;
+- bounded initial visual generation and deferred-place on-demand materialization;
+- restart-safe content-addressed visual cache, cross-process generation coalescing and
+  current-rights re-issuance on cache hits;
+- T2 panorama projection and one shared Player Stage rather than a separate application;
+- durable asynchronous T3 submission/poll/verify/attach tickets, pre-submit ambiguous
+  intent, world-scoped budget reservation, provider usage audit, artifact digest/signature
+  validation, restart rehydration and current-rights revalidation;
+- direct Tencent TokenHub Hy-World adapter behind the generic T3 contract, while real
+  credentialed execution remains external evidence rather than a claimed PASS;
+- dependency-free built-in PLY spatial viewing plus renderer-neutral T3 mounting;
+- Player auto-poll with capped backoff, T3 asset-revision invalidation and explicit
+  `submission_ambiguous` copy that blocks unsafe duplicate paid resubmission;
+- observer-first exploration, embodiment-only canonical actions, worldline/history/replay
+  surfaces, actor-scoped possessions/relations and verified scene-presence semantics;
+- desktop/mobile product hardening down to 320px, touch-target, accessibility and browser
+  evidence coverage.
+
+The architecture boundary remains unchanged: visual/panorama/spatial Provider output is
+derived projection infrastructure and cannot write Canon, Worldline or History.
+
+Still **not self-awarded**:
+
+1. a real authorized T1 provider run with latency/billing evidence;
+2. a real authorized T3 provider run with task, artifact, restart and billing evidence;
+3. rights-safe real long-book qualitative evaluation;
+4. genuine M95/SVW-J human visual and immersion acceptance;
+5. Stable merge/tag/release gates.
+
+Do not create per-book renderers, silently release reserved external cost, invent human
+ratings, or mark `REAL_T1`, `REAL_T3`, Gate 80 or Stable as PASS from local tests alone.
 
 ## M95 local agent verification (2026-10-08)
 

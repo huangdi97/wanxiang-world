@@ -8,6 +8,7 @@ from typing import cast
 
 from wanxiang_substrate.assets.storage import InMemoryObjectStore
 from wanxiang_substrate.authoring.draft_builder import build_pipeline_build
+from wanxiang_substrate.authoring.errors import AuthoringRequestRejected
 from wanxiang_substrate.authoring.model import PipelineBuild
 from wanxiang_substrate.authoring.pipeline_support import default_domain_registry, distiller_dag
 from wanxiang_substrate.authoring.providers import ProviderRouter
@@ -28,6 +29,7 @@ from wanxiang_substrate.sources.errors import (
     ContentHashMismatch,
     RightsDenied,
     SemanticProviderRequired,
+    UnsupportedSource,
     ZeroCoverage,
 )
 from wanxiang_substrate.sources.gate import SourceGate
@@ -86,7 +88,7 @@ class SourceToDraftPipeline:
         use_semantic_provider: bool = False,
     ) -> PipelineBuild:
         if not records:
-            raise ValueError("authoring requires at least one source")
+            raise AuthoringRequestRejected("authoring requires at least one source")
         candidates: list[CandidateEnvelope] = []
         segments: list[Segment] = []
         diagnostics: list[str] = []
@@ -154,7 +156,7 @@ class SourceToDraftPipeline:
         content = self._gate.read_as_data(record)
         adapter = self._adapters.select(kind=record.kind)
         if adapter is None:
-            raise ValueError(f"unsupported source kind {record.kind!r}")
+            raise UnsupportedSource(f"unsupported source kind {record.kind!r}")
         inspection = adapter.inspect(record)
         blob = self._blob_loader(record) if self._blob_loader is not None else None
         raw = content.encode("utf-8") if blob is None else blob

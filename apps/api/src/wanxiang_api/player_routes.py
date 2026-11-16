@@ -14,6 +14,7 @@ from wanxiang_substrate.playable import (
     SessionCard,
     WorldCard,
 )
+from wanxiang_substrate.playable.actor_grounding import ground_missing_actor
 from wanxiang_substrate.playable.player_service import player_observe, player_world
 
 from wanxiang_api.playable_routes import (
@@ -21,6 +22,7 @@ from wanxiang_api.playable_routes import (
     CharacterCreateRequest,
     EnterExperienceRequest,
 )
+from wanxiang_api.player_spatial_recovery import rehydrate_spatial_attachments
 
 router = APIRouter(prefix="/experience/player")
 
@@ -65,8 +67,9 @@ def player_plaza(
     cards = service.plaza.explore_worlds(viewer)
     mine = service.plaza.my_worlds(viewer)
     recent = service.plaza.recent_sessions(viewer)
+    owned_sessions = service.plaza.recent_sessions(viewer, limit=None)
     current = service.plaza.continue_last(viewer)
-    recent_ids = {item.profile_id for item in recent}
+    recent_ids = {item.profile_id for item in owned_sessions}
 
     def world_cards(items: tuple[WorldCard, ...]) -> list[dict[str, object]]:
         mine_ids = {owned.profile_id for owned in mine}
@@ -115,7 +118,14 @@ def player_world_detail(
     viewer = _viewer(x_wanxiang_user)
     locale = _locale(x_wanxiang_locale)
     service = _service(request)
-    world = player_world(service, profile_id, viewer_id=viewer, locale=locale)
+    rehydrate_spatial_attachments(request, service, profile_id, viewer_id=viewer)
+    world = player_world(
+        service,
+        profile_id,
+        viewer_id=viewer,
+        locale=locale,
+        include_visual=True,
+    )
     characters = [
         _character(item)
         for item in service.entry.my_characters(viewer)
@@ -170,6 +180,14 @@ def player_enter_world(
     viewer = _viewer(x_wanxiang_user)
     locale = _locale(x_wanxiang_locale)
     service = _service(request)
+    rehydrate_spatial_attachments(request, service, profile_id, viewer_id=viewer)
+    if payload.mode == "embodiment" and payload.character_id:
+        ground_missing_actor(
+            service,
+            profile_id,
+            payload.character_id,
+            viewer_id=viewer,
+        )
     entered = service.enter(
         profile_id,
         viewer_id=viewer,

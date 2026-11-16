@@ -1,0 +1,23 @@
+{
+  "facts": {
+    "profile_id": "experience:world:wd_stage_renderer_job",
+    "t2_toggle_visible": true,
+    "t2_drag_changed_view": true,
+    "t3_toggle_visible": true,
+    "t3_drag_changed_view": true,
+    "t3_reset_deterministic": true,
+    "t3_reset_matches_mount_frame": false,
+    "t0_fallback_visible": true,
+    "reduced_motion_parallax_disabled": true
+  },
+  "screenshots": [
+    "screenshots/t2-stage-available-desktop.png",
+    "screenshots/t2-stage-mounted-desktop.png",
+    "screenshots/t2-stage-dragged-desktop.png",
+    "screenshots/t3-stage-mounted-desktop.png",
+    "screenshots/t3-stage-dragged-desktop.png",
+    "screenshots/t3-stage-reset-desktop.png",
+    "screenshots/t0-fallback-desktop.png",
+    "screenshots/reduced-motion-desktop.png"
+  ]
+}

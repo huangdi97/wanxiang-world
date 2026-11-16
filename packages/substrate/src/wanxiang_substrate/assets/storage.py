@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import hashlib
 import pathlib
+import tempfile
 from dataclasses import dataclass
 from typing import Protocol
 
@@ -58,9 +59,19 @@ class LocalObjectStore:
     def put(self, blob: bytes, *, content_type: str, rights: str = "public") -> AssetRef:
         content_hash = self._hash(blob)
         path = self._path_for(content_hash)
-        if not path.exists():
-            path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_bytes(blob)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        # Repair a damaged content-addressed blob without exposing partially
+        # written bytes. A valid existing blob is never rewritten.
+        if not path.exists() or path.read_bytes() != blob:
+            with tempfile.NamedTemporaryFile(
+                dir=path.parent, prefix=".blob-", delete=False
+            ) as temporary:
+                temporary.write(blob)
+                temporary_path = pathlib.Path(temporary.name)
+            try:
+                temporary_path.replace(path)
+            finally:
+                temporary_path.unlink(missing_ok=True)
         return AssetRef(
             asset_id=f"asset:{content_hash[:16]}",
             content_hash=content_hash,
@@ -100,7 +111,14 @@ class InMemoryObjectStore:
         content_hash = hashlib.sha256(blob).hexdigest()
         existing = self._rows.get(content_hash)
         if existing is not None:
-            return existing[1]
+            existing_ref = existing[1]
+            return AssetRef(
+                asset_id=existing_ref.asset_id,
+                content_hash=existing_ref.content_hash,
+                size=existing_ref.size,
+                content_type=content_type,
+                rights=rights,
+            )
         ref = AssetRef(
             asset_id=f"memory:{content_hash[:16]}",
             content_hash=content_hash,
