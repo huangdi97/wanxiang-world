@@ -157,16 +157,23 @@ browser assertion that expected the raw atlas relation type after that type beca
    `#detail-visual-proof`; the consumer lines state only the grounding, the place name, the atlas
    caption and the place count. The refreshed simulated journey shows the change directly: its
    rows 4 and 6 no longer contain the proof string.
-2. **Localization literals (mostly closed).** The hardcoded `：` and `、` separators, the raw
-   atlas `relation_type` and the English panorama aria fallback now come from the copy catalog, and
-   the contract suite rejects Han characters *and* CJK punctuation in the en-US document. What
-   remains are defensive English fallbacks inside the spatial built-in (`copy(key, fallback, ...)`);
-   the catalog keys they stand in for exist in both locales, so no user-visible leak was observed.
+2. **Localization literals (closed this pass, with a measured defect behind it).** The hardcoded `：`
+   and `、` separators, the raw atlas `relation_type` and the English panorama aria fallback now come
+   from the copy catalog, and the contract suite rejects Han characters *and* CJK punctuation in the
+   en-US document. The English fallbacks that remained in the two built-in stage renderers are gone,
+   and they were not harmless: the panorama built-in called a `copy` helper that does not exist in its
+   own scope (only the spatial built-in defines one, inside its own IIFE), so mounting a panorama with
+   an empty place name threw `ReferenceError: copy is not defined` — reproduced in Node against
+   `8f16ae8d`; the same call now yields the catalog value `360 度全景`. Both scripts define their own
+   catalog-only helper, and `tests/api/test_player_ui_action_i18n_contract.py` pins the four keys in
+   both locales and rejects a literal fallback argument.
 3. **Scale evidence (closed for places and entities, open for mixed bundles).** Browser specs now
    cover a 100-place world (bounded page, progressive reveal, search — actually 60 places and 402
    entities and 200 relations in a 16KB source) and this is the measured shape of a long source.
-   A single bundle that mixes *conflicting* sources still has no dedicated spec; conflicting
-   relations from one source are covered by the atlas conflict browser test.
+   A bundle that mixes *two conflicting* sources now has a dedicated spec
+   (`tests/integration/test_svw_two_comparable_sources.py` asserts the refusal state equals the job
+   status state); the *scale* shape of many conflicting sources in one bundle still has none, and
+   conflicting relations from one source are covered by the atlas conflict browser test.
 4. **T2/T3 stage activation (closed this pass).** The audit had only captured the upgrade
    surfaces. `tests/integration/test_svw_stage_renderers.py` injects the repository contract
    providers (a panorama provider whose `presentation_kind == "panorama"`, and a
