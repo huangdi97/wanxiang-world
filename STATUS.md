@@ -6,11 +6,12 @@ Updated: 2026-10-20 (Source → Living Visual World repository closure advanced;
 ## Next actions (handover, written 2026-11-04 — all five closed 2026-11-13)
 
 Branch `feature/source-to-visual-world`, PR #3 (draft, base `feature/r7-cordis-native`).
-Last CI-verified commit: `614ea81f` (ci run 43765128000 — six of six jobs green). Earlier green
-commits this round: `8b78c8b7`, `83fc7d5e`, `27f941fe`, `b220e695`. `3ef5c098`, `802cd5d4`,
-`8af891b4` and `7860fc63` failed CI on a cross-package private import, generated OpenAPI/SDK
-baseline drift, one stale browser assertion and public-name drift; all four are repaired at
-`614ea81f`. Always
+Last CI-verified commit: `f69ccce8` (ci run 43928834540 — six of six jobs green; it fixes the
+panorama stage mount crash and makes both stage renderers read copy from the catalogue only).
+Earlier green commits this round: `8f16ae8d` (docs), `614ea81f`, `8b78c8b7`, `83fc7d5e`,
+`27f941fe`, `b220e695`. `3ef5c098`, `802cd5d4`, `8af891b4` and `7860fc63` failed CI on a
+cross-package private import, generated OpenAPI/SDK baseline drift, one stale browser assertion and
+public-name drift; all four are repaired. Always
 re-read `git rev-parse HEAD`, the PR state and the CI conclusion for that exact SHA from
 GitHub before trusting any line below; never merge, tag, release or mark the PR ready
 without explicit authorization, and keep `REAL_T1/T2/T3` EXTERNAL_BLOCKED,
